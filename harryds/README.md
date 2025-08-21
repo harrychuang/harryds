@@ -26,11 +26,101 @@ harryds/
 ├── src/
 │   ├── components/       # React 元件 (目前為空)
 │   ├── styles/           # 全域樣式
-│   │   └── globals.scss
+│   │   ├── globals.scss  # 全域樣式和重置
+│   │   └── tokens.scss   # Design Tokens
 │   ├── Welcome.stories.tsx # 歡迎頁面
 │   └── index.ts          # 主要匯出檔案
 └── package.json
 ```
+
+## Design Tokens
+
+Harry Design System 採用雙層式 Design Tokens 架構，確保設計一致性和可維護性。
+
+### 架構說明
+
+#### 1. REF TOKENS（參考代幣）
+基礎的設計值，定義原始的顏色、尺寸和字體大小：
+
+```scss
+// 顏色系統
+--harryds-ref-color-dark-100a: #111111;     // 純黑色
+--harryds-ref-color-dark-80a: rgba(17 17 17 / 0.8);  // 80% 透明度
+// ... 其他透明度變化
+
+--harryds-ref-color-light-100a: #ffffff;    // 純白色
+--harryds-ref-color-light-80a: rgba(255 255 255 / 0.8); // 80% 透明度
+// ... 其他透明度變化
+
+// 品牌色彩
+--harryds-ref-color-brand-50: #111111;
+--harryds-ref-color-green-50: #1ade99;
+--harryds-ref-color-red-50: #f03fa6;
+--harryds-ref-color-yellow-50: #e1aa2b;
+--harryds-ref-color-blue-50: #4f72fd;
+
+// 尺寸系統（提供 px 和 rem 版本）
+--harryds-ref-size-5: 5px;
+--harryds-ref-size-5-rem: 0.3125rem;
+// ... 其他尺寸
+```
+
+#### 2. SYS TOKENS（系統代幣）
+語意化的代幣，將參考代幣對應到實際用途：
+
+```scss
+// 語意化顏色
+--harryds-sys-color-primary-default: var(--harryds-ref-color-brand-50);
+--harryds-sys-color-success-default: var(--harryds-ref-color-green-50);
+--harryds-sys-color-error-default: var(--harryds-ref-color-red-50);
+--harryds-sys-color-info-default: var(--harryds-ref-color-blue-50);
+--harryds-sys-color-warning-default: var(--harryds-ref-color-yellow-50);
+
+// 語意化間距
+--harryds-sys-spacing-xs: var(--harryds-ref-size-5);
+--harryds-sys-spacing-sm: var(--harryds-ref-size-10);
+--harryds-sys-spacing-default: var(--harryds-ref-size-15);
+--harryds-sys-spacing-med: var(--harryds-ref-size-20);
+// ... 其他間距
+
+// 語意化字體大小
+--harryds-sys-font-size-xs: var(--harryds-ref-font-size-12);
+--harryds-sys-font-size-sm: var(--harryds-ref-font-size-14);
+--harryds-sys-font-size-default: var(--harryds-ref-font-size-16);
+// ... 其他字體大小
+```
+
+### 使用方式
+
+#### 在元件中使用
+```scss
+.hds-button {
+  // 使用系統代幣（推薦）
+  padding: var(--harryds-sys-spacing-sm) var(--harryds-sys-spacing-med);
+  font-size: var(--harryds-sys-font-size-default);
+  background-color: var(--harryds-sys-color-primary-default);
+  
+  // 特殊情況下使用參考代幣
+  border-radius: var(--harryds-ref-size-5);
+}
+```
+
+#### 命名規則
+- **REF TOKENS**: `--harryds-ref-{category}-{value}`
+  - `category`: color, size, font-size
+  - `value`: 具體數值或描述（如 dark-80a, size-20, green-50）
+  
+- **SYS TOKENS**: `--harryds-sys-{category}-{semantic}`
+  - `category`: color, spacing, font-size
+  - `semantic`: 語意化名稱（如 primary-default, spacing-lg, font-size-xl）
+
+### 設計原則
+
+1. **一致性**：所有元件都使用相同的 tokens
+2. **可維護性**：修改 REF TOKENS 即可全域更新
+3. **語意化**：SYS TOKENS 提供清楚的使用意圖
+4. **可擴展性**：可輕鬆新增新的顏色或尺寸變化
+5. **響應式**：同時提供 px 和 rem 版本支援不同需求
 
 ## 開發指南
 
