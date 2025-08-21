@@ -44,24 +44,29 @@ Harry Design System 採用雙層式 Design Tokens 架構，確保設計一致性
 
 ```scss
 // 顏色系統
---harryds-ref-color-dark-100a: #111111;     // 純黑色
---harryds-ref-color-dark-80a: rgba(17 17 17 / 0.8);  // 80% 透明度
+--hds-ref-color-dark-100a: #111111;     // 純黑色
+--hds-ref-color-dark-80a: rgba(17 17 17 / 0.8);  // 80% 透明度
 // ... 其他透明度變化
 
---harryds-ref-color-light-100a: #ffffff;    // 純白色
---harryds-ref-color-light-80a: rgba(255 255 255 / 0.8); // 80% 透明度
+--hds-ref-color-light-100a: #ffffff;    // 純白色
+--hds-ref-color-light-80a: rgba(255 255 255 / 0.8); // 80% 透明度
 // ... 其他透明度變化
 
 // 品牌色彩
---harryds-ref-color-brand-50: #111111;
---harryds-ref-color-green-50: #1ade99;
---harryds-ref-color-red-50: #f03fa6;
---harryds-ref-color-yellow-50: #e1aa2b;
---harryds-ref-color-blue-50: #4f72fd;
+--hds-ref-color-brand-50: #111111;
+--hds-ref-color-green-50: #1ade99;
+--hds-ref-color-red-50: #f03fa6;
+--hds-ref-color-yellow-50: #e1aa2b;
+--hds-ref-color-blue-50: #4f72fd;
+
+// 透明度系統
+--hds-ref-opacity-90a: 90%;
+--hds-ref-opacity-80a: 80%;
+// ... 其他透明度值
 
 // 尺寸系統（提供 px 和 rem 版本）
---harryds-ref-size-5: 5px;
---harryds-ref-size-5-rem: 0.3125rem;
+--hds-ref-size-5: 5px;
+--hds-ref-size-5-rem: 0.3125rem;
 // ... 其他尺寸
 ```
 
@@ -70,23 +75,35 @@ Harry Design System 採用雙層式 Design Tokens 架構，確保設計一致性
 
 ```scss
 // 語意化顏色
---harryds-sys-color-primary-default: var(--harryds-ref-color-brand-50);
---harryds-sys-color-success-default: var(--harryds-ref-color-green-50);
---harryds-sys-color-error-default: var(--harryds-ref-color-red-50);
---harryds-sys-color-info-default: var(--harryds-ref-color-blue-50);
---harryds-sys-color-warning-default: var(--harryds-ref-color-yellow-50);
+--hds-sys-color-primary-default: var(--hds-ref-color-brand-50);
+--hds-sys-color-secondary-default: var(--hds-ref-color-light-100a);
+--hds-sys-color-success-default: var(--hds-ref-color-green-50);
+--hds-sys-color-error-default: var(--hds-ref-color-red-50);
+--hds-sys-color-info-default: var(--hds-ref-color-blue-50);
+--hds-sys-color-warning-default: var(--hds-ref-color-yellow-50);
+
+// 語意化透明度
+--hds-sys-opacity-90a: var(--hds-ref-opacity-90a);
+--hds-sys-opacity-80a: var(--hds-ref-opacity-80a);
+// ... 其他透明度
 
 // 語意化間距
---harryds-sys-spacing-xs: var(--harryds-ref-size-5);
---harryds-sys-spacing-sm: var(--harryds-ref-size-10);
---harryds-sys-spacing-default: var(--harryds-ref-size-15);
---harryds-sys-spacing-med: var(--harryds-ref-size-20);
+--hds-sys-spacing-xs: var(--hds-ref-size-5);
+--hds-sys-spacing-sm: var(--hds-ref-size-10);
+--hds-sys-spacing-default: var(--hds-ref-size-15);
+--hds-sys-spacing-med: var(--hds-ref-size-20);
 // ... 其他間距
 
-// 語意化字體大小
---harryds-sys-font-size-xs: var(--harryds-ref-font-size-12);
---harryds-sys-font-size-sm: var(--harryds-ref-font-size-14);
---harryds-sys-font-size-default: var(--harryds-ref-font-size-16);
+// 語意化字體大小（更新後的對應關係）
+--hds-sys-font-size-xxs: var(--hds-ref-font-size-12);
+--hds-sys-font-size-xs: var(--hds-ref-font-size-14);
+--hds-sys-font-size-sm: var(--hds-ref-font-size-16);
+--hds-sys-font-size-default: var(--hds-ref-font-size-18);
+--hds-sys-font-size-med: var(--hds-ref-font-size-20);
+--hds-sys-font-size-ex-med: var(--hds-ref-font-size-24);
+--hds-sys-font-size-lg: var(--hds-ref-font-size-30);
+--hds-sys-font-size-xl: var(--hds-ref-font-size-36);
+--hds-sys-font-size-xxl: var(--hds-ref-font-size-46);
 // ... 其他字體大小
 ```
 
@@ -96,23 +113,26 @@ Harry Design System 採用雙層式 Design Tokens 架構，確保設計一致性
 ```scss
 .hds-button {
   // 使用系統代幣（推薦）
-  padding: var(--harryds-sys-spacing-sm) var(--harryds-sys-spacing-med);
-  font-size: var(--harryds-sys-font-size-default);
-  background-color: var(--harryds-sys-color-primary-default);
+  padding: var(--hds-sys-spacing-sm) var(--hds-sys-spacing-med);
+  font-size: var(--hds-sys-font-size-default);
+  background-color: var(--hds-sys-color-primary-default);
   
   // 特殊情況下使用參考代幣
-  border-radius: var(--harryds-ref-size-5);
+  border-radius: var(--hds-ref-size-5);
+  
+  // 使用透明度系統
+  opacity: var(--hds-sys-opacity-80a);
 }
 ```
 
 #### 命名規則
-- **REF TOKENS**: `--harryds-ref-{category}-{value}`
-  - `category`: color, size, font-size
-  - `value`: 具體數值或描述（如 dark-80a, size-20, green-50）
+- **REF TOKENS**: `--hds-ref-{category}-{value}`
+  - `category`: color, size, font-size, opacity
+  - `value`: 具體數值或描述（如 dark-80a, size-20, green-50, opacity-90a）
   
-- **SYS TOKENS**: `--harryds-sys-{category}-{semantic}`
-  - `category`: color, spacing, font-size
-  - `semantic`: 語意化名稱（如 primary-default, spacing-lg, font-size-xl）
+- **SYS TOKENS**: `--hds-sys-{category}-{semantic}`
+  - `category`: color, spacing, font-size, opacity
+  - `semantic`: 語意化名稱（如 primary-default, spacing-lg, font-size-xl, opacity-80a）
 
 ### 設計原則
 
