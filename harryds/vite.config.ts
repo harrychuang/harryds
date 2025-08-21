@@ -14,9 +14,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'HarryDS',
+      name: 'HDS',
       formats: ['es', 'umd'],
-      fileName: (format) => `harryds.${format}.js`,
+      fileName: (format) => `hds.${format}.js`,
     },
     rollupOptions: {
       external: ['react', 'react-dom'],

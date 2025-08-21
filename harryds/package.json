@@ -1,5 +1,5 @@
 {
-  "name": "@harryds/components",
+  "name": "hds",
   "version": "1.0.0",
   "description": "Harry Design System - 可重用元件庫",
   "main": "dist/index.js",

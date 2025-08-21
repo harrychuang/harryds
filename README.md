@@ -272,8 +272,8 @@ npm run test:performance    # 效能測試
 ### 從 Harry Design System 匯入元件
 ```typescript
 // 正確的匯入方式
-import { Button, Card, Typography } from '@harryds/components';
-import { colors, spacing, typography } from '@harryds/tokens';
+import { Button, Card, Typography } from 'hds';
+import { colors, spacing, typography } from 'hds/tokens';
 
 // 錯誤：不要直接複製元件程式碼到作品集中
 ```
