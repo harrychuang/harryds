@@ -1,6 +1,6 @@
 # Harry Design System
 
-Harry Design Studio 的可重用元件庫，為 NOEINOI 2025 專案提供基礎元件。
+Harry Design Studio 的 Storybook 開發環境，為 NOEINOI 2025 專案提供元件開發基礎。
 
 ## 快速開始
 
@@ -16,7 +16,7 @@ npm install
 npm run storybook
 ```
 
-Storybook 將在 http://localhost:6006 啟動，您可以在此瀏覽所有元件。
+Storybook 將在 http://localhost:6006 啟動。
 
 ## 專案結構
 
@@ -24,68 +24,65 @@ Storybook 將在 http://localhost:6006 啟動，您可以在此瀏覽所有元�
 harryds/
 ├── .storybook/           # Storybook 配置
 ├── src/
-│   ├── components/       # React 元件
-│   │   ├── Button/       # 按鈕元件
-│   │   │   ├── Button.tsx
-│   │   │   ├── Button.scss
-│   │   │   ├── Button.stories.tsx
-│   │   │   └── index.ts
-│   │   └── Card/         # 卡片元件
-│   │       ├── Card.tsx
-│   │       ├── Card.scss
-│   │       ├── Card.stories.tsx
-│   │       └── index.ts
+│   ├── components/       # React 元件 (目前為空)
 │   ├── styles/           # 全域樣式
 │   │   └── globals.scss
+│   ├── Welcome.stories.tsx # 歡迎頁面
 │   └── index.ts          # 主要匯出檔案
 └── package.json
-```
-
-## 可用元件
-
-### Button
-- 支援 3 種變體：`primary`, `secondary`, `ghost`
-- 支援 3 種大小：`sm`, `md`, `lg`
-- 支援禁用狀態
-
-### Card
-- 支援 3 種變體：`default`, `outlined`, `elevated`
-- 可組合的子元件：`CardHeader`, `CardBody`, `CardFooter`
-
-## 使用方式
-
-```typescript
-import { Button, Card, CardHeader, CardBody, CardFooter } from '@harryds/components';
-
-// 使用元件
-<Button variant="primary" size="lg">
-  點擊我
-</Button>
-
-<Card>
-  <CardHeader>
-    <h3>卡片標題</h3>
-  </CardHeader>
-  <CardBody>
-    <p>卡片內容</p>
-  </CardBody>
-  <CardFooter>
-    <Button size="sm">動作</Button>
-  </CardFooter>
-</Card>
 ```
 
 ## 開發指南
 
 ### 新增元件
 
-1. 在 `src/components/` 中建立新資料夾
+1. 在 `src/components/` 中建立新資料夾 `ComponentName/`
 2. 建立以下檔案：
    - `ComponentName.tsx` - 元件實作
    - `ComponentName.scss` - 元件樣式
    - `ComponentName.stories.tsx` - Storybook 故事
    - `index.ts` - 匯出檔案
 3. 更新 `src/components/index.ts` 匯出新元件
+
+### 元件範例結構
+
+```typescript
+// ComponentName.tsx
+import React from 'react';
+import './ComponentName.scss';
+
+export interface ComponentNameProps {
+  children: React.ReactNode;
+}
+
+export const ComponentName: React.FC<ComponentNameProps> = ({ children }) => {
+  return <div className="hds-component-name">{children}</div>;
+};
+```
+
+```typescript
+// ComponentName.stories.tsx
+import type { Meta, StoryObj } from '@storybook/react';
+import { ComponentName } from './ComponentName';
+
+const meta: Meta<typeof ComponentName> = {
+  title: 'Components/ComponentName',
+  component: ComponentName,
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    children: '範例內容',
+  },
+};
+```
 
 ## 腳本說明
 
