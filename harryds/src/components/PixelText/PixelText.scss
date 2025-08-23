@@ -1,0 +1,218 @@
+// =============================================================================
+// PIXEL TEXT 樣式 - 8-bit 風格文字元件
+// =============================================================================
+
+.pixel-text {
+  // 基礎容器樣式
+  position: relative;
+  display: inline-block;
+  
+  // 確保 canvas 正確顯示
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    
+    // 像素完美渲染
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    
+    // 防止選取和拖拽
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    pointer-events: none;
+    
+    // 防止上下文菜單
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+  }
+
+  // 載入狀態
+  &.loading {
+    canvas {
+      opacity: 0.5;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ccc;
+      border-top: 2px solid #666;
+      border-radius: 50%;
+      animation: pixel-text-spin 1s linear infinite;
+    }
+  }
+
+  // 錯誤狀態
+  &.error {
+    canvas {
+      display: none;
+    }
+    
+    &::after {
+      content: '載入失敗';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: monospace;
+      font-size: 12px;
+      color: #999;
+      text-align: center;
+    }
+  }
+
+  // 響應式設計
+  &.responsive {
+    width: 100% !important;
+    height: auto !important;
+    
+    canvas {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  // 尺寸變體
+  &.size-small {
+    // 小尺寸的特殊處理
+    canvas {
+      image-rendering: -webkit-optimize-contrast;
+    }
+  }
+
+  &.size-large {
+    // 大尺寸的特殊處理
+    canvas {
+      image-rendering: auto;
+    }
+  }
+
+  // 主題變體
+  &.theme-retro {
+    // 復古主題
+    filter: sepia(0.3) saturate(1.2) contrast(1.1);
+  }
+
+  &.theme-neon {
+    // 霓虹主題
+    filter: brightness(1.2) saturate(1.5);
+    
+    canvas {
+      box-shadow: 
+        0 0 5px rgba(0, 255, 255, 0.3),
+        0 0 10px rgba(0, 255, 255, 0.2),
+        0 0 15px rgba(0, 255, 255, 0.1);
+    }
+  }
+
+  &.theme-monochrome {
+    // 單色主題
+    filter: grayscale(1);
+  }
+
+  // 動畫效果類別（雖然預設無動畫）
+  &.animate-ready {
+    canvas {
+      transition: opacity 0.3s ease-in-out;
+    }
+  }
+
+  &.animate-fade-in {
+    canvas {
+      animation: pixel-text-fade-in 0.5s ease-in-out;
+    }
+  }
+
+  // 可訪問性增強
+  &:focus-within {
+    outline: 2px solid #4A90E2;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  // 高對比模式支援
+  @media (prefers-contrast: high) {
+    canvas {
+      filter: contrast(1.5);
+    }
+  }
+
+  // 減少動畫模式支援
+  @media (prefers-reduced-motion: reduce) {
+    canvas,
+    &::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  // 深色模式支援
+  @media (prefers-color-scheme: dark) {
+    &.auto-theme {
+      canvas {
+        filter: brightness(0.9) contrast(1.1);
+      }
+    }
+  }
+}
+
+// 關鍵幀動畫
+@keyframes pixel-text-spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes pixel-text-fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+// 工具類別
+.pixel-text-container {
+  // 用於包含多個 PixelText 元件的容器
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  
+  &.vertical {
+    flex-direction: column;
+  }
+  
+  &.center {
+    justify-content: center;
+  }
+  
+  &.start {
+    justify-content: flex-start;
+  }
+  
+  &.end {
+    justify-content: flex-end;
+  }
+}
+
+// 效能優化類別
+.pixel-text-optimized {
+  // 對於大量 PixelText 實例的效能優化
+  will-change: transform;
+  contain: layout style paint;
+  
+  canvas {
+    transform: translateZ(0); // 強制硬體加速
+  }
+}
