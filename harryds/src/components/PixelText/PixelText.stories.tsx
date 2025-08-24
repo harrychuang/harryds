@@ -155,7 +155,7 @@ import { PixelText } from 'hds';
     },
 
     animationDelay: {
-      control: { type: 'range', min: 100, max: 1000, step: 50 },
+      control: { type: 'range', min: 50, max: 1000, step: 50 },
       description: '字符間的動畫延遲時間（毫秒）',
       table: {
         type: { summary: 'number' },
