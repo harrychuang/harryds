@@ -61,6 +61,9 @@ export interface PixelTextProps {
   marqueeSpeed?: number;
   /** 跑馬燈在開始和結束時的暫停時間（毫秒） */
   marqueePause?: number;
+
+  /** 空格字符的寬度倍數（相對於 letterSpacing 的倍數，預設為 2） */
+  spaceWidth?: number;
 }
 
 const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
@@ -87,6 +90,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   marqueeEnabled = true,
   marqueeSpeed = 100,
   marqueePause = 1000,
+  spaceWidth = 2,
 }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -101,10 +105,26 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   const [displayText, setDisplayText] = useState(text);
   const [displayTextBox, setDisplayTextBox] = useState(textBox);
   const [isAnimating, setIsAnimating] = useState(false);
+  
+  // 動畫完成狀態追蹤
+  const [textAnimationComplete, setTextAnimationComplete] = useState(false);
+  const [textBoxAnimationComplete, setTextBoxAnimationComplete] = useState(false);
 
   // 跑馬燈狀態管理
   const [marqueeOffset, setMarqueeOffset] = useState(0);
   const [isMarqueeActive, setIsMarqueeActive] = useState(false);
+
+  // 計算字符實際寬度的輔助函數
+  const getCharWidth = useCallback((char: string): number => {
+    const pixelWithGap = pixelSize + pixelGap;
+    
+    if (char === ' ') {
+      // 空格使用自定義寬度：letterSpacing * spaceWidth
+      return letterSpacing * spaceWidth * pixelSize;
+    }
+    // 其他字符使用標準寬度
+    return CHAR_WIDTH * pixelWithGap - pixelGap;
+  }, [letterSpacing, spaceWidth, pixelSize, pixelGap]);
 
   // 計算場景尺寸 - 使用 displayText 而不是 text
   const sceneData = useMemo(() => {
@@ -120,9 +140,20 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     // 計算主文字寬度（如果啟用）
     if (textEnabled && currentText) {
       charCount = currentText.length;
-      const textCharWidth = charCount * CHAR_WIDTH * pixelWithGap - charCount * pixelGap;
-      const textSpacing = (charCount - 1) * letterSpacing;
-      totalWidth = textCharWidth + textSpacing * pixelSize;
+      let textTotalWidth = 0;
+      
+      // 逐字符計算寬度（考慮空格特殊處理）
+      Array.from(currentText).forEach((char, index) => {
+        const charWidth = getCharWidth(char);
+        textTotalWidth += charWidth;
+        
+        // 添加字符間距（最後一個字符不添加）
+        if (index < currentText.length - 1) {
+          textTotalWidth += letterSpacing * pixelSize;
+        }
+      });
+      
+      totalWidth = textTotalWidth;
     }
 
     // 計算 text-box 寬度（如果啟用且有內容的話）
@@ -152,7 +183,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     }
 
     return { totalWidth, totalHeight, charCount };
-  }, [displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding, pixelSize, pixelGap, letterSpacing, marqueeEnabled]);
+  }, [displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding, pixelSize, pixelGap, letterSpacing, marqueeEnabled, getCharWidth]);
 
   // 計算跑馬燈是否需要啟用
   const marqueeData = useMemo(() => {
@@ -166,14 +197,21 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       return { needsMarquee: false, maxOffset: 0, textLength: 0, totalTextPixels: 0, displayAreaPixels: 0 };
     }
     
-    // 計算文字的總像素長度（包含間距）
-    const pixelWithGap = pixelSize + pixelGap;
-    const textCharCount = currentTextBox.length;
-    const totalTextWidth = textCharCount * CHAR_WIDTH * pixelWithGap - textCharCount * pixelGap;
-    const totalSpacing = (textCharCount - 1) * letterSpacing * pixelSize;
-    const totalTextPixels = totalTextWidth + totalSpacing;
+    // 計算文字的總像素長度（包含間距，考慮空格特殊寬度）
+    let totalTextPixels = 0;
+    
+    Array.from(currentTextBox).forEach((char, index) => {
+      const charWidth = getCharWidth(char);
+      totalTextPixels += charWidth;
+      
+      // 添加字符間距（最後一個字符不添加）
+      if (index < currentTextBox.length - 1) {
+        totalTextPixels += letterSpacing * pixelSize;
+      }
+    });
     
     // 計算顯示區域的像素長度
+    const pixelWithGap = pixelSize + pixelGap;
     const displayCharCount = textBoxWidth;
     const displayTextWidth = displayCharCount * CHAR_WIDTH * pixelWithGap - displayCharCount * pixelGap;
     const displaySpacing = (displayCharCount - 1) * letterSpacing * pixelSize;
@@ -189,7 +227,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       totalTextPixels,
       displayAreaPixels
     };
-  }, [displayTextBox, textBox, marqueeEnabled, textBoxEnabled, textBoxWidth, pixelSize, pixelGap, letterSpacing]);
+  }, [displayTextBox, textBox, marqueeEnabled, textBoxEnabled, textBoxWidth, pixelSize, pixelGap, letterSpacing, getCharWidth]);
 
   // 支援的字符列表（用於生成隨機字符）
   const supportedChars = useMemo(() => {
@@ -262,15 +300,11 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         return chars.join('');
       });
       
-      // 如果是最後一個字符，標記動畫結束
+      // 如果是最後一個字符，標記主文字動畫完成
       if (charIndex === text.length - 1) {
         setTimeout(() => {
-          setIsAnimating(false);
-          // 動畫結束後啟動跑馬燈（如果需要的話）
-          if (marqueeData.needsMarquee) {
-            setTimeout(startMarquee, 300);
-          }
-        }, 100);
+          setTextAnimationComplete(true);
+        }, 50);
       }
     }
   }, [getRandomChar, glitchInterval, text.length]);
@@ -313,15 +347,11 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         return chars.join('');
       });
       
-      // 如果是最後一個字符且沒有主文字，標記動畫結束
-      if (charIndex === (textBox?.length || 0) - 1 && !text) {
+      // 如果是最後一個字符，標記 textBox 動畫完成
+      if (charIndex === (textBox?.length || 0) - 1) {
         setTimeout(() => {
-          setIsAnimating(false);
-          // 動畫結束後啟動跑馬燈（如果需要的話）
-          if (marqueeData.needsMarquee) {
-            setTimeout(startMarquee, 300);
-          }
-        }, 100);
+          setTextBoxAnimationComplete(true);
+        }, 50);
       }
     }
   }, [getRandomChar, glitchInterval, textBox, text]);
@@ -366,11 +396,35 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     }
   }, []);
 
+  // 檢查所有動畫是否完成
+  useEffect(() => {
+    const textShouldAnimate = textEnabled && text;
+    const textBoxShouldAnimate = textBoxEnabled && textBox;
+    
+    const textCompleted = !textShouldAnimate || textAnimationComplete;
+    const textBoxCompleted = !textBoxShouldAnimate || textBoxAnimationComplete;
+    
+    // 當所有需要動畫的部分都完成時
+    if (isAnimating && textCompleted && textBoxCompleted) {
+      setTimeout(() => {
+        setIsAnimating(false);
+        // 動畫結束後啟動跑馬燈（如果需要的話）
+        if (marqueeData.needsMarquee) {
+          setTimeout(startMarquee, 300);
+        }
+      }, 100);
+    }
+  }, [isAnimating, textAnimationComplete, textBoxAnimationComplete, textEnabled, text, textBoxEnabled, textBox, marqueeData.needsMarquee, startMarquee]);
+
   // 開始文字動畫
   const startAnimation = useCallback(() => {
     if (!animated || (!(textEnabled && text) && !(textBoxEnabled && textBox))) return;
 
     setIsAnimating(true);
+    
+    // 重置動畫完成狀態
+    setTextAnimationComplete(false);
+    setTextBoxAnimationComplete(false);
     
     // 清除之前的計時器（包括跑馬燈）
     clearAnimationTimers();
@@ -419,15 +473,11 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
             return chars.join('');
           });
           
-          // 如果是最後一個字符，標記動畫結束
+          // 如果是最後一個字符，標記主文字動畫完成
           if (index === text.length - 1) {
             setTimeout(() => {
-              setIsAnimating(false);
-              // 動畫結束後啟動跑馬燈（如果需要的話）
-              if (marqueeData.needsMarquee) {
-                setTimeout(startMarquee, 300);
-              }
-            }, 100);
+              setTextAnimationComplete(true);
+            }, 50);
           }
         }, finalTime);
         
@@ -468,15 +518,11 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
               return chars.join('');
             });
             
-            // 如果是最後一個字符，標記動畫結束
-            if (index === textBox.length - 1 && !text) {
+            // 如果是最後一個字符，標記 textBox 動畫完成
+            if (index === textBox.length - 1) {
               setTimeout(() => {
-                setIsAnimating(false);
-                // 動畫結束後啟動跑馬燈（如果需要的話）
-                if (marqueeData.needsMarquee) {
-                  setTimeout(startMarquee, 300);
-                }
-              }, 100);
+                setTextBoxAnimationComplete(true);
+              }, 50);
             }
           }, finalTime);
           
@@ -486,7 +532,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         }
       });
     }
-  }, [animated, text, textEnabled, textBox, textBoxEnabled, durationTime, animationDelay, glitchInterval, easeGlitch, generateRandomText, clearAnimationTimers, getRandomChar, createEaseGlitch, createEaseGlitchForTextBox, stopMarquee, marqueeData.needsMarquee, startMarquee]);
+  }, [animated, text, textEnabled, textBox, textBoxEnabled, durationTime, animationDelay, glitchInterval, easeGlitch, generateRandomText, clearAnimationTimers, getRandomChar, createEaseGlitch, createEaseGlitchForTextBox, stopMarquee]);
 
   // 建立像素幾何體的材質和幾何體（重用以提升效能）
   const pixelGeometry = useMemo(() => new THREE.PlaneGeometry(pixelSize, pixelSize), [pixelSize]);
@@ -566,27 +612,35 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     // 渲染主文字（如果啟用且有內容的話）
     if (textEnabled && currentText) {
       Array.from(currentText).forEach((char) => {
-        const pixelData = getCharacterPixelData(char);
-        
-        // 為每個像素建立方塊
-        pixelData.forEach((row, rowIndex) => {
-          row.forEach((pixel, colIndex) => {
-            if (pixel === 1) {
-              // 建立像素實例
-              const pixelMesh = new THREE.Mesh(pixelGeometry, pixelMaterial);
-              
-              // 計算位置 - 加入 pixelGap 間距
-              const x = currentX + colIndex * pixelWithGap;
-              const y = startY - rowIndex * pixelWithGap;
-              
-              pixelMesh.position.set(x, y, 0);
-              scene.add(pixelMesh);
-            }
+        if (char === ' ') {
+          // 空格不渲染像素，只移動位置
+          currentX += getCharWidth(char);
+        } else {
+          const pixelData = getCharacterPixelData(char);
+          
+          // 為每個像素建立方塊
+          pixelData.forEach((row, rowIndex) => {
+            row.forEach((pixel, colIndex) => {
+              if (pixel === 1) {
+                // 建立像素實例
+                const pixelMesh = new THREE.Mesh(pixelGeometry, pixelMaterial);
+                
+                // 計算位置 - 加入 pixelGap 間距
+                const x = currentX + colIndex * pixelWithGap;
+                const y = startY - rowIndex * pixelWithGap;
+                
+                pixelMesh.position.set(x, y, 0);
+                scene.add(pixelMesh);
+              }
+            });
           });
-        });
 
-        // 移動到下一個字符位置
-        currentX += CHAR_WIDTH * pixelWithGap + letterSpacing * pixelSize;
+          // 移動標準字符寬度
+          currentX += getCharWidth(char);
+        }
+
+        // 添加字符間距（適用於所有字符，包括空格）
+        currentX += letterSpacing * pixelSize;
       });
   }
 
@@ -625,39 +679,67 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
 
       // 渲染 text-box 文字內容（置中，支援跑馬燈）
       if (currentTextBox) {
-        // 計算每個字符的像素寬度（包含間距）
+        // 計算每個字符的實際位置（考慮空格特殊寬度）
         const pixelWithGap = pixelSize + pixelGap;
-        const charPixelWidth = CHAR_WIDTH * pixelWithGap - pixelGap;
-        const charSpacing = letterSpacing * pixelSize;
-        const charTotalWidth = charPixelWidth + charSpacing;
+        let characterPositions: Array<{char: string, startX: number, width: number}> = [];
+        let accumulatedX = 0;
+        
+        // 預先計算所有字符的位置
+        Array.from(currentTextBox).forEach((char, index) => {
+          const charWidth = getCharWidth(char);
+          characterPositions.push({
+            char,
+            startX: accumulatedX,
+            width: charWidth
+          });
+          
+          accumulatedX += charWidth;
+          
+          // 添加字符間距（最後一個字符不添加）
+          if (index < currentTextBox.length - 1) {
+            accumulatedX += letterSpacing * pixelSize;
+          }
+        });
         
         // 計算當前像素偏移對應的字符範圍
         let displayChars: Array<{char: string, offsetX: number, clipLeft?: number, clipRight?: number}> = [];
         
         if (marqueeData.needsMarquee && (isMarqueeActive || marqueeOffset > 0)) {
-          // 跑馬燈模式：簡化邏輯，讓所有字符都嘗試渲染，邊界檢查在像素級別進行
+          // 跑馬燈模式：使用精確的字符位置計算
           const currentPixelOffset = marqueeOffset;
           
-          // 遍歷所有字符，計算它們在偏移後的位置
-          for (let i = 0; i < currentTextBox.length; i++) {
-            const charStartX = i * charTotalWidth; // 字符的起始位置
-            
+          // 使用預先計算的字符位置
+          characterPositions.forEach((charPos) => {
             // 考慮跑馬燈偏移後的實際位置
-            const actualStartX = charStartX - currentPixelOffset;
+            const actualStartX = charPos.startX - currentPixelOffset;
             
             displayChars.push({
-              char: currentTextBox[i],
+              char: charPos.char,
               offsetX: actualStartX
             });
-          }
+          });
         } else {
-          // 正常模式：直接截斷顯示
-          const maxDisplayChars = textBoxWidth;
-          for (let i = 0; i < Math.min(currentTextBox.length, maxDisplayChars); i++) {
+          // 正常模式：使用精確的字符位置，但只取前面的字符
+          const displayAreaWidth = totalContentWidth;
+          let displayedWidth = 0;
+          
+          for (let i = 0; i < characterPositions.length; i++) {
+            const charPos = characterPositions[i];
+            
+            // 檢查是否還有空間顯示這個字符
+            if (displayedWidth + charPos.width > displayAreaWidth) {
+              break;
+            }
+            
             displayChars.push({
-              char: currentTextBox[i],
-              offsetX: i * charTotalWidth
+              char: charPos.char,
+              offsetX: charPos.startX
             });
+            
+            displayedWidth += charPos.width;
+            if (i < characterPositions.length - 1) {
+              displayedWidth += letterSpacing * pixelSize;
+            }
           }
         }
         
@@ -669,6 +751,11 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         
         // 渲染每個字符
         displayChars.forEach((charInfo) => {
+          if (charInfo.char === ' ') {
+            // 空格不渲染任何像素
+            return;
+          }
+          
           const pixelData = getCharacterPixelData(charInfo.char);
           
           // 計算字符的基礎位置（跑馬燈模式下無水平 padding）
@@ -718,7 +805,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         });
       }
     }
-  }, [sceneData, displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding, pixelSize, pixelGap, letterSpacing, primaryColor, onPrimaryColor, pixelGeometry, pixelMaterial, textBoxPixelMaterial, textBoxBackgroundMaterial, initializeThreeJS, marqueeData.needsMarquee, marqueeData.displayAreaPixels, isMarqueeActive, marqueeOffset]);
+  }, [sceneData, displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding, pixelSize, pixelGap, letterSpacing, primaryColor, onPrimaryColor, pixelGeometry, pixelMaterial, textBoxPixelMaterial, textBoxBackgroundMaterial, initializeThreeJS, marqueeData.needsMarquee, marqueeData.displayAreaPixels, isMarqueeActive, marqueeOffset, getCharWidth]);
 
   // 渲染場景
   const render = () => {

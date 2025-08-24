@@ -28,6 +28,7 @@ const meta = {
 - 🎛️ 獨立的主文字和 text-box 開關控制
 - 📏 智能間距控制（textBoxPadding 同時作為內邊距和元素間距）
 - 🏃 智能跑馬燈效果（像素級平滑滾動，文字過長時自動啟動）
+- 🔤 自定義空格寬度（可調整空格字符的顯示寬度）
 - 📱 支援響應式設計
 - ♿ 符合無障礙設計標準
 
@@ -85,6 +86,18 @@ import { PixelText } from 'hds';
   animated={true}         // 跑馬燈會在亂碼動畫結束後啟動
   primaryColor="#00FFAA"
   onPrimaryColor="#000000"
+/>
+
+// 自定義空格寬度 - 控制空格字符顯示寬度
+<PixelText 
+  text="HELLO WORLD TEST"    // 包含空格的文字
+  textBoxEnabled={true}
+  textBox="A B C D"           // text-box 中也有空格
+  spaceWidth={2.5}           // 空格寬度為 letterSpacing 的 2.5 倍
+  letterSpacing={3}          // 字符間距為 3 像素
+  primaryColor="#9146FF"
+  onPrimaryColor="#FFFFFF"
+  pixelSize={5}
 />
 \`\`\`
 
@@ -291,6 +304,14 @@ import { PixelText } from 'hds';
         defaultValue: { summary: '1000' },
       },
     },
+    spaceWidth: {
+      control: { type: 'range', min: 0.5, max: 5, step: 0.5 },
+      description: '空格字符的寬度倍數（相對於 letterSpacing 的倍數）',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '2' },
+      },
+    },
   },
 } satisfies Meta<typeof PixelText>;
 
@@ -390,6 +411,65 @@ export const MarqueeOnly: Story = {
     docs: {
       description: {
         story: '純跑馬燈模式：關閉亂碼動畫，只顯示像素級平滑滾動效果。文字以 pixelSize 為單位進行精細移動，適用於需要持續顯示長文字的場景。',
+      },
+    },
+  },
+};
+
+// 自定義空格寬度展示
+export const CustomSpaceWidth: Story = {
+  args: {
+    text: 'HELLO WORLD AND SPACE TEST',
+    textEnabled: true,
+    textBoxEnabled: true,
+    textBox: 'A B C D E F',
+    textBoxWidth: 10,
+    textBoxPadding: 1,
+    spaceWidth: 3, // 空格寬度為 letterSpacing 的 3 倍
+    primaryColor: '#9146FF',
+    onPrimaryColor: '#FFFFFF',
+    pixelSize: 4,
+    pixelGap: 1,
+    letterSpacing: 2,
+    width: 700,
+    height: 120,
+    animated: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '自定義空格寬度：展示如何控制空格字符的寬度。空格寬度設為 letterSpacing 的 3 倍，讓字詞間距更明顯。主文字和 text-box 中的空格都會使用相同的自定義寬度。',
+      },
+    },
+  },
+};
+
+// 空格寬度跑馬燈測試
+export const SpaceMarqueeTest: Story = {
+  args: {
+    text: 'SYSTEM',
+    textEnabled: true,
+    textBoxEnabled: true,
+    textBox: 'THIS IS A TEST WITH MANY SPACES',
+    textBoxWidth: 8,
+    textBoxPadding: 1.5,
+    spaceWidth: 1.5, // 較小的空格寬度
+    marqueeEnabled: true,
+    marqueeSpeed: 100,
+    marqueePause: 1500,
+    animated: true,
+    primaryColor: '#FF1744',
+    onPrimaryColor: '#FFFFFF',
+    pixelSize: 5,
+    pixelGap: 1,
+    letterSpacing: 2,
+    width: 600,
+    height: 110,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '空格寬度跑馬燈測試：測試自定義空格寬度在跑馬燈模式下的表現。空格會按照設定的倍數寬度正確滾動，保持文字間距的一致性。',
       },
     },
   },
