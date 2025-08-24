@@ -163,12 +163,14 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       const boxSpacing = Math.max(0, boxCharCount - 1) * letterSpacing;
       const boxContentWidth = boxCharWidth + boxSpacing * pixelSize;
       
-      // 根據是否需要跑馬燈決定 padding
+      // 根據是否需要跑馬燈決定 padding（右邊 padding 比左邊少一個像素）
       const needsMarquee = marqueeEnabled && 
                           textBoxEnabled && 
                           currentTextBox && 
                           currentTextBox.length > textBoxWidth;
-      const horizontalPadding = needsMarquee ? 0 : textBoxPadding * 2 * pixelSize;
+      const leftPadding = needsMarquee ? 0 : textBoxPadding * pixelSize;
+      const rightPadding = needsMarquee ? 0 : Math.max(0, textBoxPadding * pixelSize - pixelSize);
+      const horizontalPadding = leftPadding + rightPadding;
       
       // 加入 padding
       const boxTotalWidth = boxContentWidth + horizontalPadding;
@@ -656,8 +658,10 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       
       // 計算包含 padding 的背景尺寸（跑馬燈模式下左右 padding 為 0）
       const verticalPaddingPixels = textBoxPadding * pixelSize;
-      const horizontalPaddingPixels = marqueeData.needsMarquee ? 0 : textBoxPadding * pixelSize;
-      const backgroundWidth = totalContentWidth + (horizontalPaddingPixels * 2);
+      // 右邊 padding 比左邊少一個像素
+      const leftPaddingPixels = marqueeData.needsMarquee ? 0 : textBoxPadding * pixelSize;
+      const rightPaddingPixels = marqueeData.needsMarquee ? 0 : Math.max(0, textBoxPadding * pixelSize - pixelSize);
+      const backgroundWidth = totalContentWidth + leftPaddingPixels + rightPaddingPixels;
       // 底部 padding 比頂部少一個像素
       const topPaddingPixels = verticalPaddingPixels;
       const bottomPaddingPixels = Math.max(0, verticalPaddingPixels - pixelSize);
@@ -773,7 +777,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
           const pixelData = getCharacterPixelData(charInfo.char);
           
           // 計算字符的基礎位置（跑馬燈模式下無水平 padding）
-          const charBaseX = currentX + horizontalPaddingPixels + charInfo.offsetX;
+          const charBaseX = currentX + leftPaddingPixels + charInfo.offsetX;
           
           // 為每個像素建立方塊（支援裁切）
           pixelData.forEach((row, rowIndex) => {
@@ -789,7 +793,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
                 
                 // 檢查是否需要裁切 - 基於最終位置和顯示區域邊界
                 let shouldRender = true;
-                const displayStartX = currentX + horizontalPaddingPixels;
+                const displayStartX = currentX + leftPaddingPixels;
                 const displayEndX = displayStartX + totalContentWidth;
                 
                 // 在跑馬燈模式下，文字可以滾動到邊界外
