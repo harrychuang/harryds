@@ -709,33 +709,26 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         let displayChars: Array<{char: string, offsetX: number, clipLeft?: number, clipRight?: number}> = [];
         
         if (marqueeData.needsMarquee && (isMarqueeActive || marqueeOffset > 0)) {
-          // 跑馬燈模式：無限循環顯示
-          const currentPixelOffset = marqueeOffset;
+          // 跑馬燈模式：使用真正的循環偏移，避免重疊
+          // 使用模運算讓文字在循環邊界無縫重復
+          const cycleLength = marqueeData.totalTextPixels;
+          const normalizedOffset = marqueeOffset % cycleLength;
           
-          // 為了實現無限循環，我們需要渲染兩輪文字：
-          // 1. 主要文字（偏移後的位置）
-          // 2. 循環文字（當主要文字滾出時從右邊進入的部分）
-          
-          // 渲染主要文字
+          // 只渲染一輪文字，使用循環偏移
           characterPositions.forEach((charPos) => {
-            const actualStartX = charPos.startX - currentPixelOffset;
+            const baseStartX = charPos.startX - normalizedOffset;
+            
+            // 如果字符完全滾出左邊，將其移動到右邊（無限循環效果）
+            let actualStartX = baseStartX;
+            if (baseStartX + charPos.width < -totalContentWidth) {
+              actualStartX = baseStartX + cycleLength;
+            }
+            
             displayChars.push({
               char: charPos.char,
               offsetX: actualStartX
             });
           });
-          
-          // 渲染循環文字（文字尾部消失時，頭部從右邊進入）
-          // 當偏移量超過一定值時，從文字總長度位置開始顯示第二輪文字
-          if (currentPixelOffset > 0) {
-            characterPositions.forEach((charPos) => {
-              const cycleStartX = charPos.startX + marqueeData.totalTextPixels - currentPixelOffset;
-              displayChars.push({
-                char: charPos.char,
-                offsetX: cycleStartX
-              });
-            });
-          }
         } else {
           // 正常模式：使用精確的字符位置，但只取前面的字符
           const displayAreaWidth = totalContentWidth;
