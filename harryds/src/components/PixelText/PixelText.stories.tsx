@@ -318,13 +318,13 @@ import { PixelText } from 'hds';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 預設範例 - 包含跑馬燈和動畫效果
+// 預設範例 - 使用 MarqueeEffect 相同的跑馬燈設定
 export const Default: Story = {
   args: {
     text: 'HARRY',
     textEnabled: true,
     textBoxEnabled: true,
-    textBox: 'DESIGN STUDIO PORTFOLIO 2025',
+    textBox: 'VERY LONG TEXT CONTENT WILL SCROLL AUTOMATICALLY',
     textBoxWidth: 8,
     textBoxPadding: 1.5,
     marqueeEnabled: true,
@@ -336,7 +336,7 @@ export const Default: Story = {
     easeGlitch: true,
     primaryColor: '#000000',
     onPrimaryColor: '#FFFFFF',
-    pixelSize: 6,
+    pixelSize: 5,
     pixelGap: 1,
     letterSpacing: 2,
     width: 600,
