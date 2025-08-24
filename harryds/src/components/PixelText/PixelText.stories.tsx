@@ -154,6 +154,14 @@ import { PixelText } from 'hds';
       },
     },
 
+    durationTime: {
+      control: { type: 'range', min: 200, max: 5000, step: 100 },
+      description: '每個字母跳動的持續時間（毫秒）',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '1000' },
+      },
+    },
     animationDelay: {
       control: { type: 'range', min: 50, max: 1000, step: 50 },
       description: '字符間的動畫延遲時間（毫秒）',
@@ -212,6 +220,31 @@ export const AllSymbolsShowcase: Story = {
     docs: {
       description: {
         story: '展示 PixelText 元件支援的所有字符和符號，包括字母、數字、標點符號、數學符號、幾何形狀和特殊符號',
+      },
+    },
+  },
+};
+
+// 動畫測試範例
+export const AnimationTest: Story = {
+  args: {
+    text: 'HELLO',
+    color: '#00FFAA',
+    pixelSize: 8,
+    pixelGap: 1,
+    letterSpacing: 2,
+    width: 500,
+    height: 120,
+    animated: true,
+    easeGlitch: true,
+    durationTime: 1500,
+    animationDelay: 200,
+    glitchInterval: 20,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '測試動畫效果：每個字母跳動 1.5 秒，字母間延遲 200ms。調整 durationTime 控制字母跳動持續時間，調整 animationDelay 控制字母間延遲。',
       },
     },
   },

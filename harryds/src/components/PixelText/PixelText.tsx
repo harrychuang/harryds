@@ -35,6 +35,8 @@ export interface PixelTextProps {
   /** 是否啟用動畫效果 */
   animated?: boolean;
 
+  /** 每個字母跳動的持續時間（毫秒） */
+  durationTime?: number;
   /** 字符間的動畫延遲時間（毫秒） */
   animationDelay?: number;
   /** 亂碼跳動間隔時間（毫秒） */
@@ -55,6 +57,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   backgroundColor = 'transparent',
   className = '',
   animated = false,
+  durationTime = 1000,
   animationDelay = 100,
   glitchInterval = 20,
   easeGlitch = true,
@@ -175,7 +178,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
 
     // 為每個字符設置快速跳動和最終變換
     text.split('').forEach((targetChar, index) => {
-      const finalTime = index * animationDelay; // 何時停止跳動並顯示最終字符
+      const finalTime = durationTime + (index * animationDelay); // 何時停止跳動並顯示最終字符
       
       if (easeGlitch) {
         // 使用漸慢效果
@@ -213,7 +216,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         glitchTimersRef.current.push(glitchTimer);
       }
     });
-  }, [animated, text, animationDelay, glitchInterval, easeGlitch, generateRandomText, clearAnimationTimers, getRandomChar, createEaseGlitch]);
+  }, [animated, text, durationTime, animationDelay, glitchInterval, easeGlitch, generateRandomText, clearAnimationTimers, getRandomChar, createEaseGlitch]);
 
   // 建立像素幾何體的材質和幾何體（重用以提升效能）
   const pixelGeometry = useMemo(() => new THREE.PlaneGeometry(pixelSize, pixelSize), [pixelSize]);
