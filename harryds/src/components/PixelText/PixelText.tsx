@@ -2,14 +2,13 @@
 // PIXEL TEXT 元件 - 使用 Three.js 渲染 8-bit 風格文字
 // =============================================================================
 
-import React, { useEffect, useRef, useMemo, forwardRef } from 'react';
+import { useEffect, useRef, useMemo, forwardRef, useState, useCallback } from 'react';
 import * as THREE from 'three';
 import { 
   getCharacterPixelData, 
   isCharacterSupported, 
   CHAR_WIDTH, 
-  CHAR_HEIGHT,
-  calculateTextWidth 
+  CHAR_HEIGHT
 } from './pixelFont';
 
 export interface PixelTextProps {
@@ -33,6 +32,15 @@ export interface PixelTextProps {
   backgroundColor?: string;
   /** 元件的 CSS 類名 */
   className?: string;
+  /** 是否啟用動畫效果 */
+  animated?: boolean;
+
+  /** 字符間的動畫延遲時間（毫秒） */
+  animationDelay?: number;
+  /** 亂碼跳動間隔時間（毫秒） */
+  glitchInterval?: number;
+  /** 是否啟用漸慢的亂碼動畫效果 */
+  easeGlitch?: boolean;
 }
 
 const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
@@ -46,18 +54,29 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   antialias = false,
   backgroundColor = 'transparent',
   className = '',
+  animated = false,
+  animationDelay = 150,
+  glitchInterval = 20,
+  easeGlitch = true,
 }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const cameraRef = useRef<THREE.OrthographicCamera | null>(null);
+  const animationTimersRef = useRef<NodeJS.Timeout[]>([]);
+  const glitchTimersRef = useRef<NodeJS.Timeout[]>([]);
 
-  // 計算場景尺寸
+  // 動畫狀態管理
+  const [displayText, setDisplayText] = useState(text);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  // 計算場景尺寸 - 使用 displayText 而不是 text
   const sceneData = useMemo(() => {
-    if (!text) return { totalWidth: 0, totalHeight: 0, charCount: 0 };
+    const currentText = displayText || text;
+    if (!currentText) return { totalWidth: 0, totalHeight: 0, charCount: 0 };
 
-    const charCount = text.length;
+    const charCount = currentText.length;
     const pixelWithGap = pixelSize + pixelGap;
     const totalCharWidth = charCount * CHAR_WIDTH * pixelWithGap - charCount * pixelGap; // 最後一個字符不需要間隙
     const totalSpacing = (charCount - 1) * letterSpacing;
@@ -65,7 +84,136 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     const totalHeight = CHAR_HEIGHT * pixelWithGap - pixelGap; // 最後一行不需要間隙
 
     return { totalWidth, totalHeight, charCount };
-  }, [text, pixelSize, pixelGap, letterSpacing]);
+  }, [displayText, text, pixelSize, pixelGap, letterSpacing]);
+
+  // 支援的字符列表（用於生成隨機字符）
+  const supportedChars = useMemo(() => {
+    return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,。.-+×÷?!@‼︎⁇▶︎◆●◼︎◻︎▷﹅⟨⟩[]⎢%″„'.split('');
+  }, []);
+
+  // 生成隨機字符
+  const getRandomChar = useCallback(() => {
+    return supportedChars[Math.floor(Math.random() * supportedChars.length)];
+  }, [supportedChars]);
+
+  // 生成隨機文字
+  const generateRandomText = useCallback((length: number): string => {
+    return Array.from({ length }, () => getRandomChar()).join('');
+  }, [getRandomChar]);
+
+  // 清除所有動畫計時器
+  const clearAnimationTimers = useCallback(() => {
+    animationTimersRef.current.forEach(timer => clearTimeout(timer));
+    animationTimersRef.current = [];
+    // glitchTimersRef 可能包含 setInterval 或 setTimeout，都用 clearTimeout 清除（向後相容）
+    glitchTimersRef.current.forEach(timer => {
+      clearTimeout(timer);
+      clearInterval(timer);
+    });
+    glitchTimersRef.current = [];
+  }, []);
+
+  // 漸慢跳動效果的遞歸函數
+  const createEaseGlitch = useCallback((
+    charIndex: number, 
+    targetChar: string, 
+    startTime: number, 
+    endTime: number
+  ) => {
+    const now = Date.now();
+    const elapsed = now - startTime;
+    
+    // 如果還沒到停止時間，繼續跳動
+    if (elapsed < endTime) {
+      // 更新字符為隨機字符
+      setDisplayText(prev => {
+        const chars = prev.split('');
+        chars[charIndex] = getRandomChar();
+        return chars.join('');
+      });
+      
+      // 計算下次跳動的間隔 - 漸慢效果
+      const progress = elapsed / endTime; // 0 到 1 的進度
+      const easeProgress = 1 - Math.pow(1 - progress, 3); // ease-out 曲線
+      const nextInterval = glitchInterval + (glitchInterval * 3 * easeProgress); // 最終會變慢到4倍
+      
+      // 設置下次跳動
+      const nextTimer = setTimeout(() => {
+        createEaseGlitch(charIndex, targetChar, startTime, endTime);
+      }, nextInterval);
+      
+      glitchTimersRef.current.push(nextTimer);
+    } else {
+      // 時間到了，設置最終字符
+      setDisplayText(prev => {
+        const chars = prev.split('');
+        chars[charIndex] = targetChar;
+        return chars.join('');
+      });
+      
+      // 如果是最後一個字符，標記動畫結束
+      if (charIndex === text.length - 1) {
+        setTimeout(() => setIsAnimating(false), 100);
+      }
+    }
+  }, [getRandomChar, glitchInterval, text.length]);
+
+  // 開始文字動畫
+  const startAnimation = useCallback(() => {
+    if (!animated || !text) return;
+
+    setIsAnimating(true);
+    
+    // 清除之前的計時器
+    clearAnimationTimers();
+
+    // 初始設置為隨機文字
+    const initialRandomText = generateRandomText(text.length);
+    setDisplayText(initialRandomText);
+
+    const animationStartTime = Date.now();
+
+    // 為每個字符設置快速跳動和最終變換
+    text.split('').forEach((targetChar, index) => {
+      const finalTime = index * animationDelay; // 何時停止跳動並顯示最終字符
+      
+      if (easeGlitch) {
+        // 使用漸慢效果
+        createEaseGlitch(index, targetChar, animationStartTime, finalTime);
+      } else {
+        // 使用傳統均勻跳動
+        const glitchTimer = setInterval(() => {
+          setDisplayText(prev => {
+            const chars = prev.split('');
+            chars[index] = getRandomChar();
+            return chars.join('');
+          });
+        }, glitchInterval);
+        
+        // 設置最終變換計時器
+        const finalTimer = setTimeout(() => {
+          // 停止跳動
+          clearInterval(glitchTimer);
+          
+          // 設置最終字符
+          setDisplayText(prev => {
+            const chars = prev.split('');
+            chars[index] = targetChar;
+            return chars.join('');
+          });
+          
+          // 如果是最後一個字符，標記動畫結束
+          if (index === text.length - 1) {
+            setTimeout(() => setIsAnimating(false), 100);
+          }
+        }, finalTime);
+        
+        // 保存計時器以便清理
+        animationTimersRef.current.push(finalTimer);
+        glitchTimersRef.current.push(glitchTimer);
+      }
+    });
+  }, [animated, text, animationDelay, glitchInterval, easeGlitch, generateRandomText, clearAnimationTimers, getRandomChar, createEaseGlitch]);
 
   // 建立像素幾何體的材質和幾何體（重用以提升效能）
   const pixelGeometry = useMemo(() => new THREE.PlaneGeometry(pixelSize, pixelSize), [pixelSize]);
@@ -118,7 +266,8 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       }
     }
 
-    if (!text) return;
+    const currentText = displayText || text;
+    if (!currentText) return;
 
     // 計算起始位置以置中文字
     const pixelWithGap = pixelSize + pixelGap;
@@ -128,7 +277,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     let currentX = startX;
 
     // 為每個字符建立像素網格
-    Array.from(text).forEach((char) => {
+    Array.from(currentText).forEach((char) => {
       const pixelData = getCharacterPixelData(char);
       
       // 為每個像素建立方塊
@@ -175,11 +324,20 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     render();
   };
 
-  // 當文字或樣式改變時重新建立
+  // 當文字改變時處理動畫或直接更新
+  useEffect(() => {
+    if (animated) {
+      startAnimation();
+    } else {
+      setDisplayText(text);
+    }
+  }, [text, animated, startAnimation]);
+
+  // 當顯示文字或樣式改變時重新建立
   useEffect(() => {
     createPixelText();
     render();
-  }, [text, pixelSize, pixelGap, color, letterSpacing]);
+  }, [displayText, pixelSize, pixelGap, color, letterSpacing]);
 
   // 當尺寸改變時重新調整
   useEffect(() => {
@@ -189,6 +347,9 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   // 清理資源
   useEffect(() => {
     return () => {
+      // 清除動畫計時器
+      clearAnimationTimers();
+      
       // 清理 Three.js 資源
       if (rendererRef.current) {
         rendererRef.current.dispose();
@@ -211,7 +372,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       pixelGeometry.dispose();
       pixelMaterial.dispose();
     };
-  }, []);
+  }, [clearAnimationTimers]);
 
   // 警告不支援的字符
   useEffect(() => {
@@ -226,7 +387,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   return (
     <div 
       ref={ref || containerRef}
-      className={`pixel-text ${className}`}
+      className={`pixel-text ${animated ? 'animated' : ''} ${isAnimating ? 'animating' : ''} ${className}`}
       style={{ 
         width: `${width}px`, 
         height: `${height}px`,

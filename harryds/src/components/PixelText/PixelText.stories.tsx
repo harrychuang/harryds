@@ -22,6 +22,8 @@ const meta = {
 - 🎮 經典 8-bit 像素風格
 - ⚡ 使用 Three.js 高效能渲染
 - 🎨 可自訂顏色、大小和間距
+- 🎭 駭客風格亂碼解碼動畫
+- 🌊 漸慢 ease 動畫效果
 - 📱 支援響應式設計
 - ♿ 符合無障礙設計標準
 
@@ -29,19 +31,34 @@ const meta = {
 \`\`\`tsx
 import { PixelText } from 'hds';
 
+// 基本使用
 <PixelText 
   text="HELLO WORLD" 
   color="#00FF00" 
   pixelSize={6}
 />
+
+// 駭客動畫效果
+<PixelText 
+  text="DECODING" 
+  animated={true}
+  easeGlitch={true}
+  glitchInterval={20}
+  animationDelay={150}
+/>
 \`\`\`
 
 ## 支援字符
-- 英文字母 A-Z
-- 數字 0-9  
-- 空格
+- **英文字母**: A-Z
+- **數字**: 0-9  
+- **標點符號**: , 。 . - ? ! @ ″ „
+- **數學符號**: + × ÷ %
+- **特殊符號**: ‼︎ ⁇
+- **幾何形狀**: ▶︎ ▷ ◆ ● ◼︎ ◻︎
+- **其他符號**: ﹅ ⟨ ⟩ [ ] ⎢
+- **空格**
 
-不支援的字符會顯示為空格並在控制台警告。
+總共支援 **65 個字符**，不支援的字符會顯示為空格並在控制台警告。
         `,
       },
     },
@@ -50,7 +67,7 @@ import { PixelText } from 'hds';
   argTypes: {
     text: {
       control: 'text',
-      description: '要顯示的文字（支援 A-Z, 0-9, 空格）',
+      description: '要顯示的文字（支援字母、數字、標點符號、數學符號、幾何形狀等 65 個字符）',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: '""' },
@@ -128,6 +145,39 @@ import { PixelText } from 'hds';
         defaultValue: { summary: '""' },
       },
     },
+    animated: {
+      control: 'boolean',
+      description: '是否啟用動畫效果',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+
+    animationDelay: {
+      control: { type: 'range', min: 100, max: 1000, step: 50 },
+      description: '字符間的動畫延遲時間（毫秒）',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '150' },
+      },
+    },
+    glitchInterval: {
+      control: { type: 'range', min: 20, max: 200, step: 10 },
+      description: '亂碼跳動間隔時間（毫秒）- 值越小跳動越快',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '20' },
+      },
+    },
+    easeGlitch: {
+      control: 'boolean',
+      description: '是否啟用漸慢的亂碼動畫效果（一開始快，後來慢）',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
+    },
   },
 } satisfies Meta<typeof PixelText>;
 
@@ -144,5 +194,25 @@ export const Default: Story = {
     letterSpacing: 2,
     width: 400,
     height: 100,
+  },
+};
+
+// 完整符號集展示
+export const AllSymbolsShowcase: Story = {
+  args: {
+    text: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 ,。.-+×÷?!@‼︎⁇▶︎◆●◼︎◻︎▷﹅⟨⟩[]⎢%″„',
+    color: '#333333',
+    pixelSize: 3,
+    pixelGap: 0.5,
+    letterSpacing: 1,
+    width: 1200,
+    height: 150,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '展示 PixelText 元件支援的所有字符和符號，包括字母、數字、標點符號、數學符號、幾何形狀和特殊符號',
+      },
+    },
   },
 };
