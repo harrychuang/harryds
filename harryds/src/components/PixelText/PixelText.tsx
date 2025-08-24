@@ -405,9 +405,9 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     if (isAnimating && textCompleted && textBoxCompleted) {
       setTimeout(() => {
         setIsAnimating(false);
-        // 動畫結束後啟動跑馬燈（如果需要的話）
+        // 動畫結束後立即啟動跑馬燈（如果需要的話）
         if (marqueeData.needsMarquee) {
-          setTimeout(startMarquee, 300);
+          startMarquee();
         }
       }, 100);
     }
@@ -658,7 +658,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       const verticalPaddingPixels = textBoxPadding * pixelSize;
       const horizontalPaddingPixels = marqueeData.needsMarquee ? 0 : textBoxPadding * pixelSize;
       const backgroundWidth = totalContentWidth + (horizontalPaddingPixels * 2);
-      const backgroundHeight = CHAR_HEIGHT * pixelWithGap - pixelGap + (verticalPaddingPixels * 2);
+      const backgroundHeight = CHAR_HEIGHT * pixelSize + (verticalPaddingPixels * 2);
       
       // 渲染 text-box 背景（包含 padding）
       const bgStartX = currentX; // 從當前位置開始（已包含間距）
@@ -864,9 +864,8 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   // 跑馬燈管理 - 當動畫結束且需要跑馬燈時自動啟動
   useEffect(() => {
     if (!isAnimating && marqueeData.needsMarquee && !isMarqueeActive) {
-      // 延遲一點時間再啟動跑馬燈，給動畫結束一些時間
-      const timer = setTimeout(startMarquee, 500);
-      return () => clearTimeout(timer);
+      // 立即啟動跑馬燈
+      startMarquee();
     } else if (!marqueeData.needsMarquee && isMarqueeActive) {
       // 不需要跑馬燈時停止它
       stopMarquee();
