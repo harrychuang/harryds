@@ -658,11 +658,14 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       const verticalPaddingPixels = textBoxPadding * pixelSize;
       const horizontalPaddingPixels = marqueeData.needsMarquee ? 0 : textBoxPadding * pixelSize;
       const backgroundWidth = totalContentWidth + (horizontalPaddingPixels * 2);
-      const backgroundHeight = CHAR_HEIGHT * pixelSize + (verticalPaddingPixels * 2);
+      // 底部 padding 比頂部少一個像素
+      const topPaddingPixels = verticalPaddingPixels;
+      const bottomPaddingPixels = Math.max(0, verticalPaddingPixels - pixelSize);
+      const backgroundHeight = CHAR_HEIGHT * pixelSize + topPaddingPixels + bottomPaddingPixels;
       
       // 渲染 text-box 背景（包含 padding）
       const bgStartX = currentX; // 從當前位置開始（已包含間距）
-      const bgStartY = startY + verticalPaddingPixels;
+      const bgStartY = startY + topPaddingPixels;
       
       for (let row = 0; row < Math.ceil(backgroundHeight / pixelWithGap); row++) {
         for (let col = 0; col < Math.ceil(backgroundWidth / pixelWithGap); col++) {
