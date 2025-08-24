@@ -709,26 +709,30 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         let displayChars: Array<{char: string, offsetX: number, clipLeft?: number, clipRight?: number}> = [];
         
         if (marqueeData.needsMarquee && (isMarqueeActive || marqueeOffset > 0)) {
-          // 跑馬燈模式：使用真正的循環偏移，避免重疊
-          // 使用模運算讓文字在循環邊界無縫重復
-          const cycleLength = marqueeData.totalTextPixels;
-          const normalizedOffset = marqueeOffset % cycleLength;
+          // 跑馬燈模式：簡化的直接偏移，確保位置計算一致
+          const currentPixelOffset = marqueeOffset;
           
-          // 只渲染一輪文字，使用循環偏移
+          // 總是渲染主要文字
           characterPositions.forEach((charPos) => {
-            const baseStartX = charPos.startX - normalizedOffset;
-            
-            // 如果字符完全滾出左邊，將其移動到右邊（無限循環效果）
-            let actualStartX = baseStartX;
-            if (baseStartX + charPos.width < -totalContentWidth) {
-              actualStartX = baseStartX + cycleLength;
-            }
-            
+            const actualStartX = charPos.startX - currentPixelOffset;
             displayChars.push({
               char: charPos.char,
               offsetX: actualStartX
             });
           });
+          
+          // 只有當第一輪文字開始離開顯示區域時，才渲染第二輪文字
+          // 這避免了不必要的渲染和潛在的視覺干擾
+          const firstTextEndX = marqueeData.totalTextPixels - currentPixelOffset;
+          if (firstTextEndX < totalContentWidth + 50) { // 50像素的提前量，確保平滑過渡
+            characterPositions.forEach((charPos) => {
+              const secondCycleStartX = charPos.startX + marqueeData.totalTextPixels - currentPixelOffset;
+              displayChars.push({
+                char: charPos.char,
+                offsetX: secondCycleStartX
+              });
+            });
+          }
         } else {
           // 正常模式：使用精確的字符位置，但只取前面的字符
           const displayAreaWidth = totalContentWidth;
