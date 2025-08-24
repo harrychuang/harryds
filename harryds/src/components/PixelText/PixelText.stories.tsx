@@ -27,6 +27,7 @@ const meta = {
 - 📦 支援 text-box 功能（背景色反轉、置中、padding）
 - 🎛️ 獨立的主文字和 text-box 開關控制
 - 📏 智能間距控制（textBoxPadding 同時作為內邊距和元素間距）
+- 🏃 智能跑馬燈效果（像素級平滑滾動，文字過長時自動啟動）
 - 📱 支援響應式設計
 - ♿ 符合無障礙設計標準
 
@@ -70,6 +71,20 @@ import { PixelText } from 'hds';
   textBox="VISIBLE"
   primaryColor="#FF6B6B"
   onPrimaryColor="#FFFFFF"
+/>
+
+// 跑馬燈效果 - 文字過長時自動滾動
+<PixelText 
+  text="SYSTEM"
+  textBoxEnabled={true}
+  textBox="VERY LONG TEXT CONTENT WILL SCROLL"  // 超過 textBoxWidth 會跑馬燈
+  textBoxWidth={8}       // 只顯示 8 個字符寬度
+  marqueeEnabled={true}   // 啟用跑馬燈（預設已啟用）
+  marqueeSpeed={120}      // 跑馬燈速度（毫秒）- 每個像素移動間隔 120ms
+  marqueePause={2000}     // 開始和結束時的暫停時間
+  animated={true}         // 跑馬燈會在亂碼動畫結束後啟動
+  primaryColor="#00FFAA"
+  onPrimaryColor="#000000"
 />
 \`\`\`
 
@@ -252,6 +267,30 @@ import { PixelText } from 'hds';
         defaultValue: { summary: '2' },
       },
     },
+    marqueeEnabled: {
+      control: 'boolean',
+      description: '是否啟用跑馬燈效果（當 text-box 文字多於寬度時自動滾動）',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
+    },
+    marqueeSpeed: {
+      control: { type: 'range', min: 50, max: 1000, step: 10 },
+      description: '跑馬燈移動速度（毫秒）- 每個像素移動的間隔時間，值越大移動越慢',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '100' },
+      },
+    },
+    marqueePause: {
+      control: { type: 'range', min: 0, max: 5000, step: 100 },
+      description: '跑馬燈在開始和結束時的暫停時間（毫秒）',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '1000' },
+      },
+    },
   },
 } satisfies Meta<typeof PixelText>;
 
@@ -288,6 +327,69 @@ export const AllSymbolsShowcase: Story = {
     docs: {
       description: {
         story: '展示 PixelText 元件支援的所有字符和符號，包括字母、數字、標點符號、數學符號、幾何形狀和特殊符號',
+      },
+    },
+  },
+};
+
+// 跑馬燈效果展示
+export const MarqueeEffect: Story = {
+  args: {
+    text: 'SYSTEM',
+    textEnabled: true,
+    textBoxEnabled: true,
+    textBox: 'VERY LONG TEXT CONTENT WILL SCROLL AUTOMATICALLY',
+    textBoxWidth: 8,
+    textBoxPadding: 1.5,
+    marqueeEnabled: true,
+    marqueeSpeed: 80,
+    marqueePause: 1200,
+    animated: true,
+    durationTime: 800,
+    animationDelay: 120,
+    easeGlitch: true,
+    primaryColor: '#00FFAA',
+    onPrimaryColor: '#001122',
+    pixelSize: 5,
+    pixelGap: 1,
+    letterSpacing: 2,
+    width: 600,
+    height: 120,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '展示跑馬燈效果：當 text-box 文字超過指定寬度時，文字會以像素為單位從左往右平滑滾動。跑馬燈會在亂碼解碼動畫完成後自動啟動，提供絲滑的視覺體驗。',
+      },
+    },
+  },
+};
+
+// 純跑馬燈模式（無亂碼動畫）
+export const MarqueeOnly: Story = {
+  args: {
+    text: '',
+    textEnabled: false,
+    textBoxEnabled: true,
+    textBox: 'THIS IS A CONTINUOUS SCROLLING TEXT DEMONSTRATION FOR PIXELTEXT MARQUEE FEATURE',
+    textBoxWidth: 12,
+    textBoxPadding: 2,
+    marqueeEnabled: true,
+    marqueeSpeed: 60,
+    marqueePause: 800,
+    animated: false, // 關閉動畫，純跑馬燈
+    primaryColor: '#FF6B35',
+    onPrimaryColor: '#FFFFFF',
+    pixelSize: 4,
+    pixelGap: 1,
+    letterSpacing: 1,
+    width: 600,
+    height: 80,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '純跑馬燈模式：關閉亂碼動畫，只顯示像素級平滑滾動效果。文字以 pixelSize 為單位進行精細移動，適用於需要持續顯示長文字的場景。',
       },
     },
   },
