@@ -27,7 +27,7 @@ const meta = {
 - 📦 支援 text-box 功能（背景色反轉、置中、padding）
 - 🎛️ 獨立的主文字和 text-box 開關控制
 - 📏 智能間距控制（textBoxPadding 同時作為內邊距和元素間距）
-- 🏃 智能跑馬燈效果（像素級平滑滾動，文字過長時自動啟動）
+- 🏃 智能跑馬燈效果（無限循環像素級平滑滾動，文字尾巴接著頭部顯示）
 - 🔤 自定義空格寬度（可調整空格字符的顯示寬度）
 - 📱 支援響應式設計
 - ♿ 符合無障礙設計標準
@@ -81,7 +81,7 @@ import { PixelText } from 'hds';
   textBox="VERY LONG TEXT CONTENT WILL SCROLL"  // 超過 textBoxWidth 會跑馬燈
   textBoxWidth={8}       // 只顯示 8 個字符寬度
   marqueeEnabled={true}   // 啟用跑馬燈（預設已啟用）
-  marqueeSpeed={120}      // 跑馬燈速度（毫秒）- 每個像素移動間隔 120ms
+  marqueeSpeed={50}       // 跑馬燈速度（毫秒）- 每個像素移動間隔 50ms（無限循環）
   marqueePause={2000}     // 開始和結束時的暫停時間
   animated={true}         // 跑馬燈會在亂碼動畫結束後啟動
   primaryColor="#00FFAA"
@@ -290,10 +290,10 @@ import { PixelText } from 'hds';
     },
     marqueeSpeed: {
       control: { type: 'range', min: 50, max: 1000, step: 10 },
-      description: '跑馬燈移動速度（毫秒）- 每個像素移動的間隔時間，值越大移動越慢',
+      description: '跑馬燈移動速度（毫秒）- 每個像素移動的間隔時間，值越大移動越慢（無限循環模式）',
       table: {
         type: { summary: 'number' },
-        defaultValue: { summary: '100' },
+        defaultValue: { summary: '50' },
       },
     },
     marqueePause: {

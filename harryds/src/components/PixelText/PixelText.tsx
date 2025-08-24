@@ -88,7 +88,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   textBoxWidth = 5,
   textBoxPadding = 2,
   marqueeEnabled = true,
-  marqueeSpeed = 100,
+  marqueeSpeed = 50,
   marqueePause = 1000,
   spaceWidth = 2,
 }, ref) => {
@@ -194,7 +194,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
                         currentTextBox.length > textBoxWidth;
     
     if (!needsMarquee) {
-      return { needsMarquee: false, maxOffset: 0, textLength: 0, totalTextPixels: 0, displayAreaPixels: 0 };
+      return { needsMarquee: false, maxOffset: 0, textLength: 0, totalTextPixels: 0, displayAreaPixels: 0, cycleLength: 0 };
     }
     
     // 計算文字的總像素長度（包含間距，考慮空格特殊寬度）
@@ -220,12 +220,16 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     // 最大偏移量（以像素為單位）
     const maxOffset = Math.max(0, totalTextPixels - displayAreaPixels);
     
+    // 循環長度：文字總長度 + 顯示區域長度（讓文字完全消失後再從頭開始出現）
+    const cycleLength = totalTextPixels + displayAreaPixels;
+    
     return { 
       needsMarquee, 
       maxOffset, 
       textLength: currentTextBox?.length || 0,
       totalTextPixels,
-      displayAreaPixels
+      displayAreaPixels,
+      cycleLength
     };
   }, [displayTextBox, textBox, marqueeEnabled, textBoxEnabled, textBoxWidth, pixelSize, pixelGap, letterSpacing, getCharWidth]);
 
@@ -364,18 +368,11 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     setMarqueeOffset(0);
     
     const animateMarquee = (currentOffset: number = 0) => {
-      if (currentOffset > marqueeData.maxOffset) {
-        // 到達結尾，暫停後重新開始
-        marqueeTimerRef.current = setTimeout(() => {
-          setMarqueeOffset(0);
-          animateMarquee(0);
-        }, marqueePause);
-        return;
-      }
+      // 使用模運算實現無限循環
+      const normalizedOffset = currentOffset % marqueeData.cycleLength;
+      setMarqueeOffset(normalizedOffset);
       
-      setMarqueeOffset(currentOffset);
-      
-      // 繼續下一個像素位置（每次移動 1 像素，而不是 pixelSize）
+      // 繼續下一個像素位置（每次移動 1 像素）
       marqueeTimerRef.current = setTimeout(() => {
         animateMarquee(currentOffset + 1);
       }, marqueeSpeed);
@@ -385,7 +382,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     marqueeTimerRef.current = setTimeout(() => {
       animateMarquee(0);
     }, marqueePause);
-  }, [marqueeData.needsMarquee, marqueeData.maxOffset, marqueeSpeed, marqueePause]);
+  }, [marqueeData.needsMarquee, marqueeData.cycleLength, marqueeSpeed, marqueePause]);
 
   const stopMarquee = useCallback(() => {
     setIsMarqueeActive(false);
@@ -705,19 +702,33 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         let displayChars: Array<{char: string, offsetX: number, clipLeft?: number, clipRight?: number}> = [];
         
         if (marqueeData.needsMarquee && (isMarqueeActive || marqueeOffset > 0)) {
-          // 跑馬燈模式：使用精確的字符位置計算
+          // 跑馬燈模式：無限循環顯示
           const currentPixelOffset = marqueeOffset;
           
-          // 使用預先計算的字符位置
+          // 為了實現無限循環，我們需要渲染兩輪文字：
+          // 1. 主要文字（偏移後的位置）
+          // 2. 循環文字（當主要文字滾出時從右邊進入的部分）
+          
+          // 渲染主要文字
           characterPositions.forEach((charPos) => {
-            // 考慮跑馬燈偏移後的實際位置
             const actualStartX = charPos.startX - currentPixelOffset;
-            
             displayChars.push({
               char: charPos.char,
               offsetX: actualStartX
             });
           });
+          
+          // 渲染循環文字（文字尾部消失時，頭部從右邊進入）
+          // 當偏移量超過一定值時，從文字總長度位置開始顯示第二輪文字
+          if (currentPixelOffset > 0) {
+            characterPositions.forEach((charPos) => {
+              const cycleStartX = charPos.startX + marqueeData.totalTextPixels - currentPixelOffset;
+              displayChars.push({
+                char: charPos.char,
+                offsetX: cycleStartX
+              });
+            });
+          }
         } else {
           // 正常模式：使用精確的字符位置，但只取前面的字符
           const displayAreaWidth = totalContentWidth;
