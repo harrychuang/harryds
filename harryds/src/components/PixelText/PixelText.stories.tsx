@@ -318,17 +318,29 @@ import { PixelText } from 'hds';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 預設範例
+// 預設範例 - 包含跑馬燈和動畫效果
 export const Default: Story = {
   args: {
     text: 'HARRY',
+    textEnabled: true,
+    textBoxEnabled: true,
+    textBox: 'DESIGN STUDIO PORTFOLIO 2025',
+    textBoxWidth: 8,
+    textBoxPadding: 1.5,
+    marqueeEnabled: true,
+    marqueeSpeed: 40,
+    marqueePause: 400,
+    animated: true,
+    durationTime: 800,
+    animationDelay: 120,
+    easeGlitch: true,
     primaryColor: '#000000',
     onPrimaryColor: '#FFFFFF',
     pixelSize: 6,
     pixelGap: 1,
     letterSpacing: 2,
-    width: 400,
-    height: 100,
+    width: 600,
+    height: 120,
   },
 };
 
