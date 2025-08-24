@@ -81,8 +81,8 @@ import { PixelText } from 'hds';
   textBox="VERY LONG TEXT CONTENT WILL SCROLL"  // 超過 textBoxWidth 會跑馬燈
   textBoxWidth={8}       // 只顯示 8 個字符寬度
   marqueeEnabled={true}   // 啟用跑馬燈（預設已啟用）
-  marqueeSpeed={50}       // 跑馬燈速度（毫秒）- 每個像素移動間隔 50ms（無限循環）
-  marqueePause={2000}     // 開始和結束時的暫停時間
+  marqueeSpeed={25}       // 跑馬燈速度（毫秒）- 每個像素移動間隔 25ms（無限循環，加速版）
+  marqueePause={600}      // 開始時的暫停時間
   animated={true}         // 跑馬燈會在亂碼動畫結束後啟動
   primaryColor="#00FFAA"
   onPrimaryColor="#000000"
@@ -289,19 +289,19 @@ import { PixelText } from 'hds';
       },
     },
     marqueeSpeed: {
-      control: { type: 'range', min: 50, max: 1000, step: 10 },
+      control: { type: 'range', min: 10, max: 1000, step: 5 },
       description: '跑馬燈移動速度（毫秒）- 每個像素移動的間隔時間，值越大移動越慢（無限循環模式）',
       table: {
         type: { summary: 'number' },
-        defaultValue: { summary: '50' },
+        defaultValue: { summary: '25' },
       },
     },
     marqueePause: {
-      control: { type: 'range', min: 0, max: 5000, step: 100 },
-      description: '跑馬燈在開始和結束時的暫停時間（毫秒）',
+      control: { type: 'range', min: 0, max: 3000, step: 50 },
+      description: '跑馬燈在開始時的暫停時間（毫秒）- 動畫結束後等待時間',
       table: {
         type: { summary: 'number' },
-        defaultValue: { summary: '1000' },
+        defaultValue: { summary: '300' },
       },
     },
     spaceWidth: {
@@ -363,8 +363,8 @@ export const MarqueeEffect: Story = {
     textBoxWidth: 8,
     textBoxPadding: 1.5,
     marqueeEnabled: true,
-    marqueeSpeed: 80,
-    marqueePause: 1200,
+    marqueeSpeed: 40,
+    marqueePause: 400,
     animated: true,
     durationTime: 800,
     animationDelay: 120,
@@ -396,8 +396,8 @@ export const MarqueeOnly: Story = {
     textBoxWidth: 12,
     textBoxPadding: 2,
     marqueeEnabled: true,
-    marqueeSpeed: 60,
-    marqueePause: 800,
+    marqueeSpeed: 30,
+    marqueePause: 300,
     animated: false, // 關閉動畫，純跑馬燈
     primaryColor: '#FF6B35',
     onPrimaryColor: '#FFFFFF',
@@ -455,8 +455,8 @@ export const SpaceMarqueeTest: Story = {
     textBoxPadding: 1.5,
     spaceWidth: 1.5, // 較小的空格寬度
     marqueeEnabled: true,
-    marqueeSpeed: 100,
-    marqueePause: 1500,
+    marqueeSpeed: 50,
+    marqueePause: 500,
     animated: true,
     primaryColor: '#FF1744',
     onPrimaryColor: '#FFFFFF',
