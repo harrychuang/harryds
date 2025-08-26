@@ -223,7 +223,9 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     const maxOffset = Math.max(0, totalTextPixels - displayAreaPixels);
     
     // 循環長度：文字總長度 + 顯示區域長度（讓文字完全消失後再從頭開始出現）
-    const cycleLength = totalTextPixels + displayAreaPixels;
+    // NOTE: 為了實現無縫滾動，循環長度應為文字的總像素長度。
+    // 原本的 `totalTextPixels + displayAreaPixels` 會在文字滾動完畢後產生一段空白，這與目前的渲染邏輯不符，導致跳動。
+    const cycleLength = totalTextPixels;
     
     return { 
       needsMarquee, 
@@ -709,26 +711,27 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         let displayChars: Array<{char: string, offsetX: number, clipLeft?: number, clipRight?: number}> = [];
         
         if (marqueeData.needsMarquee && (isMarqueeActive || marqueeOffset > 0)) {
-          // 跑馬燈模式：單純的線性滾動，避免雙重文字造成的切換問題
+          // 跑馬燈模式：透過渲染兩份文字來實現無縫循環滾動
           const currentPixelOffset = marqueeOffset;
           
-          // 計算循環週期，確保無縫連接
-          const cycleLength = marqueeData.totalTextPixels;
+          // 確保循環長度與動畫計時器一致
+          const cycleLength = marqueeData.cycleLength;
           const effectiveOffset = currentPixelOffset % cycleLength;
           
-          // 只渲染一輪文字，使用循環偏移確保連續性
+          // 遍歷所有字符，並為每個字符計算兩個實例的位置（一個跟著一個）
           characterPositions.forEach((charPos) => {
-            // 基礎位置
-            let actualStartX = charPos.startX - effectiveOffset;
-            
-            // 如果字符滾出左邊太遠，將其循環到右邊
-            if (actualStartX + charPos.width < -100) { // 給一點容錯空間
-              actualStartX += cycleLength;
-            }
-            
+            // 第一個實例的位置
+            const offsetX1 = charPos.startX - effectiveOffset;
             displayChars.push({
               char: charPos.char,
-              offsetX: actualStartX
+              offsetX: offsetX1,
+            });
+            
+            // 第二個實例，緊跟在第一個後面，實現無縫連接
+            const offsetX2 = offsetX1 + cycleLength;
+            displayChars.push({
+              char: charPos.char,
+              offsetX: offsetX2,
             });
           });
         } else {
@@ -818,7 +821,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         });
       }
     }
-  }, [sceneData, displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding, pixelSize, pixelGap, letterSpacing, primaryColor, onPrimaryColor, pixelGeometry, pixelMaterial, textBoxPixelMaterial, textBoxBackgroundMaterial, initializeThreeJS, marqueeData.needsMarquee, marqueeData.displayAreaPixels, isMarqueeActive, marqueeOffset, getCharWidth]);
+  }, [sceneData, displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding, pixelSize, pixelGap, letterSpacing, primaryColor, onPrimaryColor, pixelGeometry, pixelMaterial, textBoxPixelMaterial, textBoxBackgroundMaterial, initializeThreeJS, marqueeData.needsMarquee, marqueeData.cycleLength, isMarqueeActive, marqueeOffset, getCharWidth]);
 
   // 渲染場景
   const render = () => {
