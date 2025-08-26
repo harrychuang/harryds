@@ -147,7 +147,7 @@ import { PixelText } from 'hds';
       description: '像素之間的間隔',
       table: {
         type: { summary: 'number' },
-        defaultValue: { summary: '1' },
+        defaultValue: { summary: '0' },
       },
     },
     primaryColor: {
@@ -245,7 +245,7 @@ import { PixelText } from 'hds';
       description: '是否啟用漸慢的亂碼動畫效果（一開始快，後來慢）',
       table: {
         type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
+        defaultValue: { summary: 'false' },
       },
     },
     textBoxEnabled: {
