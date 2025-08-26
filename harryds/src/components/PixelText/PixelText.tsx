@@ -100,6 +100,11 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   const animationTimersRef = useRef<NodeJS.Timeout[]>([]);
   const glitchTimersRef = useRef<NodeJS.Timeout[]>([]);
   const marqueeTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const marqueeRafRef = useRef<number | null>(null);
+  const marqueeLastFrameTimeRef = useRef<number | null>(null);
+  const marqueeOffsetFloatRef = useRef<number>(0);
+
+  // 保留未來優化批次渲染的空間（目前不啟用群組以避免未使用警告）
 
   // 動畫狀態管理
   const [displayText, setDisplayText] = useState(text);
@@ -113,6 +118,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   // 跑馬燈狀態管理
   const [marqueeOffset, setMarqueeOffset] = useState(0);
   const [isMarqueeActive, setIsMarqueeActive] = useState(false);
+  const isInViewportRef = useRef(true);
 
   // 計算字符實際寬度的輔助函數
   const getCharWidth = useCallback((char: string): number => {
@@ -367,24 +373,38 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   // 跑馬燈控制函數
   const startMarquee = useCallback(() => {
     if (!marqueeData.needsMarquee) return;
-    
+
     setIsMarqueeActive(true);
     setMarqueeOffset(0);
-    
-    const animateMarquee = (currentOffset: number = 0) => {
-      // 使用模運算實現無限循環
-      const normalizedOffset = currentOffset % marqueeData.cycleLength;
-      setMarqueeOffset(normalizedOffset);
-      
-      // 繼續下一個像素位置（每次移動 1 像素）
-      marqueeTimerRef.current = setTimeout(() => {
-        animateMarquee(currentOffset + 1);
-      }, marqueeSpeed);
-    };
-    
-    // 開始前暫停一下
+    marqueeOffsetFloatRef.current = 0;
+    marqueeLastFrameTimeRef.current = null;
+
+    // 先用 timeout 實作起始暫停，之後進入 rAF 迴圈
     marqueeTimerRef.current = setTimeout(() => {
-      animateMarquee(0);
+      const step = (now: number) => {
+        if (!marqueeData.needsMarquee) return;
+
+        const last = marqueeLastFrameTimeRef.current;
+        marqueeLastFrameTimeRef.current = now;
+
+        if (last != null) {
+          const deltaMs = now - last;
+          // 將「每像素毫秒」轉為每毫秒像素
+          const pixelsPerMs = 1 / Math.max(1, marqueeSpeed);
+          marqueeOffsetFloatRef.current += deltaMs * pixelsPerMs;
+
+          // 只在累積到整數像素時才更新，保持像素對齊
+          if (marqueeOffsetFloatRef.current >= 1) {
+            const inc = Math.floor(marqueeOffsetFloatRef.current);
+            marqueeOffsetFloatRef.current -= inc;
+            setMarqueeOffset(prev => (prev + inc) % (marqueeData.cycleLength || 1));
+          }
+        }
+
+        marqueeRafRef.current = requestAnimationFrame(step);
+      };
+
+      marqueeRafRef.current = requestAnimationFrame(step);
     }, marqueePause);
   }, [marqueeData.needsMarquee, marqueeData.cycleLength, marqueeSpeed, marqueePause]);
 
@@ -395,6 +415,12 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       clearTimeout(marqueeTimerRef.current);
       marqueeTimerRef.current = null;
     }
+    if (marqueeRafRef.current !== null) {
+      cancelAnimationFrame(marqueeRafRef.current);
+      marqueeRafRef.current = null;
+    }
+    marqueeLastFrameTimeRef.current = null;
+    marqueeOffsetFloatRef.current = 0;
   }, []);
 
   // 檢查所有動畫是否完成
@@ -557,6 +583,11 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   const initializeThreeJS = () => {
     if (!canvasRef.current) return;
 
+    // 若已初始化，直接回傳現有資源
+    if (sceneRef.current && cameraRef.current && rendererRef.current) {
+      return { scene: sceneRef.current, camera: cameraRef.current, renderer: rendererRef.current };
+    }
+
     // 建立場景
     const scene = new THREE.Scene();
     scene.background = null; // 使用透明背景
@@ -571,14 +602,17 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     camera.position.z = 1;
     cameraRef.current = camera;
 
-    // 建立渲染器
+    // 建立渲染器（重用同一個 WebGLRenderer）
     const renderer = new THREE.WebGLRenderer({
       canvas: canvasRef.current,
       antialias,
       alpha: true, // 永遠使用透明背景
+      powerPreference: 'high-performance',
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // 限制像素比例以提升效能
+    // 限制像素比例提高行動裝置效能
+    const maxPixelRatio = 1.5;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxPixelRatio));
     rendererRef.current = renderer;
 
     return { scene, camera, renderer };
@@ -589,13 +623,10 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     const { scene } = initializeThreeJS() || {};
     if (!scene) return;
 
-    // 清除之前的網格
+    // 清除之前的網格（移除節點但不釋放共用幾何/材質，以避免重複釋放）
     while (scene.children.length > 0) {
       const child = scene.children[0];
       scene.remove(child);
-      if (child instanceof THREE.Mesh) {
-        child.geometry.dispose();
-      }
     }
 
     const currentText = displayText || text;
@@ -876,6 +907,49 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       stopMarquee();
     }
   }, [isAnimating, marqueeData.needsMarquee, isMarqueeActive, startMarquee, stopMarquee]);
+
+  // 當頁面隱藏或顯示時暫停/恢復動畫（避免背景頁面耗電）
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopMarquee();
+        clearAnimationTimers();
+      } else {
+        // 僅在需要時恢復跑馬燈（且未在動畫中）
+        if (!isAnimating && marqueeData.needsMarquee && isInViewportRef.current) {
+          startMarquee();
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [clearAnimationTimers, stopMarquee, startMarquee, marqueeData.needsMarquee, isAnimating]);
+
+  // 當元件離開視窗可見範圍時暫停動畫（節省行動裝置資源）
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const el = containerRef.current;
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      const isVisible = entry.isIntersecting && entry.intersectionRatio > 0;
+      isInViewportRef.current = isVisible;
+      if (!isVisible) {
+        stopMarquee();
+        clearAnimationTimers();
+      } else if (!document.hidden) {
+        if (!isAnimating && marqueeData.needsMarquee) {
+          startMarquee();
+        }
+      }
+    }, { root: null, threshold: [0, 0.01, 0.1, 0.5, 1] });
+
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+    };
+  }, [containerRef, stopMarquee, clearAnimationTimers, startMarquee, marqueeData.needsMarquee, isAnimating]);
 
   // 清理資源
   useEffect(() => {
