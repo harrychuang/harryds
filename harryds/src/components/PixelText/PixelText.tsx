@@ -55,6 +55,9 @@ export interface PixelTextProps {
   /** text-box 的內邊距（pixelSize 的倍數） */
   textBoxPadding?: number;
 
+  /** 當為 true 時，text 與 text-box 位置交換（text-box 在左、text 在右） */
+  swapTextAndBox?: boolean;
+
   /** 是否啟用跑馬燈效果（當 text-box 文字過長時） */
   marqueeEnabled?: boolean;
   /** 跑馬燈移動速度（毫秒）- 每個像素移動的間隔時間 */
@@ -91,6 +94,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   marqueeSpeed = 25,
   marqueePause = 300,
   spaceWidth = 2,
+  swapTextAndBox = false,
 }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -641,48 +645,32 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
 
     let currentX = startX;
 
-    // 渲染主文字（如果啟用且有內容的話）
-    if (textEnabled && currentText) {
+    const renderMainText = () => {
+      if (!(textEnabled && currentText)) return;
       Array.from(currentText).forEach((char) => {
         if (char === ' ') {
-          // 空格不渲染像素，只移動位置
           currentX += getCharWidth(char);
         } else {
           const pixelData = getCharacterPixelData(char);
-          
-          // 為每個像素建立方塊
           pixelData.forEach((row, rowIndex) => {
             row.forEach((pixel, colIndex) => {
               if (pixel === 1) {
-                // 建立像素實例
                 const pixelMesh = new THREE.Mesh(pixelGeometry, pixelMaterial);
-                
-                // 計算位置 - 加入 pixelGap 間距並對齊整數像素
                 const x = Math.round(currentX + colIndex * pixelWithGap);
                 const y = Math.round(startY - rowIndex * pixelWithGap);
-                
                 pixelMesh.position.set(x, y, 0);
                 scene.add(pixelMesh);
               }
             });
           });
-
-          // 移動標準字符寬度
           currentX += getCharWidth(char);
         }
-
-        // 添加字符間距（適用於所有字符，包括空格）
         currentX += letterSpacing * pixelSize;
       });
-  }
+    };
 
-  // 如果同時啟用 text 和 textBox，在兩者之間加上間隔（使用 textBoxPadding 作為間距）
-  if (textEnabled && currentText && textBoxEnabled && (currentTextBox || textBoxWidth > 0)) {
-    currentX += textBoxPadding * pixelSize; // text 和 text-box 容器之間的間隔
-  }
-
-  // 渲染 text-box（如果啟用且有內容的話）
-  if (textBoxEnabled && (currentTextBox || textBoxWidth > 0)) {
+    const renderTextBox = () => {
+      if (!(textBoxEnabled && (currentTextBox || textBoxWidth > 0))) return;
       // 計算 text-box 的尺寸
       const boxCharCount = textBoxWidth;
       const boxContentWidth = boxCharCount * CHAR_WIDTH * pixelWithGap - boxCharCount * pixelGap;
@@ -868,8 +856,27 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
           });
         });
       }
+      // text-box 渲染完成後，將當前 X 位置推進背景總寬度，
+      // 以便之後渲染主文字時不會與 text-box 重疊
+      currentX += backgroundWidth;
+    };
+
+    if (swapTextAndBox) {
+      // 先渲染 text-box，再渲染主文字
+      renderTextBox();
+      if (textEnabled && currentText && textBoxEnabled && (currentTextBox || textBoxWidth > 0)) {
+        currentX += textBoxPadding * pixelSize;
+      }
+      renderMainText();
+    } else {
+      // 先渲染主文字，再渲染 text-box
+      renderMainText();
+      if (textEnabled && currentText && textBoxEnabled && (currentTextBox || textBoxWidth > 0)) {
+        currentX += textBoxPadding * pixelSize;
+      }
+      renderTextBox();
     }
-  }, [sceneData, displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding, pixelSize, pixelGap, letterSpacing, primaryColor, onPrimaryColor, pixelGeometry, pixelMaterial, textBoxPixelMaterial, textBoxBackgroundMaterial, initializeThreeJS, marqueeData.needsMarquee, marqueeData.cycleLength, isMarqueeActive, marqueeOffset, getCharWidth]);
+  }, [sceneData, displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding, pixelSize, pixelGap, letterSpacing, primaryColor, onPrimaryColor, pixelGeometry, pixelMaterial, textBoxPixelMaterial, textBoxBackgroundMaterial, initializeThreeJS, marqueeData.needsMarquee, marqueeData.cycleLength, isMarqueeActive, marqueeOffset, getCharWidth, swapTextAndBox]);
 
   // 渲染場景
   const render = () => {
@@ -901,7 +908,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       setDisplayText(text);
       setDisplayTextBox(textBox);
     }
-  }, [text, textEnabled, textBox, textBoxEnabled, animated, startAnimation]);
+  }, [text, textEnabled, textBox, textBoxEnabled, animated, startAnimation, swapTextAndBox]);
 
   // 當顯示文字或樣式改變時重新建立
   useEffect(() => {

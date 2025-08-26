@@ -313,6 +313,14 @@ import { PixelText } from 'hds';
         defaultValue: { summary: '2' },
       },
     },
+    swapTextAndBox: {
+      control: 'boolean',
+      description: '當為 true 時，text 與 text-box 位置交換（text-box 在左、text 在右）',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
   },
 } satisfies Meta<typeof PixelText>;
 
