@@ -636,8 +636,8 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
 
     // 計算起始位置以置中文字
     const pixelWithGap = pixelSize + pixelGap;
-    const startX = -sceneData.totalWidth / 2 + pixelSize / 2;
-    const startY = CHAR_HEIGHT * pixelWithGap / 2 - pixelSize / 2 - pixelGap / 2;
+    const startX = Math.round(-sceneData.totalWidth / 2 + pixelSize / 2);
+    const startY = Math.round(CHAR_HEIGHT * pixelWithGap / 2 - pixelSize / 2 - pixelGap / 2);
 
     let currentX = startX;
 
@@ -657,9 +657,9 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
                 // 建立像素實例
                 const pixelMesh = new THREE.Mesh(pixelGeometry, pixelMaterial);
                 
-                // 計算位置 - 加入 pixelGap 間距
-                const x = currentX + colIndex * pixelWithGap;
-                const y = startY - rowIndex * pixelWithGap;
+                // 計算位置 - 加入 pixelGap 間距並對齊整數像素
+                const x = Math.round(currentX + colIndex * pixelWithGap);
+                const y = Math.round(startY - rowIndex * pixelWithGap);
                 
                 pixelMesh.position.set(x, y, 0);
                 scene.add(pixelMesh);
@@ -687,18 +687,35 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       const boxCharCount = textBoxWidth;
       const boxContentWidth = boxCharCount * CHAR_WIDTH * pixelWithGap - boxCharCount * pixelGap;
       const boxContentSpacing = Math.max(0, boxCharCount - 1) * letterSpacing * pixelSize;
-      const totalContentWidth = boxContentWidth + boxContentSpacing;
+      const totalContentWidth = boxContentWidth + boxContentSpacing; // 容量寬度（以 textBoxWidth 計算）
+
+      // 實際內容寬度（依 currentTextBox 逐字計算，考慮空格與 letterSpacing）
+      let actualContentWidth = 0;
+      if (currentTextBox) {
+        Array.from(currentTextBox).forEach((char, index) => {
+          actualContentWidth += getCharWidth(char);
+          if (index < currentTextBox.length - 1) {
+            actualContentWidth += letterSpacing * pixelSize;
+          }
+        });
+      }
+      // 決定顯示內容寬度：跑馬燈用容量寬度；否則用實際內容寬度（有 auto-layout 感）
+      const displayContentWidth = (marqueeData.needsMarquee && (currentTextBox && currentTextBox.length > 0))
+        ? totalContentWidth
+        : Math.min(totalContentWidth, actualContentWidth || 0);
       
       // 計算包含 padding 的背景尺寸（跑馬燈模式下左右 padding 為 0）
       const verticalPaddingPixels = textBoxPadding * pixelSize;
       // 右邊 padding 比左邊少一個像素
       const leftPaddingPixels = marqueeData.needsMarquee ? 0 : textBoxPadding * pixelSize;
       const rightPaddingPixels = marqueeData.needsMarquee ? 0 : Math.max(0, textBoxPadding * pixelSize - pixelSize);
-      const backgroundWidth = totalContentWidth + leftPaddingPixels + rightPaddingPixels;
+      const backgroundWidth = displayContentWidth + leftPaddingPixels + rightPaddingPixels;
       // 底部 padding 比頂部少一個像素
       const topPaddingPixels = verticalPaddingPixels;
       const bottomPaddingPixels = Math.max(0, verticalPaddingPixels - pixelSize);
-      const backgroundHeight = CHAR_HEIGHT * pixelSize + topPaddingPixels + bottomPaddingPixels;
+      // 背景高度需包含 pixelGap 造成的行間距
+      const textPixelHeight = CHAR_HEIGHT * pixelWithGap - pixelGap;
+      const backgroundHeight = textPixelHeight + topPaddingPixels + bottomPaddingPixels;
       
       // 渲染 text-box 背景（包含 padding）
       const bgStartX = currentX; // 從當前位置開始（已包含間距）
@@ -707,8 +724,8 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       for (let row = 0; row < Math.ceil(backgroundHeight / pixelWithGap); row++) {
         for (let col = 0; col < Math.ceil(backgroundWidth / pixelWithGap); col++) {
           const bgMesh = new THREE.Mesh(pixelGeometry, textBoxBackgroundMaterial);
-          const x = bgStartX + col * pixelWithGap;
-          const y = bgStartY - row * pixelWithGap;
+          const x = Math.round(bgStartX + col * pixelWithGap);
+          const y = Math.round(bgStartY - row * pixelWithGap);
           bgMesh.position.set(x, y, -0.1); // 背景放在後面
           scene.add(bgMesh);
         }
@@ -767,7 +784,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
           });
         } else {
           // 正常模式：使用精確的字符位置，但只取前面的字符
-          const displayAreaWidth = totalContentWidth;
+          const displayAreaWidth = displayContentWidth;
           let displayedWidth = 0;
           
           for (let i = 0; i < characterPositions.length; i++) {
@@ -817,13 +834,13 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
                 const pixelY = rowIndex * pixelWithGap;
                 
                 // 計算最終位置
-                const finalX = charBaseX + pixelX;
-                const finalY = baseTextStartY - pixelY;
+                const finalX = Math.round(charBaseX + pixelX);
+                const finalY = Math.round(baseTextStartY - pixelY);
                 
                 // 檢查是否需要裁切 - 基於最終位置和顯示區域邊界
                 let shouldRender = true;
                 const displayStartX = currentX + leftPaddingPixels;
-                const displayEndX = displayStartX + totalContentWidth;
+                const displayEndX = displayStartX + displayContentWidth;
                 
                 // 在跑馬燈模式下，文字可以滾動到邊界外
                 if (marqueeData.needsMarquee && (isMarqueeActive || marqueeOffset > 0)) {
