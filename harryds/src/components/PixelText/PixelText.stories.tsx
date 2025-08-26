@@ -108,10 +108,11 @@ import { PixelText } from 'hds';
 - **數學符號**: + × ÷ %
 - **特殊符號**: ‼︎ ⁇
 - **幾何形狀**: ▶︎ ▷ ◆ ● ◼︎ ◻︎
+- **箭頭符號**: ↑ ↓ ← →
 - **其他符號**: ﹅ ⟨ ⟩ [ ] ⎢
 - **空格**
 
-總共支援 **65 個字符**，不支援的字符會顯示為空格並在控制台警告。
+總共支援 **69 個字符**，不支援的字符會顯示為空格並在控制台警告。
         `,
       },
     },
@@ -120,7 +121,7 @@ import { PixelText } from 'hds';
   argTypes: {
     text: {
       control: 'text',
-      description: '要顯示的文字（支援字母、數字、標點符號、數學符號、幾何形狀等 65 個字符）',
+      description: '要顯示的文字（支援字母、數字、標點符號、數學符號、幾何形狀、箭頭符號等 69 個字符）',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: '""' },
@@ -347,7 +348,7 @@ export const Default: Story = {
 // 完整符號集展示
 export const AllSymbolsShowcase: Story = {
   args: {
-    text: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 ,。.-+×÷?!@‼︎⁇▶︎◆●◼︎◻︎▷﹅⟨⟩[]⎢%″„',
+    text: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 ,。.-+×÷?!@‼︎⁇▶︎◆●◼︎◻︎↑↓←→▷﹅⟨⟩[]⎢%″„',
     primaryColor: '#333333',
     onPrimaryColor: '#FFFFFF',
     pixelSize: 3,
