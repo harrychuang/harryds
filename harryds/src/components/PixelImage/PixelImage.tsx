@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, useMemo, useCallback, forwardRef } from 'r
 import * as THREE from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPixelatedPass } from 'three/examples/jsm/postprocessing/RenderPixelatedPass.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 
 export type PixelImageObjectFit = 'cover' | 'contain' | 'fill';
 
@@ -151,6 +152,10 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxPixelRatio));
     renderer.setSize(width, height);
+    // 明確指定輸出色域與 tone mapping
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.NoToneMapping;
+    renderer.toneMappingExposure = 1;
     if (backgroundColor) {
       renderer.setClearColor(new THREE.Color(backgroundColor), 1);
     } else {
@@ -164,7 +169,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
 
     // plane to hold image
     const geometry = new THREE.PlaneGeometry(1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true });
+    const material = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, toneMapped: false });
     const plane = new THREE.Mesh(geometry, material);
     scene.add(plane);
 
@@ -181,6 +186,8 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     const composer = new EffectComposer(renderer);
     const pixelPass = new RenderPixelatedPass(effectivePixel, scene, camera, edgeParams);
     composer.addPass(pixelPass);
+    // 後處理鏈色彩收尾（線性 → sRGB）
+    composer.addPass(new OutputPass());
 
     // assign refs
     rendererRef.current = renderer;
@@ -283,6 +290,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
       const effectivePixel = Math.max(1, Math.min(Math.floor(pixelSizeRef.current), maxByW, maxByH));
       const pixelPass = new RenderPixelatedPass(effectivePixel, sceneRef.current, cameraRef.current, edgeParams);
       composer.addPass(pixelPass);
+      composer.addPass(new OutputPass());
       composer.setSize(width, height);
       composerRef.current = composer;
       pixelPassRef.current = pixelPass;
@@ -422,9 +430,10 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   return (
     <div
       ref={(node) => {
-        if (typeof ref === 'function') ref(node as HTMLDivElement);
-        else if (ref && 'current' in (ref as any)) (ref as React.RefObject<HTMLDivElement>).current = node as HTMLDivElement;
         containerRef.current = node;
+        if (!ref) return;
+        if (typeof ref === 'function') ref(node as HTMLDivElement);
+        else (ref as React.MutableRefObject<HTMLDivElement | null>).current = node as HTMLDivElement | null;
       }}
       className={`pixel-image ${className}`}
       style={{ width: '100%', height: '100%', position: 'relative', display: 'block' }}
