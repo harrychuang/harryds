@@ -68,6 +68,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   const rafRef = useRef<number | null>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const isVisibleRef = useRef<boolean>(true);
+  const pixelSizeRef = useRef<number>(pixelSize);
 
   const [containerSize, setContainerSize] = useState<{ width: number; height: number }>({ width: 300, height: 200 });
 
@@ -168,15 +169,13 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     scene.add(plane);
 
     // composer + pixelated pass
-    // 使用實際繪圖緩衝大小（width/height * DPR）來限制像素尺寸，
-    // 確保低解析 render target 至少為 2×2。
+    // 以 CSS 尺寸限制像素大小，確保低解析 render target 至少為 2×2。
     const getEffectivePixel = () => {
-      const pr = renderer.getPixelRatio();
-      const aw = Math.max(1, Math.floor(width * pr));
-      const ah = Math.max(1, Math.floor(height * pr));
+      const aw = Math.max(1, Math.floor(width));
+      const ah = Math.max(1, Math.floor(height));
       const maxByW = Math.max(1, Math.floor(aw / 2));
       const maxByH = Math.max(1, Math.floor(ah / 2));
-      return Math.max(1, Math.min(Math.floor(pixelSize), maxByW, maxByH));
+      return Math.max(1, Math.min(Math.floor(pixelSizeRef.current), maxByW, maxByH));
     };
     const effectivePixel = getEffectivePixel();
     const composer = new EffectComposer(renderer);
@@ -192,7 +191,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     planeRef.current = plane;
 
     updateCamera(width, height);
-  }, [backgroundColor, edgeParams, maxPixelRatio, pixelSize, updateCamera]);
+  }, [backgroundColor, edgeParams, maxPixelRatio, updateCamera]);
 
   const disposeThree = useCallback(() => {
     stopLoop();
@@ -276,20 +275,19 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
       const height = containerSize.height;
       composerRef.current.dispose();
       const composer = new EffectComposer(renderer);
-      // 依實際繪圖緩衝大小（DPR 後）限制像素尺寸
-      const pr = renderer.getPixelRatio();
-      const aw = Math.max(1, Math.floor(width * pr));
-      const ah = Math.max(1, Math.floor(height * pr));
+      // 以 CSS 尺寸限制像素大小
+      const aw = Math.max(1, Math.floor(width));
+      const ah = Math.max(1, Math.floor(height));
       const maxByW = Math.max(1, Math.floor(aw / 2));
       const maxByH = Math.max(1, Math.floor(ah / 2));
-      const effectivePixel = Math.max(1, Math.min(Math.floor(pixelSize), maxByW, maxByH));
+      const effectivePixel = Math.max(1, Math.min(Math.floor(pixelSizeRef.current), maxByW, maxByH));
       const pixelPass = new RenderPixelatedPass(effectivePixel, sceneRef.current, cameraRef.current, edgeParams);
       composer.addPass(pixelPass);
       composer.setSize(width, height);
       composerRef.current = composer;
       pixelPassRef.current = pixelPass;
     }
-  }, [containerSize.height, containerSize.width, edgeParams, pixelSize]);
+  }, [containerSize.height, containerSize.width, edgeParams]);
 
   const handleResize = useCallback((width: number, height: number) => {
     setContainerSize({ width, height });
@@ -384,7 +382,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     };
   }, [applyTextureToPlane, loadTexture, onError, onLoad, renderLoop, src]);
 
-  // 當像素大小/描邊參數改變時，重建像素化 pass
+  // 當描邊參數或容器尺寸改變時，重建像素化 pass（pixelSize 不觸發重建）
   useEffect(() => {
     rebuildPixelPass();
   }, [rebuildPixelPass]);
@@ -396,20 +394,23 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     const pass = pixelPassRef.current;
     if (!renderer || !composer || !pass) return;
 
-    const pr = renderer.getPixelRatio();
-    const aw = Math.max(1, Math.floor(containerSize.width * pr));
-    const ah = Math.max(1, Math.floor(containerSize.height * pr));
+    const aw = Math.max(1, Math.floor(containerSize.width));
+    const ah = Math.max(1, Math.floor(containerSize.height));
     const maxByW = Math.max(1, Math.floor(aw / 2));
     const maxByH = Math.max(1, Math.floor(ah / 2));
     const effectivePixel = Math.max(1, Math.min(Math.floor(pixelSize), maxByW, maxByH));
 
     pass.setPixelSize(effectivePixel);
-    composer.setSize(containerSize.width, containerSize.height);
 
     if (rafRef.current == null && isVisibleRef.current) {
       renderLoop();
     }
   }, [pixelSize, containerSize.height, containerSize.width, renderLoop]);
+
+  // 追蹤最新的 pixelSize 供重建 pass 使用，但不觸發重建依賴
+  useEffect(() => {
+    pixelSizeRef.current = pixelSize;
+  }, [pixelSize]);
 
   // objectFit 改變時重新配適圖片平面
   useEffect(() => {
