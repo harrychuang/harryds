@@ -28,7 +28,7 @@ const meta = {
       table: { type: { summary: 'string' } },
     },
     pixelSize: {
-      control: { type: 'range', min: 1, max: 30, step: 1 },
+      control: { type: 'range', min: 1, max: 80, step: 1 },
       description: '像素尺寸（數值越大越粗）',
       table: { type: { summary: 'number' }, defaultValue: { summary: 6 } },
     },
