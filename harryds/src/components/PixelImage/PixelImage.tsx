@@ -46,7 +46,7 @@ export interface PixelImageProps {
 
 const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   src,
-  pixelSize = 6,
+  pixelSize = 80,
   hoverPixelToOne = false,
   hoverPixelDuration = 280,
   outline = true,

@@ -30,7 +30,7 @@ const meta = {
     pixelSize: {
       control: { type: 'range', min: 1, max: 80, step: 1 },
       description: '像素尺寸（數值越大越粗）',
-      table: { type: { summary: 'number' }, defaultValue: { summary: 6 } },
+      table: { type: { summary: 'number' }, defaultValue: { summary: 80 } },
     },
     outline: {
       control: 'boolean',
@@ -79,10 +79,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const containerStyle: React.CSSProperties = {
-  width: 480,
-  height: 320,
-  border: '1px solid #e0e0e0',
-  borderRadius: 8,
+  width: 800,
+  height: 400,
+  borderRadius: 0,
   overflow: 'hidden',
 };
 
@@ -94,7 +93,7 @@ export const Default: Story = {
   ),
   args: {
     src: demoImg,
-    pixelSize: 6,
+    pixelSize: 80,
     hoverPixelToOne: true,
     hoverPixelDuration: 280,
     outline: true,
