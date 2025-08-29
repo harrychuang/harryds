@@ -10,3 +10,5 @@ export type { PixelTextProps } from './PixelText';
 // 例如：
 // export { Button } from './Button';
 // export type { ButtonProps } from './Button';
+export { PixelImage } from './PixelImage';
+export type { PixelImageProps, PixelImageObjectFit } from './PixelImage';

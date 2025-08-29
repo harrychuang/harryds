@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/react-vite';
+import { resolve } from 'path';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
@@ -25,6 +26,18 @@ const config: StorybookConfig = {
       shouldExtractLiteralValuesFromEnum: true,
       propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
     },
+  },
+  // 讓 Storybook 的 Vite 也能解析專案別名（含 @imgs）
+  viteFinal: async (config) => {
+    config.resolve = config.resolve || {};
+    config.resolve.alias = {
+      ...(config.resolve.alias as Record<string, string>),
+      '@': resolve(__dirname, '../src'),
+      '@components': resolve(__dirname, '../src/components'),
+      '@styles': resolve(__dirname, '../src/styles'),
+      '@imgs': resolve(__dirname, '../assets/imgs'),
+    };
+    return config;
   },
 };
 
