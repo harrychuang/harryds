@@ -209,33 +209,35 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       return { needsMarquee: false, maxOffset: 0, textLength: 0, totalTextPixels: 0, displayAreaPixels: 0, cycleLength: 0 };
     }
     
-    // 計算文字的總像素長度（包含間距，考慮空格特殊寬度）
+    // 計算文字的總像素長度（包含間距，整數像素，考慮空格特殊寬度）
     let totalTextPixels = 0;
+    const spacingPx = Math.round(letterSpacing * pixelSize);
     
     Array.from(currentTextBox).forEach((char, index) => {
-      const charWidth = getCharWidth(char);
-      totalTextPixels += charWidth;
+      const charWidthPx = Math.round(getCharWidth(char));
+      totalTextPixels += charWidthPx;
       
       // 添加字符間距（最後一個字符不添加）
       if (index < currentTextBox.length - 1) {
-        totalTextPixels += letterSpacing * pixelSize;
+        totalTextPixels += spacingPx;
       }
     });
     
     // 計算顯示區域的像素長度
     const pixelWithGap = pixelSize + pixelGap;
     const displayCharCount = textBoxWidth;
-    const displayTextWidth = displayCharCount * CHAR_WIDTH * pixelWithGap - displayCharCount * pixelGap;
-    const displaySpacing = (displayCharCount - 1) * letterSpacing * pixelSize;
+    const displayTextWidth = Math.round(displayCharCount * CHAR_WIDTH * pixelWithGap - displayCharCount * pixelGap);
+    const displaySpacing = Math.round((displayCharCount - 1) * letterSpacing * pixelSize);
     const displayAreaPixels = displayTextWidth + displaySpacing;
     
     // 最大偏移量（以像素為單位）
     const maxOffset = Math.max(0, totalTextPixels - displayAreaPixels);
     
-    // 循環長度：文字總長度 + 顯示區域長度（讓文字完全消失後再從頭開始出現）
-    // NOTE: 為了實現無縫滾動，循環長度應為文字的總像素長度。
-    // 原本的 `totalTextPixels + displayAreaPixels` 會在文字滾動完畢後產生一段空白，這與目前的渲染邏輯不符，導致跳動。
-    const cycleLength = totalTextPixels;
+    // 循環長度：應該是「文字總像素長度 + 與第一個字符之間的字距」，
+    // 這樣尾端與開頭之間會保持與字串內部相同的字距，達到無縫循環。
+    // 若僅使用 totalTextPixels，將缺少尾與頭之間的字距，造成在視覺上提早「重頭開始」。
+    const seamSpacingPixels = spacingPx;
+    const cycleLength = Math.max(1, totalTextPixels + seamSpacingPixels);
     
     return { 
       needsMarquee, 
@@ -401,7 +403,8 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
           if (marqueeOffsetFloatRef.current >= 1) {
             const inc = Math.floor(marqueeOffsetFloatRef.current);
             marqueeOffsetFloatRef.current -= inc;
-            setMarqueeOffset(prev => (prev + inc) % (marqueeData.cycleLength || 1));
+            // 不在 state 層做取模，避免可見的重置跳動；渲染時計算有效偏移
+            setMarqueeOffset(prev => prev + inc);
           }
         }
 
@@ -728,10 +731,10 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         
         // 預先計算所有字符的位置
         Array.from(currentTextBox).forEach((char, index) => {
-          const charWidth = getCharWidth(char);
+          const charWidth = Math.round(getCharWidth(char));
           characterPositions.push({
             char,
-            startX: accumulatedX,
+            startX: Math.round(accumulatedX),
             width: charWidth
           });
           
@@ -739,7 +742,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
           
           // 添加字符間距（最後一個字符不添加）
           if (index < currentTextBox.length - 1) {
-            accumulatedX += letterSpacing * pixelSize;
+            accumulatedX += Math.round(letterSpacing * pixelSize);
           }
         });
         
@@ -751,8 +754,8 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
           const currentPixelOffset = marqueeOffset;
           
           // 確保循環長度與動畫計時器一致
-          const cycleLength = marqueeData.cycleLength;
-          const effectiveOffset = currentPixelOffset % cycleLength;
+          const cycleLength = Math.max(1, Math.round(marqueeData.cycleLength));
+          const effectiveOffset = ((Math.round(currentPixelOffset) % cycleLength) + cycleLength) % cycleLength;
           
           // 遍歷所有字符，並為每個字符計算兩個實例的位置（一個跟著一個）
           characterPositions.forEach((charPos) => {
@@ -811,7 +814,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
           const pixelData = getCharacterPixelData(charInfo.char);
           
           // 計算字符的基礎位置（跑馬燈模式下無水平 padding）
-          const charBaseX = currentX + leftPaddingPixels + charInfo.offsetX;
+          const charBaseX = Math.round(currentX + leftPaddingPixels + charInfo.offsetX);
           
           // 為每個像素建立方塊（支援裁切）
           pixelData.forEach((row, rowIndex) => {
@@ -827,8 +830,8 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
                 
                 // 檢查是否需要裁切 - 基於最終位置和顯示區域邊界
                 let shouldRender = true;
-                const displayStartX = currentX + leftPaddingPixels;
-                const displayEndX = displayStartX + displayContentWidth;
+                const displayStartX = Math.round(currentX + leftPaddingPixels);
+                const displayEndX = Math.round(displayStartX + displayContentWidth);
                 
                 // 在跑馬燈模式下，文字可以滾動到邊界外
                 if (marqueeData.needsMarquee && (isMarqueeActive || marqueeOffset > 0)) {
