@@ -62,6 +62,16 @@ const meta = {
       options: ['contain', 'cover', 'fill'],
       description: '圖片填充模式（相當於 CSS object-fit）',
     },
+    hoverPixelToOne: {
+      control: 'boolean',
+      description: '滑鼠懸停時像素大小緩動至 1，移開恢復',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: false } },
+    },
+    hoverPixelDuration: {
+      control: { type: 'range', min: 0, max: 2000, step: 20 },
+      description: '滑鼠懸停像素補間動畫時長（毫秒）',
+      table: { type: { summary: 'number' }, defaultValue: { summary: 280 } },
+    },
   },
 } satisfies Meta<typeof PixelImage>;
 
@@ -85,6 +95,8 @@ export const Default: Story = {
   args: {
     src: demoImg,
     pixelSize: 6,
+    hoverPixelToOne: true,
+    hoverPixelDuration: 280,
     outline: true,
     normalEdgeStrength: 0.2,
     depthEdgeStrength: 0.3,

@@ -16,6 +16,10 @@ export interface PixelImageProps {
   src: string;
   /** 像素大小（數值越大越粗） */
   pixelSize?: number;
+  /** 滑鼠懸停時是否以補間動畫將像素大小緩動至 1，再移開恢復 */
+  hoverPixelToOne?: boolean;
+  /** 懸停像素補間動畫時長（毫秒） */
+  hoverPixelDuration?: number;
   /** 是否顯示像素外框 */
   outline?: boolean;
   /** 外框：法線邊緣強度（0~1 建議） */
@@ -43,6 +47,8 @@ export interface PixelImageProps {
 const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   src,
   pixelSize = 6,
+  hoverPixelToOne = false,
+  hoverPixelDuration = 280,
   outline = true,
   normalEdgeStrength = 0.2,
   depthEdgeStrength = 0.3,
@@ -70,6 +76,13 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const isVisibleRef = useRef<boolean>(true);
   const pixelSizeRef = useRef<number>(pixelSize);
+  const lastAppliedPixelRef = useRef<number>(Math.max(1, Math.floor(pixelSize)));
+  const isHoveredRef = useRef<boolean>(false);
+  const isAnimatingRef = useRef<boolean>(false);
+  const animStartRef = useRef<number>(0);
+  const animFromRef = useRef<number>(0);
+  const animToRef = useRef<number>(1);
+  const animDurationRef = useRef<number>(280);
 
   const [containerSize, setContainerSize] = useState<{ width: number; height: number }>({ width: 300, height: 200 });
   const containerSizeRef = useRef<{ width: number; height: number }>({ width: 300, height: 200 });
@@ -93,6 +106,25 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   const renderLoop = useCallback(() => {
     if (!rendererRef.current || !composerRef.current) return;
     rafRef.current = requestAnimationFrame(renderLoop);
+
+    // 動畫補間（僅在需要時運算）
+    const pass = pixelPassRef.current;
+    if (pass && isAnimatingRef.current) {
+      const now = performance.now();
+      const t = Math.min(1, (now - animStartRef.current) / Math.max(1, animDurationRef.current));
+      // easing: easeOutCubic
+      const k = 1 - Math.pow(1 - t, 3);
+      const current = animFromRef.current + (animToRef.current - animFromRef.current) * k;
+      const rounded = Math.max(1, Math.round(current));
+      if (rounded !== lastAppliedPixelRef.current) {
+        pass.setPixelSize(rounded);
+        lastAppliedPixelRef.current = rounded;
+      }
+      if (t >= 1) {
+        isAnimatingRef.current = false;
+      }
+    }
+
     composerRef.current.render();
   }, []);
 
@@ -139,6 +171,14 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
 
     planeRef.current.scale.set(targetW, targetH, 1);
   }, [objectFit]);
+
+  const computeEffectivePixel = useCallback((base: number) => {
+    const aw = Math.max(1, Math.floor(containerSizeRef.current.width));
+    const ah = Math.max(1, Math.floor(containerSizeRef.current.height));
+    const maxByW = Math.max(1, Math.floor(aw / 2));
+    const maxByH = Math.max(1, Math.floor(ah / 2));
+    return Math.max(1, Math.min(Math.floor(base), maxByW, maxByH));
+  }, []);
 
   const setupThree = useCallback((width: number, height: number) => {
     if (!canvasRef.current) return;
@@ -295,6 +335,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
       composer.setSize(width, height);
       composerRef.current = composer;
       pixelPassRef.current = pixelPass;
+      lastAppliedPixelRef.current = effectivePixel;
     }
   }, [edgeParams]);
 
@@ -404,23 +445,25 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     const pass = pixelPassRef.current;
     if (!renderer || !composer || !pass) return;
 
-    const aw = Math.max(1, Math.floor(containerSize.width));
-    const ah = Math.max(1, Math.floor(containerSize.height));
-    const maxByW = Math.max(1, Math.floor(aw / 2));
-    const maxByH = Math.max(1, Math.floor(ah / 2));
-    const effectivePixel = Math.max(1, Math.min(Math.floor(pixelSize), maxByW, maxByH));
+    const effectivePixel = computeEffectivePixel(pixelSize);
 
     pass.setPixelSize(effectivePixel);
+    lastAppliedPixelRef.current = effectivePixel;
 
     if (rafRef.current == null && isVisibleRef.current) {
       renderLoop();
     }
-  }, [pixelSize, containerSize.height, containerSize.width, renderLoop]);
+  }, [pixelSize, computeEffectivePixel, renderLoop]);
 
   // 追蹤最新的 pixelSize 供重建 pass 使用，但不觸發重建依賴
   useEffect(() => {
     pixelSizeRef.current = pixelSize;
   }, [pixelSize]);
+
+  // 追蹤動畫時長
+  useEffect(() => {
+    animDurationRef.current = Math.max(0, Math.floor(hoverPixelDuration || 0));
+  }, [hoverPixelDuration]);
 
   // objectFit 改變時重新配適圖片平面
   useEffect(() => {
@@ -443,6 +486,19 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     }
   }, [backgroundColor, renderLoop]);
 
+  // 滑鼠懸停動畫：事件處理與啟動補間
+  const startPixelAnimation = useCallback((toPixel: number) => {
+    const pass = pixelPassRef.current;
+    if (!hoverPixelToOne || !pass) return;
+    animFromRef.current = lastAppliedPixelRef.current;
+    animToRef.current = toPixel;
+    animStartRef.current = performance.now();
+    isAnimatingRef.current = true;
+    if (rafRef.current == null && isVisibleRef.current) {
+      renderLoop();
+    }
+  }, [hoverPixelToOne, renderLoop]);
+
   return (
     <div
       ref={(node) => {
@@ -453,6 +509,17 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
       }}
       className={`pixel-image ${className}`}
       style={{ width: '100%', height: '100%', position: 'relative', display: 'block' }}
+      onPointerEnter={() => {
+        if (!hoverPixelToOne) return;
+        isHoveredRef.current = true;
+        startPixelAnimation(1);
+      }}
+      onPointerLeave={() => {
+        if (!hoverPixelToOne) return;
+        isHoveredRef.current = false;
+        const backTo = computeEffectivePixel(pixelSizeRef.current);
+        startPixelAnimation(backTo);
+      }}
     >
       <canvas
         ref={canvasRef}
