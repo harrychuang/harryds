@@ -72,6 +72,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   const pixelSizeRef = useRef<number>(pixelSize);
 
   const [containerSize, setContainerSize] = useState<{ width: number; height: number }>({ width: 300, height: 200 });
+  const containerSizeRef = useRef<{ width: number; height: number }>({ width: 300, height: 200 });
 
   const edgeParams = useMemo(() => {
     return {
@@ -198,7 +199,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     planeRef.current = plane;
 
     updateCamera(width, height);
-  }, [backgroundColor, edgeParams, maxPixelRatio, updateCamera]);
+  }, [maxPixelRatio, updateCamera]);
 
   const disposeThree = useCallback(() => {
     stopLoop();
@@ -278,8 +279,8 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
       // EffectComposer 沒有提供 removePass 的型別定義，但實作上支援
       // 這裡直接重建 composer 以保守處理
       const renderer = rendererRef.current!;
-      const width = containerSize.width;
-      const height = containerSize.height;
+      const width = containerSizeRef.current.width;
+      const height = containerSizeRef.current.height;
       composerRef.current.dispose();
       const composer = new EffectComposer(renderer);
       // 以 CSS 尺寸限制像素大小
@@ -295,10 +296,11 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
       composerRef.current = composer;
       pixelPassRef.current = pixelPass;
     }
-  }, [containerSize.height, containerSize.width, edgeParams]);
+  }, [edgeParams]);
 
   const handleResize = useCallback((width: number, height: number) => {
     setContainerSize({ width, height });
+    containerSizeRef.current = { width, height };
     if (!rendererRef.current || !composerRef.current) return;
     rendererRef.current.setSize(width, height);
     composerRef.current.setSize(width, height);
@@ -426,6 +428,20 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     const img = textureRef.current.image as HTMLImageElement | { width: number; height: number };
     fitPlaneToContainer(img.width, img.height, containerSize.width, containerSize.height);
   }, [objectFit, containerSize.height, containerSize.width, fitPlaneToContainer]);
+
+  // 背景色即時更新，不重建場景/Composer
+  useEffect(() => {
+    const renderer = rendererRef.current;
+    if (!renderer) return;
+    if (backgroundColor) {
+      renderer.setClearColor(new THREE.Color(backgroundColor), 1);
+    } else {
+      renderer.setClearColor(0x000000, 0);
+    }
+    if (rafRef.current == null && isVisibleRef.current) {
+      renderLoop();
+    }
+  }, [backgroundColor, renderLoop]);
 
   return (
     <div
