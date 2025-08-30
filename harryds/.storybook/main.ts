@@ -4,12 +4,19 @@ import { resolve } from 'path';
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
   addons: [
+    // 將 Controls 放在最前，確保面板分頁排序第一
+    '@storybook/addon-controls',
+
+    // Essentials 其它功能照用，但關閉內含的 controls 以避免重複註冊
+    {
+      name: '@storybook/addon-essentials',
+      options: { controls: false },
+    },
+
     '@storybook/addon-links',
-    '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/addon-a11y',
     '@storybook/addon-docs',
-    '@storybook/addon-controls',
     '@storybook/addon-viewport',
   ],
   framework: {
