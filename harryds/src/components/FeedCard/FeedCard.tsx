@@ -3,7 +3,7 @@
 // 尺寸：hero(600)、med(500)、sm(400)、xs(240)；預設 padding 40，內容置左下
 // =============================================================================
 
-import React, { CSSProperties, forwardRef } from 'react';
+import React, { CSSProperties, forwardRef, useState } from 'react';
 import { PixelImage } from '../PixelImage';
 import type { PixelImageProps } from '../PixelImage';
 import './FeedCard.scss';
@@ -48,6 +48,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   children,
   style,
 }, ref) => {
+  const [isHovered, setIsHovered] = useState(false);
   const computedHeight = Math.max(1, Math.floor(height ?? SIZE_TO_HEIGHT[size]));
 
   // 以 CSS 變數傳遞 padding，樣式中使用 var(--feed-card-padding)
@@ -82,9 +83,11 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
       ref={ref}
       className={`feed-card size-${size} ${className}`.trim()}
       style={rootStyle}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <div className="feed-card__bg">
-        <PixelImage src={src} {...mergedBgProps} />
+        <PixelImage src={src} hoverActive={isHovered} {...mergedBgProps} />
       </div>
 
       <div className="feed-card__overlay">

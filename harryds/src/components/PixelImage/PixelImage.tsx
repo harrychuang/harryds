@@ -48,9 +48,11 @@ export interface PixelImageProps {
   onLoad?: () => void;
   /** 載入失敗回呼 */
   onError?: (error: unknown) => void;
+  /** 由父元件控制的 hover 狀態，為 true 時觸發 hoverPixelToOne 的行為 */
+  hoverActive?: boolean;
 }
 
-const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
+const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({ 
   src,
   pixelSize = 80,
   hoverPixelToOne = false,
@@ -68,6 +70,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   className = '',
   onLoad,
   onError,
+  hoverActive,
 }, ref) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -547,6 +550,50 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     }
   }, [desaturateUntilHover, hoverPixelToOne, renderLoop]);
 
+  // 滑鼠懸停動畫：事件處理與啟動補間（提前定義，供後續 effect 與事件使用）
+  const startPixelAnimation = useCallback((toPixel: number, toMaskOpacity: number) => {
+    const pass = pixelPassRef.current;
+    if (!hoverPixelToOne || !pass) return;
+    animFromRef.current = lastAppliedPixelRef.current;
+    animToRef.current = toPixel;
+    maskFromRef.current = lastAppliedMaskOpacityRef.current;
+    maskToRef.current = Math.max(0, Math.min(1, toMaskOpacity));
+    animStartRef.current = performance.now();
+    isAnimatingRef.current = true;
+    if (rafRef.current == null && isVisibleRef.current) {
+      renderLoop();
+    }
+  }, [hoverPixelToOne, renderLoop]);
+
+  // 父層控制的 hoverActive：模擬指標事件以驅動像素與遮罩/彩度
+  useEffect(() => {
+    if (!hoverPixelToOne) return;
+    const isActive = !!hoverActive;
+    isHoveredRef.current = isActive;
+    if (isActive) {
+      // 進入行為
+      if (desaturateUntilHover && maskRef.current) {
+        maskRef.current.style.background = maskColor;
+      }
+      const targetMaskOpacity = desaturateUntilHover ? 0.85 : Math.max(0, Math.min(1, maskOpacity));
+      startPixelAnimation(1, targetMaskOpacity);
+      if (desaturateUntilHover && saturationPassRef.current) {
+        saturationPassRef.current.uniforms['saturation'].value = 0;
+      }
+    } else {
+      // 離開行為
+      const backTo = computeEffectivePixel(pixelSizeRef.current);
+      if (desaturateUntilHover && maskRef.current) {
+        maskRef.current.style.background = '#ffffff';
+      }
+      const targetMaskOpacity = desaturateUntilHover ? 0.85 : 0;
+      startPixelAnimation(backTo, targetMaskOpacity);
+      if (desaturateUntilHover && saturationPassRef.current) {
+        saturationPassRef.current.uniforms['saturation'].value = -1;
+      }
+    }
+  }, [hoverActive, hoverPixelToOne, desaturateUntilHover, maskColor, maskOpacity, startPixelAnimation, computeEffectivePixel]);
+
   // desaturateUntilHover 開啟時：預設遮罩為白色 0.85；否則預設不顯示遮罩
   useEffect(() => {
     const node = maskRef.current;
@@ -566,20 +613,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     }
   }, [desaturateUntilHover, maskColor]);
 
-  // 滑鼠懸停動畫：事件處理與啟動補間
-  const startPixelAnimation = useCallback((toPixel: number, toMaskOpacity: number) => {
-    const pass = pixelPassRef.current;
-    if (!hoverPixelToOne || !pass) return;
-    animFromRef.current = lastAppliedPixelRef.current;
-    animToRef.current = toPixel;
-    maskFromRef.current = lastAppliedMaskOpacityRef.current;
-    maskToRef.current = Math.max(0, Math.min(1, toMaskOpacity));
-    animStartRef.current = performance.now();
-    isAnimatingRef.current = true;
-    if (rafRef.current == null && isVisibleRef.current) {
-      renderLoop();
-    }
-  }, [hoverPixelToOne, renderLoop]);
+  
 
   return (
     <div

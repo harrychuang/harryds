@@ -10,6 +10,7 @@
   max-width: 1600px;
   overflow: hidden;
   border-radius: 0; // 交由外部決定
+  cursor: pointer;
 
   // 使用 CSS 變數控制 padding
   --feed-card-padding: 40px;
