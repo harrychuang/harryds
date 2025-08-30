@@ -342,7 +342,7 @@ export const Default: Story = {
     animated: true,
     durationTime: 500,
     animationDelay: 120,
-    easeGlitch: true,
+    easeGlitch: false,
     primaryColor: '#000000',
     onPrimaryColor: '#FFFFFF',
     pixelSize: 4,

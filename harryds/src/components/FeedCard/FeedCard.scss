@@ -1,0 +1,50 @@
+// =============================================================================
+// FEED CARD 樣式
+// - 滿寬（max-width 1600px）
+// - 內容置左下，預設 padding: 40px（可由 CSS 變數覆寫）
+// =============================================================================
+
+.feed-card {
+  position: relative;
+  width: 100%;
+  max-width: 1600px;
+  overflow: hidden;
+  border-radius: 0; // 交由外部決定
+
+  // 使用 CSS 變數控制 padding
+  --feed-card-padding: 40px;
+
+  .feed-card__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none; // 背景不攔截互動
+
+    // 讓 PixelImage 填滿容器
+    > .pixel-image {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .feed-card__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: var(--feed-card-padding);
+  }
+
+  .feed-card__content {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// 高度由行為層決定；此處保留尺寸樣式掛勾
+.feed-card.size-hero {}
+.feed-card.size-med {}
+.feed-card.size-sm {}
+.feed-card.size-xs {}
+
+

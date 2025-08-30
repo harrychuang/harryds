@@ -12,3 +12,6 @@ export type { PixelTextProps } from './PixelText';
 // export type { ButtonProps } from './Button';
 export { PixelImage } from './PixelImage';
 export type { PixelImageProps, PixelImageObjectFit } from './PixelImage';
+// FeedCard - 以 PixelImage 作為背景的卡片
+export { FeedCard } from './FeedCard';
+export type { FeedCardProps, FeedCardSize } from './FeedCard';
