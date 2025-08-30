@@ -8,6 +8,8 @@ import * as THREE from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPixelatedPass } from 'three/examples/jsm/postprocessing/RenderPixelatedPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { HueSaturationShader } from 'three/examples/jsm/shaders/HueSaturationShader.js';
 
 export type PixelImageObjectFit = 'cover' | 'contain' | 'fill';
 
@@ -20,6 +22,8 @@ export interface PixelImageProps {
   hoverPixelToOne?: boolean;
   /** 懸停像素補間動畫時長（毫秒） */
   hoverPixelDuration?: number;
+  /** 是否在非 hover 狀態將彩度降至最低（灰階），hover 時恢復色彩（需搭配 hoverPixelToOne 啟用） */
+  desaturateUntilHover?: boolean;
   /** 是否顯示像素外框 */
   outline?: boolean;
   /** 外框：法線邊緣強度（0~1 建議） */
@@ -30,12 +34,14 @@ export interface PixelImageProps {
   normalTolerance?: number;
   /** 外框：深度容差（越小越敏感） */
   depthTolerance?: number;
-  /** 背景色（預設透明） */
-  backgroundColor?: string;
   /** DPR 上限，避免行動裝置過高像素比造成負擔 */
   maxPixelRatio?: number;
   /** 尺寸配置：圖片如何填滿容器 */
   objectFit?: PixelImageObjectFit;
+  /** 遮罩顏色（覆蓋在 canvas 之上） */
+  maskColor?: string;
+  /** 遮罩不透明度（hover 時補間到此值，0~1） */
+  maskOpacity?: number;
   /** 額外 CSS 類名 */
   className?: string;
   /** 載入成功回呼 */
@@ -48,21 +54,24 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   src,
   pixelSize = 80,
   hoverPixelToOne = false,
-  hoverPixelDuration = 280,
+  hoverPixelDuration = 500,
+  desaturateUntilHover = true,
   outline = true,
   normalEdgeStrength = 0.2,
   depthEdgeStrength = 0.3,
   normalTolerance = 0.2,
   depthTolerance = 0.1,
-  backgroundColor,
   maxPixelRatio = 1.5,
   objectFit = 'cover',
+  maskColor = '#1B2350',
+  maskOpacity = 0.85,
   className = '',
   onLoad,
   onError,
 }, ref) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const maskRef = useRef<HTMLDivElement | null>(null);
 
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const composerRef = useRef<EffectComposer | null>(null);
@@ -72,6 +81,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   const planeRef = useRef<THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial> | null>(null);
   const textureRef = useRef<THREE.Texture | null>(null);
   const pixelPassRef = useRef<RenderPixelatedPass | null>(null);
+  const saturationPassRef = useRef<ShaderPass | null>(null);
   const rafRef = useRef<number | null>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const isVisibleRef = useRef<boolean>(true);
@@ -83,6 +93,9 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   const animFromRef = useRef<number>(0);
   const animToRef = useRef<number>(1);
   const animDurationRef = useRef<number>(280);
+  const maskFromRef = useRef<number>(0);
+  const maskToRef = useRef<number>(0);
+  const lastAppliedMaskOpacityRef = useRef<number>(0);
 
   const [containerSize, setContainerSize] = useState<{ width: number; height: number }>({ width: 300, height: 200 });
   const containerSizeRef = useRef<{ width: number; height: number }>({ width: 300, height: 200 });
@@ -119,6 +132,15 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
       if (rounded !== lastAppliedPixelRef.current) {
         pass.setPixelSize(rounded);
         lastAppliedPixelRef.current = rounded;
+      }
+      // 遮罩淡入/淡出
+      const maskNode = maskRef.current;
+      if (maskNode) {
+        const maskValue = Math.max(0, Math.min(1, maskFromRef.current + (maskToRef.current - maskFromRef.current) * k));
+        if (Math.abs(maskValue - lastAppliedMaskOpacityRef.current) > 0.005) {
+          maskNode.style.opacity = String(maskValue);
+          lastAppliedMaskOpacityRef.current = maskValue;
+        }
       }
       if (t >= 1) {
         isAnimatingRef.current = false;
@@ -197,11 +219,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.NoToneMapping;
     renderer.toneMappingExposure = 1;
-    if (backgroundColor) {
-      renderer.setClearColor(new THREE.Color(backgroundColor), 1);
-    } else {
-      renderer.setClearColor(0x000000, 0);
-    }
+    renderer.setClearColor(0x000000, 0);
 
     // scene & camera
     const scene = new THREE.Scene();
@@ -227,6 +245,12 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     const composer = new EffectComposer(renderer);
     const pixelPass = new RenderPixelatedPass(effectivePixel, scene, camera, edgeParams);
     composer.addPass(pixelPass);
+    // 彩度處理（預設可能灰階，hover 時回到原色）
+    const satPass = new ShaderPass(HueSaturationShader);
+    // Hue 不調整，僅調整 Saturation：-1 完全去彩，0 原色
+    satPass.uniforms['hue'].value = 0;
+    satPass.uniforms['saturation'].value = desaturateUntilHover ? -1 : 0;
+    composer.addPass(satPass);
     // 後處理鏈色彩收尾（線性 → sRGB）
     composer.addPass(new OutputPass());
 
@@ -236,10 +260,11 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     cameraRef.current = camera;
     composerRef.current = composer;
     pixelPassRef.current = pixelPass;
+    saturationPassRef.current = satPass;
     planeRef.current = plane;
 
     updateCamera(width, height);
-  }, [maxPixelRatio, updateCamera]);
+  }, [updateCamera]);
 
   const disposeThree = useCallback(() => {
     stopLoop();
@@ -278,6 +303,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     planeRef.current = null;
     cameraRef.current = null;
     pixelPassRef.current = null;
+    saturationPassRef.current = null;
   }, [stopLoop]);
 
   const loadTexture = useCallback(async (url: string) => {
@@ -331,10 +357,15 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
       const effectivePixel = Math.max(1, Math.min(Math.floor(pixelSizeRef.current), maxByW, maxByH));
       const pixelPass = new RenderPixelatedPass(effectivePixel, sceneRef.current, cameraRef.current, edgeParams);
       composer.addPass(pixelPass);
+      const satPass = new ShaderPass(HueSaturationShader);
+      satPass.uniforms['hue'].value = 0;
+      satPass.uniforms['saturation'].value = desaturateUntilHover ? -1 : 0;
+      composer.addPass(satPass);
       composer.addPass(new OutputPass());
       composer.setSize(width, height);
       composerRef.current = composer;
       pixelPassRef.current = pixelPass;
+      saturationPassRef.current = satPass;
       lastAppliedPixelRef.current = effectivePixel;
     }
   }, [edgeParams]);
@@ -463,6 +494,12 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   // 追蹤動畫時長
   useEffect(() => {
     animDurationRef.current = Math.max(0, Math.floor(hoverPixelDuration || 0));
+    // 同步更新遮罩 transition（顏色與不透明度）
+    const node = maskRef.current;
+    if (node) {
+      const ms = Math.max(0, Math.floor(hoverPixelDuration || 0));
+      node.style.transition = `opacity ${ms}ms cubic-bezier(0.215, 0.61, 0.355, 1), background-color ${ms}ms cubic-bezier(0.215, 0.61, 0.355, 1)`;
+    }
   }, [hoverPixelDuration]);
 
   // objectFit 改變時重新配適圖片平面
@@ -472,26 +509,71 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     fitPlaneToContainer(img.width, img.height, containerSize.width, containerSize.height);
   }, [objectFit, containerSize.height, containerSize.width, fitPlaneToContainer]);
 
-  // 背景色即時更新，不重建場景/Composer
+  // 不再支援背景色設定，renderer 維持透明背景
+
+  // 當 maxPixelRatio 在執行期改變時，安全地更新 renderer DPR 與尺寸
   useEffect(() => {
     const renderer = rendererRef.current;
-    if (!renderer) return;
-    if (backgroundColor) {
-      renderer.setClearColor(new THREE.Color(backgroundColor), 1);
-    } else {
-      renderer.setClearColor(0x000000, 0);
-    }
+    const composer = composerRef.current;
+    if (!renderer || !composer) return;
+    const safeMaxPR = Number.isFinite(maxPixelRatio as number)
+      ? Math.max(0.1, maxPixelRatio as number)
+      : 1.5;
+    const ratio = Math.min(window.devicePixelRatio || 1, safeMaxPR);
+    renderer.setPixelRatio(ratio);
+    const { width, height } = containerSizeRef.current;
+    renderer.setSize(width, height, false);
+    composer.setSize(width, height);
     if (rafRef.current == null && isVisibleRef.current) {
       renderLoop();
     }
-  }, [backgroundColor, renderLoop]);
+  }, [maxPixelRatio, renderLoop]);
+
+  // 根據 desaturateUntilHover 與 hover 狀態設定彩度
+  useEffect(() => {
+    const satPass = saturationPassRef.current;
+    if (!satPass) return;
+    // 當 desaturateUntilHover 為真時：
+    //   - 若啟用 hoverPixelToOne 且目前為 hover 狀態，彩度為 0（原色）
+    //   - 否則彩度為 -1（灰階）
+    // 當 desaturateUntilHover 為假時，彩度始終為 0（原色）
+    const shouldBeColor = desaturateUntilHover ? (hoverPixelToOne && isHoveredRef.current) : true;
+    const targetSat = shouldBeColor ? 0 : -1;
+    if (satPass.uniforms['saturation'].value !== targetSat) {
+      satPass.uniforms['saturation'].value = targetSat;
+      if (rafRef.current == null && isVisibleRef.current) {
+        renderLoop();
+      }
+    }
+  }, [desaturateUntilHover, hoverPixelToOne, renderLoop]);
+
+  // desaturateUntilHover 開啟時：預設遮罩為白色 0.85；否則預設不顯示遮罩
+  useEffect(() => {
+    const node = maskRef.current;
+    if (!node) return;
+    if (desaturateUntilHover) {
+      node.style.background = '#ffffff';
+      node.style.opacity = '0.85';
+      lastAppliedMaskOpacityRef.current = 0.85;
+      maskFromRef.current = 0.85;
+      maskToRef.current = 0.85;
+    } else {
+      node.style.background = maskColor || '#000000';
+      node.style.opacity = '0';
+      lastAppliedMaskOpacityRef.current = 0;
+      maskFromRef.current = 0;
+      maskToRef.current = 0;
+    }
+  }, [desaturateUntilHover, maskColor]);
 
   // 滑鼠懸停動畫：事件處理與啟動補間
-  const startPixelAnimation = useCallback((toPixel: number) => {
+  const startPixelAnimation = useCallback((toPixel: number, toMaskOpacity: number) => {
     const pass = pixelPassRef.current;
     if (!hoverPixelToOne || !pass) return;
     animFromRef.current = lastAppliedPixelRef.current;
     animToRef.current = toPixel;
+    maskFromRef.current = lastAppliedMaskOpacityRef.current;
+    maskToRef.current = Math.max(0, Math.min(1, toMaskOpacity));
     animStartRef.current = performance.now();
     isAnimatingRef.current = true;
     if (rafRef.current == null && isVisibleRef.current) {
@@ -510,20 +592,48 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
       className={`pixel-image ${className}`}
       style={{ width: '100%', height: '100%', position: 'relative', display: 'block' }}
       onPointerEnter={() => {
-        if (!hoverPixelToOne) return;
-        isHoveredRef.current = true;
-        startPixelAnimation(1);
+        if (hoverPixelToOne) {
+          isHoveredRef.current = true;
+          // 進入時：若灰階模式啟用，僅改變遮罩顏色為目標色，不調整不透明度（維持 0.85）
+          if (desaturateUntilHover && maskRef.current) {
+            maskRef.current.style.background = maskColor;
+          }
+          const targetMaskOpacity = desaturateUntilHover ? 0.85 : Math.max(0, Math.min(1, maskOpacity));
+          startPixelAnimation(1, targetMaskOpacity);
+          if (desaturateUntilHover && saturationPassRef.current) {
+            saturationPassRef.current.uniforms['saturation'].value = 0;
+          }
+        }
       }}
       onPointerLeave={() => {
-        if (!hoverPixelToOne) return;
-        isHoveredRef.current = false;
-        const backTo = computeEffectivePixel(pixelSizeRef.current);
-        startPixelAnimation(backTo);
+        if (hoverPixelToOne) {
+          isHoveredRef.current = false;
+          const backTo = computeEffectivePixel(pixelSizeRef.current);
+          // 離開時：若灰階模式啟用，遮罩顏色恢復為白色，維持 0.85
+          if (desaturateUntilHover && maskRef.current) {
+            maskRef.current.style.background = '#ffffff';
+          }
+          const targetMaskOpacity = desaturateUntilHover ? 0.85 : 0;
+          startPixelAnimation(backTo, targetMaskOpacity);
+          if (desaturateUntilHover && saturationPassRef.current) {
+            saturationPassRef.current.uniforms['saturation'].value = -1;
+          }
+        }
       }}
     >
       <canvas
         ref={canvasRef}
         style={{ width: '100%', height: '100%', display: 'block' }}
+      />
+      <div
+        ref={maskRef}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: maskColor,
+          opacity: 0,
+          pointerEvents: 'none',
+        }}
       />
     </div>
   );

@@ -53,9 +53,20 @@ const meta = {
       control: { type: 'range', min: 0, max: 1, step: 0.01 },
       description: '外框：深度容差',
     },
-    backgroundColor: {
+    maxPixelRatio: {
+      control: { type: 'range', min: 0.5, max: 4, step: 0.25 },
+      description: 'DPR 上限（避免行動裝置過高像素比造成負擔）',
+      table: { type: { summary: 'number' }, defaultValue: { summary: 1.5 } },
+    },
+    maskColor: {
       control: 'color',
-      description: '背景色（預設透明）',
+      description: '遮罩顏色（不含透明度）',
+      table: { type: { summary: 'string' }, defaultValue: { summary: '#1B2350' } },
+    },
+    maskOpacity: {
+      control: { type: 'range', min: 0, max: 1, step: 0.01 },
+      description: '遮罩不透明度（hover 補間到此值）',
+      table: { type: { summary: 'number' }, defaultValue: { summary: 0.85 } },
     },
     objectFit: {
       control: { type: 'radio' },
@@ -70,7 +81,13 @@ const meta = {
     hoverPixelDuration: {
       control: { type: 'range', min: 0, max: 2000, step: 20 },
       description: '滑鼠懸停像素補間動畫時長（毫秒）',
-      table: { type: { summary: 'number' }, defaultValue: { summary: 280 } },
+      table: { type: { summary: 'number' }, defaultValue: { summary: 500 } },
+    },
+    desaturateUntilHover: {
+      control: 'boolean',
+      description:
+        '非 hover 狀態將彩度降至最低（灰階），當 hoverPixelToOne 開啟且滑鼠懸停時恢復原色',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: true } },
     },
   },
 } satisfies Meta<typeof PixelImage>;
@@ -95,17 +112,21 @@ export const Default: Story = {
     src: demoImg,
     pixelSize: 80,
     hoverPixelToOne: true,
-    hoverPixelDuration: 280,
+    hoverPixelDuration: 500,
+    desaturateUntilHover: true,
     outline: true,
     normalEdgeStrength: 0.2,
     depthEdgeStrength: 0.3,
     normalTolerance: 0.2,
     depthTolerance: 0.1,
     objectFit: 'cover',
+    maskColor: '#1B2350',
+    maskOpacity: 0.85,
+    maxPixelRatio: 1.5,
   },
 };
 
-export const Cover: Story = {
+export const DesaturateUntilHover: Story = {
   render: (args) => (
     <div style={containerStyle}>
       <PixelImage {...args} />
@@ -113,23 +134,15 @@ export const Cover: Story = {
   ),
   args: {
     src: demoImg,
-    pixelSize: 8,
+    pixelSize: 40,
     outline: true,
     objectFit: 'cover',
-  },
-};
-
-export const NoOutline: Story = {
-  render: (args) => (
-    <div style={containerStyle}>
-      <PixelImage {...args} />
-    </div>
-  ),
-  args: {
-    src: demoImg,
-    pixelSize: 10,
-    outline: false,
-    objectFit: 'contain',
+    hoverPixelToOne: true,
+    hoverPixelDuration: 500,
+    desaturateUntilHover: true,
+    maskColor: '#1B2350',
+    maskOpacity: 0.85,
+    maxPixelRatio: 1.5,
   },
 };
 
