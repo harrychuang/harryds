@@ -3,6 +3,11 @@
 // - 排版：垂直堆疊，行距緊湊，顏色可由外部覆寫
 // =============================================================================
 
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
 .feed-card-info {
   display: flex;
   flex-direction: column;

@@ -3,7 +3,7 @@
 // - 顯示：二進位編號 (PixelText) / 標題 / 日期 / 標籤 (PixelText text-box)
 // =============================================================================
 
-import { forwardRef, useContext, useMemo, memo } from 'react';
+import { forwardRef, useContext, useMemo, memo, useState, useEffect, useRef } from 'react';
 import { PixelText } from '../PixelText';
 import { CHAR_WIDTH, CHAR_HEIGHT } from '../PixelText';
 import './FeedCardInfo.scss';
@@ -126,6 +126,65 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
   const computedDateRange = data?.date ?? '';
   const computedTags = data?.tags ?? [];
 
+  // 打字動畫狀態
+  const [displayedChars, setDisplayedChars] = useState(0);
+  const [flashingCharIndex, setFlashingCharIndex] = useState(-1);
+  const typewriterTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const flashTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 打字動畫效果
+  useEffect(() => {
+    if (typewriterTimeoutRef.current) {
+      clearTimeout(typewriterTimeoutRef.current);
+    }
+    if (flashTimeoutRef.current) {
+      clearTimeout(flashTimeoutRef.current);
+    }
+
+    if (isHovered && computedHeading) {
+      // hover 時啟動打字動畫
+      setDisplayedChars(0);
+      setFlashingCharIndex(-1);
+      
+      const typeCharacter = (charIndex: number) => {
+        if (charIndex <= computedHeading.length) {
+          setDisplayedChars(charIndex);
+          
+          // 如果是新字符，觸發閃爍效果
+          if (charIndex > 0 && charIndex <= computedHeading.length) {
+            setFlashingCharIndex(charIndex - 1);
+            // 200ms 後停止閃爍
+            flashTimeoutRef.current = setTimeout(() => {
+              setFlashingCharIndex(-1);
+            }, 200);
+          }
+          
+          if (charIndex < computedHeading.length) {
+            typewriterTimeoutRef.current = setTimeout(() => typeCharacter(charIndex + 1), 10);
+          }
+        }
+      };
+      
+      typeCharacter(0);
+    } else {
+      // 非 hover 時立即顯示完整文字
+      setDisplayedChars(computedHeading.length);
+      setFlashingCharIndex(-1);
+    }
+
+    return () => {
+      if (typewriterTimeoutRef.current) {
+        clearTimeout(typewriterTimeoutRef.current);
+      }
+      if (flashTimeoutRef.current) {
+        clearTimeout(flashTimeoutRef.current);
+      }
+    };
+  }, [isHovered, computedHeading]);
+
+  // 顯示的文字內容
+  const displayedHeading = isHovered ? computedHeading.slice(0, displayedChars) : computedHeading;
+
   const idText = useMemo(() => padTo8Bits(computedIndex), [computedIndex]);
   // 將標籤映射為「符號 + 原文字」，並以單一空白分隔各組
   const TAG_SYMBOL_MAP: Record<string, string> = {
@@ -206,8 +265,36 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
         </div>
       </div>
 
-      <div className="feed-card-info__heading" style={{ fontSize: isHovered ? headingPx * 1.2 : headingPx, color: isHovered ? primaryColor : basePrimary, transition: 'color 300ms ease, font-size 300ms ease' }}>
-        {computedHeading}
+      <div className="feed-card-info__heading" style={{ fontSize: isHovered ? headingPx * 1.2 : headingPx, color: isHovered ? primaryColor : basePrimary, transition: 'color 300ms ease, font-size 150ms ease' }}>
+        {isHovered ? (
+          <>
+            {Array.from(displayedHeading).map((char, index) => (
+              <span
+                key={index}
+                style={{
+                  opacity: flashingCharIndex === index ? 0 : 1,
+                  transition: 'opacity 60ms ease',
+                }}
+              >
+                {char}
+              </span>
+            ))}
+            {displayedChars < computedHeading.length && (
+              <span 
+                style={{ 
+                  animation: 'cursor-blink 1s infinite', 
+                  marginLeft: '2px',
+                  fontSize: 'inherit',
+                  color: 'inherit'
+                }}
+              >
+                _
+              </span>
+            )}
+          </>
+        ) : (
+          displayedHeading
+        )}
       </div>
       <div className="feed-card-info__date">
         <div className="fade-stack" style={{ width: dateCanvas.width, height: dateCanvas.height }}>
