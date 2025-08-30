@@ -65,7 +65,7 @@ export const Hero: Story = {
           index={1}
           heading="Heading"
           dateRange="July 24, 2025 - June 25, 2026"
-          tags={["UI", "UX", "DEV", "ARTICLE", "DESIGN SYSTEM"]}
+          tags={["UI", "UX", "DEV"]}
         />
       </div>
     ),

@@ -133,7 +133,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
   datePixelSize,
   tagsPixelSize,
   headingFontSize,
-  tagsTextBoxPadding = 4,
+  tagsTextBoxPadding = 5,
 }, ref) => {
   const idText = useMemo(() => padTo8Bits(index), [index]);
   // 將標籤映射為「符號 + 原文字」，並以單一空白分隔各組

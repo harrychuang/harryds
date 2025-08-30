@@ -17,7 +17,7 @@
     font-size: 28px;
     font-weight: 900;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.2;
+    line-height: 1;
     text-transform: uppercase;
   }
 
@@ -28,6 +28,34 @@
 
   .feed-card-info__tags {
     line-height: 1;
+  }
+}
+
+.size-hero {
+  gap: 8px;
+  .feed-card-info__id {
+    margin-bottom: -8px;
+  }
+}
+
+.size-med {
+  gap: 8px;
+  .feed-card-info__id {
+    margin-bottom: -8px;
+  }
+}
+
+.size-sm {
+  gap: 6px;
+  .feed-card-info__id {
+    margin-bottom: -4px;
+  }
+}
+
+.size-xs {
+  gap: 4px;
+  .feed-card-info__id {
+    margin-bottom: -2px;
   }
 }
 
