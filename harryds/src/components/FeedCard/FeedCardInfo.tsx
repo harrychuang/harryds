@@ -206,7 +206,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
         </div>
       </div>
 
-      <div className="feed-card-info__heading" style={{ fontSize: headingPx, color: isHovered ? primaryColor : basePrimary, transition: 'color 300ms ease' }}>
+      <div className="feed-card-info__heading" style={{ fontSize: isHovered ? headingPx * 1.2 : headingPx, color: isHovered ? primaryColor : basePrimary, transition: 'color 300ms ease, font-size 300ms ease' }}>
         {computedHeading}
       </div>
       <div className="feed-card-info__date">
