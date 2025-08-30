@@ -3,7 +3,7 @@
 // - 顯示：二進位編號 (PixelText) / 標題 / 日期 / 標籤 (PixelText text-box)
 // =============================================================================
 
-import React, { CSSProperties, forwardRef, useMemo } from 'react';
+import { CSSProperties, forwardRef, useMemo } from 'react';
 import { PixelText } from '../PixelText';
 import { CHAR_WIDTH, CHAR_HEIGHT } from '../PixelText';
 import './FeedCardInfo.scss';
@@ -43,6 +43,9 @@ export interface FeedCardInfoProps {
   datePixelSize?: number;
   tagsPixelSize?: number;
   headingFontSize?: number; // px
+
+  /** 標籤 text-box 的 padding（以 pixelSize 倍數），同時影響畫布尺寸與 PixelText */
+  tagsTextBoxPadding?: number;
 }
 
 const padTo8Bits = (n: number): string => {
@@ -106,9 +109,9 @@ const computeTextBoxCanvasSize = (
 };
 
 const SIZE_PRESETS: Record<FeedCardSize, { id: number; headingPx: number; date: number; tags: number }> = {
-  hero: { id: 4, headingPx: 120, date: 2, tags: 1 },
-  med:  { id: 4, headingPx: 80,  date: 2, tags: 1 },
-  sm:   { id: 2, headingPx: 46,  date: 1, tags: 1 },
+  hero: { id: 4, headingPx: 120, date: 3, tags: 2 },
+  med:  { id: 4, headingPx: 80,  date: 3, tags: 2 },
+  sm:   { id: 2, headingPx: 46,  date: 2, tags: 1 },
   xs:   { id: 1, headingPx: 30,  date: 1, tags: 1 },
 };
 
@@ -130,9 +133,27 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
   datePixelSize,
   tagsPixelSize,
   headingFontSize,
+  tagsTextBoxPadding = 4,
 }, ref) => {
   const idText = useMemo(() => padTo8Bits(index), [index]);
-  const tagsText = useMemo(() => (tags || []).join(', '), [tags]);
+  // 將標籤映射為「符號 + 原文字」，並以單一空白分隔各組
+  const TAG_SYMBOL_MAP: Record<string, string> = {
+    'UI': '▲',
+    'UX': '●',
+    'DEV': '◆',
+    'ARTICLE': '+',
+    'DESIGN SYSTEM': '◼',
+  };
+  const tagsDisplayText = useMemo(() => {
+    const list = Array.isArray(tags) ? tags : [];
+    return list
+      .map((original) => {
+        const key = original.trim().toUpperCase();
+        const symbol = TAG_SYMBOL_MAP[key] || '';
+        return symbol ? `${symbol} ${original}` : original;
+      })
+      .join('/');
+  }, [tags]);
   const sizePreset = SIZE_PRESETS[size];
 
   const idPx = idPixelSize ?? sizePreset.id;
@@ -144,8 +165,16 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
   const idCanvas = useMemo(() => computeTextCanvasSize(idText, idPx, pixelGap, letterSpacing), [idText, idPx, pixelGap, letterSpacing]);
   const dateCanvas = useMemo(() => computeTextCanvasSize(dateRange, datePx, pixelGap, letterSpacing), [dateRange, datePx, pixelGap, letterSpacing]);
   // text-box 以內容長度作為 box 寬度容量，避免裁切；最少 6 個字元寬
-  const textBoxWidth = Math.max(6, tagsText.length);
-  const tagCanvas = useMemo(() => computeTextBoxCanvasSize(textBoxWidth, tagsPx, pixelGap, letterSpacing, 2), [textBoxWidth, tagsPx, pixelGap, letterSpacing]);
+  const textBoxWidth = Math.max(6, tagsDisplayText.length);
+  const tagCanvas = useMemo(() => (
+    computeTextBoxCanvasSize(
+      textBoxWidth,
+      tagsPx,
+      pixelGap,
+      letterSpacing,
+      tagsTextBoxPadding,
+    )
+  ), [textBoxWidth, tagsPx, pixelGap, letterSpacing, tagsTextBoxPadding]);
 
   return (
     <div ref={ref} className={`feed-card-info size-${size} ${className}`.trim()} style={style}>
@@ -180,11 +209,12 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
 
       <div className="feed-card-info__tags">
         <PixelText
+          text=""
           textEnabled={false}
           textBoxEnabled
-          textBox={tagsText}
+          textBox={tagsDisplayText}
           textBoxWidth={textBoxWidth}
-          textBoxPadding={2}
+          textBoxPadding={tagsTextBoxPadding}
           pixelSize={tagsPx}
           pixelGap={pixelGap}
           letterSpacing={letterSpacing}
@@ -192,7 +222,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
           onPrimaryColor={tagOnPrimaryColor}
           width={tagCanvas.width}
           height={tagCanvas.height}
-          marqueeEnabled
+          spaceWidth={3}
         />
       </div>
     </div>

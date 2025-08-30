@@ -173,13 +173,9 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       const boxSpacing = Math.max(0, boxCharCount - 1) * letterSpacing;
       const boxContentWidth = boxCharWidth + boxSpacing * pixelSize;
       
-      // 根據是否需要跑馬燈決定 padding（右邊 padding 比左邊少一個像素）
-      const needsMarquee = marqueeEnabled && 
-                          textBoxEnabled && 
-                          currentTextBox && 
-                          currentTextBox.length > textBoxWidth;
-      const leftPadding = needsMarquee ? 0 : textBoxPadding * pixelSize;
-      const rightPadding = needsMarquee ? 0 : Math.max(0, textBoxPadding * pixelSize - pixelSize);
+      // 計算 padding（右邊 padding 比左邊少一個像素以保持像素對齊）
+      const leftPadding = textBoxPadding * pixelSize;
+      const rightPadding = Math.max(0, textBoxPadding * pixelSize - pixelSize);
       const horizontalPadding = leftPadding + rightPadding;
       
       // 加入 padding
@@ -695,11 +691,11 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         ? totalContentWidth
         : Math.min(totalContentWidth, actualContentWidth || 0);
       
-      // 計算包含 padding 的背景尺寸（跑馬燈模式下左右 padding 為 0）
+      // 計算包含 padding 的背景尺寸（跑馬燈模式下也保留 padding）
       const verticalPaddingPixels = textBoxPadding * pixelSize;
       // 右邊 padding 比左邊少一個像素
-      const leftPaddingPixels = marqueeData.needsMarquee ? 0 : textBoxPadding * pixelSize;
-      const rightPaddingPixels = marqueeData.needsMarquee ? 0 : Math.max(0, textBoxPadding * pixelSize - pixelSize);
+      const leftPaddingPixels = textBoxPadding * pixelSize;
+      const rightPaddingPixels = Math.max(0, textBoxPadding * pixelSize - pixelSize);
       const backgroundWidth = displayContentWidth + leftPaddingPixels + rightPaddingPixels;
       // 底部 padding 比頂部少一個像素
       const topPaddingPixels = verticalPaddingPixels;

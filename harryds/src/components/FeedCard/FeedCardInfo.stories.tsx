@@ -43,7 +43,7 @@ export const Default: Story = {
     index: 1,
     heading: 'Heading',
     dateRange: 'July 24, 2025 - June 25, 2026',
-    tags: ['UX', 'Design System', 'Three.js'],
+    tags: ['UI', 'UX', 'DEV', 'ARTICLE', 'DESIGN SYSTEM'],
     size: 'hero' as FeedCardSize,
   },
 };
@@ -61,7 +61,7 @@ export const Sizes: Story = {
     index: 7,
     heading: 'Heading',
     dateRange: 'July 24, 2025 - June 25, 2026',
-    tags: ['UX', 'Design System', 'Three.js'],
+    tags: ['UI', 'UX', 'DEV', 'ARTICLE', 'DESIGN SYSTEM'],
     size: 'hero' as FeedCardSize,
   },
 };

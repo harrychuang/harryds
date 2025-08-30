@@ -65,7 +65,7 @@ export const Hero: Story = {
           index={1}
           heading="Heading"
           dateRange="July 24, 2025 - June 25, 2026"
-          tags={["UX", "Design System", "Three.js"]}
+          tags={["UI", "UX", "DEV", "ARTICLE", "DESIGN SYSTEM"]}
         />
       </div>
     ),
@@ -89,7 +89,7 @@ export const Med: Story = {
           size="med"
           heading="Heading"
           dateRange="July 24, 2025 - June 25, 2026"
-          tags={["UX", "Design System", "Three.js"]}
+          tags={["UI", "UX", "DEV", "ARTICLE", "DESIGN SYSTEM"]}
         />
       </div>
     ),
@@ -113,7 +113,7 @@ export const Sm: Story = {
           size="sm"
           heading="Heading"
           dateRange="July 24, 2025 - June 25, 2026"
-          tags={["UX", "Design System", "Three.js"]}
+          tags={["UI", "UX", "DEV", "ARTICLE", "DESIGN SYSTEM"]}
         />
       </div>
     ),
@@ -137,7 +137,7 @@ export const Xs: Story = {
           size="xs"
           heading="Heading"
           dateRange="July 24, 2025 - June 25, 2026"
-          tags={["UX", "Design System", "Three.js"]}
+          tags={["UI", "UX", "DEV", "ARTICLE", "DESIGN SYSTEM"]}
         />
       </div>
     ),
