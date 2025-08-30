@@ -67,6 +67,12 @@ export interface PixelTextProps {
 
   /** 空格字符的寬度倍數（相對於 letterSpacing 的倍數，預設為 2） */
   spaceWidth?: number;
+
+  /**
+   * 總動畫時長（毫秒）。當提供時，會根據文字長度自動計算 per-char 的 duration 與 delay，
+   * 使得整段亂碼動畫在指定時間內完成（最後一個字元在該時間點完成）。
+   */
+  totalAnimationDuration?: number;
 }
 
 const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
@@ -95,6 +101,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   marqueePause = 300,
   spaceWidth = 2,
   swapTextAndBox = false,
+  totalAnimationDuration,
 }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -473,10 +480,33 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
 
     const animationStartTime = Date.now();
 
+    // 根據 totalAnimationDuration 自動計算 per-char timing（讓最後一字在 T 完成）
+    const textShouldAnimate = textEnabled && text;
+    const textBoxShouldAnimate = textBoxEnabled && textBox;
+    const textLen = textShouldAnimate ? text.length : 0;
+    const textBoxLen = textBoxShouldAnimate ? (textBox ? textBox.length : 0) : 0;
+    const maxLen = Math.max(textLen, textBoxLen);
+
+    let effectiveDurationTime = durationTime;
+    let effectiveAnimationDelay = animationDelay;
+    if (animated && totalAnimationDuration && maxLen > 0) {
+      const T = Math.max(1, totalAnimationDuration);
+      if (maxLen === 1) {
+        effectiveDurationTime = T;
+        effectiveAnimationDelay = 0;
+      } else {
+        // 讓第一個字在 T 的中段完成，其餘平均延遲至最後在 T 完成
+        const baseFraction = 0.5;
+        effectiveDurationTime = Math.max(0, Math.round(T * baseFraction));
+        const steps = Math.max(1, maxLen - 1);
+        effectiveAnimationDelay = Math.max(0, Math.round((T - effectiveDurationTime) / steps));
+      }
+    }
+
     // 為主文字的每個字符設置快速跳動和最終變換
     if (textEnabled && text) {
       text.split('').forEach((targetChar, index) => {
-      const finalTime = durationTime + (index * animationDelay); // 何時停止跳動並顯示最終字符
+      const finalTime = effectiveDurationTime + (index * effectiveAnimationDelay); // 何時停止跳動並顯示最終字符
       
       if (easeGlitch) {
         // 使用漸慢效果
@@ -521,7 +551,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     // 為 textBox 的每個字符設置快速跳動和最終變換
     if (textBoxEnabled && textBox) {
       textBox.split('').forEach((targetChar, index) => {
-        const finalTime = durationTime + (index * animationDelay);
+        const finalTime = effectiveDurationTime + (index * effectiveAnimationDelay);
         
         if (easeGlitch) {
           // 使用漸慢效果（需要創建 textBox 專用的 ease 函數）
@@ -562,7 +592,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
         }
       });
     }
-  }, [animated, text, textEnabled, textBox, textBoxEnabled, durationTime, animationDelay, glitchInterval, easeGlitch, generateRandomText, clearAnimationTimers, getRandomChar, createEaseGlitch, createEaseGlitchForTextBox, stopMarquee]);
+  }, [animated, text, textEnabled, textBox, textBoxEnabled, durationTime, animationDelay, glitchInterval, easeGlitch, generateRandomText, clearAnimationTimers, getRandomChar, createEaseGlitch, createEaseGlitchForTextBox, stopMarquee, totalAnimationDuration]);
 
   // 建立像素幾何體的材質和幾何體（重用以提升效能）
   const pixelGeometry = useMemo(() => new THREE.PlaneGeometry(pixelSize, pixelSize), [pixelSize]);

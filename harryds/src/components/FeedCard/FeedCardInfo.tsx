@@ -242,6 +242,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
               width={idCanvas.width}
               height={idCanvas.height}
               animated={isHovered}
+              totalAnimationDuration={500}
             />
           </div>
         </div>
