@@ -60,8 +60,8 @@ const meta = {
     },
     maskColor: {
       control: 'color',
-      description: '遮罩顏色（不含透明度）',
-      table: { type: { summary: 'string' }, defaultValue: { summary: '#1B2350' } },
+      description: '遮罩顏色（留空 = 使用預設 theme mask token）',
+      table: { type: { summary: 'string' }, defaultValue: { summary: '' } },
     },
     maskOpacity: {
       control: { type: 'range', min: 0, max: 1, step: 0.01 },
@@ -120,7 +120,7 @@ export const Default: Story = {
     normalTolerance: 0.2,
     depthTolerance: 0.1,
     objectFit: 'cover',
-    maskColor: '#1B2350',
+    maskColor: 'var(--hds-sys-color-theme-mask)',
     maskOpacity: 0.85,
     maxPixelRatio: 1.5,
   },
@@ -140,7 +140,7 @@ export const DesaturateUntilHover: Story = {
     hoverPixelToOne: true,
     hoverPixelDuration: 500,
     desaturateUntilHover: true,
-    maskColor: '#1B2350',
+    maskColor: 'var(--hds-sys-color-theme-mask)',
     maskOpacity: 0.85,
     maxPixelRatio: 1.5,
   },

@@ -9,6 +9,7 @@ import { CHAR_WIDTH, CHAR_HEIGHT } from '../PixelText';
 import './FeedCardInfo.scss';
 import type { FeedCardSize } from './FeedCard';
 import { FeedCardHoverContext } from './FeedCard';
+import { HDS_TOKENS } from '../../utils/colorTokens';
 
 // 避免 hover 切換時重繪昂貴的 PixelText 畫布
 const StablePixelText = memo(PixelText);
@@ -113,14 +114,14 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
   size = 'hero',
   data,
   hovered,
-  primaryColor = '#000000',
-  secondaryColor = '#FFFFFF',
+  primaryColor = HDS_TOKENS.themeSurface,
+  secondaryColor = HDS_TOKENS.onThemeSurface,
 }, ref) => {
   const hoveredFromContext = useContext(FeedCardHoverContext);
   const isHovered = hovered ?? hoveredFromContext ?? false;
-  // 非 hover 預設顏色
-  const basePrimary = '#111111';
-  const baseSecondary = '#FFFFFF';
+  // 非 hover 預設顏色（使用 tokens，以利 dark 模式反轉）
+  const basePrimary = 'var(--hds-sys-color-theme-surface)';
+  const baseSecondary = 'var(--on-hds-sys-color-theme-surface)';
   const computedIndex = data?.id ?? 0;
   const computedHeading = data?.heading ?? '';
   const computedDateRange = data?.date ?? '';

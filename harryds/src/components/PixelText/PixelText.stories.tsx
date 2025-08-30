@@ -11,6 +11,12 @@ const meta = {
   component: PixelText,
   parameters: {
     layout: 'centered',
+    // 覆蓋全域的 color matcher，避免將 *Color 參數強制轉為 color 控制
+    controls: {
+      matchers: {
+        color: null,
+      },
+    },
     docs: {
       description: {
         component: `
@@ -117,6 +123,10 @@ import { PixelText } from 'hds';
       },
     },
   },
+  args: {
+    primaryColor: 'var(--hds-sys-color-theme-surface)',
+    onPrimaryColor: 'var(--on-hds-sys-color-theme-surface)'
+  },
   tags: ['autodocs'],
   argTypes: {
     text: {
@@ -152,19 +162,19 @@ import { PixelText } from 'hds';
       },
     },
     primaryColor: {
-      control: 'color',
-      description: '主色調（text 文字顏色 & text-box 背景色）',
+      control: { type: 'text' },
+      description: '主色調（text 文字顏色 & text-box 背景色）。可填入 CSS 變數，如 var(--hds-sys-color-theme-surface)',
       table: {
         type: { summary: 'string' },
-        defaultValue: { summary: '#000000' },
+        defaultValue: { summary: 'var(--hds-sys-color-theme-surface)' },
       },
     },
     onPrimaryColor: {
-      control: 'color',
-      description: '主色調上的文字顏色（text-box 文字顏色）',
+      control: { type: 'text' },
+      description: '主色調上的文字顏色（text-box 文字顏色）。可填入 CSS 變數，如 var(--on-hds-sys-color-theme-surface)',
       table: {
         type: { summary: 'string' },
-        defaultValue: { summary: '#FFFFFF' },
+        defaultValue: { summary: 'var(--on-hds-sys-color-theme-surface)' },
       },
     },
     letterSpacing: {
@@ -343,8 +353,7 @@ export const Default: Story = {
     durationTime: 500,
     animationDelay: 120,
     easeGlitch: false,
-    primaryColor: '#000000',
-    onPrimaryColor: '#FFFFFF',
+    // 使用元件預設的 theme tokens，便於在 Storybook 背景切換時看到顏色反轉
     pixelSize: 4,
     pixelGap: 0,
     letterSpacing: 1,
@@ -357,8 +366,7 @@ export const Default: Story = {
 export const AllSymbolsShowcase: Story = {
   args: {
     text: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 ,。.-/+×÷?!@‼︎⁇▶︎◆●◼︎◻︎↑↓←→▷﹅⟨⟩[]⎢%″„',
-    primaryColor: '#333333',
-    onPrimaryColor: '#FFFFFF',
+    // 使用預設 theme tokens 以便驗證深色切換
     pixelSize: 3,
     pixelGap: 0.5,
     letterSpacing: 1,

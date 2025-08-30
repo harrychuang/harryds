@@ -119,4 +119,18 @@
   --hds-sys-opacity-5a: var(--hds-ref-opacity-5a);
   --hds-sys-font-size-xl: var(--hds-ref-font-size-36);
   --hds-sys-font-size-ex-med: var(--hds-ref-font-size-24);
+
+  /* 3. THEME SURFACE TOKENS (light default) */
+  --hds-sys-color-theme-surface: var(--hds-sys-color-primary-default);
+  --on-hds-sys-color-theme-surface: var(--hds-sys-color-secondary-default);
+  /* Theme mask color: light 使用 on-theme（白），dark 使用 theme（白） */
+  --hds-sys-color-theme-mask: var(--on-hds-sys-color-theme-surface);
+}
+
+/* Dark theme overrides: swap theme surface/on-theme surface */
+html[theme='dark'],
+body[theme='dark'] {
+  --hds-sys-color-theme-surface: var(--hds-sys-color-secondary-default);
+  --on-hds-sys-color-theme-surface: var(--hds-sys-color-primary-default);
+  --hds-sys-color-theme-mask: var(--on-hds-sys-color-theme-surface);
 }

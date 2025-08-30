@@ -10,6 +10,7 @@ import {
   CHAR_WIDTH, 
   CHAR_HEIGHT
 } from './pixelFont';
+import { resolveCssColor, HDS_TOKENS } from '../../utils/colorTokens';
 
 export interface PixelTextProps {
   /** 要顯示的文字 */
@@ -80,8 +81,8 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   textEnabled = true,
   pixelSize = 4,
   pixelGap = 0,
-  primaryColor = '#000000',
-  onPrimaryColor = '#FFFFFF',
+  primaryColor = HDS_TOKENS.themeSurface,
+  onPrimaryColor = HDS_TOKENS.onThemeSurface,
   letterSpacing = 1,
   width = 400,
   height = 100,
@@ -130,6 +131,24 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   const [marqueeOffset, setMarqueeOffset] = useState(0);
   const [isMarqueeActive, setIsMarqueeActive] = useState(false);
   const isInViewportRef = useRef(true);
+
+  // 監聽 theme 切換（html/body 的 theme 屬性）以便在 CSS 變數更新時重新解析顏色
+  const [cssVarVersion, setCssVarVersion] = useState(0);
+  useEffect(() => {
+    const root = document.documentElement;
+    const body = document.body;
+    if (!root) return;
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type === 'attributes' && m.attributeName === 'theme') {
+          setCssVarVersion((v) => v + 1);
+        }
+      }
+    });
+    observer.observe(root, { attributes: true, attributeFilter: ['theme'] });
+    if (body) observer.observe(body, { attributes: true, attributeFilter: ['theme'] });
+    return () => observer.disconnect();
+  }, []);
 
   // 計算字符實際寬度的輔助函數
   const getCharWidth = useCallback((char: string): number => {
@@ -600,19 +619,21 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
   const unitPlaneGeometry = useMemo(() => new THREE.PlaneGeometry(1, 1), []);
   
   // text 文字材質（使用 primaryColor）
+  const resolvedPrimaryColor = useMemo(() => resolveCssColor(primaryColor, '#000000'), [primaryColor, cssVarVersion]);
   const pixelMaterial = useMemo(() => new THREE.MeshBasicMaterial({ 
-    color: new THREE.Color(primaryColor) 
-  }), [primaryColor]);
+    color: new THREE.Color(resolvedPrimaryColor) 
+  }), [resolvedPrimaryColor]);
 
   // text-box 文字材質（使用 onPrimaryColor）
+  const resolvedOnPrimaryColor = useMemo(() => resolveCssColor(onPrimaryColor, '#FFFFFF'), [onPrimaryColor, cssVarVersion]);
   const textBoxPixelMaterial = useMemo(() => new THREE.MeshBasicMaterial({ 
-    color: new THREE.Color(onPrimaryColor) 
-  }), [onPrimaryColor]);
+    color: new THREE.Color(resolvedOnPrimaryColor) 
+  }), [resolvedOnPrimaryColor]);
 
   // text-box 背景材質（使用 primaryColor）
   const textBoxBackgroundMaterial = useMemo(() => new THREE.MeshBasicMaterial({ 
-    color: new THREE.Color(primaryColor) 
-  }), [primaryColor]);
+    color: new THREE.Color(resolvedPrimaryColor) 
+  }), [resolvedPrimaryColor]);
 
   // 初始化 Three.js 場景
   const initializeThreeJS = () => {
