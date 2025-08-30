@@ -3,23 +3,33 @@
 // - 顯示：二進位編號 (PixelText) / 標題 / 日期 / 標籤 (PixelText text-box)
 // =============================================================================
 
-import { CSSProperties, forwardRef, useMemo } from 'react';
+import { CSSProperties, forwardRef, useContext, useMemo, memo } from 'react';
 import { PixelText } from '../PixelText';
 import { CHAR_WIDTH, CHAR_HEIGHT } from '../PixelText';
 import './FeedCardInfo.scss';
 import type { FeedCardSize } from './FeedCard';
+import { FeedCardHoverContext } from './FeedCard';
+
+// 避免 hover 切換時重繪昂貴的 PixelText 畫布
+const StablePixelText = memo(PixelText);
 
 export interface FeedCardInfoProps {
-  /** 數字索引，將以 8 位二進位顯示，例如 1 -> 00000001 */
-  index: number;
-  /** 標題（Heading） */
-  heading: string;
-  /** 日期區間字串，例如：July 24, 2025 - June 25, 2026 */
-  dateRange: string;
-  /** 標籤字串陣列，將以逗號+空格串接並以 text-box 呈現 */
-  tags: string[];
+  /** 數字索引，將以 8 位二進位顯示，例如 1 -> 00000001（改為建議使用 data.id） */
+  index?: number;
+  /** 標題（Heading）（改為建議使用 data.heading） */
+  heading?: string;
+  /** 日期區間字串，例如：July 24, 2025 - June 25, 2026（改為建議使用 data.date） */
+  dateRange?: string;
+  /** 標籤字串陣列（改為建議使用 data.tags） */
+  tags?: string[];
   /** 尺寸（預設 hero）：決定多個區塊的預設像素大小與標題字級 */
   size?: FeedCardSize;
+
+  /** JSON 資料物件（建議使用）：id, heading, date, tags, category */
+  data?: FeedCardInfoData;
+
+  /** 由父層 FeedCard 傳入的 hover 狀態 */
+  hovered?: boolean;
 
   /** 額外類名 */
   className?: string;
@@ -33,6 +43,8 @@ export interface FeedCardInfoProps {
   idColor?: string;
   /** 日期顏色（文字） */
   dateColor?: string;
+  /** 標題顏色（文字） */
+  headingColor?: string;
   /** 標籤框主色（背景） */
   tagPrimaryColor?: string;
   /** 標籤框文字顏色 */
@@ -46,6 +58,19 @@ export interface FeedCardInfoProps {
 
   /** 標籤 text-box 的 padding（以 pixelSize 倍數），同時影響畫布尺寸與 PixelText */
   tagsTextBoxPadding?: number;
+}
+
+export interface FeedCardInfoData {
+  /** 數字型 id，會顯示為 8 位二進位 */
+  id: number;
+  /** 標題 */
+  heading: string;
+  /** 日期（字串） */
+  date: string;
+  /** 標籤列表 */
+  tags: string[];
+  /** 類別：article / project（預設 project） */
+  category?: 'article' | 'project';
 }
 
 const padTo8Bits = (n: number): string => {
@@ -121,12 +146,15 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
   dateRange,
   tags,
   size = 'hero',
+  data,
+  hovered,
   className = '',
   style,
   pixelGap = 0,
   letterSpacing = 1,
   idColor = '#000000',
   dateColor = '#000000',
+  headingColor = '#000000',
   tagPrimaryColor = '#000000',
   tagOnPrimaryColor = '#FFFFFF',
   idPixelSize,
@@ -135,7 +163,17 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
   headingFontSize,
   tagsTextBoxPadding = 5,
 }, ref) => {
-  const idText = useMemo(() => padTo8Bits(index), [index]);
+  const hoveredFromContext = useContext(FeedCardHoverContext);
+  const isHovered = hovered ?? hoveredFromContext ?? false;
+  // 非 hover 預設顏色
+  const basePrimary = '#111111';
+  const baseSecondary = '#FFFFFF';
+  const computedIndex = data?.id ?? (typeof index === 'number' ? index : 0);
+  const computedHeading = data?.heading ?? (heading ?? '');
+  const computedDateRange = data?.date ?? (dateRange ?? '');
+  const computedTags = data?.tags ?? (Array.isArray(tags) ? tags : []);
+
+  const idText = useMemo(() => padTo8Bits(computedIndex), [computedIndex]);
   // 將標籤映射為「符號 + 原文字」，並以單一空白分隔各組
   const TAG_SYMBOL_MAP: Record<string, string> = {
     'UI': '▲',
@@ -145,7 +183,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
     'DESIGN SYSTEM': '◼',
   };
   const tagsDisplayText = useMemo(() => {
-    const list = Array.isArray(tags) ? tags : [];
+    const list = Array.isArray(computedTags) ? computedTags : [];
     return list
       .map((original) => {
         const key = original.trim().toUpperCase();
@@ -153,7 +191,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
         return symbol ? `${symbol} ${original}` : original;
       })
       .join('/');
-  }, [tags]);
+  }, [computedTags]);
   const sizePreset = SIZE_PRESETS[size];
 
   const idPx = idPixelSize ?? sizePreset.id;
@@ -163,7 +201,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
 
   // PixelText 尺寸計算
   const idCanvas = useMemo(() => computeTextCanvasSize(idText, idPx, pixelGap, letterSpacing), [idText, idPx, pixelGap, letterSpacing]);
-  const dateCanvas = useMemo(() => computeTextCanvasSize(dateRange, datePx, pixelGap, letterSpacing), [dateRange, datePx, pixelGap, letterSpacing]);
+  const dateCanvas = useMemo(() => computeTextCanvasSize(computedDateRange, datePx, pixelGap, letterSpacing), [computedDateRange, datePx, pixelGap, letterSpacing]);
   // text-box 以內容長度作為 box 寬度容量，避免裁切；最少 6 個字元寬
   const textBoxWidth = Math.max(6, tagsDisplayText.length);
   const tagCanvas = useMemo(() => (
@@ -179,51 +217,109 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
   return (
     <div ref={ref} className={`feed-card-info size-${size} ${className}`.trim()} style={style}>
       <div className="feed-card-info__id">
-        <PixelText
-          text={idText}
-          textEnabled
-          pixelSize={idPx}
-          pixelGap={pixelGap}
-          letterSpacing={letterSpacing}
-          primaryColor={idColor}
-          width={idCanvas.width}
-          height={idCanvas.height}
-          animated={false}
-        />
+        <div className="fade-stack" style={{ width: idCanvas.width, height: idCanvas.height }}>
+          <div className="fade-layer base" style={{ opacity: isHovered ? 0 : 1 }}>
+            <StablePixelText
+              text={idText}
+              textEnabled
+              pixelSize={idPx}
+              pixelGap={pixelGap}
+              letterSpacing={letterSpacing}
+              primaryColor={basePrimary}
+              width={idCanvas.width}
+              height={idCanvas.height}
+              animated={false}
+            />
+          </div>
+          <div className="fade-layer hover" style={{ opacity: isHovered ? 1 : 0 }}>
+            <StablePixelText
+              text={idText}
+              textEnabled
+              pixelSize={idPx}
+              pixelGap={pixelGap}
+              letterSpacing={letterSpacing}
+              primaryColor={idColor}
+              width={idCanvas.width}
+              height={idCanvas.height}
+              animated={false}
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="feed-card-info__heading" style={{ fontSize: headingPx }}>{heading}</div>
+      <div className="feed-card-info__heading" style={{ fontSize: headingPx, color: isHovered ? headingColor : basePrimary, transition: 'color 300ms ease' }}>
+        {computedHeading}
+      </div>
       <div className="feed-card-info__date">
-        <PixelText
-          text={dateRange}
-          textEnabled
-          pixelSize={datePx}
-          pixelGap={pixelGap}
-          letterSpacing={letterSpacing}
-          primaryColor={dateColor}
-          width={dateCanvas.width}
-          height={dateCanvas.height}
-          animated={false}
-        />
+        <div className="fade-stack" style={{ width: dateCanvas.width, height: dateCanvas.height }}>
+          <div className="fade-layer base" style={{ opacity: isHovered ? 0 : 1 }}>
+            <StablePixelText
+              text={computedDateRange}
+              textEnabled
+              pixelSize={datePx}
+              pixelGap={pixelGap}
+              letterSpacing={letterSpacing}
+              primaryColor={basePrimary}
+              width={dateCanvas.width}
+              height={dateCanvas.height}
+              animated={false}
+            />
+          </div>
+          <div className="fade-layer hover" style={{ opacity: isHovered ? 1 : 0 }}>
+            <StablePixelText
+              text={computedDateRange}
+              textEnabled
+              pixelSize={datePx}
+              pixelGap={pixelGap}
+              letterSpacing={letterSpacing}
+              primaryColor={dateColor}
+              width={dateCanvas.width}
+              height={dateCanvas.height}
+              animated={false}
+            />
+          </div>
+        </div>
       </div>
 
       <div className="feed-card-info__tags">
-        <PixelText
-          text=""
-          textEnabled={false}
-          textBoxEnabled
-          textBox={tagsDisplayText}
-          textBoxWidth={textBoxWidth}
-          textBoxPadding={tagsTextBoxPadding}
-          pixelSize={tagsPx}
-          pixelGap={pixelGap}
-          letterSpacing={letterSpacing}
-          primaryColor={tagPrimaryColor}
-          onPrimaryColor={tagOnPrimaryColor}
-          width={tagCanvas.width}
-          height={tagCanvas.height}
-          spaceWidth={3}
-        />
+        <div className="fade-stack" style={{ width: tagCanvas.width, height: tagCanvas.height }}>
+          <div className="fade-layer base" style={{ opacity: isHovered ? 0 : 1 }}>
+            <StablePixelText
+              text=""
+              textEnabled={false}
+              textBoxEnabled
+              textBox={tagsDisplayText}
+              textBoxWidth={textBoxWidth}
+              textBoxPadding={tagsTextBoxPadding}
+              pixelSize={tagsPx}
+              pixelGap={pixelGap}
+              letterSpacing={letterSpacing}
+              primaryColor={basePrimary}
+              onPrimaryColor={baseSecondary}
+              width={tagCanvas.width}
+              height={tagCanvas.height}
+              spaceWidth={3}
+            />
+          </div>
+          <div className="fade-layer hover" style={{ opacity: isHovered ? 1 : 0 }}>
+            <StablePixelText
+              text=""
+              textEnabled={false}
+              textBoxEnabled
+              textBox={tagsDisplayText}
+              textBoxWidth={textBoxWidth}
+              textBoxPadding={tagsTextBoxPadding}
+              pixelSize={tagsPx}
+              pixelGap={pixelGap}
+              letterSpacing={letterSpacing}
+              primaryColor={tagPrimaryColor}
+              onPrimaryColor={tagOnPrimaryColor}
+              width={tagCanvas.width}
+              height={tagCanvas.height}
+              spaceWidth={3}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

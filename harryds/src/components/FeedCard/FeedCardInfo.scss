@@ -9,6 +9,17 @@
   gap: 8px;
   color: #000000;
 
+  // 疊層淡入工具類
+  .fade-stack {
+    position: relative;
+  }
+  .fade-layer {
+    position: absolute;
+    inset: 0;
+  }
+  .fade-layer.base { opacity: 1; }
+  .fade-layer.hover { opacity: 0; }
+
   .feed-card-info__id {
     line-height: 1;
   }
@@ -55,7 +66,7 @@
 .size-xs {
   gap: 4px;
   .feed-card-info__id {
-    margin-bottom: -2px;
+    margin-bottom: 0px;
   }
 }
 

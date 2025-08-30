@@ -1,0 +1,45 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "heading": "Heading",
+      "date": "July 24, 2025 - June 25, 2026",
+      "tags": ["UI", "UX", "DEV"],
+      "category": "project",
+      "primaryColor": "#FF1246",
+      "secondaryColor": "#1B2350",
+      "heroImage": "../../../assets/imgs/project-demo.jpg"
+    },
+    {
+      "id": 2,
+      "heading": "Heading",
+      "date": "July 24, 2025 - June 25, 2026",
+      "tags": ["UI", "UX", "DEV", "ARTICLE", "DESIGN SYSTEM"],
+      "category": "project",
+      "primaryColor": "#FF1246",
+      "secondaryColor": "#1B2350",
+      "heroImage": "../../../assets/imgs/project-demo.jpg"
+    },
+    {
+      "id": 3,
+      "heading": "Heading",
+      "date": "July 24, 2025 - June 25, 2026",
+      "tags": ["UI", "UX", "DEV", "ARTICLE", "DESIGN SYSTEM"],
+      "category": "project",
+      "primaryColor": "#FF1246",
+      "secondaryColor": "#1B2350",
+      "heroImage": "../../../assets/imgs/project-demo.jpg"
+    },
+    {
+      "id": 4,
+      "heading": "Heading",
+      "date": "July 24, 2025 - June 25, 2026",
+      "tags": ["UI", "UX", "DEV", "ARTICLE", "DESIGN SYSTEM"],
+      "category": "project",
+      "primaryColor": "#FF1246",
+      "secondaryColor": "#1B2350",
+      "heroImage": "../../../assets/imgs/project-demo.jpg"
+    }
+  ]
+}
+

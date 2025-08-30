@@ -4,7 +4,11 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import FeedCardInfo from './FeedCardInfo';
+import type { FeedCardInfoData } from './FeedCardInfo';
 import type { FeedCardSize } from './FeedCard';
+import feed from './feed.json';
+
+const items = (feed as any).items as Array<any>;
 
 const meta = {
   title: 'Components/FeedCard/FeedCardInfo',
@@ -19,10 +23,7 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    index: { control: { type: 'number', min: 0, max: 255, step: 1 }, description: '數字索引，會顯示成 8 位二進位' },
-    heading: { control: 'text', description: '標題' },
-    dateRange: { control: 'text', description: '日期區間' },
-    tags: { control: 'object', description: '標籤字串陣列' },
+    data: { control: 'object', description: '資料物件：{ id, heading, date, tags, category }' },
     size: { control: { type: 'radio' }, options: ['hero', 'med', 'sm', 'xs'], description: '尺寸預設（影響 id/date/tags/heading）' },
     idColor: { control: 'color', description: '二進位文字顏色' },
     dateColor: { control: 'color', description: '日期文字顏色' },
@@ -40,28 +41,47 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    index: 1,
-    heading: 'Heading',
-    dateRange: 'July 24, 2025 - June 25, 2026',
-    tags: ['UI', 'UX', 'DEV', 'ARTICLE', 'DESIGN SYSTEM'],
+    data: {
+      id: items[0].id,
+      heading: items[0].heading,
+      date: items[0].date,
+      tags: items[0].tags,
+      category: items[0].category,
+    } as FeedCardInfoData,
+    idColor: items[0].primaryColor,
+    dateColor: items[0].primaryColor,
+    headingColor: items[0].primaryColor,
+    tagPrimaryColor: items[0].primaryColor,
+    tagOnPrimaryColor: items[0].secondaryColor,
     size: 'hero' as FeedCardSize,
   },
 };
 
 export const Sizes: Story = {
-  render: (args) => (
-    <div style={{ display: 'grid', gap: 24 }}>
-      <FeedCardInfo {...args} size="hero" heading="Hero Heading" />
-      <FeedCardInfo {...args} size="med" heading="Med Heading" />
-      <FeedCardInfo {...args} size="sm" heading="Small Heading" />
-      <FeedCardInfo {...args} size="xs" heading="XS Heading" />
-    </div>
-  ),
+  render: (args) => {
+    const base = (args as any).data as FeedCardInfoData;
+    return (
+      <div style={{ display: 'grid', gap: 24 }}>
+        <FeedCardInfo {...args} size="hero" data={{ ...base, heading: 'Hero Heading' }} />
+        <FeedCardInfo {...args} size="med" data={{ ...base, heading: 'Med Heading' }} />
+        <FeedCardInfo {...args} size="sm" data={{ ...base, heading: 'Small Heading' }} />
+        <FeedCardInfo {...args} size="xs" data={{ ...base, heading: 'XS Heading' }} />
+      </div>
+    );
+  },
   args: {
-    index: 7,
-    heading: 'Heading',
-    dateRange: 'July 24, 2025 - June 25, 2026',
-    tags: ['UI', 'UX', 'DEV', 'ARTICLE', 'DESIGN SYSTEM'],
+    data: {
+      id: items[1].id,
+      heading: items[1].heading,
+      date: items[1].date,
+      tags: items[1].tags,
+      category: items[1].category,
+    } as FeedCardInfoData,
+    idColor: items[1].primaryColor,
+    dateColor: items[1].primaryColor,
+    headingColor: items[1].primaryColor,
+    tagPrimaryColor: items[1].primaryColor,
+    tagOnPrimaryColor: items[1].secondaryColor,
     size: 'hero' as FeedCardSize,
   },
 };

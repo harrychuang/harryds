@@ -3,12 +3,14 @@
 // 尺寸：hero(600)、med(500)、sm(400)、xs(240)；預設 padding 40，內容置左下
 // =============================================================================
 
-import React, { CSSProperties, forwardRef, useState } from 'react';
+import React, { CSSProperties, createContext, forwardRef, useState } from 'react';
 import { PixelImage } from '../PixelImage';
 import type { PixelImageProps } from '../PixelImage';
 import './FeedCard.scss';
 
 export type FeedCardSize = 'hero' | 'med' | 'sm' | 'xs';
+export const FeedCardHoverContext = createContext<boolean>(false);
+
 
 export interface FeedCardProps {
   /** 背景圖來源 URL（交由 PixelImage 載入） */
@@ -21,6 +23,8 @@ export interface FeedCardProps {
   padding?: number;
   /** 傳遞給 PixelImage 的額外參數（不含 src） */
   backgroundProps?: Partial<Omit<PixelImageProps, 'src'>>;
+  /** JSON 的 secondary color（hover 時套用至 PixelImage maskColor） */
+  secondaryColor?: string;
   /** 額外類名 */
   className?: string;
   /** 內容節點，顯示於卡片左下角 */
@@ -44,6 +48,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   height,
   padding = 40,
   backgroundProps,
+  secondaryColor,
   className = '',
   children,
   style,
@@ -70,7 +75,8 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
     normalTolerance: backgroundProps?.normalTolerance ?? 0.2,
     depthTolerance: backgroundProps?.depthTolerance ?? 0.1,
     objectFit: backgroundProps?.objectFit ?? 'cover',
-    maskColor: backgroundProps?.maskColor ?? '#1B2350',
+    // 將目標顏色固定傳入，實際進/出時的切換交由 PixelImage 以 CSS 補間處理
+    maskColor: backgroundProps?.maskColor ?? (secondaryColor ?? '#1B2350'),
     maskOpacity: backgroundProps?.maskOpacity ?? 0.85,
     maxPixelRatio: backgroundProps?.maxPixelRatio ?? 1.5,
     className: backgroundProps?.className,
@@ -92,7 +98,9 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
 
       <div className="feed-card__overlay">
         <div className="feed-card__content">
-          {children}
+          <FeedCardHoverContext.Provider value={isHovered}>
+            {children}
+          </FeedCardHoverContext.Provider>
         </div>
       </div>
     </div>

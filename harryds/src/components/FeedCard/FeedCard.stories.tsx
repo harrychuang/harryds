@@ -5,8 +5,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import FeedCard from './FeedCard';
 import FeedCardInfo from './FeedCardInfo';
+import feed from './feed.json';
 
-const demoImg = new URL('../../../assets/imgs/project-demo.jpg', import.meta.url).href;
+const items = (feed as any).items as Array<any>;
 
 const meta = {
   title: 'Components/FeedCard',
@@ -56,16 +57,19 @@ export const Hero: Story = {
     </div>
   ),
   args: {
-    src: demoImg,
+    src: new URL(items[0].heroImage, import.meta.url).href,
     size: 'hero',
+    secondaryColor: items[0].secondaryColor,
     padding: 40,
     children: (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <FeedCardInfo
-          index={1}
-          heading="Heading"
-          dateRange="July 24, 2025 - June 25, 2026"
-          tags={["UI", "UX", "DEV"]}
+          data={{ id: items[0].id, heading: items[0].heading, date: items[0].date, tags: items[0].tags, category: items[0].category }}
+          idColor={items[0].primaryColor}
+          dateColor={items[0].primaryColor}
+          headingColor={items[0].primaryColor}
+          tagPrimaryColor={items[0].primaryColor}
+          tagOnPrimaryColor={items[0].secondaryColor}
         />
       </div>
     ),
@@ -79,17 +83,20 @@ export const Med: Story = {
     </div>
   ),
   args: {
-    src: demoImg,
+    src: new URL(items[1].heroImage, import.meta.url).href,
     size: 'med',
+    secondaryColor: items[1].secondaryColor,
     padding: 40,
     children: (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <FeedCardInfo
-          index={2}
           size="med"
-          heading="Heading"
-          dateRange="July 24, 2025 - June 25, 2026"
-          tags={["UI", "UX", "DEV", "ARTICLE", "DESIGN SYSTEM"]}
+          data={{ id: items[1].id, heading: items[1].heading, date: items[1].date, tags: items[1].tags, category: items[1].category }}
+          idColor={items[1].primaryColor}
+          dateColor={items[1].primaryColor}
+          headingColor={items[1].primaryColor}
+          tagPrimaryColor={items[1].primaryColor}
+          tagOnPrimaryColor={items[1].secondaryColor}
         />
       </div>
     ),
@@ -103,17 +110,20 @@ export const Sm: Story = {
     </div>
   ),
   args: {
-    src: demoImg,
+    src: new URL(items[2].heroImage, import.meta.url).href,
     size: 'sm',
+    secondaryColor: items[2].secondaryColor,
     padding: 40,
     children: (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <FeedCardInfo
-          index={3}
           size="sm"
-          heading="Heading"
-          dateRange="July 24, 2025 - June 25, 2026"
-          tags={["UI", "UX", "DEV", "ARTICLE", "DESIGN SYSTEM"]}
+          data={{ id: items[2].id, heading: items[2].heading, date: items[2].date, tags: items[2].tags, category: items[2].category }}
+          idColor={items[2].primaryColor}
+          dateColor={items[2].primaryColor}
+          headingColor={items[2].primaryColor}
+          tagPrimaryColor={items[2].primaryColor}
+          tagOnPrimaryColor={items[2].secondaryColor}
         />
       </div>
     ),
@@ -127,17 +137,20 @@ export const Xs: Story = {
     </div>
   ),
   args: {
-    src: demoImg,
+    src: new URL(items[3].heroImage, import.meta.url).href,
     size: 'xs',
+    secondaryColor: items[3].secondaryColor,
     padding: 40,
     children: (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <FeedCardInfo
-          index={4}
           size="xs"
-          heading="Heading"
-          dateRange="July 24, 2025 - June 25, 2026"
-          tags={["UI", "UX", "DEV", "ARTICLE", "DESIGN SYSTEM"]}
+          data={{ id: items[3].id, heading: items[3].heading, date: items[3].date, tags: items[3].tags, category: items[3].category }}
+          idColor={items[3].primaryColor}
+          dateColor={items[3].primaryColor}
+          headingColor={items[3].primaryColor}
+          tagPrimaryColor={items[3].primaryColor}
+          tagOnPrimaryColor={items[3].secondaryColor}
         />
       </div>
     ),
