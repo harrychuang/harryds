@@ -15,3 +15,5 @@ export type { PixelImageProps, PixelImageObjectFit } from './PixelImage';
 // FeedCard - 以 PixelImage 作為背景的卡片
 export { FeedCard } from './FeedCard';
 export type { FeedCardProps, FeedCardSize } from './FeedCard';
+export { FeedCardInfo } from './FeedCard';
+export type { FeedCardInfoProps } from './FeedCard';

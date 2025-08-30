@@ -4,6 +4,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import FeedCard from './FeedCard';
+import FeedCardInfo from './FeedCardInfo';
 
 const demoImg = new URL('../../../assets/imgs/project-demo.jpg', import.meta.url).href;
 
@@ -35,13 +36,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const contentBoxStyle: React.CSSProperties = {
-  color: '#fff',
-  background: 'rgba(0,0,0,0.35)',
-  padding: '12px 16px',
-  borderRadius: 4,
-  lineHeight: 1.3,
-};
+// const contentBoxStyle: React.CSSProperties = {
+//   color: '#fff',
+//   background: 'rgba(0,0,0,0.35)',
+//   padding: '12px 16px',
+//   borderRadius: 4,
+//   lineHeight: 1.3,
+// };
 
 const frameStyle: React.CSSProperties = {
   width: '100%',
@@ -59,9 +60,13 @@ export const Hero: Story = {
     size: 'hero',
     padding: 40,
     children: (
-      <div style={contentBoxStyle}>
-        <div style={{ fontSize: 24, fontWeight: 700 }}>HERO FEED CARD</div>
-        <div style={{ fontSize: 14 }}>內容置左下，背景使用 PixelImage</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <FeedCardInfo
+          index={1}
+          heading="Heading"
+          dateRange="July 24, 2025 - June 25, 2026"
+          tags={["UX", "Design System", "Three.js"]}
+        />
       </div>
     ),
   },
@@ -78,7 +83,15 @@ export const Med: Story = {
     size: 'med',
     padding: 40,
     children: (
-      <div style={contentBoxStyle}>MEDIUM - 500px 高</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <FeedCardInfo
+          index={2}
+          size="med"
+          heading="Heading"
+          dateRange="July 24, 2025 - June 25, 2026"
+          tags={["UX", "Design System", "Three.js"]}
+        />
+      </div>
     ),
   },
 };
@@ -94,7 +107,15 @@ export const Sm: Story = {
     size: 'sm',
     padding: 40,
     children: (
-      <div style={contentBoxStyle}>SMALL - 400px 高</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <FeedCardInfo
+          index={3}
+          size="sm"
+          heading="Heading"
+          dateRange="July 24, 2025 - June 25, 2026"
+          tags={["UX", "Design System", "Three.js"]}
+        />
+      </div>
     ),
   },
 };
@@ -110,7 +131,15 @@ export const Xs: Story = {
     size: 'xs',
     padding: 40,
     children: (
-      <div style={contentBoxStyle}>XS - 240px 高</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <FeedCardInfo
+          index={4}
+          size="xs"
+          heading="Heading"
+          dateRange="July 24, 2025 - June 25, 2026"
+          tags={["UX", "Design System", "Three.js"]}
+        />
+      </div>
     ),
   },
 };
