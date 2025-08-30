@@ -218,6 +218,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
 
   // PixelText 尺寸計算
   const idCanvas = useMemo(() => computeTextCanvasSize(idText, idPx, pixelGap, letterSpacing), [idText, idPx, pixelGap, letterSpacing]);
+  const idCanvasHover = useMemo(() => computeTextCanvasSize(idText, idPx, 2, letterSpacing), [idText, idPx, letterSpacing]);
   const dateCanvas = useMemo(() => computeTextCanvasSize(computedDateRange, datePx, pixelGap, letterSpacing), [computedDateRange, datePx, pixelGap, letterSpacing]);
   // text-box 以內容長度作為 box 寬度容量，避免裁切；最少 6 個字元寬
   const textBoxWidth = Math.max(6, tagsDisplayText.length);
@@ -234,7 +235,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
   return (
     <div ref={ref} className={`feed-card-info size-${size}`.trim()}>
       <div className="feed-card-info__id">
-        <div className="fade-stack" style={{ width: idCanvas.width, height: idCanvas.height }}>
+        <div className="fade-stack" style={{ width: isHovered ? idCanvasHover.width : idCanvas.width, height: isHovered ? idCanvasHover.height : idCanvas.height }}>
           <div className="fade-layer base" style={{ opacity: isHovered ? 0 : 1 }}>
             <StablePixelText
               text={idText}
@@ -253,11 +254,11 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
               text={idText}
               textEnabled
               pixelSize={idPx}
-              pixelGap={pixelGap}
+              pixelGap={2}
               letterSpacing={letterSpacing}
               primaryColor={primaryColor}
-              width={idCanvas.width}
-              height={idCanvas.height}
+              width={idCanvasHover.width}
+              height={idCanvasHover.height}
               animated={isHovered}
               totalAnimationDuration={500}
             />

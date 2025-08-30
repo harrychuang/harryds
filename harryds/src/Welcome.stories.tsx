@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta = {
-  title: 'Welcome/開始使用',
+  title: 'Welcome/Start',
   parameters: {
     layout: 'fullscreen',
   },
