@@ -356,7 +356,7 @@ export const Default: Story = {
 // 完整符號集展示
 export const AllSymbolsShowcase: Story = {
   args: {
-    text: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 ,。.-+×÷?!@‼︎⁇▶︎◆●◼︎◻︎↑↓←→▷﹅⟨⟩[]⎢%″„',
+    text: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 ,。.-/+×÷?!@‼︎⁇▶︎◆●◼︎◻︎↑↓←→▷﹅⟨⟩[]⎢%″„',
     primaryColor: '#333333',
     onPrimaryColor: '#FFFFFF',
     pixelSize: 3,

@@ -143,7 +143,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
         const symbol = TAG_SYMBOL_MAP[key] || '';
         return symbol ? `${symbol} ${original}` : original;
       })
-      .join('/');
+      .join('  ');
   }, [computedTags]);
   const sizePreset = SIZE_PRESETS[size];
 

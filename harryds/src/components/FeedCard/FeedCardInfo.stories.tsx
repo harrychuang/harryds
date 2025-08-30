@@ -21,7 +21,12 @@ const meta = {
       },
     },
     controls: {
-      include: ['data', 'size', 'hovered', 'primaryColor', 'secondaryColor'],
+      exclude: [
+        'index', 'heading', 'dateRange', 'tags', 'className', 'style', 
+        'pixelGap', 'letterSpacing', 'idColor', 'dateColor', 'headingColor',
+        'tagPrimaryColor', 'tagOnPrimaryColor', 'idPixelSize', 'datePixelSize',
+        'tagsPixelSize', 'headingFontSize', 'tagsTextBoxPadding'
+      ],
     },
   },
   tags: ['autodocs'],
@@ -53,31 +58,6 @@ export const Default: Story = {
   },
 };
 
-export const Sizes: Story = {
-  render: (args) => {
-    const base = (args as any).data as FeedCardInfoData;
-    return (
-      <div style={{ display: 'grid', gap: 24 }}>
-        <FeedCardInfo {...args} size="hero" data={{ ...base, heading: 'Hero Heading' }} />
-        <FeedCardInfo {...args} size="med" data={{ ...base, heading: 'Med Heading' }} />
-        <FeedCardInfo {...args} size="sm" data={{ ...base, heading: 'Small Heading' }} />
-        <FeedCardInfo {...args} size="xs" data={{ ...base, heading: 'XS Heading' }} />
-      </div>
-    );
-  },
-  args: {
-    data: {
-      id: items[1].id,
-      heading: items[1].heading,
-      date: items[1].date,
-      tags: items[1].tags,
-      category: items[1].category,
-    } as FeedCardInfoData,
-    hovered: false,
-    primaryColor: items[1].primaryColor,
-    secondaryColor: items[1].secondaryColor,
-    size: 'hero' as FeedCardSize,
-  },
-};
+
 
 
