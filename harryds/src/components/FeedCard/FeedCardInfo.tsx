@@ -160,7 +160,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
           }
           
           if (charIndex < computedHeading.length) {
-            typewriterTimeoutRef.current = setTimeout(() => typeCharacter(charIndex + 1), 10);
+            typewriterTimeoutRef.current = setTimeout(() => typeCharacter(charIndex + 1), 30);
           }
         }
       };
@@ -265,14 +265,14 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
         </div>
       </div>
 
-      <div className="feed-card-info__heading" style={{ fontSize: isHovered ? headingPx * 1.2 : headingPx, color: isHovered ? primaryColor : basePrimary, transition: 'color 300ms ease, font-size 150ms ease' }}>
+      <div className="feed-card-info__heading" style={{ fontSize: isHovered ? headingPx * 1.2 : headingPx, color: isHovered ? primaryColor : basePrimary, transition: 'color 300ms ease, font-size 200ms ease' }}>
         {isHovered ? (
           <>
             {Array.from(displayedHeading).map((char, index) => (
               <span
                 key={index}
                 style={{
-                  opacity: flashingCharIndex === index ? 0 : 1,
+                  opacity: flashingCharIndex === index ? 0.1 : 1,
                   transition: 'opacity 60ms ease',
                 }}
               >
