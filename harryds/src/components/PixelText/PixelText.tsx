@@ -566,6 +566,8 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
 
   // 建立像素幾何體的材質和幾何體（重用以提升效能）
   const pixelGeometry = useMemo(() => new THREE.PlaneGeometry(pixelSize, pixelSize), [pixelSize]);
+  // 單位平面幾何（用於大矩形背景，避免逐像素鋪滿造成大量 Mesh）
+  const unitPlaneGeometry = useMemo(() => new THREE.PlaneGeometry(1, 1), []);
   
   // text 文字材質（使用 primaryColor）
   const pixelMaterial = useMemo(() => new THREE.MeshBasicMaterial({ 
@@ -704,19 +706,16 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       const textPixelHeight = CHAR_HEIGHT * pixelWithGap - pixelGap;
       const backgroundHeight = textPixelHeight + topPaddingPixels + bottomPaddingPixels;
       
-      // 渲染 text-box 背景（包含 padding）
+      // 渲染 text-box 背景（單一矩形 Mesh，包含 padding）
       const bgStartX = currentX; // 從當前位置開始（已包含間距）
       const bgStartY = startY + topPaddingPixels;
-      
-      for (let row = 0; row < Math.ceil(backgroundHeight / pixelWithGap); row++) {
-        for (let col = 0; col < Math.ceil(backgroundWidth / pixelWithGap); col++) {
-          const bgMesh = new THREE.Mesh(pixelGeometry, textBoxBackgroundMaterial);
-          const x = Math.round(bgStartX + col * pixelWithGap);
-          const y = Math.round(bgStartY - row * pixelWithGap);
-          bgMesh.position.set(x, y, -0.1); // 背景放在後面
-          scene.add(bgMesh);
-        }
-      }
+      const bgMesh = new THREE.Mesh(unitPlaneGeometry, textBoxBackgroundMaterial);
+      // 將矩形置中到原本背景區域中央，並盡可能對齊像素網格
+      const bgCenterX = Math.round(bgStartX + backgroundWidth / 2 - pixelSize / 2);
+      const bgCenterY = Math.round(bgStartY - (backgroundHeight / 2 - pixelSize / 2));
+      bgMesh.position.set(bgCenterX, bgCenterY, -0.1);
+      bgMesh.scale.set(backgroundWidth, backgroundHeight, 1);
+      scene.add(bgMesh);
 
       // 渲染 text-box 文字內容（置中，支援跑馬燈）
       if (currentTextBox) {
@@ -1001,6 +1000,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       
       // 手動清理共用資源
       pixelGeometry.dispose();
+      unitPlaneGeometry.dispose();
       pixelMaterial.dispose();
       textBoxPixelMaterial.dispose();
       textBoxBackgroundMaterial.dispose();

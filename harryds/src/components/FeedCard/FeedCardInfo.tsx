@@ -241,7 +241,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
               primaryColor={idColor}
               width={idCanvas.width}
               height={idCanvas.height}
-              animated={false}
+              animated={isHovered}
             />
           </div>
         </div>
@@ -317,6 +317,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
               width={tagCanvas.width}
               height={tagCanvas.height}
               spaceWidth={3}
+              animated={false}
             />
           </div>
         </div>
