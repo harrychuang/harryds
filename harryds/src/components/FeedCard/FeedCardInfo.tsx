@@ -3,7 +3,7 @@
 // - 顯示：二進位編號 (PixelText) / 標題 / 日期 / 標籤 (PixelText text-box)
 // =============================================================================
 
-import { CSSProperties, forwardRef, useContext, useMemo, memo } from 'react';
+import { forwardRef, useContext, useMemo, memo } from 'react';
 import { PixelText } from '../PixelText';
 import { CHAR_WIDTH, CHAR_HEIGHT } from '../PixelText';
 import './FeedCardInfo.scss';
@@ -14,14 +14,6 @@ import { FeedCardHoverContext } from './FeedCard';
 const StablePixelText = memo(PixelText);
 
 export interface FeedCardInfoProps {
-  /** 數字索引，將以 8 位二進位顯示，例如 1 -> 00000001（改為建議使用 data.id） */
-  index?: number;
-  /** 標題（Heading）（改為建議使用 data.heading） */
-  heading?: string;
-  /** 日期區間字串，例如：July 24, 2025 - June 25, 2026（改為建議使用 data.date） */
-  dateRange?: string;
-  /** 標籤字串陣列（改為建議使用 data.tags） */
-  tags?: string[];
   /** 尺寸（預設 hero）：決定多個區塊的預設像素大小與標題字級 */
   size?: FeedCardSize;
 
@@ -31,33 +23,10 @@ export interface FeedCardInfoProps {
   /** 由父層 FeedCard 傳入的 hover 狀態 */
   hovered?: boolean;
 
-  /** 額外類名 */
-  className?: string;
-  /** 內聯樣式 */
-  style?: CSSProperties;
-
-  /** PixelText 視覺設定（可選） */
-  pixelGap?: number; // 所有 PixelText 共用 gap
-  letterSpacing?: number; // 所有 PixelText 共用字距
-  /** 二進位顏色（文字） */
-  idColor?: string;
-  /** 日期顏色（文字） */
-  dateColor?: string;
-  /** 標題顏色（文字） */
-  headingColor?: string;
-  /** 標籤框主色（背景） */
-  tagPrimaryColor?: string;
-  /** 標籤框文字顏色 */
-  tagOnPrimaryColor?: string;
-
-  /** 覆寫單一區塊像素大小（非必要） */
-  idPixelSize?: number;
-  datePixelSize?: number;
-  tagsPixelSize?: number;
-  headingFontSize?: number; // px
-
-  /** 標籤 text-box 的 padding（以 pixelSize 倍數），同時影響畫布尺寸與 PixelText */
-  tagsTextBoxPadding?: number;
+  /** 主色：hover 時的文字色（ID/日期/標題）與標籤框背景色 */
+  primaryColor?: string;
+  /** 次色：hover 時標籤框文字色 */
+  secondaryColor?: string;
 }
 
 export interface FeedCardInfoData {
@@ -141,37 +110,21 @@ const SIZE_PRESETS: Record<FeedCardSize, { id: number; headingPx: number; date: 
 };
 
 export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({ 
-  index,
-  heading,
-  dateRange,
-  tags,
   size = 'hero',
   data,
   hovered,
-  className = '',
-  style,
-  pixelGap = 0,
-  letterSpacing = 1,
-  idColor = '#000000',
-  dateColor = '#000000',
-  headingColor = '#000000',
-  tagPrimaryColor = '#000000',
-  tagOnPrimaryColor = '#FFFFFF',
-  idPixelSize,
-  datePixelSize,
-  tagsPixelSize,
-  headingFontSize,
-  tagsTextBoxPadding = 5,
+  primaryColor = '#000000',
+  secondaryColor = '#FFFFFF',
 }, ref) => {
   const hoveredFromContext = useContext(FeedCardHoverContext);
   const isHovered = hovered ?? hoveredFromContext ?? false;
   // 非 hover 預設顏色
   const basePrimary = '#111111';
   const baseSecondary = '#FFFFFF';
-  const computedIndex = data?.id ?? (typeof index === 'number' ? index : 0);
-  const computedHeading = data?.heading ?? (heading ?? '');
-  const computedDateRange = data?.date ?? (dateRange ?? '');
-  const computedTags = data?.tags ?? (Array.isArray(tags) ? tags : []);
+  const computedIndex = data?.id ?? 0;
+  const computedHeading = data?.heading ?? '';
+  const computedDateRange = data?.date ?? '';
+  const computedTags = data?.tags ?? [];
 
   const idText = useMemo(() => padTo8Bits(computedIndex), [computedIndex]);
   // 將標籤映射為「符號 + 原文字」，並以單一空白分隔各組
@@ -194,10 +147,15 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
   }, [computedTags]);
   const sizePreset = SIZE_PRESETS[size];
 
-  const idPx = idPixelSize ?? sizePreset.id;
-  const datePx = datePixelSize ?? sizePreset.date;
-  const tagsPx = tagsPixelSize ?? sizePreset.tags;
-  const headingPx = headingFontSize ?? sizePreset.headingPx;
+  const idPx = sizePreset.id;
+  const datePx = sizePreset.date;
+  const tagsPx = sizePreset.tags;
+  const headingPx = sizePreset.headingPx;
+
+  // 內部固定預設（簡化 API）
+  const pixelGap = 0;
+  const tagsTextBoxPadding = 5;
+  const letterSpacing = 1;
 
   // PixelText 尺寸計算
   const idCanvas = useMemo(() => computeTextCanvasSize(idText, idPx, pixelGap, letterSpacing), [idText, idPx, pixelGap, letterSpacing]);
@@ -215,7 +173,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
   ), [textBoxWidth, tagsPx, pixelGap, letterSpacing, tagsTextBoxPadding]);
 
   return (
-    <div ref={ref} className={`feed-card-info size-${size} ${className}`.trim()} style={style}>
+    <div ref={ref} className={`feed-card-info size-${size}`.trim()}>
       <div className="feed-card-info__id">
         <div className="fade-stack" style={{ width: idCanvas.width, height: idCanvas.height }}>
           <div className="fade-layer base" style={{ opacity: isHovered ? 0 : 1 }}>
@@ -238,7 +196,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
               pixelSize={idPx}
               pixelGap={pixelGap}
               letterSpacing={letterSpacing}
-              primaryColor={idColor}
+              primaryColor={primaryColor}
               width={idCanvas.width}
               height={idCanvas.height}
               animated={isHovered}
@@ -248,7 +206,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
         </div>
       </div>
 
-      <div className="feed-card-info__heading" style={{ fontSize: headingPx, color: isHovered ? headingColor : basePrimary, transition: 'color 300ms ease' }}>
+      <div className="feed-card-info__heading" style={{ fontSize: headingPx, color: isHovered ? primaryColor : basePrimary, transition: 'color 300ms ease' }}>
         {computedHeading}
       </div>
       <div className="feed-card-info__date">
@@ -273,10 +231,11 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
               pixelSize={datePx}
               pixelGap={pixelGap}
               letterSpacing={letterSpacing}
-              primaryColor={dateColor}
+              primaryColor={primaryColor}
               width={dateCanvas.width}
               height={dateCanvas.height}
-              animated={false}
+              animated={isHovered}
+              totalAnimationDuration={500}
             />
           </div>
         </div>
@@ -313,12 +272,13 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
               pixelSize={tagsPx}
               pixelGap={pixelGap}
               letterSpacing={letterSpacing}
-              primaryColor={tagPrimaryColor}
-              onPrimaryColor={tagOnPrimaryColor}
+              primaryColor={primaryColor}
+              onPrimaryColor={secondaryColor}
               width={tagCanvas.width}
               height={tagCanvas.height}
               spaceWidth={3}
-              animated={false}
+              animated={isHovered}
+              totalAnimationDuration={500}
             />
           </div>
         </div>

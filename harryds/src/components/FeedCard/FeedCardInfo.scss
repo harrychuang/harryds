@@ -64,9 +64,15 @@
 }
 
 .size-xs {
-  gap: 4px;
+  gap: 12px;
   .feed-card-info__id {
-    margin-bottom: 0px;
+    margin-bottom: 2px;
+  }
+  .feed-card-info__heading {
+    margin-bottom: -12px;
+  }
+  .feed-card-info__date {
+    margin-bottom: 2px;
   }
 }
 

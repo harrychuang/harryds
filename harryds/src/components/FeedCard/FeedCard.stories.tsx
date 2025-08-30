@@ -19,6 +19,9 @@ const meta = {
         component: '以 PixelImage 作為背景的卡片。滿寬（max 1600px），內容置左下，預設 padding 40px。',
       },
     },
+    controls: {
+      include: ['src', 'size', 'height', 'padding', 'className'],
+    },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -65,11 +68,8 @@ export const Hero: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <FeedCardInfo
           data={{ id: items[0].id, heading: items[0].heading, date: items[0].date, tags: items[0].tags, category: items[0].category }}
-          idColor={items[0].primaryColor}
-          dateColor={items[0].primaryColor}
-          headingColor={items[0].primaryColor}
-          tagPrimaryColor={items[0].primaryColor}
-          tagOnPrimaryColor={items[0].secondaryColor}
+          primaryColor={items[0].primaryColor}
+          secondaryColor={items[0].secondaryColor}
         />
       </div>
     ),
@@ -92,11 +92,8 @@ export const Med: Story = {
         <FeedCardInfo
           size="med"
           data={{ id: items[1].id, heading: items[1].heading, date: items[1].date, tags: items[1].tags, category: items[1].category }}
-          idColor={items[1].primaryColor}
-          dateColor={items[1].primaryColor}
-          headingColor={items[1].primaryColor}
-          tagPrimaryColor={items[1].primaryColor}
-          tagOnPrimaryColor={items[1].secondaryColor}
+          primaryColor={items[1].primaryColor}
+          secondaryColor={items[1].secondaryColor}
         />
       </div>
     ),
@@ -119,11 +116,8 @@ export const Sm: Story = {
         <FeedCardInfo
           size="sm"
           data={{ id: items[2].id, heading: items[2].heading, date: items[2].date, tags: items[2].tags, category: items[2].category }}
-          idColor={items[2].primaryColor}
-          dateColor={items[2].primaryColor}
-          headingColor={items[2].primaryColor}
-          tagPrimaryColor={items[2].primaryColor}
-          tagOnPrimaryColor={items[2].secondaryColor}
+          primaryColor={items[2].primaryColor}
+          secondaryColor={items[2].secondaryColor}
         />
       </div>
     ),
@@ -146,11 +140,8 @@ export const Xs: Story = {
         <FeedCardInfo
           size="xs"
           data={{ id: items[3].id, heading: items[3].heading, date: items[3].date, tags: items[3].tags, category: items[3].category }}
-          idColor={items[3].primaryColor}
-          dateColor={items[3].primaryColor}
-          headingColor={items[3].primaryColor}
-          tagPrimaryColor={items[3].primaryColor}
-          tagOnPrimaryColor={items[3].secondaryColor}
+          primaryColor={items[3].primaryColor}
+          secondaryColor={items[3].secondaryColor}
         />
       </div>
     ),
