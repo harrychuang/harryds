@@ -17,7 +17,7 @@ export interface DistortedPixelsProps {
   src: string;
   /** 尺寸配置：圖片如何填滿容器 */
   objectFit?: DistortedPixelsObjectFit;
-  /** 最大像素化程度（數值越大越粗糙，0-100） */
+  /** 最大像素化程度（數值越大像素塊越大，0-200） */
   maxPixelation?: number;
   /** 最大扭曲強度（0-1） */
   maxDistortion?: number;
@@ -61,32 +61,82 @@ const DistortionShader = {
     uniform vec2 uResolution;
     varying vec2 vUv;
     
+    // 雜湊函數 - 產生偽隨機值
+    float hash(vec2 p) {
+      return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+    }
+    
     void main() {
       vec2 uv = vUv;
       
-      // 垂直扭曲效果（基於滾動）：對 uv.y 做位移，方向為上下
-      // 以 uv.x 作為輸入，讓不同列產生不同的上下撕裂位移
-      float wave = sin(uv.x * 10.0 + uTime * 2.0) * uDistortion * 0.1;
-      float tear = sin(uv.x * 50.0 + uTime * 5.0) * uDistortion * 0.05;
-      uv.y += wave + tear;
+      // 設定最小閾值，低於此值時保持原始清晰度
+      float pixelationThreshold = 5.0;
       
-      // 垂直像素化效果（只在 Y 軸方向）
-      if (uPixelation > 0.0) {
-        float pixelSize = uPixelation * 0.01; // 將 0-100 轉為 0-1
-        uv.y = floor(uv.y / pixelSize) * pixelSize;
-      }
-      
-      // 邊界檢查
-      if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
-        gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+      // 如果像素化和扭曲都很小，直接輸出原始圖片
+      if (uPixelation < pixelationThreshold && uDistortion < 0.1) {
+        gl_FragColor = texture2D(tDiffuse, uv);
         return;
       }
       
-      vec4 color = texture2D(tDiffuse, uv);
+      // 計算實際使用的 UV 座標（根據效果強度決定）
+      vec2 finalUV = uv;
       
-      // 添加一些數字雜訊增強撕裂感
-      float noise = fract(sin(dot(uv.xy, vec2(12.9898, 78.233))) * 43758.5453) * 2.0 - 1.0;
-      color.rgb += noise * uDistortion * 0.02;
+      // 只在效果足夠強時才應用像素化和扭曲
+      if (uPixelation >= pixelationThreshold || uDistortion >= 0.1) {
+        // 計算像素塊大小 - 只在需要時才計算
+        float pixelSize = max(0.001, uPixelation * 0.002);
+        
+        // 將 UV 座標量化成像素塊
+        vec2 pixelCoord = floor(uv / pixelSize);
+        vec2 pixelUV = (pixelCoord + 0.5) * pixelSize;
+        
+        // 為每個像素塊計算獨立的垂直位移
+        if (uDistortion > 0.1) {
+          // 使用像素塊座標產生偽隨機位移
+          float blockHash = hash(pixelCoord);
+          float timeOffset = hash(pixelCoord + vec2(100.0, 200.0)) * 6.28;
+          
+          // 結合隨機性和時間動畫的垂直位移
+          float displacement = sin(blockHash * 12.566 + uTime * 3.0 + timeOffset) * uDistortion * 0.08;
+          
+          // 增加一些額外的跳躍感
+          float jumpFactor = step(0.7, hash(pixelCoord + vec2(50.0, 75.0)));
+          displacement += jumpFactor * sin(uTime * 5.0 + blockHash * 10.0) * uDistortion * 0.12;
+          
+          // 應用垂直位移
+          pixelUV.y += displacement;
+        }
+        
+        // 邊界檢查
+        if (pixelUV.x < 0.0 || pixelUV.x > 1.0 || pixelUV.y < 0.0 || pixelUV.y > 1.0) {
+          gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+          return;
+        }
+        
+        finalUV = pixelUV;
+        
+        // 如果像素化足夠強，使用像素塊的統一顏色
+        if (uPixelation >= pixelationThreshold) {
+          finalUV = (floor(uv / pixelSize) + 0.5) * pixelSize;
+        }
+      }
+      
+      // 採樣紋理
+      vec4 color = texture2D(tDiffuse, finalUV);
+      
+      // 只在扭曲足夠強時添加數位化雜訊效果
+      if (uDistortion > 0.2) {
+        float digitalNoise = step(0.95, hash(floor(uv * 200.0)));
+        color.rgb = mix(color.rgb, vec3(1.0), digitalNoise * uDistortion * 0.1);
+      }
+      
+      // 只在像素化足夠強時為像素塊邊緣添加對比度
+      if (uPixelation > 20.0) {
+        float pixelSize = max(0.001, uPixelation * 0.002);
+        vec2 pixelBoundary = abs(fract(uv / pixelSize) - 0.5);
+        float edgeFactor = 1.0 - smoothstep(0.4, 0.5, max(pixelBoundary.x, pixelBoundary.y));
+        color.rgb *= (1.0 + edgeFactor * 0.1);
+      }
       
       gl_FragColor = color;
     }
@@ -96,9 +146,9 @@ const DistortionShader = {
 const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
   src,
   objectFit = 'cover',
-  maxPixelation = 50,
-  maxDistortion = 1.0,
-  scrollSensitivity = 0.2,
+  maxPixelation = 80,
+  maxDistortion = 1.5,
+  scrollSensitivity = 0.3,
   decaySpeed = 0.95,
   maxPixelRatio = 4,
   className = '',

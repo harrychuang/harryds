@@ -87,19 +87,19 @@ import { DistortedPixels } from 'hds';
       table: { type: { summary: 'DistortedPixelsObjectFit' }, defaultValue: { summary: 'cover' } },
     },
     maxPixelation: {
-      control: { type: 'range', min: 0, max: 100, step: 5 },
-      description: '最大像素化程度（0-100，數值越大越粗糙）',
-      table: { type: { summary: 'number' }, defaultValue: { summary: '50' } },
+      control: { type: 'range', min: 0, max: 200, step: 10 },
+      description: '最大像素化程度（0-200，數值越大像素塊越大）',
+      table: { type: { summary: 'number' }, defaultValue: { summary: '80' } },
     },
     maxDistortion: {
       control: { type: 'range', min: 0, max: 3, step: 0.1 },
       description: '最大扭曲強度（0-3）',
-      table: { type: { summary: 'number' }, defaultValue: { summary: '1.0' } },
+      table: { type: { summary: 'number' }, defaultValue: { summary: '1.5' } },
     },
     scrollSensitivity: {
       control: { type: 'range', min: 0.1, max: 5, step: 0.1 },
       description: '滾動響應靈敏度（數值越大越敏感）',
-      table: { type: { summary: 'number' }, defaultValue: { summary: '0.2' } },
+      table: { type: { summary: 'number' }, defaultValue: { summary: '0.3' } },
     },
     decaySpeed: {
       control: { type: 'range', min: 0.9, max: 0.999, step: 0.001 },
@@ -153,9 +153,9 @@ export const Default: Story = {
   args: {
     src: demoImg,
     objectFit: 'cover',
-    maxPixelation: 50,
-    maxDistortion: 1.0,
-    scrollSensitivity: 0.2,
+    maxPixelation: 80,
+    maxDistortion: 1.5,
+    scrollSensitivity: 0.3,
     decaySpeed: 0.95,
     maxPixelRatio: 4,
     debug: false,
