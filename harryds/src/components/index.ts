@@ -17,3 +17,7 @@ export { FeedCard } from './FeedCard';
 export type { FeedCardProps, FeedCardSize } from './FeedCard';
 export { FeedCardInfo } from './FeedCard';
 export type { FeedCardInfoProps } from './FeedCard';
+
+// Logo - 品牌標誌元件（使用 PixelText）
+export { Logo } from './Logo';
+export type { LogoProps } from './Logo';
