@@ -73,7 +73,7 @@ export const Logo = forwardRef<HTMLDivElement, LogoProps>(({
         textBoxEnabled={true}
         textBox={config.logoTextBox}
         textBoxWidth={type === 'back' ? 1 : 4}
-        textBoxPadding={2}
+        textBoxPadding={type === 'back' ? 1 : 2}
         swapTextAndBox={config.swapTextAndBox}
         primaryColor={primaryColor}
         onPrimaryColor={secondaryColor}
