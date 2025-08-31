@@ -3,7 +3,7 @@
 // 參考 akella/DistortedPixels，實現滾動加速時的垂直撕裂和像素化效果
 // =============================================================================
 
-import { useEffect, useRef, useState, useMemo, useCallback, forwardRef } from 'react';
+import { useEffect, useRef, useState, useCallback, forwardRef } from 'react';
 import * as THREE from 'three';
 
 export type DistortedPixelsObjectFit = 'cover' | 'contain' | 'fill';
@@ -53,10 +53,11 @@ const fragmentShader = `
   void main() {
     vec2 uv = vUv;
     
-    // 垂直扭曲效果（基於滾動）
-    float wave = sin(uv.y * 10.0 + uTime * 2.0) * uDistortion * 0.1;
-    float tear = sin(uv.y * 50.0 + uTime * 5.0) * uDistortion * 0.05;
-    uv.x += wave + tear;
+    // 垂直扭曲效果（基於滾動）：對 uv.y 做位移，方向為上下
+    // 以 uv.x 作為輸入，讓不同列產生不同的上下撕裂位移
+    float wave = sin(uv.x * 10.0 + uTime * 2.0) * uDistortion * 0.1;
+    float tear = sin(uv.x * 50.0 + uTime * 5.0) * uDistortion * 0.05;
+    uv.y += wave + tear;
     
     // 垂直像素化效果（只在 Y 軸方向）
     if (uPixelation > 0.0) {
