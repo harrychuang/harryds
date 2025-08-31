@@ -17,6 +17,8 @@ export interface DistortedPixelsProps {
   src: string;
   /** 尺寸配置：圖片如何填滿容器 */
   objectFit?: DistortedPixelsObjectFit;
+  /** 扭曲方向：'y' 垂直拉扯（預設）、'x' 水平拉扯 */
+  direction?: 'x' | 'y';
   /** 最大像素化程度（數值越大像素塊越大，0-200） */
   maxPixelation?: number;
   /** 最大扭曲強度（0-1） */
@@ -45,6 +47,7 @@ const DistortionShader = {
     'uDistortion': { value: 0 },
     'uTime': { value: 0 },
     'uResolution': { value: new THREE.Vector2() },
+    'uDirection': { value: 0 }, // 0 = 垂直拉扯 (Y)，1 = 水平拉扯 (X)
   },
   vertexShader: `
     varying vec2 vUv;
@@ -59,6 +62,7 @@ const DistortionShader = {
     uniform float uDistortion;
     uniform float uTime;
     uniform vec2 uResolution;
+    uniform float uDirection; // 0 = Y (垂直)、1 = X (水平)
     varying vec2 vUv;
     
     // 雜湊函數 - 產生偽隨機值
@@ -83,41 +87,75 @@ const DistortionShader = {
       
       // 只在效果足夠強時才應用像素化和扭曲
       if (uPixelation >= pixelationThreshold || uDistortion >= 0.1) {
-        // 計算像素塊大小 - 只在需要時才計算
-        float pixelSize = max(0.001, uPixelation * 0.002);
-        
-        // 將 UV 座標量化成像素塊
-        vec2 pixelCoord = floor(uv / pixelSize);
-        vec2 pixelUV = (pixelCoord + 0.5) * pixelSize;
-        
-        // 為每個像素塊計算獨立的垂直位移
-        if (uDistortion > 0.1) {
-          // 使用像素塊座標產生偽隨機位移
-          float blockHash = hash(pixelCoord);
-          float timeOffset = hash(pixelCoord + vec2(100.0, 200.0)) * 6.28;
-          
-          // 結合隨機性和時間動畫的垂直位移
-          float displacement = sin(blockHash * 12.566 + uTime * 3.0 + timeOffset) * uDistortion * 0.08;
-          
-          // 增加一些額外的跳躍感
-          float jumpFactor = step(0.7, hash(pixelCoord + vec2(50.0, 75.0)));
-          displacement += jumpFactor * sin(uTime * 5.0 + blockHash * 10.0) * uDistortion * 0.12;
-          
-          // 應用垂直位移
-          pixelUV.y += displacement;
-        }
-        
-        // 邊界檢查
-        if (pixelUV.x < 0.0 || pixelUV.x > 1.0 || pixelUV.y < 0.0 || pixelUV.y > 1.0) {
-          gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
-          return;
-        }
-        
-        finalUV = pixelUV;
-        
-        // 如果像素化足夠強，使用像素塊的統一顏色
-        if (uPixelation >= pixelationThreshold) {
-          finalUV = (floor(uv / pixelSize) + 0.5) * pixelSize;
+        const int TAPS = 9;
+        if (uDirection < 0.5) {
+          // 垂直扭曲：以欄為單位，沿 Y 軸拖影
+          float columnWidth = max(0.01, uPixelation * 0.002);
+          float columnIndex = floor(uv.x / columnWidth);
+          float columnCenterX = (columnIndex + 0.5) * columnWidth;
+
+          float colHash = hash(vec2(columnIndex * 0.07, 0.123));
+          float timePhase = hash(vec2(columnIndex * 0.07, 3.14)) * 6.28318;
+          float dir = sign(sin(uTime * 1.5 + timePhase));
+          float smearLen = (0.02 + colHash * 0.04) * uDistortion;
+
+          vec4 accum = vec4(0.0);
+          float wsum = 0.0;
+          for (int i = 0; i < TAPS; i++) {
+            float t = float(i) / float(TAPS - 1);
+            float centered = (t - 0.5) * 2.0;
+            float bias = mix(centered, max(0.0, dir * centered), 0.6);
+            float offset = bias * smearLen;
+            vec2 suv = vec2(columnCenterX, clamp(uv.y + offset, 0.0, 1.0));
+            if (uPixelation >= pixelationThreshold) {
+              float pixelHeight = max(0.005, uPixelation * 0.0035);
+              suv.y = (floor(suv.y / pixelHeight) + 0.5) * pixelHeight;
+            }
+            vec4 c = texture2D(tDiffuse, suv);
+            float w = 1.0 - abs(centered);
+            accum += c * w;
+            wsum += w;
+          }
+          if (wsum > 0.0) {
+            finalUV = vec2(columnCenterX, uv.y);
+          }
+          if (uPixelation >= pixelationThreshold) {
+            finalUV.x = columnCenterX;
+          }
+        } else {
+          // 水平扭曲：以列為單位，沿 X 軸拖影
+          float rowHeight = max(0.01, uPixelation * 0.0035);
+          float rowIndex = floor(uv.y / rowHeight);
+          float rowCenterY = (rowIndex + 0.5) * rowHeight;
+
+          float rowHash = hash(vec2(rowIndex * 0.07, 0.987));
+          float timePhase = hash(vec2(rowIndex * 0.07, 6.28)) * 6.28318;
+          float dir = sign(sin(uTime * 1.5 + timePhase));
+          float smearLen = (0.02 + rowHash * 0.04) * uDistortion;
+
+          vec4 accum = vec4(0.0);
+          float wsum = 0.0;
+          for (int i = 0; i < TAPS; i++) {
+            float t = float(i) / float(TAPS - 1);
+            float centered = (t - 0.5) * 2.0;
+            float bias = mix(centered, max(0.0, dir * centered), 0.6);
+            float offset = bias * smearLen;
+            vec2 suv = vec2(clamp(uv.x + offset, 0.0, 1.0), rowCenterY);
+            if (uPixelation >= pixelationThreshold) {
+              float pixelWidth = max(0.01, uPixelation * 0.002);
+              suv.x = (floor(suv.x / pixelWidth) + 0.5) * pixelWidth;
+            }
+            vec4 c = texture2D(tDiffuse, suv);
+            float w = 1.0 - abs(centered);
+            accum += c * w;
+            wsum += w;
+          }
+          if (wsum > 0.0) {
+            finalUV = vec2(uv.x, rowCenterY);
+          }
+          if (uPixelation >= pixelationThreshold) {
+            finalUV.y = rowCenterY;
+          }
         }
       }
       
@@ -130,12 +168,19 @@ const DistortionShader = {
         color.rgb = mix(color.rgb, vec3(1.0), digitalNoise * uDistortion * 0.1);
       }
       
-      // 只在像素化足夠強時為像素塊邊緣添加對比度
+      // 只在像素化足夠強時為像素邊緣添加對比度（依方向）
       if (uPixelation > 20.0) {
-        float pixelSize = max(0.001, uPixelation * 0.002);
-        vec2 pixelBoundary = abs(fract(uv / pixelSize) - 0.5);
-        float edgeFactor = 1.0 - smoothstep(0.4, 0.5, max(pixelBoundary.x, pixelBoundary.y));
-        color.rgb *= (1.0 + edgeFactor * 0.1);
+        if (uDirection < 0.5) {
+          float columnWidth = max(0.01, uPixelation * 0.002);
+          float pixelBoundary = abs(fract(uv.x / columnWidth) - 0.5);
+          float verticalEdge = 1.0 - smoothstep(0.4, 0.5, pixelBoundary);
+          color.rgb *= (1.0 + verticalEdge * 0.15);
+        } else {
+          float rowHeight = max(0.01, uPixelation * 0.0035);
+          float rowBoundary = abs(fract(uv.y / rowHeight) - 0.5);
+          float horizontalEdge = 1.0 - smoothstep(0.4, 0.5, rowBoundary);
+          color.rgb *= (1.0 + horizontalEdge * 0.15);
+        }
       }
       
       gl_FragColor = color;
@@ -143,9 +188,10 @@ const DistortionShader = {
   `,
 };
 
-const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
+const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({ 
   src,
   objectFit = 'cover',
+  direction = 'x',
   maxPixelation = 80,
   maxDistortion = 1.5,
   scrollSensitivity = 0.3,
@@ -393,6 +439,7 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
       distortionPassRef.current.uniforms['uPixelation'].value = currentPixelationRef.current;
       distortionPassRef.current.uniforms['uDistortion'].value = currentDistortionRef.current;
       distortionPassRef.current.uniforms['uTime'].value = timeRef.current;
+      distortionPassRef.current.uniforms['uDirection'].value = direction === 'x' ? 1.0 : 0.0;
     }
 
     // 更新調試信息

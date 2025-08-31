@@ -75,6 +75,12 @@ import { DistortedPixels } from 'hds';
   },
   tags: ['autodocs'],
   argTypes: {
+    direction: {
+      control: { type: 'radio' },
+      options: ['y', 'x'],
+      description: '扭曲方向：y 垂直拉扯、x 水平拉扯',
+      table: { type: { summary: "'x' | 'y'" }, defaultValue: { summary: 'x' } },
+    },
     src: {
       control: 'text',
       description: '圖片 URL（支援跨來源）',
@@ -153,6 +159,7 @@ export const Default: Story = {
   args: {
     src: demoImg,
     objectFit: 'cover',
+    direction: 'x',
     maxPixelation: 80,
     maxDistortion: 1.5,
     scrollSensitivity: 0.3,
