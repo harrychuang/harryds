@@ -29,6 +29,10 @@ export interface DistortedPixelsProps {
   decaySpeed?: number;
   /** DPR 上限，避免行動裝置過高像素比造成負擔 */
   maxPixelRatio?: number;
+  /** 自適應畫質：依效果強度動態降低後處理解析度 */
+  adaptiveQuality?: boolean;
+  /** 自適應畫質的最低比例（0.3-1.0） */
+  minQualityScale?: number;
   /** 額外 CSS 類名 */
   className?: string;
   /** 載入成功回呼 */
@@ -197,6 +201,8 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
   scrollSensitivity = 0.3,
   decaySpeed = 0.95,
   maxPixelRatio = 4,
+  adaptiveQuality = true,
+  minQualityScale = 0.6,
   className = '',
   onLoad,
   onError,
@@ -215,6 +221,8 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
   const materialRef = useRef<THREE.MeshBasicMaterial | null>(null);
   const meshRef = useRef<THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial> | null>(null);
   const textureRef = useRef<THREE.Texture | null>(null);
+  const basePixelRatioRef = useRef<number>(1);
+  const currentQualityScaleRef = useRef<number>(1);
   
   // 動畫和滾動狀態
   const rafRef = useRef<number | null>(null);
@@ -255,6 +263,10 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
     
     scrollYRef.current = currentScrollY;
     lastScrollTimeRef.current = currentTime;
+    // 滾動時喚醒渲染（若已暫停）
+    if (rafRef.current == null && isVisibleRef.current) {
+      rafRef.current = requestAnimationFrame(renderLoop);
+    }
   }, [scrollSensitivity]);
 
   // 滾動事件監聽
@@ -370,6 +382,7 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
     });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxPixelRatio));
     renderer.setSize(width, height);
+    basePixelRatioRef.current = renderer.getPixelRatio();
     // ★ 色彩與 tone mapping：明確指定
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.NoToneMapping;
@@ -395,6 +408,7 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
     const distortionPass = new ShaderPass(DistortionShader);
     distortionPass.uniforms['uResolution'].value.set(width, height);
     composer.addPass(distortionPass);
+    currentQualityScaleRef.current = 1;
     composer.addPass(new OutputPass());
 
     // assign refs
@@ -442,6 +456,21 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
       distortionPassRef.current.uniforms['uDirection'].value = direction === 'x' ? 1.0 : 0.0;
     }
 
+    // 自適應畫質：根據強度降低後處理輸出解析度（僅 composer 層級，避免換算 renderer DPR）
+    if (adaptiveQuality && composerRef.current) {
+      const basePR = basePixelRatioRef.current;
+      const minScale = Math.min(1, Math.max(0.3, minQualityScale));
+      const p = maxPixelation > 0 ? currentPixelationRef.current / Math.max(1e-6, maxPixelation) : 0;
+      const d = maxDistortion > 0 ? currentDistortionRef.current / Math.max(1e-6, maxDistortion) : 0;
+      const intensity = Math.min(1, Math.max(p, d));
+      const targetScale = THREE.MathUtils.lerp(1, minScale, intensity);
+      if (Math.abs(targetScale - currentQualityScaleRef.current) > 0.05) {
+        const pr = basePR * targetScale;
+        composerRef.current.setPixelRatio(pr);
+        currentQualityScaleRef.current = targetScale;
+      }
+    }
+
     // 更新調試信息
     if (debug) {
       setEffectValues({
@@ -458,7 +487,11 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
     if (scrollVelocityRef.current < 0.001) {
       scrollVelocityRef.current = 0;
     }
-  }, [maxPixelation, maxDistortion, decaySpeed, debug]);
+    // 若已無效果與滾動，且非 debug，暫停渲染等待喚醒
+    if (!debug && currentPixelationRef.current < 0.01 && currentDistortionRef.current < 0.01 && scrollVelocityRef.current === 0) {
+      stopLoop();
+    }
+  }, [maxPixelation, maxDistortion, decaySpeed, debug, direction, adaptiveQuality, minQualityScale]);
 
   // 清理資源
   const disposeThree = useCallback(() => {
