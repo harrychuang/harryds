@@ -8,7 +8,11 @@ import { forwardRef } from 'react';
 import { PixelText } from '../PixelText';
 import { HDS_TOKENS } from '../../utils/colorTokens';
 
+export type LogoType = 'default' | 'back';
+
 export interface LogoProps {
+  /** Logo 類型 */
+  type?: LogoType;
   /** 主色調（主文字顏色 & text-box 背景色） */
   primaryColor?: string;
   /** 次色調（text-box 文字顏色） */
@@ -22,23 +26,37 @@ export interface LogoProps {
 }
 
 export const Logo = forwardRef<HTMLDivElement, LogoProps>(({
+  type = 'default',
   primaryColor = HDS_TOKENS.themeSurface,
   secondaryColor = HDS_TOKENS.onThemeSurface,
   animated = true,
   marqueeEnabled = true,
   className = '',
 }, ref) => {
-  const logoText = "HARRY";
-  const logoTextBox = "CHUANG ▲●◼ DESIGN STUDIO ▲●◼ DESIGN SYSTEM ▲●◼ HELLO~ WELCOME! ▲●◼ ";
-  
-  // 自動計算 Logo 尺寸
-  // 主文字 "HARRY" (5字符): 5 * 8 * 4 + 4 * 1 * 4 = 176px
-  // TextBox (4字符寬度 + padding): 4 * 8 * 4 + 3 * 1 * 4 + 8 + 4 = 152px  
-  // 間距: 2 * 4 = 8px
-  // 總寬度: 176 + 8 + 152 = 336px，設為 350px 預留空間
-  // 總高度: 8 * 4 = 32px，設為 40px 預留空間
-  const logoWidth = 350;
-  const logoHeight = 40;
+  // 根據 type 設定不同的內容和配置
+  const getLogoConfig = () => {
+    switch (type) {
+      case 'back':
+        return {
+          logoText: "BACK",
+          logoTextBox: "<",
+          swapTextAndBox: true,
+          width: 210, // Back 比較短，調整寬度（考慮額外間距）
+          height: 40,
+        };
+      case 'default':
+      default:
+        return {
+          logoText: "HARRY",
+          logoTextBox: "CHUANG ▲●◼ DESIGN STUDIO ▲●◼ DESIGN SYSTEM ▲●◼ HELLO~ WELCOME! ▲●◼ ",
+          swapTextAndBox: false,
+          width: 350,
+          height: 40,
+        };
+    }
+  };
+
+  const config = getLogoConfig();
 
   return (
     <div
@@ -50,27 +68,28 @@ export const Logo = forwardRef<HTMLDivElement, LogoProps>(({
       }}
     >
       <PixelText
-        text={logoText}
+        text={config.logoText}
         textEnabled={true}
         textBoxEnabled={true}
-        textBox={logoTextBox}
-        textBoxWidth={4}
+        textBox={config.logoTextBox}
+        textBoxWidth={type === 'back' ? 1 : 4}
         textBoxPadding={2}
+        swapTextAndBox={config.swapTextAndBox}
         primaryColor={primaryColor}
         onPrimaryColor={secondaryColor}
         pixelSize={4}
         pixelGap={0}
         letterSpacing={1}
         animated={animated}
-        marqueeEnabled={marqueeEnabled}
+        marqueeEnabled={type === 'back' ? false : marqueeEnabled} // Back 類型不需要跑馬燈
         marqueeSpeed={15}
         marqueePause={0}
-        width={logoWidth}
-        height={logoHeight}
-        totalAnimationDuration={1500}
-        durationTime={600}
-        animationDelay={120}
-        easeGlitch={true}
+        width={config.width}
+        height={config.height}
+        totalAnimationDuration={1000}
+        durationTime={500}
+        animationDelay={0}
+        easeGlitch={false}
       />
     </div>
   );

@@ -209,7 +209,9 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       
       // 如果同時有主文字和 text-box，需要加上間隔（使用 textBoxPadding 作為間距）
       if (textEnabled && currentText) {
-        totalWidth += textBoxPadding * pixelSize; // 主文字和 text-box 之間的間隔
+        const baseSpacing = textBoxPadding * pixelSize;
+        const extraSpacing = swapTextAndBox ? 2 * pixelSize : 0; // swapTextAndBox 時增加額外間距
+        totalWidth += baseSpacing + extraSpacing; // 主文字和 text-box 之間的間隔
       }
       
       totalWidth += boxTotalWidth;
@@ -217,7 +219,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
     }
 
     return { totalWidth, totalHeight, charCount };
-  }, [displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding, pixelSize, pixelGap, letterSpacing, marqueeEnabled, getCharWidth]);
+  }, [displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding, pixelSize, pixelGap, letterSpacing, marqueeEnabled, getCharWidth, swapTextAndBox]);
 
   // 計算跑馬燈是否需要啟用
   const marqueeData = useMemo(() => {
@@ -914,7 +916,9 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
       // 先渲染 text-box，再渲染主文字
       renderTextBox();
       if (textEnabled && currentText && textBoxEnabled && (currentTextBox || textBoxWidth > 0)) {
-        currentX += textBoxPadding * pixelSize;
+        const baseSpacing = textBoxPadding * pixelSize;
+        const extraSpacing = 2 * pixelSize; // swapTextAndBox 時增加額外間距
+        currentX += baseSpacing + extraSpacing;
       }
       renderMainText();
     } else {

@@ -28,17 +28,22 @@ Harry Design Studio 的品牌標誌元件，使用 PixelText 實現 8-bit 風格
 \`\`\`tsx
 import { Logo } from 'hds';
 
-// 基本使用
+// 基本使用 - 預設品牌標誌
 <Logo />
+
+// 返回按鈕樣式
+<Logo type="back" />
 
 // 自訂顏色
 <Logo 
+  type="default"
   primaryColor="#FF1246" 
   secondaryColor="#1B2350" 
 />
 
 // 自訂設定  
 <Logo 
+  type="default"
   animated={true}
   marqueeEnabled={true}
 />
@@ -49,6 +54,15 @@ import { Logo } from 'hds';
   },
   tags: ['autodocs'],
   argTypes: {
+    type: {
+      control: { type: 'select' },
+      options: ['default', 'back'],
+      description: 'Logo 類型。"default" 顯示品牌標誌，"back" 顯示返回按鈕樣式',
+      table: {
+        type: { summary: 'LogoType' },
+        defaultValue: { summary: 'default' },
+      },
+    },
     primaryColor: {
       control: { type: 'text' },
       description: '主色調（主文字顏色 & text-box 背景色）。可使用 CSS 變數，如 var(--hds-sys-color-theme-surface)',
@@ -99,10 +113,20 @@ import { Logo } from 'hds';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 預設範例
+// 預設範例 - 品牌標誌
 export const Default: Story = {
   args: {
+    type: 'default',
     animated: true,
     marqueeEnabled: true,
+  },
+};
+
+// 返回按鈕樣式
+export const Back: Story = {
+  args: {
+    type: 'back',
+    animated: true,
+    marqueeEnabled: false,
   },
 };
