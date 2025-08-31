@@ -5,7 +5,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import FeedCard from './FeedCard';
 import FeedCardInfo from './FeedCardInfo';
-import feed from './feed.json';
+import feed from '../../../../shared/data/feed.json';
 
 const items = (feed as any).items as Array<any>;
 
@@ -61,7 +61,7 @@ export const Default: Story = {
     </div>
   ),
   args: {
-    src: new URL(items[0].heroImage, import.meta.url).href,
+    src: new URL(`../../../assets/imgs/${items[0].heroImage}`, import.meta.url).href,
     size: 'hero',
     secondaryColor: items[0].secondaryColor,
     padding: 40,

@@ -25,3 +25,7 @@ export type { LogoProps } from './Logo';
 // DistortedPixels - 響應滾動的扭曲像素化圖片元件
 export { DistortedPixels } from './DistortedPixels';
 export type { DistortedPixelsProps, DistortedPixelsObjectFit } from './DistortedPixels';
+
+// FeedDetailOverlay - 放大檢視（FeedCard hero + 內容）
+export { FeedDetailOverlay } from './FeedDetailOverlay';
+export type { FeedDetailOverlayProps } from './FeedDetailOverlay';

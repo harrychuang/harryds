@@ -1,0 +1,25 @@
+// =============================================================================
+// 共用 Feed 型別（供 FeedCard / FeedDetailOverlay / 外部資料來源使用）
+// =============================================================================
+
+export type FeedCategory = 'article' | 'project';
+
+export interface FeedItem {
+  id: number;
+  heading: string;
+  date: string;
+  tags: string[];
+  category: FeedCategory;
+  primaryColor?: string;
+  secondaryColor?: string;
+  heroImage?: string; // 圖片 URL（可對應 PixelImage 的 src）
+  content?: FeedContentBlock[] | string; // 文章內容：結構化方塊或純文字
+}
+
+export type FeedContentBlock =
+  | { type: 'heading'; level?: 1 | 2 | 3; content: string }
+  | { type: 'paragraph'; content: string }
+  | { type: 'image'; src: string; alt?: string }
+  | { type: 'list'; items: string[] };
+
+

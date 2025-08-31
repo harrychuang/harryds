@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import FeedCardInfo from './FeedCardInfo';
 import type { FeedCardInfoData } from './FeedCardInfo';
 import type { FeedCardSize } from './FeedCard';
-import feed from './feed.json';
+import feed from '../../../../shared/data/feed.json';
 
 const items = (feed as any).items as Array<any>;
 

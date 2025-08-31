@@ -1,0 +1,41 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "heading": "Heading",
+      "date": "July 24, 2025 - June 25, 2026",
+      "tags": ["UI", "UX", "DEV"],
+      "category": "project",
+      "primaryColor": "#FF1246",
+      "secondaryColor": "#1B2350",
+      "heroImage": "project-demo.jpg",
+      "content": [
+        { "type": "heading", "level": 1, "content": "UNTITLED PROJECT" },
+        { "type": "paragraph", "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae arcu ac neque commodo aliquet." },
+        { "type": "image", "src": "project-demo.jpg", "alt": "hero" },
+        { "type": "heading", "level": 2, "content": "Design Goals" },
+        { "type": "list", "items": ["Responsive pixel aesthetics", "Playful motion", "Editorial layout"] },
+        { "type": "image", "src": "project-demo.jpg", "alt": "detail-1" },
+        { "type": "heading", "level": 2, "content": "Process" },
+        { "type": "paragraph", "content": "Aenean imperdiet nunc non tempor laoreet. In et sem id neque volutpat fermentum sit amet id lectus." },
+        { "type": "image", "src": "project-demo.jpg", "alt": "detail-2" }
+      ]
+    },
+    {
+      "id": 2,
+      "heading": "Heading",
+      "date": "July 24, 2025 - June 25, 2026",
+      "tags": ["UI", "UX", "DEV"],
+      "category": "project",
+      "primaryColor": "#FF1246",
+      "secondaryColor": "#1B2350",
+      "heroImage": "project-demo.jpg",
+      "content": [
+        { "type": "heading", "level": 1, "content": "UNTITLED PROJECT #2" },
+        { "type": "paragraph", "content": "Short intro paragraph." }
+      ]
+    }
+  ]
+}
+
+

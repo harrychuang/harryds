@@ -6,6 +6,9 @@
 import React, { CSSProperties, createContext, forwardRef, useState, useRef, useEffect } from 'react';
 import { PixelImage } from '../PixelImage';
 import type { PixelImageProps } from '../PixelImage';
+import FeedCardInfo from './FeedCardInfo';
+import type { FeedCardInfoData } from './FeedCardInfo';
+import type { FeedItem } from '../../types/feed';
 import './FeedCard.scss';
 import hoverSoundUrl from '../../../assets/sound/Coin Collect Retro 8-bit Sound Effect.mp3';
 
@@ -27,6 +30,10 @@ export interface FeedCardProps {
   backgroundProps?: Partial<Omit<PixelImageProps, 'src'>>;
   /** JSON 的 secondary color（hover 時套用至 PixelImage maskColor） */
   secondaryColor?: string;
+  /** 若提供，將自動從 item 取用 src/顏色，且在未提供 children 時自動渲染 FeedCardInfo */
+  item?: FeedItem;
+  /** 直接提供 FeedCardInfo 資料（覆蓋 item 推導） */
+  infoData?: FeedCardInfoData;
   /** 額外類名 */
   className?: string;
   /** 內容節點，顯示於卡片左下角 */
@@ -55,6 +62,8 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   padding = 40,
   backgroundProps,
   secondaryColor,
+  item,
+  infoData,
   className = '',
   children,
   style,
@@ -134,6 +143,17 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
     '--feed-card-padding': `${Math.max(0, padding)}px`,
   } as FeedCardStyle;
 
+  // 從 item 推導資料（不覆蓋使用者顯式傳入）
+  const finalSrc = src || (item?.heroImage ?? '');
+  const finalSecondaryColor = secondaryColor || item?.secondaryColor;
+  const derivedInfoData: FeedCardInfoData | undefined = infoData || (item ? {
+    id: item.id,
+    heading: item.heading,
+    date: item.date,
+    tags: item.tags,
+    category: item.category,
+  } : undefined);
+
   // 與 PixelImage Default demo 一致的預設參數（允許 backgroundProps 覆寫）
   const mergedBgProps: Omit<PixelImageProps, 'src'> = {
     pixelSize: backgroundProps?.pixelSize ?? 80,
@@ -147,7 +167,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
     depthTolerance: backgroundProps?.depthTolerance ?? 0.1,
     objectFit: backgroundProps?.objectFit ?? 'cover',
     // 將目標顏色固定傳入，實際進/出時的切換交由 PixelImage 以 CSS 補間處理
-    maskColor: backgroundProps?.maskColor ?? (secondaryColor ?? '#1B2350'),
+    maskColor: backgroundProps?.maskColor ?? (finalSecondaryColor ?? '#1B2350'),
     maskOpacity: backgroundProps?.maskOpacity ?? 0.85,
     maxPixelRatio: backgroundProps?.maxPixelRatio ?? 1.5,
     className: backgroundProps?.className,
@@ -170,14 +190,22 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
       }}
     >
       <div className="feed-card__bg">
-        <PixelImage src={src} hoverActive={isHovered} {...mergedBgProps} />
+        <PixelImage src={finalSrc} hoverActive={isHovered} {...mergedBgProps} />
       </div>
 
       <div className="feed-card__overlay">
         <div className="feed-card__content">
           <FeedCardHoverContext.Provider value={isHovered}>
             <FeedCardSizeContext.Provider value={size}>
-              {children}
+              {children ?? (
+                derivedInfoData ? (
+                  <FeedCardInfo
+                    data={derivedInfoData}
+                    primaryColor={item?.primaryColor}
+                    secondaryColor={finalSecondaryColor}
+                  />
+                ) : null
+              )}
             </FeedCardSizeContext.Provider>
           </FeedCardHoverContext.Provider>
         </div>
