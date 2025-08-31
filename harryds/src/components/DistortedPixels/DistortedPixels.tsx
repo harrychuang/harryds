@@ -5,6 +5,10 @@
 
 import { useEffect, useRef, useState, useCallback, forwardRef } from 'react';
 import * as THREE from 'three';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 
 export type DistortedPixelsObjectFit = 'cover' | 'contain' | 'fill';
 
@@ -33,54 +37,61 @@ export interface DistortedPixelsProps {
   debug?: boolean;
 }
 
-// 自定義著色器
-const vertexShader = `
-  varying vec2 vUv;
-  void main() {
-    vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-  }
-`;
-
-const fragmentShader = `
-  uniform sampler2D uTexture;
-  uniform float uPixelation;
-  uniform float uDistortion;
-  uniform float uTime;
-  uniform vec2 uResolution;
-  varying vec2 vUv;
-  
-  void main() {
-    vec2 uv = vUv;
-    
-    // 垂直扭曲效果（基於滾動）：對 uv.y 做位移，方向為上下
-    // 以 uv.x 作為輸入，讓不同列產生不同的上下撕裂位移
-    float wave = sin(uv.x * 10.0 + uTime * 2.0) * uDistortion * 0.1;
-    float tear = sin(uv.x * 50.0 + uTime * 5.0) * uDistortion * 0.05;
-    uv.y += wave + tear;
-    
-    // 垂直像素化效果（只在 Y 軸方向）
-    if (uPixelation > 0.0) {
-      float pixelSize = uPixelation * 0.01; // 將 0-100 轉為 0-1
-      // 只對 Y 軸進行像素化，X 軸保持原始解析度
-      uv.y = floor(uv.y / pixelSize) * pixelSize;
+// 後處理扭曲著色器（適用於 ShaderPass，輸入 tDiffuse）
+const DistortionShader = {
+  uniforms: {
+    'tDiffuse': { value: null },
+    'uPixelation': { value: 0 },
+    'uDistortion': { value: 0 },
+    'uTime': { value: 0 },
+    'uResolution': { value: new THREE.Vector2() },
+  },
+  vertexShader: `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
+  `,
+  fragmentShader: `
+    uniform sampler2D tDiffuse;
+    uniform float uPixelation;
+    uniform float uDistortion;
+    uniform float uTime;
+    uniform vec2 uResolution;
+    varying vec2 vUv;
     
-    // 邊界檢查
-    if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
-      gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
-      return;
+    void main() {
+      vec2 uv = vUv;
+      
+      // 垂直扭曲效果（基於滾動）：對 uv.y 做位移，方向為上下
+      // 以 uv.x 作為輸入，讓不同列產生不同的上下撕裂位移
+      float wave = sin(uv.x * 10.0 + uTime * 2.0) * uDistortion * 0.1;
+      float tear = sin(uv.x * 50.0 + uTime * 5.0) * uDistortion * 0.05;
+      uv.y += wave + tear;
+      
+      // 垂直像素化效果（只在 Y 軸方向）
+      if (uPixelation > 0.0) {
+        float pixelSize = uPixelation * 0.01; // 將 0-100 轉為 0-1
+        uv.y = floor(uv.y / pixelSize) * pixelSize;
+      }
+      
+      // 邊界檢查
+      if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+        return;
+      }
+      
+      vec4 color = texture2D(tDiffuse, uv);
+      
+      // 添加一些數字雜訊增強撕裂感
+      float noise = fract(sin(dot(uv.xy, vec2(12.9898, 78.233))) * 43758.5453) * 2.0 - 1.0;
+      color.rgb += noise * uDistortion * 0.02;
+      
+      gl_FragColor = color;
     }
-    
-    vec4 color = texture2D(uTexture, uv);
-    
-    // 添加一些數字雜訊增強撕裂感
-    float noise = fract(sin(dot(uv.xy, vec2(12.9898, 78.233))) * 43758.5453) * 2.0 - 1.0;
-    color.rgb += noise * uDistortion * 0.02;
-    
-    gl_FragColor = color;
-  }
-`;
+  `,
+};
 
 const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
   src,
@@ -100,10 +111,13 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
   
   // Three.js 引用
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const composerRef = useRef<EffectComposer | null>(null);
+  const renderPassRef = useRef<RenderPass | null>(null);
+  const distortionPassRef = useRef<ShaderPass | null>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.OrthographicCamera | null>(null);
-  const materialRef = useRef<THREE.ShaderMaterial | null>(null);
-  const meshRef = useRef<THREE.Mesh | null>(null);
+  const materialRef = useRef<THREE.MeshBasicMaterial | null>(null);
+  const meshRef = useRef<THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial> | null>(null);
   const textureRef = useRef<THREE.Texture | null>(null);
   
   // 動畫和滾動狀態
@@ -273,27 +287,27 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
 
     // plane to hold image
     const geometry = new THREE.PlaneGeometry(1, 1);
-    // ★ 建立自定義材質（直接使用 ShaderMaterial）
-    const material = new THREE.ShaderMaterial({
-      vertexShader,
-      fragmentShader,
-      uniforms: {
-        uTexture: { value: null },
-        uPixelation: { value: 0 },
-        uDistortion: { value: 0 },
-        uTime: { value: 0 },
-        uResolution: { value: new THREE.Vector2(width, height) },
-      },
-      transparent: true,
-      toneMapped: false, // ★ 關閉 tone mapping
-    });
+    // ★ 使用 MeshBasicMaterial 並關閉 tone mapping
+    const material = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, toneMapped: false });
     const plane = new THREE.Mesh(geometry, material);
     scene.add(plane);
+
+    // 後處理鏈：RenderPass -> DistortionPass -> OutputPass
+    const composer = new EffectComposer(renderer);
+    const renderPass = new RenderPass(scene, camera);
+    composer.addPass(renderPass);
+    const distortionPass = new ShaderPass(DistortionShader);
+    distortionPass.uniforms['uResolution'].value.set(width, height);
+    composer.addPass(distortionPass);
+    composer.addPass(new OutputPass());
 
     // assign refs
     rendererRef.current = renderer;
     sceneRef.current = scene;
     cameraRef.current = camera;
+    composerRef.current = composer;
+    renderPassRef.current = renderPass;
+    distortionPassRef.current = distortionPass;
     materialRef.current = material;
     meshRef.current = plane;
 
@@ -302,7 +316,7 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
 
   // 渲染循環
   const renderLoop = useCallback(() => {
-    if (!rendererRef.current || !sceneRef.current || !cameraRef.current) return;
+    if (!rendererRef.current || !composerRef.current) return;
     rafRef.current = requestAnimationFrame(renderLoop);
 
     // 更新時間
@@ -324,11 +338,11 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
       1 - decaySpeed
     );
 
-    // 更新著色器 uniforms
-    if (materialRef.current) {
-      materialRef.current.uniforms.uPixelation.value = currentPixelationRef.current;
-      materialRef.current.uniforms.uDistortion.value = currentDistortionRef.current;
-      materialRef.current.uniforms.uTime.value = timeRef.current;
+    // 更新後處理著色器 uniforms
+    if (distortionPassRef.current) {
+      distortionPassRef.current.uniforms['uPixelation'].value = currentPixelationRef.current;
+      distortionPassRef.current.uniforms['uDistortion'].value = currentDistortionRef.current;
+      distortionPassRef.current.uniforms['uTime'].value = timeRef.current;
     }
 
     // 更新調試信息
@@ -340,7 +354,7 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
       });
     }
 
-    rendererRef.current.render(sceneRef.current, cameraRef.current);
+    composerRef.current.render();
 
     // 自然衰減滾動速度
     scrollVelocityRef.current *= decaySpeed;
@@ -352,6 +366,11 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
   // 清理資源
   const disposeThree = useCallback(() => {
     stopLoop();
+
+    if (composerRef.current) {
+      composerRef.current.dispose();
+      composerRef.current = null;
+    }
 
     if (meshRef.current && sceneRef.current) {
       sceneRef.current.remove(meshRef.current);
@@ -377,14 +396,16 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
     materialRef.current = null;
     meshRef.current = null;
     textureRef.current = null;
+    renderPassRef.current = null;
+    distortionPassRef.current = null;
   }, [stopLoop]);
 
   // 應用紋理到平面
   const applyTextureToPlane = useCallback((tex: THREE.Texture) => {
     if (!materialRef.current) return;
 
-    // 設置紋理到 shader material
-    materialRef.current.uniforms.uTexture.value = tex;
+    // 設置紋理到 MeshBasicMaterial
+    materialRef.current.map = tex;
     materialRef.current.needsUpdate = true;
 
     const img = tex.image as HTMLImageElement | { width: number; height: number };
@@ -401,11 +422,14 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
     if (!rendererRef.current) return;
     
     rendererRef.current.setSize(width, height);
+    if (composerRef.current) {
+      composerRef.current.setSize(width, height);
+    }
     updateCamera(width, height);
 
     // 更新著色器解析度
-    if (materialRef.current) {
-      materialRef.current.uniforms.uResolution.value.set(width, height);
+    if (distortionPassRef.current) {
+      distortionPassRef.current.uniforms['uResolution'].value.set(width, height);
     }
 
     // 依照新尺寸重新配適圖片平面
