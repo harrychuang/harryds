@@ -21,3 +21,7 @@ export type { FeedCardInfoProps } from './FeedCard';
 // Logo - 品牌標誌元件（使用 PixelText）
 export { Logo } from './Logo';
 export type { LogoProps } from './Logo';
+
+// DistortedPixels - 響應滾動的扭曲像素化圖片元件
+export { DistortedPixels } from './DistortedPixels';
+export type { DistortedPixelsProps, DistortedPixelsObjectFit } from './DistortedPixels';
