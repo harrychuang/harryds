@@ -3,10 +3,11 @@
 // 尺寸：hero(600)、med(500)、sm(400)、xs(240)；預設 padding 40，內容置左下
 // =============================================================================
 
-import React, { CSSProperties, createContext, forwardRef, useState } from 'react';
+import React, { CSSProperties, createContext, forwardRef, useState, useRef, useEffect } from 'react';
 import { PixelImage } from '../PixelImage';
 import type { PixelImageProps } from '../PixelImage';
 import './FeedCard.scss';
+import hoverSoundUrl from '../../../assets/sound/Coin Collect Retro 8-bit Sound Effect.mp3';
 
 export type FeedCardSize = 'hero' | 'med' | 'sm' | 'xs';
 export const FeedCardHoverContext = createContext<boolean>(false);
@@ -31,6 +32,10 @@ export interface FeedCardProps {
   children?: React.ReactNode;
   /** 內聯樣式（少用） */
   style?: CSSProperties;
+  /** 啟用滑鼠移入音效（預設 true） */
+  enableHoverSound?: boolean;
+  /** 音效音量（0-1，預設 0.3） */
+  soundVolume?: number;
 }
 
 const SIZE_TO_HEIGHT: Record<FeedCardSize, number> = {
@@ -52,9 +57,74 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   className = '',
   children,
   style,
+  enableHoverSound = true,
+  soundVolume = 0.3,
 }, ref) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [hasPlayedSoundInCurrentHover, setHasPlayedSoundInCurrentHover] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const computedHeight = Math.max(1, Math.floor(height ?? SIZE_TO_HEIGHT[size]));
+
+  // 初始化音效
+  useEffect(() => {
+    if (enableHoverSound) {
+      audioRef.current = new Audio(hoverSoundUrl);
+      audioRef.current.preload = 'auto';
+      audioRef.current.volume = Math.max(0, Math.min(1, soundVolume)); // 限制音量在 0-1 之間
+      
+      // 添加載入事件監聽
+      audioRef.current.addEventListener('canplaythrough', () => {
+        console.log('FeedCard hover sound loaded successfully');
+      });
+      
+      audioRef.current.addEventListener('error', (e) => {
+        console.error('FeedCard hover sound load failed:', e);
+        console.error('Sound URL:', hoverSoundUrl);
+      });
+    }
+    
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.removeEventListener('canplaythrough', () => {});
+        audioRef.current.removeEventListener('error', () => {});
+        audioRef.current = null;
+      }
+    };
+  }, [enableHoverSound, soundVolume]);
+
+  const playHoverSound = async () => {
+    if (!enableHoverSound || !audioRef.current || hasPlayedSoundInCurrentHover) {
+      return;
+    }
+
+    try {
+      console.log('Attempting to play hover sound...');
+      audioRef.current.currentTime = 0; // 重設到開頭
+      
+      // 檢查音效是否已載入
+      if (audioRef.current.readyState >= 2) { // HAVE_CURRENT_DATA
+        await audioRef.current.play();
+        setHasPlayedSoundInCurrentHover(true); // 標記已播放
+        console.log('Hover sound played successfully');
+      } else {
+        console.warn('Audio not ready yet, readyState:', audioRef.current.readyState);
+        // 嘗試等待載入完成再播放
+        audioRef.current.addEventListener('canplay', async () => {
+          try {
+            await audioRef.current!.play();
+            setHasPlayedSoundInCurrentHover(true); // 標記已播放
+            console.log('Hover sound played successfully after loading');
+          } catch (err) {
+            console.warn('Delayed sound play failed:', err);
+          }
+        }, { once: true });
+      }
+    } catch (error) {
+      console.warn('FeedCard hover sound play failed:', error);
+      console.warn('Sound URL:', hoverSoundUrl);
+      console.warn('This might be due to browser autoplay policy. Try interacting with the page first.');
+    }
+  };
 
   // 以 CSS 變數傳遞 padding，樣式中使用 var(--feed-card-padding)
   const rootStyle: FeedCardStyle = {
@@ -89,8 +159,14 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
       ref={ref}
       className={`feed-card size-${size} ${className}`.trim()}
       style={rootStyle}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        playHoverSound();
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setHasPlayedSoundInCurrentHover(false); // 重置音效播放狀態，允許下次 hover 播放
+      }}
     >
       <div className="feed-card__bg">
         <PixelImage src={src} hoverActive={isHovered} {...mergedBgProps} />
