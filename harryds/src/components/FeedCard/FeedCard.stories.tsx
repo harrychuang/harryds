@@ -148,4 +148,36 @@ export const Xs: Story = {
   },
 };
 
+// 展示自動 size 對應功能的新 story
+export const AutoSizeSync: Story = {
+  render: (args) => (
+    <div style={frameStyle}>
+      <FeedCard {...args} />
+    </div>
+  ),
+  args: {
+    src: new URL(items[2].heroImage, import.meta.url).href,
+    size: 'sm',
+    secondaryColor: items[2].secondaryColor,
+    padding: 40,
+    children: (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {/* FeedCardInfo 沒有設定 size，會自動從 FeedCard 的 size context 中獲取 'sm' */}
+        <FeedCardInfo
+          data={{ id: items[2].id, heading: items[2].heading, date: items[2].date, tags: items[2].tags, category: items[2].category }}
+          primaryColor={items[2].primaryColor}
+          secondaryColor={items[2].secondaryColor}
+        />
+      </div>
+    ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '展示自動 size 對應功能：FeedCardInfo 沒有設定 size prop，會自動從父層 FeedCard 的 size context 中獲取 "sm"。',
+      },
+    },
+  },
+};
+
 

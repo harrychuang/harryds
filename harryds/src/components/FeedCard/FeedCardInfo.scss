@@ -52,6 +52,9 @@
   .feed-card-info__id {
     margin-bottom: -8px;
   }
+  .feed-card-info__date {
+    margin-bottom: 10px;
+  }
 }
 
 .size-med {
@@ -59,12 +62,18 @@
   .feed-card-info__id {
     margin-bottom: -8px;
   }
+  .feed-card-info__date {
+    margin-bottom: 10px;
+  }
 }
 
 .size-sm {
   gap: 6px;
   .feed-card-info__id {
     margin-bottom: -4px;
+  }
+  .feed-card-info__date {
+    margin-bottom: 6px;
   }
 }
 
@@ -77,7 +86,7 @@
     margin-bottom: -12px;
   }
   .feed-card-info__date {
-    margin-bottom: 2px;
+    margin-bottom: 6px;
   }
 }
 

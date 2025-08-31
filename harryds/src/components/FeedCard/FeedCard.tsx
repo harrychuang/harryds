@@ -11,6 +11,7 @@ import hoverSoundUrl from '../../../assets/sound/Coin Collect Retro 8-bit Sound 
 
 export type FeedCardSize = 'hero' | 'med' | 'sm' | 'xs';
 export const FeedCardHoverContext = createContext<boolean>(false);
+export const FeedCardSizeContext = createContext<FeedCardSize>('hero');
 
 
 export interface FeedCardProps {
@@ -175,7 +176,9 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
       <div className="feed-card__overlay">
         <div className="feed-card__content">
           <FeedCardHoverContext.Provider value={isHovered}>
-            {children}
+            <FeedCardSizeContext.Provider value={size}>
+              {children}
+            </FeedCardSizeContext.Provider>
           </FeedCardHoverContext.Provider>
         </div>
       </div>

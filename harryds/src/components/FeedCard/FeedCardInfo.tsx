@@ -8,14 +8,14 @@ import { PixelText } from '../PixelText';
 import { CHAR_WIDTH, CHAR_HEIGHT } from '../PixelText';
 import './FeedCardInfo.scss';
 import type { FeedCardSize } from './FeedCard';
-import { FeedCardHoverContext } from './FeedCard';
+import { FeedCardHoverContext, FeedCardSizeContext } from './FeedCard';
 import { HDS_TOKENS } from '../../utils/colorTokens';
 
 // 避免 hover 切換時重繪昂貴的 PixelText 畫布
 const StablePixelText = memo(PixelText);
 
 export interface FeedCardInfoProps {
-  /** 尺寸（預設 hero）：決定多個區塊的預設像素大小與標題字級 */
+  /** 尺寸（可選）：決定多個區塊的預設像素大小與標題字級。若不提供，會自動從父層 FeedCard 的 size context 中獲取，最終預設為 'hero' */
   size?: FeedCardSize;
 
   /** JSON 資料物件（建議使用）：id, heading, date, tags, category */
@@ -111,14 +111,16 @@ const SIZE_PRESETS: Record<FeedCardSize, { id: number; headingPx: number; date: 
 };
 
 export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({ 
-  size = 'hero',
+  size,
   data,
   hovered,
   primaryColor = HDS_TOKENS.themeSurface,
   secondaryColor = HDS_TOKENS.onThemeSurface,
 }, ref) => {
   const hoveredFromContext = useContext(FeedCardHoverContext);
+  const sizeFromContext = useContext(FeedCardSizeContext);
   const isHovered = hovered ?? hoveredFromContext ?? false;
+  const computedSize = size ?? sizeFromContext ?? 'hero';
   // 非 hover 預設顏色（使用 tokens，以利 dark 模式反轉）
   const basePrimary = 'var(--hds-sys-color-theme-surface)';
   const baseSecondary = 'var(--on-hds-sys-color-theme-surface)';
@@ -205,7 +207,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
       })
       .join('  ');
   }, [computedTags]);
-  const sizePreset = SIZE_PRESETS[size];
+  const sizePreset = SIZE_PRESETS[computedSize];
 
   const idPx = sizePreset.id;
   const datePx = sizePreset.date;
@@ -234,7 +236,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
   ), [textBoxWidth, tagsPx, pixelGap, letterSpacing, tagsTextBoxPadding]);
 
   return (
-    <div ref={ref} className={`feed-card-info size-${size}`.trim()}>
+    <div ref={ref} className={`feed-card-info size-${computedSize}`.trim()}>
       <div className="feed-card-info__id">
         <div className="fade-stack" style={{ width: isHovered ? idCanvasHover.width : idCanvas.width, height: isHovered ? idCanvasHover.height : idCanvas.height }}>
           <div className="fade-layer base" style={{ opacity: isHovered ? 0 : 1 }}>
