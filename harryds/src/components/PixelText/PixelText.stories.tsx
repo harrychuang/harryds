@@ -20,8 +20,6 @@ const meta = {
     docs: {
       description: {
         component: `
-# PixelText
-
 8-bit 風格的像素文字元件，使用 Three.js 渲染正方形粒子組成的文字。
 
 ## 特色

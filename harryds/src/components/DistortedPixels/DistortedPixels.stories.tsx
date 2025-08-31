@@ -17,8 +17,6 @@ const meta = {
     docs: {
       description: {
         component: `
-# DistortedPixels
-
 響應滾動的扭曲像素化圖片元件，當頁面滾動加速時產生垂直撕裂和像素化效果。
 
 ## 特色
@@ -95,7 +93,7 @@ import { DistortedPixels } from 'hds';
     maxPixelation: {
       control: { type: 'range', min: 0, max: 200, step: 10 },
       description: '最大像素化程度（0-200，數值越大像素塊越大）',
-      table: { type: { summary: 'number' }, defaultValue: { summary: '80' } },
+      table: { type: { summary: 'number' }, defaultValue: { summary: '150' } },
     },
     maxDistortion: {
       control: { type: 'range', min: 0, max: 3, step: 0.1 },
@@ -113,7 +111,7 @@ import { DistortedPixels } from 'hds';
       table: { type: { summary: 'number' }, defaultValue: { summary: '0.95' } },
     },
     maxPixelRatio: {
-      control: { type: 'range', min: 0.5, max: 4, step: 0.25 },
+      control: { type: 'range', min: 0.5, max: 12, step: 0.5 },
       description: 'DPR 上限（避免行動裝置過高像素比造成負擔）',
       table: { type: { summary: 'number' }, defaultValue: { summary: '4' } },
     },
@@ -160,11 +158,11 @@ export const Default: Story = {
     src: demoImg,
     objectFit: 'cover',
     direction: 'x',
-    maxPixelation: 80,
+    maxPixelation: 150,
     maxDistortion: 1.5,
-    scrollSensitivity: 0.3,
+    scrollSensitivity: 0.1,
     decaySpeed: 0.95,
-    maxPixelRatio: 4,
+    maxPixelRatio: 6,
     debug: false,
     className: 'scroll-hint',
   },

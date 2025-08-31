@@ -13,8 +13,6 @@ const meta = {
     docs: {
       description: {
         component: `
-# Logo
-
 Harry Design Studio 的品牌標誌元件，使用 PixelText 實現 8-bit 風格的文字效果。
 
 ## 特色
