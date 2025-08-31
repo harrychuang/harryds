@@ -362,21 +362,33 @@ export const Default: Story = {
   },
 };
 
-// 完整符號集展示
+// 完整符號集展示 - 按類型分組
 export const AllSymbolsShowcase: Story = {
   args: {
-    text: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 ,。.-/+×÷?!@‼︎⁇▶︎◆●◼︎◻︎↑↓←→▷﹅⟨⟩[]⎢%″„',
+    // 按類型分組，用空格分隔不同類型的字符
+    text: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ   0123456789   ,。.-?!@″„   +×÷%   ‼︎⁇   ▶︎▷◆●◼︎◻︎   ↑↓←→   ﹅⟨⟩[]⎢',
     // 使用預設 theme tokens 以便驗證深色切換
-    pixelSize: 3,
-    pixelGap: 0.5,
+    pixelSize: 2,
+    pixelGap: 0,
     letterSpacing: 1,
-    width: 1200,
+    width: 1400,
     height: 150,
   },
   parameters: {
     docs: {
       description: {
-        story: '展示 PixelText 元件支援的所有字符和符號，包括字母、數字、標點符號、數學符號、幾何形狀和特殊符號',
+        story: `展示 PixelText 元件支援的所有字符和符號，按類型分組顯示：
+        
+**字母** (26個): A-Z
+**數字** (10個): 0-9  
+**標點符號** (9個): , 。 . - ? ! @ ″ „
+**數學符號** (4個): + × ÷ %
+**特殊符號** (2個): ‼︎ ⁇
+**幾何形狀** (6個): ▶︎ ▷ ◆ ● ◼︎ ◻︎
+**箭頭符號** (4個): ↑ ↓ ← →
+**其他符號** (5個): ﹅ ⟨ ⟩ [ ] ⎢
+
+總計支援 **69 個字符**（包含空格），不支援的字符會顯示為空格並在控制台警告。`,
       },
     },
   },
