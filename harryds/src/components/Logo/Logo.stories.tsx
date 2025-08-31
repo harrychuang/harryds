@@ -55,7 +55,7 @@ import { Logo } from 'hds';
   tags: ['autodocs'],
   argTypes: {
     type: {
-      control: { type: 'select' },
+      control: { type: 'inline-radio' },
       options: ['default', 'back'],
       description: 'Logo 類型。"default" 顯示品牌標誌，"back" 顯示返回按鈕樣式',
       table: {
