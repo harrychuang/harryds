@@ -21,6 +21,7 @@ const meta = {
     },
     controls: {
       include: ['src', 'size', 'height', 'padding', 'className'],
+      exclude: ['children'],
     },
   },
   tags: ['autodocs'],
@@ -51,6 +52,29 @@ type Story = StoryObj<typeof meta>;
 const frameStyle: React.CSSProperties = {
   width: '100%',
   maxWidth: '100%',
+};
+
+export const Default: Story = {
+  render: (args) => (
+    <div style={frameStyle}>
+      <FeedCard {...args} />
+    </div>
+  ),
+  args: {
+    src: new URL(items[0].heroImage, import.meta.url).href,
+    size: 'hero',
+    secondaryColor: items[0].secondaryColor,
+    padding: 40,
+    children: (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <FeedCardInfo
+          data={{ id: items[0].id, heading: items[0].heading, date: items[0].date, tags: items[0].tags, category: items[0].category }}
+          primaryColor={items[0].primaryColor}
+          secondaryColor={items[0].secondaryColor}
+        />
+      </div>
+    ),
+  },
 };
 
 export const Hero: Story = {
