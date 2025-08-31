@@ -5,9 +5,16 @@
 .playground {
   min-height: 100vh;
   padding: 2rem;
-  background: var(--hds-sys-color-theme-surface);
-  color: var(--hds-sys-color-on-theme-surface);
+  background: var(--hds-sys-color-on-theme-surface);
+  color: var(--hds-sys-color-theme-surface);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  :root[theme="dark"] &,
+  html[theme="dark"] &,
+  body[theme="dark"] & {
+    background: #1a1a1a;
+    color: #ffffff;
+  }
 
   &__container {
     max-width: 1200px;
