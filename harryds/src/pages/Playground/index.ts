@@ -1,9 +1,6 @@
 // =============================================================================
-// HARRY DESIGN SYSTEM - 主要匯出檔案
+// PLAYGROUND 頁面匯出
 // =============================================================================
 
-// 元件匯出
-export * from './components';
-
-// 頁面匯出
-export * from './pages';
+export { default as Playground } from './Playground';
+export { default } from './Playground';

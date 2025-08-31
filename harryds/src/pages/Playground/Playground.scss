@@ -1,0 +1,39 @@
+// =============================================================================
+// PLAYGROUND 頁面樣式
+// =============================================================================
+
+.playground {
+  min-height: 100vh;
+  padding: 2rem;
+  background: var(--hds-sys-color-theme-surface);
+  color: var(--hds-sys-color-on-theme-surface);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    h1 {
+      margin: 0 0 1rem 0;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0 0 2rem 0;
+      color: var(--hds-sys-color-on-surface-variant);
+    }
+  }
+
+  &__content {
+    padding: 2rem;
+    border: 1px solid var(--hds-sys-color-outline-variant);
+    border-radius: 12px;
+    background: var(--hds-sys-color-surface);
+    min-height: 300px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+}
