@@ -16,14 +16,38 @@
   }
 
   &--open {
-    position: relative; // Loading 期間使用 relative，只包覆 FeedCard
+    position: relative; // Loading 和 positioning 期間使用 relative
     z-index: 1000;
-    
-    // 當內容準備好時，切換為 fixed 並佔滿畫面
-    &.feed-detail-overlay--content-ready {
-      position: fixed;
-      inset: 0;
-    }
+    // 優化動畫性能
+    will-change: position, transform;
+    transform: translateZ(0); // 啟用硬體加速
+  }
+
+  // Loading 階段：保持在原始位置
+  &--loading {
+    position: relative;
+  }
+
+  // Positioning 階段：從原始位置動畫到全螢幕
+  &--positioning {
+    position: fixed;
+    top: var(--original-y, 0);
+    left: var(--original-x, 0);
+    width: var(--original-width, 100%);
+    height: var(--original-height, auto);
+    animation: move-to-fullscreen 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  // Expanding 階段：位置固定，FeedCard 開始擴展
+  &--expanding {
+    position: fixed;
+    inset: 0;
+  }
+
+  // Ready 階段：最終狀態
+  &--ready {
+    position: fixed;
+    inset: 0;
   }
 
   &__backdrop {
@@ -31,32 +55,60 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
+    // 優化背景動畫
+    will-change: opacity;
+    transform: translateZ(0);
+    animation: fade-in-backdrop 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
   &__content {
     position: relative;
     z-index: 1;
-    display: block; // Loading 期間使用 block
+    display: block; // Loading 和 positioning 期間使用 block
     width: 100%;
+    // 優化滾動性能
+    will-change: display, height;
+    transform: translateZ(0);
     
-    // 當內容準備好時，切換為 flex 佈局
-    .feed-detail-overlay--content-ready & {
+    // 從 expanding 階段開始切換為 flex 佈局
+    .feed-detail-overlay--expanding &,
+    .feed-detail-overlay--ready & {
       display: flex;
       flex-direction: column;
       height: 100%;
       overflow-y: auto;
+      // 平滑滾動
+      scroll-behavior: smooth;
+      // 優化滾動性能
+      -webkit-overflow-scrolling: touch;
     }
   }
 
   &__hero {
     position: relative;
     width: 100%;
-    // 高度由 inline style 控制（px），來自 heroHeightPx
-    transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1); // 平滑的高度變化動畫
     
-    // FeedCard 尺寸變化也需要平滑過渡
-    .feed-card {
-      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    // 在 expanding 和 ready 階段才應用高度過渡
+    .feed-detail-overlay--expanding &,
+    .feed-detail-overlay--ready & {
+      // 高度由 inline style 控制（px），來自 heroHeightPx
+      transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: height;
+    }
+    
+    // FeedCard 只在 expanding 階段才開始尺寸變化動畫
+    .feed-detail-overlay--expanding & .feed-card {
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                  width 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                  height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform, width, height;
+      // 啟用硬體加速
+      transform: translateZ(0);
+    }
+    
+    // Ready 階段移除 will-change 以節省資源
+    .feed-detail-overlay--ready & .feed-card {
+      will-change: auto;
     }
   }
 
@@ -69,6 +121,10 @@
     align-items: center;
     justify-content: center;
     // 參考原 close 按鈕的定位方式：fixed 在整個視窗右上角
+    // 優化 loading 動畫性能
+    will-change: opacity, transform;
+    transform: translateZ(0);
+    animation: fade-in-loading 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
   &__body {
@@ -78,9 +134,10 @@
     color: var(--on-hds-sys-color-surface, #fff);
     padding: 32px 40px 80px;
     
-    // 只有在內容準備好時才應用 flex 相關樣式
-    .feed-detail-overlay--content-ready & {
+    // 只在 ready 階段應用 flex 相關樣式，並添加進入動畫
+    .feed-detail-overlay--ready & {
       flex: 0 0 auto;
+      animation: slide-up-body 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
 
     .fdo-article {
@@ -138,4 +195,92 @@
   }
 }
 
+// =============================================================================
+// 分階段動畫 Keyframes
+// =============================================================================
 
+// 位置動畫：從原始位置移動到全螢幕
+@keyframes move-to-fullscreen {
+  from {
+    top: var(--original-y, 0);
+    left: var(--original-x, 0);
+    width: var(--original-width, 100%);
+    height: var(--original-height, auto);
+  }
+  to {
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+@keyframes fade-in-backdrop {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+}
+
+@keyframes fade-in-loading {
+  from {
+    opacity: 0;
+    transform: translateZ(0) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0) translateY(0);
+  }
+}
+
+@keyframes slide-up-body {
+  from {
+    opacity: 0;
+    transform: translateZ(0) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0) translateY(0);
+  }
+}
+
+// 針對不同階段的額外優化
+.feed-detail-overlay--loading {
+  .feed-detail-overlay__content {
+    // Loading 期間減少重排計算
+    contain: layout style;
+  }
+}
+
+.feed-detail-overlay--positioning {
+  // 位置動畫期間的優化
+  will-change: top, left, width, height;
+  
+  .feed-detail-overlay__content {
+    contain: layout style;
+  }
+}
+
+.feed-detail-overlay--expanding {
+  // FeedCard 擴展期間的優化
+  .feed-detail-overlay__hero .feed-card {
+    contain: layout style;
+  }
+}
+
+.feed-detail-overlay--ready {
+  // 最終狀態，移除所有 will-change
+  will-change: auto;
+  
+  .feed-detail-overlay__hero {
+    will-change: auto;
+    
+    .feed-card {
+      will-change: auto;
+    }
+  }
+}
