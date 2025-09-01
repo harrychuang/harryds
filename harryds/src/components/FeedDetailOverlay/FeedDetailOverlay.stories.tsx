@@ -73,7 +73,7 @@ export const Default: Story = {
   ),
   args: {
     open: false,
-    heroHeightVH: 75,
+    heroHeightVH: 65,
     sizeWhenClosed: 'hero',
     src: demoSrc,
     padding: 40,
@@ -112,7 +112,7 @@ export const Opened: Story = {
   ),
   args: {
     open: true,
-    heroHeightVH: 75,
+    heroHeightVH: 65,
     sizeWhenClosed: 'hero',
     src: demoSrc,
     padding: 40,
@@ -149,7 +149,7 @@ export const LoadingDemo: Story = {
   },
   args: {
     open: true,
-    heroHeightVH: 75,
+    heroHeightVH: 65,
     sizeWhenClosed: 'hero', 
     src: demoSrc,
     padding: 40,
