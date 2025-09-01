@@ -8,6 +8,7 @@
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { FeedCard } from '../FeedCard';
 import type { FeedCardProps } from '../FeedCard';
+import type { FeedCardSize } from '../FeedCard/FeedCard';
 import { FeedCardInfo } from '../FeedCard';
 import type { FeedCardInfoData } from '../FeedCard';
 import type { FeedContentBlock } from '../../types/feed';
@@ -20,6 +21,8 @@ export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | '
   onClose?: () => void;
   /** hero 區高度（vh），預設 75 */
   heroHeightVH?: number;
+  /** 關閉/初始狀態時 FeedCard/FeedCardInfo 使用的尺寸（hero/med/sm/xs），開啟時將統一使用 hero */
+  sizeWhenClosed?: FeedCardSize;
   /** FeedCardInfo 資料，用於顯示 hero 與關閉狀態的資訊區 */
   infoData?: FeedCardInfoData;
   /** 主色（傳遞至 FeedCardInfo 的文字與標籤背景） */
@@ -43,10 +46,11 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
   className = '',
   // FeedCard props passthrough
   src,
-  size = 'hero',
+  sizeWhenClosed = 'hero',
   padding = 40,
   backgroundProps,
   secondaryColor,
+  infoMaxWidth,
   style,
   enableHoverSound,
   soundVolume,
@@ -148,10 +152,11 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
       <div ref={ref} className={`feed-detail-overlay feed-detail-overlay--closed ${className}`.trim()} style={style}>
         <FeedCard
           src={src}
-          size={size}
+          size={sizeWhenClosed}
           padding={padding}
           backgroundProps={backgroundProps}
           secondaryColor={secondaryColor}
+          infoMaxWidth={infoMaxWidth}
           className="feed-detail-overlay__card"
           enableHoverSound={enableHoverSound}
           soundVolume={soundVolume}
@@ -159,6 +164,7 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
           {infoData && (
             <FeedCardInfo
               data={infoData}
+              size={sizeWhenClosed}
               primaryColor={primaryColor}
               secondaryColor={secondaryColor}
             />
@@ -169,8 +175,14 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
   }
 
   // 開啟狀態：固定 overlay + hero（FeedCard）+ 內容
+  const openStyle = {
+    '--feed-detail-primary-color': primaryColor,
+    '--feed-detail-secondary-color': secondaryColor,
+    ...style,
+  } as React.CSSProperties;
+
   return (
-    <div ref={ref} className={`feed-detail-overlay feed-detail-overlay--open ${className}`.trim()} role="dialog" aria-modal="true">
+    <div ref={ref} className={`feed-detail-overlay feed-detail-overlay--open ${className}`.trim()} role="dialog" aria-modal="true" style={openStyle}>
       <div className="feed-detail-overlay__backdrop" onClick={onClose} />
       <div className="feed-detail-overlay__content" aria-label="Feed detail overlay">
         <button className="feed-detail-overlay__close" aria-label="Close" onClick={onClose}>
@@ -184,13 +196,17 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
             padding={padding}
             backgroundProps={backgroundProps}
             secondaryColor={secondaryColor}
+            infoMaxWidth={infoMaxWidth}
             className="feed-detail-overlay__card"
             enableHoverSound={enableHoverSound}
             soundVolume={soundVolume}
+            forceHovered={true}
+            disableHover={true}
           >
             {infoData && (
               <FeedCardInfo
                 data={infoData}
+                size="hero"
                 primaryColor={primaryColor}
                 secondaryColor={secondaryColor}
               />

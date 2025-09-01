@@ -1,7 +1,7 @@
 // =============================================================================
 // FEED CARD 樣式
-// - 滿寬（max-width 1600px）
-// - 內容置左下，預設 padding: 40px（可由 CSS 變數覆寫）
+// - 內容水平置中，預設 padding: 40px（可由 CSS 變數覆寫）
+// - FeedCardInfo 預設 max-width: 1400px（可由 CSS 變數覆寫）
 // =============================================================================
 
 .feed-card {
@@ -31,13 +31,15 @@
     inset: 0;
     display: flex;
     align-items: flex-end;
-    justify-content: flex-start;
+    justify-content: center;
     padding: var(--feed-card-padding);
   }
 
   .feed-card__content {
     position: relative;
     z-index: 1;
+    width: 100%;
+    max-width: var(--feed-card-info-max-width);
   }
 }
 

@@ -1,7 +1,8 @@
 // =============================================================================
 // FEED DETAIL OVERLAY 樣式
 // - 關閉/初始：外觀與 FeedCard 一致（包覆並 auto fit）
-// - 開啟：固定於視窗、帶 backdrop、hero 區（75vh）、文章內容滾動
+// - 開啟：固定於視窗、帶 backdrop、hero 區（75vh）、整個內容可滾動
+// - 文章內容 max-width: 1600px
 // =============================================================================
 
 .feed-detail-overlay {
@@ -11,6 +12,7 @@
 
   &--closed {
     // 單純作為 FeedCard 的「容器」，尺寸由外層決定
+    position: relative;
   }
 
   &--open {
@@ -33,13 +35,14 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
+    overflow-y: auto;
   }
 
   &__close {
-    position: absolute;
+    position: fixed;
     top: 16px;
     right: 16px;
-    z-index: 2;
+    z-index: 1001;
     width: 36px;
     height: 36px;
     border: none;
@@ -59,15 +62,14 @@
 
   &__body {
     position: relative;
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     width: 100%;
-    overflow: auto;
-    background: var(--hds-sys-color-surface, #0a0a0a);
+    background: var(--feed-detail-secondary-color, var(--hds-sys-color-surface, #0a0a0a));
     color: var(--on-hds-sys-color-surface, #fff);
-    padding: 32px 24px 80px;
+    padding: 32px 40px 80px;
 
     .fdo-article {
-      max-width: 960px;
+      max-width: 1400px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr;
@@ -77,11 +79,17 @@
         font-size: 40px;
         line-height: 1.1;
         margin: 12px 0 8px;
+        color: var(--feed-detail-primary-color, var(--on-hds-sys-color-surface, #fff));
       }
 
       h2 {
         font-size: 22px;
         margin: 24px 0 4px;
+        color: var(--feed-detail-primary-color, var(--on-hds-sys-color-surface, #fff));
+      }
+
+      h3 {
+        color: var(--feed-detail-primary-color, var(--on-hds-sys-color-surface, #fff));
       }
 
       p, li {

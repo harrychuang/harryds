@@ -16,11 +16,11 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: '以 PixelImage 作為背景的卡片。滿寬（max 1600px），內容置左下，預設 padding 40px。',
+        component: '以 PixelImage 作為背景的卡片。滿寬（max 1600px），內容水平置中，預設 padding 40px，FeedCardInfo 預設 max-width 1400px。',
       },
     },
     controls: {
-      include: ['src', 'size', 'height', 'padding', 'className'],
+      include: ['src', 'size', 'height', 'padding', 'infoMaxWidth', 'className'],
       exclude: ['children'],
     },
   },
@@ -34,6 +34,7 @@ const meta = {
     },
     height: { control: { type: 'number', min: 100, max: 1200, step: 10 }, description: '覆寫高度（px）' },
     padding: { control: { type: 'range', min: 0, max: 120, step: 2 }, description: '內距（px）' },
+    infoMaxWidth: { control: { type: 'number', min: 200, max: 2000, step: 50 }, description: 'FeedCardInfo 最大寬度（px）' },
     className: { control: 'text' },
   },
 } satisfies Meta<typeof FeedCard>;
@@ -65,6 +66,7 @@ export const Default: Story = {
     size: 'hero',
     secondaryColor: items[0].secondaryColor,
     padding: 40,
+    infoMaxWidth: 1400,
     children: (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <FeedCardInfo

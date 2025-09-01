@@ -1,6 +1,7 @@
 // =============================================================================
 // FEED CARD 元件 - 使用 PixelImage 作為背景的卡片
-// 尺寸：hero(600)、med(500)、sm(400)、xs(240)；預設 padding 40，內容置左下
+// 尺寸：hero(600)、med(500)、sm(400)、xs(240)；預設 padding 40，內容水平置中
+// FeedCardInfo 預設 max-width 1400px
 // =============================================================================
 
 import React, { CSSProperties, createContext, forwardRef, useState, useRef, useEffect } from 'react';
@@ -34,6 +35,8 @@ export interface FeedCardProps {
   item?: FeedItem;
   /** 直接提供 FeedCardInfo 資料（覆蓋 item 推導） */
   infoData?: FeedCardInfoData;
+  /** FeedCardInfo 的最大寬度（px）。預設 1400 */
+  infoMaxWidth?: number;
   /** 額外類名 */
   className?: string;
   /** 內容節點，顯示於卡片左下角 */
@@ -44,6 +47,10 @@ export interface FeedCardProps {
   enableHoverSound?: boolean;
   /** 音效音量（0-1，預設 0.3） */
   soundVolume?: number;
+  /** 強制保持 hovered 狀態 */
+  forceHovered?: boolean;
+  /** 禁用滑鼠 hover 事件 */
+  disableHover?: boolean;
 }
 
 const SIZE_TO_HEIGHT: Record<FeedCardSize, number> = {
@@ -53,7 +60,10 @@ const SIZE_TO_HEIGHT: Record<FeedCardSize, number> = {
   xs: 240,
 };
 
-type FeedCardStyle = CSSProperties & { ['--feed-card-padding']?: string };
+type FeedCardStyle = CSSProperties & { 
+  ['--feed-card-padding']?: string;
+  ['--feed-card-info-max-width']?: string;
+};
 
 export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   src,
@@ -64,16 +74,22 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   secondaryColor,
   item,
   infoData,
+  infoMaxWidth = 1400,
   className = '',
   children,
   style,
   enableHoverSound = true,
   soundVolume = 0.3,
+  forceHovered = false,
+  disableHover = false,
 }, ref) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hasPlayedSoundInCurrentHover, setHasPlayedSoundInCurrentHover] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const computedHeight = Math.max(1, Math.floor(height ?? SIZE_TO_HEIGHT[size]));
+  
+  // 計算實際的 hover 狀態：forceHovered 優先，否則使用 isHovered
+  const actualIsHovered = forceHovered || isHovered;
 
   // 初始化音效
   useEffect(() => {
@@ -136,11 +152,12 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
     }
   };
 
-  // 以 CSS 變數傳遞 padding，樣式中使用 var(--feed-card-padding)
+  // 以 CSS 變數傳遞 padding 和 info max-width，樣式中使用 var() 引用
   const rootStyle: FeedCardStyle = {
     ...style,
     height: `${computedHeight}px`,
     '--feed-card-padding': `${Math.max(0, padding)}px`,
+    '--feed-card-info-max-width': `${Math.max(1, infoMaxWidth)}px`,
   } as FeedCardStyle;
 
   // 從 item 推導資料（不覆蓋使用者顯式傳入）
@@ -180,22 +197,22 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
       ref={ref}
       className={`feed-card size-${size} ${className}`.trim()}
       style={rootStyle}
-      onMouseEnter={() => {
+      onMouseEnter={disableHover ? undefined : () => {
         setIsHovered(true);
         playHoverSound();
       }}
-      onMouseLeave={() => {
+      onMouseLeave={disableHover ? undefined : () => {
         setIsHovered(false);
         setHasPlayedSoundInCurrentHover(false); // 重置音效播放狀態，允許下次 hover 播放
       }}
     >
       <div className="feed-card__bg">
-        <PixelImage src={finalSrc} hoverActive={isHovered} {...mergedBgProps} />
+        <PixelImage src={finalSrc} hoverActive={actualIsHovered} {...mergedBgProps} />
       </div>
 
       <div className="feed-card__overlay">
         <div className="feed-card__content">
-          <FeedCardHoverContext.Provider value={isHovered}>
+          <FeedCardHoverContext.Provider value={actualIsHovered}>
             <FeedCardSizeContext.Provider value={size}>
               {children ?? (
                 derivedInfoData ? (

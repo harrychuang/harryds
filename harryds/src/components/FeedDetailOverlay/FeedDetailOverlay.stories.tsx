@@ -18,19 +18,21 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: '初始/關閉時外觀與 FeedCard 相同；開啟後固定全螢幕，FeedCard 作為 75vh hero，下方顯示文章內容。',
+        component: '初始/關閉時外觀與 FeedCard 相同；開啟後固定全螢幕，FeedCard 作為 75vh hero，下方顯示文章內容。整個內容可滾動，文章 max-width 1600px。',
       },
     },
     controls: {
-      include: ['open', 'heroHeightVH', 'src', 'padding', 'className'],
+      include: ['open', 'heroHeightVH', 'sizeWhenClosed', 'src', 'padding', 'infoMaxWidth', 'className'],
     },
   },
   tags: ['autodocs'],
   argTypes: {
     open: { control: 'boolean', description: '是否開啟 overlay' },
     heroHeightVH: { control: { type: 'range', min: 40, max: 100, step: 1 }, description: 'hero 高度（vh）' },
+    sizeWhenClosed: { control: { type: 'radio' }, options: ['hero', 'med', 'sm', 'xs'], description: '關閉時 FeedCard/Info 尺寸' },
     src: { control: 'text', description: '背景圖片 URL（傳入 FeedCard）' },
     padding: { control: { type: 'range', min: 0, max: 120, step: 2 }, description: 'FeedCard padding' },
+    infoMaxWidth: { control: { type: 'number', min: 200, max: 2000, step: 50 }, description: 'FeedCardInfo 最大寬度（px）' },
     className: { control: 'text' },
   },
 } satisfies Meta<typeof FeedDetailOverlay>;
@@ -40,15 +42,17 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args) => (
-    <div style={{ width: '100%', maxWidth: '1600px', margin: '0 auto' }}>
+    <div style={{ width: '100%', maxWidth: '1400px', margin: '0 auto' }}>
       <FeedDetailOverlay {...args} />
     </div>
   ),
   args: {
     open: false,
     heroHeightVH: 75,
+    sizeWhenClosed: 'hero',
     src: demoSrc,
     padding: 40,
+    infoMaxWidth: 1400,
     infoData: {
       id: items[0].id,
       heading: items[0].heading,
@@ -84,8 +88,10 @@ export const Opened: Story = {
   args: {
     open: true,
     heroHeightVH: 75,
+    sizeWhenClosed: 'hero',
     src: demoSrc,
     padding: 40,
+    infoMaxWidth: 1400,
   },
 };
 
