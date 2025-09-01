@@ -303,13 +303,13 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     };
   }, [open]);
 
-  // open 狀態下，根據內容區塊的 Y 捲動量在 0-800px 範圍內映射 pixelSize(1→80) 與 maskOpacity(0.85→0.9)
+  // open 狀態下，根據內容區塊的 Y 捲動量在 0-400px 範圍內映射 pixelSize(1→80) 與 maskOpacity(0.85→0.9)
   useEffect(() => {
     if (!open || !scrollContentRef.current) return;
     const el = scrollContentRef.current;
 
     const updateByScrollTop = (scrollTop: number) => {
-      const clamped = Math.max(0, Math.min(800, scrollTop)) / 800;
+      const clamped = Math.max(0, Math.min(400, scrollTop)) / 400;
       const pixelSize = 1 + clamped * 79; // 1 → 80
       const maskOpacity = 0.8 + clamped * 0.15; // 0.8 → 0.95
       setScrollPixelSize(pixelSize);

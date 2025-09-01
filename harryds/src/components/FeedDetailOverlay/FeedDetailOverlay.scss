@@ -204,14 +204,14 @@
       gap: 20px;
 
       h1 {
-        font-size: 40px;
+        font-size: 60px;
         line-height: 1.1;
         margin: 12px 0 8px;
         color: var(--feed-detail-primary-color, var(--on-hds-sys-color-surface, #fff));
       }
 
       h2 {
-        font-size: 22px;
+        font-size: 40px;
         margin: 24px 0 4px;
         color: var(--feed-detail-primary-color, var(--on-hds-sys-color-surface, #fff));
       }
@@ -221,7 +221,7 @@
       }
 
       p, li {
-        font-size: 16px;
+        font-size: 24px;
         line-height: 1.7;
         opacity: 0.95;
       }

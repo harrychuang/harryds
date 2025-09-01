@@ -187,7 +187,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
     objectFit: backgroundProps?.objectFit ?? 'cover',
     // Hover 時使用資料的 secondaryColor；無資料時退回 theme mask
     maskColor: backgroundProps?.maskColor ?? (finalSecondaryColor ?? 'var(--hds-sys-color-theme-mask)'),
-    maskOpacity: backgroundProps?.maskOpacity ?? 0.85,
+    maskOpacity: backgroundProps?.maskOpacity ?? 0.8,
     maxPixelRatio: backgroundProps?.maxPixelRatio ?? 1.5,
     className: backgroundProps?.className,
     onLoad: backgroundProps?.onLoad,
