@@ -190,9 +190,9 @@
       flex: 1 1 auto; // 占取剩餘空間並可捲動
       animation: slide-up-body 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
       
-      // DistortedPixels 進場揭露動畫（進入 ready 階段時觸發）
-      .fdo-image-container {
-        animation: fdo-reveal-vertical 0.7s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+      // DistortedPixels 進場揭露動畫：等待圖片載入後才觸發（拉開 ::after 遮罩）
+      .fdo-image-container.is-loaded::after {
+        animation: fdo-mask-slide-away 0.7s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
       }
     }
 
@@ -246,8 +246,17 @@
         margin: 8px 0 4px;
         display: block;
         position: relative;
-        // 讓進場更順暢
-        will-change: clip-path, opacity;
+        // 使用遮罩層進行揭露動畫，避免直接操作 canvas
+        &::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: var(--hds-sys-color-surface, #000);
+          transform: translateY(0%);
+          z-index: 2;
+          pointer-events: none;
+          will-change: transform, opacity;
+        }
       }
     }
   }
@@ -328,13 +337,15 @@
   }
 }
 
-// DistortedPixels 進場：由上往下拉開的揭露動畫
-@keyframes fdo-reveal-vertical {
+// DistortedPixels 進場：以 ::after 遮罩由上往下滑出
+@keyframes fdo-mask-slide-away {
   from {
-    clip-path: inset(0 0 100% 0);
+    transform: translateY(0%);
+    opacity: 1;
   }
   to {
-    clip-path: inset(0 0 0 0);
+    transform: translateY(100%);
+    opacity: 0;
   }
 }
 

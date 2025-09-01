@@ -67,24 +67,28 @@ const LoadingDisplay = memo<{
 ));
 LoadingDisplay.displayName = 'LoadingDisplay';
 
-// 記憶化的圖片組件
+// 記憶化的圖片組件（等圖片載入後才觸發揭露動畫）
 const OptimizedDistortedPixels = memo<{
   src: string;
   scrollContainer: React.RefObject<HTMLDivElement>;
-}>(({ src, scrollContainer }) => (
-  <div className="fdo-image-container">
-    <DistortedPixels 
-      src={src} 
-      objectFit="responsive"
-      direction="x"
-      maxPixelation={60}
-      maxDistortion={0.8}
-      scrollSensitivity={0.2}
-      decaySpeed={0.96}
-      scrollContainer={scrollContainer}
-    />
-  </div>
-));
+}>(({ src, scrollContainer }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  return (
+    <div className={`fdo-image-container ${isLoaded ? 'is-loaded' : 'is-loading'}`.trim()}>
+      <DistortedPixels 
+        src={src} 
+        objectFit="responsive"
+        direction="x"
+        maxPixelation={60}
+        maxDistortion={0.8}
+        scrollSensitivity={0.2}
+        decaySpeed={0.96}
+        scrollContainer={scrollContainer}
+        onLoad={() => setIsLoaded(true)}
+      />
+    </div>
+  );
+});
 OptimizedDistortedPixels.displayName = 'OptimizedDistortedPixels';
 
 const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayProps>(({
