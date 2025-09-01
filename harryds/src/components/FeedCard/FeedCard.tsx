@@ -90,6 +90,8 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   
   // 計算實際的 hover 狀態：forceHovered 優先，否則使用 isHovered
   const actualIsHovered = forceHovered || isHovered;
+  // 允許父層以 backgroundProps.hoverActive 覆寫 hover 狀態（例如 Overlay 固定啟用）
+  const explicitHoverActive = backgroundProps?.hoverActive;
 
   // 初始化音效
   useEffect(() => {
@@ -212,8 +214,8 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
       <div className="feed-card__bg">
         <PixelImage 
           src={finalSrc} 
-          hoverActive={actualIsHovered} 
           {...mergedBgProps}
+          hoverActive={explicitHoverActive !== undefined ? explicitHoverActive : actualIsHovered} 
           // DEBUG: 明確的 pixelSize 傳遞
           pixelSize={mergedBgProps.pixelSize}
         />
