@@ -16,9 +16,14 @@
   }
 
   &--open {
-    position: fixed;
-    inset: 0;
+    position: relative; // Loading 期間使用 relative，只包覆 FeedCard
     z-index: 1000;
+    
+    // 當內容準備好時，切換為 fixed 並佔滿畫面
+    &.feed-detail-overlay--content-ready {
+      position: fixed;
+      inset: 0;
+    }
   }
 
   &__backdrop {
@@ -31,42 +36,52 @@
   &__content {
     position: relative;
     z-index: 1;
-    display: flex;
-    flex-direction: column;
+    display: block; // Loading 期間使用 block
     width: 100%;
-    height: 100%;
-    overflow-y: auto;
-  }
-
-  &__close {
-    position: fixed;
-    top: 16px;
-    right: 16px;
-    z-index: 1001;
-    width: 36px;
-    height: 36px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    font-size: 18px;
-    line-height: 1;
+    
+    // 當內容準備好時，切換為 flex 佈局
+    .feed-detail-overlay--content-ready & {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow-y: auto;
+    }
   }
 
   &__hero {
     position: relative;
     width: 100%;
     // 高度由 inline style 控制（px），來自 heroHeightPx
+    transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1); // 平滑的高度變化動畫
+    
+    // FeedCard 尺寸變化也需要平滑過渡
+    .feed-card {
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
+  &__loading {
+    position: absolute; // 始終相對於視窗定位，保持在右上角
+    top: 16px;
+    right: 16px;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // 參考原 close 按鈕的定位方式：fixed 在整個視窗右上角
   }
 
   &__body {
     position: relative;
-    flex: 0 0 auto;
     width: 100%;
     background: var(--feed-detail-secondary-color, var(--hds-sys-color-surface, #0a0a0a));
     color: var(--on-hds-sys-color-surface, #fff);
     padding: 32px 40px 80px;
+    
+    // 只有在內容準備好時才應用 flex 相關樣式
+    .feed-detail-overlay--content-ready & {
+      flex: 0 0 auto;
+    }
 
     .fdo-article {
       max-width: 1400px;

@@ -13,6 +13,7 @@ import { FeedCardInfo } from '../FeedCard';
 import type { FeedCardInfoData } from '../FeedCard';
 import type { FeedContentBlock } from '../../types/feed';
 import { DistortedPixels } from '../DistortedPixels';
+import { PixelText } from '../PixelText';
 import './FeedDetailOverlay.scss';
 
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
@@ -60,6 +61,12 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
 }, ref) => {
   // 滾動容器引用
   const scrollContentRef = useRef<HTMLDivElement | null>(null);
+  
+  // Loading 狀態管理
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [contentReady, setContentReady] = useState(false);
+  const loadingTimerRef = useRef<NodeJS.Timeout | null>(null);
   // 將 vh 轉換為 px，以便傳給 FeedCard.height（該 prop 僅支援 number px）
   const [heroHeightPx, setHeroHeightPx] = useState<number>(() => {
     if (typeof window !== 'undefined') return Math.round(window.innerHeight * clamp(heroHeightVH, 10, 100) / 100);
@@ -85,6 +92,58 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = prev; };
+  }, [open]);
+
+  // Loading 邏輯：當 open 為 true 時開始 loading，完成後才真正開啟內容
+  useEffect(() => {
+    if (!open) {
+      // 關閉時重置所有狀態
+      setIsLoading(false);
+      setLoadingProgress(0);
+      setContentReady(false);
+      if (loadingTimerRef.current) {
+        clearTimeout(loadingTimerRef.current);
+        loadingTimerRef.current = null;
+      }
+      return;
+    }
+
+    // 開啟時先重置狀態，然後開始 loading
+    setContentReady(false);
+    setIsLoading(true);
+    setLoadingProgress(0);
+
+    // 模擬 loading 進度（2-3 秒完成）
+    const totalDuration = 2500; // 總時長 2.5 秒
+    const updateInterval = 50; // 每 50ms 更新一次
+    const totalSteps = totalDuration / updateInterval;
+    let currentStep = 0;
+
+    const updateProgress = () => {
+      currentStep++;
+      const progress = Math.min(100, Math.round((currentStep / totalSteps) * 100));
+      setLoadingProgress(progress);
+
+      if (progress < 100) {
+        loadingTimerRef.current = setTimeout(updateProgress, updateInterval);
+      } else {
+        // Loading 完成，隱藏 loading 並顯示內容
+        loadingTimerRef.current = setTimeout(() => {
+          setIsLoading(false);
+          setContentReady(true); // 這時候才真正開啟內容
+        }, 300);
+      }
+    };
+
+    // 開始更新進度
+    loadingTimerRef.current = setTimeout(updateProgress, 200); // 初始延遲 200ms
+
+    return () => {
+      if (loadingTimerRef.current) {
+        clearTimeout(loadingTimerRef.current);
+        loadingTimerRef.current = null;
+      }
+    };
   }, [open]);
 
   const renderBlocks = (blocks: FeedContentBlock[]) => {
@@ -209,17 +268,43 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
   } as React.CSSProperties;
 
   return (
-    <div ref={ref} className={`feed-detail-overlay feed-detail-overlay--open ${className}`.trim()} role="dialog" aria-modal="true" style={openStyle}>
-      <div className="feed-detail-overlay__backdrop" onClick={onClose} />
+    <div ref={ref} className={`feed-detail-overlay feed-detail-overlay--open ${isLoading ? 'feed-detail-overlay--loading' : ''} ${contentReady ? 'feed-detail-overlay--content-ready' : ''} ${className}`.trim()} role="dialog" aria-modal="true" style={openStyle}>
+      {/* Backdrop 只在內容準備好後顯示（fixed 模式） */}
+      {contentReady && <div className="feed-detail-overlay__backdrop" onClick={onClose} />}
       <div ref={scrollContentRef} className="feed-detail-overlay__content" aria-label="Feed detail overlay">
-        <button className="feed-detail-overlay__close" aria-label="Close" onClick={onClose}>
-          ✕
-        </button>
-        <div className="feed-detail-overlay__hero" style={{ height: `${heroHeightPx}px` }}>
+        
+        {/* Loading 狀態（固定在視窗右上角，參考原 close 按鈕位置） */}
+        {isLoading && (
+          <div className="feed-detail-overlay__loading">
+            <PixelText
+              text="LOADING"
+              textBoxEnabled={true}
+              textBox={`${loadingProgress}%`}
+              textBoxWidth={5}
+              textBoxPadding={2}
+              animated={false}
+              durationTime={400}
+              animationDelay={100}
+              easeGlitch={false}
+              primaryColor={primaryColor}
+              onPrimaryColor={secondaryColor}
+              pixelSize={2}
+              letterSpacing={1}
+              width={250}
+              height={50}
+            />
+          </div>
+        )}
+        
+        {/* Hero 區域（loading 期間保持原尺寸，完成後變為 hero 高度） */}
+        <div 
+          className="feed-detail-overlay__hero" 
+          style={contentReady ? { height: `${heroHeightPx}px` } : { height: 'auto' }}
+        >
           <FeedCard
             src={src}
-            size="hero"
-            height={heroHeightPx}
+            size={contentReady ? "hero" : sizeWhenClosed}
+            height={contentReady ? heroHeightPx : undefined}
             padding={padding}
             backgroundProps={backgroundProps}
             secondaryColor={secondaryColor}
@@ -233,16 +318,20 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
             {infoData && (
               <FeedCardInfo
                 data={infoData}
-                size="hero"
+                size={contentReady ? "hero" : sizeWhenClosed}
                 primaryColor={primaryColor}
                 secondaryColor={secondaryColor}
               />
             )}
           </FeedCard>
         </div>
-        <div className="feed-detail-overlay__body">
-          {content ?? (contentBlocks ? renderBlocks(contentBlocks) : defaultContent)}
-        </div>
+        
+        {/* Body 內容（只有當 loading 完成且內容準備好時才顯示） */}
+        {contentReady && (
+          <div className="feed-detail-overlay__body">
+            {content ?? (contentBlocks ? renderBlocks(contentBlocks) : defaultContent)}
+          </div>
+        )}
       </div>
     </div>
   );
