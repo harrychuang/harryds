@@ -2,7 +2,7 @@
 // PLAYGROUND 頁面
 // =============================================================================
 
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import './Playground.scss';
 import { FeedDetailOverlay } from '@components/FeedDetailOverlay';
 import { Logo } from '@components/Logo';
@@ -18,6 +18,37 @@ export const Playground: React.FC = () => {
   const [hoveredCardId, setHoveredCardId] = useState<number | null>(null);
   // 追蹤開啟卡片的動畫階段
   const [openCardAnimationPhase, setOpenCardAnimationPhase] = useState<'closed' | 'loading' | 'positioning' | 'expanding' | 'ready'>('closed');
+  
+  // 保存原始 body 背景顏色
+  const originalBodyBackgroundRef = useRef<string>('');
+  
+  // 初始化：保存原始 body 背景顏色
+  useEffect(() => {
+    if (!originalBodyBackgroundRef.current) {
+      originalBodyBackgroundRef.current = getComputedStyle(document.body).backgroundColor || 'var(--hds-sys-color-on-theme-surface)';
+    }
+    
+    // 組件卸載時恢復原始顏色
+    return () => {
+      document.body.style.backgroundColor = originalBodyBackgroundRef.current;
+    };
+  }, []);
+  
+  // 管理 body 背景顏色變化
+  useEffect(() => {
+    const activeCardId = openCardId || hoveredCardId;
+    if (activeCardId) {
+      const activeItem = items.find(item => item.id === activeCardId);
+      if (activeItem && activeItem.secondaryColor) {
+        document.body.style.backgroundColor = activeItem.secondaryColor;
+        document.body.style.transition = 'background-color 0.3s ease';
+      }
+    } else {
+      // 恢復原始背景顏色
+      document.body.style.backgroundColor = originalBodyBackgroundRef.current;
+      document.body.style.transition = 'background-color 0.3s ease';
+    }
+  }, [openCardId, hoveredCardId, items]);
   
   // 開啟卡片的處理函數
   const handleOpenCard = useCallback((cardId: number) => {
