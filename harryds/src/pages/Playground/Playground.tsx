@@ -76,7 +76,7 @@ export const Playground: React.FC = () => {
   }, []);
 
   // 計算 Logo 應該使用的顏色（開啟狀態優先於 hover 狀態）
-  const getLogoColors = useCallback(() => {
+  const logoColors = useMemo(() => {
     // 只有在有 hover 或 open 狀態時才使用自訂顏色
     const activeCardId = openCardId || hoveredCardId;
     if (activeCardId) {
@@ -90,7 +90,14 @@ export const Playground: React.FC = () => {
     }
     // 確保回到預設狀態時不傳遞任何顏色 props，讓 Logo 使用預設值
     return {};
-  }, [openCardId, hoveredCardId, items, openCardAnimationPhase]);
+  }, [openCardId, hoveredCardId, items]);
+
+  // 為 Logo 創建穩定的 key，確保在狀態切換時能正確重新掛載動畫
+  const logoKey = useMemo(() => {
+    const logoType = openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'back' : 'default';
+    const hasCustomColors = openCardId || hoveredCardId;
+    return `${logoType}-${hasCustomColors ? 'custom' : 'default'}`;
+  }, [openCardId, hoveredCardId, openCardAnimationPhase]);
 
   const getSizeByIndex = (index: number): FeedCardSize => {
     if (index === 0) return 'hero';
@@ -117,8 +124,9 @@ export const Playground: React.FC = () => {
             }}
           >
             <Logo 
+              key={logoKey}
               type={openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'back' : 'default'}
-              {...getLogoColors()}
+              {...logoColors}
             />
           </div>
         </div>
