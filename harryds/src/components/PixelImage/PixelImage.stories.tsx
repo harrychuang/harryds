@@ -66,7 +66,7 @@ const meta = {
     maskOpacity: {
       control: { type: 'range', min: 0, max: 1, step: 0.01 },
       description: '遮罩不透明度（hover 補間到此值）',
-      table: { type: { summary: 'number' }, defaultValue: { summary: 0.85 } },
+      table: { type: { summary: 'number' }, defaultValue: { summary: 0.8 } },
     },
     objectFit: {
       control: { type: 'radio' },
@@ -121,7 +121,7 @@ export const Default: Story = {
     depthTolerance: 0.1,
     objectFit: 'cover',
     maskColor: 'var(--hds-sys-color-theme-mask)',
-    maskOpacity: 0.85,
+    maskOpacity: 0.8,
     maxPixelRatio: 1.5,
   },
 };
@@ -141,7 +141,7 @@ export const DesaturateUntilHover: Story = {
     hoverPixelDuration: 500,
     desaturateUntilHover: true,
     maskColor: 'var(--hds-sys-color-theme-mask)',
-    maskOpacity: 0.85,
+    maskOpacity: 0.8,
     maxPixelRatio: 1.5,
   },
 };

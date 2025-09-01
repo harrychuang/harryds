@@ -66,7 +66,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   maxPixelRatio = 1.5,
   objectFit = 'cover',
   maskColor,
-  maskOpacity = 0.85,
+  maskOpacity = 0.8,
   className = '',
   onLoad,
   onError,
@@ -596,10 +596,10 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
         // hover 後使用使用者設定的 maskColor（未提供則維持 theme 預設）
         maskRef.current.style.backgroundColor = (maskColor as string) || 'var(--hds-sys-color-theme-mask)';
         // 保持不透明度為基準 maskOpacity
-        const baseOpacity = Math.max(0, Math.min(1, (maskOpacity as number) ?? 0.85));
+        const baseOpacity = Math.max(0, Math.min(1, (maskOpacity as number) ?? 0.8));
         maskRef.current.style.opacity = String(baseOpacity);
       }
-      startPixelAnimation(1, desaturateUntilHover ? Math.max(0, Math.min(1, (maskOpacity as number) ?? 0.85)) : Math.max(0, Math.min(1, maskOpacity)));
+      startPixelAnimation(1, desaturateUntilHover ? Math.max(0, Math.min(1, (maskOpacity as number) ?? 0.8)) : Math.max(0, Math.min(1, maskOpacity)));
       if (desaturateUntilHover && saturationPassRef.current) {
         saturationPassRef.current.uniforms['saturation'].value = 0;
       }
@@ -609,23 +609,23 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
       if (desaturateUntilHover && maskRef.current) {
         // 非 hover 回到 theme mask
         maskRef.current.style.backgroundColor = 'var(--hds-sys-color-theme-mask)';
-        const baseOpacity = Math.max(0, Math.min(1, (maskOpacity as number) ?? 0.85));
+        const baseOpacity = Math.max(0, Math.min(1, (maskOpacity as number) ?? 0.8));
         maskRef.current.style.opacity = String(baseOpacity);
       }
-      startPixelAnimation(backTo, desaturateUntilHover ? Math.max(0, Math.min(1, (maskOpacity as number) ?? 0.85)) : 0);
+      startPixelAnimation(backTo, desaturateUntilHover ? Math.max(0, Math.min(1, (maskOpacity as number) ?? 0.8)) : 0);
       if (desaturateUntilHover && saturationPassRef.current) {
         saturationPassRef.current.uniforms['saturation'].value = -1;
       }
     }
   }, [hoverActive, hoverPixelToOne, desaturateUntilHover, maskColor, maskOpacity, startPixelAnimation, computeEffectivePixel]);
 
-  // desaturateUntilHover 開啟時：預設遮罩為白色 0.85；否則預設不顯示遮罩
+  // desaturateUntilHover 開啟時：預設遮罩為白色 0.8；否則預設不顯示遮罩
   useEffect(() => {
     const node = maskRef.current;
     if (!node) return;
     if (desaturateUntilHover) {
       // 非 hover 基準：使用 theme mask 與傳入的不透明度
-      const baseOpacity = Math.max(0, Math.min(1, (maskOpacity as number) ?? 0.85));
+      const baseOpacity = Math.max(0, Math.min(1, (maskOpacity as number) ?? 0.8));
       node.style.backgroundColor = 'var(--hds-sys-color-theme-mask)';
       node.style.opacity = String(baseOpacity);
       lastAppliedMaskOpacityRef.current = baseOpacity;
@@ -644,7 +644,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
   useEffect(() => {
     const node = maskRef.current;
     if (!node) return;
-    const baseOpacity = Math.max(0, Math.min(1, (maskOpacity as number) ?? 0.85));
+    const baseOpacity = Math.max(0, Math.min(1, (maskOpacity as number) ?? 0.8));
     if (hoverActive) {
       node.style.backgroundColor = (maskColor as string) || 'var(--hds-sys-color-theme-mask)';
       node.style.opacity = String(desaturateUntilHover ? baseOpacity : 0);
@@ -669,12 +669,12 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
       onPointerEnter={() => {
         if (hoverPixelToOne) {
           isHoveredRef.current = true;
-          // 進入時：若灰階模式啟用，僅改變遮罩顏色為目標色，不調整不透明度（維持 0.85）
+          // 進入時：若灰階模式啟用，僅改變遮罩顏色為目標色，不調整不透明度（維持 0.8）
           if (desaturateUntilHover && maskRef.current) {
             // hover 後使用使用者設定的 maskColor（未提供則維持 theme 預設）
             maskRef.current.style.backgroundColor = (maskColor as string) || 'var(--hds-sys-color-theme-mask)';
           }
-          const targetMaskOpacity = desaturateUntilHover ? 0.85 : Math.max(0, Math.min(1, maskOpacity));
+          const targetMaskOpacity = desaturateUntilHover ? 0.8 : Math.max(0, Math.min(1, maskOpacity));
           startPixelAnimation(1, targetMaskOpacity);
           if (desaturateUntilHover && saturationPassRef.current) {
             saturationPassRef.current.uniforms['saturation'].value = 0;
@@ -685,12 +685,12 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
         if (hoverPixelToOne) {
           isHoveredRef.current = false;
           const backTo = computeEffectivePixel(pixelSizeRef.current);
-          // 離開時：若灰階模式啟用，遮罩顏色恢復為白色，維持 0.85
+          // 離開時：若灰階模式啟用，遮罩顏色恢復為白色，維持 0.8
           if (desaturateUntilHover && maskRef.current) {
             // 非 hover 回到 theme mask（light=白、dark=暗）
             maskRef.current.style.backgroundColor = 'var(--hds-sys-color-theme-mask)';
           }
-          const targetMaskOpacity = desaturateUntilHover ? 0.85 : 0;
+          const targetMaskOpacity = desaturateUntilHover ? 0.8 : 0;
           startPixelAnimation(backTo, targetMaskOpacity);
           if (desaturateUntilHover && saturationPassRef.current) {
             saturationPassRef.current.uniforms['saturation'].value = -1;
