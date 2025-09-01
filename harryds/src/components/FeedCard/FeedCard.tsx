@@ -183,8 +183,8 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
     normalTolerance: backgroundProps?.normalTolerance ?? 0.2,
     depthTolerance: backgroundProps?.depthTolerance ?? 0.1,
     objectFit: backgroundProps?.objectFit ?? 'cover',
-    // 將目標顏色固定傳入，實際進/出時的切換交由 PixelImage 以 CSS 補間處理
-    maskColor: backgroundProps?.maskColor ?? (finalSecondaryColor ?? '#1B2350'),
+    // Hover 時使用資料的 secondaryColor；無資料時退回 theme mask
+    maskColor: backgroundProps?.maskColor ?? (finalSecondaryColor ?? 'var(--hds-sys-color-theme-mask)'),
     maskOpacity: backgroundProps?.maskOpacity ?? 0.85,
     maxPixelRatio: backgroundProps?.maxPixelRatio ?? 1.5,
     className: backgroundProps?.className,

@@ -78,6 +78,8 @@ export const Default: Story = {
     src: demoSrc,
     padding: 40,
     infoMaxWidth: 1400,
+    primaryColor: items[0].primaryColor,
+    secondaryColor: items[0].secondaryColor,
     infoData: {
       id: items[0].id,
       heading: items[0].heading,
@@ -85,8 +87,6 @@ export const Default: Story = {
       tags: items[0].tags,
       category: items[0].category,
     } as FeedCardInfoData,
-    primaryColor: items[0].primaryColor,
-    secondaryColor: items[0].secondaryColor,
   },
 };
 
@@ -117,6 +117,8 @@ export const Opened: Story = {
     src: demoSrc,
     padding: 40,
     infoMaxWidth: 1400,
+    primaryColor: items[0].primaryColor,
+    secondaryColor: items[0].secondaryColor,
   },
   parameters: {
     docs: {
@@ -152,45 +154,20 @@ export const LoadingDemo: Story = {
     src: demoSrc,
     padding: 40,
     infoMaxWidth: 1400,
-    primaryColor: '#00FFAA',
-    secondaryColor: '#0a0a0a',
+    primaryColor: items[0].primaryColor,
+    secondaryColor: items[0].secondaryColor,
   },
   parameters: {
     docs: {
       description: {
-        story: `專門展示 loading 階段的效果。當設置 \`open=true\` 時的完整流程：
+        story: `專門展示 loading 階段的效果。當設置 open=true 時：
 
-## Loading 流程詳細說明
-1. **初始狀態**: Overlay 以 \`position: relative\` 包覆 FeedCard，保持 \`sizeWhenClosed\` 的原始尺寸
-2. **Loading 顯示**: PixelText loading 固定在視窗右上角，完全無遮罩
-3. **Position 切換**: Loading 完成後，overlay 切換為 \`position: fixed + inset: 0\`（佔滿全螢幕）
-4. **尺寸轉換**: FeedCard 平滑擴展為 hero 尺寸（75vh）
-5. **內容顯示**: Body 內容在轉換完成後出現
-
-## Loading 特色
-- **📦 包覆模式**: Loading 期間 overlay 只包覆 FeedCard，不佔滿畫面
-- **📍 視窗右上角**: Loading 固定在視窗右上角（position: fixed）
-- **🎮 8-bit 風格**: "LOADING" 像素文字 + 動態進度百分比
-- **🌟 純淨設計**: 無任何背景遮罩，完全透明浮動
-- **📏 漸進式**: 包覆 → loading → 全螢幕 → hero 展開 → 內容顯示
-- **⚡ 流暢過渡**: position 切換、尺寸變化和內容顯示都有平滑動畫
-- **🎯 緊湊佈局**: 不干擾主要內容，專注於狀態指示
-- **❌ 無關閉按鈕**: 簡潔界面，loading 完成後才顯示 backdrop 點擊關閉
-
-## Position 時序
-- **Loading 期間**: 
-  - Overlay: \`position: relative\`（只包覆 FeedCard，保持原始尺寸）
-  - Loading: \`position: fixed\`（視窗右上角）
-  - 無 backdrop 背景
-- **內容準備後**: 
-  - Overlay: \`position: fixed + inset: 0\`（佔滿全螢幕）
-  - 顯示 backdrop 背景
-  - 可滾動瀏覽內容
-
-調整 \`primaryColor\` 和 \`secondaryColor\` 可以看到不同的色彩效果。`,
+1) overlay 以 position: relative 包覆 FeedCard（原始尺寸）
+2) 右上角顯示 PixelText loading
+3) loading 完成後切換為 fixed + 全螢幕，背景使用 PixelImage（pixelSize=80、遮罩使用 secondaryColor）
+4) hero 維持 75vh，FeedCardInfo 置於底部
+        `,
       },
     },
   },
 };
-
-

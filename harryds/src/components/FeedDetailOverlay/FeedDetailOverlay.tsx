@@ -420,8 +420,8 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
 
   return (
     <div ref={combinedRef} className={overlayClassName} role="dialog" aria-modal="true" style={openStyle}>
-      {/* 背景層：只在 ready 階段才分離為背景 */}
-      {animationPhase === 'ready' && (
+      {/* 背景層：在 expanding 與 ready 階段均啟用 fixed 背景 */}
+      {(animationPhase === 'expanding' || animationPhase === 'ready') && (
         <div className="feed-detail-overlay__fixed-background">
           <FeedCard
             src={src}
@@ -429,10 +429,11 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
             padding={0}
             backgroundProps={{
               ...backgroundProps,
-              pixelSize: 80, // open 後調整 pixelSize 為 80
-              maskOpacity: 0.95, // 調整 mask 透明度
+              pixelSize: 80,
+              maskOpacity: 0.95,
               hoverPixelToOne: false,
               maskColor: secondaryColor,
+              hoverActive: true, // 強制 PixelImage 使用 hover 顏色（secondaryColor）
             }}
             secondaryColor={secondaryColor}
             className="feed-detail-overlay__background-card"
@@ -461,11 +462,10 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
           className="feed-detail-overlay__hero" 
           style={heroStyle}
         >
-          {/* Loading 和 positioning 階段：顯示完整的 FeedCard */}
-          {(animationPhase === 'loading' || animationPhase === 'positioning') && (
+          {/* Loading 階段：顯示完整的 FeedCard */}
+          {animationPhase === 'loading' && (
             <FeedCard 
               {...feedCardProps}
-              // loading 階段需具有 hovered 視覺效果，但不改變 pixelSize
               forceHovered={true}
               disableHover={true}
               backgroundProps={{
@@ -474,37 +474,15 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                 maskOpacity: 0.95,
                 hoverPixelToOne: false,
                 maskColor: secondaryColor,
+                hoverActive: true,
               }}
             >
               {infoData && <FeedCardInfo {...feedCardInfoProps} />}
             </FeedCard>
           )}
           
-          {/* Expanding 階段：顯示擴展中的 FeedCard，但 FeedCardInfo 已獨立顯示 */}
-          {animationPhase === 'expanding' && (
-            <>
-              <FeedCard 
-                {...feedCardProps} 
-                className="feed-detail-overlay__expanding-card"
-                backgroundProps={{
-                  ...backgroundProps,
-                  pixelSize: 80, // expanding 階段調整 pixelSize
-                  maskOpacity: 0.95, // 調整 mask 透明度
-                  hoverPixelToOne: false,
-                  maskColor: secondaryColor,
-                }}
-              />
-              {/* FeedCardInfo 獨立顯示在 hero 底部 */}
-              {infoData && (
-                <div className="feed-detail-overlay__hero-content" style={heroContentStyle}>
-                  <FeedCardInfo {...feedCardInfoProps} hovered={true} />
-                </div>
-              )}
-            </>
-          )}
-          
-          {/* Ready 階段：只顯示 FeedCardInfo（背景已分離） */}
-          {animationPhase === 'ready' && infoData && (
+          {/* Expanding/Ready 階段：FeedCardInfo 獨立顯示在 hero 底部，背景改由 fixed 層處理 */}
+          {(animationPhase === 'expanding' || animationPhase === 'ready') && infoData && (
             <div className="feed-detail-overlay__hero-content" style={heroContentStyle}>
               <FeedCardInfo {...feedCardInfoProps} hovered={true} />
             </div>

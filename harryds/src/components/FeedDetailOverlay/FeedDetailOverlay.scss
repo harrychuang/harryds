@@ -114,15 +114,8 @@
     width: 100%;
     z-index: 2; // 確保在背景之上
     
-    // Expanding 階段：高度跟隨 FeedCard 擴展到 100vh
-    .feed-detail-overlay--expanding & {
-      height: 100vh;
-      flex: none; // 不被 flex 擠壓
-      transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      will-change: height;
-    }
-    
-    // Ready 階段：高度固定為 75vh
+    // Expanding/Ready 階段：hero 固定 75vh
+    .feed-detail-overlay--expanding &,
     .feed-detail-overlay--ready & {
       height: 75vh;
       flex: none; // 不被 flex 擠壓
@@ -130,17 +123,12 @@
       will-change: height;
     }
     
-    // FeedCard 在 expanding 階段拉高到 100vh（但不包含 FeedCardInfo）
+    // 移除擴展階段將 FeedCard 拉到 100vh 的行為，改由 fixed 背景層處理
     .feed-detail-overlay--expanding & .feed-card {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 100vh !important;
-      transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      will-change: height;
-      transform: translateZ(0);
-      z-index: 1; // 低於 FeedCardInfo
+      height: auto;
+      transition: none;
+      will-change: auto;
+      transform: none;
     }
     
     // Ready 階段移除 will-change 以節省資源
@@ -155,7 +143,7 @@
     bottom: 0; // 始終貼在 hero 容器的底部
     left: 0;
     right: 0;
-    z-index: 10; // 提高 z-index 確保在所有元素之上
+    z-index: 1002; // 高於 loading(1001) 與背景層
     display: flex;
     align-items: flex-end; // FeedCardInfo 貼在容器底部
     justify-content: center; // 水平置中
