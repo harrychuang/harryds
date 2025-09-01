@@ -5,13 +5,14 @@
 // - hero 下方顯示文章內容（文字 + 圖片，預設內容或結構化 blocks）
 // =============================================================================
 
-import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { FeedCard } from '../FeedCard';
 import type { FeedCardProps } from '../FeedCard';
 import type { FeedCardSize } from '../FeedCard/FeedCard';
 import { FeedCardInfo } from '../FeedCard';
 import type { FeedCardInfoData } from '../FeedCard';
 import type { FeedContentBlock } from '../../types/feed';
+import { DistortedPixels } from '../DistortedPixels';
 import './FeedDetailOverlay.scss';
 
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
@@ -57,6 +58,8 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
   infoData,
   primaryColor,
 }, ref) => {
+  // 滾動容器引用
+  const scrollContentRef = useRef<HTMLDivElement | null>(null);
   // 將 vh 轉換為 px，以便傳給 FeedCard.height（該 prop 僅支援 number px）
   const [heroHeightPx, setHeroHeightPx] = useState<number>(() => {
     if (typeof window !== 'undefined') return Math.round(window.innerHeight * clamp(heroHeightVH, 10, 100) / 100);
@@ -95,7 +98,20 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
             return <h2 key={i}>{b.content}</h2>;
           }
           if (b.type === 'paragraph') return <p key={i}>{b.content}</p>;
-          if (b.type === 'image') return <img key={i} src={b.src} alt={b.alt || `image-${i + 1}`} />;
+          if (b.type === 'image') return (
+            <div key={i} className="fdo-image-container">
+              <DistortedPixels 
+                src={b.src} 
+                objectFit="cover"
+                direction="x"
+                maxPixelation={60}
+                maxDistortion={0.8}
+                scrollSensitivity={0.2}
+                decaySpeed={0.96}
+                scrollContainer={scrollContentRef}
+              />
+            </div>
+          );
           if (b.type === 'list') return (
             <ul key={i}>
               {b.items.map((t, idx) => <li key={idx}>{t}</li>)}
@@ -109,7 +125,18 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
 
   const defaultContent = useMemo(() => {
     const images = Array.from({ length: 3 }).map((_, i) => (
-      <img key={i} src={src} alt={`article-${i + 1}`} />
+      <div key={i} className="fdo-image-container">
+        <DistortedPixels 
+          src={src!} 
+          objectFit="cover"
+          direction="x"
+          maxPixelation={60}
+          maxDistortion={0.8}
+          scrollSensitivity={0.2}
+          decaySpeed={0.96}
+          scrollContainer={scrollContentRef}
+        />
+      </div>
     ));
     return (
       <article className="fdo-article">
@@ -184,7 +211,7 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
   return (
     <div ref={ref} className={`feed-detail-overlay feed-detail-overlay--open ${className}`.trim()} role="dialog" aria-modal="true" style={openStyle}>
       <div className="feed-detail-overlay__backdrop" onClick={onClose} />
-      <div className="feed-detail-overlay__content" aria-label="Feed detail overlay">
+      <div ref={scrollContentRef} className="feed-detail-overlay__content" aria-label="Feed detail overlay">
         <button className="feed-detail-overlay__close" aria-label="Close" onClick={onClose}>
           ✕
         </button>

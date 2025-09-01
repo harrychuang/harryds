@@ -33,6 +33,8 @@ export interface DistortedPixelsProps {
   adaptiveQuality?: boolean;
   /** 自適應畫質的最低比例（0.3-1.0） */
   minQualityScale?: number;
+  /** 滾動容器元素引用，若未提供則監聽 window 滾動 */
+  scrollContainer?: React.RefObject<HTMLElement> | HTMLElement | null;
   /** 額外 CSS 類名 */
   className?: string;
   /** 載入成功回呼 */
@@ -203,6 +205,7 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
   maxPixelRatio = 4,
   adaptiveQuality = true,
   minQualityScale = 0.6,
+  scrollContainer,
   className = '',
   onLoad,
   onError,
@@ -251,7 +254,17 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
   // 計算滾動速度
   const updateScrollVelocity = useCallback(() => {
     const currentTime = performance.now();
-    const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // 根據是否有指定 scrollContainer 來決定監聽的滾動元素
+    let currentScrollY: number;
+    if (scrollContainer) {
+      const container = scrollContainer instanceof HTMLElement 
+        ? scrollContainer 
+        : scrollContainer.current;
+      currentScrollY = container ? container.scrollTop : 0;
+    } else {
+      currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+    }
     
     const deltaTime = currentTime - lastScrollTimeRef.current;
     const deltaScroll = currentScrollY - scrollYRef.current;
@@ -267,7 +280,7 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
     if (rafRef.current == null && isVisibleRef.current) {
       rafRef.current = requestAnimationFrame(renderLoop);
     }
-  }, [scrollSensitivity]);
+  }, [scrollSensitivity, scrollContainer]);
 
   // 滾動事件監聽
   useEffect(() => {
@@ -283,13 +296,28 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
       }
     };
     
+    // 決定監聽的元素
+    let scrollElement: HTMLElement | Window = window;
+    if (scrollContainer) {
+      const container = scrollContainer instanceof HTMLElement 
+        ? scrollContainer 
+        : scrollContainer.current;
+      if (container) {
+        scrollElement = container;
+      }
+    }
+    
     // 初始化滾動位置
-    scrollYRef.current = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollElement === window) {
+      scrollYRef.current = window.pageYOffset || document.documentElement.scrollTop;
+    } else {
+      scrollYRef.current = (scrollElement as HTMLElement).scrollTop;
+    }
     lastScrollTimeRef.current = performance.now();
     
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [updateScrollVelocity]);
+    scrollElement.addEventListener('scroll', handleScroll, { passive: true });
+    return () => scrollElement.removeEventListener('scroll', handleScroll);
+  }, [updateScrollVelocity, scrollContainer]);
 
   // 載入紋理
   const loadTexture = useCallback(async (url: string) => {
