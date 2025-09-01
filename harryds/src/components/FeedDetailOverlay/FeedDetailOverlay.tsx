@@ -187,13 +187,15 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
       ...backgroundProps,
       pixelSize: 80, // 統一設定 pixelSize 為 80
       maskOpacity: 0.95, // 開啟後統一 mask 透明度為 0.95
+      hoverPixelToOne: false, // 關閉 hover 時像素補間至 1 的行為
+      maskColor: secondaryColor, // 明確指定遮罩色為 secondaryColor
     },
     secondaryColor,
     infoMaxWidth,
     className: "feed-detail-overlay__card",
     enableHoverSound,
     soundVolume,
-    forceHovered: true,
+    forceHovered: false, // 不強制 hovered，避免觸發 hover 動畫
     disableHover: true,
   }), [
     src, 
@@ -429,11 +431,13 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
               ...backgroundProps,
               pixelSize: 80, // open 後調整 pixelSize 為 80
               maskOpacity: 0.95, // 調整 mask 透明度
+              hoverPixelToOne: false,
+              maskColor: secondaryColor,
             }}
             secondaryColor={secondaryColor}
             className="feed-detail-overlay__background-card"
             enableHoverSound={false}
-            forceHovered={true}
+            forceHovered={false}
             disableHover={true}
           />
         </div>
@@ -459,7 +463,19 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         >
           {/* Loading 和 positioning 階段：顯示完整的 FeedCard */}
           {(animationPhase === 'loading' || animationPhase === 'positioning') && (
-            <FeedCard {...feedCardProps}>
+            <FeedCard 
+              {...feedCardProps}
+              // loading 階段需具有 hovered 視覺效果，但不改變 pixelSize
+              forceHovered={true}
+              disableHover={true}
+              backgroundProps={{
+                ...backgroundProps,
+                pixelSize: 80,
+                maskOpacity: 0.95,
+                hoverPixelToOne: false,
+                maskColor: secondaryColor,
+              }}
+            >
               {infoData && <FeedCardInfo {...feedCardInfoProps} />}
             </FeedCard>
           )}
@@ -474,6 +490,8 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                   ...backgroundProps,
                   pixelSize: 80, // expanding 階段調整 pixelSize
                   maskOpacity: 0.95, // 調整 mask 透明度
+                  hoverPixelToOne: false,
+                  maskColor: secondaryColor,
                 }}
               />
               {/* FeedCardInfo 獨立顯示在 hero 底部 */}
