@@ -28,6 +28,7 @@ export const Playground: React.FC = () => {
   const handleCloseCard = useCallback(() => {
     setOpenCardId(null);
     setOpenCardAnimationPhase('closed');
+    setHoveredCardId(null); // 重置 hover 狀態，確保 Logo 完全回到預設狀態
   }, []);
   
   // 動畫階段變化處理函數
@@ -47,18 +48,28 @@ export const Playground: React.FC = () => {
 
   // 計算 Logo 應該使用的顏色（開啟狀態優先於 hover 狀態）
   const getLogoColors = useCallback(() => {
+    // 只有在有 hover 或 open 狀態時才使用自訂顏色
     const activeCardId = openCardId || hoveredCardId;
     if (activeCardId) {
       const activeItem = items.find(item => item.id === activeCardId);
-      if (activeItem) {
+      if (activeItem && activeItem.primaryColor && activeItem.secondaryColor) {
+        // 調試信息
+        console.log('Logo colors:', { 
+          activeCardId, 
+          primaryColor: activeItem.primaryColor, 
+          secondaryColor: activeItem.secondaryColor,
+          animationPhase: openCardAnimationPhase 
+        });
         return {
           primaryColor: activeItem.primaryColor,
           secondaryColor: activeItem.secondaryColor,
         };
       }
     }
-    return {}; // 使用 Logo 組件的預設顏色
-  }, [openCardId, hoveredCardId, items]);
+    // 確保回到預設狀態時不傳遞任何顏色 props，讓 Logo 使用預設值
+    console.log('Logo reset to default colors');
+    return {};
+  }, [openCardId, hoveredCardId, items, openCardAnimationPhase]);
 
   const getSizeByIndex = (index: number): FeedCardSize => {
     if (index === 0) return 'hero';
@@ -78,7 +89,11 @@ export const Playground: React.FC = () => {
         <div className="header-content">
           <div 
             onClick={openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? handleCloseCard : undefined}
-            style={{ cursor: openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'pointer' : 'default' }}
+            style={{ 
+              cursor: openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'pointer' : 'default',
+              transform: openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'translateX(-10px)' : 'translateX(0px)',
+              transition: 'transform 0.3s ease'
+            }}
           >
             <Logo 
               type={openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'back' : 'default'}
