@@ -15,7 +15,7 @@
     left: 0;
     right: 0;
     height: 150px;
-    z-index: 1000;
+    z-index: 1100; // 確保在 FeedDetailOverlay (最高1002) 之上
     display: flex;
     align-items: center;
     justify-content: center;

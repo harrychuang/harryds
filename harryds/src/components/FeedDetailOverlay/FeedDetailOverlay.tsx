@@ -24,6 +24,8 @@ export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | '
   open?: boolean;
   /** 關閉事件（按下關閉按鈕或背景時觸發） */
   onClose?: () => void;
+  /** 動畫階段變化回調 */
+  onAnimationPhaseChange?: (phase: 'closed' | 'loading' | 'positioning' | 'expanding' | 'ready') => void;
   /** hero 區高度（vh），預設 75 */
   heroHeightVH?: number;
   /** 關閉/初始狀態時 FeedCard/FeedCardInfo 使用的尺寸（hero/med/sm/xs），開啟時將統一使用 hero */
@@ -97,6 +99,7 @@ OptimizedDistortedPixels.displayName = 'OptimizedDistortedPixels';
 const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayProps>(({
   open = false,
   onClose,
+  onAnimationPhaseChange,
   content,
   contentBlocks,
   className = '',
@@ -136,6 +139,11 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   const [originalPosition, setOriginalPosition] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   // 注意：hero 高度現在由 CSS 直接設定為 75vh，不再需要 JavaScript 計算
+
+  // 動畫階段變化通知
+  useEffect(() => {
+    onAnimationPhaseChange?.(animationPhase);
+  }, [animationPhase, onAnimationPhaseChange]);
 
   // 記錄原始位置的函數
   const captureOriginalPosition = useCallback(() => {
