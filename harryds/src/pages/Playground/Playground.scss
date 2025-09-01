@@ -4,7 +4,7 @@
 
 .playground {
   min-height: 100vh;
-  padding: 2rem;
+  padding: 50px 100px;
   background: var(--hds-sys-color-on-theme-surface);
   color: var(--hds-sys-color-theme-surface);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -17,7 +17,7 @@
   }
 
   &__container {
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
 
     h1 {
@@ -33,14 +33,35 @@
   }
 
   &__content {
-    padding: 2rem;
-    border: 1px solid var(--hds-sys-color-outline-variant);
-    border-radius: 12px;
-    background: var(--hds-sys-color-surface);
-    min-height: 300px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    row-gap: 50px; // 每一個 row 的間距
+    column-gap: 0px; // 同一列卡片之間的間距
+
+    .pg-card {
+      width: 100%;
+      &--hero {
+        grid-column: span 6; // 6 欄全寬
+      }
+      &--med {
+        grid-column: span 3; // 兩張並列（各佔 3 欄）
+      }
+      &--sm {
+        grid-column: span 2; // 三張並列（各佔 2 欄）
+      }
+      &--xs {
+        grid-column: span 2; // 三張並列（各佔 2 欄）
+      }
+    }
   }
 
   @media (max-width: 768px) {
-    padding: 1rem;
+    padding: 24px;
+    &__content {
+      grid-template-columns: 1fr;
+      .pg-card {
+        grid-column: 1 / -1;
+      }
+    }
   }
 }

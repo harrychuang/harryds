@@ -5,6 +5,7 @@
 
 import { forwardRef, useContext, useMemo, memo, useState, useEffect, useRef } from 'react';
 import { PixelText } from '../PixelText';
+import PixelText2D from '../PixelText/PixelText2D';
 import { CHAR_WIDTH, CHAR_HEIGHT } from '../PixelText';
 import './FeedCardInfo.scss';
 import type { FeedCardSize } from './FeedCard';
@@ -13,6 +14,7 @@ import { HDS_TOKENS } from '../../utils/colorTokens';
 
 // 避免 hover 切換時重繪昂貴的 PixelText 畫布
 const StablePixelText = memo(PixelText);
+const StablePixelText2D = memo(PixelText2D);
 
 export interface FeedCardInfoProps {
   /** 尺寸（可選）：決定多個區塊的預設像素大小與標題字級。若不提供，會自動從父層 FeedCard 的 size context 中獲取，最終預設為 'hero' */
@@ -240,7 +242,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
       <div className="feed-card-info__id">
         <div className="fade-stack" style={{ width: isHovered ? idCanvasHover.width : idCanvas.width, height: isHovered ? idCanvasHover.height : idCanvas.height }}>
           <div className="fade-layer base" style={{ opacity: isHovered ? 0 : 1 }}>
-            <StablePixelText
+            <StablePixelText2D
               text={idText}
               textEnabled
               pixelSize={idPx}
@@ -253,7 +255,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
             />
           </div>
           <div className="fade-layer hover" style={{ opacity: isHovered ? 1 : 0 }}>
-            <StablePixelText
+            <StablePixelText2D
               text={idText}
               textEnabled
               pixelSize={idPx}
@@ -303,7 +305,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
       <div className="feed-card-info__date">
         <div className="fade-stack" style={{ width: dateCanvas.width, height: dateCanvas.height }}>
           <div className="fade-layer base" style={{ opacity: isHovered ? 0 : 1 }}>
-            <StablePixelText
+            <StablePixelText2D
               text={computedDateRange}
               textEnabled
               pixelSize={datePx}
@@ -316,7 +318,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
             />
           </div>
           <div className="fade-layer hover" style={{ opacity: isHovered ? 1 : 0 }}>
-            <StablePixelText
+            <StablePixelText2D
               text={computedDateRange}
               textEnabled
               pixelSize={datePx}
@@ -335,7 +337,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
       <div className="feed-card-info__tags">
         <div className="fade-stack" style={{ width: tagCanvas.width, height: tagCanvas.height }}>
           <div className="fade-layer base" style={{ opacity: isHovered ? 0 : 1 }}>
-            <StablePixelText
+            <StablePixelText2D
               text=""
               textEnabled={false}
               textBoxEnabled
@@ -353,7 +355,7 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
             />
           </div>
           <div className="fade-layer hover" style={{ opacity: isHovered ? 1 : 0 }}>
-            <StablePixelText
+            <StablePixelText2D
               text=""
               textEnabled={false}
               textBoxEnabled

@@ -262,7 +262,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   
   const heroContentStyle = useMemo((): HeroContentStyle => ({
     '--feed-card-padding': `${Math.max(0, padding)}px`,
-    '--feed-card-info-max-width': `${Math.max(1, infoMaxWidth || 1400)}px`,
+    '--feed-card-info-max-width': `${Math.max(1, infoMaxWidth || 1600)}px`,
   }), [padding, infoMaxWidth]);
 
   // 合併 ref 處理
