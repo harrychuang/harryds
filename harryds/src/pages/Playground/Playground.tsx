@@ -5,6 +5,7 @@
 import React, { useMemo } from 'react';
 import './Playground.scss';
 import { FeedDetailOverlay } from '@components/FeedDetailOverlay';
+import { Logo } from '@components/Logo';
 import type { FeedCardSize } from '@components/FeedCard/FeedCard';
 import type { FeedItem } from '../../types/feed';
 import feed from '../../../../shared/data/feed.json';
@@ -26,10 +27,12 @@ export const Playground: React.FC = () => {
 
   return (
     <div className="playground">
+      <header className="playground__header">
+        <div className="header-content">
+          <Logo />
+        </div>
+      </header>
       <div className="playground__container">
-        <h1>Playground</h1>
-        <p>在這裡測試和組裝元件</p>
-
         <div className="playground__content">
           {items.slice(0, 9).map((item, index) => {
             const size = getSizeByIndex(index);

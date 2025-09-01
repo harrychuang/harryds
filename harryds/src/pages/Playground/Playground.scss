@@ -9,16 +9,30 @@
   color: var(--hds-sys-color-theme-surface);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-  :root[theme="dark"] &,
-  html[theme="dark"] &,
-  body[theme="dark"] & {
-    background: #1a1a1a;
-    color: #ffffff;
+  &__header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 100px;
+    
+    .header-content {
+      max-width: 1600px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
   }
 
   &__container {
     max-width: 1600px;
     margin: 0 auto;
+    padding-top: 100px;
 
     h1 {
       margin: 0 0 1rem 0;
@@ -57,6 +71,15 @@
 
   @media (max-width: 768px) {
     padding: 24px;
+    
+    &__header {
+      padding: 0 24px;
+      
+      .header-content {
+        max-width: none;
+      }
+    }
+    
     &__content {
       grid-template-columns: 1fr;
       .pg-card {
