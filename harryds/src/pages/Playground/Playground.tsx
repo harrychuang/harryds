@@ -106,8 +106,16 @@ export const Playground: React.FC = () => {
     return 'xs';                  // 6,7,8
   };
 
+  // 以 Vite 的 import.meta.glob 建立靜態資產映射，確保開發與打包皆可正確解析
+  const imageModules = useMemo(() => (
+    import.meta.glob('../../../assets/imgs/**/*', { eager: true, import: 'default' }) as Record<string, string>
+  ), []);
+
   const resolveSrc = (fileName?: string) => {
     if (!fileName) return '';
+    const key = `../../../assets/imgs/${fileName}`;
+    if (imageModules[key]) return imageModules[key];
+    // 後備：若沒有命中（理論上不會），回退相對 URL 解析
     return new URL(`../../../assets/imgs/${fileName}`, import.meta.url).href;
   };
 

@@ -8,17 +8,17 @@
       "category": "project",
       "primaryColor": "#FF1246",
       "secondaryColor": "#1B2350",
-      "heroImage": "project-demo.jpg",
+      "heroImage": "demo/project-demo-1.jpg",
       "content": [
         { "type": "heading", "level": 1, "content": "UNTITLED PROJECT" },
         { "type": "paragraph", "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae arcu ac neque commodo aliquet." },
-        { "type": "image", "src": "project-demo.jpg", "alt": "hero" },
+        { "type": "image", "src": "demo/project-demo-2.jpg", "alt": "hero" },
         { "type": "heading", "level": 2, "content": "Design Goals" },
         { "type": "list", "items": ["Responsive pixel aesthetics", "Playful motion", "Editorial layout"] },
-        { "type": "image", "src": "project-demo.jpg", "alt": "detail-1" },
+        { "type": "image", "src": "demo/project-demo-3.jpg", "alt": "detail-1" },
         { "type": "heading", "level": 2, "content": "Process" },
         { "type": "paragraph", "content": "Aenean imperdiet nunc non tempor laoreet. In et sem id neque volutpat fermentum sit amet id lectus." },
-        { "type": "image", "src": "project-demo.jpg", "alt": "detail-2" }
+        { "type": "image", "src": "demo/project-demo-4.jpg", "alt": "detail-2" }
       ]
     },
     {
@@ -29,7 +29,7 @@
       "category": "project",
       "primaryColor": "#00D4FF",
       "secondaryColor": "#0A1D2E",
-      "heroImage": "project-demo.jpg",
+      "heroImage": "demo/project-demo-5.jpg",
       "content": [
         { "type": "heading", "level": 1, "content": "UNTITLED PROJECT #2" },
         { "type": "paragraph", "content": "Short intro paragraph for project 02." }
@@ -43,7 +43,7 @@
       "category": "project",
       "primaryColor": "#4AFF00",
       "secondaryColor": "#0A1A0A",
-      "heroImage": "project-demo.jpg",
+      "heroImage": "demo/project-demo-6.jpg",
       "content": [
         { "type": "heading", "level": 1, "content": "Project 03" },
         { "type": "paragraph", "content": "Short intro paragraph for project 03." }
@@ -57,7 +57,7 @@
       "category": "project",
       "primaryColor": "#FF9A1A",
       "secondaryColor": "#2D0721",
-      "heroImage": "project-demo.jpg",
+      "heroImage": "demo/project-demo-2.jpg",
       "content": [
         { "type": "heading", "level": 1, "content": "Project 04" },
         { "type": "paragraph", "content": "Short intro paragraph for project 04." }
@@ -71,7 +71,7 @@
       "category": "project",
       "primaryColor": "#B563FF",
       "secondaryColor": "#14002D",
-      "heroImage": "project-demo.jpg",
+      "heroImage": "demo/project-demo-3.jpg",
       "content": [
         { "type": "heading", "level": 1, "content": "Project 05" },
         { "type": "paragraph", "content": "Short intro paragraph for project 05." }
@@ -85,7 +85,7 @@
       "category": "project",
       "primaryColor": "#FF3D5C",
       "secondaryColor": "#050B1A",
-      "heroImage": "project-demo.jpg",
+      "heroImage": "demo/project-demo-4.jpg",
       "content": [
         { "type": "heading", "level": 1, "content": "Project 06" },
         { "type": "paragraph", "content": "Short intro paragraph for project 06." }
@@ -99,7 +99,7 @@
       "category": "article",
       "primaryColor": "#00E6CC",
       "secondaryColor": "#0F1A29",
-      "heroImage": "project-demo.jpg",
+      "heroImage": "demo/project-demo-1.jpg",
       "content": [
         { "type": "heading", "level": 1, "content": "Project 07" },
         { "type": "paragraph", "content": "Short intro paragraph for project 07." }
@@ -113,7 +113,7 @@
       "category": "project",
       "primaryColor": "#FFD700",
       "secondaryColor": "#1A2B33",
-      "heroImage": "project-demo.jpg",
+      "heroImage": "demo/project-demo-6.jpg",
       "content": [
         { "type": "heading", "level": 1, "content": "Project 08" },
         { "type": "paragraph", "content": "Short intro paragraph for project 08." }
@@ -127,7 +127,7 @@
       "category": "project",
       "primaryColor": "#1AFFB3",
       "secondaryColor": "#042A35",
-      "heroImage": "project-demo.jpg",
+      "heroImage": "demo/project-demo-5.jpg",
       "content": [
         { "type": "heading", "level": 1, "content": "Project 09" },
         { "type": "paragraph", "content": "Short intro paragraph for project 09." }
