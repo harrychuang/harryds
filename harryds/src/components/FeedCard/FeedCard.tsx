@@ -191,6 +191,9 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
     onLoad: backgroundProps?.onLoad,
     onError: backgroundProps?.onError,
   };
+  
+  // DEBUG: 檢查 pixelSize 傳遞
+  console.log('FeedCard mergedBgProps.pixelSize:', mergedBgProps.pixelSize, 'from backgroundProps?.pixelSize:', backgroundProps?.pixelSize);
 
   return (
     <div
@@ -207,7 +210,13 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
       }}
     >
       <div className="feed-card__bg">
-        <PixelImage src={finalSrc} hoverActive={actualIsHovered} {...mergedBgProps} />
+        <PixelImage 
+          src={finalSrc} 
+          hoverActive={actualIsHovered} 
+          {...mergedBgProps}
+          // DEBUG: 明確的 pixelSize 傳遞
+          pixelSize={mergedBgProps.pixelSize}
+        />
       </div>
 
       <div className="feed-card__overlay">

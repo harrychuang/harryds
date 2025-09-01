@@ -37,7 +37,7 @@ export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | '
   className?: string;
 }
 
-const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n));
+// hero 高度現在由 CSS 直接設定為 75vh
 
 // 記憶化的 Loading 組件以減少重渲染
 const LoadingDisplay = memo<{
@@ -90,7 +90,6 @@ OptimizedDistortedPixels.displayName = 'OptimizedDistortedPixels';
 const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayProps>(({
   open = false,
   onClose,
-  heroHeightVH = 75,
   content,
   contentBlocks,
   className = '',
@@ -120,16 +119,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   // 位置追蹤相關
   const [originalPosition, setOriginalPosition] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
-  // 將 vh 轉換為 px，以便傳給 FeedCard.height（該 prop 僅支援 number px）
-  const [heroHeightPx, setHeroHeightPx] = useState<number>(() => {
-    if (typeof window !== 'undefined') return Math.round(window.innerHeight * clamp(heroHeightVH, 10, 100) / 100);
-    return 0;
-  });
-
-  const computeHeroHeight = useCallback(() => {
-    const vh = clamp(heroHeightVH, 10, 100);
-    setHeroHeightPx(Math.round(window.innerHeight * vh / 100));
-  }, [heroHeightVH]);
+  // 注意：hero 高度現在由 CSS 直接設定為 75vh，不再需要 JavaScript 計算
 
   // 記錄原始位置的函數
   const captureOriginalPosition = useCallback(() => {
@@ -182,18 +172,22 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     return classes.join(' ').trim();
   }, [open, animationPhase, className]);
 
-  // 記憶化的 hero 樣式計算
+  // 記憶化的 hero 樣式計算（高度現在由 CSS 控制）
   const heroStyle = useMemo(() => ({
-    height: animationPhase === 'expanding' || animationPhase === 'ready' ? `${heroHeightPx}px` : 'auto'
-  }), [animationPhase, heroHeightPx]);
+    // 高度由 CSS 中的 .feed-detail-overlay--expanding/ready 控制為 75vh
+  }), []);
 
-  // 記憶化的 FeedCard 屬性以減少重渲染
+  // 記憶化的 FeedCard 屬性以減少重渲染（用於 loading/positioning 階段）
   const feedCardProps = useMemo(() => ({
     src,
-    size: (animationPhase === 'expanding' || animationPhase === 'ready' ? "hero" : sizeWhenClosed) as FeedCardSize,
-    height: animationPhase === 'expanding' || animationPhase === 'ready' ? heroHeightPx : undefined,
+    size: sizeWhenClosed as FeedCardSize,
+    height: undefined, // loading/positioning 階段使用預設高度
     padding,
-    backgroundProps,
+    backgroundProps: {
+      ...backgroundProps,
+      pixelSize: 80, // 統一設定 pixelSize 為 80
+      maskOpacity: 0.95, // 開啟後統一 mask 透明度為 0.95
+    },
     secondaryColor,
     infoMaxWidth,
     className: "feed-detail-overlay__card",
@@ -203,9 +197,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     disableHover: true,
   }), [
     src, 
-    animationPhase, 
     sizeWhenClosed, 
-    heroHeightPx, 
     padding, 
     backgroundProps, 
     secondaryColor, 
@@ -221,6 +213,17 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     primaryColor,
     secondaryColor,
   }), [infoData, animationPhase, sizeWhenClosed, primaryColor, secondaryColor]);
+  
+  // hero 區域的 CSS 變數（用於 FeedCardInfo 容器的樣式）
+  type HeroContentStyle = React.CSSProperties & { 
+    ['--feed-card-padding']?: string;
+    ['--feed-card-info-max-width']?: string;
+  };
+  
+  const heroContentStyle = useMemo((): HeroContentStyle => ({
+    '--feed-card-padding': `${Math.max(0, padding)}px`,
+    '--feed-card-info-max-width': `${Math.max(1, infoMaxWidth || 1400)}px`,
+  }), [padding, infoMaxWidth]);
 
   // 合併 ref 處理
   const combinedRef = useCallback((node: HTMLDivElement | null) => {
@@ -232,13 +235,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     }
   }, [ref]);
 
-  useEffect(() => {
-    if (!open) return;
-    computeHeroHeight();
-    const onResize = () => computeHeroHeight();
-    window.addEventListener('resize', onResize, { passive: true });
-    return () => window.removeEventListener('resize', onResize);
-  }, [open, computeHeroHeight]);
+  // 高度計算已移除，由 CSS 75vh 直接處理
 
   // 開啟時鎖住 body 捲動（優化版本）
   useEffect(() => {
@@ -295,19 +292,14 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         setLoadingProgress(100);
         setIsLoading(false);
         
-        // 階段 1: 位置動畫 (600ms)
+        // 直接進入擴展階段，避免 hero 先在下方再上升
         requestAnimationFrame(() => {
-          setAnimationPhase('positioning');
+          setAnimationPhase('expanding');
           
-          // 階段 2: FeedCard 擴展 (600ms, 延遲 200ms)  
+          // 擴展完成後顯示內容
           setTimeout(() => {
-            setAnimationPhase('expanding');
-            
-            // 階段 3: Content 展開 (500ms, 延遲 400ms)
-            setTimeout(() => {
-              setAnimationPhase('ready');
-            }, 700); // 600ms expanding + 100ms buffer
-          }, 800); // 600ms positioning + 200ms buffer
+            setAnimationPhase('ready');
+          }, 900); // 800ms expanding + 100ms buffer
         });
       }
     };
@@ -426,6 +418,27 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
 
   return (
     <div ref={combinedRef} className={overlayClassName} role="dialog" aria-modal="true" style={openStyle}>
+      {/* 背景層：只在 ready 階段才分離為背景 */}
+      {animationPhase === 'ready' && (
+        <div className="feed-detail-overlay__fixed-background">
+          <FeedCard
+            src={src}
+            size="hero"
+            padding={0}
+            backgroundProps={{
+              ...backgroundProps,
+              pixelSize: 80, // open 後調整 pixelSize 為 80
+              maskOpacity: 0.95, // 調整 mask 透明度
+            }}
+            secondaryColor={secondaryColor}
+            className="feed-detail-overlay__background-card"
+            enableHoverSound={false}
+            forceHovered={true}
+            disableHover={true}
+          />
+        </div>
+      )}
+      
       {/* Backdrop 只在最終階段顯示 */}
       {animationPhase === 'ready' && <div className="feed-detail-overlay__backdrop" onClick={onClose} />}
       
@@ -444,9 +457,40 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
           className="feed-detail-overlay__hero" 
           style={heroStyle}
         >
-          <FeedCard {...feedCardProps}>
-            {infoData && <FeedCardInfo {...feedCardInfoProps} />}
-          </FeedCard>
+          {/* Loading 和 positioning 階段：顯示完整的 FeedCard */}
+          {(animationPhase === 'loading' || animationPhase === 'positioning') && (
+            <FeedCard {...feedCardProps}>
+              {infoData && <FeedCardInfo {...feedCardInfoProps} />}
+            </FeedCard>
+          )}
+          
+          {/* Expanding 階段：顯示擴展中的 FeedCard，但 FeedCardInfo 已獨立顯示 */}
+          {animationPhase === 'expanding' && (
+            <>
+              <FeedCard 
+                {...feedCardProps} 
+                className="feed-detail-overlay__expanding-card"
+                backgroundProps={{
+                  ...backgroundProps,
+                  pixelSize: 80, // expanding 階段調整 pixelSize
+                  maskOpacity: 0.95, // 調整 mask 透明度
+                }}
+              />
+              {/* FeedCardInfo 獨立顯示在 hero 底部 */}
+              {infoData && (
+                <div className="feed-detail-overlay__hero-content" style={heroContentStyle}>
+                  <FeedCardInfo {...feedCardInfoProps} hovered={true} />
+                </div>
+              )}
+            </>
+          )}
+          
+          {/* Ready 階段：只顯示 FeedCardInfo（背景已分離） */}
+          {animationPhase === 'ready' && infoData && (
+            <div className="feed-detail-overlay__hero-content" style={heroContentStyle}>
+              <FeedCardInfo {...feedCardInfoProps} hovered={true} />
+            </div>
+          )}
         </div>
         
         {/* Body 內容 - 只在 ready 階段顯示 */}

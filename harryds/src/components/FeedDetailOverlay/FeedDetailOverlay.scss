@@ -84,31 +84,92 @@
     }
   }
 
+  // Fixed 背景層：FeedCard 作為全螢幕背景
+  &__fixed-background {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    
+    .feed-card {
+      width: 100vw !important; // 確保覆蓋任何其他樣式
+      height: 100vh !important; // 確保覆蓋任何其他樣式
+      // 平滑進入動畫
+      animation: fade-in-background 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      
+      // 確保 PixelImage 填滿整個背景卡片
+      .feed-card__bg {
+        position: absolute;
+        inset: 0;
+        
+        .pixel-image {
+          width: 100% !important;
+          height: 100% !important;
+        }
+      }
+    }
+  }
+
   &__hero {
     position: relative;
     width: 100%;
+    z-index: 2; // 確保在背景之上
     
-    // 在 expanding 和 ready 階段才應用高度過渡
-    .feed-detail-overlay--expanding &,
+    // Expanding 階段：高度跟隨 FeedCard 擴展到 100vh
+    .feed-detail-overlay--expanding & {
+      height: 100vh;
+      flex: none; // 不被 flex 擠壓
+      transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: height;
+    }
+    
+    // Ready 階段：高度固定為 75vh
     .feed-detail-overlay--ready & {
-      // 高度由 inline style 控制（px），來自 heroHeightPx
+      height: 75vh;
+      flex: none; // 不被 flex 擠壓
       transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       will-change: height;
     }
     
-    // FeedCard 只在 expanding 階段才開始尺寸變化動畫
+    // FeedCard 在 expanding 階段拉高到 100vh（但不包含 FeedCardInfo）
     .feed-detail-overlay--expanding & .feed-card {
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-                  width 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-                  height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      will-change: transform, width, height;
-      // 啟用硬體加速
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100vh !important;
+      transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: height;
       transform: translateZ(0);
+      z-index: 1; // 低於 FeedCardInfo
     }
     
     // Ready 階段移除 will-change 以節省資源
     .feed-detail-overlay--ready & .feed-card {
       will-change: auto;
+    }
+  }
+  
+  // Hero 內容容器：expanding/ready 階段的 FeedCardInfo 容器
+  &__hero-content {
+    position: absolute;
+    bottom: 0; // 始終貼在 hero 容器的底部
+    left: 0;
+    right: 0;
+    z-index: 10; // 提高 z-index 確保在所有元素之上
+    display: flex;
+    align-items: flex-end; // FeedCardInfo 貼在容器底部
+    justify-content: center; // 水平置中
+    padding: var(--feed-card-padding, 40px);
+    // 平滑進入動畫
+    animation: fade-in-hero-content 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+
+    min-height: 120px; // 確保有最小高度
+    
+    .feed-card-info {
+      width: 100%;
+      max-width: var(--feed-card-info-max-width, 1400px);
+      margin: 0 auto; // 確保置中
     }
   }
 
@@ -130,13 +191,15 @@
   &__body {
     position: relative;
     width: 100%;
-    background: var(--feed-detail-secondary-color, var(--hds-sys-color-surface, #0a0a0a));
+    // 半透明背景提高文字可讀性
+    background: rgba(10, 10, 10, 0);
+    // backdrop-filter: blur(8px);
     color: var(--on-hds-sys-color-surface, #fff);
     padding: 32px 40px 80px;
     
     // 只在 ready 階段應用 flex 相關樣式，並添加進入動畫
     .feed-detail-overlay--ready & {
-      flex: 0 0 auto;
+      flex: 1 1 auto; // 占取剩餘空間並可捲動
       animation: slide-up-body 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
 
@@ -177,7 +240,7 @@
       img {
         width: 100%;
         height: auto;
-        border-radius: 8px;
+        border-radius: 0;
         display: block;
         margin: 8px 0 4px;
       }
@@ -185,7 +248,7 @@
       .fdo-image-container {
         width: 100%;
         // 移除固定高度，讓 DistortedPixels 的 responsive 模式自動調整
-        border-radius: 8px;
+        border-radius: 0px;
         overflow: hidden;
         margin: 8px 0 4px;
         display: block;
@@ -241,6 +304,28 @@
   from {
     opacity: 0;
     transform: translateZ(0) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0) translateY(0);
+  }
+}
+
+@keyframes fade-in-background {
+  from {
+    opacity: 0;
+    transform: translateZ(0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0) scale(1);
+  }
+}
+
+@keyframes fade-in-hero-content {
+  from {
+    opacity: 0;
+    transform: translateZ(0) translateY(10px);
   }
   to {
     opacity: 1;

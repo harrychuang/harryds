@@ -24,7 +24,9 @@ const meta = {
 1. \`open=true\` → Overlay 以 \`position: relative\` 包覆 FeedCard（保持原始尺寸）
 2. 視窗右上角顯示 PixelText loading（文字："LOADING"，進度：0%-100%）
 3. Loading 完成後 overlay 切換為 \`position: fixed + inset: 0\`（佔滿全螢幕）
-4. FeedCard 擴展為 hero 尺寸，顯示文章內容
+4. FeedCard 先拉高到 100vh（pixelSize 調整為 80）
+5. FeedCard 分離為背景層，FeedCardInfo 獨立顯示在 75vh hero 底部
+6. 顯示文章內容
 
 ## PixelText Loading 特色  
 - 8-bit 風格的 "LOADING" 文字

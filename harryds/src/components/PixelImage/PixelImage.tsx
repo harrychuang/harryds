@@ -501,6 +501,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     if (!renderer || !composer || !pass) return;
 
     const effectivePixel = computeEffectivePixel(pixelSize);
+    console.log('PixelImage pixelSize update:', pixelSize, '-> effectivePixel:', effectivePixel); // DEBUG
 
     pass.setPixelSize(effectivePixel);
     lastAppliedPixelRef.current = effectivePixel;
@@ -622,14 +623,15 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     const node = maskRef.current;
     if (!node) return;
     if (desaturateUntilHover) {
-      // 非 hover 預設為 theme mask；hover 時使用使用者設定色
+      // 非 hover 時使用傳入 maskOpacity 作為基準；hover 時保持相同不透明度但可更換顏色
+      const baseOpacity = Math.max(0, Math.min(1, (maskOpacity as number) ?? 0.85));
       node.style.backgroundColor = isHoveredRef.current
         ? ((maskColor as string) || 'var(--hds-sys-color-theme-mask)')
         : 'var(--hds-sys-color-theme-mask)';
-      node.style.opacity = '0.85';
-      lastAppliedMaskOpacityRef.current = 0.85;
-      maskFromRef.current = 0.85;
-      maskToRef.current = 0.85;
+      node.style.opacity = String(baseOpacity);
+      lastAppliedMaskOpacityRef.current = baseOpacity;
+      maskFromRef.current = baseOpacity;
+      maskToRef.current = baseOpacity;
     } else {
       node.style.backgroundColor = (maskColor as string) || 'var(--hds-sys-color-theme-mask)';
       node.style.opacity = '0';
@@ -637,7 +639,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
       maskFromRef.current = 0;
       maskToRef.current = 0;
     }
-  }, [desaturateUntilHover, maskColor]);
+  }, [desaturateUntilHover, maskColor, maskOpacity]);
 
   
 
