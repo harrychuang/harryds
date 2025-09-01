@@ -112,7 +112,7 @@
 
       .fdo-image-container {
         width: 100%;
-        height: 400px; // 固定高度以確保 DistortedPixels 正確顯示
+        // 移除固定高度，讓 DistortedPixels 的 responsive 模式自動調整
         border-radius: 8px;
         overflow: hidden;
         margin: 8px 0 4px;

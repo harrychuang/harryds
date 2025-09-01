@@ -10,12 +10,12 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 
-export type DistortedPixelsObjectFit = 'cover' | 'contain' | 'fill';
+export type DistortedPixelsObjectFit = 'cover' | 'contain' | 'fill' | 'responsive';
 
 export interface DistortedPixelsProps {
   /** 圖片來源 URL */
   src: string;
-  /** 尺寸配置：圖片如何填滿容器 */
+  /** 尺寸配置：圖片如何填滿容器，responsive 模式會根據圖片比例自動調整容器高度 */
   objectFit?: DistortedPixelsObjectFit;
   /** 扭曲方向：'y' 垂直拉扯（預設）、'x' 水平拉扯 */
   direction?: 'x' | 'y';
@@ -43,6 +43,8 @@ export interface DistortedPixelsProps {
   onError?: (error: unknown) => void;
   /** 是否啟用調試模式（顯示效果參數） */
   debug?: boolean;
+  /** 當使用 responsive 模式時，容器高度變化的回呼 */
+  onHeightChange?: (height: number) => void;
 }
 
 // 後處理扭曲著色器（適用於 ShaderPass，輸入 tDiffuse）
@@ -209,6 +211,7 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
   className = '',
   onLoad,
   onError,
+  onHeightChange,
   debug = false,
 }, ref) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -243,6 +246,9 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
     height: 200 
   });
   const containerSizeRef = useRef<{ width: number; height: number }>({ width: 300, height: 200 });
+  
+  // responsive 模式下的自動計算高度
+  const [responsiveHeight, setResponsiveHeight] = useState<number | null>(null);
   
   // 效果狀態（用於調試顯示）
   const [effectValues, setEffectValues] = useState({
@@ -382,6 +388,18 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
         targetH = viewH;
         targetW = viewH * imageAspect;
       }
+    } else if (objectFit === 'responsive') {
+      // responsive 模式：寬度 100%，高度根據圖片比例自動計算
+      targetW = viewW;
+      targetH = viewW / imageAspect;
+      
+      // 更新 responsive 高度狀態
+      setResponsiveHeight(targetH);
+      
+      // 通知父組件容器高度變化
+      if (onHeightChange) {
+        onHeightChange(targetH);
+      }
     } else {
       // cover
       if (imageAspect > viewAspect) {
@@ -394,7 +412,7 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
     }
 
     meshRef.current.scale.set(targetW, targetH, 1);
-  }, [objectFit]);
+  }, [objectFit, onHeightChange]);
 
   // 設置 Three.js 場景
   const setupThree = useCallback((width: number, height: number) => {
@@ -679,6 +697,21 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
     fitPlaneToContainer(img.width, img.height, containerSize.width, containerSize.height);
   }, [objectFit, containerSize.width, containerSize.height, fitPlaneToContainer]);
 
+  // 處理 responsive 模式下的高度變化
+  useEffect(() => {
+    if (objectFit === 'responsive' && responsiveHeight) {
+      const currentHeight = containerSize.height;
+      const newHeight = responsiveHeight;
+      
+      // 如果高度有顯著變化，更新 Three.js 場景尺寸
+      if (Math.abs(newHeight - currentHeight) > 1) {
+        handleResize(containerSize.width, newHeight);
+        setContainerSize(prev => ({ ...prev, height: newHeight }));
+        containerSizeRef.current = { width: containerSize.width, height: newHeight };
+      }
+    }
+  }, [responsiveHeight, objectFit, handleResize, containerSize.width, containerSize.height]);
+
   // 當 maxPixelRatio 在執行期改變時，安全地更新 renderer DPR 與尺寸
   useEffect(() => {
     const renderer = rendererRef.current;
@@ -707,7 +740,9 @@ const DistortedPixels = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
       className={`distorted-pixels ${className}`.trim()}
       style={{ 
         width: '100%', 
-        height: '100%', 
+        height: objectFit === 'responsive' && responsiveHeight 
+          ? `${responsiveHeight}px` 
+          : '100%', 
         position: 'relative',
         overflow: 'hidden'
       }}

@@ -102,7 +102,7 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
             <div key={i} className="fdo-image-container">
               <DistortedPixels 
                 src={b.src} 
-                objectFit="cover"
+                objectFit="responsive"
                 direction="x"
                 maxPixelation={60}
                 maxDistortion={0.8}
@@ -128,7 +128,7 @@ export const FeedDetailOverlay = forwardRef<HTMLDivElement, FeedDetailOverlayPro
       <div key={i} className="fdo-image-container">
         <DistortedPixels 
           src={src!} 
-          objectFit="cover"
+          objectFit="responsive"
           direction="x"
           maxPixelation={60}
           maxDistortion={0.8}

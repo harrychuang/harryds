@@ -26,7 +26,8 @@ const meta = {
 - 🎛️ 可調整靈敏度、強度和衰減速度
 - 📱 支援響應式設計和行動裝置優化
 - 🔧 內建調試模式顯示效果參數
-- 🎨 支援多種物件填充模式
+- 🎨 支援多種物件填充模式（含 responsive 自動高度模式）
+- 📐 responsive 模式實現類似 HTML img 的 width: 100%, height: auto 效果
 
 ## 使用方式
 
@@ -46,6 +47,13 @@ import { DistortedPixels } from 'hds';
   scrollSensitivity={2.0}
   decaySpeed={0.98}
   objectFit="cover"
+/>
+
+// 響應式模式 - 類似 HTML img 的 width: 100%, height: auto
+<DistortedPixels 
+  src="/path/to/image.jpg"
+  objectFit="responsive"
+  onHeightChange={(height) => console.log('新高度:', height)}
 />
 
 // 開啟調試模式
@@ -86,8 +94,8 @@ import { DistortedPixels } from 'hds';
     },
     objectFit: {
       control: { type: 'radio' },
-      options: ['contain', 'cover', 'fill'],
-      description: '圖片填充模式（相當於 CSS object-fit）',
+      options: ['contain', 'cover', 'fill', 'responsive'],
+      description: '圖片填充模式（responsive: 寬度 100%，高度根據圖片比例自動計算）',
       table: { type: { summary: 'DistortedPixelsObjectFit' }, defaultValue: { summary: 'cover' } },
     },
     maxPixelation: {
@@ -165,5 +173,46 @@ export const Default: Story = {
     maxPixelRatio: 6,
     debug: false,
     className: 'scroll-hint',
+  },
+};
+
+// Responsive 模式範例 - 寬度 100%，高度自動調整
+export const ResponsiveMode: Story = {
+  render: (args) => (
+    <div style={{ 
+      ...containerStyle, 
+      height: '2000px', 
+      paddingTop: '200px',
+      backgroundColor: '#f5f5f5' 
+    }}>
+      <div style={{ 
+        width: '100%', 
+        maxWidth: '600px', 
+        margin: '0 auto',
+        border: '2px dashed #ccc',
+        padding: '20px'
+      }}>
+        <h3 style={{ margin: '0 0 20px 0', textAlign: 'center' }}>
+          Responsive 模式：圖片會根據容器寬度自動調整高度
+        </h3>
+        <DistortedPixels 
+          {...args}
+          onHeightChange={(height) => {
+            console.log('容器高度自動調整為:', height + 'px');
+          }}
+        />
+      </div>
+    </div>
+  ),
+  args: {
+    src: demoImg,
+    objectFit: 'responsive',
+    direction: 'x',
+    maxPixelation: 100,
+    maxDistortion: 1.0,
+    scrollSensitivity: 0.1,
+    decaySpeed: 0.95,
+    maxPixelRatio: 4,
+    debug: true,
   },
 };

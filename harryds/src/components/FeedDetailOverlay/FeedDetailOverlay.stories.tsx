@@ -18,7 +18,7 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: '初始/關閉時外觀與 FeedCard 相同；開啟後固定全螢幕，FeedCard 作為 75vh hero，下方顯示文章內容。整個內容可滾動，文章 max-width 1600px。',
+        component: '初始/關閉時外觀與 FeedCard 相同；開啟後固定全螢幕，FeedCard 作為 75vh hero，下方顯示文章內容。整個內容可滾動，文章 max-width 1600px。內容中的圖片使用 responsive 模式自動調整高度。',
       },
     },
     controls: {
