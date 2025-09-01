@@ -53,13 +53,6 @@ export const Playground: React.FC = () => {
     if (activeCardId) {
       const activeItem = items.find(item => item.id === activeCardId);
       if (activeItem && activeItem.primaryColor && activeItem.secondaryColor) {
-        // 調試信息
-        console.log('Logo colors:', { 
-          activeCardId, 
-          primaryColor: activeItem.primaryColor, 
-          secondaryColor: activeItem.secondaryColor,
-          animationPhase: openCardAnimationPhase 
-        });
         return {
           primaryColor: activeItem.primaryColor,
           secondaryColor: activeItem.secondaryColor,
@@ -67,7 +60,6 @@ export const Playground: React.FC = () => {
       }
     }
     // 確保回到預設狀態時不傳遞任何顏色 props，讓 Logo 使用預設值
-    console.log('Logo reset to default colors');
     return {};
   }, [openCardId, hoveredCardId, items, openCardAnimationPhase]);
 
