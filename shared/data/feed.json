@@ -2,7 +2,7 @@
   "items": [
     {
       "id": 1,
-      "heading": "Project 01",
+      "heading": "NOEINOI",
       "date": "Jan 01, 2025 - Jun 30, 2025",
       "tags": ["UI", "UX", "DEV"],
       "category": "project",
@@ -23,7 +23,7 @@
     },
     {
       "id": 2,
-      "heading": "Project 02",
+      "heading": "Awwrated",
       "date": "Feb 01, 2025 - Jul 15, 2025",
       "tags": ["UI", "DEV"],
       "category": "project",
@@ -37,7 +37,7 @@
     },
     {
       "id": 3,
-      "heading": "Project 03",
+      "heading": "Shopmatic Design System",
       "date": "Mar 10, 2025 - Aug 20, 2025",
       "tags": ["UX", "DEV"],
       "category": "project",
@@ -51,7 +51,7 @@
     },
     {
       "id": 4,
-      "heading": "Project 04",
+      "heading": "Shopmatic Buyer APP",
       "date": "Apr 05, 2025 - Sep 12, 2025",
       "tags": ["UI", "UX"],
       "category": "project",
@@ -65,7 +65,7 @@
     },
     {
       "id": 5,
-      "heading": "Project 05",
+      "heading": "KKDAY Travel Guide",
       "date": "May 01, 2025 - Oct 01, 2025",
       "tags": ["DEV"],
       "category": "project",
@@ -79,7 +79,7 @@
     },
     {
       "id": 6,
-      "heading": "Project 06",
+      "heading": "Nownews APP",
       "date": "Jun 18, 2025 - Nov 02, 2025",
       "tags": ["UI", "DESIGN SYSTEM"],
       "category": "project",
@@ -93,7 +93,7 @@
     },
     {
       "id": 7,
-      "heading": "Project 07",
+      "heading": "Smart Watch",
       "date": "Jul 07, 2025 - Dec 20, 2025",
       "tags": ["ARTICLE", "UX"],
       "category": "article",
@@ -107,7 +107,7 @@
     },
     {
       "id": 8,
-      "heading": "Project 08",
+      "heading": "Tutorming Learning Portal",
       "date": "Aug 09, 2025 - Jan 15, 2026",
       "tags": ["UI", "DEV"],
       "category": "project",
@@ -121,7 +121,7 @@
     },
     {
       "id": 9,
-      "heading": "Project 09",
+      "heading": "Others",
       "date": "Sep 01, 2025 - Feb 28, 2026",
       "tags": ["DEV", "UX"],
       "category": "project",
