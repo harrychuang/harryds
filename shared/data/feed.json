@@ -2,8 +2,8 @@
   "items": [
     {
       "id": 1,
-      "heading": "Heading",
-      "date": "July 24, 2025 - June 25, 2026",
+      "heading": "Project 01",
+      "date": "Jan 01, 2025 - Jun 30, 2025",
       "tags": ["UI", "UX", "DEV"],
       "category": "project",
       "primaryColor": "#FF1246",
@@ -23,16 +23,114 @@
     },
     {
       "id": 2,
-      "heading": "Heading",
-      "date": "July 24, 2025 - June 25, 2026",
-      "tags": ["UI", "UX", "DEV"],
+      "heading": "Project 02",
+      "date": "Feb 01, 2025 - Jul 15, 2025",
+      "tags": ["UI", "DEV"],
       "category": "project",
-      "primaryColor": "#FF1246",
-      "secondaryColor": "#1B2350",
+      "primaryColor": "#00C2FF",
+      "secondaryColor": "#102A43",
       "heroImage": "project-demo.jpg",
       "content": [
         { "type": "heading", "level": 1, "content": "UNTITLED PROJECT #2" },
-        { "type": "paragraph", "content": "Short intro paragraph." }
+        { "type": "paragraph", "content": "Short intro paragraph for project 02." }
+      ]
+    },
+    {
+      "id": 3,
+      "heading": "Project 03",
+      "date": "Mar 10, 2025 - Aug 20, 2025",
+      "tags": ["UX", "DEV"],
+      "category": "project",
+      "primaryColor": "#38B000",
+      "secondaryColor": "#132A13",
+      "heroImage": "project-demo.jpg",
+      "content": [
+        { "type": "heading", "level": 1, "content": "Project 03" },
+        { "type": "paragraph", "content": "Short intro paragraph for project 03." }
+      ]
+    },
+    {
+      "id": 4,
+      "heading": "Project 04",
+      "date": "Apr 05, 2025 - Sep 12, 2025",
+      "tags": ["UI", "UX"],
+      "category": "project",
+      "primaryColor": "#F77F00",
+      "secondaryColor": "#5F0F40",
+      "heroImage": "project-demo.jpg",
+      "content": [
+        { "type": "heading", "level": 1, "content": "Project 04" },
+        { "type": "paragraph", "content": "Short intro paragraph for project 04." }
+      ]
+    },
+    {
+      "id": 5,
+      "heading": "Project 05",
+      "date": "May 01, 2025 - Oct 01, 2025",
+      "tags": ["DEV"],
+      "category": "project",
+      "primaryColor": "#9D4EDD",
+      "secondaryColor": "#240046",
+      "heroImage": "project-demo.jpg",
+      "content": [
+        { "type": "heading", "level": 1, "content": "Project 05" },
+        { "type": "paragraph", "content": "Short intro paragraph for project 05." }
+      ]
+    },
+    {
+      "id": 6,
+      "heading": "Project 06",
+      "date": "Jun 18, 2025 - Nov 02, 2025",
+      "tags": ["UI", "DESIGN SYSTEM"],
+      "category": "project",
+      "primaryColor": "#E01E37",
+      "secondaryColor": "#0B132B",
+      "heroImage": "project-demo.jpg",
+      "content": [
+        { "type": "heading", "level": 1, "content": "Project 06" },
+        { "type": "paragraph", "content": "Short intro paragraph for project 06." }
+      ]
+    },
+    {
+      "id": 7,
+      "heading": "Project 07",
+      "date": "Jul 07, 2025 - Dec 20, 2025",
+      "tags": ["ARTICLE", "UX"],
+      "category": "article",
+      "primaryColor": "#2A9D8F",
+      "secondaryColor": "#1B263B",
+      "heroImage": "project-demo.jpg",
+      "content": [
+        { "type": "heading", "level": 1, "content": "Project 07" },
+        { "type": "paragraph", "content": "Short intro paragraph for project 07." }
+      ]
+    },
+    {
+      "id": 8,
+      "heading": "Project 08",
+      "date": "Aug 09, 2025 - Jan 15, 2026",
+      "tags": ["UI", "DEV"],
+      "category": "project",
+      "primaryColor": "#E9C46A",
+      "secondaryColor": "#264653",
+      "heroImage": "project-demo.jpg",
+      "content": [
+        { "type": "heading", "level": 1, "content": "Project 08" },
+        { "type": "paragraph", "content": "Short intro paragraph for project 08." }
+      ]
+    },
+    {
+      "id": 9,
+      "heading": "Project 09",
+      "date": "Sep 01, 2025 - Feb 28, 2026",
+      "tags": ["DEV", "UX"],
+      "category": "project",
+      "primaryColor": "#06D6A0",
+      "secondaryColor": "#073B4C",
+      "heroImage": "project-demo.jpg",
+      "content": [
+        { "type": "heading", "level": 1, "content": "Project 09" },
+        { "type": "paragraph", "content": "Short intro paragraph for project 09." }
       ]
     }
   ]

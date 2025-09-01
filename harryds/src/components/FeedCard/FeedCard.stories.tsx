@@ -66,7 +66,7 @@ export const Default: Story = {
     size: 'hero',
     secondaryColor: items[0].secondaryColor,
     padding: 40,
-    infoMaxWidth: 1400,
+    infoMaxWidth: 1600,
     children: (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <FeedCardInfo
