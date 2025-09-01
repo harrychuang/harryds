@@ -17,7 +17,7 @@ import { PixelText } from '../PixelText';
 import './FeedDetailOverlay.scss';
 // import startSoundUrl from '../../../assets/sound/8-Bit Sound Effect.mp3';
 import startSoundUrl from '../../../assets/sound/8-Bit Retro Sound Effect-level-up.mp3';
-import loadingSoundUrl from '../../../assets/sound/Classic Game Action 4.mp3';
+import loadingSoundUrl from '../../../assets/sound/8-Bit Game Start Sound.mp3';
 
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
   /** 是否開啟 overlay */
