@@ -15,6 +15,9 @@ import type { FeedContentBlock } from '../../types/feed';
 import { DistortedPixels } from '../DistortedPixels';
 import { PixelText } from '../PixelText';
 import './FeedDetailOverlay.scss';
+// import startSoundUrl from '../../../assets/sound/8-Bit Sound Effect.mp3';
+import startSoundUrl from '../../../assets/sound/8-Bit Retro Sound Effect-level-up.mp3';
+import loadingSoundUrl from '../../../assets/sound/Classic Game Action 4.mp3';
 
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
   /** 是否開啟 overlay */
@@ -119,6 +122,15 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   const [animationPhase, setAnimationPhase] = useState<'closed' | 'loading' | 'positioning' | 'expanding' | 'ready'>('closed');
   const loadingAnimationRef = useRef<number | null>(null);
   const loadingStartTimeRef = useRef<number>(0);
+  const startSoundRef = useRef<HTMLAudioElement | null>(null);
+  const hasPlayedStartSoundRef = useRef<boolean>(false);
+  const loadingSoundRef = useRef<HTMLAudioElement | null>(null);
+  const hasPlayedLoadingSoundRef = useRef<boolean>(false);
+  // 滾動交互動態控制 PixelImage 背景（pixelSize 與 maskOpacity）
+  const [scrollPixelSize, setScrollPixelSize] = useState<number>(1);
+  const [scrollMaskOpacity, setScrollMaskOpacity] = useState<number>(0.8);
+  const scrollRafRef = useRef<number | null>(null);
+  const lastScrollTopRef = useRef<number>(0);
   
   // 位置追蹤相關
   const [originalPosition, setOriginalPosition] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
@@ -181,6 +193,28 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     // 高度由 CSS 中的 .feed-detail-overlay--expanding/ready 控制為 75vh
   }), []);
 
+  const playStartSound = useCallback(async () => {
+    if (!startSoundRef.current || hasPlayedStartSoundRef.current) return;
+    try {
+      startSoundRef.current.currentTime = 0;
+      await startSoundRef.current.play();
+      hasPlayedStartSoundRef.current = true;
+    } catch (err) {
+      console.warn('Overlay start sound play failed:', err);
+    }
+  }, []);
+
+  const playLoadingSound = useCallback(async () => {
+    if (!loadingSoundRef.current || hasPlayedLoadingSoundRef.current) return;
+    try {
+      loadingSoundRef.current.currentTime = 0;
+      await loadingSoundRef.current.play();
+      hasPlayedLoadingSoundRef.current = true;
+    } catch (err) {
+      console.warn('Overlay loading sound play failed:', err);
+    }
+  }, []);
+
   // 記憶化的 FeedCard 屬性以減少重渲染（用於 loading/positioning 階段）
   const feedCardProps = useMemo(() => ({
     src,
@@ -189,8 +223,8 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     padding,
     backgroundProps: {
       ...backgroundProps,
-      pixelSize: 80, // 統一設定 pixelSize 為 80
-      maskOpacity: 0.95, // 開啟後統一 mask 透明度為 0.95
+      pixelSize: scrollPixelSize,
+      maskOpacity: scrollMaskOpacity,
       hoverPixelToOne: false, // 關閉 hover 時像素補間至 1 的行為
       maskColor: secondaryColor, // 明確指定遮罩色為 secondaryColor
     },
@@ -261,6 +295,87 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     };
   }, [open]);
 
+  // open 狀態下，根據內容區塊的 Y 捲動量在 0-800px 範圍內映射 pixelSize(1→80) 與 maskOpacity(0.85→0.9)
+  useEffect(() => {
+    if (!open || !scrollContentRef.current) return;
+    const el = scrollContentRef.current;
+
+    const updateByScrollTop = (scrollTop: number) => {
+      const clamped = Math.max(0, Math.min(800, scrollTop)) / 800;
+      const pixelSize = 1 + clamped * 79; // 1 → 80
+      const maskOpacity = 0.8 + clamped * 0.15; // 0.8 → 0.95
+      setScrollPixelSize(pixelSize);
+      setScrollMaskOpacity(maskOpacity);
+    };
+
+    const onScroll = () => {
+      lastScrollTopRef.current = el.scrollTop;
+      if (scrollRafRef.current !== null) return;
+      scrollRafRef.current = requestAnimationFrame(() => {
+        updateByScrollTop(lastScrollTopRef.current);
+        scrollRafRef.current = null;
+      });
+    };
+
+    // 初始化（進入 open 狀態時依目前 scrollTop 設定一次）
+    updateByScrollTop(el.scrollTop);
+    el.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      el.removeEventListener('scroll', onScroll);
+      if (scrollRafRef.current) {
+        cancelAnimationFrame(scrollRafRef.current);
+        scrollRafRef.current = null;
+      }
+    };
+  }, [open]);
+
+  // 初始化/更新開場音效
+  useEffect(() => {
+    startSoundRef.current = new Audio(startSoundUrl);
+    startSoundRef.current.preload = 'auto';
+    startSoundRef.current.volume = Math.max(0, Math.min(1, soundVolume ?? 0.3));
+
+    const onCanPlay = () => {};
+    const onError = (e: any) => {
+      console.error('FeedDetailOverlay start sound load failed:', e);
+    };
+
+    startSoundRef.current.addEventListener('canplaythrough', onCanPlay);
+    startSoundRef.current.addEventListener('error', onError);
+
+    return () => {
+      if (startSoundRef.current) {
+        startSoundRef.current.removeEventListener('canplaythrough', onCanPlay);
+        startSoundRef.current.removeEventListener('error', onError);
+        startSoundRef.current = null;
+      }
+    };
+  }, [soundVolume]);
+
+  // 初始化/更新 loading 音效
+  useEffect(() => {
+    loadingSoundRef.current = new Audio(loadingSoundUrl);
+    loadingSoundRef.current.preload = 'auto';
+    loadingSoundRef.current.volume = Math.max(0, Math.min(1, soundVolume ?? 0.3));
+
+    const onCanPlay = () => {};
+    const onError = (e: any) => {
+      console.error('FeedDetailOverlay loading sound load failed:', e);
+    };
+
+    loadingSoundRef.current.addEventListener('canplaythrough', onCanPlay);
+    loadingSoundRef.current.addEventListener('error', onError);
+
+    return () => {
+      if (loadingSoundRef.current) {
+        loadingSoundRef.current.removeEventListener('canplaythrough', onCanPlay);
+        loadingSoundRef.current.removeEventListener('error', onError);
+        loadingSoundRef.current = null;
+      }
+    };
+  }, [soundVolume]);
+
   // 分階段動畫邏輯：loading → positioning → expanding → ready
   useEffect(() => {
     if (!open) {
@@ -269,6 +384,18 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
       setLoadingProgress(0);
       setAnimationPhase('closed');
       setOriginalPosition(null);
+      setScrollPixelSize(1);
+      setScrollMaskOpacity(0.8);
+      hasPlayedStartSoundRef.current = false;
+      hasPlayedLoadingSoundRef.current = false;
+      if (startSoundRef.current) {
+        startSoundRef.current.pause();
+        startSoundRef.current.currentTime = 0;
+      }
+      if (loadingSoundRef.current) {
+        loadingSoundRef.current.pause();
+        loadingSoundRef.current.currentTime = 0;
+      }
       if (loadingAnimationRef.current) {
         cancelAnimationFrame(loadingAnimationRef.current);
         loadingAnimationRef.current = null;
@@ -281,6 +408,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     setAnimationPhase('loading');
     setIsLoading(true);
     setLoadingProgress(0);
+    playLoadingSound();
 
     // 使用 requestAnimationFrame 優化動畫性能
     const totalDuration = 2500; // 總時長 2.5 秒
@@ -300,6 +428,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         
         // 直接進入擴展階段，避免 hero 先在下方再上升
         requestAnimationFrame(() => {
+          playStartSound();
           setAnimationPhase('expanding');
           
           // 擴展完成後顯示內容
@@ -323,7 +452,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         loadingAnimationRef.current = null;
       }
     };
-  }, [open, captureOriginalPosition]);
+  }, [open, captureOriginalPosition, playStartSound, playLoadingSound]);
 
   // 記憶化的 renderBlocks 函數以減少重渲染
   const renderBlocks = useCallback((blocks: FeedContentBlock[]) => {
@@ -433,8 +562,8 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
             padding={0}
             backgroundProps={{
               ...backgroundProps,
-              pixelSize: 80,
-              maskOpacity: 0.95,
+              pixelSize: scrollPixelSize,
+              maskOpacity: scrollMaskOpacity,
               hoverPixelToOne: false,
               maskColor: secondaryColor,
               hoverActive: true, // 強制 PixelImage 使用 hover 顏色（secondaryColor）
@@ -474,8 +603,8 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
               disableHover={true}
               backgroundProps={{
                 ...backgroundProps,
-                pixelSize: 80,
-                maskOpacity: 0.95,
+                pixelSize: scrollPixelSize,
+                maskOpacity: scrollMaskOpacity,
                 hoverPixelToOne: false,
                 maskColor: secondaryColor,
                 hoverActive: true,
