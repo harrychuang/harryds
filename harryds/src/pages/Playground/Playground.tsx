@@ -135,7 +135,11 @@ export const Playground: React.FC = () => {
                 onClick={() => handleOpenCard(item.id)}
                 onMouseEnter={() => handleCardHover(item.id)}
                 onMouseLeave={handleCardLeave}
-                style={{ cursor: 'pointer' }}
+                style={{ 
+                  cursor: 'pointer',
+                  opacity: hoveredCardId && hoveredCardId !== item.id ? 0.2 : 1,
+                  transition: 'opacity 0.3s ease'
+                }}
               >
                 <FeedDetailOverlay
                   open={openCardId === item.id}
