@@ -49,7 +49,7 @@ export const Playground: React.FC = () => {
                     objectFit: 'cover'
                   }}
                   secondaryColor={item.secondaryColor}
-                  infoMaxWidth={1400}
+                  infoMaxWidth={1600}
                   infoData={{ id: item.id, heading: item.heading, date: item.date, tags: item.tags, category: item.category }}
                   primaryColor={item.primaryColor}
                 />

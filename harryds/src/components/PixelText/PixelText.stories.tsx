@@ -369,7 +369,7 @@ export const AllSymbolsShowcase: Story = {
     pixelSize: 2,
     pixelGap: 0,
     letterSpacing: 1,
-    width: 1400,
+    width: 1600,
     height: 150,
   },
   parameters: {

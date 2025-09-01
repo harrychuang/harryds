@@ -16,7 +16,7 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: '以 PixelImage 作為背景的卡片。滿寬（max 1600px），內容水平置中，預設 padding 40px，FeedCardInfo 預設 max-width 1400px。',
+        component: '以 PixelImage 作為背景的卡片。滿寬（max 1600px），內容水平置中，預設 padding 40px，FeedCardInfo 預設 max-width 1600px。',
       },
     },
     controls: {

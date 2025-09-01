@@ -1,7 +1,7 @@
 // =============================================================================
 // FEED CARD 元件 - 使用 PixelImage 作為背景的卡片
 // 尺寸：hero(600)、med(500)、sm(400)、xs(240)；預設 padding 40，內容水平置中
-// FeedCardInfo 預設 max-width 1400px
+// FeedCardInfo 預設 max-width 1600px
 // =============================================================================
 
 import React, { CSSProperties, createContext, forwardRef, useState, useRef, useEffect } from 'react';
@@ -35,7 +35,7 @@ export interface FeedCardProps {
   item?: FeedItem;
   /** 直接提供 FeedCardInfo 資料（覆蓋 item 推導） */
   infoData?: FeedCardInfoData;
-  /** FeedCardInfo 的最大寬度（px）。預設 1400 */
+  /** FeedCardInfo 的最大寬度（px）。預設 1600 */
   infoMaxWidth?: number;
   /** 額外類名 */
   className?: string;
@@ -74,7 +74,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   secondaryColor,
   item,
   infoData,
-  infoMaxWidth = 1400,
+  infoMaxWidth = 1600,
   className = '',
   children,
   style,

@@ -67,7 +67,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args) => (
-    <div style={{ width: '100%', maxWidth: '1400px', margin: '0 auto' }}>
+    <div style={{ width: '100%', maxWidth: '1600px', margin: '0 auto' }}>
       <FeedDetailOverlay {...args} />
     </div>
   ),
@@ -77,7 +77,7 @@ export const Default: Story = {
     sizeWhenClosed: 'hero',
     src: demoSrc,
     padding: 40,
-    infoMaxWidth: 1400,
+    infoMaxWidth: 1600,
     primaryColor: items[0].primaryColor,
     secondaryColor: items[0].secondaryColor,
     infoData: {
@@ -116,7 +116,7 @@ export const Opened: Story = {
     sizeWhenClosed: 'hero',
     src: demoSrc,
     padding: 40,
-    infoMaxWidth: 1400,
+    infoMaxWidth: 1600,
     primaryColor: items[0].primaryColor,
     secondaryColor: items[0].secondaryColor,
   },
@@ -153,7 +153,7 @@ export const LoadingDemo: Story = {
     sizeWhenClosed: 'hero', 
     src: demoSrc,
     padding: 40,
-    infoMaxWidth: 1400,
+    infoMaxWidth: 1600,
     primaryColor: items[0].primaryColor,
     secondaryColor: items[0].secondaryColor,
   },
