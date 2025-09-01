@@ -19,34 +19,32 @@ export const Playground: React.FC = () => {
   // 追蹤開啟卡片的動畫階段
   const [openCardAnimationPhase, setOpenCardAnimationPhase] = useState<'closed' | 'loading' | 'positioning' | 'expanding' | 'ready'>('closed');
   
-  // 保存原始 body 背景顏色
-  const originalBodyBackgroundRef = useRef<string>('');
+  // 保存原始 playground 背景顏色和引用
+  const originalPlaygroundBackgroundRef = useRef<string>('');
+  const playgroundRef = useRef<HTMLDivElement>(null);
   
-  // 初始化：保存原始 body 背景顏色
+  // 初始化：保存原始 playground 背景顏色
   useEffect(() => {
-    if (!originalBodyBackgroundRef.current) {
-      originalBodyBackgroundRef.current = getComputedStyle(document.body).backgroundColor || 'var(--hds-sys-color-on-theme-surface)';
+    if (!originalPlaygroundBackgroundRef.current && playgroundRef.current) {
+      originalPlaygroundBackgroundRef.current = getComputedStyle(playgroundRef.current).backgroundColor || 'var(--hds-sys-color-on-theme-surface)';
     }
-    
-    // 組件卸載時恢復原始顏色
-    return () => {
-      document.body.style.backgroundColor = originalBodyBackgroundRef.current;
-    };
   }, []);
   
-  // 管理 body 背景顏色變化
+  // 管理 playground 背景顏色變化
   useEffect(() => {
+    if (!playgroundRef.current) return;
+    
     const activeCardId = openCardId || hoveredCardId;
     if (activeCardId) {
       const activeItem = items.find(item => item.id === activeCardId);
       if (activeItem && activeItem.secondaryColor) {
-        document.body.style.backgroundColor = activeItem.secondaryColor;
-        document.body.style.transition = 'background-color 0.3s ease';
+        playgroundRef.current.style.backgroundColor = activeItem.secondaryColor;
+        playgroundRef.current.style.transition = 'background-color 0.3s ease';
       }
     } else {
-      // 恢復原始背景顏色
-      document.body.style.backgroundColor = originalBodyBackgroundRef.current;
-      document.body.style.transition = 'background-color 0.3s ease';
+      // 恢復原始背景顏色（清空 style，回到 CSS 預設值）
+      playgroundRef.current.style.backgroundColor = '';
+      playgroundRef.current.style.transition = 'background-color 0.3s ease';
     }
   }, [openCardId, hoveredCardId, items]);
   
@@ -107,7 +105,7 @@ export const Playground: React.FC = () => {
   };
 
   return (
-    <div className="playground">
+    <div ref={playgroundRef} className="playground">
       <header className="playground__header">
         <div className="header-content">
           <div 
