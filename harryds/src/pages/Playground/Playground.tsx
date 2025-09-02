@@ -9,8 +9,8 @@ import { Logo } from '@components/Logo';
 import type { FeedCardSize } from '@components/FeedCard/FeedCard';
 import type { FeedItem, FeedContentBlock } from '../../types/feed';
 import feed from '../../../../shared/data/feed.json';
-import hoverSoundUrl from '../../../assets/sound/Coin Collect Retro 8-bit Sound Effect.mp3';
-import clickSoundUrl from '../../../assets/sound/8-Bit Game Start Sound.mp3';
+import hoverSoundUrl from '../../../assets/sound/8-Bit Sound Effect Beep.mp3';
+import clickSoundUrl from '../../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
 
 export const Playground: React.FC = () => {
   const items = useMemo(() => (feed as any).items as FeedItem[], []);

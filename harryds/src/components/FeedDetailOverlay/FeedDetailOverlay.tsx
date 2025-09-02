@@ -16,7 +16,7 @@ import { DistortedPixels2D } from '../DistortedPixels';
 import { PixelText } from '../PixelText';
 import './FeedDetailOverlay.scss';
 // import startSoundUrl from '../../../assets/sound/8-Bit Sound Effect.mp3';
-import startSoundUrl from '../../../assets/sound/8-Bit Sound Effect 6993.mp3';
+import startSoundUrl from '../../../assets/sound/8-Bit Retro Sound Effect-level-up.mp3';
 import loadingSoundUrl from '../../../assets/sound/8-Bit Game Start Sound.mp3';
 
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
@@ -350,7 +350,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   useEffect(() => {
     startSoundRef.current = new Audio(startSoundUrl);
     startSoundRef.current.preload = 'auto';
-    startSoundRef.current.volume = Math.max(0, Math.min(1, soundVolume ?? 0.6));
+    startSoundRef.current.volume = Math.max(0, Math.min(1, soundVolume ?? 0.2));
 
     const onCanPlay = () => {};
     const onError = (e: any) => {
