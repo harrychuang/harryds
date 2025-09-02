@@ -303,12 +303,23 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
     const isActive = !!hoverActive;
     isHoveredRef.current = isActive;
     
+    if (maskRef.current) {
+      const baseOpacity = String(Math.max(0, Math.min(1, maskOpacity)));
+      if (isActive) {
+        maskRef.current.style.backgroundColor = (maskColor as string) || 'var(--hds-sys-color-theme-mask)';
+        maskRef.current.style.opacity = desaturateUntilHover ? baseOpacity : '0';
+      } else {
+        maskRef.current.style.backgroundColor = 'var(--hds-sys-color-theme-mask)';
+        maskRef.current.style.opacity = desaturateUntilHover ? baseOpacity : '0';
+      }
+    }
+    
     if (isActive) {
       startAnimation(1);
     } else {
       startAnimation(pixelSize);
     }
-  }, [hoverActive, hoverPixelToOne, pixelSize, startAnimation]);
+  }, [hoverActive, hoverPixelToOne, pixelSize, startAnimation, desaturateUntilHover, maskColor, maskOpacity]);
 
   // 處理 hover 事件
   const handlePointerEnter = () => {
@@ -316,7 +327,13 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
       isHoveredRef.current = true;
       startAnimation(1);
       if (maskRef.current) {
-        maskRef.current.style.opacity = String(Math.max(0, Math.min(1, maskOpacity)));
+        const baseOpacity = String(Math.max(0, Math.min(1, maskOpacity)));
+        if (desaturateUntilHover) {
+          maskRef.current.style.backgroundColor = (maskColor as string) || 'var(--hds-sys-color-theme-mask)';
+          maskRef.current.style.opacity = baseOpacity;
+        } else {
+          maskRef.current.style.opacity = baseOpacity;
+        }
       }
     }
   };
@@ -327,6 +344,7 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
       startAnimation(pixelSize);
       if (maskRef.current) {
         if (desaturateUntilHover) {
+          maskRef.current.style.backgroundColor = 'var(--hds-sys-color-theme-mask)';
           maskRef.current.style.opacity = String(Math.max(0, Math.min(1, maskOpacity)));
         } else {
           maskRef.current.style.opacity = '0';
@@ -361,7 +379,7 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundColor: (maskColor as string) || 'var(--hds-sys-color-theme-mask)',
+          backgroundColor: desaturateUntilHover ? 'var(--hds-sys-color-theme-mask)' : ((maskColor as string) || 'var(--hds-sys-color-theme-mask)'),
           opacity: desaturateUntilHover ? Math.max(0, Math.min(1, maskOpacity)) : 0,
           pointerEvents: 'none',
           transition: `opacity ${Math.max(0, Math.floor(hoverPixelDuration || 0))}ms cubic-bezier(0.215, 0.61, 0.355, 1)`,
