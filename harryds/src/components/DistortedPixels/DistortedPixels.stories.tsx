@@ -4,6 +4,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import DistortedPixels from './DistortedPixels';
+import DistortedPixels2D from './DistortedPixels2D';
 import './DistortedPixels.scss';
 
 // 使用 Vite 原生 URL 匯入
@@ -214,5 +215,66 @@ export const ResponsiveMode: Story = {
     decaySpeed: 0.95,
     maxPixelRatio: 4,
     debug: true,
+  },
+};
+
+// 2D Canvas 版本 - 預設範例
+export const Default2D: Story = {
+  render: (args) => (
+    <div style={{ ...containerStyle, height: '2000px', paddingTop: '200px' }}>
+      <div style={imageContainerStyle}>
+        <DistortedPixels2D {...args} />
+      </div>
+    </div>
+  ),
+  args: {
+    src: demoImg,
+    objectFit: 'cover',
+    direction: 'x',
+    maxPixelation: 150,
+    maxDistortion: 1.5,
+    scrollSensitivity: 0.1,
+    decaySpeed: 0.9,
+    maxPixelRatio: 4,
+    debug: false,
+    className: 'scroll-hint',
+  },
+};
+
+// 2D Canvas 版本 - 與 WebGL 版本對照
+export const Compare2D: Story = {
+  render: (args) => (
+    <div style={{ ...containerStyle, height: '2200px', paddingTop: '200px' }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '20px',
+        alignItems: 'stretch'
+      }}>
+        <div>
+          <h4 style={{ margin: '0 0 8px 0' }}>WebGL (DistortedPixels)</h4>
+          <div style={imageContainerStyle}>
+            <DistortedPixels {...args} />
+          </div>
+        </div>
+        <div>
+          <h4 style={{ margin: '0 0 8px 0' }}>Canvas 2D (DistortedPixels2D)</h4>
+          <div style={imageContainerStyle}>
+            <DistortedPixels2D {...args} />
+          </div>
+        </div>
+      </div>
+    </div>
+  ),
+  args: {
+    src: demoImg,
+    objectFit: 'cover',
+    direction: 'x',
+    maxPixelation: 150,
+    maxDistortion: 1.5,
+    scrollSensitivity: 0.1,
+    decaySpeed: 0.9,
+    maxPixelRatio: 4,
+    debug: false,
   },
 };
