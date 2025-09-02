@@ -37,6 +37,8 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
   const isAnimatingRef = useRef<boolean>(false);
   const animStartRef = useRef<number>(0);
   const isHoveredRef = useRef<boolean>(false);
+  const animFromRef = useRef<number>(pixelSize);
+  const animToRef = useRef<number>(pixelSize);
 
   const [containerSize, setContainerSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -92,6 +94,15 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
     };
   }, []);
 
+  // 與 3D 版一致：根據容器大小限制有效像素，避免過大像素導致取樣過小
+  const computeEffectivePixel = useCallback((base: number) => {
+    const aw = Math.max(1, Math.floor(containerSize.width || 1));
+    const ah = Math.max(1, Math.floor(containerSize.height || 1));
+    const maxByW = Math.max(1, Math.floor(aw / 2));
+    const maxByH = Math.max(1, Math.floor(ah / 2));
+    return Math.max(1, Math.min(Math.floor(base), maxByW, maxByH));
+  }, [containerSize.width, containerSize.height]);
+
   // 渲染圖片
   const renderImage = useCallback(() => {
     const canvas = canvasRef.current;
@@ -129,8 +140,9 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
     // 創建臨時 canvas 來處理圖片
     // 使用縮小再放大的高效像素化策略
     const { canvas: offCanvas, ctx: offCtx } = getOffscreen();
-    const blocksX = Math.max(1, Math.floor(layout.targetW / Math.max(1, currentPixelSizeRef.current)));
-    const blocksY = Math.max(1, Math.floor(layout.targetH / Math.max(1, currentPixelSizeRef.current)));
+    const effectivePixel = computeEffectivePixel(currentPixelSizeRef.current);
+    const blocksX = Math.max(1, Math.floor(layout.targetW / Math.max(1, effectivePixel)));
+    const blocksY = Math.max(1, Math.floor(layout.targetH / Math.max(1, effectivePixel)));
 
     offCanvas.width = blocksX;
     offCanvas.height = blocksY;
@@ -165,7 +177,8 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
     calculateImageLayout, 
     desaturateUntilHover, 
     hoverPixelToOne,
-    getOffscreen
+    getOffscreen,
+    computeEffectivePixel
   ]);
 
   // 動畫循環
@@ -181,8 +194,8 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
     const progress = Math.min(1, elapsed / duration);
     
     const eased = 1 - Math.pow(1 - progress, 3);
-    const from = currentPixelSizeRef.current;
-    const to = targetPixelSizeRef.current;
+    const from = animFromRef.current;
+    const to = animToRef.current;
     const newPixelSize = from + (to - from) * eased;
     currentPixelSizeRef.current = newPixelSize;
 
@@ -202,6 +215,8 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
     if (!hoverPixelToOne) return;
 
     targetPixelSizeRef.current = toPixel;
+    animFromRef.current = currentPixelSizeRef.current;
+    animToRef.current = toPixel;
     animStartRef.current = performance.now();
     isAnimatingRef.current = true;
 
@@ -317,9 +332,9 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
     if (isActive) {
       startAnimation(1);
     } else {
-      startAnimation(pixelSize);
+      startAnimation(computeEffectivePixel(pixelSize));
     }
-  }, [hoverActive, hoverPixelToOne, pixelSize, startAnimation, desaturateUntilHover, maskColor, maskOpacity]);
+  }, [hoverActive, hoverPixelToOne, pixelSize, startAnimation, desaturateUntilHover, maskColor, maskOpacity, computeEffectivePixel]);
 
   // 處理 hover 事件
   const handlePointerEnter = () => {
@@ -341,7 +356,7 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
   const handlePointerLeave = () => {
     if (hoverPixelToOne && !hoverActive) {
       isHoveredRef.current = false;
-      startAnimation(pixelSize);
+      startAnimation(computeEffectivePixel(pixelSize));
       if (maskRef.current) {
         if (desaturateUntilHover) {
           maskRef.current.style.backgroundColor = 'var(--hds-sys-color-theme-mask)';
@@ -352,6 +367,14 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
       }
     }
   };
+
+  // 同步 hover 動畫時長到遮罩 transition（與 3D 版一致，含背景色）
+  useEffect(() => {
+    const node = maskRef.current;
+    if (!node) return;
+    const ms = Math.max(0, Math.floor(hoverPixelDuration || 0));
+    node.style.transition = `opacity ${ms}ms cubic-bezier(0.215, 0.61, 0.355, 1), background-color ${ms}ms cubic-bezier(0.215, 0.61, 0.355, 1)`;
+  }, [hoverPixelDuration]);
 
   return (
     <div
