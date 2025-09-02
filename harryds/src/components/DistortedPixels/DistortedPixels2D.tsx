@@ -138,6 +138,26 @@ const DistortedPixels2D = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
     if (!canvas || !img || !imageLoaded) return;
 
     const { width: viewW, height: viewH } = containerSizeRef.current;
+
+    // 在 responsive 模式下，若容器高度尚未建立（0），先行根據圖片比例計算並設定高度，
+    // 避免因為早期 return 導致後續高度一直為 0 而無法渲染與觸發效果。
+    if (
+      objectFit === 'responsive' &&
+      imageLoaded &&
+      viewW > 0 &&
+      viewH <= 0 &&
+      (responsiveHeight == null)
+    ) {
+      const img = imageRef.current;
+      if (img && img.width > 0 && img.height > 0) {
+        const targetH = Math.max(1, Math.round(viewW / (img.width / img.height)));
+        setResponsiveHeight(targetH);
+        onHeightChange && onHeightChange(targetH);
+      }
+      // 等下一幀由 ResizeObserver/狀態更新帶入正確高度後再渲染
+      return;
+    }
+
     if (viewW <= 0 || viewH <= 0) return;
 
     const dpr = Math.min(window.devicePixelRatio || 1, maxPixelRatio);
@@ -406,7 +426,13 @@ const DistortedPixels2D = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
     resizeObserverRef.current = ro;
 
     // IntersectionObserver 控制是否渲染
-    const io = new IntersectionObserver((entries) => {
+    const resolveRoot = (): Element | null => {
+      if (!scrollContainer) return null;
+      return (scrollContainer instanceof HTMLElement ? scrollContainer : scrollContainer.current) || null;
+    };
+
+    let ioRoot: Element | null = resolveRoot();
+    const createIO = (root: Element | null) => new IntersectionObserver((entries) => {
       const entry = entries[0];
       const visible = entry.isIntersecting && entry.intersectionRatio > 0;
       isVisibleRef.current = visible;
@@ -420,9 +446,35 @@ const DistortedPixels2D = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
           stopLoop();
         }
       }
-    }, { threshold: [0, 0.01] });
+    }, { root: root || null, threshold: [0, 0.01] });
+
+    let io = createIO(ioRoot);
     io.observe(el);
     intersectionObserverRef.current = io;
+
+    // 嘗試在 root 尚未就緒時，切換到正確的 scroll 容器作為 root
+    const rafIdForRoot = requestAnimationFrame(() => {
+      const newRoot = resolveRoot();
+      if (newRoot && newRoot !== ioRoot) {
+        io.disconnect();
+        ioRoot = newRoot;
+        io = createIO(ioRoot);
+        io.observe(el);
+        intersectionObserverRef.current = io;
+      }
+    });
+
+    const intervalIdForRoot = window.setInterval(() => {
+      const newRoot = resolveRoot();
+      if (newRoot && newRoot !== ioRoot) {
+        io.disconnect();
+        ioRoot = newRoot;
+        io = createIO(ioRoot);
+        io.observe(el);
+        intersectionObserverRef.current = io;
+        clearInterval(intervalIdForRoot);
+      }
+    }, 300);
 
     // 可見性變更
     const handleVisibility = () => {
@@ -448,6 +500,8 @@ const DistortedPixels2D = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
         intersectionObserverRef.current.disconnect();
         intersectionObserverRef.current = null;
       }
+      cancelAnimationFrame(rafIdForRoot);
+      clearInterval(intervalIdForRoot);
       stopLoop();
     };
   }, [src]);
@@ -509,6 +563,41 @@ const DistortedPixels2D = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
       detach(scrollElement);
     };
   }, [updateScrollVelocity, scrollContainer]);
+
+  // 當 scrollContainer 變化時，重新設定 IntersectionObserver 的 root
+  useEffect(() => {
+    if (!intersectionObserverRef.current) return;
+    
+    const el = (ref as React.RefObject<HTMLDivElement>)?.current || containerRef.current;
+    if (!el) return;
+
+    const resolveRoot = (): Element | null => {
+      if (!scrollContainer) return null;
+      return (scrollContainer instanceof HTMLElement ? scrollContainer : scrollContainer.current) || null;
+    };
+
+    const newRoot = resolveRoot();
+    const createIO = (root: Element | null) => new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      const visible = entry.isIntersecting && entry.intersectionRatio > 0;
+      isVisibleRef.current = visible;
+      if (visible) {
+        ensureLoop();
+      } else {
+        if (currentPixelationRef.current > 0.01 || currentDistortionRef.current > 0.01 || scrollVelocityRef.current > 0) {
+          ensureLoop();
+        } else {
+          stopLoop();
+        }
+      }
+    }, { root: root || null, threshold: [0, 0.01] });
+
+    // 重新創建 IntersectionObserver
+    intersectionObserverRef.current.disconnect();
+    const newIO = createIO(newRoot);
+    newIO.observe(el);
+    intersectionObserverRef.current = newIO;
+  }, [scrollContainer, ensureLoop, stopLoop]);
 
   // 當 objectFit 改變時，若為 responsive 需要更新高度
   useEffect(() => {

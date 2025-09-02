@@ -49,27 +49,31 @@ const LoadingDisplay = memo<{
   progress: number;
   primaryColor?: string;
   secondaryColor?: string;
-}>(({ progress, primaryColor, secondaryColor }) => (
-  <div className="feed-detail-overlay__loading">
-    <PixelText
-      text="LOADING"
-      textBoxEnabled={true}
-      textBox={`${progress}%`}
-      textBoxWidth={5}
-      textBoxPadding={2}
-      animated={false}
-      durationTime={400}
-      animationDelay={100}
-      easeGlitch={false}
-      primaryColor={primaryColor}
-      onPrimaryColor={secondaryColor}
-      pixelSize={2}
-      letterSpacing={1}
-      width={250}
-      height={50}
-    />
-  </div>
-));
+}>(({ progress, primaryColor, secondaryColor }) => {
+  const clampedProgress = Math.max(0, Math.min(99, progress));
+  const displayText = `${String(clampedProgress).padStart(2, '0')}%`;
+  return (
+    <div className="feed-detail-overlay__loading">
+      <PixelText
+        text="LOADING"
+        textBoxEnabled={true}
+        textBox={displayText}
+        textBoxWidth={5}
+        textBoxPadding={2}
+        animated={false}
+        durationTime={400}
+        animationDelay={100}
+        easeGlitch={false}
+        primaryColor={primaryColor}
+        onPrimaryColor={secondaryColor}
+        pixelSize={2}
+        letterSpacing={1}
+        width={250}
+        height={50}
+      />
+    </div>
+  );
+});
 LoadingDisplay.displayName = 'LoadingDisplay';
 
 // 記憶化的圖片組件（等圖片載入後才觸發揭露動畫）
@@ -494,7 +498,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         })}
       </article>
     );
-  }, []);
+  }, [scrollContentRef]);
 
   // 記憶化的默認內容以提升性能
   const defaultContent = useMemo(() => {
@@ -533,7 +537,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         </p>
       </article>
     );
-  }, [src]);
+  }, [src, scrollContentRef]);
 
   // 關閉或初始狀態：外觀與 FeedCard 相同
   if (!open) {
