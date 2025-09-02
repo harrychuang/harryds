@@ -3,7 +3,7 @@
 // 與原 PixelImage 保持相同 API，解決 WebGL context 限制問題
 // =============================================================================
 
-import { useEffect, useRef, useState, useMemo, useCallback, forwardRef } from 'react';
+import { useEffect, useRef, useState, useCallback, forwardRef } from 'react';
 import type { PixelImageProps } from './PixelImage';
 
 const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({ 
@@ -12,11 +12,7 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
   hoverPixelToOne = false,
   hoverPixelDuration = 500,
   desaturateUntilHover = true,
-  outline = false, // 2D Canvas 實現邊緣檢測較複雜，預設關閉
-  normalEdgeStrength = 0.2,
-  depthEdgeStrength = 0.3,
-  normalTolerance = 0.2,
-  depthTolerance = 0.1,
+  outline: _outline = false, // 2D Canvas 實現邊緣檢測較複雜，預設關閉（不使用，保留 API）
   maxPixelRatio = 1.5,
   objectFit = 'cover',
   maskColor,
@@ -29,93 +25,21 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const maskRef = useRef<HTMLDivElement | null>(null);
-  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
+  const offscreenCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const offscreenCtxRef = useRef<CanvasRenderingContext2D | null>(null);
   const rafRef = useRef<number | null>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
-  const isVisibleRef = useRef<boolean>(true);
   
   // 動畫相關狀態
   const currentPixelSizeRef = useRef<number>(pixelSize);
   const targetPixelSizeRef = useRef<number>(pixelSize);
   const isAnimatingRef = useRef<boolean>(false);
   const animStartRef = useRef<number>(0);
-  const animDurationRef = useRef<number>(Math.max(0, hoverPixelDuration));
   const isHoveredRef = useRef<boolean>(false);
 
-  // 遮罩動畫狀態
-  const maskFromRef = useRef<number>(0);
-  const maskToRef = useRef<number>(0);
-  const lastAppliedMaskOpacityRef = useRef<number>(0);
-
-  const [containerSize, setContainerSize] = useState<{ width: number; height: number }>({ width: 300, height: 200 });
+  const [containerSize, setContainerSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [cssVarVersion, setCssVarVersion] = useState(0);
-
-  // 監聽 theme 切換
-  useEffect(() => {
-    const root = document.documentElement;
-    const body = document.body;
-    const observer = new MutationObserver((mutations) => {
-      for (const m of mutations) {
-        if (m.type === 'attributes' && m.attributeName === 'theme') {
-          setCssVarVersion((v) => v + 1);
-          if (maskRef.current) {
-            maskRef.current.style.backgroundColor = 'var(--hds-sys-color-theme-mask)';
-          }
-        }
-      }
-    });
-    observer.observe(root, { attributes: true, attributeFilter: ['theme'] });
-    if (body) observer.observe(body, { attributes: true, attributeFilter: ['theme'] });
-    return () => observer.disconnect();
-  }, []);
-
-  // 初始化 Canvas
-  const initializeCanvas = useCallback(() => {
-    if (!canvasRef.current) return null;
-    
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d', { alpha: true });
-    if (!ctx) return null;
-    
-    // 設置高 DPR 以提升圖片品質
-    const dpr = Math.min(window.devicePixelRatio || 1, maxPixelRatio);
-    const { width, height } = containerSize;
-    
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-    
-    ctx.scale(dpr, dpr);
-    ctx.imageSmoothingEnabled = false; // 保持像素風格
-    
-    ctxRef.current = ctx;
-    return ctx;
-  }, [containerSize, maxPixelRatio]);
-
-  // 載入圖片
-  const loadImage = useCallback(async (url: string): Promise<HTMLImageElement> => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      
-      img.onload = () => {
-        imageRef.current = img;
-        setImageLoaded(true);
-        if (onLoad) onLoad();
-        resolve(img);
-      };
-      
-      img.onerror = (error) => {
-        if (onError) onError(error);
-        reject(error);
-      };
-      
-      img.src = url;
-    });
-  }, [onLoad, onError]);
 
   // 計算圖片在容器中的位置和大小
   const calculateImageLayout = useCallback((imgW: number, imgH: number, viewW: number, viewH: number) => {
@@ -156,79 +80,43 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
     return { targetW, targetH, offsetX, offsetY };
   }, [objectFit]);
 
-  // 將 RGB 轉換為灰階
-  const desaturatePixel = useCallback((r: number, g: number, b: number, a: number): [number, number, number, number] => {
-    // 使用標準灰階轉換公式
-    const gray = Math.round(0.299 * r + 0.587 * g + 0.114 * b);
-    return [gray, gray, gray, a];
-  }, []);
-
-  // 像素化處理
-  const pixelateImageData = useCallback((
-    ctx: CanvasRenderingContext2D,
-    imageData: ImageData,
-    pixelSize: number,
-    shouldDesaturate: boolean
-  ): ImageData => {
-    const { width, height, data } = imageData;
-    const newData = new Uint8ClampedArray(data);
-
-    // 確保 pixelSize 至少為 1
-    const size = Math.max(1, Math.floor(pixelSize));
-
-    for (let y = 0; y < height; y += size) {
-      for (let x = 0; x < width; x += size) {
-        // 計算這個像素塊的平均顏色
-        let totalR = 0, totalG = 0, totalB = 0, totalA = 0;
-        let count = 0;
-
-        for (let dy = 0; dy < size && y + dy < height; dy++) {
-          for (let dx = 0; dx < size && x + dx < width; dx++) {
-            const idx = ((y + dy) * width + (x + dx)) * 4;
-            totalR += data[idx];
-            totalG += data[idx + 1];
-            totalB += data[idx + 2];
-            totalA += data[idx + 3];
-            count++;
-          }
-        }
-
-        if (count > 0) {
-          let avgR = Math.round(totalR / count);
-          let avgG = Math.round(totalG / count);
-          let avgB = Math.round(totalB / count);
-          const avgA = Math.round(totalA / count);
-
-          // 如果需要去彩色
-          if (shouldDesaturate) {
-            [avgR, avgG, avgB] = desaturatePixel(avgR, avgG, avgB, avgA).slice(0, 3) as [number, number, number];
-          }
-
-          // 將平均顏色應用到整個像素塊
-          for (let dy = 0; dy < size && y + dy < height; dy++) {
-            for (let dx = 0; dx < size && x + dx < width; dx++) {
-              const idx = ((y + dy) * width + (x + dx)) * 4;
-              newData[idx] = avgR;
-              newData[idx + 1] = avgG;
-              newData[idx + 2] = avgB;
-              newData[idx + 3] = avgA;
-            }
-          }
-        }
-      }
+  // 初始化/取得離屏畫布
+  const getOffscreen = useCallback(() => {
+    if (!offscreenCanvasRef.current) {
+      offscreenCanvasRef.current = document.createElement('canvas');
+      offscreenCtxRef.current = offscreenCanvasRef.current.getContext('2d');
     }
-
-    return new ImageData(newData, width, height);
-  }, [desaturatePixel]);
+    return {
+      canvas: offscreenCanvasRef.current!,
+      ctx: offscreenCtxRef.current!,
+    };
+  }, []);
 
   // 渲染圖片
   const renderImage = useCallback(() => {
-    const ctx = ctxRef.current || initializeCanvas();
+    const canvas = canvasRef.current;
     const img = imageRef.current;
     
-    if (!ctx || !img || !imageLoaded) return;
-
+    if (!canvas || !img || !imageLoaded || containerSize.width <= 0 || containerSize.height <= 0) {
+      return;
+    }
+    
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return;
+    
     const { width, height } = containerSize;
+    const dpr = Math.min(window.devicePixelRatio || 1, maxPixelRatio);
+    
+    // 設置 canvas 尺寸
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    
+    // 重置變換並設置縮放
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+    ctx.imageSmoothingEnabled = false;
     
     // 清除 canvas
     ctx.clearRect(0, 0, width, height);
@@ -236,46 +124,49 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
     // 計算圖片佈局
     const layout = calculateImageLayout(img.width, img.height, width, height);
     
+    if (layout.targetW <= 0 || layout.targetH <= 0) return;
+    
     // 創建臨時 canvas 來處理圖片
-    const tempCanvas = document.createElement('canvas');
-    const tempCtx = tempCanvas.getContext('2d');
-    if (!tempCtx) return;
+    // 使用縮小再放大的高效像素化策略
+    const { canvas: offCanvas, ctx: offCtx } = getOffscreen();
+    const blocksX = Math.max(1, Math.floor(layout.targetW / Math.max(1, currentPixelSizeRef.current)));
+    const blocksY = Math.max(1, Math.floor(layout.targetH / Math.max(1, currentPixelSizeRef.current)));
 
-    tempCanvas.width = Math.round(layout.targetW);
-    tempCanvas.height = Math.round(layout.targetH);
-    tempCtx.imageSmoothingEnabled = false;
+    offCanvas.width = blocksX;
+    offCanvas.height = blocksY;
+    offCtx.imageSmoothingEnabled = false;
+    offCtx.clearRect(0, 0, blocksX, blocksY);
 
-    // 繪製圖片到臨時 canvas
-    tempCtx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
+    // 將原圖縮小繪製到離屏（取樣）
+    offCtx.drawImage(img, 0, 0, blocksX, blocksY);
 
-    // 獲取圖片數據
-    const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
-    
-    // 決定是否要去彩色
+    // 如需去彩，使用 canvas filter（較快）
     const shouldDesaturate = desaturateUntilHover && (!hoverPixelToOne || !isHoveredRef.current);
-    
-    // 應用像素化效果
-    const processedData = pixelateImageData(ctx, imageData, currentPixelSizeRef.current, shouldDesaturate);
-    
-    // 創建新的 canvas 來放置處理後的數據
-    const processedCanvas = document.createElement('canvas');
-    const processedCtx = processedCanvas.getContext('2d');
-    if (!processedCtx) return;
-    
-    processedCanvas.width = tempCanvas.width;
-    processedCanvas.height = tempCanvas.height;
-    processedCtx.putImageData(processedData, 0, 0);
+    ctx.filter = shouldDesaturate ? 'saturate(0%)' : 'none';
 
-    // 繪製到主 canvas
+    // 將離屏結果放大回主畫布
     ctx.drawImage(
-      processedCanvas,
+      offCanvas,
+      0,
+      0,
+      blocksX,
+      blocksY,
       Math.round(layout.offsetX),
       Math.round(layout.offsetY),
       Math.round(layout.targetW),
       Math.round(layout.targetH)
     );
-
-  }, [initializeCanvas, imageLoaded, containerSize, calculateImageLayout, pixelateImageData, desaturateUntilHover, hoverPixelToOne]);
+    ctx.filter = 'none';
+  }, [
+    imageLoaded, 
+    containerSize.width, 
+    containerSize.height, 
+    maxPixelRatio, 
+    calculateImageLayout, 
+    desaturateUntilHover, 
+    hoverPixelToOne,
+    getOffscreen
+  ]);
 
   // 動畫循環
   const animationLoop = useCallback(() => {
@@ -286,49 +177,31 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
 
     const now = performance.now();
     const elapsed = now - animStartRef.current;
-    const progress = Math.min(1, elapsed / Math.max(1, animDurationRef.current));
+    const duration = Math.max(1, hoverPixelDuration);
+    const progress = Math.min(1, elapsed / duration);
     
-    // easing: easeOutCubic
     const eased = 1 - Math.pow(1 - progress, 3);
-    
-    // 更新當前像素大小
     const from = currentPixelSizeRef.current;
     const to = targetPixelSizeRef.current;
     const newPixelSize = from + (to - from) * eased;
     currentPixelSizeRef.current = newPixelSize;
 
-    // 更新遮罩不透明度
-    const maskNode = maskRef.current;
-    if (maskNode) {
-      const maskValue = Math.max(0, Math.min(1, maskFromRef.current + (maskToRef.current - maskFromRef.current) * eased));
-      if (Math.abs(maskValue - lastAppliedMaskOpacityRef.current) > 0.005) {
-        maskNode.style.opacity = String(maskValue);
-        lastAppliedMaskOpacityRef.current = maskValue;
-      }
-    }
-
-    // 重新渲染
     renderImage();
 
     if (progress >= 1) {
       isAnimatingRef.current = false;
       currentPixelSizeRef.current = targetPixelSizeRef.current;
-    }
-
-    if (isAnimatingRef.current) {
-      rafRef.current = requestAnimationFrame(animationLoop);
-    } else {
       rafRef.current = null;
+    } else {
+      rafRef.current = requestAnimationFrame(animationLoop);
     }
-  }, [renderImage]);
+  }, [hoverPixelDuration, renderImage]);
 
   // 開始動畫
-  const startAnimation = useCallback((toPixel: number, toMaskOpacity: number) => {
+  const startAnimation = useCallback((toPixel: number) => {
     if (!hoverPixelToOne) return;
 
     targetPixelSizeRef.current = toPixel;
-    maskFromRef.current = lastAppliedMaskOpacityRef.current;
-    maskToRef.current = Math.max(0, Math.min(1, toMaskOpacity));
     animStartRef.current = performance.now();
     isAnimatingRef.current = true;
 
@@ -337,56 +210,66 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
     }
   }, [hoverPixelToOne, animationLoop]);
 
-  // 處理容器尺寸變化
-  const handleResize = useCallback((width: number, height: number) => {
-    setContainerSize({ width, height });
-    if (ctxRef.current) {
-      ctxRef.current = null; // 強制重新初始化
-    }
-  }, []);
+  // 載入圖片
+  useEffect(() => {
+    if (!src) return;
+    
+    let mounted = true;
+    setImageLoaded(false);
+    imageRef.current = null;
+    
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    
+    img.onload = () => {
+      if (mounted) {
+        imageRef.current = img;
+        setImageLoaded(true);
+        if (onLoad) onLoad();
+      }
+    };
+    
+    img.onerror = (error) => {
+      if (mounted && onError) {
+        onError(error);
+      }
+    };
+    
+    img.src = src;
 
-  // 初始化與清理
+    return () => {
+      mounted = false;
+    };
+  }, [src, onLoad, onError]);
+
+  // 初始化容器尺寸
   useEffect(() => {
     const el = (ref as React.RefObject<HTMLDivElement>)?.current || containerRef.current;
     if (!el) return;
 
-    const rect = el.getBoundingClientRect();
-    const initialW = Math.max(1, Math.round(rect.width));
-    const initialH = Math.max(1, Math.round(rect.height));
-    setContainerSize({ width: initialW, height: initialH });
+    const updateSize = () => {
+      const rect = el.getBoundingClientRect();
+      const newWidth = Math.max(1, Math.round(rect.width));
+      const newHeight = Math.max(1, Math.round(rect.height));
+      
+      setContainerSize(prev => {
+        if (prev.width !== newWidth || prev.height !== newHeight) {
+          return { width: newWidth, height: newHeight };
+        }
+        return prev;
+      });
+    };
+
+    // 初始化尺寸
+    const timer = setTimeout(updateSize, 0);
 
     // ResizeObserver
-    const ro = new ResizeObserver((entries) => {
-      const entry = entries[0];
-      const box = entry.contentRect;
-      handleResize(Math.max(1, Math.round(box.width)), Math.max(1, Math.round(box.height)));
-    });
+    const ro = new ResizeObserver(updateSize);
     ro.observe(el);
     resizeObserverRef.current = ro;
-
-    // IntersectionObserver
-    const io = new IntersectionObserver((entries) => {
-      const entry = entries[0];
-      const visible = entry.isIntersecting && entry.intersectionRatio > 0;
-      isVisibleRef.current = visible;
-      
-      if (visible && imageLoaded && rafRef.current === null) {
-        renderImage();
-      }
-    }, { threshold: [0, 0.01] });
-    io.observe(el);
-
-    // 頁面可見性
-    const onVis = () => {
-      if (!document.hidden && isVisibleRef.current && imageLoaded && rafRef.current === null) {
-        renderImage();
-      }
-    };
-    document.addEventListener('visibilitychange', onVis);
-
+    
     return () => {
-      document.removeEventListener('visibilitychange', onVis);
-      io.disconnect();
+      clearTimeout(timer);
       if (resizeObserverRef.current) {
         resizeObserverRef.current.disconnect();
         resizeObserverRef.current = null;
@@ -396,59 +279,24 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
         rafRef.current = null;
       }
     };
-  }, [ref, handleResize, imageLoaded, renderImage]);
+  }, [ref]);
 
-  // 載入圖片
+  // 重新渲染當圖片和尺寸準備好時
   useEffect(() => {
-    if (!src) return;
-    
-    let mounted = true;
-    setImageLoaded(false);
-    
-    loadImage(src).catch(() => {
-      if (mounted && isVisibleRef.current) {
-        // 即使載入失敗也要清除 canvas
-        const ctx = ctxRef.current || initializeCanvas();
-        if (ctx) {
-          ctx.clearRect(0, 0, containerSize.width, containerSize.height);
-        }
-      }
-    });
-
-    return () => {
-      mounted = false;
-    };
-  }, [src, loadImage, initializeCanvas, containerSize.width, containerSize.height]);
-
-  // 當圖片載入完成或容器尺寸變化時重新渲染
-  useEffect(() => {
-    if (imageLoaded && isVisibleRef.current) {
+    if (imageLoaded && containerSize.width > 0 && containerSize.height > 0) {
       renderImage();
     }
-  }, [imageLoaded, containerSize, renderImage]);
+  }, [imageLoaded, containerSize.width, containerSize.height, renderImage]);
 
-  // 更新動畫時長
-  useEffect(() => {
-    animDurationRef.current = Math.max(0, Math.floor(hoverPixelDuration || 0));
-    const node = maskRef.current;
-    if (node) {
-      const ms = Math.max(0, Math.floor(hoverPixelDuration || 0));
-      node.style.transition = `opacity ${ms}ms cubic-bezier(0.215, 0.61, 0.355, 1), background-color ${ms}ms cubic-bezier(0.215, 0.61, 0.355, 1)`;
-    }
-  }, [hoverPixelDuration]);
-
-  // 當 pixelSize 改變時立即更新（非動畫狀態）
+  // 當 pixelSize 改變時更新
   useEffect(() => {
     if (!isAnimatingRef.current) {
       currentPixelSizeRef.current = pixelSize;
       targetPixelSizeRef.current = pixelSize;
-      if (imageLoaded && isVisibleRef.current) {
-        renderImage();
-      }
     }
-  }, [pixelSize, imageLoaded, renderImage]);
+  }, [pixelSize]);
 
-  // 處理 hoverActive 或 pointer events
+  // 處理 hoverActive 控制
   useEffect(() => {
     if (!hoverPixelToOne) return;
     
@@ -456,71 +304,53 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
     isHoveredRef.current = isActive;
     
     if (isActive) {
-      // 進入 hover
-      if (desaturateUntilHover && maskRef.current) {
-        maskRef.current.style.backgroundColor = (maskColor as string) || 'var(--hds-sys-color-theme-mask)';
-      }
-      startAnimation(1, desaturateUntilHover ? Math.max(0, Math.min(1, maskOpacity)) : Math.max(0, Math.min(1, maskOpacity)));
+      startAnimation(1);
     } else {
-      // 離開 hover
-      if (desaturateUntilHover && maskRef.current) {
-        maskRef.current.style.backgroundColor = 'var(--hds-sys-color-theme-mask)';
-      }
-      startAnimation(pixelSize, desaturateUntilHover ? Math.max(0, Math.min(1, maskOpacity)) : 0);
+      startAnimation(pixelSize);
     }
-  }, [hoverActive, hoverPixelToOne, desaturateUntilHover, maskColor, maskOpacity, startAnimation, pixelSize]);
+  }, [hoverActive, hoverPixelToOne, pixelSize, startAnimation]);
 
-  // 遮罩初始狀態
-  useEffect(() => {
-    const node = maskRef.current;
-    if (!node) return;
-    
-    if (desaturateUntilHover) {
-      const baseOpacity = Math.max(0, Math.min(1, maskOpacity));
-      node.style.backgroundColor = 'var(--hds-sys-color-theme-mask)';
-      node.style.opacity = String(baseOpacity);
-      lastAppliedMaskOpacityRef.current = baseOpacity;
-      maskFromRef.current = baseOpacity;
-      maskToRef.current = baseOpacity;
-    } else {
-      node.style.backgroundColor = (maskColor as string) || 'var(--hds-sys-color-theme-mask)';
-      node.style.opacity = '0';
-      lastAppliedMaskOpacityRef.current = 0;
-      maskFromRef.current = 0;
-      maskToRef.current = 0;
+  // 處理 hover 事件
+  const handlePointerEnter = () => {
+    if (hoverPixelToOne && !hoverActive) {
+      isHoveredRef.current = true;
+      startAnimation(1);
+      if (maskRef.current) {
+        maskRef.current.style.opacity = String(Math.max(0, Math.min(1, maskOpacity)));
+      }
     }
-  }, [desaturateUntilHover, maskColor, maskOpacity]);
+  };
+
+  const handlePointerLeave = () => {
+    if (hoverPixelToOne && !hoverActive) {
+      isHoveredRef.current = false;
+      startAnimation(pixelSize);
+      if (maskRef.current) {
+        if (desaturateUntilHover) {
+          maskRef.current.style.opacity = String(Math.max(0, Math.min(1, maskOpacity)));
+        } else {
+          maskRef.current.style.opacity = '0';
+        }
+      }
+    }
+  };
 
   return (
     <div
       ref={(node) => {
         containerRef.current = node;
-        if (!ref) return;
-        if (typeof ref === 'function') ref(node as HTMLDivElement);
-        else (ref as React.MutableRefObject<HTMLDivElement | null>).current = node as HTMLDivElement | null;
+        if (ref) {
+          if (typeof ref === 'function') {
+            ref(node);
+          } else {
+            ref.current = node;
+          }
+        }
       }}
       className={`pixel-image pixel-image-2d ${className}`}
       style={{ width: '100%', height: '100%', position: 'relative', display: 'block' }}
-      onPointerEnter={() => {
-        if (hoverPixelToOne) {
-          isHoveredRef.current = true;
-          if (desaturateUntilHover && maskRef.current) {
-            maskRef.current.style.backgroundColor = (maskColor as string) || 'var(--hds-sys-color-theme-mask)';
-          }
-          const targetMaskOpacity = desaturateUntilHover ? Math.max(0, Math.min(1, maskOpacity)) : Math.max(0, Math.min(1, maskOpacity));
-          startAnimation(1, targetMaskOpacity);
-        }
-      }}
-      onPointerLeave={() => {
-        if (hoverPixelToOne) {
-          isHoveredRef.current = false;
-          if (desaturateUntilHover && maskRef.current) {
-            maskRef.current.style.backgroundColor = 'var(--hds-sys-color-theme-mask)';
-          }
-          const targetMaskOpacity = desaturateUntilHover ? Math.max(0, Math.min(1, maskOpacity)) : 0;
-          startAnimation(pixelSize, targetMaskOpacity);
-        }
-      }}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
     >
       <canvas
         ref={canvasRef}
@@ -532,8 +362,9 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
           position: 'absolute',
           inset: 0,
           backgroundColor: (maskColor as string) || 'var(--hds-sys-color-theme-mask)',
-          opacity: 0,
+          opacity: desaturateUntilHover ? Math.max(0, Math.min(1, maskOpacity)) : 0,
           pointerEvents: 'none',
+          transition: `opacity ${Math.max(0, Math.floor(hoverPixelDuration || 0))}ms cubic-bezier(0.215, 0.61, 0.355, 1)`,
         }}
       />
     </div>

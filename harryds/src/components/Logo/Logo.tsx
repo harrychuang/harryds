@@ -1,11 +1,12 @@
 // =============================================================================
-// LOGO 元件 - 使用 PixelText 建立品牌標誌
+// LOGO 元件 - 使用 PixelText2D 建立品牌標誌
 // - 主文字：Harry
 // - Text-box：跑馬燈顯示完整資訊
+// - 使用 Canvas2D 版本避免 WebGL context 限制
 // =============================================================================
 
 import { forwardRef } from 'react';
-import { PixelText } from '../PixelText';
+import { PixelText2D } from '../PixelText';
 import { HDS_TOKENS } from '../../utils/colorTokens';
 
 export type LogoType = 'default' | 'back';
@@ -67,7 +68,8 @@ export const Logo = forwardRef<HTMLDivElement, LogoProps>(({
         position: 'relative',
       }}
     >
-      <PixelText
+      <PixelText2D
+        key={`logo-${type}-${config.width}-${config.height}`} // 強制重新創建實例以確保尺寸正確更新
         text={config.logoText}
         textEnabled={true}
         textBoxEnabled={true}

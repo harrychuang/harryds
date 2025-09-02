@@ -5,6 +5,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import PixelImage from './PixelImage';
+import PixelImage2D from './PixelImage2D';
 // 使用 Vite 原生 URL 匯入，避免別名在 Storybook 快取下解析失敗
 const demoImg = new URL('../../../assets/imgs/project-demo.jpg', import.meta.url).href;
 
@@ -120,27 +121,64 @@ export const Default: Story = {
     normalTolerance: 0.2,
     depthTolerance: 0.1,
     objectFit: 'cover',
-    maskColor: 'var(--hds-sys-color-theme-mask)',
+    maskColor: '',
     maskOpacity: 0.8,
     maxPixelRatio: 1.5,
   },
 };
 
-export const DesaturateUntilHover: Story = {
+export const Canvas2D: Story = {
+  name: '2D Canvas',
   render: (args) => (
     <div style={containerStyle}>
-      <PixelImage {...args} />
+      <PixelImage2D {...args} />
+    </div>
+  ),
+  args: {
+    src: demoImg,
+    pixelSize: 20,
+    hoverPixelToOne: false,
+    hoverPixelDuration: 600,
+    desaturateUntilHover: false,
+    outline: false, // 2D Canvas 版本不支援邊緣檢測
+    objectFit: 'cover',
+    maskColor: '',
+    maskOpacity: 0.8,
+    maxPixelRatio: 1.5,
+  },
+};
+
+export const Compare: Story = {
+  name: 'WebGL vs 2D Canvas',
+  render: (args) => (
+    <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+      <div>
+        <h3 style={{ marginBottom: '10px', textAlign: 'center' }}>WebGL</h3>
+        <div style={containerStyle}>
+          <PixelImage {...args} />
+        </div>
+      </div>
+      <div>
+        <h3 style={{ marginBottom: '10px', textAlign: 'center' }}>2D Canvas</h3>
+        <div style={containerStyle}>
+          <PixelImage2D {...args} />
+        </div>
+      </div>
     </div>
   ),
   args: {
     src: demoImg,
     pixelSize: 40,
-    outline: true,
-    objectFit: 'cover',
     hoverPixelToOne: true,
     hoverPixelDuration: 500,
     desaturateUntilHover: true,
-    maskColor: 'var(--hds-sys-color-theme-mask)',
+    outline: true,
+    normalEdgeStrength: 0.2,
+    depthEdgeStrength: 0.3,
+    normalTolerance: 0.2,
+    depthTolerance: 0.1,
+    objectFit: 'cover',
+    maskColor: '',
     maskOpacity: 0.8,
     maxPixelRatio: 1.5,
   },

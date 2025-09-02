@@ -23,7 +23,7 @@ const PixelText2D = forwardRef<HTMLDivElement, PixelTextProps>(({
   letterSpacing = 1,
   width = 400,
   height = 100,
-  antialias = false,
+  antialias: _antialias, // 2D Canvas 版本不使用此參數，但保留以維持 API 相容性
   className = '',
   animated = false,
   durationTime = 1000,
@@ -82,6 +82,15 @@ const PixelText2D = forwardRef<HTMLDivElement, PixelTextProps>(({
     if (body) observer.observe(body, { attributes: true, attributeFilter: ['theme'] });
     return () => observer.disconnect();
   }, []);
+
+  // 同步 props 變化到 state（修正狀態殘留問題）
+  useEffect(() => {
+    if (!isAnimating) {
+      // 只在非動畫狀態下立即同步，避免干擾動畫進行中的狀態
+      setDisplayText(textEnabled ? text : '');
+      setDisplayTextBox(textBoxEnabled ? textBox : '');
+    }
+  }, [text, textBox, textEnabled, textBoxEnabled, isAnimating]);
 
   // 計算字符實際寬度的輔助函數
   const getCharWidth = useCallback((char: string): number => {
@@ -384,14 +393,19 @@ const PixelText2D = forwardRef<HTMLDivElement, PixelTextProps>(({
     clearAnimationTimers();
     stopMarquee();
 
+    // 立即清理並重設所有顯示狀態，避免狀態殘留
     if (textEnabled && text) {
       const initialRandomText = generateRandomText(text.length);
       setDisplayText(initialRandomText);
+    } else {
+      setDisplayText(''); // 清空主文字
     }
     
     if (textBoxEnabled && textBox) {
       const initialRandomTextBox = generateRandomText(textBox.length);
       setDisplayTextBox(initialRandomTextBox);
+    } else {
+      setDisplayTextBox(''); // 清空 text-box
     }
 
     const animationStartTime = Date.now();
@@ -564,7 +578,8 @@ const PixelText2D = forwardRef<HTMLDivElement, PixelTextProps>(({
     };
 
     const renderTextBox = () => {
-      if (!(textBoxEnabled && (currentTextBox || textBoxWidth > 0))) return;
+      if (!textBoxEnabled) return;
+      if (!currentTextBox && textBoxWidth <= 0) return;
       
       const boxCharCount = textBoxWidth;
       const boxContentWidth = boxCharCount * CHAR_WIDTH * pixelWithGap - boxCharCount * pixelGap;
@@ -749,8 +764,9 @@ const PixelText2D = forwardRef<HTMLDivElement, PixelTextProps>(({
     if (animated) {
       startAnimation();
     } else {
-      setDisplayText(text);
-      setDisplayTextBox(textBox);
+      // 立即更新顯示狀態，確保正確清理
+      setDisplayText(textEnabled ? text : '');
+      setDisplayTextBox(textBoxEnabled ? textBox : '');
     }
   }, [text, textEnabled, textBox, textBoxEnabled, animated, startAnimation, swapTextAndBox]);
 
@@ -758,6 +774,19 @@ const PixelText2D = forwardRef<HTMLDivElement, PixelTextProps>(({
   useEffect(() => {
     render();
   }, [render]);
+
+  // 當 width 或 height 改變時重新初始化 canvas
+  useEffect(() => {
+    // 強制重新初始化 canvas 以應用新的尺寸
+    if (canvasRef.current) {
+      canvasRef.current.width = width;
+      canvasRef.current.height = height;
+      canvasRef.current.style.width = `${width}px`;
+      canvasRef.current.style.height = `${height}px`;
+    }
+    ctxRef.current = null; // 強制重新獲取 context
+    render();
+  }, [width, height, render]);
 
   // 跑馬燈管理
   useEffect(() => {

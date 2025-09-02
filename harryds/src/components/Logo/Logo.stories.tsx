@@ -13,7 +13,7 @@ const meta = {
     docs: {
       description: {
         component: `
-Harry Design Studio 的品牌標誌元件，使用 PixelText 實現 8-bit 風格的文字效果。
+Harry Design Studio 的品牌標誌元件，使用 PixelText2D 實現 8-bit 風格的文字效果。
 
 ## 特色
 - 🎮 8-bit 像素風格的品牌標誌
@@ -21,6 +21,8 @@ Harry Design Studio 的品牌標誌元件，使用 PixelText 實現 8-bit 風格
 - 🎭 支援亂碼解碼動畫效果
 - 🎨 可自訂主題顏色
 - 🔧 可調整各種視覺參數
+- 🖼️ 使用 Canvas2D 渲染，無 WebGL context 限制
+- 📱 更好的設備相容性
 
 ## 使用方式
 \`\`\`tsx
