@@ -175,6 +175,7 @@ export const Playground: React.FC = () => {
                   infoMaxWidth={1600}
                   infoData={{ id: item.id, heading: item.heading, date: item.date, tags: item.tags, category: item.category }}
                   primaryColor={item.primaryColor}
+                  use2D={size === 'xs'}
                 />
               </div>
             );

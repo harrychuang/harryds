@@ -111,6 +111,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   secondaryColor,
   infoMaxWidth,
   style,
+  use2D,
   enableHoverSound,
   soundVolume,
   infoData,
@@ -243,6 +244,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     soundVolume,
     forceHovered: false, // 不強制 hovered，避免觸發 hover 動畫
     disableHover: true,
+    use2D,
   }), [
     src, 
     sizeWhenClosed, 
@@ -251,7 +253,8 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     secondaryColor, 
     infoMaxWidth, 
     enableHoverSound, 
-    soundVolume
+    soundVolume,
+    use2D
   ]);
 
   // 記憶化的 FeedCardInfo 屬性
@@ -545,6 +548,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
           className="feed-detail-overlay__card"
           enableHoverSound={enableHoverSound}
           soundVolume={soundVolume}
+          use2D={use2D}
         >
           {infoData && (
             <FeedCardInfo
@@ -648,7 +652,7 @@ export const FeedDetailOverlay = memo(FeedDetailOverlayComponent, (prevProps, ne
   // 自定義比較函數，只有在關鍵 props 變化時才重渲染
   const keyProps = [
     'open', 'heroHeightVH', 'sizeWhenClosed', 'src', 'padding', 
-    'primaryColor', 'secondaryColor', 'infoMaxWidth', 'className'
+    'primaryColor', 'secondaryColor', 'infoMaxWidth', 'className', 'use2D'
   ] as const;
   
   for (const prop of keyProps) {
