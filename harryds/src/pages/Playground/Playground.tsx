@@ -11,6 +11,7 @@ import type { FeedItem, FeedContentBlock } from '../../types/feed';
 import feed from '../../../../shared/data/feed.json';
 import hoverSoundUrl from '../../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
+import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
 
 export const Playground: React.FC = () => {
   const items = useMemo(() => (feed as any).items as FeedItem[], []);
@@ -27,9 +28,9 @@ export const Playground: React.FC = () => {
   const originalPlaygroundBackgroundRef = useRef<string>('');
   const playgroundRef = useRef<HTMLDivElement>(null);
   
-  // Logo 音效引用
-  const logoHoverSoundRef = useRef<HTMLAudioElement | null>(null);
-  const logoClickSoundRef = useRef<HTMLAudioElement | null>(null);
+  // Logo 音效播放控制
+  const logoHoverHandleRef = useRef<PlaybackHandle | null>(null);
+  const logoClickHandleRef = useRef<PlaybackHandle | null>(null);
   const hasPlayedLogoHoverSoundRef = useRef<boolean>(false);
   const hasPlayedLogoClickSoundRef = useRef<boolean>(false);
   
@@ -59,61 +60,24 @@ export const Playground: React.FC = () => {
     }
   }, [openCardId, hoveredCardId, openCardAnimationPhase, items]);
 
-  // 初始化 Logo hover 音效
+  // 預載 Logo hover 音效（Web Audio）
   useEffect(() => {
-    logoHoverSoundRef.current = new Audio(hoverSoundUrl);
-    logoHoverSoundRef.current.preload = 'auto';
-    logoHoverSoundRef.current.volume = Math.max(0, Math.min(1, 0.4)); // 設定適中音量
-
-    const onCanPlay = () => {};
-    const onError = (e: any) => {
-      console.error('Logo hover sound load failed:', e);
-    };
-
-    logoHoverSoundRef.current.addEventListener('canplaythrough', onCanPlay);
-    logoHoverSoundRef.current.addEventListener('error', onError);
-
-    return () => {
-      if (logoHoverSoundRef.current) {
-        logoHoverSoundRef.current.removeEventListener('canplaythrough', onCanPlay);
-        logoHoverSoundRef.current.removeEventListener('error', onError);
-        logoHoverSoundRef.current = null;
-      }
-    };
+    audioManager.preload(hoverSoundUrl).catch(() => {});
   }, []);
 
-  // 初始化 Logo click 音效
+  // 預載 Logo click 音效（Web Audio）
   useEffect(() => {
-    logoClickSoundRef.current = new Audio(clickSoundUrl);
-    logoClickSoundRef.current.preload = 'auto';
-    logoClickSoundRef.current.volume = Math.max(0, Math.min(1, 0.3)); // 設定適中音量
-
-    const onCanPlay = () => {};
-    const onError = (e: any) => {
-      console.error('Logo click sound load failed:', e);
-    };
-
-    logoClickSoundRef.current.addEventListener('canplaythrough', onCanPlay);
-    logoClickSoundRef.current.addEventListener('error', onError);
-
-    return () => {
-      if (logoClickSoundRef.current) {
-        logoClickSoundRef.current.removeEventListener('canplaythrough', onCanPlay);
-        logoClickSoundRef.current.removeEventListener('error', onError);
-        logoClickSoundRef.current = null;
-      }
-    };
+    audioManager.preload(clickSoundUrl).catch(() => {});
   }, []);
 
   // Logo 音效播放函數
   const playLogoHoverSound = useCallback(async () => {
-    if (!logoHoverSoundRef.current || hasPlayedLogoHoverSoundRef.current) return;
-    // 只在 back 狀態時播放
+    if (hasPlayedLogoHoverSoundRef.current) return;
     if (!(openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready'))) return;
-    
     try {
-      logoHoverSoundRef.current.currentTime = 0;
-      await logoHoverSoundRef.current.play();
+      // 停止前一次殘留
+      logoHoverHandleRef.current?.stop();
+      logoHoverHandleRef.current = await audioManager.play(hoverSoundUrl, { volume: 0.4 });
       hasPlayedLogoHoverSoundRef.current = true;
     } catch (err) {
       console.warn('Logo hover sound play failed:', err);
@@ -121,13 +85,11 @@ export const Playground: React.FC = () => {
   }, [openCardId, openCardAnimationPhase]);
 
   const playLogoClickSound = useCallback(async () => {
-    if (!logoClickSoundRef.current || hasPlayedLogoClickSoundRef.current) return;
-    // 只在 back 狀態時播放
+    if (hasPlayedLogoClickSoundRef.current) return;
     if (!(openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready'))) return;
-    
     try {
-      logoClickSoundRef.current.currentTime = 0;
-      await logoClickSoundRef.current.play();
+      logoClickHandleRef.current?.stop();
+      logoClickHandleRef.current = await audioManager.play(clickSoundUrl, { volume: 0.3 });
       hasPlayedLogoClickSoundRef.current = true;
     } catch (err) {
       console.warn('Logo click sound play failed:', err);
@@ -167,14 +129,8 @@ export const Playground: React.FC = () => {
     hasPlayedLogoClickSoundRef.current = false;
     
     // 停止播放中的音效
-    if (logoHoverSoundRef.current) {
-      logoHoverSoundRef.current.pause();
-      logoHoverSoundRef.current.currentTime = 0;
-    }
-    if (logoClickSoundRef.current) {
-      logoClickSoundRef.current.pause();
-      logoClickSoundRef.current.currentTime = 0;
-    }
+    logoHoverHandleRef.current?.stop();
+    logoClickHandleRef.current?.stop();
   }, []);
 
   // Logo click 處理函數（結合原有的關閉功能）

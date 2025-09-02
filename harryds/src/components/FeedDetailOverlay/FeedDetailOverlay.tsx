@@ -18,6 +18,7 @@ import './FeedDetailOverlay.scss';
 // import startSoundUrl from '../../../assets/sound/8-Bit Sound Effect.mp3';
 import startSoundUrl from '../../../assets/sound/8-Bit Retro Sound Effect-level-up.mp3';
 import loadingSoundUrl from '../../../assets/sound/8-Bit Game Start Sound.mp3';
+import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
 
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
   /** 是否開啟 overlay */
@@ -131,9 +132,9 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   const [animationPhase, setAnimationPhase] = useState<'closed' | 'loading' | 'positioning' | 'expanding' | 'ready'>('closed');
   const loadingAnimationRef = useRef<number | null>(null);
   const loadingStartTimeRef = useRef<number>(0);
-  const startSoundRef = useRef<HTMLAudioElement | null>(null);
+  const startHandleRef = useRef<PlaybackHandle | null>(null);
   const hasPlayedStartSoundRef = useRef<boolean>(false);
-  const loadingSoundRef = useRef<HTMLAudioElement | null>(null);
+  const loadingHandleRef = useRef<PlaybackHandle | null>(null);
   const hasPlayedLoadingSoundRef = useRef<boolean>(false);
   // 滾動交互動態控制 PixelImage 背景（pixelSize 與 maskOpacity）
   const [scrollPixelSize, setScrollPixelSize] = useState<number>(1);
@@ -208,26 +209,26 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   }), []);
 
   const playStartSound = useCallback(async () => {
-    if (!startSoundRef.current || hasPlayedStartSoundRef.current) return;
+    if (hasPlayedStartSoundRef.current) return;
     try {
-      startSoundRef.current.currentTime = 0;
-      await startSoundRef.current.play();
+      startHandleRef.current?.stop();
+      startHandleRef.current = await audioManager.play(startSoundUrl, { volume: Math.max(0, Math.min(1, soundVolume ?? 0.2)) });
       hasPlayedStartSoundRef.current = true;
     } catch (err) {
       console.warn('Overlay start sound play failed:', err);
     }
-  }, []);
+  }, [soundVolume]);
 
   const playLoadingSound = useCallback(async () => {
-    if (!loadingSoundRef.current || hasPlayedLoadingSoundRef.current) return;
+    if (hasPlayedLoadingSoundRef.current) return;
     try {
-      loadingSoundRef.current.currentTime = 0;
-      await loadingSoundRef.current.play();
+      loadingHandleRef.current?.stop();
+      loadingHandleRef.current = await audioManager.play(loadingSoundUrl, { volume: Math.max(0, Math.min(1, soundVolume ?? 0.3)) });
       hasPlayedLoadingSoundRef.current = true;
     } catch (err) {
       console.warn('Overlay loading sound play failed:', err);
     }
-  }, []);
+  }, [soundVolume]);
 
   // 記憶化的 FeedCard 屬性以減少重渲染（用於 loading/positioning 階段）
   const feedCardProps = useMemo(() => ({
@@ -346,50 +347,14 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     };
   }, [open]);
 
-  // 初始化/更新開場音效
+  // 預載開場音效（Web Audio）
   useEffect(() => {
-    startSoundRef.current = new Audio(startSoundUrl);
-    startSoundRef.current.preload = 'auto';
-    startSoundRef.current.volume = Math.max(0, Math.min(1, soundVolume ?? 0.2));
-
-    const onCanPlay = () => {};
-    const onError = (e: any) => {
-      console.error('FeedDetailOverlay start sound load failed:', e);
-    };
-
-    startSoundRef.current.addEventListener('canplaythrough', onCanPlay);
-    startSoundRef.current.addEventListener('error', onError);
-
-    return () => {
-      if (startSoundRef.current) {
-        startSoundRef.current.removeEventListener('canplaythrough', onCanPlay);
-        startSoundRef.current.removeEventListener('error', onError);
-        startSoundRef.current = null;
-      }
-    };
+    audioManager.preload(startSoundUrl).catch(() => {});
   }, [soundVolume]);
 
-  // 初始化/更新 loading 音效
+  // 預載 loading 音效（Web Audio）
   useEffect(() => {
-    loadingSoundRef.current = new Audio(loadingSoundUrl);
-    loadingSoundRef.current.preload = 'auto';
-    loadingSoundRef.current.volume = Math.max(0, Math.min(1, soundVolume ?? 0.3));
-
-    const onCanPlay = () => {};
-    const onError = (e: any) => {
-      console.error('FeedDetailOverlay loading sound load failed:', e);
-    };
-
-    loadingSoundRef.current.addEventListener('canplaythrough', onCanPlay);
-    loadingSoundRef.current.addEventListener('error', onError);
-
-    return () => {
-      if (loadingSoundRef.current) {
-        loadingSoundRef.current.removeEventListener('canplaythrough', onCanPlay);
-        loadingSoundRef.current.removeEventListener('error', onError);
-        loadingSoundRef.current = null;
-      }
-    };
+    audioManager.preload(loadingSoundUrl).catch(() => {});
   }, [soundVolume]);
 
   // 分階段動畫邏輯：loading → positioning → expanding → ready
@@ -404,14 +369,9 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
       setScrollMaskOpacity(0.8);
       hasPlayedStartSoundRef.current = false;
       hasPlayedLoadingSoundRef.current = false;
-      if (startSoundRef.current) {
-        startSoundRef.current.pause();
-        startSoundRef.current.currentTime = 0;
-      }
-      if (loadingSoundRef.current) {
-        loadingSoundRef.current.pause();
-        loadingSoundRef.current.currentTime = 0;
-      }
+      // 停止播放中的音效
+      startHandleRef.current?.stop();
+      loadingHandleRef.current?.stop();
       if (loadingAnimationRef.current) {
         cancelAnimationFrame(loadingAnimationRef.current);
         loadingAnimationRef.current = null;
