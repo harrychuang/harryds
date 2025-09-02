@@ -4,6 +4,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import PixelText from './PixelText';
+import PixelText2D from './PixelText2D';
 import './PixelText.scss';
 
 const meta = {
@@ -387,6 +388,131 @@ export const AllSymbolsShowcase: Story = {
 **其他符號** (5個): ﹅ ⟨ ⟩ [ ] ⎢
 
 總計支援 **73 個字符**（包含空格），不支援的字符會顯示為空格並在控制台警告。`,
+      },
+    },
+  },
+};
+
+// ============================================================================= 
+// CANVAS 2D 版本的 DEMO - 使用 2D Canvas 替代 WebGL
+// =============================================================================
+
+export const Canvas2DDefault: Story = {
+  name: 'Canvas2D',
+  render: (args) => <PixelText2D {...args} />,
+  args: {
+    text: 'CANVAS2D',
+    textEnabled: true,
+    textBoxEnabled: true,
+    textBox: 'NO WEBGL LIMITS',
+    textBoxWidth: 6,
+    textBoxPadding: 1.5,
+    marqueeEnabled: true,
+    marqueeSpeed: 15,
+    marqueePause: 500,
+    animated: true,
+    durationTime: 600,
+    animationDelay: 100,
+    easeGlitch: true,
+    pixelSize: 5,
+    pixelGap: 0,
+    letterSpacing: 1,
+    width: 700,
+    height: 120,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `使用 2D Canvas API 渲染的 PixelText，解決 WebGL context 限制問題。
+        
+**主要優勢:**
+- 🔄 無 WebGL context 數量限制
+- 🚀 可同時渲染多個實例
+- 📱 更好的設備相容性
+- ⚡ 保持相同的 API 與功能
+
+與原版 PixelText 功能完全相同，包括：亂碼動畫、跑馬燈效果、text-box 功能等。`,
+      },
+    },
+  },
+};
+
+export const Canvas2DVsWebGL: Story = {
+  name: 'Canvas2D vs WebGL',
+  args: {
+    text: 'DEMO', // 不會使用，但為了滿足 TypeScript 要求
+  },
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', alignItems: 'start' }}>
+      <div style={{ textAlign: 'center' }}>
+        <h3 style={{ margin: '0 0 20px 0', color: '#000' }}>WebGL</h3>
+        <PixelText
+          text="WEBGL"
+          textEnabled={true}
+          textBoxEnabled={true}
+          textBox="THREE.JS"
+          textBoxWidth={4}
+          textBoxPadding={2}
+          animated={true}
+          durationTime={500}
+          animationDelay={100}
+          easeGlitch={true}
+          pixelSize={2}
+          letterSpacing={1}
+          width={350}
+          height={80}
+          primaryColor="#000"
+          onPrimaryColor="#fff"
+        />
+        <div style={{ marginTop: '15px', fontSize: '12px', color: '#666', lineHeight: '1.4' }}>
+          <strong>優勢：</strong> 高性能、3D 支援<br/>
+          <strong>限制：</strong> WebGL context 數量限制
+        </div>
+      </div>
+      
+      <div style={{ textAlign: 'center' }}>
+        <h3 style={{ margin: '0 0 20px 0', color: '#000' }}>Canvas2D</h3>
+        <PixelText2D
+          text="CANVAS2D"
+          textEnabled={true}
+          textBoxEnabled={true}
+          textBox="NO LIMITS"
+          textBoxWidth={5}
+          textBoxPadding={2}
+          animated={true}
+          durationTime={500}
+          animationDelay={100}
+          easeGlitch={true}
+          pixelSize={2}
+          letterSpacing={1}
+          width={350}
+          height={80}
+          primaryColor="#000"
+          onPrimaryColor="#FFFFFF"
+        />
+        <div style={{ marginTop: '15px', fontSize: '12px', color: '#666', lineHeight: '1.4' }}>
+          <strong>優勢：</strong> 無數量限制、廣泛相容<br/>
+          <strong>特色：</strong> 相同 API、完整功能
+        </div>
+      </div>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: `直觀比較兩個版本的差異。兩者使用相同的 API，但底層渲染技術不同：
+
+| 特點 | PixelText (WebGL) | PixelText2D (Canvas) |
+|------|-------------------|---------------------|
+| **性能** | 高（GPU 加速） | 中等（CPU 渲染） |
+| **實例限制** | 有限制（~16-32個） | 無限制 |
+| **設備支援** | 需要 WebGL | 廣泛支援 |
+| **記憶體使用** | 較低 | 較高 |
+| **功能完整度** | 完整 | 完整 |
+
+**選擇建議：**
+- 少量實例且要求高性能 → 選 PixelText
+- 多個實例或相容性優先 → 選 PixelText2D`,
       },
     },
   },

@@ -3,6 +3,7 @@
 // =============================================================================
 
 export { default as PixelText } from './PixelText';
+export { default as PixelText2D } from './PixelText2D';
 export type { PixelTextProps } from './PixelText';
 
 // 匯出字體相關工具函數和類型
