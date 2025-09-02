@@ -34,7 +34,8 @@ export const Playground: React.FC = () => {
   useEffect(() => {
     if (!playgroundRef.current) return;
     
-    const activeCardId = openCardId || hoveredCardId;
+    // 優先考慮正在 loading 的卡片，然後是 hover 的卡片
+    const activeCardId = (openCardId && openCardAnimationPhase === 'loading') ? openCardId : (openCardId || hoveredCardId);
     if (activeCardId) {
       const activeItem = items.find(item => item.id === activeCardId);
       if (activeItem && activeItem.secondaryColor) {
@@ -46,7 +47,7 @@ export const Playground: React.FC = () => {
       playgroundRef.current.style.backgroundColor = '';
       playgroundRef.current.style.transition = 'background-color 0.3s ease';
     }
-  }, [openCardId, hoveredCardId, items]);
+  }, [openCardId, hoveredCardId, openCardAnimationPhase, items]);
   
   // 開啟卡片的處理函數
   const handleOpenCard = useCallback((cardId: number) => {
@@ -162,7 +163,14 @@ export const Playground: React.FC = () => {
                 onMouseLeave={handleCardLeave}
                 style={{ 
                   cursor: 'pointer',
-                  opacity: hoveredCardId && hoveredCardId !== item.id ? 0.2 : 1,
+                  opacity: (() => {
+                    // 如果有卡片正在 loading，只有該卡片保持不透明，其他都變透明
+                    if (openCardId && openCardAnimationPhase === 'loading') {
+                      return openCardId === item.id ? 1 : 0.2;
+                    }
+                    // 一般 hover 邏輯
+                    return hoveredCardId && hoveredCardId !== item.id ? 0.2 : 1;
+                  })(),
                   transition: 'opacity 0.3s ease'
                 }}
               >
