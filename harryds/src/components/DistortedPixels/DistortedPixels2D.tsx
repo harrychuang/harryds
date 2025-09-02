@@ -452,7 +452,7 @@ const DistortedPixels2D = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
     };
   }, [src]);
 
-  // 滾動事件註冊
+  // 滾動事件註冊（支援 scrollContainer 於初始為 null，之後再切換）
   useEffect(() => {
     let ticking = false;
     const onScroll = () => {
@@ -465,22 +465,49 @@ const DistortedPixels2D = forwardRef<HTMLDivElement, DistortedPixelsProps>(({
       }
     };
 
+    const resolveTarget = (): HTMLElement | null => {
+      if (!scrollContainer) return null;
+      return scrollContainer instanceof HTMLElement ? scrollContainer : scrollContainer.current;
+    };
+
     let scrollElement: HTMLElement | Window = window;
-    if (scrollContainer) {
-      const container = scrollContainer instanceof HTMLElement ? scrollContainer : scrollContainer.current;
-      if (container) scrollElement = container;
-    }
 
-    // 初始化滾動值
-    if (scrollElement === window) {
-      scrollYRef.current = window.pageYOffset || document.documentElement.scrollTop;
-    } else {
-      scrollYRef.current = (scrollElement as HTMLElement).scrollTop;
-    }
-    lastScrollTimeRef.current = performance.now();
+    const attach = (el: HTMLElement | Window) => {
+      // 初始化滾動值
+      if (el === window) {
+        scrollYRef.current = window.pageYOffset || document.documentElement.scrollTop;
+      } else {
+        scrollYRef.current = (el as HTMLElement).scrollTop;
+      }
+      lastScrollTimeRef.current = performance.now();
+      (el as any).addEventListener('scroll', onScroll, { passive: true } as AddEventListenerOptions);
+    };
 
-    scrollElement.addEventListener('scroll', onScroll, { passive: true } as AddEventListenerOptions);
-    return () => scrollElement.removeEventListener('scroll', onScroll as EventListener);
+    const detach = (el: HTMLElement | Window) => {
+      (el as any).removeEventListener('scroll', onScroll as EventListener);
+    };
+
+    // 先綁定 window，確保有事件來源
+    attach(scrollElement);
+
+    // 嘗試在下一幀與之後輪詢切換到正確的容器
+    const tryBind = () => {
+      const target = resolveTarget();
+      if (target && target !== scrollElement) {
+        detach(scrollElement);
+        scrollElement = target;
+        attach(scrollElement);
+      }
+    };
+
+    const rafId = requestAnimationFrame(tryBind);
+    const intervalId = window.setInterval(tryBind, 300);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearInterval(intervalId);
+      detach(scrollElement);
+    };
   }, [updateScrollVelocity, scrollContainer]);
 
   // 當 objectFit 改變時，若為 responsive 需要更新高度

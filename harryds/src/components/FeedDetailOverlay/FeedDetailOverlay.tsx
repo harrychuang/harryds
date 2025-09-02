@@ -12,7 +12,7 @@ import type { FeedCardSize } from '../FeedCard/FeedCard';
 import { FeedCardInfo } from '../FeedCard';
 import type { FeedCardInfoData } from '../FeedCard';
 import type { FeedContentBlock } from '../../types/feed';
-import { DistortedPixels } from '../DistortedPixels';
+import { DistortedPixels2D } from '../DistortedPixels';
 import { PixelText } from '../PixelText';
 import './FeedDetailOverlay.scss';
 // import startSoundUrl from '../../../assets/sound/8-Bit Sound Effect.mp3';
@@ -80,14 +80,15 @@ const OptimizedDistortedPixels = memo<{
   const [isLoaded, setIsLoaded] = useState(false);
   return (
     <div className={`fdo-image-container ${isLoaded ? 'is-loaded' : 'is-loading'}`.trim()}>
-      <DistortedPixels 
-        src={src} 
+      <DistortedPixels2D
+        src={src}
         objectFit="responsive"
-        direction="x"
-        maxPixelation={60}
-        maxDistortion={0.8}
-        scrollSensitivity={0.2}
-        decaySpeed={0.96}
+        direction="y"
+        maxPixelation={150}
+        maxDistortion={1.5}
+        scrollSensitivity={0.1}
+        decaySpeed={0.9}
+        maxPixelRatio={4}
         scrollContainer={scrollContainer}
         onLoad={() => setIsLoaded(true)}
       />
