@@ -20,13 +20,14 @@ const meta = {
       },
     },
     controls: {
-      include: ['src', 'size', 'height', 'padding', 'infoMaxWidth', 'className'],
+      include: ['src', 'size', 'height', 'padding', 'infoMaxWidth', 'use2D', 'className'],
       exclude: ['children'],
     },
   },
   tags: ['autodocs'],
   argTypes: {
     src: { control: 'text', description: '背景圖片 URL' },
+    use2D: { control: 'boolean', description: '切換使用 2D Canvas 版 PixelImage' },
     size: {
       control: { type: 'radio' },
       options: ['hero', 'med', 'sm', 'xs'],
@@ -64,6 +65,7 @@ export const Default: Story = {
   args: {
     src: new URL(`../../../assets/imgs/${items[0].heroImage}`, import.meta.url).href,
     size: 'hero',
+    use2D: false,
     secondaryColor: items[0].secondaryColor,
     padding: 40,
     infoMaxWidth: 1600,

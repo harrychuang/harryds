@@ -5,7 +5,7 @@
 // =============================================================================
 
 import React, { CSSProperties, createContext, forwardRef, useState, useRef, useEffect } from 'react';
-import { PixelImage } from '../PixelImage';
+import { PixelImage, PixelImage2D } from '../PixelImage';
 import type { PixelImageProps } from '../PixelImage';
 import FeedCardInfo from './FeedCardInfo';
 import type { FeedCardInfoData } from './FeedCardInfo';
@@ -51,6 +51,8 @@ export interface FeedCardProps {
   forceHovered?: boolean;
   /** 禁用滑鼠 hover 事件 */
   disableHover?: boolean;
+  /** 使用 2D Canvas 版本的 PixelImage（預設 false，使用 WebGL 版） */
+  use2D?: boolean;
 }
 
 const SIZE_TO_HEIGHT: Record<FeedCardSize, number> = {
@@ -82,6 +84,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   soundVolume = 0.3,
   forceHovered = false,
   disableHover = false,
+  use2D = false,
 }, ref) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hasPlayedSoundInCurrentHover, setHasPlayedSoundInCurrentHover] = useState(false);
@@ -212,13 +215,23 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
       }}
     >
       <div className="feed-card__bg">
-        <PixelImage 
-          src={finalSrc} 
-          {...mergedBgProps}
-          hoverActive={explicitHoverActive !== undefined ? explicitHoverActive : actualIsHovered} 
-          // DEBUG: 明確的 pixelSize 傳遞
-          pixelSize={mergedBgProps.pixelSize}
-        />
+        {use2D ? (
+          <PixelImage2D
+            src={finalSrc}
+            {...mergedBgProps}
+            hoverActive={explicitHoverActive !== undefined ? explicitHoverActive : actualIsHovered}
+            // DEBUG: 明確的 pixelSize 傳遞
+            pixelSize={mergedBgProps.pixelSize}
+          />
+        ) : (
+          <PixelImage 
+            src={finalSrc} 
+            {...mergedBgProps}
+            hoverActive={explicitHoverActive !== undefined ? explicitHoverActive : actualIsHovered} 
+            // DEBUG: 明確的 pixelSize 傳遞
+            pixelSize={mergedBgProps.pixelSize}
+          />
+        )}
       </div>
 
       <div className="feed-card__overlay">
