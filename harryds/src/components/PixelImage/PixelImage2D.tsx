@@ -402,7 +402,7 @@ const PixelImage2D = forwardRef<HTMLDivElement, PixelImageProps>(({
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundColor: desaturateUntilHover ? 'var(--hds-sys-color-theme-mask)' : ((maskColor as string) || 'var(--hds-sys-color-theme-mask)'),
+          backgroundColor: (maskColor as string) || 'var(--hds-sys-color-theme-mask)',
           opacity: desaturateUntilHover ? Math.max(0, Math.min(1, maskOpacity)) : 0,
           pointerEvents: 'none',
           transition: `opacity ${Math.max(0, Math.floor(hoverPixelDuration || 0))}ms cubic-bezier(0.215, 0.61, 0.355, 1)`,
