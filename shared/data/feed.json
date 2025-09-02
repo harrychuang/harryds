@@ -31,8 +31,15 @@
       "secondaryColor": "#0A1D2E",
       "heroImage": "demo/project-demo-5.jpg",
       "content": [
-        { "type": "heading", "level": 1, "content": "UNTITLED PROJECT #2" },
-        { "type": "paragraph", "content": "Short intro paragraph for project 02." }
+        { "type": "heading", "level": 1, "content": "PIXEL PLAYGROUND" },
+        { "type": "paragraph", "content": "Cras non nisl id nibh sollicitudin bibendum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae." },
+        { "type": "image", "src": "demo/project-demo-3.jpg", "alt": "hero" },
+        { "type": "heading", "level": 2, "content": "Design Goals" },
+        { "type": "list", "items": ["Responsive pixel aesthetics", "Performance friendly effects", "Scalable components"] },
+        { "type": "image", "src": "demo/project-demo-1.jpg", "alt": "detail-1" },
+        { "type": "heading", "level": 2, "content": "Process" },
+        { "type": "paragraph", "content": "Integer placerat lectus vel lectus pharetra, non posuere sem convallis. Maecenas in arcu in justo varius porttitor." },
+        { "type": "image", "src": "demo/project-demo-6.jpg", "alt": "detail-2" }
       ]
     },
     {
@@ -45,8 +52,15 @@
       "secondaryColor": "#0A1A0A",
       "heroImage": "demo/project-demo-6.jpg",
       "content": [
-        { "type": "heading", "level": 1, "content": "Project 03" },
-        { "type": "paragraph", "content": "Short intro paragraph for project 03." }
+        { "type": "heading", "level": 1, "content": "INTERACTIVE CASE STUDY" },
+        { "type": "paragraph", "content": "Aenean imperdiet nunc non tempor laoreet. In et sem id neque volutpat fermentum sit amet id lectus." },
+        { "type": "image", "src": "demo/project-demo-2.jpg", "alt": "hero" },
+        { "type": "heading", "level": 2, "content": "Design Goals" },
+        { "type": "list", "items": ["Playful motion", "Readable typography", "Consistent color system"] },
+        { "type": "image", "src": "demo/project-demo-4.jpg", "alt": "detail-1" },
+        { "type": "heading", "level": 2, "content": "Process" },
+        { "type": "paragraph", "content": "Curabitur fringilla, augue ut suscipit pulvinar, erat lacus posuere turpis, id suscipit velit leo vel purus." },
+        { "type": "image", "src": "demo/project-demo-5.jpg", "alt": "detail-2" }
       ]
     },
     {
@@ -59,8 +73,15 @@
       "secondaryColor": "#2D0721",
       "heroImage": "demo/project-demo-2.jpg",
       "content": [
-        { "type": "heading", "level": 1, "content": "Project 04" },
-        { "type": "paragraph", "content": "Short intro paragraph for project 04." }
+        { "type": "heading", "level": 1, "content": "EXPERIMENTAL DESIGN" },
+        { "type": "paragraph", "content": "Duis at velit ut eros iaculis fermentum. Pellentesque habitant morbi tristique senectus et netus." },
+        { "type": "image", "src": "demo/project-demo-6.jpg", "alt": "hero" },
+        { "type": "heading", "level": 2, "content": "Design Goals" },
+        { "type": "list", "items": ["Editorial layout", "Accessible interactions", "Performance friendly effects"] },
+        { "type": "image", "src": "demo/project-demo-3.jpg", "alt": "detail-1" },
+        { "type": "heading", "level": 2, "content": "Process" },
+        { "type": "paragraph", "content": "Integer placerat lectus vel lectus pharetra, non posuere sem convallis. Maecenas in arcu in justo varius porttitor." },
+        { "type": "image", "src": "demo/project-demo-1.jpg", "alt": "detail-2" }
       ]
     },
     {
@@ -73,8 +94,15 @@
       "secondaryColor": "#14002D",
       "heroImage": "demo/project-demo-3.jpg",
       "content": [
-        { "type": "heading", "level": 1, "content": "Project 05" },
-        { "type": "paragraph", "content": "Short intro paragraph for project 05." }
+        { "type": "heading", "level": 1, "content": "VISUAL SYSTEMS" },
+        { "type": "paragraph", "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae arcu ac neque commodo aliquet." },
+        { "type": "image", "src": "demo/project-demo-2.jpg", "alt": "hero" },
+        { "type": "heading", "level": 2, "content": "Design Goals" },
+        { "type": "list", "items": ["Scalable components", "Responsive pixel aesthetics", "Readable typography"] },
+        { "type": "image", "src": "demo/project-demo-5.jpg", "alt": "detail-1" },
+        { "type": "heading", "level": 2, "content": "Process" },
+        { "type": "paragraph", "content": "Aenean imperdiet nunc non tempor laoreet. In et sem id neque volutpat fermentum sit amet id lectus." },
+        { "type": "image", "src": "demo/project-demo-4.jpg", "alt": "detail-2" }
       ]
     },
     {
@@ -87,8 +115,15 @@
       "secondaryColor": "#050B1A",
       "heroImage": "demo/project-demo-4.jpg",
       "content": [
-        { "type": "heading", "level": 1, "content": "Project 06" },
-        { "type": "paragraph", "content": "Short intro paragraph for project 06." }
+        { "type": "heading", "level": 1, "content": "UNTITLED PROJECT #06" },
+        { "type": "paragraph", "content": "Curabitur fringilla, augue ut suscipit pulvinar, erat lacus posuere turpis, id suscipit velit leo vel purus." },
+        { "type": "image", "src": "demo/project-demo-1.jpg", "alt": "hero" },
+        { "type": "heading", "level": 2, "content": "Design Goals" },
+        { "type": "list", "items": ["Accessible interactions", "Playful motion", "Consistent color system"] },
+        { "type": "image", "src": "demo/project-demo-6.jpg", "alt": "detail-1" },
+        { "type": "heading", "level": 2, "content": "Process" },
+        { "type": "paragraph", "content": "Integer placerat lectus vel lectus pharetra, non posuere sem convallis. Maecenas in arcu in justo varius porttitor." },
+        { "type": "image", "src": "demo/project-demo-3.jpg", "alt": "detail-2" }
       ]
     },
     {
@@ -115,8 +150,15 @@
       "secondaryColor": "#1A2B33",
       "heroImage": "demo/project-demo-6.jpg",
       "content": [
-        { "type": "heading", "level": 1, "content": "Project 08" },
-        { "type": "paragraph", "content": "Short intro paragraph for project 08." }
+        { "type": "heading", "level": 1, "content": "PIXEL JOURNEY" },
+        { "type": "paragraph", "content": "Duis at velit ut eros iaculis fermentum. Pellentesque habitant morbi tristique senectus et netus." },
+        { "type": "image", "src": "demo/project-demo-5.jpg", "alt": "hero" },
+        { "type": "heading", "level": 2, "content": "Design Goals" },
+        { "type": "list", "items": ["Performance friendly effects", "Scalable components", "Editorial layout"] },
+        { "type": "image", "src": "demo/project-demo-2.jpg", "alt": "detail-1" },
+        { "type": "heading", "level": 2, "content": "Process" },
+        { "type": "paragraph", "content": "Aenean imperdiet nunc non tempor laoreet. In et sem id neque volutpat fermentum sit amet id lectus." },
+        { "type": "image", "src": "demo/project-demo-1.jpg", "alt": "detail-2" }
       ]
     },
     {
@@ -129,8 +171,15 @@
       "secondaryColor": "#042A35",
       "heroImage": "demo/project-demo-5.jpg",
       "content": [
-        { "type": "heading", "level": 1, "content": "Project 09" },
-        { "type": "paragraph", "content": "Short intro paragraph for project 09." }
+        { "type": "heading", "level": 1, "content": "UNTITLED PROJECT #09" },
+        { "type": "paragraph", "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae arcu ac neque commodo aliquet." },
+        { "type": "image", "src": "demo/project-demo-4.jpg", "alt": "hero" },
+        { "type": "heading", "level": 2, "content": "Design Goals" },
+        { "type": "list", "items": ["Responsive pixel aesthetics", "Accessible interactions", "Readable typography"] },
+        { "type": "image", "src": "demo/project-demo-6.jpg", "alt": "detail-1" },
+        { "type": "heading", "level": 2, "content": "Process" },
+        { "type": "paragraph", "content": "Curabitur fringilla, augue ut suscipit pulvinar, erat lacus posuere turpis, id suscipit velit leo vel purus." },
+        { "type": "image", "src": "demo/project-demo-2.jpg", "alt": "detail-2" }
       ]
     }
   ]

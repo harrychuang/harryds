@@ -7,7 +7,7 @@ import './Playground.scss';
 import { FeedDetailOverlay } from '@components/FeedDetailOverlay';
 import { Logo } from '@components/Logo';
 import type { FeedCardSize } from '@components/FeedCard/FeedCard';
-import type { FeedItem } from '../../types/feed';
+import type { FeedItem, FeedContentBlock } from '../../types/feed';
 import feed from '../../../../shared/data/feed.json';
 
 export const Playground: React.FC = () => {
@@ -144,6 +144,15 @@ export const Playground: React.FC = () => {
           {items.slice(0, 9).map((item, index) => {
             const size = getSizeByIndex(index);
             const src = resolveSrc(item.heroImage);
+            const rawBlocks: FeedContentBlock[] | undefined =
+              Array.isArray(item.content)
+                ? (item.content as FeedContentBlock[])
+                : (typeof item.content === 'string'
+                    ? ([{ type: 'paragraph', content: item.content }] as FeedContentBlock[])
+                    : undefined);
+            const resolvedBlocks = rawBlocks
+              ? rawBlocks.map((b) => (b.type === 'image' ? { ...b, src: resolveSrc(b.src) } : b))
+              : undefined;
             return (
               <div 
                 key={item.id} 
@@ -175,6 +184,7 @@ export const Playground: React.FC = () => {
                   infoMaxWidth={1600}
                   infoData={{ id: item.id, heading: item.heading, date: item.date, tags: item.tags, category: item.category }}
                   primaryColor={item.primaryColor}
+                  contentBlocks={resolvedBlocks}
                   use2D={size === 'xs'}
                 />
               </div>
