@@ -177,13 +177,15 @@
   }
 
   &__body {
+    display: flex;
+    justify-content: center;
     position: relative;
     width: 100%;
     // 半透明背景提高文字可讀性
     background: rgba(10, 10, 10, 0);
     // backdrop-filter: blur(8px);
     color: var(--on-hds-sys-color-surface, #fff);
-    padding: 32px 40px 80px;
+    padding: 32px 0px 80px;
     
     // 只在 ready 階段應用 flex 相關樣式，並添加進入動畫
     .feed-detail-overlay--ready & {
@@ -197,10 +199,11 @@
     }
 
     .fdo-article {
+      width: 100%;
       max-width: 1600px;
-      margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr;
+      padding: 0 40px;
       gap: 20px;
 
       h1 {
