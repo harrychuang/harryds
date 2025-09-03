@@ -52,6 +52,52 @@
     row-gap: 50px; // 每一個 row 的間距
     column-gap: 0px; // 同一列卡片之間的間距
 
+    // 預設透明度與過渡，透過 CSS 變數控制 stagger
+    --pg-stagger-step: 30ms;
+    --pg-fade-duration: 300ms;
+    --pg-dim-opacity: 0.2;
+
+    .pg-card {
+      transition: opacity var(--pg-fade-duration) ease;
+      opacity: 1;
+    }
+
+    // JS 控制的 stagger 模式（避免一次性觸發太多動畫）
+    &.js-stagger-mode {
+      .pg-card { opacity: var(--pg-dim-opacity); }
+      .pg-card:hover { opacity: 1; }
+      .pg-card.dimmed { opacity: var(--pg-dim-opacity); }
+    }
+    &.js-stagger-loading {
+      .pg-card { opacity: var(--pg-dim-opacity); }
+      .pg-card[data-open="true"] { opacity: 1; }
+      .pg-card.dimmed { opacity: var(--pg-dim-opacity); }
+    }
+
+    // 仍保留 :has() 作為 fallback，但在 JS 模式存在時不生效
+    &:not(.js-stagger-mode):not(.js-stagger-loading) {
+      // 當有 hover（且沒有 open）時，非 hover 卡片逐步變透明
+      &:has(.pg-card:hover):not(:has(.pg-card[data-open="true"])) {
+        .pg-card { opacity: var(--pg-dim-opacity); }
+        .pg-card:hover { opacity: 1; }
+        .pg-card { transition-delay: calc(var(--stagger-index, 0) * var(--pg-stagger-step)); }
+      }
+
+      // 當有 openId 且處於 loading 狀態時，只有開啟的卡片維持不透明，其餘逐步降低
+      &[data-phase="loading"][data-open-id] {
+        .pg-card { opacity: var(--pg-dim-opacity); transition-delay: calc(var(--stagger-index, 0) * var(--pg-stagger-step)); }
+        .pg-card[data-open="true"] { opacity: 1; transition-delay: 0ms; }
+      }
+    }
+
+    // 可及性：若使用者偏好減少動效，移除延遲與縮短持續時間
+    @media (prefers-reduced-motion: reduce) {
+      .pg-card {
+        transition-duration: 120ms;
+        transition-delay: 0ms !important;
+      }
+    }
+
     .pg-card {
       width: 100%;
       &--hero {

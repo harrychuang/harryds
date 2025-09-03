@@ -27,6 +27,8 @@ export const Playground: React.FC = () => {
   // 保存原始 playground 背景顏色和引用
   const originalPlaygroundBackgroundRef = useRef<string>('');
   const playgroundRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const staggerTimeoutsRef = useRef<number[]>([]);
   
   // Logo 音效播放控制
   const logoHoverHandleRef = useRef<PlaybackHandle | null>(null);
@@ -152,14 +154,79 @@ export const Playground: React.FC = () => {
     setOpenCardAnimationPhase(phase);
   }, []);
   
+  // 監聽 loading 階段，以 JS 逐批淡出非開啟卡片（並在切換時恢復/重建 hover 效果）
+  useEffect(() => {
+    const root = contentRef.current;
+    if (!root) return;
+    // 先清理既有排程與狀態
+    staggerTimeoutsRef.current.forEach((id) => clearTimeout(id));
+    staggerTimeoutsRef.current = [];
+    root.querySelectorAll<HTMLElement>('.pg-card.dimmed').forEach((el) => el.classList.remove('dimmed'));
+    root.classList.remove('js-stagger-mode');
+
+    if (openCardId && openCardAnimationPhase === 'loading') {
+      root.classList.add('js-stagger-loading');
+      const cards = Array.from(root.querySelectorAll<HTMLElement>('.pg-card'));
+      const others = cards.filter((el) => Number(el.dataset.id) !== openCardId);
+      const stepMs = 25;
+      others.forEach((el, i) => {
+        const t = window.setTimeout(() => {
+          el.classList.add('dimmed');
+        }, i * stepMs);
+        staggerTimeoutsRef.current.push(t);
+      });
+    } else {
+      root.classList.remove('js-stagger-loading');
+      if (!openCardId && hoveredCardId) {
+        root.classList.add('js-stagger-mode');
+        const targetId = hoveredCardId;
+        const cards = Array.from(root.querySelectorAll<HTMLElement>('.pg-card'));
+        const others = cards.filter((el) => Number(el.dataset.id) !== targetId && el.dataset.open !== 'true');
+        const stepMs = 25;
+        others.forEach((el, i) => {
+          const t = window.setTimeout(() => {
+            el.classList.add('dimmed');
+          }, i * stepMs);
+          staggerTimeoutsRef.current.push(t);
+        });
+      }
+    }
+  }, [openCardId, openCardAnimationPhase, hoveredCardId]);
+  
   // Hover 處理函數
   const handleCardHover = useCallback((cardId: number) => {
     if (openCardId) return; // 如果有卡片開啟，忽略 hover
     setHoveredCardId(cardId);
+    // JS 逐批淡出：減少同時間觸發的過渡數量
+    const root = contentRef.current;
+    if (!root) return;
+    // 清理前一次排程
+    staggerTimeoutsRef.current.forEach((id) => clearTimeout(id));
+    staggerTimeoutsRef.current = [];
+    root.classList.remove('js-stagger-loading');
+    root.classList.add('js-stagger-mode');
+    // 先移除既有 dimmed
+    root.querySelectorAll<HTMLElement>('.pg-card.dimmed').forEach((el) => el.classList.remove('dimmed'));
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('.pg-card'));
+    const others = cards.filter((el) => Number(el.dataset.id) !== cardId && el.dataset.open !== 'true');
+    const stepMs = 25;
+    others.forEach((el, i) => {
+      const t = window.setTimeout(() => {
+        el.classList.add('dimmed');
+      }, i * stepMs);
+      staggerTimeoutsRef.current.push(t);
+    });
   }, [openCardId]);
   
   const handleCardLeave = useCallback(() => {
     setHoveredCardId(null);
+    const root = contentRef.current;
+    if (!root) return;
+    // 清理與還原
+    staggerTimeoutsRef.current.forEach((id) => clearTimeout(id));
+    staggerTimeoutsRef.current = [];
+    root.classList.remove('js-stagger-mode');
+    root.querySelectorAll<HTMLElement>('.pg-card.dimmed').forEach((el) => el.classList.remove('dimmed'));
   }, []);
 
   // 計算 Logo 應該使用的顏色（開啟狀態優先於 hover 狀態）
@@ -231,7 +298,13 @@ export const Playground: React.FC = () => {
         </div>
       </header>
       <div className="playground__container">
-        <div className="playground__content">
+        <div
+          className="playground__content"
+          data-phase={openCardAnimationPhase}
+          data-open-id={openCardId ?? undefined}
+          data-hover-id={hoveredCardId ?? undefined}
+          ref={contentRef}
+        >
           {items.slice(0, 9).map((item, index) => {
             const size = getSizeByIndex(index);
             const src = resolveSrc(item.heroImage);
@@ -248,21 +321,12 @@ export const Playground: React.FC = () => {
               <div 
                 key={item.id} 
                 className={`pg-card pg-card--${size}`.trim()}
+                data-id={item.id}
+                data-open={openCardId === item.id ? 'true' : undefined}
                 onClick={() => handleOpenCard(item.id)}
                 onMouseEnter={() => handleCardHover(item.id)}
                 onMouseLeave={handleCardLeave}
-                style={{ 
-                  cursor: 'pointer',
-                  opacity: (() => {
-                    // 如果有卡片正在 loading，只有該卡片保持不透明，其他都變透明
-                    if (openCardId && openCardAnimationPhase === 'loading') {
-                      return openCardId === item.id ? 1 : 0.2;
-                    }
-                    // 一般 hover 邏輯
-                    return hoveredCardId && hoveredCardId !== item.id ? 0.2 : 1;
-                  })(),
-                  transition: 'opacity 0.3s ease'
-                }}
+                style={{ cursor: 'pointer', ['--stagger-index' as any]: index } as React.CSSProperties}
               >
                 <FeedDetailOverlay
                   open={openCardId === item.id}
