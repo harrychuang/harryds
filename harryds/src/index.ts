@@ -5,5 +5,5 @@
 // 元件匯出
 export * from './components';
 
-// 頁面匯出
-export * from './pages';
+// 頁面匯出（暫不對外，以避免 monorepo 外部專案的 alias 解析問題）
+// export * from './pages';
