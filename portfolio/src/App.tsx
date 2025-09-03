@@ -7,8 +7,8 @@ const App: React.FC = () => {
     <div className="app">
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* category: article | project; id+slug SEO */}
-        <Route path=":category/:idSlug" element={<Home />} />
+        {/* category: article | project; id + slug SEO */}
+        <Route path=":category/:id/:slug" element={<Home />} />
       </Routes>
     </div>
   );

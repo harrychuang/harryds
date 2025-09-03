@@ -102,7 +102,7 @@ const Home: React.FC = () => {
 
   const toItemUrl = useCallback((item: FeedItem) => {
     const slug = slugify(item.heading);
-    return `/${item.category}/${item.id}-${slug}`;
+    return `/${item.category}/${item.id}/${slug}`;
   }, []);
 
   const handleOpenCard = useCallback((cardId: number) => {
@@ -246,14 +246,13 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     // 將 URL 狀態反映到 openCardId
-    const idSlug = params.idSlug; // 格式: "{id}-{slug}"
+    const idParam = params.id; // 單獨的 id
     const category = params.category as 'article' | 'project' | undefined;
-    if (!idSlug || !category) {
+    if (!idParam || !category) {
       setOpenCardId(null);
       return;
     }
-    const match = idSlug.match(/^(\d+)-/);
-    const id = match ? Number(match[1]) : NaN;
+    const id = Number(idParam);
     if (!id || Number.isNaN(id)) {
       setOpenCardId(null);
       return;
@@ -264,7 +263,7 @@ const Home: React.FC = () => {
     } else {
       setOpenCardId(null);
     }
-  }, [params.idSlug, params.category, items]);
+  }, [params.id, params.category, items]);
 
   return (
     <div ref={homeRef} className="home">

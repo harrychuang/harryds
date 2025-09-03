@@ -1,5 +1,9 @@
+@import 'hds/styles/tokens.scss';
+
 :root {
   color-scheme: light dark;
+  /* Bridge var name used by pages to HDS token name */
+  --hds-sys-color-on-theme-surface: var(--on-hds-sys-color-theme-surface);
 }
 
 html, body, #root {
