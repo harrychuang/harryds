@@ -1,0 +1,18 @@
+{
+  "nav": { "home": "Home", "about": "About" },
+  "home": {
+    "title": "Works",
+    "subtitle": "Showcasing projects and articles"
+  },
+  "about": {
+    "title": "About",
+    "intro": "Hi, I'm Harry. This is my personal website.",
+    "pixelTitle": "ABOUT HARRY"
+  },
+  "brand": {
+    "harry": "HARRY",
+    "tagline": "NOEINOI DESIGN"
+  }
+}
+
+

@@ -1,0 +1,18 @@
+{
+  "nav": { "home": "ホーム", "about": "紹介" },
+  "home": {
+    "title": "作品",
+    "subtitle": "プロジェクトと記事を紹介します"
+  },
+  "about": {
+    "title": "紹介",
+    "intro": "こんにちは、Harryです。こちらは私のサイトです。",
+    "pixelTitle": "HARRYについて"
+  },
+  "brand": {
+    "harry": "HARRY",
+    "tagline": "NOEINOI DESIGN"
+  }
+}
+
+
