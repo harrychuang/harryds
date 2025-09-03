@@ -1,0 +1,110 @@
+// =============================================================================
+// HOME 頁面樣式（從 Playground.scss 複製並調整命名空間）
+// =============================================================================
+
+.home {
+  min-height: 100vh;
+  padding: 50px 50px;
+  background: var(--hds-sys-color-on-theme-surface);
+  color: var(--hds-sys-color-theme-surface);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  &__header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    z-index: 1100; // 確保在 FeedDetailOverlay 之上
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    
+    .header-content {
+      max-width: 1600px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding-top: 100px;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    row-gap: 50px;
+    column-gap: 0px;
+
+    // 變數與轉場
+    --pg-stagger-step: 30ms;
+    --pg-fade-duration: 300ms;
+    --pg-dim-opacity: 0.2;
+
+    .pg-card {
+      transition: opacity var(--pg-fade-duration) ease;
+      opacity: 1;
+    }
+
+    &.js-stagger-mode {
+      .pg-card { opacity: var(--pg-dim-opacity); }
+      .pg-card:hover { opacity: 1; }
+      .pg-card.dimmed { opacity: var(--pg-dim-opacity); }
+    }
+    &.js-stagger-loading {
+      .pg-card { opacity: var(--pg-dim-opacity); }
+      .pg-card[data-open="true"] { opacity: 1; }
+      .pg-card.dimmed { opacity: var(--pg-dim-opacity); }
+    }
+
+    &:not(.js-stagger-mode):not(.js-stagger-loading) {
+      &:has(.pg-card:hover):not(:has(.pg-card[data-open="true"])) {
+        .pg-card { opacity: var(--pg-dim-opacity); }
+        .pg-card:hover { opacity: 1; }
+        .pg-card { transition-delay: calc(var(--stagger-index, 0) * var(--pg-stagger-step)); }
+      }
+
+      &[data-phase="loading"][data-open-id] {
+        .pg-card { opacity: var(--pg-dim-opacity); transition-delay: calc(var(--stagger-index, 0) * var(--pg-stagger-step)); }
+        .pg-card[data-open="true"] { opacity: 1; transition-delay: 0ms; }
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pg-card {
+        transition-duration: 120ms;
+        transition-delay: 0ms !important;
+      }
+    }
+
+    .pg-card {
+      width: 100%;
+      &--hero { grid-column: span 6; }
+      &--med { grid-column: span 3; }
+      &--sm { grid-column: span 2; }
+      &--xs { grid-column: span 2; }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 24px;
+    
+    &__header {
+      padding: 0 24px;
+      
+      .header-content { max-width: none; }
+    }
+    
+    &__content {
+      grid-template-columns: 1fr;
+      .pg-card { grid-column: 1 / -1; }
+    }
+  }
+}
+
+

@@ -7,14 +7,16 @@ export default defineConfig({
   resolve: {
     alias: {
       hds: resolve(__dirname, '../harryds/src'),
-      '@hds': resolve(__dirname, '../harryds/src')
+      '@hds': resolve(__dirname, '../harryds/src'),
+      shared: resolve(__dirname, '../shared')
     }
   },
   server: {
     fs: {
       allow: [
         resolve(__dirname),
-        resolve(__dirname, '..', 'harryds')
+        resolve(__dirname, '..', 'harryds'),
+        resolve(__dirname, '..', 'shared')
       ]
     }
   }

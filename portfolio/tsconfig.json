@@ -13,7 +13,10 @@
     "baseUrl": ".",
     "paths": {
       "hds": ["../harryds/src/index.ts"],
-      "hds/*": ["../harryds/src/*"]
+      "hds/*": ["../harryds/src/*"],
+      "@hds/*": ["../harryds/src/*"],
+      "shared": ["../shared"],
+      "shared/*": ["../shared/*"]
     },
     "strict": true
   },
