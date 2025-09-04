@@ -27,6 +27,8 @@ export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | '
   onClose?: () => void;
   /** 動畫階段變化回調 */
   onAnimationPhaseChange?: (phase: 'closed' | 'loading' | 'positioning' | 'expanding' | 'ready') => void;
+  /** 初次或再次開啟時的起始階段（預設 loading） */
+  initialPhase?: 'loading' | 'expanding' | 'ready';
   /** hero 區高度（vh），預設 75 */
   heroHeightVH?: number;
   /** 關閉/初始狀態時 FeedCard/FeedCardInfo 使用的尺寸（hero/med/sm/xs），開啟時將統一使用 hero */
@@ -106,6 +108,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   open = false,
   onClose,
   onAnimationPhaseChange,
+  initialPhase = 'loading',
   content,
   contentBlocks,
   className = '',
@@ -381,46 +384,63 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
 
     // 開啟時：先記錄原始位置，然後開始 loading
     captureOriginalPosition();
-    setAnimationPhase('loading');
-    setIsLoading(true);
-    setLoadingProgress(0);
-    playLoadingSound();
+    if (initialPhase === 'loading') {
+      setAnimationPhase('loading');
+      setIsLoading(true);
+      setLoadingProgress(0);
+      playLoadingSound();
 
-    // 使用 requestAnimationFrame 優化動畫性能
-    const totalDuration = 2500; // 總時長 2.5 秒
-    loadingStartTimeRef.current = performance.now();
-
-    const updateProgress = (currentTime: number) => {
-      const elapsed = currentTime - loadingStartTimeRef.current;
-      const progress = Math.min(100, Math.round((elapsed / totalDuration) * 100));
-      
-      if (progress < 100) {
-        setLoadingProgress(progress);
-        loadingAnimationRef.current = requestAnimationFrame(updateProgress);
-      } else {
-        // Loading 完成，開始分階段動畫
-        setLoadingProgress(100);
-        setIsLoading(false);
-        
-        // 直接進入擴展階段，避免 hero 先在下方再上升
-        requestAnimationFrame(() => {
-          playStartSound();
-          setAnimationPhase('expanding');
-          
-          // 擴展完成後顯示內容
-          setTimeout(() => {
-            setAnimationPhase('ready');
-          }, 900); // 800ms expanding + 100ms buffer
-        });
-      }
-    };
-
-    // 初始延遲後開始動畫
-    const startDelay = 200;
-    setTimeout(() => {
+      // 使用 requestAnimationFrame 優化動畫性能
+      const totalDuration = 2500; // 總時長 2.5 秒
       loadingStartTimeRef.current = performance.now();
-      loadingAnimationRef.current = requestAnimationFrame(updateProgress);
-    }, startDelay);
+
+      const updateProgress = (currentTime: number) => {
+        const elapsed = currentTime - loadingStartTimeRef.current;
+        const progress = Math.min(100, Math.round((elapsed / totalDuration) * 100));
+        
+        if (progress < 100) {
+          setLoadingProgress(progress);
+          loadingAnimationRef.current = requestAnimationFrame(updateProgress);
+        } else {
+          // Loading 完成，開始分階段動畫
+          setLoadingProgress(100);
+          setIsLoading(false);
+          
+          // 直接進入擴展階段，避免 hero 先在下方再上升
+          requestAnimationFrame(() => {
+            playStartSound();
+            setAnimationPhase('expanding');
+            
+            // 擴展完成後顯示內容
+            setTimeout(() => {
+              setAnimationPhase('ready');
+            }, 900); // 800ms expanding + 100ms buffer
+          });
+        }
+      };
+
+      // 初始延遲後開始動畫
+      const startDelay = 200;
+      setTimeout(() => {
+        loadingStartTimeRef.current = performance.now();
+        loadingAnimationRef.current = requestAnimationFrame(updateProgress);
+      }, startDelay);
+    } else if (initialPhase === 'expanding') {
+      setIsLoading(false);
+      setLoadingProgress(100);
+      requestAnimationFrame(() => {
+        playStartSound();
+        setAnimationPhase('expanding');
+        setTimeout(() => {
+          setAnimationPhase('ready');
+        }, 900);
+      });
+    } else {
+      // initialPhase === 'ready'
+      setIsLoading(false);
+      setLoadingProgress(100);
+      setAnimationPhase('ready');
+    }
 
     return () => {
       if (loadingAnimationRef.current) {
@@ -428,7 +448,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         loadingAnimationRef.current = null;
       }
     };
-  }, [open, captureOriginalPosition, playStartSound, playLoadingSound]);
+  }, [open, captureOriginalPosition, playStartSound, playLoadingSound, initialPhase]);
 
   // 記憶化的 renderBlocks 函數以減少重渲染
   const renderBlocks = useCallback((blocks: FeedContentBlock[]) => {
@@ -617,7 +637,7 @@ export const FeedDetailOverlay = memo(FeedDetailOverlayComponent, (prevProps, ne
   // 自定義比較函數，只有在關鍵 props 變化時才重渲染
   const keyProps = [
     'open', 'heroHeightVH', 'sizeWhenClosed', 'src', 'padding', 
-    'primaryColor', 'secondaryColor', 'infoMaxWidth', 'className', 'use2D'
+    'primaryColor', 'secondaryColor', 'infoMaxWidth', 'className', 'use2D', 'initialPhase'
   ] as const;
   
   for (const prop of keyProps) {

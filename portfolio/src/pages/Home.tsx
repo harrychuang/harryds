@@ -25,6 +25,7 @@ const Home: React.FC = () => {
   const [hoveredCardId, setHoveredCardId] = useState<number | null>(null);
   const [openCardAnimationPhase, setOpenCardAnimationPhase] = useState<'closed' | 'loading' | 'positioning' | 'expanding' | 'ready'>('closed');
   const [isLogoHovered, setIsLogoHovered] = useState<boolean>(false);
+  const loadedCardIdsRef = useRef<Set<number>>(new Set());
 
   const originalHomeBackgroundRef = useRef<string>('');
   const homeRef = useRef<HTMLDivElement>(null);
@@ -134,8 +135,15 @@ const Home: React.FC = () => {
   }, [playLogoClickSound, openCardId, openCardAnimationPhase, handleCloseCard]);
 
   const handleAnimationPhaseChange = useCallback((phase: 'closed' | 'loading' | 'positioning' | 'expanding' | 'ready') => {
+    console.log(`Animation phase changed to: ${phase}, openCardId: ${openCardId}`);
     setOpenCardAnimationPhase(phase);
-  }, []);
+    // 當動畫到達 ready 階段時，記錄該卡片已載入過
+    if (phase === 'ready' && openCardId != null) {
+      console.log(`Adding card ${openCardId} to loaded set`);
+      loadedCardIdsRef.current.add(openCardId);
+      console.log(`Loaded cards after add:`, Array.from(loadedCardIdsRef.current));
+    }
+  }, [openCardId]);
 
   useEffect(() => {
     const root = contentRef.current;
@@ -339,6 +347,11 @@ const Home: React.FC = () => {
                   primaryColor={item.primaryColor}
                   contentBlocks={resolvedBlocks}
                   use2D={size === 'xs'}
+                  initialPhase={(() => {
+                    const hasLoaded = loadedCardIdsRef.current.has(item.id);
+                    console.log(`Card ${item.id}: hasLoaded=${hasLoaded}, loadedIds:`, Array.from(loadedCardIdsRef.current));
+                    return hasLoaded ? 'ready' : 'loading';
+                  })()}
                 />
               </div>
             );
