@@ -34,6 +34,7 @@ const PixelText2D = forwardRef<HTMLDivElement, PixelTextProps>(({
   textBox = '',
   textBoxWidth = 5,
   textBoxPadding = 2,
+  textBoxBottomPaddingOffset = 0,
   marqueeEnabled = true,
   marqueeSpeed = 25,
   marqueePause = 300,
@@ -154,7 +155,7 @@ const PixelText2D = forwardRef<HTMLDivElement, PixelTextProps>(({
     }
 
     return { totalWidth, totalHeight, charCount };
-  }, [displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding, pixelSize, pixelGap, letterSpacing, getCharWidth, swapTextAndBox]);
+  }, [displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding, textBoxBottomPaddingOffset, pixelSize, pixelGap, letterSpacing, getCharWidth, swapTextAndBox]);
 
   // 計算跑馬燈是否需要啟用
   const marqueeData = useMemo(() => {
@@ -318,8 +319,8 @@ const PixelText2D = forwardRef<HTMLDivElement, PixelTextProps>(({
     if (!marqueeData.needsMarquee) return;
 
     setIsMarqueeActive(true);
-    setMarqueeOffset(0);
-    marqueeOffsetFloatRef.current = 0;
+    // 注意：不重置 marqueeOffset 以避免突然跳回起始位置的重置感
+    // 讓跑馬燈從當前位置繼續運行，提供更平滑的體驗
     marqueeLastFrameTimeRef.current = null;
 
     marqueeTimerRef.current = setTimeout(() => {
@@ -606,7 +607,7 @@ const PixelText2D = forwardRef<HTMLDivElement, PixelTextProps>(({
       const backgroundWidth = displayContentWidth + leftPaddingPixels + rightPaddingPixels;
       
       const topPaddingPixels = verticalPaddingPixels;
-      const bottomPaddingPixels = Math.max(0, verticalPaddingPixels - pixelSize);
+      const bottomPaddingPixels = Math.max(0, verticalPaddingPixels - pixelSize + (textBoxBottomPaddingOffset * pixelSize));
       const textPixelHeight = CHAR_HEIGHT * pixelWithGap - pixelGap;
       const backgroundHeight = textPixelHeight + topPaddingPixels + bottomPaddingPixels;
       
@@ -747,7 +748,7 @@ const PixelText2D = forwardRef<HTMLDivElement, PixelTextProps>(({
       renderTextBox();
     }
   }, [
-    displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding,
+    displayText, text, textEnabled, displayTextBox, textBox, textBoxEnabled, textBoxWidth, textBoxPadding, textBoxBottomPaddingOffset,
     pixelSize, pixelGap, letterSpacing, width, height, sceneData, marqueeData, isMarqueeActive, marqueeOffset,
     getCharWidth, swapTextAndBox, resolvedPrimaryColor, resolvedOnPrimaryColor, drawPixel
   ]);

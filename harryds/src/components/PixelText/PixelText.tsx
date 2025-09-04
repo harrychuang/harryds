@@ -55,6 +55,8 @@ export interface PixelTextProps {
   textBoxWidth?: number;
   /** text-box 的內邊距（pixelSize 的倍數） */
   textBoxPadding?: number;
+  /** text-box 底部 padding 的偏移量（相對於 textBoxPadding，以 pixelSize 為單位） */
+  textBoxBottomPaddingOffset?: number;
 
   /** 當為 true 時，text 與 text-box 位置交換（text-box 在左、text 在右） */
   swapTextAndBox?: boolean;
