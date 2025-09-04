@@ -10,6 +10,7 @@ export interface FeedItem {
   date: string;
   tags: string[];
   category: FeedCategory;
+  brand?: string;
   primaryColor?: string;
   secondaryColor?: string;
   heroImage?: string; // 圖片 URL（可對應 PixelImage 的 src）

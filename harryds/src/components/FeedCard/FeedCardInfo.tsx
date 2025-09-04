@@ -33,8 +33,8 @@ export interface FeedCardInfoProps {
 }
 
 export interface FeedCardInfoData {
-  /** 數字型 id，會顯示為 8 位二進位 */
-  id: number;
+  /** 數字型 id 或品牌名稱，id 會顯示為 8 位二進位，品牌名稱直接顯示 */
+  id: number | string;
   /** 標題 */
   heading: string;
   /** 日期（字串） */
@@ -190,7 +190,10 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
   // 顯示的文字內容
   const displayedHeading = isHovered ? computedHeading.slice(0, displayedChars) : computedHeading;
 
-  const idText = useMemo(() => padTo8Bits(computedIndex), [computedIndex]);
+  const idText = useMemo(() => {
+    // 如果 id 是字串（brand），直接顯示；如果是數字，轉換為 8 位二進位
+    return typeof computedIndex === 'string' ? computedIndex : padTo8Bits(computedIndex);
+  }, [computedIndex]);
   // 將標籤映射為「符號 + 原文字」，並以單一空白分隔各組
   const TAG_SYMBOL_MAP: Record<string, string> = {
     'UI': '▲',

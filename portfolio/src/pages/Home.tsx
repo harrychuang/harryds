@@ -316,6 +316,10 @@ const Home: React.FC = () => {
             const resolvedBlocks = rawBlocks
               ? rawBlocks.map((b) => (b.type === 'image' ? { ...b, src: resolveSrc(b.src) } : b))
               : undefined;
+            
+            // 當 hover 或打開時顯示 brand，否則顯示 id
+            const displayId = ((hoveredCardId === item.id || openCardId === item.id) && item.brand) ? item.brand : item.id;
+            
             return (
               <div 
                 key={item.id} 
@@ -343,7 +347,7 @@ const Home: React.FC = () => {
                   }}
                   secondaryColor={item.secondaryColor}
                   infoMaxWidth={1600}
-                  infoData={{ id: item.id, heading: item.heading, date: item.date, tags: item.tags, category: item.category }}
+                  infoData={{ id: displayId, heading: item.heading, date: item.date, tags: item.tags, category: item.category }}
                   primaryColor={item.primaryColor}
                   contentBlocks={resolvedBlocks}
                   use2D={size === 'xs'}
