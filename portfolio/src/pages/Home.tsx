@@ -8,6 +8,7 @@ import feed from 'shared/data/feed.json';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
+import { useSmartPreload, usePreloadDebug } from '../hooks/useSmartPreload';
 
 const slugify = (text: string) => text
   .toLowerCase()
@@ -20,12 +21,33 @@ const Home: React.FC = () => {
   const params = useParams();
   const navigate = useNavigate();
   const items = useMemo(() => (feed as any).items as FeedItem[], []);
+  const { log } = usePreloadDebug();
+
+  // 智能預載配置
+  const preloadConfig = useMemo(() => ({
+    hoverDelay: 300,      // 300ms 後開始預載
+    timeout: 5000,        // 5秒超時
+    enabled: true,        // 啟用預載
+    maxConcurrent: 2,     // 最多同時預載 2 個
+  }), []);
+
+  const {
+    onHoverStart,
+    onHoverEnd,
+    isPreloaded,
+    getStats,
+    clearCache
+  } = useSmartPreload(preloadConfig);
 
   const [openCardId, setOpenCardId] = useState<number | null>(null);
   const [hoveredCardId, setHoveredCardId] = useState<number | null>(null);
   const [openCardAnimationPhase, setOpenCardAnimationPhase] = useState<'closed' | 'loading' | 'positioning' | 'expanding' | 'ready'>('closed');
   const [isLogoHovered, setIsLogoHovered] = useState<boolean>(false);
   const loadedCardIdsRef = useRef<Set<number>>(new Set());
+
+  // 性能統計顯示（僅開發環境）
+  const [showStats, setShowStats] = useState(false);
+  const statsInterval = useRef<number>();
 
   const originalHomeBackgroundRef = useRef<string>('');
   const homeRef = useRef<HTMLDivElement>(null);
@@ -36,6 +58,21 @@ const Home: React.FC = () => {
   const logoClickHandleRef = useRef<PlaybackHandle | null>(null);
   const hasPlayedLogoHoverSoundRef = useRef<boolean>(false);
   const hasPlayedLogoClickSoundRef = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      statsInterval.current = window.setInterval(() => {
+        const stats = getStats();
+        log('預載統計', stats);
+      }, 5000);
+
+      return () => {
+        if (statsInterval.current) {
+          clearInterval(statsInterval.current);
+        }
+      };
+    }
+  }, [getStats, log]);
 
   useEffect(() => {
     if (!originalHomeBackgroundRef.current && homeRef.current) {
@@ -184,6 +221,12 @@ const Home: React.FC = () => {
 
   const handleCardHover = useCallback((cardId: number) => {
     if (openCardId) return;
+    
+    // 開始智能預載
+    onHoverStart(cardId);
+    log(`開始預載卡片 ${cardId}`);
+    
+    // 原有的 hover 邏輯
     setHoveredCardId(cardId);
     const root = contentRef.current;
     if (!root) return;
@@ -201,9 +244,16 @@ const Home: React.FC = () => {
       }, i * stepMs);
       staggerTimeoutsRef.current.push(t);
     });
-  }, [openCardId]);
+  }, [openCardId, onHoverStart, log]);
 
   const handleCardLeave = useCallback(() => {
+    // 取消預載
+    if (hoveredCardId) {
+      onHoverEnd(hoveredCardId);
+      log(`取消預載卡片 ${hoveredCardId}`);
+    }
+    
+    // 原有的 leave 邏輯
     setHoveredCardId(null);
     const root = contentRef.current;
     if (!root) return;
@@ -211,7 +261,7 @@ const Home: React.FC = () => {
     staggerTimeoutsRef.current = [];
     root.classList.remove('js-stagger-mode');
     root.querySelectorAll<HTMLElement>('.pg-card.dimmed').forEach((el) => el.classList.remove('dimmed'));
-  }, []);
+  }, [hoveredCardId, onHoverEnd, log]);
 
   const logoColors = useMemo(() => {
     const activeCardId = openCardId || hoveredCardId;
@@ -273,8 +323,83 @@ const Home: React.FC = () => {
     }
   }, [params.id, params.category, items]);
 
+  // 🎯 開發環境的性能統計面板
+  const renderDebugPanel = () => {
+    if (process.env.NODE_ENV !== 'development') return null;
+
+    const stats = getStats();
+    
+    return (
+      <div 
+        className="debug-panel"
+        style={{
+          position: 'fixed',
+          top: 10,
+          left: 10,
+          background: 'rgba(0,0,0,0.8)',
+          color: 'white',
+          padding: '10px',
+          borderRadius: '4px',
+          fontSize: '12px',
+          fontFamily: 'monospace',
+          zIndex: 9999,
+          display: showStats ? 'block' : 'none'
+        }}
+      >
+        <div><strong>🎯 智能預載統計</strong></div>
+        <div>預載完成: {stats.preloadCount}</div>
+        <div>快取命中: {stats.cacheHits}</div>
+        <div>取消次數: {stats.cancelledCount}</div>
+        <div>命中率: {stats.hitRate}</div>
+        <div>平均時間: {stats.avgPreloadTime.toFixed(0)}ms</div>
+        <div>進行中: {stats.activeCount}</div>
+        <div>隊列長度: {stats.queueLength}</div>
+        <div>快取大小: {stats.cacheSize}</div>
+        <button 
+          onClick={() => clearCache()}
+          style={{
+            marginTop: '5px',
+            padding: '2px 6px',
+            fontSize: '10px',
+            background: '#ff4444',
+            color: 'white',
+            border: 'none',
+            borderRadius: '2px',
+            cursor: 'pointer'
+          }}
+        >
+          清除快取
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div ref={homeRef} className="home">
+      {renderDebugPanel()}
+      
+      {/* 開發環境的統計切換按鈕 */}
+      {process.env.NODE_ENV === 'development' && (
+        <button
+          onClick={() => setShowStats(!showStats)}
+          style={{
+            position: 'fixed',
+            bottom: 10,
+            left: 10,
+            padding: '5px 10px',
+            background: '#007acc',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '12px',
+            zIndex: 9998
+          }}
+        >
+          {showStats ? '隱藏' : '顯示'} 預載統計
+        </button>
+      )}
+
       <header className="home__header">
         <div className="header-content">
           <div 
@@ -320,16 +445,37 @@ const Home: React.FC = () => {
             // 當 hover 或打開時顯示 brand，否則顯示 id
             const displayId = ((hoveredCardId === item.id || openCardId === item.id) && item.brand) ? item.brand : item.id;
             
+            // 🚀 關鍵優化：使用預載狀態決定初始階段
+            const initialPhase = (() => {
+              const hasLoaded = loadedCardIdsRef.current.has(item.id);
+              const hasPreloaded = isPreloaded(item.id);
+              
+              if (hasLoaded) {
+                log(`卡片 ${item.id} 已完全載入，直接顯示 ready`);
+                return 'ready';
+              } else if (hasPreloaded) {
+                log(`卡片 ${item.id} 已預載，跳過 loading 動畫`);
+                return 'expanding';
+              } else {
+                log(`卡片 ${item.id} 未預載，顯示 loading 動畫`);
+                return 'loading';
+              }
+            })();
+            
             return (
               <div 
                 key={item.id} 
                 className={`pg-card pg-card--${size}`.trim()}
                 data-id={item.id}
                 data-open={openCardId === item.id ? 'true' : undefined}
+                data-preloaded={isPreloaded(item.id) ? 'true' : undefined}
                 onClick={() => handleOpenCard(item.id)}
                 onMouseEnter={() => handleCardHover(item.id)}
                 onMouseLeave={handleCardLeave}
-                style={{ cursor: 'pointer', ['--stagger-index' as any]: index } as React.CSSProperties}
+                style={{ 
+                  cursor: 'pointer', 
+                  ['--stagger-index' as any]: index
+                } as React.CSSProperties}
               >
                 <FeedDetailOverlay
                   open={openCardId === item.id}
@@ -351,11 +497,7 @@ const Home: React.FC = () => {
                   primaryColor={item.primaryColor}
                   contentBlocks={resolvedBlocks}
                   use2D={size === 'xs'}
-                  initialPhase={(() => {
-                    const hasLoaded = loadedCardIdsRef.current.has(item.id);
-                    console.log(`Card ${item.id}: hasLoaded=${hasLoaded}, loadedIds:`, Array.from(loadedCardIdsRef.current));
-                    return hasLoaded ? 'ready' : 'loading';
-                  })()}
+                  initialPhase={initialPhase}
                 />
               </div>
             );
