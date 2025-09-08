@@ -40,7 +40,7 @@ export const Logo = forwardRef<HTMLDivElement, LogoProps>(({
       case 'back':
         return {
           logoText: "BACK",
-          logoTextBox: "<",
+          logoTextBox: "↤",
           swapTextAndBox: true,
           width: 210, // Back 比較短，調整寬度（考慮額外間距）
           height: 40,
