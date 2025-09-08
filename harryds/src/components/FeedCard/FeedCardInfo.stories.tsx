@@ -17,7 +17,7 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: '顯示 FeedCard 文字資訊：二進位編號、標題、日期與標籤（標籤使用 PixelText text-box）。',
+        component: 'Display FeedCard text information: binary ID, title, date, and tags (tags use PixelText text-box).',
       },
     },
     controls: {
@@ -31,11 +31,11 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    data: { control: 'object', description: '資料物件：{ id, heading, date, tags, category }' },
-    size: { control: { type: 'radio' }, options: ['hero', 'med', 'sm', 'xs'], description: '尺寸預設（影響 id/date/tags/heading）' },
-    hovered: { control: 'boolean', description: '覆寫 hover 狀態（true/false）' },
-    primaryColor: { control: 'color', description: '主色（hover 文字色 + 標籤框背景）' },
-    secondaryColor: { control: 'color', description: '次色（hover 標籤框文字色）' },
+    data: { control: 'object', description: 'Data object: { id, heading, date, tags, category }' },
+    size: { control: { type: 'radio' }, options: ['hero', 'med', 'sm', 'xs'], description: 'Size preset (affects id/date/tags/heading)' },
+    hovered: { control: 'boolean', description: 'Override hover state (true/false)' },
+    primaryColor: { control: 'color', description: 'Primary color (hover text color + tag box background)' },
+    secondaryColor: { control: 'color', description: 'Secondary color (hover tag box text color)' },
   },
 } satisfies Meta<typeof FeedCardInfo>;
 

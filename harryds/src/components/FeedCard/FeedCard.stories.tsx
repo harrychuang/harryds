@@ -16,7 +16,7 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: '以 PixelImage 作為背景的卡片。滿寬（max 1600px），內容水平置中，預設 padding 40px，FeedCardInfo 預設 max-width 1600px。',
+        component: 'Card with PixelImage as background. Full width (max 1600px), horizontally centered content, default padding 40px, FeedCardInfo default max-width 1600px.',
       },
     },
     controls: {
@@ -26,16 +26,16 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    src: { control: 'text', description: '背景圖片 URL' },
-    use2D: { control: 'boolean', description: '切換使用 2D Canvas 版 PixelImage' },
+    src: { control: 'text', description: 'Background image URL' },
+    use2D: { control: 'boolean', description: 'Switch to use 2D Canvas version of PixelImage' },
     size: {
       control: { type: 'radio' },
       options: ['hero', 'med', 'sm', 'xs'],
-      description: '卡片尺寸（預設高度：hero 600 / med 500 / sm 400 / xs 240）',
+      description: 'Card size (default heights: hero 600 / med 500 / sm 400 / xs 240)',
     },
-    height: { control: { type: 'number', min: 100, max: 1200, step: 10 }, description: '覆寫高度（px）' },
-    padding: { control: { type: 'range', min: 0, max: 120, step: 2 }, description: '內距（px）' },
-    infoMaxWidth: { control: { type: 'number', min: 200, max: 2000, step: 50 }, description: 'FeedCardInfo 最大寬度（px）' },
+    height: { control: { type: 'number', min: 100, max: 1200, step: 10 }, description: 'Override height (px)' },
+    padding: { control: { type: 'range', min: 0, max: 120, step: 2 }, description: 'Padding (px)' },
+    infoMaxWidth: { control: { type: 'number', min: 200, max: 2000, step: 50 }, description: 'FeedCardInfo max width (px)' },
     className: { control: 'text' },
   },
 } satisfies Meta<typeof FeedCard>;

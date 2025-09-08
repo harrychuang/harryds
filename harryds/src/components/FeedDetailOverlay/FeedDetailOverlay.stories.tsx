@@ -18,32 +18,32 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: `初始/關閉時外觀與 FeedCard 相同；開啟後會先以原始尺寸顯示 FeedCard 並在視窗右上角顯示 PixelText loading（約 2.5 秒），loading 完成後 overlay 切換為 fixed + 全螢幕，FeedCard 擴展為 75vh hero，下方顯示文章內容。整個內容可滾動，文章 max-width 1600px。內容中的圖片使用 responsive 模式自動調整高度。
+        component: `Appearance matches FeedCard when closed/initial state. When opened, first shows FeedCard at original size with PixelText loading in top-right corner (~2.5 seconds), after loading completes overlay switches to fixed + fullscreen, FeedCard expands to 75vh hero, article content displayed below. Entire content is scrollable, article max-width 1600px. Images in content use responsive mode to auto-adjust height.
 
-## Loading 流程
-1. \`open=true\` → Overlay 以 \`position: relative\` 包覆 FeedCard（保持原始尺寸）
-2. 視窗右上角顯示 PixelText loading（文字："LOADING"，進度：0%-100%）
-3. Loading 完成後 overlay 切換為 \`position: fixed + inset: 0\`（佔滿全螢幕）
-4. FeedCard 先拉高到 100vh（pixelSize 調整為 80）
-5. FeedCard 分離為背景層，FeedCardInfo 獨立顯示在 75vh hero 底部
-6. 顯示文章內容
+## Loading Process
+1. \`open=true\` → Overlay wraps FeedCard with \`position: relative\` (maintaining original size)
+2. Top-right corner shows PixelText loading (text: "LOADING", progress: 0%-100%)
+3. After loading completes, overlay switches to \`position: fixed + inset: 0\` (fills entire screen)
+4. FeedCard first stretches to 100vh (pixelSize adjusts to 80)
+5. FeedCard separates into background layer, FeedCardInfo displayed independently at 75vh hero bottom
+6. Show article content
 
-## PixelText Loading 特色  
-- 8-bit 風格的 "LOADING" 文字
-- Text-box 顯示即時進度百分比
-- 始終固定在視窗右上角（position: fixed）
-- 緊湊設計，不干擾主要內容
-- 無背景遮罩，完全透明
+## PixelText Loading Features  
+- 8-bit style "LOADING" text
+- Text-box displays real-time progress percentage
+- Always fixed in top-right corner (position: fixed)
+- Compact design, non-intrusive to main content
+- No background mask, completely transparent
 
-## Position 行為詳細
-- **Loading 期間**: 
-  - Overlay: \`position: relative\`（只包覆 FeedCard，不佔滿畫面）
-  - Loading: \`position: fixed\`（視窗右上角）
-  - 無 backdrop
-- **內容準備後**: 
-  - Overlay: \`position: fixed + inset: 0\`（佔滿全螢幕）
-  - 顯示 backdrop
-  - 可滾動瀏覽`,
+## Position Behavior Details
+- **During Loading**: 
+  - Overlay: \`position: relative\` (only wraps FeedCard, doesn't fill screen)
+  - Loading: \`position: fixed\` (top-right corner)
+  - No backdrop
+- **After Content Ready**: 
+  - Overlay: \`position: fixed + inset: 0\` (fills entire screen)
+  - Show backdrop
+  - Scrollable browsing`,
       },
     },
     controls: {
@@ -52,12 +52,12 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    open: { control: 'boolean', description: '是否開啟 overlay' },
-    heroHeightVH: { control: { type: 'range', min: 40, max: 100, step: 1 }, description: 'hero 高度（vh）' },
-    sizeWhenClosed: { control: { type: 'radio' }, options: ['hero', 'med', 'sm', 'xs'], description: '關閉時 FeedCard/Info 尺寸' },
-    src: { control: 'text', description: '背景圖片 URL（傳入 FeedCard）' },
+    open: { control: 'boolean', description: 'Open overlay or not' },
+    heroHeightVH: { control: { type: 'range', min: 40, max: 100, step: 1 }, description: 'Hero height (vh)' },
+    sizeWhenClosed: { control: { type: 'radio' }, options: ['hero', 'med', 'sm', 'xs'], description: 'FeedCard/Info size when closed' },
+    src: { control: 'text', description: 'Background image URL (passed to FeedCard)' },
     padding: { control: { type: 'range', min: 0, max: 120, step: 2 }, description: 'FeedCard padding' },
-    infoMaxWidth: { control: { type: 'number', min: 200, max: 2000, step: 50 }, description: 'FeedCardInfo 最大寬度（px）' },
+    infoMaxWidth: { control: { type: 'number', min: 200, max: 2000, step: 50 }, description: 'FeedCardInfo max width (px)' },
     className: { control: 'text' },
   },
 } satisfies Meta<typeof FeedDetailOverlay>;
@@ -123,7 +123,7 @@ export const Opened: Story = {
   parameters: {
     docs: {
       description: {
-        story: `展示完整的開啟流程：overlay 以 relative positioning 包覆 FeedCard（原始尺寸），視窗右上角固定顯示 PixelText loading 動畫（約 2.5 秒），loading 完成後 overlay 切換為 fixed + 全螢幕，FeedCard 擴展為 hero 尺寸並顯示完整內容。Loading 使用 8-bit 風格，包含 "LOADING" 文字和動態進度百分比，無背景遮罩設計。`,
+        story: `Demonstrates complete opening process: overlay wraps FeedCard with relative positioning (original size), top-right corner fixed shows PixelText loading animation (~2.5 seconds), after loading completes overlay switches to fixed + fullscreen, FeedCard expands to hero size and displays complete content. Loading uses 8-bit style with "LOADING" text and dynamic progress percentage, no background mask design.`,
       },
     },
   },
@@ -160,12 +160,12 @@ export const LoadingDemo: Story = {
   parameters: {
     docs: {
       description: {
-        story: `專門展示 loading 階段的效果。當設置 open=true 時：
+        story: `Specifically demonstrates loading stage effects. When open=true is set:
 
-1) overlay 以 position: relative 包覆 FeedCard（原始尺寸）
-2) 右上角顯示 PixelText loading
-3) loading 完成後切換為 fixed + 全螢幕，背景使用 PixelImage（pixelSize=80、遮罩使用 secondaryColor）
-4) hero 維持 75vh，FeedCardInfo 置於底部
+1) overlay wraps FeedCard with position: relative (original size)
+2) top-right corner shows PixelText loading
+3) after loading completes, switches to fixed + fullscreen, background uses PixelImage (pixelSize=80, mask uses secondaryColor)
+4) hero maintains 75vh, FeedCardInfo positioned at bottom
         `,
       },
     },

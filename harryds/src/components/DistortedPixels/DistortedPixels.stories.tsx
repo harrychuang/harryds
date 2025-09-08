@@ -18,29 +18,29 @@ const meta = {
     docs: {
       description: {
         component: `
-響應滾動的扭曲像素化圖片元件，當頁面滾動加速時產生垂直撕裂和像素化效果。
+Scroll-responsive distorted pixelated image component that creates vertical tearing and pixelation effects when page scrolling accelerates.
 
-## 特色
-- 🎮 響應滾動速度的動態像素化效果
-- 🌊 垂直撕裂和扭曲動畫
-- ⚡ 使用 Three.js 和自定義著色器高效能渲染
-- 🎛️ 可調整靈敏度、強度和衰減速度
-- 📱 支援響應式設計和行動裝置優化
-- 🔧 內建調試模式顯示效果參數
-- 🎨 支援多種物件填充模式（含 responsive 自動高度模式）
-- 📐 responsive 模式實現類似 HTML img 的 width: 100%, height: auto 效果
+## Features
+- 🎮 Dynamic pixelation effects responsive to scroll speed
+- 🌊 Vertical tearing and distortion animations
+- ⚡ High-performance rendering with Three.js and custom shaders
+- 🎛️ Adjustable sensitivity, intensity and decay speed
+- 📱 Responsive design and mobile device optimization support
+- 🔧 Built-in debug mode showing effect parameters
+- 🎨 Multiple object-fit modes support (includes responsive auto-height mode)
+- 📐 responsive mode achieves HTML img-like width: 100%, height: auto effect
 
-## 使用方式
+## Usage
 
 \`\`\`tsx
 import { DistortedPixels } from 'hds';
 
-// 基本使用
+// Basic usage
 <DistortedPixels 
   src="/path/to/image.jpg"
 />
 
-// 自訂效果參數
+// Custom effect parameters
 <DistortedPixels 
   src="/path/to/image.jpg"
   maxPixelation={80}
@@ -50,32 +50,32 @@ import { DistortedPixels } from 'hds';
   objectFit="cover"
 />
 
-// 響應式模式 - 類似 HTML img 的 width: 100%, height: auto
+// Responsive mode - HTML img-like width: 100%, height: auto
 <DistortedPixels 
   src="/path/to/image.jpg"
   objectFit="responsive"
-  onHeightChange={(height) => console.log('新高度:', height)}
+  onHeightChange={(height) => console.log('New height:', height)}
 />
 
-// 開啟調試模式
+// Enable debug mode
 <DistortedPixels 
   src="/path/to/image.jpg"
   debug={true}
 />
 \`\`\`
 
-## 效果原理
+## Effect Mechanism
 
-1. **滾動檢測**: 監聽頁面滾動事件，計算滾動速度
-2. **像素化**: 根據滾動速度動態調整圖片的像素化程度
-3. **垂直扭曲**: 使用著色器產生從上到下的撕裂效果
-4. **平滑衰減**: 效果會隨時間自然衰減回正常狀態
+1. **Scroll Detection**: Listen to page scroll events, calculate scroll velocity
+2. **Pixelation**: Dynamically adjust image pixelation level based on scroll speed
+3. **Vertical Distortion**: Use shaders to create top-to-bottom tearing effects
+4. **Smooth Decay**: Effects naturally decay back to normal state over time
 
-## 注意事項
+## Notes
 
-- 元件需要滾動頁面才能看到效果，在 Storybook 中可能效果有限
-- 建議在實際頁面中測試以獲得最佳體驗
-- 在行動裝置上會自動降低效果強度以確保效能
+- Component requires page scrolling to see effects, may be limited in Storybook
+- Recommended to test in actual pages for best experience
+- Automatically reduces effect intensity on mobile devices to ensure performance
         `,
       },
     },
@@ -85,53 +85,53 @@ import { DistortedPixels } from 'hds';
     direction: {
       control: { type: 'radio' },
       options: ['y', 'x'],
-      description: '扭曲方向：y 垂直拉扯、x 水平拉扯',
+      description: 'Distortion direction: y vertical tear, x horizontal tear',
       table: { type: { summary: "'x' | 'y'" }, defaultValue: { summary: 'x' } },
     },
     src: {
       control: 'text',
-      description: '圖片 URL（支援跨來源）',
+      description: 'Image URL (supports cross-origin)',
       table: { type: { summary: 'string' } },
     },
     objectFit: {
       control: { type: 'radio' },
       options: ['contain', 'cover', 'fill', 'responsive'],
-      description: '圖片填充模式（responsive: 寬度 100%，高度根據圖片比例自動計算）',
+      description: 'Image fitting mode (responsive: width 100%, height auto-calculated based on image ratio)',
       table: { type: { summary: 'DistortedPixelsObjectFit' }, defaultValue: { summary: 'cover' } },
     },
     maxPixelation: {
       control: { type: 'range', min: 0, max: 200, step: 10 },
-      description: '最大像素化程度（0-200，數值越大像素塊越大）',
+      description: 'Maximum pixelation level (0-200, higher = larger pixel blocks)',
       table: { type: { summary: 'number' }, defaultValue: { summary: '150' } },
     },
     maxDistortion: {
       control: { type: 'range', min: 0, max: 3, step: 0.1 },
-      description: '最大扭曲強度（0-3）',
+      description: 'Maximum distortion intensity (0-3)',
       table: { type: { summary: 'number' }, defaultValue: { summary: '1.5' } },
     },
     scrollSensitivity: {
       control: { type: 'range', min: 0.1, max: 5, step: 0.1 },
-      description: '滾動響應靈敏度（數值越大越敏感）',
+      description: 'Scroll response sensitivity (higher = more sensitive)',
       table: { type: { summary: 'number' }, defaultValue: { summary: '0.3' } },
     },
     decaySpeed: {
       control: { type: 'range', min: 0.9, max: 0.999, step: 0.001 },
-      description: '效果衰減速度（數值越大衰減越快，0.9-0.999）',
+      description: 'Effect decay speed (higher = faster decay, 0.9-0.999)',
       table: { type: { summary: 'number' }, defaultValue: { summary: '0.95' } },
     },
     maxPixelRatio: {
       control: { type: 'range', min: 0.5, max: 12, step: 0.5 },
-      description: 'DPR 上限（避免行動裝置過高像素比造成負擔）',
+      description: 'DPR limit (prevents high pixel ratio burden on mobile devices)',
       table: { type: { summary: 'number' }, defaultValue: { summary: '4' } },
     },
     debug: {
       control: 'boolean',
-      description: '是否啟用調試模式（顯示效果參數）',
+      description: 'Enable debug mode (show effect parameters)',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     className: {
       control: 'text',
-      description: '額外的 CSS 類名',
+      description: 'Additional CSS class name',
       table: { type: { summary: 'string' }, defaultValue: { summary: '""' } },
     },
   },
@@ -140,7 +140,7 @@ import { DistortedPixels } from 'hds';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 容器樣式
+// Container styles
 const containerStyle: React.CSSProperties = {
   width: '100%',
   height: '80vh',
@@ -154,7 +154,7 @@ const imageContainerStyle: React.CSSProperties = {
   borderRadius: '8px'
 };
 
-// 預設範例
+// Default example
 export const Default: Story = {
   render: (args) => (
     <div style={{ ...containerStyle, height: '2000px', paddingTop: '200px' }}>
@@ -177,7 +177,7 @@ export const Default: Story = {
   },
 };
 
-// Responsive 模式範例 - 寬度 100%，高度自動調整
+// Responsive mode example - width 100%, auto-adjust height
 export const ResponsiveMode: Story = {
   render: (args) => (
     <div style={{ 
@@ -194,12 +194,12 @@ export const ResponsiveMode: Story = {
         padding: '20px'
       }}>
         <h3 style={{ margin: '0 0 20px 0', textAlign: 'center' }}>
-          Responsive 模式：圖片會根據容器寬度自動調整高度
+          Responsive mode: Image auto-adjusts height based on container width
         </h3>
         <DistortedPixels 
           {...args}
           onHeightChange={(height) => {
-            console.log('容器高度自動調整為:', height + 'px');
+            console.log('Container height auto-adjusted to:', height + 'px');
           }}
         />
       </div>
@@ -218,7 +218,7 @@ export const ResponsiveMode: Story = {
   },
 };
 
-// 2D Canvas 版本 - 預設範例
+// 2D Canvas version - default example
 export const Default2D: Story = {
   render: (args) => (
     <div style={{ ...containerStyle, height: '2000px', paddingTop: '200px' }}>
@@ -241,7 +241,7 @@ export const Default2D: Story = {
   },
 };
 
-// 2D Canvas 版本 - 與 WebGL 版本對照
+// 2D Canvas version - comparison with WebGL version
 export const Compare2D: Story = {
   render: (args) => (
     <div style={{ ...containerStyle, height: '2200px', paddingTop: '200px' }}>

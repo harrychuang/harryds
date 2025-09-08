@@ -17,7 +17,7 @@ const meta = {
     docs: {
       description: {
         component:
-          '以 Three.js 的 RenderPixelatedPass 將圖片像素化。元件會自動填滿外層容器（fit div），並可控制像素大小與輪廓外框。',
+          'Pixelates images using Three.js RenderPixelatedPass. Component automatically fills the outer container (fit div) with controllable pixel size and outline borders.',
       },
     },
   },
@@ -25,69 +25,69 @@ const meta = {
   argTypes: {
     src: {
       control: 'text',
-      description: '圖片 URL（支援跨來源）',
+      description: 'Image URL (supports cross-origin)',
       table: { type: { summary: 'string' } },
     },
     pixelSize: {
       control: { type: 'range', min: 1, max: 80, step: 1 },
-      description: '像素尺寸（數值越大越粗）',
+      description: 'Pixel size (larger value = chunkier)',
       table: { type: { summary: 'number' }, defaultValue: { summary: 80 } },
     },
     outline: {
       control: 'boolean',
-      description: '是否顯示像素外框',
+      description: 'Show pixel outline',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: true } },
     },
     normalEdgeStrength: {
       control: { type: 'range', min: 0, max: 2, step: 0.05 },
-      description: '外框：法線邊緣強度',
+      description: 'Outline: Normal edge strength',
     },
     depthEdgeStrength: {
       control: { type: 'range', min: 0, max: 2, step: 0.05 },
-      description: '外框：深度邊緣強度',
+      description: 'Outline: Depth edge strength',
     },
     normalTolerance: {
       control: { type: 'range', min: 0, max: 1, step: 0.01 },
-      description: '外框：法線容差',
+      description: 'Outline: Normal tolerance',
     },
     depthTolerance: {
       control: { type: 'range', min: 0, max: 1, step: 0.01 },
-      description: '外框：深度容差',
+      description: 'Outline: Depth tolerance',
     },
     maxPixelRatio: {
       control: { type: 'range', min: 0.5, max: 4, step: 0.25 },
-      description: 'DPR 上限（避免行動裝置過高像素比造成負擔）',
+      description: 'DPR limit (prevents high pixel ratio burden on mobile devices)',
       table: { type: { summary: 'number' }, defaultValue: { summary: 1.5 } },
     },
     maskColor: {
       control: 'color',
-      description: '遮罩顏色（留空 = 使用預設 theme mask token）',
+      description: 'Mask color (empty = use default theme mask token)',
       table: { type: { summary: 'string' }, defaultValue: { summary: '' } },
     },
     maskOpacity: {
       control: { type: 'range', min: 0, max: 1, step: 0.01 },
-      description: '遮罩不透明度（hover 補間到此值）',
+      description: 'Mask opacity (hover interpolates to this value)',
       table: { type: { summary: 'number' }, defaultValue: { summary: 0.8 } },
     },
     objectFit: {
       control: { type: 'radio' },
       options: ['contain', 'cover', 'fill'],
-      description: '圖片填充模式（相當於 CSS object-fit）',
+      description: 'Image fitting mode (equivalent to CSS object-fit)',
     },
     hoverPixelToOne: {
       control: 'boolean',
-      description: '滑鼠懸停時像素大小緩動至 1，移開恢復',
+      description: 'On mouse hover, pixel size eases to 1, restores on leave',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: false } },
     },
     hoverPixelDuration: {
       control: { type: 'range', min: 0, max: 2000, step: 20 },
-      description: '滑鼠懸停像素補間動畫時長（毫秒）',
+      description: 'Mouse hover pixel interpolation animation duration (milliseconds)',
       table: { type: { summary: 'number' }, defaultValue: { summary: 500 } },
     },
     desaturateUntilHover: {
       control: 'boolean',
       description:
-        '非 hover 狀態將彩度降至最低（灰階），當 hoverPixelToOne 開啟且滑鼠懸停時恢復原色',
+        'Minimize saturation (grayscale) in non-hover state. Restore original colors when hoverPixelToOne is enabled and on hover',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: true } },
     },
   },

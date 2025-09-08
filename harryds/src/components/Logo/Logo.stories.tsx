@@ -13,35 +13,35 @@ const meta = {
     docs: {
       description: {
         component: `
-Harry Design Studio 的品牌標誌元件，使用 PixelText2D 實現 8-bit 風格的文字效果。
+Harry Design Studio brand logo component, implementing 8-bit text effects using PixelText2D.
 
-## 特色
-- 🎮 8-bit 像素風格的品牌標誌
-- 🏃 智能跑馬燈效果，展示完整的工作室資訊
-- 🎭 支援亂碼解碼動畫效果，跑馬燈動畫無重置感
-- 🎨 可自訂主題顏色
-- 🔧 可調整各種視覺參數，優化視覺平衡
-- 🖼️ 使用 Canvas2D 渲染，無 WebGL context 限制
-- 📱 更好的設備相容性
+## Features
+- 🎮 8-bit pixel style brand logo
+- 🏃 Smart marquee effect showcasing complete studio information
+- 🎭 Supports glitch decode animation with seamless marquee transitions
+- 🎨 Customizable theme colors
+- 🔧 Adjustable visual parameters for optimal visual balance
+- 🖼️ Canvas2D rendering without WebGL context limitations
+- 📱 Better device compatibility
 
-## 使用方式
+## Usage
 \`\`\`tsx
 import { Logo } from 'hds';
 
-// 基本使用 - 預設品牌標誌
+// Basic usage - default brand logo
 <Logo />
 
-// 返回按鈕樣式
+// Back button style
 <Logo type="back" />
 
-// 自訂顏色
+// Custom colors
 <Logo 
   type="default"
   primaryColor="#FF1246" 
   secondaryColor="#1B2350" 
 />
 
-// 自訂設定  
+// Custom settings  
 <Logo 
   type="default"
   animated={true}
@@ -57,7 +57,7 @@ import { Logo } from 'hds';
     type: {
       control: { type: 'inline-radio' },
       options: ['default', 'back'],
-      description: 'Logo 類型。"default" 顯示品牌標誌，"back" 顯示返回按鈕樣式',
+      description: 'Logo type. "default" shows brand logo, "back" shows back button style',
       table: {
         type: { summary: 'LogoType' },
         defaultValue: { summary: 'default' },
@@ -65,7 +65,7 @@ import { Logo } from 'hds';
     },
     primaryColor: {
       control: { type: 'text' },
-      description: '主色調（主文字顏色 & text-box 背景色）。可使用 CSS 變數，如 var(--hds-sys-color-theme-surface)',
+      description: 'Primary color (main text color & text-box background). Accepts CSS variables like var(--hds-sys-color-theme-surface)',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: 'HDS_TOKENS.themeSurface' },
@@ -73,7 +73,7 @@ import { Logo } from 'hds';
     },
     secondaryColor: {
       control: { type: 'text' },
-      description: '次色調（text-box 文字顏色）。可使用 CSS 變數，如 var(--on-hds-sys-color-theme-surface)',
+      description: 'Secondary color (text-box text color). Accepts CSS variables like var(--on-hds-sys-color-theme-surface)',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: 'HDS_TOKENS.onThemeSurface' },
@@ -82,7 +82,7 @@ import { Logo } from 'hds';
 
     animated: {
       control: 'boolean',
-      description: '是否啟用動畫效果',
+      description: 'Enable animation effects',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
@@ -90,7 +90,7 @@ import { Logo } from 'hds';
     },
     marqueeEnabled: {
       control: 'boolean',
-      description: '是否啟用跑馬燈效果',
+      description: 'Enable marquee effects',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
@@ -101,7 +101,7 @@ import { Logo } from 'hds';
 
     className: {
       control: 'text',
-      description: '額外的 CSS 類名',
+      description: 'Additional CSS class name',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: '""' },
@@ -113,7 +113,7 @@ import { Logo } from 'hds';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 預設範例 - 品牌標誌
+// Default example - brand logo
 export const Default: Story = {
   args: {
     type: 'default',
@@ -122,7 +122,7 @@ export const Default: Story = {
   },
 };
 
-// 返回按鈕樣式
+// Back button style
 export const Back: Story = {
   args: {
     type: 'back',

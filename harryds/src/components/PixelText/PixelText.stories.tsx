@@ -12,7 +12,7 @@ const meta = {
   component: PixelText,
   parameters: {
     layout: 'centered',
-    // 覆蓋全域的 color matcher，避免將 *Color 參數強制轉為 color 控制
+    // Override global color matcher to prevent *Color params from being forced to color controls
     controls: {
       matchers: {
         color: null,
@@ -21,34 +21,34 @@ const meta = {
     docs: {
       description: {
         component: `
-8-bit 風格的像素文字元件，使用 Three.js 渲染正方形粒子組成的文字。
+8-bit pixel text component that renders text using Three.js square particles.
 
-## 特色
-- 🎮 經典 8-bit 像素風格
-- ⚡ 使用 Three.js 高效能渲染
-- 🎨 可自訂顏色、大小和間距
-- 🎭 駭客風格亂碼解碼動畫
-- 🌊 漸慢 ease 動畫效果
-- 📦 支援 text-box 功能（背景色反轉、置中、padding）
-- 🎛️ 獨立的主文字和 text-box 開關控制
-- 📏 智能間距控制（textBoxPadding 同時作為內邊距和元素間距）
-- 🏃 智能跑馬燈效果（無限循環像素級平滑滾動，文字尾巴接著頭部顯示）
-- 🔤 自定義空格寬度（可調整空格字符的顯示寬度）
-- 📱 支援響應式設計
-- ♿ 符合無障礙設計標準
+## Features
+- 🎮 Classic 8-bit pixel style
+- ⚡ High-performance rendering with Three.js
+- 🎨 Customizable colors, sizes, and spacing
+- 🎭 Hacker-style glitch decode animation
+- 🌊 Smooth easing animation effects
+- 📦 Text-box functionality (inverted background color, centered, with padding)
+- 🎛️ Independent toggle controls for main text and text-box
+- 📏 Smart spacing control (textBoxPadding as both padding and element spacing)
+- 🏃 Smart marquee effect (infinite loop with pixel-perfect smooth scrolling, seamless text wrapping)
+- 🔤 Custom space width (adjustable space character width)
+- 📱 Responsive design support
+- ♿ Accessibility compliant
 
-## 使用方式
+## Usage
 \`\`\`tsx
 import { PixelText } from 'hds';
 
-// 基本使用
+// Basic usage
 <PixelText 
   text="HELLO WORLD" 
   primaryColor="#00FF00" 
   pixelSize={6}
 />
 
-// 駭客動畫效果
+// Hacker animation effect
 <PixelText 
   text="DECODING" 
   primaryColor="#00FFAA"
@@ -58,66 +58,67 @@ import { PixelText } from 'hds';
   animationDelay={150}
 />
 
-// Text-Box 功能（置中且含 padding）
+// Text-Box functionality (centered with padding)
 <PixelText 
   text="LEVEL" 
   textBoxEnabled={true}
   textBox="001"
   textBoxWidth={5}
-  textBoxPadding={2}  // 同時控制內邊距和元素間距
+  textBoxPadding={2}  // Controls both padding and element spacing
   primaryColor="#00FF00"
   onPrimaryColor="#FFFFFF"
 />
 
-// 開關控制 - 只顯示 text-box
+// Toggle control - show text-box only
 <PixelText 
   text="HIDDEN TEXT"
-  textEnabled={false}    // 關閉主文字
-  textBoxEnabled={true}  // 啟用 text-box
+  textEnabled={false}    // Disable main text
+  textBoxEnabled={true}  // Enable text-box
   textBox="VISIBLE"
   primaryColor="#FF6B6B"
   onPrimaryColor="#FFFFFF"
 />
 
-// 跑馬燈效果 - 文字過長時自動滾動
+// Marquee effect - auto scroll when text is too long
 <PixelText 
   text="SYSTEM"
   textBoxEnabled={true}
-  textBox="VERY LONG TEXT CONTENT WILL SCROLL"  // 超過 textBoxWidth 會跑馬燈
-  textBoxWidth={8}       // 只顯示 8 個字符寬度
-  marqueeEnabled={true}   // 啟用跑馬燈（預設已啟用）
-  marqueeSpeed={25}       // 跑馬燈速度（毫秒）- 每個像素移動間隔 25ms（無限循環，加速版）
-  marqueePause={600}      // 開始時的暫停時間
-  animated={true}         // 跑馬燈會在亂碼動畫結束後啟動
+  textBox="VERY LONG TEXT CONTENT WILL SCROLL"  // Marquee when exceeds textBoxWidth
+  textBoxWidth={8}       // Show only 8 character width
+  marqueeEnabled={true}   // Enable marquee (enabled by default)
+  marqueeSpeed={25}       // Marquee speed (ms) - 25ms per pixel movement (infinite loop, fast version)
+  marqueePause={600}      // Pause time at start
+  animated={true}         // Marquee starts after glitch animation ends
   primaryColor="#00FFAA"
   onPrimaryColor="#000000"
 />
 
-// 自定義空格寬度 - 控制空格字符顯示寬度
+// Custom space width - control space character display width
 <PixelText 
-  text="HELLO WORLD TEST"    // 包含空格的文字
+  text="HELLO WORLD TEST"    // Text containing spaces
   textBoxEnabled={true}
-  textBox="A B C D"           // text-box 中也有空格
-  spaceWidth={2.5}           // 空格寬度為 letterSpacing 的 2.5 倍
-  letterSpacing={3}          // 字符間距為 3 像素
+  textBox="A B C D"           // Text-box also has spaces
+  spaceWidth={2.5}           // Space width is 2.5x of letterSpacing
+  letterSpacing={3}          // Character spacing is 3 pixels
   primaryColor="#9146FF"
   onPrimaryColor="#FFFFFF"
   pixelSize={5}
 />
 \`\`\`
 
-## 支援字符
-- **英文字母**: A-Z
-- **數字**: 0-9  
-- **標點符號**: , 。 . - ? ! @ ″ „
-- **數學符號**: + × ÷ %
-- **特殊符號**: ‼︎ ⁇
-- **幾何形狀**: ▶︎ ▷ ◆ ● ◼︎ ◻︎
-- **箭頭符號**: ↑ ↓ ← → < > ^ ↧
-- **其他符號**: ﹅ ⟨ ⟩ [ ] ⎢
-- **空格**
+## Supported Characters
+- **Letters**: A-Z
+- **Numbers**: 0-9  
+- **Punctuation**: , 。 . - ? ! @ ″ „
+- **Math symbols**: + × ÷ %
+- **Special symbols**: ‼︎ ⁇
+- **Geometric shapes**: ▶︎ ▷ ◆ ● ◼︎ ◻︎
+- **Arrow symbols**: ↑ ↓ ← → < > ^ ↧
+- **Light & celestial**: ☀︎ ☽
+- **Other symbols**: ﹅ ⟨ ⟩ [ ] ⎢
+- **Space**
 
-總共支援 **73 個字符**，不支援的字符會顯示為空格並在控制台警告。
+Total of **75 characters** supported. Unsupported characters will display as spaces and show warnings in console.
         `,
       },
     },
@@ -130,7 +131,7 @@ import { PixelText } from 'hds';
   argTypes: {
     text: {
       control: 'text',
-      description: '要顯示的文字（支援字母、數字、標點符號、數學符號、幾何形狀、箭頭符號等 73 個字符）',
+      description: 'Text to display (supports letters, numbers, punctuation, math symbols, geometric shapes, arrows, light & celestial symbols - 75 characters total)',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: '""' },
@@ -138,7 +139,7 @@ import { PixelText } from 'hds';
     },
     textEnabled: {
       control: 'boolean',
-      description: '是否啟用主文字顯示',
+      description: 'Enable main text display',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
@@ -146,7 +147,7 @@ import { PixelText } from 'hds';
     },
     pixelSize: {
       control: { type: 'range', min: 1, max: 20, step: 1 },
-      description: '每個像素的大小（像素）',
+      description: 'Size of each pixel (in pixels)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '4' },
@@ -154,7 +155,7 @@ import { PixelText } from 'hds';
     },
     pixelGap: {
       control: { type: 'range', min: 0, max: 10, step: 0.5 },
-      description: '像素之間的間隔',
+      description: 'Gap between pixels',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '0' },
@@ -162,7 +163,7 @@ import { PixelText } from 'hds';
     },
     primaryColor: {
       control: { type: 'text' },
-      description: '主色調（text 文字顏色 & text-box 背景色）。可填入 CSS 變數，如 var(--hds-sys-color-theme-surface)',
+      description: 'Primary color (text color & text-box background). Accepts CSS variables like var(--hds-sys-color-theme-surface)',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: 'var(--hds-sys-color-theme-surface)' },
@@ -170,7 +171,7 @@ import { PixelText } from 'hds';
     },
     onPrimaryColor: {
       control: { type: 'text' },
-      description: '主色調上的文字顏色（text-box 文字顏色）。可填入 CSS 變數，如 var(--on-hds-sys-color-theme-surface)',
+      description: 'Text color on primary (text-box text color). Accepts CSS variables like var(--on-hds-sys-color-theme-surface)',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: 'var(--on-hds-sys-color-theme-surface)' },
@@ -178,7 +179,7 @@ import { PixelText } from 'hds';
     },
     letterSpacing: {
       control: { type: 'range', min: 0, max: 10, step: 1 },
-      description: '字母間距（像素單位）',
+      description: 'Letter spacing (in pixels)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '1' },
@@ -186,7 +187,7 @@ import { PixelText } from 'hds';
     },
     width: {
       control: { type: 'range', min: 100, max: 800, step: 50 },
-      description: 'Canvas 寬度',
+      description: 'Canvas width',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '400' },
@@ -194,7 +195,7 @@ import { PixelText } from 'hds';
     },
     height: {
       control: { type: 'range', min: 50, max: 200, step: 10 },
-      description: 'Canvas 高度',
+      description: 'Canvas height',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '100' },
@@ -203,7 +204,7 @@ import { PixelText } from 'hds';
 
     antialias: {
       control: 'boolean',
-      description: '是否啟用抗鋸齒',
+      description: 'Enable anti-aliasing',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -211,7 +212,7 @@ import { PixelText } from 'hds';
     },
     className: {
       control: 'text',
-      description: '額外的 CSS 類名',
+      description: 'Additional CSS class name',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: '""' },
@@ -219,7 +220,7 @@ import { PixelText } from 'hds';
     },
     animated: {
       control: 'boolean',
-      description: '是否啟用動畫效果',
+      description: 'Enable animation effects',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -228,7 +229,7 @@ import { PixelText } from 'hds';
 
     durationTime: {
       control: { type: 'range', min: 200, max: 5000, step: 100 },
-      description: '每個字母跳動的持續時間（毫秒）',
+      description: 'Duration for each letter animation (milliseconds)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '1000' },
@@ -236,7 +237,7 @@ import { PixelText } from 'hds';
     },
     animationDelay: {
       control: { type: 'range', min: 50, max: 1000, step: 50 },
-      description: '字符間的動畫延遲時間（毫秒）',
+      description: 'Animation delay between characters (milliseconds)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '150' },
@@ -244,7 +245,7 @@ import { PixelText } from 'hds';
     },
     glitchInterval: {
       control: { type: 'range', min: 20, max: 200, step: 10 },
-      description: '亂碼跳動間隔時間（毫秒）- 值越小跳動越快',
+      description: 'Glitch jump interval (milliseconds) - smaller value = faster jumping',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '20' },
@@ -252,7 +253,7 @@ import { PixelText } from 'hds';
     },
     easeGlitch: {
       control: 'boolean',
-      description: '是否啟用漸慢的亂碼動畫效果（一開始快，後來慢）',
+      description: 'Enable ease-out glitch animation (starts fast, ends slow)',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -260,7 +261,7 @@ import { PixelText } from 'hds';
     },
     textBoxEnabled: {
       control: 'boolean',
-      description: '是否啟用 text-box 功能',
+      description: 'Enable text-box functionality',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -268,7 +269,7 @@ import { PixelText } from 'hds';
     },
     textBox: {
       control: 'text',
-      description: 'text-box 要顯示的文字內容（會在主文字右側顯示，背景和文字顏色會反轉）',
+      description: 'Text content for text-box (displays to the right of main text with inverted colors)',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: '""' },
@@ -276,7 +277,7 @@ import { PixelText } from 'hds';
     },
     textBoxWidth: {
       control: { type: 'range', min: 1, max: 20, step: 1 },
-      description: 'text-box 的寬度（用字母數量表示）',
+      description: 'Width of text-box (in character count)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '5' },
@@ -284,7 +285,7 @@ import { PixelText } from 'hds';
     },
     textBoxPadding: {
       control: { type: 'range', min: 0, max: 10, step: 0.5 },
-      description: 'text-box 的內邊距（pixelSize 的倍數）。當 text 和 text-box 同時啟用時，也作為兩者之間的間距',
+      description: 'Text-box padding (multiplier of pixelSize). When both text and text-box are enabled, also serves as spacing between them',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '2' },
@@ -292,7 +293,7 @@ import { PixelText } from 'hds';
     },
     marqueeEnabled: {
       control: 'boolean',
-      description: '是否啟用跑馬燈效果（當 text-box 文字多於寬度時自動滾動）',
+      description: 'Enable marquee effect (auto scroll when text-box content exceeds width)',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
@@ -300,7 +301,7 @@ import { PixelText } from 'hds';
     },
     marqueeSpeed: {
       control: { type: 'range', min: 10, max: 1000, step: 5 },
-      description: '跑馬燈移動速度（毫秒）- 每個像素移動的間隔時間，值越大移動越慢（無限循環模式）',
+      description: 'Marquee movement speed (milliseconds) - interval per pixel movement, higher = slower (infinite loop mode)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '25' },
@@ -308,7 +309,7 @@ import { PixelText } from 'hds';
     },
     marqueePause: {
       control: { type: 'range', min: 0, max: 3000, step: 50 },
-      description: '跑馬燈在開始時的暫停時間（毫秒）- 動畫結束後等待時間',
+      description: 'Marquee pause time at start (milliseconds) - wait time after animation ends',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '300' },
@@ -316,7 +317,7 @@ import { PixelText } from 'hds';
     },
     spaceWidth: {
       control: { type: 'range', min: 0.5, max: 5, step: 0.5 },
-      description: '空格字符的寬度倍數（相對於 letterSpacing 的倍數）',
+      description: 'Space character width multiplier (relative to letterSpacing multiplier)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '2' },
@@ -324,7 +325,7 @@ import { PixelText } from 'hds';
     },
     swapTextAndBox: {
       control: 'boolean',
-      description: '當為 true 時，text 與 text-box 位置交換（text-box 在左、text 在右）',
+      description: 'When true, swap text and text-box positions (text-box on left, text on right)',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -336,7 +337,7 @@ import { PixelText } from 'hds';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 預設範例 - 使用 MarqueeEffect 相同的跑馬燈設定
+// Default example - using same marquee settings as MarqueeEffect
 export const Default: Story = {
   args: {
     text: 'HARRY',
@@ -352,7 +353,7 @@ export const Default: Story = {
     durationTime: 500,
     animationDelay: 120,
     easeGlitch: false,
-    // 使用元件預設的 theme tokens，便於在 Storybook 背景切換時看到顏色反轉
+    // Use component default theme tokens for color inversion when switching Storybook background
     pixelSize: 4,
     pixelGap: 0,
     letterSpacing: 1,
@@ -361,40 +362,83 @@ export const Default: Story = {
   },
 };
 
-// 完整符號集展示 - 按類型分組
-export const AllSymbolsShowcase: Story = {
+// Letters and Numbers showcase
+export const LettersAndNumbers: Story = {
   args: {
-    // 按類型分組，用空格分隔不同類型的字符
-    text: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ   0123456789   ,。.-?!@″„   +×÷%   ‼︎⁇   ▶︎▷◆●◼︎◻︎   ↑↓←→<>^↧   ﹅⟨⟩[]⎢',
-    // 使用預設 theme tokens 以便驗證深色切換
-    pixelSize: 2,
+    text: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ   0123456789',
+    pixelSize: 3,
     pixelGap: 0,
     letterSpacing: 1,
-    width: 1600,
-    height: 150,
+    width: 1200,
+    height: 120,
   },
   parameters: {
     docs: {
       description: {
-        story: `展示 PixelText 元件支援的所有字符和符號，按類型分組顯示：
+        story: `Showcases the English letters and numbers supported by PixelText component:
         
-**字母** (26個): A-Z
-**數字** (10個): 0-9  
-**標點符號** (9個): , 。 . - ? ! @ ″ „
-**數學符號** (4個): + × ÷ %
-**特殊符號** (2個): ‼︎ ⁇
-**幾何形狀** (6個): ▶︎ ▷ ◆ ● ◼︎ ◻︎
-**箭頭符號** (8個): ↑ ↓ ← → < > ^ ↧
-**其他符號** (5個): ﹅ ⟨ ⟩ [ ] ⎢
+**Letters** (26): A-Z  
+**Numbers** (10): 0-9
 
-總計支援 **73 個字符**（包含空格），不支援的字符會顯示為空格並在控制台警告。`,
+These are the most commonly used basic characters, supporting all uppercase English letters and Arabic numerals.`,
+      },
+    },
+  },
+};
+
+// Symbols and Icons showcase
+export const SymbolsAndIcons: Story = {
+  args: {
+    text: ',。.-?!@″„   +×÷%   ‼︎⁇   ▶︎▷◆●◼︎◻︎   ☀︎☽   ﹅⟨⟩[]⎢',
+    pixelSize: 2,
+    pixelGap: 0,
+    letterSpacing: 2,
+    width: 1100,
+    height: 120,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Showcases various symbols and icons supported by PixelText component:
+        
+**Punctuation** (9): , 。 . - ? ! @ ″ „  
+**Math symbols** (4): + × ÷ %  
+**Special symbols** (2): ‼︎ ⁇  
+**Geometric shapes** (6): ▶︎ ▷ ◆ ● ◼︎ ◻︎  
+**Light & celestial** (2): ☀︎ ☽  
+**Other symbols** (5): ﹅ ⟨ ⟩ [ ] ⎢
+
+These symbols can be used to create richer visual effects and information displays.`,
+      },
+    },
+  },
+};
+
+// Arrow Symbols showcase
+export const ArrowSymbols: Story = {
+  args: {
+    text: '↑↓←→ ↤↦↥↧',
+    pixelSize: 4,
+    pixelGap: 0,
+    letterSpacing: 4,
+    width: 600,
+    height: 120,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Showcases arrow symbols supported by PixelText component:
+        
+**Arrow symbols** (8): ↑ ↓ ← → ↤ ↦ ↥ ↧
+
+These arrow symbols are particularly suitable for navigation, direction indication, or creating interactive interface elements. Uses larger pixel size and spacing to highlight the details of each arrow.`,
       },
     },
   },
 };
 
 // ============================================================================= 
-// CANVAS 2D 版本的 DEMO - 使用 2D Canvas 替代 WebGL
+// CANVAS 2D VERSION DEMOS - Using 2D Canvas instead of WebGL
 // =============================================================================
 
 export const Canvas2DDefault: Story = {
@@ -423,15 +467,15 @@ export const Canvas2DDefault: Story = {
   parameters: {
     docs: {
       description: {
-        story: `使用 2D Canvas API 渲染的 PixelText，解決 WebGL context 限制問題。
+        story: `PixelText rendered with 2D Canvas API, solving WebGL context limitations.
         
-**主要優勢:**
-- 🔄 無 WebGL context 數量限制
-- 🚀 可同時渲染多個實例
-- 📱 更好的設備相容性
-- ⚡ 保持相同的 API 與功能
+**Main advantages:**
+- 🔄 No WebGL context count limitations
+- 🚀 Can render multiple instances simultaneously
+- 📱 Better device compatibility
+- ⚡ Maintains same API and functionality
 
-與原版 PixelText 功能完全相同，包括：亂碼動畫、跑馬燈效果、text-box 功能等。`,
+Completely same functionality as original PixelText, including: glitch animations, marquee effects, text-box functionality, etc.`,
       },
     },
   },
@@ -465,8 +509,8 @@ export const Canvas2DVsWebGL: Story = {
           onPrimaryColor="#fff"
         />
         <div style={{ marginTop: '15px', fontSize: '12px', color: '#666', lineHeight: '1.4' }}>
-          <strong>優勢：</strong> 高性能、3D 支援<br/>
-          <strong>限制：</strong> WebGL context 數量限制
+          <strong>Advantages:</strong> High performance, 3D support<br/>
+          <strong>Limitations:</strong> WebGL context count restrictions
         </div>
       </div>
       
@@ -491,8 +535,8 @@ export const Canvas2DVsWebGL: Story = {
           onPrimaryColor="#FFFFFF"
         />
         <div style={{ marginTop: '15px', fontSize: '12px', color: '#666', lineHeight: '1.4' }}>
-          <strong>優勢：</strong> 無數量限制、廣泛相容<br/>
-          <strong>特色：</strong> 相同 API、完整功能
+          <strong>Advantages:</strong> No quantity limits, broad compatibility<br/>
+          <strong>Features:</strong> Same API, complete functionality
         </div>
       </div>
     </div>
@@ -500,19 +544,19 @@ export const Canvas2DVsWebGL: Story = {
   parameters: {
     docs: {
       description: {
-        story: `直觀比較兩個版本的差異。兩者使用相同的 API，但底層渲染技術不同：
+        story: `Visual comparison between the two versions. Both use the same API but different underlying rendering technologies:
 
-| 特點 | PixelText (WebGL) | PixelText2D (Canvas) |
+| Feature | PixelText (WebGL) | PixelText2D (Canvas) |
 |------|-------------------|---------------------|
-| **性能** | 高（GPU 加速） | 中等（CPU 渲染） |
-| **實例限制** | 有限制（~16-32個） | 無限制 |
-| **設備支援** | 需要 WebGL | 廣泛支援 |
-| **記憶體使用** | 較低 | 較高 |
-| **功能完整度** | 完整 | 完整 |
+| **Performance** | High (GPU accelerated) | Medium (CPU rendering) |
+| **Instance limit** | Limited (~16-32) | Unlimited |
+| **Device support** | Requires WebGL | Broad support |
+| **Memory usage** | Lower | Higher |
+| **Feature completeness** | Complete | Complete |
 
-**選擇建議：**
-- 少量實例且要求高性能 → 選 PixelText
-- 多個實例或相容性優先 → 選 PixelText2D`,
+**Recommendations:**
+- Few instances + high performance required → Choose PixelText
+- Multiple instances or compatibility priority → Choose PixelText2D`,
       },
     },
   },
