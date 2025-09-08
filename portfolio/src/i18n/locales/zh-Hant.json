@@ -1,5 +1,11 @@
 {
-  "nav": { "home": "首頁", "about": "關於" },
+  "nav": { 
+    "home": "首頁", 
+    "about": "關於",
+    "projects": "作品",
+    "article": "文章",
+    "contact": "聯繫"
+  },
   "home": {
     "title": "作品集",
     "subtitle": "這裡將展示你的專案與文章"

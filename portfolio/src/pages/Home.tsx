@@ -1,7 +1,8 @@
 import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import './Home.scss';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Logo, FeedDetailOverlay } from 'hds';
+import { useTranslation } from 'react-i18next';
+import { Logo, FeedDetailOverlay, PixelText } from 'hds';
 import type { FeedCardSize } from 'hds';
 import type { FeedItem, FeedContentBlock } from '../../../harryds/src/types/feed';
 import feed from 'shared/data/feed.json';
@@ -20,6 +21,7 @@ const slugify = (text: string) => text
 const Home: React.FC = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const items = useMemo(() => (feed as any).items as FeedItem[], []);
   const { log } = usePreloadDebug();
 
@@ -419,6 +421,33 @@ const Home: React.FC = () => {
               {...logoColors}
             />
           </div>
+          <nav className="home__nav">
+            {['home', 'projects', 'article', 'contact'].map((item) => {
+              const menuText = t(`nav.${item}`);
+              // 精確計算寬度：基於 PixelText 內部算法
+              // 每個字符 = CHAR_WIDTH(8) * pixelSize(2) = 16px
+              // 字符間距 = letterSpacing(1) * pixelSize(2) = 2px  
+              // 總寬度 = 字符數 * 16 + (字符數-1) * 2
+              const charCount = menuText.length;
+              const calculatedWidth = charCount * 16 + Math.max(0, charCount - 1) * 2;
+              
+              return (
+                <div key={item} className="home__nav-item">
+                  <PixelText
+                    text={menuText}
+                    textEnabled
+                    pixelSize={2}
+                    width={calculatedWidth}
+                    height={24}
+                    animated={false}
+                    primaryColor={(logoColors as any).primaryColor}
+                    onPrimaryColor={(logoColors as any).secondaryColor}
+                    style={{ cursor: 'pointer' }}
+                  />
+                </div>
+              );
+            })}
+          </nav>
         </div>
       </header>
       <div className="home__container">

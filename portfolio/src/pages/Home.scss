@@ -25,6 +25,26 @@
       width: 100%;
       display: flex;
       align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    
+    &-item {
+      transition: opacity 0.2s ease;
+      
+      // 重置 PixelText 可能的內建 margin
+      & > * {
+        margin: 0;
+      }
+      
+      &:hover {
+        opacity: 0.7;
+      }
     }
   }
 
@@ -96,7 +116,19 @@
     &__header {
       padding: 0 24px;
       
-      .header-content { max-width: none; }
+      .header-content { 
+        max-width: none;
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+    
+    &__nav {
+      gap: 20px; // 保持與桌面端一致的 20px 間距
+      
+      &-item {
+        // 在移動端可能需要調整 PixelText 的尺寸
+      }
     }
     
     &__content {

@@ -1,5 +1,11 @@
 {
-  "nav": { "home": "ホーム", "about": "紹介" },
+  "nav": { 
+    "home": "ホーム", 
+    "about": "紹介",
+    "projects": "プロジェクト",
+    "article": "記事",
+    "contact": "お問い合わせ"
+  },
   "home": {
     "title": "作品",
     "subtitle": "プロジェクトと記事を紹介します"

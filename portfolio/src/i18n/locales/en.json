@@ -1,5 +1,11 @@
 {
-  "nav": { "home": "Home", "about": "About" },
+  "nav": { 
+    "home": "Home", 
+    "about": "About",
+    "projects": "Projects",
+    "article": "Article",
+    "contact": "Contact"
+  },
   "home": {
     "title": "Works",
     "subtitle": "Showcasing projects and articles"
