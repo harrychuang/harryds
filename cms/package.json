@@ -14,7 +14,8 @@
     "upgrade": "npx @strapi/upgrade latest",
     "upgrade:dry": "npx @strapi/upgrade latest --dry",
     "seed:feed": "node ./scripts/seed-feed.js",
-    "seed:feed:http": "node ./scripts/seed-feed-http.js"
+    "seed:feed:http": "node ./scripts/seed-feed-http.js",
+    "perms:public": "node ./scripts/enable-public-perms.js"
   },
   "dependencies": {
     "@strapi/plugin-cloud": "5.23.4",

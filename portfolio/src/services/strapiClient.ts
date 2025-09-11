@@ -83,12 +83,21 @@ export async function fetchFeedItemsFromStrapi(): Promise<FeedItem[]> {
   url.searchParams.set('locale', 'all');
   url.searchParams.set('ts', String(Date.now()));
 
-  const res = await fetch(url.toString());
-  if (!res.ok) {
-    throw new Error(`Strapi 請求失敗: ${res.status}`);
+  try {
+    const res = await fetch(url.toString(), { headers: { 'Cache-Control': 'no-cache' } });
+    if (!res.ok) {
+      const text = await res.text();
+      const err = new Error(`Strapi 請求失敗: HTTP ${res.status} ${res.statusText} — ${url.toString()} — ${text.slice(0, 180)}`);
+      (err as any).status = res.status;
+      (err as any).url = url.toString();
+      throw err;
+    }
+    const json = await res.json() as StrapiCollectionResponse<StrapiFeedItemAttributes>;
+    return (json.data || []).map(mapFeedItem);
+  } catch (e: any) {
+    console.error('[Strapi] fetchFeedItemsFromStrapi error:', e?.message || e, { url: url.toString() });
+    throw e;
   }
-  const json = await res.json() as StrapiCollectionResponse<StrapiFeedItemAttributes>;
-  return (json.data || []).map(mapFeedItem);
 }
 
 
