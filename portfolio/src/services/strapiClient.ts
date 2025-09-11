@@ -31,7 +31,20 @@ const mapBlock = (block: StrapiFeedBlock): FeedContentBlock | null => {
     case 'feed.heading':
       return { type: 'heading', level: (block as any).level ?? 1, content: (block as any).content };
     case 'feed.paragraph':
-      return { type: 'paragraph', content: (block as any).content };
+      // 若 paragraph 來自 Blocks，將其轉為純文字段落
+      {
+        const content = (block as any).content;
+        if (Array.isArray(content)) {
+          const text = content.flatMap((node: any) => {
+            if (node?.type === 'paragraph' && Array.isArray(node.children)) {
+              return node.children.map((c: any) => (typeof c.text === 'string' ? c.text : ''));
+            }
+            return [];
+          }).join('');
+          return { type: 'paragraph', content: text } as FeedContentBlock;
+        }
+        return { type: 'paragraph', content: content } as FeedContentBlock;
+      }
     case 'feed.image':
       return { type: 'image', src: resolveMediaUrl((block as any).image), alt: (block as any).alt ?? undefined };
     case 'feed.list':
@@ -41,9 +54,32 @@ const mapBlock = (block: StrapiFeedBlock): FeedContentBlock | null => {
   }
 };
 
+// 解析 Rich text (Blocks) → FeedContentBlock[]
+function mapBlocksRichText(blocks: any[] | null | undefined): FeedContentBlock[] | undefined {
+  if (!Array.isArray(blocks)) return undefined;
+  const result: FeedContentBlock[] = [];
+  for (const node of blocks) {
+    if (node?.type === 'heading' && typeof node?.level === 'number') {
+      const text = Array.isArray(node.children) ? node.children.map((c: any) => c.text ?? '').join('') : '';
+      result.push({ type: 'heading', level: Math.min(3, Math.max(1, node.level as number)) as 1|2|3, content: text });
+    } else if (node?.type === 'paragraph') {
+      const text = Array.isArray(node.children) ? node.children.map((c: any) => c.text ?? '').join('') : '';
+      result.push({ type: 'paragraph', content: text });
+    } else if (node?.type === 'list') {
+      const items = Array.isArray(node.children)
+        ? node.children.map((li: any) => (Array.isArray(li.children) ? li.children.map((c: any) => c.text ?? '').join('') : ''))
+        : [];
+      result.push({ type: 'list', items });
+    }
+  }
+  return result.length ? result : undefined;
+}
+
 const mapFeedItem = (entity: { id: number; attributes: StrapiFeedItemAttributes }): FeedItem => {
   const a = entity.attributes;
-  const rawBlocks = Array.isArray(a.content) ? a.content.map(mapBlock).filter(Boolean) as FeedContentBlock[] : undefined;
+  const articleBodyBlocks = mapBlocksRichText((a as any).articleBody);
+  const rawBlocks = articleBodyBlocks
+    ?? (Array.isArray(a.content) ? a.content.map(mapBlock).filter(Boolean) as FeedContentBlock[] : undefined);
   return {
     id: entity.id,
     heading: a.heading,
@@ -63,6 +99,7 @@ export async function fetchFeedItemsFromStrapi(): Promise<FeedItem[]> {
   const url = new URL(joinUrl(STRAPI_URL, '/api/feed-items'));
   url.searchParams.set('populate[heroImage]', '*');
   url.searchParams.set('populate[content][populate]', '*');
+  // articleBody 為 Rich text (Blocks)，不需額外 populate
   url.searchParams.set('pagination[pageSize]', '100');
 
   const res = await fetch(url.toString());
