@@ -81,7 +81,6 @@ export interface StrapiFeedItemAttributes {
   secondaryColor?: string | null;
   heroImage?: StrapiMediaRelation | null;
   content?: StrapiFeedBlock[] | null; // dynamic zone
-  articleBody?: any[] | null; // Rich text (Blocks)
 }
 
 

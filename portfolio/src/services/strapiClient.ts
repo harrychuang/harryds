@@ -54,32 +54,9 @@ const mapBlock = (block: StrapiFeedBlock): FeedContentBlock | null => {
   }
 };
 
-// 解析 Rich text (Blocks) → FeedContentBlock[]
-function mapBlocksRichText(blocks: any[] | null | undefined): FeedContentBlock[] | undefined {
-  if (!Array.isArray(blocks)) return undefined;
-  const result: FeedContentBlock[] = [];
-  for (const node of blocks) {
-    if (node?.type === 'heading' && typeof node?.level === 'number') {
-      const text = Array.isArray(node.children) ? node.children.map((c: any) => c.text ?? '').join('') : '';
-      result.push({ type: 'heading', level: Math.min(3, Math.max(1, node.level as number)) as 1|2|3, content: text });
-    } else if (node?.type === 'paragraph') {
-      const text = Array.isArray(node.children) ? node.children.map((c: any) => c.text ?? '').join('') : '';
-      result.push({ type: 'paragraph', content: text });
-    } else if (node?.type === 'list') {
-      const items = Array.isArray(node.children)
-        ? node.children.map((li: any) => (Array.isArray(li.children) ? li.children.map((c: any) => c.text ?? '').join('') : ''))
-        : [];
-      result.push({ type: 'list', items });
-    }
-  }
-  return result.length ? result : undefined;
-}
-
 const mapFeedItem = (entity: { id: number; attributes: StrapiFeedItemAttributes }): FeedItem => {
   const a = entity.attributes;
-  const articleBodyBlocks = mapBlocksRichText((a as any).articleBody);
-  const rawBlocks = articleBodyBlocks
-    ?? (Array.isArray(a.content) ? a.content.map(mapBlock).filter(Boolean) as FeedContentBlock[] : undefined);
+  const rawBlocks = Array.isArray(a.content) ? a.content.map(mapBlock).filter(Boolean) as FeedContentBlock[] : undefined;
   return {
     id: entity.id,
     heading: a.heading,

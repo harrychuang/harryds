@@ -106,14 +106,6 @@
         "feed.image",
         "feed.heading"
       ]
-    },
-    "articleBody": {
-      "type": "richtext",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
     }
   }
 }
