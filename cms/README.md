@@ -59,3 +59,21 @@ Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/
 ---
 
 <sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+
+---
+
+## Seed data via REST API
+
+Create API token in Admin → Settings → API Tokens (Full access), then set env vars and run:
+
+```bash
+export STRAPI_URL=http://localhost:1337
+export STRAPI_API_TOKEN=YOUR_TOKEN
+node ./scripts/seed-feed-http.js
+```
+
+Or pass inline without exporting:
+
+```bash
+STRAPI_URL=http://localhost:1337 STRAPI_API_TOKEN=YOUR_TOKEN node ./scripts/seed-feed-http.js
+```
