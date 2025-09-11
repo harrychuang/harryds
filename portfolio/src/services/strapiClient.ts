@@ -78,6 +78,10 @@ export async function fetchFeedItemsFromStrapi(): Promise<FeedItem[]> {
   url.searchParams.set('populate[content][populate]', '*');
   // articleBody 為 Rich text (Blocks)，不需額外 populate
   url.searchParams.set('pagination[pageSize]', '100');
+  // 只取已發布內容，並抓取所有語系；加 ts 參數避免快取
+  url.searchParams.set('publicationState', 'live');
+  url.searchParams.set('locale', 'all');
+  url.searchParams.set('ts', String(Date.now()));
 
   const res = await fetch(url.toString());
   if (!res.ok) {
