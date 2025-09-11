@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_feed_lists",
+  "info": {
+    "displayName": "list"
+  },
+  "attributes": {
+    "items": {
+      "type": "json",
+      "required": true
+    }
+  }
+}
+
+

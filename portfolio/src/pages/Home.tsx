@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Logo, FeedDetailOverlay, PixelText } from 'hds';
 import type { FeedCardSize } from 'hds';
 import type { FeedItem, FeedContentBlock } from '../../../harryds/src/types/feed';
-import feed from 'shared/data/feed.json';
+import { useStrapiFeed } from '../hooks/useStrapiFeed';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
@@ -23,7 +23,8 @@ const Home: React.FC = () => {
   const params = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const items = useMemo(() => (feed as any).items as FeedItem[], []);
+  const { items: strapiItems } = useStrapiFeed();
+  const items = useMemo(() => strapiItems as FeedItem[], [strapiItems]);
   const { log } = usePreloadDebug();
   const { theme, toggleTheme } = useTheme();
 
@@ -346,6 +347,9 @@ const Home: React.FC = () => {
 
   const resolveSrc = (fileName?: string) => {
     if (!fileName) return '';
+    if (/^https?:\/\//i.test(fileName) || fileName.startsWith('//')) {
+      return fileName;
+    }
     const key = `../../assets/imgs/${fileName}`;
     if (imageModules[key]) return imageModules[key];
     return new URL(`../../assets/imgs/${fileName}`, import.meta.url).href;

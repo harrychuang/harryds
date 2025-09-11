@@ -391,3 +391,66 @@ const LazyThreeScene = lazy(() => import('./ThreeScene'));
 6. ❌ **禁止重複開發相似功能**
 7. ❌ **禁止使用 CSS-in-JS 或其他樣式方案**
 8. ❌ **禁止使用 CSS 3D Transform**
+
+## Strapi（CMS）整合
+
+### 目錄建議
+
+- CMS 專案建議放在 `dev/cms/` 目錄。
+
+### 建立專案（開發用 SQLite）
+
+```bash
+cd "/Users/HarryChuang/Dropbox/Works/NOEIN Projects/noeinoi 2025/dev"
+npx create-strapi-app@latest cms --quickstart --no-run
+cd cms
+npm install
+npm run develop  # 首次啟動會建立 Admin 帳號
+```
+
+### 建立內容模型（依 UI 建立或參考樣板）
+
+- Collection Type: `feed-item`
+  - `heading` (string, required)
+  - `date` (string, required)
+  - `tags` (json)
+  - `category` (enum: project, article, required)
+  - `brand` (string)
+  - `primaryColor` (string)
+  - `secondaryColor` (string)
+  - `heroImage` (media, single)
+  - `content` (dynamic zone: `feed.heading`, `feed.paragraph`, `feed.image`, `feed.list`)
+
+- Components（Dynamic Zone 用）：
+  - `feed.heading` { level: enum(1,2,3), content: text }
+  - `feed.paragraph` { content: richtext }
+  - `feed.image` { image: media single, alt: string }
+  - `feed.list` { items: json(string[]) }
+
+樣板 JSON 位置：`dev/cms-models/`（僅作參考，請在 Strapi Admin 中建立或依 Strapi 檔案結構放置）。
+
+### 開放公開讀取權限（僅前台瀏覽用）
+
+- Strapi Admin → Settings → Roles → Public
+  - 勾選 `feed-item` 的 `find`, `findOne`
+  - 勾選 `upload` 的讀取權限（至少 `find`, `findOne`）
+
+### 前端環境變數（portfolio）
+
+在 `portfolio/.env` 設定：
+
+```bash
+VITE_STRAPI_URL=http://localhost:1337
+```
+
+前端會優先向 `VITE_STRAPI_URL` 讀取，失敗時回退至 `shared/data/feed.json`。
+
+### 圖片與 URL
+
+- 前端自動將 Strapi 回傳的相對路徑（如 `/uploads/...`）拼接為完整 URL。
+- 若未設定 `VITE_STRAPI_URL`，將直接使用相對路徑（可能導致圖片無法跨源載入）。
+
+### 匯入初始資料（可選）
+
+- 可撰寫腳本將 `shared/data/feed.json` 轉入 Strapi，或於 Admin 以手動方式建立內容與上傳圖片。
+

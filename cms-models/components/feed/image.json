@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_feed_images",
+  "info": {
+    "displayName": "image"
+  },
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "alt": {
+      "type": "string"
+    }
+  }
+}
+
+
