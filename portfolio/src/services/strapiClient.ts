@@ -74,8 +74,11 @@ const mapFeedItem = (entity: { id: number; attributes: StrapiFeedItemAttributes 
 export async function fetchFeedItemsFromStrapi(): Promise<FeedItem[]> {
   if (!STRAPI_URL) throw new Error('VITE_STRAPI_URL 未設定');
   const url = new URL(joinUrl(STRAPI_URL, '/api/feed-items'));
-  url.searchParams.set('populate[heroImage]', '*');
-  url.searchParams.set('populate[content][populate]', '*');
+  // Strapi v5: 精準 populate，避免觸發非法鍵（如 heroImage.related）
+  url.searchParams.set('populate[heroImage][fields][0]', 'url');
+  url.searchParams.set('populate[heroImage][fields][1]', 'alternativeText');
+  // 動態區塊：只對 feed.image 的 image 取 url
+  url.searchParams.set('populate[content][on][feed.image][populate][image][fields][0]', 'url');
   // articleBody 為 Rich text (Blocks)，不需額外 populate
   url.searchParams.set('pagination[pageSize]', '100');
   // 只取已發布內容，並抓取所有語系；加 ts 參數避免快取
