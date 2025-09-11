@@ -10,6 +10,7 @@ import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useSmartPreload, usePreloadDebug } from '../hooks/useSmartPreload';
+import { useTheme } from '../theme/useTheme';
 
 const slugify = (text: string) => text
   .toLowerCase()
@@ -24,6 +25,7 @@ const Home: React.FC = () => {
   const { t } = useTranslation();
   const items = useMemo(() => (feed as any).items as FeedItem[], []);
   const { log } = usePreloadDebug();
+  const { theme, toggleTheme } = useTheme();
 
   // 智能預載配置
   const preloadConfig = useMemo(() => ({
@@ -47,6 +49,31 @@ const Home: React.FC = () => {
   const [isLogoHovered, setIsLogoHovered] = useState<boolean>(false);
   const loadedCardIdsRef = useRef<Set<number>>(new Set());
 
+  // 導覽選單 hover 觸發一次動畫狀態
+  const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
+  const menuHoverTimersRef = useRef<Record<string, number>>({});
+  const triggerMenuHoverOnce = useCallback((key: string) => {
+    // 若已在動畫中就不重複觸發
+    if (menuAnimStates[key]) return;
+    setMenuAnimStates((prev) => ({ ...prev, [key]: true }));
+    // 預設動畫總時長，完成後重置為 false 以便再次觸發
+    const DURATION = 1200;
+    if (menuHoverTimersRef.current[key]) {
+      clearTimeout(menuHoverTimersRef.current[key]);
+    }
+    menuHoverTimersRef.current[key] = window.setTimeout(() => {
+      setMenuAnimStates((prev) => ({ ...prev, [key]: false }));
+      delete menuHoverTimersRef.current[key];
+    }, DURATION);
+  }, [menuAnimStates]);
+
+  useEffect(() => {
+    return () => {
+      Object.values(menuHoverTimersRef.current).forEach((id) => clearTimeout(id));
+      menuHoverTimersRef.current = {};
+    };
+  }, []);
+
   // 性能統計顯示（僅開發環境）
   const [showStats, setShowStats] = useState(false);
   const statsInterval = useRef<number>();
@@ -60,6 +87,8 @@ const Home: React.FC = () => {
   const logoClickHandleRef = useRef<PlaybackHandle | null>(null);
   const hasPlayedLogoHoverSoundRef = useRef<boolean>(false);
   const hasPlayedLogoClickSoundRef = useRef<boolean>(false);
+  const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
+  const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
@@ -138,6 +167,24 @@ const Home: React.FC = () => {
 
   const handleLogoLeave = useCallback(() => {
     setIsLogoHovered(false);
+  }, []);
+
+  const playMenuHoverSound = useCallback(async () => {
+    try {
+      menuHoverHandleRef.current?.stop();
+      menuHoverHandleRef.current = await audioManager.play(hoverSoundUrl, { volume: 0.4 });
+    } catch (err) {
+      console.warn('Menu hover sound play failed:', err);
+    }
+  }, []);
+
+  const playMenuClickSound = useCallback(async () => {
+    try {
+      menuClickHandleRef.current?.stop();
+      menuClickHandleRef.current = await audioManager.play(clickSoundUrl, { volume: 0.3 });
+    } catch (err) {
+      console.warn('Menu click sound play failed:', err);
+    }
   }, []);
 
   const toItemUrl = useCallback((item: FeedItem) => {
@@ -408,10 +455,10 @@ const Home: React.FC = () => {
             onClick={handleLogoClick}
             onMouseEnter={handleLogoHover}
             onMouseLeave={handleLogoLeave}
-            style={{ 
+            className="logo-wrapper"
+            style={{
               cursor: openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'pointer' : 'default',
-              transform: openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'translateX(-10px)' : 'translateX(0px)',
-              transition: 'transform 0.3s ease'
+              transform: openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'translateX(-10px)' : 'translateX(0px)'
             }}
           >
             <Logo 
@@ -422,7 +469,7 @@ const Home: React.FC = () => {
             />
           </div>
           <nav className="home__nav">
-            {['home', 'projects', 'article', 'contact'].map((item) => {
+            {['home', 'project', 'article', 'about'].map((item) => {
               const menuText = t(`nav.${item}`);
               // 精確計算寬度：基於 PixelText 內部算法
               // 每個字符 = CHAR_WIDTH(8) * pixelSize(2) = 16px
@@ -432,21 +479,57 @@ const Home: React.FC = () => {
               const calculatedWidth = charCount * 16 + Math.max(0, charCount - 1) * 2;
               
               return (
-                <div key={item} className="home__nav-item">
+                <div
+                  key={item}
+                  className="home__nav-item"
+                  onMouseEnter={() => { triggerMenuHoverOnce(item); playMenuHoverSound(); }}
+                  onClick={() => { playMenuClickSound(); }}
+                >
                   <PixelText
                     text={menuText}
                     textEnabled
                     pixelSize={2}
                     width={calculatedWidth}
                     height={24}
-                    animated={false}
+                    animated={!!menuAnimStates[item]}
+                    totalAnimationDuration={400}
                     primaryColor={(logoColors as any).primaryColor}
                     onPrimaryColor={(logoColors as any).secondaryColor}
-                    style={{ cursor: 'pointer' }}
                   />
                 </div>
               );
             })}
+            {/* Theme toggle button using PixelText text-box with sun/moon */}
+            <div className="home__nav-item">
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => { playMenuClickSound(); toggleTheme(); }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleTheme();
+                  }
+                }}
+                onMouseEnter={() => { playMenuHoverSound(); }}
+                aria-label="切換主題"
+                title={theme === 'dark' ? '切換為亮色' : '切換為暗色'}
+                className="theme-toggle"
+                style={{ borderColor: ((logoColors as any).primaryColor) || 'var(--hds-sys-color-theme-surface)' }}
+              >
+                <PixelText
+                  text={theme === 'dark' ? '☽' : '☀'}
+                  textEnabled
+                  pixelSize={2}
+                  letterSpacing={0}
+                  width={36}
+                  height={36}
+                  animated={false}
+                  primaryColor={(logoColors as any).primaryColor}
+                  onPrimaryColor={(logoColors as any).secondaryColor}
+                />
+              </div>
+            </div>
           </nav>
         </div>
       </header>
