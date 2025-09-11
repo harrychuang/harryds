@@ -83,7 +83,17 @@ async function main() {
         if (block.type === 'heading') {
           dz.push({ __component: 'feed.heading', level: String(block.level || 1), content: block.content || '' });
         } else if (block.type === 'paragraph') {
-          dz.push({ __component: 'feed.paragraph', content: block.content || '' });
+          dz.push({
+            __component: 'feed.paragraph',
+            content: [
+              {
+                type: 'paragraph',
+                children: [
+                  { type: 'text', text: block.content || '' }
+                ]
+              }
+            ]
+          });
         } else if (block.type === 'image') {
           const imgId = await uploadImageByRelative(block.src);
           dz.push({ __component: 'feed.image', image: imgId, alt: block.alt || '' });
