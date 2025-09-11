@@ -277,7 +277,7 @@ const PixelText = forwardRef<HTMLDivElement, PixelTextProps>(({
 
   // 支援的字符列表（用於生成隨機字符）
   const supportedChars = useMemo(() => {
-    return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,。.-+×÷?!@‼︎⁇▶︎◆●◼︎◻︎▷﹅⟨⟩[]⎢%″„'.split('');
+    return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,。.-+×÷?!@‼︎⁇▶︎◆●◼︎◻︎▷﹅⟨⟩[]⎢%″„アイウエオンー・'.split('');
   }, []);
 
   // 生成隨機字符
