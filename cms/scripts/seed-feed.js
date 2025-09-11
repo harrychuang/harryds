@@ -105,6 +105,8 @@ async function main() {
       secondaryColor: item.secondaryColor || null,
       heroImage: heroId,
       content: dz,
+      // 自動發布（需要 content type 啟用 draftAndPublish）
+      publishedAt: new Date().toISOString(),
     };
 
     if (existing && existing.length > 0) {
