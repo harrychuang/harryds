@@ -92,11 +92,12 @@ const Home: React.FC = () => {
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
+    // 只有在開發環境且明確啟用調試時才顯示統計
+    if (process.env.NODE_ENV === 'development' && import.meta.env.VITE_PRELOAD_DEBUG === 'true') {
       statsInterval.current = window.setInterval(() => {
         const stats = getStats();
         log('預載統計', stats);
-      }, 5000);
+      }, 10000); // 改為 10 秒顯示一次，減少干擾
 
       return () => {
         if (statsInterval.current) {

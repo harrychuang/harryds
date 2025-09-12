@@ -54,19 +54,20 @@ const mapBlock = (block: StrapiFeedBlock): FeedContentBlock | null => {
   }
 };
 
-const mapFeedItem = (entity: { id: number; attributes: StrapiFeedItemAttributes }): FeedItem => {
-  const a = entity.attributes;
-  const rawBlocks = Array.isArray(a.content) ? a.content.map(mapBlock).filter(Boolean) as FeedContentBlock[] : undefined;
+const mapFeedItem = (entity: any): FeedItem => {
+  // Strapi v5 直接返回字段，不包裝在 attributes 中
+  const data = entity.attributes || entity; // 兼容 v4/v5 格式
+  const rawBlocks = Array.isArray(data.content) ? data.content.map(mapBlock).filter(Boolean) as FeedContentBlock[] : undefined;
   return {
     id: entity.id,
-    heading: a.heading,
-    date: a.date,
-    tags: Array.isArray(a.tags) ? a.tags : [],
-    category: a.category,
-    brand: a.brand ?? undefined,
-    primaryColor: a.primaryColor ?? undefined,
-    secondaryColor: a.secondaryColor ?? undefined,
-    heroImage: resolveMediaUrl(a.heroImage ?? undefined),
+    heading: data.heading,
+    date: data.date,
+    tags: Array.isArray(data.tags) ? data.tags : [],
+    category: data.category,
+    brand: data.brand ?? undefined,
+    primaryColor: data.primaryColor ?? undefined,
+    secondaryColor: data.secondaryColor ?? undefined,
+    heroImage: resolveMediaUrl(data.heroImage ?? undefined),
     content: rawBlocks,
   };
 };
@@ -81,9 +82,9 @@ export async function fetchFeedItemsFromStrapi(): Promise<FeedItem[]> {
   url.searchParams.set('populate[content][on][feed.image][populate][image][fields][0]', 'url');
   // articleBody 為 Rich text (Blocks)，不需額外 populate
   url.searchParams.set('pagination[pageSize]', '100');
-  // 只取已發布內容，並抓取所有語系；加 ts 參數避免快取
+  // 只取已發布內容
   url.searchParams.set('publicationState', 'live');
-  url.searchParams.set('locale', 'all');
+  // 現已禁用國際化，locale=all 不再需要但保持兼容性
   url.searchParams.set('ts', String(Date.now()));
 
   try {
@@ -95,7 +96,7 @@ export async function fetchFeedItemsFromStrapi(): Promise<FeedItem[]> {
       (err as any).url = url.toString();
       throw err;
     }
-    const json = await res.json() as StrapiCollectionResponse<StrapiFeedItemAttributes>;
+    const json = await res.json();
     return (json.data || []).map(mapFeedItem);
   } catch (e: any) {
     console.error('[Strapi] fetchFeedItemsFromStrapi error:', e?.message || e, { url: url.toString() });
