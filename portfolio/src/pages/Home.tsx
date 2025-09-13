@@ -11,6 +11,7 @@ import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useSmartPreload, usePreloadDebug } from '../hooks/useSmartPreload';
 import { useTheme } from '../theme/useTheme';
+import { useHover } from '../contexts/HoverContext';
 
 const slugify = (text: string) => text
   .toLowerCase()
@@ -35,6 +36,7 @@ const Home: React.FC = () => {
   }, [loading, error, items]);
   const { log } = usePreloadDebug();
   const { theme, toggleTheme } = useTheme();
+  const { hoveredCardId, setHoveredCardId } = useHover();
 
   // 智能預載配置
   const preloadConfig = useMemo(() => ({
@@ -53,7 +55,6 @@ const Home: React.FC = () => {
   } = useSmartPreload(preloadConfig);
 
   const [openCardId, setOpenCardId] = useState<number | null>(null);
-  const [hoveredCardId, setHoveredCardId] = useState<number | null>(null);
   const [openCardAnimationPhase, setOpenCardAnimationPhase] = useState<'closed' | 'loading' | 'positioning' | 'expanding' | 'ready'>('closed');
   const [isLogoHovered, setIsLogoHovered] = useState<boolean>(false);
   const loadedCardIdsRef = useRef<Set<number>>(new Set());

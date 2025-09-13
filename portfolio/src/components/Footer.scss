@@ -1,0 +1,72 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  z-index: 100;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 40px;
+  
+  background: transparent;
+  // 移除邊框以保持更清爽的視覺效果
+  // border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  
+  &__content {
+    max-width: 1600px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 8px; // PROCESS 文字和百分比框之間的間距
+  }
+  
+  &__right {
+    display: flex;
+    align-items: center;
+  }
+}
+
+// 響應式設計
+@media (max-width: 768px) {
+  .footer {
+    padding: 0 20px;
+    
+    &__content {
+      max-width: none;
+    }
+    
+    &__right {
+      // 在小屏幕上，版權文字可能太長，調整寬度
+      canvas {
+        max-width: 200px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 15px 20px;
+    
+    &__content {
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      max-width: none;
+    }
+    
+    &__left,
+    &__right {
+      justify-content: center;
+    }
+  }
+}
