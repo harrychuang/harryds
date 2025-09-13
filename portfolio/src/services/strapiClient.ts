@@ -54,9 +54,15 @@ const resolveMediaUrl = (rel?: StrapiMediaRelation | any | null): string => {
 };
 
 const mapBlock = (block: StrapiFeedBlock): FeedContentBlock | null => {
+  console.log('[strapiClient] 處理區塊:', block.__component, block);
+
   switch (block.__component) {
     case 'feed.heading':
-      return { type: 'heading', level: (block as any).level ?? 1, content: (block as any).content };
+      return { 
+        type: 'heading', 
+        level: (block as any).level ?? 1, 
+        content: (block as any).content 
+      };
     case 'feed.paragraph':
       // 若 paragraph 來自 Blocks，將其轉為純文字段落
       {
@@ -73,12 +79,31 @@ const mapBlock = (block: StrapiFeedBlock): FeedContentBlock | null => {
         return { type: 'paragraph', content: content } as FeedContentBlock;
       }
     case 'feed.image':
-      return { type: 'image', src: resolveMediaUrl((block as any).image), alt: (block as any).alt ?? undefined };
+      return { 
+        type: 'image', 
+        src: resolveMediaUrl((block as any).image), 
+        alt: (block as any).alt ?? undefined 
+      };
     case 'feed.video':
+      const videoSrc = resolveMediaUrl((block as any).video);
+      const posterSrc = (block as any).poster ? resolveMediaUrl((block as any).poster) : undefined;
+      
+      console.log('[strapiClient] Video 區塊處理:', {
+        originalVideo: (block as any).video,
+        resolvedSrc: videoSrc,
+        originalPoster: (block as any).poster,
+        resolvedPoster: posterSrc,
+        alt: (block as any).alt,
+        autoplay: (block as any).autoplay,
+        loop: (block as any).loop,
+        muted: (block as any).muted,
+        controls: (block as any).controls
+      });
+      
       return { 
         type: 'video', 
-        src: resolveMediaUrl((block as any).video), 
-        poster: resolveMediaUrl((block as any).poster) || undefined,
+        src: videoSrc, 
+        poster: posterSrc,
         alt: (block as any).alt ?? undefined,
         autoplay: (block as any).autoplay ?? false,
         loop: (block as any).loop ?? false,
@@ -86,8 +111,12 @@ const mapBlock = (block: StrapiFeedBlock): FeedContentBlock | null => {
         controls: (block as any).controls ?? true
       };
     case 'feed.list':
-      return { type: 'list', items: Array.isArray((block as any).items) ? (block as any).items : [] };
+      return { 
+        type: 'list', 
+        items: Array.isArray((block as any).items) ? (block as any).items : [] 
+      };
     default:
+      console.warn('[strapiClient] 未知的區塊類型:', block);
       return null;
   }
 };

@@ -64,11 +64,23 @@ export type StrapiFeedBlockList = {
   items: string[];
 };
 
+export type StrapiFeedBlockVideo = {
+  __component: 'feed.video';
+  video: StrapiMediaRelation;
+  poster?: StrapiMediaRelation;
+  alt?: string;
+  autoplay?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+  controls?: boolean;
+};
+
 export type StrapiFeedBlock =
   | StrapiFeedBlockHeading
   | StrapiFeedBlockParagraph
   | StrapiFeedBlockImage
-  | StrapiFeedBlockList;
+  | StrapiFeedBlockList
+  | StrapiFeedBlockVideo;
 
 // FeedItem 對應的 Attributes
 export interface StrapiFeedItemAttributes {

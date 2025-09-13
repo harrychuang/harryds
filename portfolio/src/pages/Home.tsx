@@ -463,7 +463,7 @@ const Home: React.FC = () => {
             onMouseLeave={handleLogoLeave}
             className="logo-wrapper"
             style={{
-              cursor: openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'pointer' : 'default',
+              cursor: openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'pointer' : 'auto',
               transform: openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'translateX(-10px)' : 'translateX(0px)'
             }}
           >
@@ -608,7 +608,7 @@ const Home: React.FC = () => {
                 onMouseEnter={() => handleCardHover(item.id)}
                 onMouseLeave={handleCardLeave}
                 style={{ 
-                  cursor: 'pointer', 
+                  cursor: openCardId === item.id ? 'auto' : 'pointer', 
                   ['--stagger-index' as any]: index
                 } as React.CSSProperties}
               >
