@@ -342,23 +342,11 @@ const Home: React.FC = () => {
     return 'xs';
   };
 
-  const imageModules = useMemo(() => (
-    import.meta.glob('../../assets/imgs/**/*', { eager: true, import: 'default' }) as Record<string, string>
-  ), []);
-
-  const resolveSrc = (fileName?: string) => {
-    if (!fileName) return '';
-    // 如果是完整 URL (http/https) 或協議相對 URL (//)，直接返回
-    if (/^https?:\/\//i.test(fileName) || fileName.startsWith('//')) {
-      return fileName;
-    }
-    // 如果以 '/' 開頭，這可能是 Strapi 的絕對路徑，直接返回
-    if (fileName.startsWith('/')) {
-      return fileName;
-    }
-    // 只有在確定不是 Strapi URL 的情況下，才處理本地圖片
-    // 但根據用戶需求，我們應該只使用 Strapi 的圖片，所以直接返回 fileName
-    return fileName;
+  // 由於現在完全使用 Strapi 資料，不再需要本地圖片處理
+  // strapiClient.ts 中的 resolveMediaUrl 已經處理了所有圖片 URL
+  const resolveSrc = (url?: string) => {
+    // 直接返回 strapiClient 處理過的 URL，不做任何額外處理
+    return url || '';
   };
 
   useEffect(() => {

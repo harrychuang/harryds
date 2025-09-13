@@ -11,8 +11,36 @@
 
 ```bash
 npm install
+
+# 設定環境變數（重要！）
+cp env.example .env.local
+# 然後編輯 .env.local，設定正確的 VITE_STRAPI_URL
+
 npm run dev
 ```
+
+### 環境變數設定
+
+**必須設定 `VITE_STRAPI_URL`** 才能正確顯示來自 Strapi 的圖片和資料：
+
+1. 複製環境變數範本：
+   ```bash
+   cp env.example .env.local
+   ```
+
+2. 編輯 `.env.local`，設定 Strapi 的 URL：
+   ```bash
+   # 本地開發
+   VITE_STRAPI_URL=http://localhost:1337
+   
+   # 或生產環境
+   VITE_STRAPI_URL=https://your-strapi-domain.com
+   ```
+
+3. 重新啟動開發伺服器：
+   ```bash
+   npm run dev
+   ```
 
 ## 元件引用（方案 A）
 

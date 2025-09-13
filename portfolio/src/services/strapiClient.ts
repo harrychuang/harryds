@@ -17,8 +17,13 @@ const joinUrl = (base: string, path: string) => {
 export const normalizeAssetUrl = (url?: string | null): string => {
   if (!url) return '';
   if (/^https?:\/\//i.test(url) || url.startsWith('//')) return url;
-  if (!STRAPI_URL) return url; // 若未設定，直接回傳相對路徑
-  return joinUrl(STRAPI_URL, url);
+  if (!STRAPI_URL) {
+    console.warn('[strapiClient] VITE_STRAPI_URL 未設定，圖片可能無法正確顯示。請設定環境變數。');
+    return url; // 若未設定，直接回傳相對路徑
+  }
+  const fullUrl = joinUrl(STRAPI_URL, url);
+  console.log(`[strapiClient] 圖片 URL 轉換: ${url} -> ${fullUrl}`);
+  return fullUrl;
 };
 
 const resolveMediaUrl = (rel?: StrapiMediaRelation | null): string => {
