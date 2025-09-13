@@ -116,8 +116,8 @@ export async function fetchFeedItemsFromStrapi(): Promise<FeedItem[]> {
   // Strapi v5: 精準 populate，避免觸發非法鍵（如 heroImage.related）
   url.searchParams.set('populate[heroImage][fields][0]', 'url');
   url.searchParams.set('populate[heroImage][fields][1]', 'alternativeText');
-  // 動態區塊：只對 feed.image 的 image 取 url
-  url.searchParams.set('populate[content][on][feed.image][populate][image][fields][0]', 'url');
+  // 動態區塊：populate 所有組件，包括 image 中的 media 關聯
+  url.searchParams.set('populate[content][populate]', '*');
   // articleBody 為 Rich text (Blocks)，不需額外 populate
   url.searchParams.set('pagination[pageSize]', '100');
   // 只取已發布內容
