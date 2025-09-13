@@ -1,0 +1,79 @@
+@use '../../styles/tokens.scss';
+
+.hds-video-player {
+  position: relative;
+  width: 100%;
+  background: transparent;
+  overflow: hidden;
+
+  &__video {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    aspect-ratio: 16 / 9; // 預設 16:9 比例，確保立即有尺寸
+    object-fit: cover; // 確保影片填滿容器
+    background: var(--hds-ref-color-dark-100a); // 載入前的背景色
+  }
+
+  &__loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--hds-ref-color-light-100a);
+    text-align: center;
+    z-index: 1;
+
+    p {
+      margin: 0;
+      font-size: var(--hds-sys-font-size-sm);
+      opacity: var(--hds-sys-opacity-70a);
+    }
+  }
+
+  &--error {
+    min-height: 200px;
+    background: var(--hds-ref-color-dark-80a);
+  }
+
+  &__error {
+    text-align: center;
+    color: var(--hds-ref-color-light-100a);
+
+    p {
+      margin: 0;
+      font-size: var(--hds-sys-font-size-sm);
+    }
+
+    .hds-video-player__alt {
+      margin-top: var(--hds-sys-spacing-sm);
+      opacity: var(--hds-sys-opacity-70a);
+      font-size: var(--hds-sys-font-size-xs);
+    }
+  }
+}
+
+// Dark mode support
+[theme='dark'] .hds-video-player {
+  background: var(--hds-ref-color-light-20a);
+  
+  &__loading,
+  &__error {
+    color: var(--hds-ref-color-dark-100a);
+  }
+
+  &--error {
+    background: var(--hds-ref-color-light-40a);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .hds-video-player {
+    &__loading p,
+    &__error p {
+      font-size: var(--hds-sys-font-size-xs);
+    }
+  }
+}

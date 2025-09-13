@@ -101,13 +101,26 @@ export const Opened: Story = {
         tags: items[0].tags,
         category: items[0].category,
       }}
-      contentBlocks={(items[0].content as FeedContentBlock[] | undefined)?.map((b) => {
-        if (b.type === 'image') {
-          // 將相對圖片名映射至實際 URL
-          return { ...b, src: new URL(`../../../assets/imgs/${b.src}`, import.meta.url).href };
+      contentBlocks={[
+        ...(items[0].content as FeedContentBlock[] | undefined)?.map((b) => {
+          if (b.type === 'image') {
+            // 將相對圖片名映射至實際 URL
+            return { ...b, src: new URL(`../../../assets/imgs/${b.src}`, import.meta.url).href };
+          }
+          return b;
+        }) || [],
+        // 在內容最下方加入 VideoPlayer 示範
+        {
+          type: 'video' as const,
+          src: 'https://download.samplelib.com/mp4/sample-5s.mp4',
+          poster: 'https://via.placeholder.com/1280x720/000000/FFFFFF?text=Demo+Video',
+          alt: '示範影片',
+          controls: true,
+          muted: true,
+          autoplay: false,
+          loop: false
         }
-        return b;
-      })}
+      ]}
     />
   ),
   args: {

@@ -29,3 +29,7 @@ export type { DistortedPixelsProps, DistortedPixelsObjectFit } from './Distorted
 // FeedDetailOverlay - 放大檢視（FeedCard hero + 內容）
 export { FeedDetailOverlay } from './FeedDetailOverlay';
 export type { FeedDetailOverlayProps } from './FeedDetailOverlay';
+
+// VideoPlayer - 支援現代影片播放功能的元件
+export { VideoPlayer } from './VideoPlayer';
+export type { VideoPlayerProps } from './VideoPlayer';

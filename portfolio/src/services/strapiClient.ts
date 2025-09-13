@@ -74,6 +74,17 @@ const mapBlock = (block: StrapiFeedBlock): FeedContentBlock | null => {
       }
     case 'feed.image':
       return { type: 'image', src: resolveMediaUrl((block as any).image), alt: (block as any).alt ?? undefined };
+    case 'feed.video':
+      return { 
+        type: 'video', 
+        src: resolveMediaUrl((block as any).video), 
+        poster: resolveMediaUrl((block as any).poster) || undefined,
+        alt: (block as any).alt ?? undefined,
+        autoplay: (block as any).autoplay ?? false,
+        loop: (block as any).loop ?? false,
+        muted: (block as any).muted ?? true,
+        controls: (block as any).controls ?? true
+      };
     case 'feed.list':
       return { type: 'list', items: Array.isArray((block as any).items) ? (block as any).items : [] };
     default:

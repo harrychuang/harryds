@@ -51,6 +51,22 @@ export interface FeedParagraph extends Struct.ComponentSchema {
   };
 }
 
+export interface FeedVideo extends Struct.ComponentSchema {
+  collectionName: 'components_feed_videos';
+  info: {
+    displayName: 'video';
+  };
+  attributes: {
+    alt: Schema.Attribute.String;
+    autoplay: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    controls: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    loop: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    muted: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    poster: Schema.Attribute.Media<'images'>;
+    video: Schema.Attribute.Media<'videos'> & Schema.Attribute.Required;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
@@ -58,6 +74,7 @@ declare module '@strapi/strapi' {
       'feed.image': FeedImage;
       'feed.list': FeedList;
       'feed.paragraph': FeedParagraph;
+      'feed.video': FeedVideo;
     }
   }
 }

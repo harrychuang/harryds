@@ -14,6 +14,7 @@ import type { FeedCardInfoData } from '../FeedCard';
 import type { FeedContentBlock } from '../../types/feed';
 import { DistortedPixels2D } from '../DistortedPixels';
 import { PixelText } from '../PixelText';
+import { VideoPlayer } from '../VideoPlayer';
 import './FeedDetailOverlay.scss';
 // import startSoundUrl from '../../../assets/sound/8-Bit Sound Effect.mp3';
 import startSoundUrl from '../../../assets/sound/8-Bit Retro Sound Effect-level-up.mp3';
@@ -467,6 +468,18 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
               key={i}
               src={b.src} 
               scrollContainer={scrollContentRef}
+            />
+          );
+          if (b.type === 'video') return (
+            <VideoPlayer
+              key={i}
+              src={b.src}
+              poster={b.poster}
+              alt={b.alt}
+              autoplay={b.autoplay}
+              loop={b.loop}
+              muted={b.muted}
+              controls={b.controls}
             />
           );
           if (b.type === 'list') return (

@@ -21,6 +21,7 @@ export type FeedContentBlock =
   | { type: 'heading'; level?: 1 | 2 | 3; content: string }
   | { type: 'paragraph'; content: string }
   | { type: 'image'; src: string; alt?: string }
+  | { type: 'video'; src: string; poster?: string; alt?: string; autoplay?: boolean; loop?: boolean; muted?: boolean; controls?: boolean }
   | { type: 'list'; items: string[] };
 
 

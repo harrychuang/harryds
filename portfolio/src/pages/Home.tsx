@@ -562,7 +562,19 @@ const Home: React.FC = () => {
                     ? ([{ type: 'paragraph', content: item.content }] as FeedContentBlock[])
                     : undefined);
             const resolvedBlocks = rawBlocks
-              ? rawBlocks.map((b) => (b.type === 'image' ? { ...b, src: resolveSrc(b.src) } : b))
+              ? rawBlocks.map((b) => {
+                  if (b.type === 'image') {
+                    return { ...b, src: resolveSrc(b.src) };
+                  }
+                  if (b.type === 'video') {
+                    return { 
+                      ...b, 
+                      src: resolveSrc(b.src),
+                      poster: b.poster ? resolveSrc(b.poster) : undefined
+                    };
+                  }
+                  return b;
+                })
               : undefined;
             
             // 當 hover 或打開時顯示 brand，否則顯示 id
