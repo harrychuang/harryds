@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   height: 100px;
-  z-index: 100;
+  z-index: 1100; // 高於 FeedDetailOverlay 的 z-index: 1000
   
   display: flex;
   justify-content: center;

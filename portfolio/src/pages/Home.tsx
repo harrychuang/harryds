@@ -12,6 +12,7 @@ import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/au
 import { useSmartPreload, usePreloadDebug } from '../hooks/useSmartPreload';
 import { useTheme } from '../theme/useTheme';
 import { useHover } from '../contexts/HoverContext';
+import { useOverlay } from '../contexts/OverlayContext';
 
 const slugify = (text: string) => text
   .toLowerCase()
@@ -37,6 +38,7 @@ const Home: React.FC = () => {
   const { log } = usePreloadDebug();
   const { theme, toggleTheme } = useTheme();
   const { hoveredCardId, setHoveredCardId } = useHover();
+  const { setOpenCardId: setContextOpenCardId, setAnimationPhase: setContextAnimationPhase, overlayScrollRef } = useOverlay();
 
   // 智能預載配置
   const preloadConfig = useMemo(() => ({
@@ -211,7 +213,9 @@ const Home: React.FC = () => {
 
   const handleCloseCard = useCallback(() => {
     setOpenCardId(null);
+    setContextOpenCardId(null); // 同步更新 Context
     setOpenCardAnimationPhase('closed');
+    setContextAnimationPhase('closed'); // 同步更新 Context
     setHoveredCardId(null);
     setIsLogoHovered(false);
     hasPlayedLogoHoverSoundRef.current = false;
@@ -219,7 +223,7 @@ const Home: React.FC = () => {
     logoHoverHandleRef.current?.stop();
     logoClickHandleRef.current?.stop();
     navigate('/', { replace: false });
-  }, [navigate]);
+  }, [navigate, setContextOpenCardId, setContextAnimationPhase]);
 
   const handleLogoClick = useCallback(() => {
     hasPlayedLogoClickSoundRef.current = false;
@@ -234,13 +238,14 @@ const Home: React.FC = () => {
   const handleAnimationPhaseChange = useCallback((phase: 'closed' | 'loading' | 'positioning' | 'expanding' | 'ready') => {
     console.log(`Animation phase changed to: ${phase}, openCardId: ${openCardId}`);
     setOpenCardAnimationPhase(phase);
+    setContextAnimationPhase(phase); // 同步更新 Context
     // 當動畫到達 ready 階段時，記錄該卡片已載入過
     if (phase === 'ready' && openCardId != null) {
       console.log(`Adding card ${openCardId} to loaded set`);
       loadedCardIdsRef.current.add(openCardId);
       console.log(`Loaded cards after add:`, Array.from(loadedCardIdsRef.current));
     }
-  }, [openCardId]);
+  }, [openCardId, setContextAnimationPhase]);
 
   useEffect(() => {
     const root = contentRef.current;
@@ -364,20 +369,24 @@ const Home: React.FC = () => {
     const category = params.category as 'article' | 'project' | undefined;
     if (!idParam || !category) {
       setOpenCardId(null);
+      setContextOpenCardId(null); // 同步更新 Context
       return;
     }
     const id = Number(idParam);
     if (!id || Number.isNaN(id)) {
       setOpenCardId(null);
+      setContextOpenCardId(null); // 同步更新 Context
       return;
     }
     const item = items.find(i => i.id === id && i.category === category);
     if (item) {
       setOpenCardId(item.id);
+      setContextOpenCardId(item.id); // 同步更新 Context
     } else {
       setOpenCardId(null);
+      setContextOpenCardId(null); // 同步更新 Context
     }
-  }, [params.id, params.category, items]);
+  }, [params.id, params.category, items, setContextOpenCardId]);
 
   // 🎯 開發環境的性能統計面板
   const renderDebugPanel = () => {

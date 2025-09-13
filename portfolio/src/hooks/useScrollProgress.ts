@@ -1,25 +1,39 @@
 import { useState, useEffect, useCallback } from 'react';
 
+interface ScrollProgressOptions {
+  /** 自定義滾動容器，如果不提供則監聽 window 滾動 */
+  scrollContainer?: HTMLElement | null;
+}
+
 /**
  * Hook for tracking scroll progress as percentage
  * 監聽滾動進度的 Hook，返回 0-100 的百分比
+ * @param options - 配置選項，可指定自定義滾動容器
  */
-export const useScrollProgress = () => {
+export const useScrollProgress = (options: ScrollProgressOptions = {}) => {
+  const { scrollContainer } = options;
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const updateScrollProgress = useCallback(() => {
-    // 獲取當前滾動位置
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    let scrollTop: number;
+    let scrollableHeight: number;
     
-    // 獲取文檔總高度和視窗高度
-    const docHeight = document.documentElement.scrollHeight;
-    const winHeight = window.innerHeight;
-    
-    // 計算可滾動的總距離
-    const scrollableHeight = docHeight - winHeight;
+    if (scrollContainer) {
+      // 使用自定義滾動容器
+      scrollTop = scrollContainer.scrollTop;
+      const containerHeight = scrollContainer.clientHeight;
+      const contentHeight = scrollContainer.scrollHeight;
+      scrollableHeight = contentHeight - containerHeight;
+    } else {
+      // 使用 window 滾動
+      scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+      scrollableHeight = docHeight - winHeight;
+    }
     
     if (scrollableHeight <= 0) {
-      // 如果頁面高度不足以滾動，進度為 0
+      // 如果高度不足以滾動，進度為 0
       setScrollProgress(0);
       return;
     }
@@ -31,7 +45,7 @@ export const useScrollProgress = () => {
     const clampedProgress = Math.max(0, Math.min(100, progress));
     
     setScrollProgress(clampedProgress);
-  }, []);
+  }, [scrollContainer]);
 
   useEffect(() => {
     // 初始計算
@@ -48,15 +62,30 @@ export const useScrollProgress = () => {
       requestAnimationFrame(updateScrollProgress);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleResize, { passive: true });
+    // 決定要監聽的目標元素
+    const scrollTarget = scrollContainer || window;
+    const resizeTarget = window; // resize 事件總是監聽 window
+    
+    if (scrollContainer) {
+      // 監聽自定義滾動容器
+      scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
+    } else {
+      // 監聽 window 滾動
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    }
+    
+    resizeTarget.addEventListener('resize', handleResize, { passive: true });
 
     // 清理事件監聽器
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
+      if (scrollContainer) {
+        scrollContainer.removeEventListener('scroll', handleScroll);
+      } else {
+        window.removeEventListener('scroll', handleScroll);
+      }
+      resizeTarget.removeEventListener('resize', handleResize);
     };
-  }, [updateScrollProgress]);
+  }, [updateScrollProgress, scrollContainer]);
 
   return scrollProgress;
 };
