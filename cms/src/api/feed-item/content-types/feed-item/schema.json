@@ -55,7 +55,8 @@
         "feed.paragraph",
         "feed.list",
         "feed.image",
-        "feed.heading"
+        "feed.heading",
+        "feed.video"
       ]
     }
   }

@@ -562,16 +562,26 @@ const Home: React.FC = () => {
                     ? ([{ type: 'paragraph', content: item.content }] as FeedContentBlock[])
                     : undefined);
             const resolvedBlocks = rawBlocks
-              ? rawBlocks.map((b) => {
+              ? rawBlocks.map((b, blockIndex) => {
+                  // 📹 調試：記錄每個內容區塊的類型
+                  console.log(`[Home] 項目 ${item.id} 區塊 ${blockIndex}:`, {
+                    type: b.type,
+                    hasVideoSrc: b.type === 'video' && !!(b as any).src,
+                    hasImageSrc: b.type === 'image' && !!(b as any).src,
+                    blockData: b
+                  });
+                  
                   if (b.type === 'image') {
                     return { ...b, src: resolveSrc(b.src) };
                   }
                   if (b.type === 'video') {
-                    return { 
+                    const resolvedVideo = { 
                       ...b, 
                       src: resolveSrc(b.src),
                       poster: b.poster ? resolveSrc(b.poster) : undefined
                     };
+                    console.log(`[Home] Video 區塊解析結果:`, resolvedVideo);
+                    return resolvedVideo;
                   }
                   return b;
                 })

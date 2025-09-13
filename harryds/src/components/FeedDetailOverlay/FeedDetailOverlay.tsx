@@ -453,9 +453,13 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
 
   // 記憶化的 renderBlocks 函數以減少重渲染
   const renderBlocks = useCallback((blocks: FeedContentBlock[]) => {
+    console.log('[FeedDetailOverlay] renderBlocks 收到的區塊:', blocks);
+    
     return (
       <article className="fdo-article">
         {blocks.map((b, i) => {
+          console.log(`[FeedDetailOverlay] 渲染區塊 ${i}:`, { type: b.type, src: (b as any).src });
+          
           if (b.type === 'heading') {
             const level = b.level ?? 2;
             if (level === 1) return <h1 key={i}>{b.content}</h1>;
@@ -463,30 +467,37 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
             return <h2 key={i}>{b.content}</h2>;
           }
           if (b.type === 'paragraph') return <p key={i}>{b.content}</p>;
-          if (b.type === 'image') return (
-            <OptimizedDistortedPixels 
-              key={i}
-              src={b.src} 
-              scrollContainer={scrollContentRef}
-            />
-          );
-          if (b.type === 'video') return (
-            <VideoPlayer
-              key={i}
-              src={b.src}
-              poster={b.poster}
-              alt={b.alt}
-              autoplay={b.autoplay}
-              loop={b.loop}
-              muted={b.muted}
-              controls={b.controls}
-            />
-          );
+          if (b.type === 'image') {
+            console.log(`[FeedDetailOverlay] 使用 OptimizedDistortedPixels (canvas) 渲染 image:`, b);
+            return (
+              <OptimizedDistortedPixels 
+                key={i}
+                src={b.src} 
+                scrollContainer={scrollContentRef}
+              />
+            );
+          }
+          if (b.type === 'video') {
+            console.log(`[FeedDetailOverlay] 使用 VideoPlayer 渲染 video:`, b);
+            return (
+              <VideoPlayer
+                key={i}
+                src={b.src}
+                poster={b.poster}
+                alt={b.alt}
+                autoplay={b.autoplay}
+                loop={b.loop}
+                muted={b.muted}
+                controls={b.controls}
+              />
+            );
+          }
           if (b.type === 'list') return (
             <ul key={i}>
               {b.items.map((t, idx) => <li key={idx}>{t}</li>)}
             </ul>
           );
+          console.log(`[FeedDetailOverlay] 未知區塊類型:`, b);
           return null;
         })}
       </article>

@@ -388,7 +388,13 @@ export interface ApiFeedItemFeedItem extends Struct.CollectionTypeSchema {
     category: Schema.Attribute.Enumeration<['project', 'article']> &
       Schema.Attribute.Required;
     content: Schema.Attribute.DynamicZone<
-      ['feed.paragraph', 'feed.list', 'feed.image', 'feed.heading']
+      [
+        'feed.paragraph',
+        'feed.list',
+        'feed.image',
+        'feed.heading',
+        'feed.video',
+      ]
     >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
