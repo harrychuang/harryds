@@ -348,12 +348,17 @@ const Home: React.FC = () => {
 
   const resolveSrc = (fileName?: string) => {
     if (!fileName) return '';
+    // 如果是完整 URL (http/https) 或協議相對 URL (//)，直接返回
     if (/^https?:\/\//i.test(fileName) || fileName.startsWith('//')) {
       return fileName;
     }
-    const key = `../../assets/imgs/${fileName}`;
-    if (imageModules[key]) return imageModules[key];
-    return new URL(`../../assets/imgs/${fileName}`, import.meta.url).href;
+    // 如果以 '/' 開頭，這可能是 Strapi 的絕對路徑，直接返回
+    if (fileName.startsWith('/')) {
+      return fileName;
+    }
+    // 只有在確定不是 Strapi URL 的情況下，才處理本地圖片
+    // 但根據用戶需求，我們應該只使用 Strapi 的圖片，所以直接返回 fileName
+    return fileName;
   };
 
   useEffect(() => {

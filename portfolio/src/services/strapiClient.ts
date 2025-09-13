@@ -58,6 +58,10 @@ const mapFeedItem = (entity: any): FeedItem => {
   // Strapi v5 直接返回字段，不包裝在 attributes 中
   const data = entity.attributes || entity; // 兼容 v4/v5 格式
   const rawBlocks = Array.isArray(data.content) ? data.content.map(mapBlock).filter(Boolean) as FeedContentBlock[] : undefined;
+  
+  // 直接使用 Strapi 的圖片 URL，不使用備用圖片
+  const heroImageUrl = resolveMediaUrl(data.heroImage ?? undefined);
+  
   return {
     id: entity.id,
     heading: data.heading,
@@ -67,7 +71,7 @@ const mapFeedItem = (entity: any): FeedItem => {
     brand: data.brand ?? undefined,
     primaryColor: data.primaryColor ?? undefined,
     secondaryColor: data.secondaryColor ?? undefined,
-    heroImage: resolveMediaUrl(data.heroImage ?? undefined),
+    heroImage: heroImageUrl, // 只使用 Strapi 的圖片，沒有圖片時為空字串
     content: rawBlocks,
   };
 };
