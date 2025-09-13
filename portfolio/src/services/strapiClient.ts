@@ -7,6 +7,7 @@ import type {
 } from '../types/strapi';
 
 const STRAPI_URL = import.meta.env.VITE_STRAPI_URL as string | undefined;
+console.log('[strapiClient] STRAPI_URL 設定:', STRAPI_URL || '未設定');
 
 const joinUrl = (base: string, path: string) => {
   const b = base.replace(/\/$/, '');
@@ -26,9 +27,30 @@ export const normalizeAssetUrl = (url?: string | null): string => {
   return fullUrl;
 };
 
-const resolveMediaUrl = (rel?: StrapiMediaRelation | null): string => {
-  const raw = rel?.data?.attributes?.url;
-  return normalizeAssetUrl(raw ?? '');
+const resolveMediaUrl = (rel?: StrapiMediaRelation | any | null): string => {
+  console.log('[resolveMediaUrl] 輸入的媒體關聯:', rel);
+  
+  // 處理不同的 Strapi 版本格式
+  let raw: string | undefined;
+  
+  if (rel?.data?.attributes?.url) {
+    // Strapi v4 格式: { data: { attributes: { url: '...' } } }
+    raw = rel.data.attributes.url;
+    console.log('[resolveMediaUrl] 使用 Strapi v4 格式');
+  } else if (rel?.url) {
+    // Strapi v5 或直接圖片物件格式: { id, url, documentId }
+    raw = rel.url;
+    console.log('[resolveMediaUrl] 使用 Strapi v5 或直接物件格式');
+  } else if (typeof rel === 'string') {
+    // 直接是字串 URL
+    raw = rel;
+    console.log('[resolveMediaUrl] 使用直接字串格式');
+  }
+  
+  console.log('[resolveMediaUrl] 提取的原始 URL:', raw);
+  const result = normalizeAssetUrl(raw ?? '');
+  console.log('[resolveMediaUrl] 最終 URL:', result);
+  return result;
 };
 
 const mapBlock = (block: StrapiFeedBlock): FeedContentBlock | null => {
@@ -60,12 +82,19 @@ const mapBlock = (block: StrapiFeedBlock): FeedContentBlock | null => {
 };
 
 const mapFeedItem = (entity: any): FeedItem => {
+  console.log('[mapFeedItem] 處理項目:', entity.id, entity.heading || entity.attributes?.heading);
   // Strapi v5 直接返回字段，不包裝在 attributes 中
   const data = entity.attributes || entity; // 兼容 v4/v5 格式
+  console.log('[mapFeedItem] 項目資料:', { 
+    hasHeroImage: !!data.heroImage, 
+    heroImageStructure: data.heroImage 
+  });
+  
   const rawBlocks = Array.isArray(data.content) ? data.content.map(mapBlock).filter(Boolean) as FeedContentBlock[] : undefined;
   
   // 直接使用 Strapi 的圖片 URL，不使用備用圖片
   const heroImageUrl = resolveMediaUrl(data.heroImage ?? undefined);
+  console.log('[mapFeedItem] 項目', entity.id, '最終圖片 URL:', heroImageUrl);
   
   return {
     id: entity.id,

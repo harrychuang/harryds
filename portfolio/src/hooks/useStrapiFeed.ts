@@ -11,8 +11,11 @@ export function useStrapiFeed() {
     let mounted = true;
     (async () => {
       try {
+        console.log('[useStrapiFeed] 開始從 Strapi 獲取資料...');
         const fromStrapi = await fetchFeedItemsFromStrapi();
         if (!mounted) return;
+        console.log('[useStrapiFeed] 成功獲取資料:', fromStrapi.length, '筆項目');
+        console.log('[useStrapiFeed] 第一個項目的圖片:', fromStrapi[0]?.heroImage);
         setItems(fromStrapi);
         setError(null);
       } catch (e: any) {

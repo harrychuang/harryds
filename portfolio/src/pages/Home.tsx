@@ -23,8 +23,16 @@ const Home: React.FC = () => {
   const params = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { items: strapiItems } = useStrapiFeed();
+  const { items: strapiItems, loading, error } = useStrapiFeed();
   const items = useMemo(() => strapiItems as FeedItem[], [strapiItems]);
+  
+  // 調試信息：顯示資料載入狀態
+  useEffect(() => {
+    console.log('[Home] 資料載入狀態:', { loading, error, itemCount: items.length });
+    if (items.length > 0) {
+      console.log('[Home] 第一個項目圖片:', items[0].heroImage);
+    }
+  }, [loading, error, items]);
   const { log } = usePreloadDebug();
   const { theme, toggleTheme } = useTheme();
 
@@ -539,9 +547,14 @@ const Home: React.FC = () => {
           data-hover-id={hoveredCardId ?? undefined}
           ref={contentRef}
         >
-          {items.slice(0, 9).map((item, index) => {
-            const size = getSizeByIndex(index);
-            const src = resolveSrc(item.heroImage);
+        {items.slice(0, 9).map((item, index) => {
+          const size = getSizeByIndex(index);
+          const src = resolveSrc(item.heroImage);
+          console.log(`[Home] 項目 ${item.id} 圖片處理:`, { 
+            original: item.heroImage, 
+            resolved: src,
+            hasImage: !!src
+          });
             const rawBlocks: FeedContentBlock[] | undefined =
               Array.isArray(item.content)
                 ? (item.content as FeedContentBlock[])
