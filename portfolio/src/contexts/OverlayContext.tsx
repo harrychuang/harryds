@@ -8,6 +8,16 @@ interface OverlayContextType {
   animationPhase: OverlayAnimationPhase;
   setAnimationPhase: (phase: OverlayAnimationPhase) => void;
   overlayScrollRef: React.MutableRefObject<HTMLDivElement | null>;
+  // 8-bit 轉場動畫狀態
+  isTransitioning: boolean;
+  setIsTransitioning: (transitioning: boolean) => void;
+  transitionClickPosition: { x: number; y: number } | null;
+  setTransitionClickPosition: (position: { x: number; y: number } | null) => void;
+  transitionColor: string;
+  setTransitionColor: (color: string) => void;
+  // 控制轉場動畫是否應該開始消失（內容載入完成後才消失）
+  shouldStartDisappear: boolean;
+  setShouldStartDisappear: (should: boolean) => void;
 }
 
 const OverlayContext = createContext<OverlayContextType>({
@@ -16,6 +26,14 @@ const OverlayContext = createContext<OverlayContextType>({
   animationPhase: 'closed',
   setAnimationPhase: () => {},
   overlayScrollRef: { current: null },
+  isTransitioning: false,
+  setIsTransitioning: () => {},
+  transitionClickPosition: null,
+  setTransitionClickPosition: () => {},
+  transitionColor: '#000000',
+  setTransitionColor: () => {},
+  shouldStartDisappear: false,
+  setShouldStartDisappear: () => {},
 });
 
 interface OverlayProviderProps {
@@ -26,6 +44,12 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children }) =>
   const [openCardId, setOpenCardId] = useState<number | null>(null);
   const [animationPhase, setAnimationPhase] = useState<OverlayAnimationPhase>('closed');
   const overlayScrollRef = useRef<HTMLDivElement | null>(null);
+  
+  // 8-bit 轉場動畫狀態
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [transitionClickPosition, setTransitionClickPosition] = useState<{ x: number; y: number } | null>(null);
+  const [transitionColor, setTransitionColor] = useState('#000000');
+  const [shouldStartDisappear, setShouldStartDisappear] = useState(false);
 
   return (
     <OverlayContext.Provider value={{
@@ -34,6 +58,14 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children }) =>
       animationPhase,
       setAnimationPhase,
       overlayScrollRef,
+      isTransitioning,
+      setIsTransitioning,
+      transitionClickPosition,
+      setTransitionClickPosition,
+      transitionColor,
+      setTransitionColor,
+      shouldStartDisappear,
+      setShouldStartDisappear,
     }}>
       {children}
     </OverlayContext.Provider>

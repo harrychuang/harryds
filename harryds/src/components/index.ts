@@ -3,7 +3,7 @@
 // =============================================================================
 
 // PixelText - 8-bit 風格像素文字元件
-export { PixelText } from './PixelText';
+export { PixelText, PixelText2D } from './PixelText';
 export type { PixelTextProps } from './PixelText';
 
 // 當有新元件時，在此處匯出

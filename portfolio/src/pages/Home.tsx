@@ -2,7 +2,7 @@ import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react'
 import './Home.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Logo, FeedDetailOverlay, PixelText } from 'hds';
+import { Logo, FeedDetailOverlay, PixelText, PixelText2D } from 'hds';
 import type { FeedCardSize } from 'hds';
 import type { FeedItem, FeedContentBlock } from '../../../harryds/src/types/feed';
 import { useStrapiFeed } from '../hooks/useStrapiFeed';
@@ -13,6 +13,7 @@ import { useSmartPreload, usePreloadDebug } from '../hooks/useSmartPreload';
 import { useTheme } from '../theme/useTheme';
 import { useHover } from '../contexts/HoverContext';
 import { useOverlay } from '../contexts/OverlayContext';
+import TransitionOverlay from '../components/TransitionOverlay';
 
 const slugify = (text: string) => text
   .toLowerCase()
@@ -38,7 +39,19 @@ const Home: React.FC = () => {
   const { log } = usePreloadDebug();
   const { theme, toggleTheme } = useTheme();
   const { hoveredCardId, setHoveredCardId } = useHover();
-  const { setOpenCardId: setContextOpenCardId, setAnimationPhase: setContextAnimationPhase, overlayScrollRef } = useOverlay();
+  const { 
+    setOpenCardId: setContextOpenCardId, 
+    setAnimationPhase: setContextAnimationPhase, 
+    overlayScrollRef,
+    isTransitioning,
+    setIsTransitioning,
+    transitionClickPosition,
+    setTransitionClickPosition,
+    transitionColor,
+    setTransitionColor,
+    shouldStartDisappear,
+    setShouldStartDisappear,
+  } = useOverlay();
 
   // 智能預載配置
   const preloadConfig = useMemo(() => ({
@@ -60,6 +73,7 @@ const Home: React.FC = () => {
   const [openCardAnimationPhase, setOpenCardAnimationPhase] = useState<'closed' | 'loading' | 'positioning' | 'expanding' | 'ready'>('closed');
   const [isLogoHovered, setIsLogoHovered] = useState<boolean>(false);
   const loadedCardIdsRef = useRef<Set<number>>(new Set());
+  const pendingTransitionRef = useRef<{ cardId: number; clickPosition: { x: number; y: number } | null } | null>(null);
 
   // 導覽選單 hover 觸發一次動畫狀態
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
@@ -205,11 +219,38 @@ const Home: React.FC = () => {
     return `/${item.category}/${item.id}/${slug}`;
   }, []);
 
-  const handleOpenCard = useCallback((cardId: number) => {
+  const handleOpenCard = useCallback((cardId: number, event?: React.MouseEvent) => {
     const item = items.find(i => i.id === cardId);
     if (!item) return;
-    navigate(toItemUrl(item), { replace: false });
-  }, [items, navigate, toItemUrl]);
+    
+    // 保存卡片資訊，用於載入完成後的判斷
+    const clickPos = event ? { x: event.clientX, y: event.clientY } : null;
+    pendingTransitionRef.current = { cardId, clickPosition: clickPos };
+    
+    // 設置轉場顏色為卡片的主色
+    setTransitionColor(item.primaryColor || '#000000');
+    
+    // 設置點擊位置
+    if (clickPos) {
+      setTransitionClickPosition(clickPos);
+    } else {
+      setTransitionClickPosition({ 
+        x: window.innerWidth / 2, 
+        y: window.innerHeight / 2 
+      });
+    }
+    
+    // 重置消失狀態
+    setShouldStartDisappear(false);
+    
+    // 立即播放轉場動畫（擴展階段）
+    setIsTransitioning(true);
+    
+    // 延遲一小段時間再導航，確保動畫已經開始
+    setTimeout(() => {
+      navigate(toItemUrl(item), { replace: false });
+    }, 50);
+  }, [items, navigate, toItemUrl, setTransitionColor, setTransitionClickPosition, setShouldStartDisappear, setIsTransitioning]);
 
   const handleCloseCard = useCallback(() => {
     setOpenCardId(null);
@@ -246,6 +287,24 @@ const Home: React.FC = () => {
       console.log(`Loaded cards after add:`, Array.from(loadedCardIdsRef.current));
     }
   }, [openCardId, setContextAnimationPhase]);
+
+  // 監聽動畫階段變化，當內容載入完成（ready）時開始消失動畫
+  useEffect(() => {
+    if (openCardAnimationPhase === 'ready' && pendingTransitionRef.current) {
+      const { cardId } = pendingTransitionRef.current;
+      
+      // 確認是同一張卡片
+      if (cardId === openCardId) {
+        console.log('[Home] 內容載入完成，開始消失動畫');
+        
+        // 通知轉場動畫可以開始消失了
+        setShouldStartDisappear(true);
+        
+        // 清除待處理的轉場
+        pendingTransitionRef.current = null;
+      }
+    }
+  }, [openCardAnimationPhase, openCardId, setShouldStartDisappear]);
 
   useEffect(() => {
     const root = contentRef.current;
@@ -501,7 +560,7 @@ const Home: React.FC = () => {
                   onMouseEnter={() => { triggerMenuHoverOnce(item); playMenuHoverSound(); }}
                   onClick={() => { playMenuClickSound(); }}
                 >
-                  <PixelText
+                  <PixelText2D
                     text={menuText}
                     textEnabled
                     pixelSize={2}
@@ -515,7 +574,7 @@ const Home: React.FC = () => {
                 </div>
               );
             })}
-            {/* Theme toggle button using PixelText text-box with sun/moon */}
+            {/* Theme toggle button using PixelText2D (2D Canvas, no WebGL) */}
             <div className="home__nav-item">
               <div
                 role="button"
@@ -533,7 +592,7 @@ const Home: React.FC = () => {
                 className="theme-toggle"
                 style={{ borderColor: ((logoColors as any).primaryColor) || 'var(--hds-sys-color-theme-surface)' }}
               >
-                <PixelText
+                <PixelText2D
                   text={theme === 'dark' ? '☽' : '☀'}
                   textEnabled
                   pixelSize={2}
@@ -602,17 +661,30 @@ const Home: React.FC = () => {
             
             // 🚀 關鍵優化：使用預載狀態決定初始階段
             const initialPhase = (() => {
+              // 如果這張卡片正在被打開，跳過 loading 動畫
+              // 因為我們有轉場動畫來處理視覺過渡
+              if (openCardId === item.id) {
+                const hasLoaded = loadedCardIdsRef.current.has(item.id);
+                if (hasLoaded) {
+                  log(`卡片 ${item.id} 已完全載入，直接顯示 ready`);
+                  return 'ready';
+                } else {
+                  // 即使未預載，也跳過 loading 動畫，直接進入 positioning
+                  // 因為轉場動畫已經提供了視覺回饋
+                  log(`卡片 ${item.id} 正在打開，跳過 loading 動畫`);
+                  return 'positioning';
+                }
+              }
+              
+              // 對於其他卡片，維持原有邏輯
               const hasLoaded = loadedCardIdsRef.current.has(item.id);
               const hasPreloaded = isPreloaded(item.id);
               
               if (hasLoaded) {
-                log(`卡片 ${item.id} 已完全載入，直接顯示 ready`);
                 return 'ready';
               } else if (hasPreloaded) {
-                log(`卡片 ${item.id} 已預載，跳過 loading 動畫`);
                 return 'expanding';
               } else {
-                log(`卡片 ${item.id} 未預載，顯示 loading 動畫`);
                 return 'loading';
               }
             })();
@@ -624,7 +696,7 @@ const Home: React.FC = () => {
                 data-id={item.id}
                 data-open={openCardId === item.id ? 'true' : undefined}
                 data-preloaded={isPreloaded(item.id) ? 'true' : undefined}
-                onClick={() => handleOpenCard(item.id)}
+                onClick={(e) => handleOpenCard(item.id, e)}
                 onMouseEnter={() => handleCardHover(item.id)}
                 onMouseLeave={handleCardLeave}
                 style={{ 
@@ -633,24 +705,24 @@ const Home: React.FC = () => {
                 } as React.CSSProperties}
               >
                 <FeedDetailOverlay
-                  open={openCardId === item.id}
-                  onClose={handleCloseCard}
-                  onAnimationPhaseChange={openCardId === item.id ? handleAnimationPhaseChange : undefined}
-                  src={src}
-                  sizeWhenClosed={size}
-                  padding={40}
-                  backgroundProps={{ 
-                    pixelSize: size === 'hero' ? 80 : size === 'med' ? 70 : size === 'sm' ? 60 : 50,
-                    hoverPixelToOne: true,
-                    hoverPixelDuration: 500,
-                    desaturateUntilHover: true,
-                    objectFit: 'cover'
-                  }}
-                  secondaryColor={item.secondaryColor}
-                  infoMaxWidth={1600}
-                  infoData={{ id: displayId, heading: item.heading, date: item.date, tags: item.tags, category: item.category }}
-                  primaryColor={item.primaryColor}
-                  contentBlocks={resolvedBlocks}
+                    open={openCardId === item.id}
+                    onClose={handleCloseCard}
+                    onAnimationPhaseChange={openCardId === item.id ? handleAnimationPhaseChange : undefined}
+                    src={src}
+                    sizeWhenClosed={size}
+                    padding={40}
+                    backgroundProps={{ 
+                      pixelSize: size === 'hero' ? 80 : size === 'med' ? 70 : size === 'sm' ? 60 : 50,
+                      hoverPixelToOne: true,
+                      hoverPixelDuration: 500,
+                      desaturateUntilHover: true,
+                      objectFit: 'cover'
+                    }}
+                    secondaryColor={item.secondaryColor}
+                    infoMaxWidth={1600}
+                    infoData={{ id: displayId, heading: item.heading, date: item.date, tags: item.tags, category: item.category }}
+                    primaryColor={item.primaryColor}
+                    contentBlocks={resolvedBlocks}
                   use2D={size === 'xs'}
                   initialPhase={initialPhase}
                 />
@@ -659,6 +731,22 @@ const Home: React.FC = () => {
           })}
         </div>
       </div>
+
+      {/* 8-bit 風格的轉場動畫 */}
+      <TransitionOverlay
+        isActive={isTransitioning}
+        clickPosition={transitionClickPosition || undefined}
+        color={transitionColor}
+        shouldStartDisappear={shouldStartDisappear}
+        onFilled={() => {
+          console.log('[Home] 轉場動畫已填滿畫面');
+        }}
+        onComplete={() => {
+          console.log('[Home] 轉場動畫完成');
+          setIsTransitioning(false);
+          setShouldStartDisappear(false);
+        }}
+      />
     </div>
   );
 };

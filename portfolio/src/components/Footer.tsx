@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect } from 'react';
-import { PixelText } from 'hds';
+import { PixelText2D } from 'hds';
 import './Footer.scss';
 import { calculatePixelTextWidth } from '../utils/pixelTextUtils';
 import { useParams } from 'react-router-dom';
@@ -100,7 +100,7 @@ const Footer: React.FC = () => {
     <footer className="footer">
       <div className="footer__content">
         <div className="footer__left">
-          <PixelText 
+          <PixelText2D 
             text={leftText}
             textEnabled 
             pixelSize={pixelSize}
@@ -109,7 +109,7 @@ const Footer: React.FC = () => {
             primaryColor={footerColors.primaryColor}
             onPrimaryColor={footerColors.secondaryColor}
           />
-          <PixelText 
+          <PixelText2D 
             text=""
             textEnabled={false}
             textBoxEnabled={true}
@@ -124,7 +124,7 @@ const Footer: React.FC = () => {
           />
         </div>
         <div className="footer__right">
-          <PixelText 
+          <PixelText2D 
             text={rightText}
             textEnabled 
             pixelSize={pixelSize}
