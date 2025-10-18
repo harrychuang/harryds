@@ -61,7 +61,7 @@ const TransitionOverlay: React.FC<TransitionOverlayProps> = ({
     // 重置填滿回調標記
     hasCalledFilledRef.current = false;
 
-    const pixelSize = 20; // 8-bit 風格的像素大小（增大讓效果更明顯）
+    const pixelSize = 80; // 8-bit 風格的像素大小（增大讓效果更明顯）
     const cols = Math.ceil(canvas.width / pixelSize);
     const rows = Math.ceil(canvas.height / pixelSize);
     
@@ -101,8 +101,8 @@ const TransitionOverlay: React.FC<TransitionOverlayProps> = ({
       }
     }
 
-    const expandDuration = 500; // 擴展階段持續時間
-    const disappearDuration = 400; // 消失階段持續時間
+    const expandDuration = 250; // 擴展階段持續時間
+    const disappearDuration = 500; // 消失階段持續時間
     const startTime = Date.now();
 
     const animate = () => {
@@ -183,13 +183,7 @@ const TransitionOverlay: React.FC<TransitionOverlayProps> = ({
             // 主色塊 - 添加像素邊緣效果
             ctx.fillStyle = color;
             ctx.globalAlpha = alpha;
-            ctx.fillRect(x + 1, y + 1, pixelSize - 2, pixelSize - 2);
-            
-            // 添加高光效果（讓像素更有立體感）
-            if (alpha > 0.7 && disappearProgress === 0) {
-              ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-              ctx.fillRect(x + 2, y + 2, pixelSize / 3, pixelSize / 3);
-            }
+            ctx.fillRect(x + 1, y + 1, pixelSize - 0, pixelSize - 0);
             
             ctx.globalAlpha = 1;
           }
