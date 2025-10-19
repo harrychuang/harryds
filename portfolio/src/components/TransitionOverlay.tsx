@@ -61,7 +61,7 @@ const TransitionOverlay: React.FC<TransitionOverlayProps> = ({
     // 重置填滿回調標記
     hasCalledFilledRef.current = false;
 
-    const pixelSize = 80; // 8-bit 風格的像素大小（增大讓效果更明顯）
+    const pixelSize = 60; // 8-bit 風格的像素大小（增大讓效果更明顯）
     const cols = Math.ceil(canvas.width / pixelSize);
     const rows = Math.ceil(canvas.height / pixelSize);
     
@@ -102,7 +102,7 @@ const TransitionOverlay: React.FC<TransitionOverlayProps> = ({
     }
 
     const expandDuration = 250; // 擴展階段持續時間
-    const disappearDuration = 500; // 消失階段持續時間
+    const disappearDuration = 600; // 消失階段持續時間
     const startTime = Date.now();
 
     const animate = () => {

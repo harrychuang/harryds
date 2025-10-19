@@ -119,31 +119,17 @@ async function createOrUpdate(item) {
     publishedAt: new Date().toISOString(),
   };
 
-  const existing = await findExistingByHeadingDate(item.heading, item.date);
-  if (existing) {
-    const res = await fetch(`${STRAPI_URL}/api/feed-items/${existing.id}`, {
-      method: 'PUT',
-      headers: headersJSON,
-      body: JSON.stringify({ data }),
-    });
-    if (!res.ok) {
-      const txt = await res.text();
-      console.error(`[seed-http] Update failed for ${item.heading}:`, res.status, txt);
-    } else {
-      console.log(`[seed-http] Updated: ${item.heading}`);
-    }
+  // Force create (skip checking for existing to avoid stale IDs)
+  const res = await fetch(`${STRAPI_URL}/api/feed-items`, {
+    method: 'POST',
+    headers: headersJSON,
+    body: JSON.stringify({ data }),
+  });
+  if (!res.ok) {
+    const txt = await res.text();
+    console.error(`[seed-http] Create failed for ${item.heading}:`, res.status, txt);
   } else {
-    const res = await fetch(`${STRAPI_URL}/api/feed-items`, {
-      method: 'POST',
-      headers: headersJSON,
-      body: JSON.stringify({ data }),
-    });
-    if (!res.ok) {
-      const txt = await res.text();
-      console.error(`[seed-http] Create failed for ${item.heading}:`, res.status, txt);
-    } else {
-      console.log(`[seed-http] Created: ${item.heading}`);
-    }
+    console.log(`[seed-http] Created: ${item.heading}`);
   }
 }
 

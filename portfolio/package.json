@@ -9,21 +9,21 @@
     "preview": "vite preview --host"
   },
   "dependencies": {
+    "@types/three": "^0.179.0",
+    "i18next": "^23.10.1",
+    "i18next-browser-languagedetector": "^7.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.23.1",
-    "i18next": "^23.10.1",
     "react-i18next": "^13.5.0",
-    "i18next-browser-languagedetector": "^7.2.0",
-    "three": "^0.179.1",
-    "@types/three": "^0.179.0"
+    "react-router-dom": "^6.23.1",
+    "three": "^0.179.1"
   },
   "devDependencies": {
-    "typescript": "^5.4.0",
-    "vite": "^5.0.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^4.2.0",
-    "sass": "^1.70.0"
+    "sass": "^1.70.0",
+    "typescript": "^5.4.0",
+    "vite": "^5.0.0"
   }
 }
-
-

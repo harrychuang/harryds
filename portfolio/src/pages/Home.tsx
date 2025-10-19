@@ -220,8 +220,16 @@ const Home: React.FC = () => {
   }, []);
 
   const handleOpenCard = useCallback((cardId: number, event?: React.MouseEvent) => {
+    // 如果已經有卡片開啟或正在轉場中，直接返回（避免重複觸發）
+    if (openCardId !== null || isTransitioning) {
+      console.log('[Home] 阻止重複開啟卡片，當前狀態:', { openCardId, isTransitioning });
+      return;
+    }
+    
     const item = items.find(i => i.id === cardId);
     if (!item) return;
+    
+    console.log('[Home] 開啟卡片:', cardId);
     
     // 保存卡片資訊，用於載入完成後的判斷
     const clickPos = event ? { x: event.clientX, y: event.clientY } : null;
@@ -250,9 +258,10 @@ const Home: React.FC = () => {
     setTimeout(() => {
       navigate(toItemUrl(item), { replace: false });
     }, 50);
-  }, [items, navigate, toItemUrl, setTransitionColor, setTransitionClickPosition, setShouldStartDisappear, setIsTransitioning]);
+  }, [openCardId, isTransitioning, items, navigate, toItemUrl, setTransitionColor, setTransitionClickPosition, setShouldStartDisappear, setIsTransitioning]);
 
   const handleCloseCard = useCallback(() => {
+    console.log('[Home] 關閉卡片');
     setOpenCardId(null);
     setContextOpenCardId(null); // 同步更新 Context
     setOpenCardAnimationPhase('closed');
@@ -263,8 +272,14 @@ const Home: React.FC = () => {
     hasPlayedLogoClickSoundRef.current = false;
     logoHoverHandleRef.current?.stop();
     logoClickHandleRef.current?.stop();
+    
+    // 重置轉場動畫狀態
+    setIsTransitioning(false);
+    setShouldStartDisappear(false);
+    pendingTransitionRef.current = null;
+    
     navigate('/', { replace: false });
-  }, [navigate, setContextOpenCardId, setContextAnimationPhase]);
+  }, [navigate, setContextOpenCardId, setContextAnimationPhase, setIsTransitioning, setShouldStartDisappear]);
 
   const handleLogoClick = useCallback(() => {
     hasPlayedLogoClickSoundRef.current = false;
@@ -696,11 +711,19 @@ const Home: React.FC = () => {
                 data-id={item.id}
                 data-open={openCardId === item.id ? 'true' : undefined}
                 data-preloaded={isPreloaded(item.id) ? 'true' : undefined}
-                onClick={(e) => handleOpenCard(item.id, e)}
+                onClick={(e) => {
+                  // 當有其他卡片開啟時，禁止點擊
+                  if (openCardId && openCardId !== item.id) {
+                    e.stopPropagation();
+                    return;
+                  }
+                  handleOpenCard(item.id, e);
+                }}
                 onMouseEnter={() => handleCardHover(item.id)}
                 onMouseLeave={handleCardLeave}
                 style={{ 
-                  cursor: openCardId === item.id ? 'auto' : 'pointer', 
+                  cursor: openCardId === item.id ? 'auto' : (openCardId ? 'default' : 'pointer'),
+                  pointerEvents: openCardId && openCardId !== item.id ? 'none' : 'auto',
                   ['--stagger-index' as any]: index
                 } as React.CSSProperties}
               >

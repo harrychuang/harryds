@@ -10,6 +10,14 @@
   - It uploads heroImage and content image blocks from portfolio/assets/imgs/**
 */
 
+// Enable TS config support when running Strapi programmatically
+try {
+  require('ts-node').register({ transpileOnly: true });
+  try { require('tsconfig-paths/register'); } catch (_) {}
+} catch (e) {
+  console.warn('[seed] ts-node not found; TS config may fail to load.');
+}
+
 const fs = require('fs');
 const path = require('path');
 
