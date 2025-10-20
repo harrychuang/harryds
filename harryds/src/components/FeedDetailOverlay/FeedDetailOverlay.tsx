@@ -16,6 +16,8 @@ import './FeedDetailOverlay.scss';
 import startSoundUrl from '../../../assets/sound/8-Bit Retro Sound Effect-level-up.mp3';
 import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
 import iconLinkUrl from '../../../assets/imgs/icon/icon-link.svg';
+import { DistortedPixels2D } from '../DistortedPixels/DistortedPixels2D';
+import demoShopmaticUrl from '../../../assets/imgs/demo/demo-shopmatic-01.jpg';
 
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
   /** 是否開啟 overlay */
@@ -440,6 +442,41 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                     {projectInfo.description}
                   </p>
                 )}
+                
+                {/* DistortedPixels2D 圖片展示 */}
+                <div className="feed-detail-overlay__project-image">
+                  <DistortedPixels2D
+                    src={demoShopmaticUrl}
+                    objectFit="responsive"
+                    direction="y"
+                    maxPixelation={80}
+                    maxDistortion={1}
+                    scrollSensitivity={0.2}
+                    decaySpeed={0.95}
+                    scrollContainer={scrollContentRef}
+                  />
+                </div>
+
+                {/* 標題與內容區塊 */}
+                <div className="feed-detail-overlay__project-section">
+                  {/* Pixel 字體標題 */}
+                  <h2 className="feed-detail-overlay__section-title">
+                    Scope_
+                  </h2>
+
+                  {/* 內容文字 */}
+                  <div className="feed-detail-overlay__section-content">
+                    <p>
+                      The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.
+                    </p>
+                    <p>
+                      Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.
+                    </p>
+                    <p>
+                      The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </section>

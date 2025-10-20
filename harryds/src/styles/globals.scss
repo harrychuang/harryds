@@ -4,8 +4,17 @@
 
 @use './tokens.scss';
 
-/* Inter font (Bold 700, ExtraBold 800, Black 900) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&display=swap');
+/* Inter font (Medium 500, Bold 700, ExtraBold 800, Black 900) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&display=swap');
+
+/* Pixel font - 8-bit style font */
+@font-face {
+  font-family: 'Pixel';
+  src: url('../assets/fonts/Pixel.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 // 基礎重置
 *,

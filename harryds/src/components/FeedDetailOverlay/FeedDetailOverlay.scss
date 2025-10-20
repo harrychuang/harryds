@@ -297,6 +297,43 @@
     margin: 0;
   }
 
+  &__project-image {
+    width: 100%;
+    margin-top: 60px;
+  }
+
+  &__project-section {
+    width: 100%;
+    margin-top: 80px;
+  }
+
+  &__section-title {
+    font-family: 'Pixel', monospace;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 130%; /* 52px */
+    text-transform: uppercase;
+    color: var(--feed-detail-primary-color, var(--on-hds-sys-color-surface, #fff));
+    margin: 0 0 20px 0;
+  }
+
+  &__section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    p {
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 130%; /* 26px */
+      color: #fff;
+      margin: 0;
+    }
+  }
+
   // =============================================================================
   // CTA 按鈕（特殊棋盤背景）
   // =============================================================================
