@@ -15,6 +15,7 @@ import type { FeedContentBlock, ProjectInfo } from '../../types/feed';
 import './FeedDetailOverlay.scss';
 import startSoundUrl from '../../../assets/sound/8-Bit Retro Sound Effect-level-up.mp3';
 import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
+import iconLinkUrl from '../../../assets/imgs/icon/icon-link.svg';
 
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
   /** 是否開啟 overlay */
@@ -398,25 +399,36 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                     rel="noopener noreferrer"
                     className="feed-detail-overlay__cta-button"
                   >
-                    <div className="feed-detail-overlay__cta-background">
-                      {/* 12個方塊背景 - 前6個 primary，後6個 secondary */}
-                      {/* Primary Color 方塊 (6個): 100%, 80%, 60%, 40%, 20%, 10% */}
-                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: primaryColor, opacity: 1 }} />
-                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: primaryColor, opacity: 0.8 }} />
-                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: primaryColor, opacity: 0.6 }} />
-                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: primaryColor, opacity: 0.4 }} />
-                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: primaryColor, opacity: 0.2 }} />
-                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: primaryColor, opacity: 0.1 }} />
-                      {/* Secondary Color 方塊 (6個): 10%, 20%, 40%, 60%, 80%, 100% */}
-                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: secondaryColor, opacity: 0.1 }} />
-                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: secondaryColor, opacity: 0.2 }} />
-                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: secondaryColor, opacity: 0.4 }} />
-                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: secondaryColor, opacity: 0.6 }} />
-                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: secondaryColor, opacity: 0.8 }} />
-                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: secondaryColor, opacity: 1 }} />
+                    <div 
+                      className="feed-detail-overlay__cta-background"
+                      style={{
+                        '--cta-primary': primaryColor,
+                        '--cta-secondary': secondaryColor,
+                      } as React.CSSProperties}
+                    >
+                      {/* 12個方塊背景 - 顏色會循環移動 */}
+                      <div className="feed-detail-overlay__cta-stripe" data-stripe="1" />
+                      <div className="feed-detail-overlay__cta-stripe" data-stripe="2" />
+                      <div className="feed-detail-overlay__cta-stripe" data-stripe="3" />
+                      <div className="feed-detail-overlay__cta-stripe" data-stripe="4" />
+                      <div className="feed-detail-overlay__cta-stripe" data-stripe="5" />
+                      <div className="feed-detail-overlay__cta-stripe" data-stripe="6" />
+                      <div className="feed-detail-overlay__cta-stripe" data-stripe="7" />
+                      <div className="feed-detail-overlay__cta-stripe" data-stripe="8" />
+                      <div className="feed-detail-overlay__cta-stripe" data-stripe="9" />
+                      <div className="feed-detail-overlay__cta-stripe" data-stripe="10" />
+                      <div className="feed-detail-overlay__cta-stripe" data-stripe="11" />
+                      <div className="feed-detail-overlay__cta-stripe" data-stripe="12" />
                     </div>
-                    <span className="feed-detail-overlay__cta-text">
-                      {projectInfo.websiteLabel || 'VISIT WEBSITE'}
+                    <span className="feed-detail-overlay__cta-content">
+                      <img 
+                        src={iconLinkUrl} 
+                        alt="" 
+                        className="feed-detail-overlay__cta-icon"
+                      />
+                      <span className="feed-detail-overlay__cta-text">
+                        {projectInfo.websiteLabel || 'VISIT WEBSITE'}
+                      </span>
                     </span>
                   </a>
                 )}
