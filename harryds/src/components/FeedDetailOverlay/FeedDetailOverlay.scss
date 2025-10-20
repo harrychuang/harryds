@@ -95,7 +95,7 @@
     // Expanding/Ready 階段：hero 固定 75vh
     .feed-detail-overlay--expanding &,
     .feed-detail-overlay--ready & {
-      height: 65vh;
+      height: 80vh;
       flex: none; // 不被 flex 擠壓
       transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       will-change: height;
@@ -192,6 +192,29 @@
       }
 
     }
+  }
+
+  // =============================================================================
+  // 特殊主圖 - Awwrated Heading Image
+  // =============================================================================
+  
+  &__special-heading {
+    position: fixed;
+    right: 0;
+    z-index: 1003; // 高於其他元素
+    width: 70vw; // 固定寬度
+    height: auto;
+    // top 由 JavaScript 動態控制實現 Parallax 效果
+    transition: top 0.1s linear;
+    will-change: top;
+    pointer-events: none; // 避免遮擋其他互動元素
+  }
+  
+  &__special-heading-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
   }
 
   // =============================================================================

@@ -21,6 +21,7 @@ import demoShopmatic01Url from '../../../assets/imgs/demo/demo-shopmatic-01.jpg'
 import demoShopmatic02Url from '../../../assets/imgs/demo/demo-shopmatic-02.jpg';
 import demoShopmatic03Url from '../../../assets/imgs/demo/demo-shopmatic-03.jpg';
 import demoShopmatic04Url from '../../../assets/imgs/demo/demo-shopmatic-04.jpg';
+import projectAwwratedHeadingImgUrl from '../../../assets/imgs/demo/project-awwrated-heading-img.png';
 
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
   /** 是否開啟 overlay */
@@ -86,6 +87,10 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   const [scrollMaskOpacity, setScrollMaskOpacity] = useState<number>(0.8);
   const scrollRafRef = useRef<number | null>(null);
   const lastScrollTopRef = useRef<number>(0);
+  
+  // 特殊主圖滾動效果狀態（只需要 Parallax top 位置）
+  const [specialHeadingImgTop, setSpecialHeadingImgTop] = useState<number>(-10); // vh 單位
+  const specialHeadingImgRef = useRef<HTMLDivElement | null>(null);
   
   const overlayRef = useRef<HTMLDivElement | null>(null);
   // 注意：hero 高度現在由 CSS 直接設定為 75vh，不再需要 JavaScript 計算
@@ -283,6 +288,32 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     };
   }, [open]);
 
+  // 特殊主圖滾動效果：Parallax 效果往上移動
+  useEffect(() => {
+    if (!open || !scrollContentRef.current) return;
+    const el = scrollContentRef.current;
+
+    const updateSpecialHeadingImg = (scrollTop: number) => {
+      // Parallax 效果：使用較慢的視差速度（0.5 倍），讓圖片移動比滾動慢，產生視差效果
+      const parallaxOffset = scrollTop * 0.5; // 視差速度為 50%
+      const topPosition = -10 - (parallaxOffset / window.innerHeight * 100); // 轉換為 vh
+      setSpecialHeadingImgTop(topPosition);
+    };
+
+    const onSpecialImgScroll = () => {
+      const scrollTop = el.scrollTop;
+      requestAnimationFrame(() => updateSpecialHeadingImg(scrollTop));
+    };
+
+    // 初始化
+    updateSpecialHeadingImg(el.scrollTop);
+    el.addEventListener('scroll', onSpecialImgScroll, { passive: true });
+
+    return () => {
+      el.removeEventListener('scroll', onSpecialImgScroll);
+    };
+  }, [open]);
+
   // 預載開場音效（Web Audio）
   useEffect(() => {
     audioManager.preload(startSoundUrl).catch(() => {});
@@ -305,6 +336,8 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         cancelAnimationFrame(typewriterTimerRef.current);
         typewriterTimerRef.current = null;
       }
+      // 重置特殊主圖狀態
+      setSpecialHeadingImgTop(-10);
       return;
     }
 
@@ -444,6 +477,23 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
             </div>
           )}
         </div>
+
+        {/* 特殊主圖 - Awwrated Heading Image */}
+        {animationPhase === 'ready' && (
+          <div 
+            ref={specialHeadingImgRef}
+            className="feed-detail-overlay__special-heading"
+            style={{
+              top: `${specialHeadingImgTop}vh`,
+            }}
+          >
+            <img 
+              src={projectAwwratedHeadingImgUrl} 
+              alt="Awwrated Project Heading" 
+              className="feed-detail-overlay__special-heading-img"
+            />
+          </div>
+        )}
 
         {/* 專案資訊區域 - 只在 ready 階段顯示 */}
         {animationPhase === 'ready' && projectInfo && (
