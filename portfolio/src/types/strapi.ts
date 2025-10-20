@@ -82,6 +82,36 @@ export type StrapiFeedBlock =
   | StrapiFeedBlockList
   | StrapiFeedBlockVideo;
 
+// Project Section Content（對應 feed.json 的 ProjectSectionContent）
+export type StrapiProjectSectionContent = {
+  __component: 'project.paragraph' | 'project.quote' | 'project.blockquote' | 'project.image';
+  text?: string;
+  src?: string;
+  alt?: string;
+  image?: StrapiMediaRelation;
+  enableTypewriter?: boolean;
+};
+
+// Project Section（對應 feed.json 的 ProjectSection）
+export type StrapiProjectSection = {
+  __component: 'project.section';
+  title: string;
+  content?: StrapiProjectSectionContent[];
+};
+
+// Project Info（對應 feed.json 的 ProjectInfo）
+export interface StrapiProjectInfo {
+  client?: string | null;
+  project?: string | null;
+  roles?: string[] | null;
+  description?: string | null;
+  websiteUrl?: string | null;
+  websiteLabel?: string | null;
+  mainImage?: StrapiMediaRelation | null;
+  specialHeadingImage?: StrapiMediaRelation | null;
+  sections?: StrapiProjectSection[] | null;
+}
+
 // FeedItem 對應的 Attributes
 export interface StrapiFeedItemAttributes {
   heading: string;
@@ -92,7 +122,8 @@ export interface StrapiFeedItemAttributes {
   primaryColor?: string | null;
   secondaryColor?: string | null;
   heroImage?: StrapiMediaRelation | null;
-  content?: StrapiFeedBlock[] | null; // dynamic zone
+  content?: StrapiFeedBlock[] | null; // dynamic zone（用於文章內容）
+  projectInfo?: StrapiProjectInfo | null; // 專案資訊（用於專案類型）
 }
 
 

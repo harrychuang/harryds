@@ -6,59 +6,97 @@
       "date": "Jan 01, 2025 - Jun 30, 2025",
       "tags": ["UI", "UX", "DEV"],
       "category": "project",
-      "brand": "Awwrated",
+      "brand": "Shopmatic",
       "primaryColor": "#FF1650",
       "secondaryColor": "#151648",
       "heroImage": "demo/project-demo-1.jpg",
-      "content": [
-        { "type": "heading", "level": 1, "content": "Awwrated — Objective Information Platform" },
-
-        { "type": "heading", "level": 2, "content": "Intro" },
-        { "type": "paragraph", "content": "Awwrated 是一個「客觀資訊平台」，聚焦以可重複的方法蒐集與整理多來源的評分與內容，協助使用者更快做出品質判斷。專案核心在於：清晰的資訊架構、可掃讀的版型、與能夠支援長期內容成長的系統化設計。" },
-        { "type": "heading", "level": 3, "content": "Clients（客戶）" },
-        { "type": "list", "items": [
-          "內容平台與媒體（長文閱讀、專題敘事）",
-          "研究與策展團隊（資訊彙整、方法論）",
-          "品牌與營運（可信度、評分視覺化）"
-        ] },
-
-        { "type": "heading", "level": 2, "content": "Role & Scope" },
-        { "type": "heading", "level": 3, "content": "Role" },
-        { "type": "list", "items": [
-          "Product Design（研究、IA、UI 視覺）",
-          "前端開發（互動、資料呈現、效能）",
-          "評分模組與內容模型設計"
-        ] },
-        { "type": "heading", "level": 3, "content": "Scope" },
-        { "type": "list", "items": [
-          "評分規則與資料模型（可延展、可追溯）",
-          "清單／詳情頁版型、導覽與敘事節奏",
-          "搜尋、排序與標籤系統（可組合的查詢）",
-          "可讀性最佳化（字級、間距、對比、長文韻律）",
-          "內容管理與發布流程（Headless CMS 整合）"
-        ] },
-
-        { "type": "heading", "level": 2, "content": "Impact" },
-        { "type": "paragraph", "content": "在 Awwrated 五週年的回顧中，平台頁面瀏覽數累積達成 640% 的成長（5th anniversary 文章），並以一套可量測、可迭代的方法持續提升內容品質與讀者體驗。專案的關鍵在於以資料與可觀察指標驅動設計與開發，確保每次調整都能反映在使用行為與營運目標。" },
-
-        { "type": "heading", "level": 2, "content": "Final UI" },
-        { "type": "paragraph", "content": "以下為若干 UI 片段（示意）：" },
-        { "type": "image", "src": "demo/project-demo-1.jpg", "alt": "Landing / Hero" },
-        { "type": "image", "src": "demo/project-demo-4.jpg", "alt": "Section layout" },
-        { "type": "image", "src": "demo/project-demo-3.jpg", "alt": "Detail view" },
-
-        { "type": "heading", "level": 2, "content": "Frontend Highlights（若有）" },
-        { "type": "list", "items": [
-          "評分與指標視覺化：以卡片與表格結合的呈現，強化可掃讀",
-          "搜尋與篩選體驗：去抖動輸入、查詢狀態快取、清晰的回饋",
-          "長文可讀性：標題層級、行長、段落節奏與插圖比例的系統化",
-          "圖片載入策略：漸進式顯示、版面保留、避免 CLS",
-          "可維護的內容模型：結構化的動態區塊，降低維運成本"
-        ] },
-
-        { "type": "heading", "level": 2, "content": "Get in touch（合作邀請）" },
-        { "type": "paragraph", "content": "若你正在打造以「可信度與可讀性」為核心的內容或平台，歡迎與我討論策略、設計到前端實作的整合合作。" }
-      ]
+      "projectInfo": {
+        "client": "awwrated",
+        "project": "Design System",
+        "roles": ["UIUX Design", "Design System", "Development"],
+        "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
+        "websiteUrl": "https://awwrated.com",
+        "websiteLabel": "VISIT WEBSITE",
+        "mainImage": "demo/demo-shopmatic-01.jpg",
+        "specialHeadingImage": "demo/project-awwrated-heading-img.png",
+        "sections": [
+          {
+            "title": "Scope",
+            "content": [
+              {
+                "type": "paragraph",
+                "text": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products."
+              },
+              {
+                "type": "paragraph",
+                "text": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices."
+              },
+              {
+                "type": "paragraph",
+                "text": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence."
+              },
+              {
+                "type": "image",
+                "src": "demo/demo-shopmatic-02.jpg",
+                "alt": "Shopmatic Design System Interface"
+              }
+            ]
+          },
+          {
+            "title": "Impact",
+            "content": [
+              {
+                "type": "paragraph",
+                "text": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence."
+              },
+              {
+                "type": "quote",
+                "text": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias."
+              },
+              {
+                "type": "quote",
+                "text": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings."
+              },
+              {
+                "type": "quote",
+                "text": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations."
+              },
+              {
+                "type": "blockquote",
+                "text": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.",
+                "enableTypewriter": true
+              },
+              {
+                "type": "image",
+                "src": "demo/demo-shopmatic-03.jpg",
+                "alt": "Impact Visualization"
+              },
+              {
+                "type": "image",
+                "src": "demo/demo-shopmatic-04.jpg",
+                "alt": "Design System Components"
+              }
+            ]
+          },
+          {
+            "title": "GET IN TOUCH",
+            "content": [
+              {
+                "type": "paragraph",
+                "text": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away."
+              },
+              {
+                "type": "paragraph",
+                "text": "Don't hesitate to contact me at harrychuang23@gmail.com."
+              },
+              {
+                "type": "paragraph",
+                "text": "Let's collaborate to create something exceptional!"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

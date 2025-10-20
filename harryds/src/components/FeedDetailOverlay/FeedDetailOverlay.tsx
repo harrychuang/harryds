@@ -11,17 +11,47 @@ import type { FeedCardProps } from '../FeedCard';
 import type { FeedCardSize } from '../FeedCard/FeedCard';
 import { FeedCardInfo } from '../FeedCard';
 import type { FeedCardInfoData } from '../FeedCard';
-import type { FeedContentBlock, ProjectInfo } from '../../types/feed';
+import type { FeedContentBlock, ProjectInfo, ProjectSectionContent } from '../../types/feed';
 import './FeedDetailOverlay.scss';
 import startSoundUrl from '../../../assets/sound/8-Bit Retro Sound Effect-level-up.mp3';
 import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
 import { CTAButton } from '../CTAButton';
 import { DistortedPixels2D } from '../DistortedPixels/DistortedPixels2D';
-import demoShopmatic01Url from '../../../assets/imgs/demo/demo-shopmatic-01.jpg';
-import demoShopmatic02Url from '../../../assets/imgs/demo/demo-shopmatic-02.jpg';
-import demoShopmatic03Url from '../../../assets/imgs/demo/demo-shopmatic-03.jpg';
-import demoShopmatic04Url from '../../../assets/imgs/demo/demo-shopmatic-04.jpg';
-import projectAwwratedHeadingImgUrl from '../../../assets/imgs/demo/project-awwrated-heading-img.png';
+
+// 使用 Vite 的 glob import 來預載所有圖片（支援 harryds 和 portfolio）
+const imageModules = import.meta.glob<{ default: string }>('../../../assets/imgs/**/*.{jpg,jpeg,png,gif,webp,svg}', { eager: true });
+
+// 輔助函數：解析圖片路徑
+const resolveImageSrc = (src: string): string => {
+  // 如果已經是完整 URL（http/https/blob），直接返回
+  if (/^(https?:|blob:)/.test(src)) {
+    return src;
+  }
+  
+  // 嘗試從 glob import 結果中查找
+  // 方法 1: 直接查找完整路徑
+  const fullPath = `../../../assets/imgs/${src}`;
+  if (imageModules[fullPath]) {
+    return imageModules[fullPath].default;
+  }
+  
+  // 方法 2: 遍歷所有 keys 找到匹配的結尾
+  for (const [key, module] of Object.entries(imageModules)) {
+    if (key.endsWith(src) || key.endsWith(`/${src}`)) {
+      console.log('[FeedDetailOverlay] 解析圖片 (結尾匹配):', src, 'key:', key);
+      return module.default;
+    }
+  }
+  
+  // 如果找不到，回退到使用 new URL 方式
+  try {
+    return new URL(`../../../assets/imgs/${src}`, import.meta.url).href;
+  } catch {
+    console.warn('[FeedDetailOverlay] 無法解析圖片:', src);
+    console.warn('[FeedDetailOverlay] 可用的圖片 keys:', Object.keys(imageModules).slice(0, 5));
+    return src; // 最後回退到原始路徑
+  }
+};
 
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
   /** 是否開啟 overlay */
@@ -95,11 +125,18 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   const overlayRef = useRef<HTMLDivElement | null>(null);
   // 注意：hero 高度現在由 CSS 直接設定為 75vh，不再需要 JavaScript 計算
   
-  // Blockquote 完整文字
-  const blockquoteFullText = useMemo(() => 
-    'The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.',
-    []
-  );
+  // Blockquote 完整文字（從 projectInfo.sections 中找到第一個 enableTypewriter 的 blockquote）
+  const blockquoteFullText = useMemo(() => {
+    if (!projectInfo?.sections) return '';
+    for (const section of projectInfo.sections) {
+      for (const content of section.content) {
+        if (content.type === 'blockquote' && content.enableTypewriter) {
+          return content.text;
+        }
+      }
+    }
+    return '';
+  }, [projectInfo]);
 
   // 動畫階段變化通知
   useEffect(() => {
@@ -162,6 +199,87 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         return null;
     }
   }, []);
+
+  // 渲染專案區塊內容的函數
+  const renderProjectSectionContent = useCallback((content: ProjectSectionContent, index: number, sectionIndex: number) => {
+    const key = `section-${sectionIndex}-content-${index}`;
+    
+    switch (content.type) {
+      case 'paragraph':
+        // 處理包含 email 的段落
+        const emailRegex = /(.*?)([\w.-]+@[\w.-]+\.[a-zA-Z]{2,})(.*)/;
+        const emailMatch = content.text.match(emailRegex);
+        
+        if (emailMatch) {
+          return (
+            <p key={key}>
+              {emailMatch[1]}
+              <a 
+                href={`mailto:${emailMatch[2]}`} 
+                className="feed-detail-overlay__email-link"
+              >
+                {emailMatch[2]}
+              </a>
+              {emailMatch[3]}
+            </p>
+          );
+        }
+        
+        return <p key={key}>{content.text}</p>;
+      
+      case 'quote':
+        return (
+          <p key={key}>
+            <span className="feed-detail-overlay__quote-mark">&gt;</span>
+            <span className="feed-detail-overlay__quote-text"> {content.text}</span>
+          </p>
+        );
+      
+      case 'blockquote':
+        if (content.enableTypewriter) {
+          return (
+            <blockquote 
+              key={key}
+              ref={blockquoteRef}
+              className="feed-detail-overlay__section-blockquote"
+            >
+              <span className="feed-detail-overlay__blockquote-mark">"</span>
+              {typewriterText}
+              {isTyping && <span className="feed-detail-overlay__cursor">_</span>}
+              {!isTyping && typewriterText.length === blockquoteFullText.length && (
+                <span className="feed-detail-overlay__blockquote-mark">"</span>
+              )}
+            </blockquote>
+          );
+        }
+        return (
+          <blockquote key={key} className="feed-detail-overlay__section-blockquote">
+            <span className="feed-detail-overlay__blockquote-mark">"</span>
+            {content.text}
+            <span className="feed-detail-overlay__blockquote-mark">"</span>
+          </blockquote>
+        );
+      
+      case 'image':
+        return (
+          <div key={key} className="feed-detail-overlay__project-image">
+            <DistortedPixels2D
+              src={resolveImageSrc(content.src)}
+              objectFit="responsive"
+              direction="y"
+              maxPixelation={80}
+              maxDistortion={1}
+              scrollSensitivity={0.2}
+              decaySpeed={0.95}
+              scrollContainer={scrollContentRef}
+            />
+          </div>
+        );
+      
+      default:
+        return null;
+    }
+  }, [typewriterText, isTyping, blockquoteFullText, scrollContentRef]);
 
   // 所有 useMemo hooks 必須在 early return 之前調用
   // 記憶化的樣式計算以減少重渲染
@@ -478,8 +596,8 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
           )}
         </div>
 
-        {/* 特殊主圖 - Awwrated Heading Image */}
-        {animationPhase === 'ready' && (
+        {/* 特殊主圖 - 從 projectInfo 讀取 */}
+        {animationPhase === 'ready' && projectInfo?.specialHeadingImage && (
           <div 
             ref={specialHeadingImgRef}
             className="feed-detail-overlay__special-heading"
@@ -488,8 +606,8 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
             }}
           >
             <img 
-              src={projectAwwratedHeadingImgUrl} 
-              alt="Awwrated Project Heading" 
+              src={resolveImageSrc(projectInfo.specialHeadingImage)}
+              alt="Project Heading" 
               className="feed-detail-overlay__special-heading-img"
             />
           </div>
@@ -542,44 +660,11 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                   </p>
                 )}
                 
-                {/* DistortedPixels2D 圖片展示 */}
-                <div className="feed-detail-overlay__project-image">
-                  <DistortedPixels2D
-                    src={demoShopmatic01Url}
-                    objectFit="responsive"
-                    direction="y"
-                    maxPixelation={80}
-                    maxDistortion={1}
-                    scrollSensitivity={0.2}
-                    decaySpeed={0.95}
-                    scrollContainer={scrollContentRef}
-                  />
-                </div>
-
-                {/* 標題與內容區塊 */}
-                <div className="feed-detail-overlay__project-section">
-                  {/* Pixel 字體標題 */}
-                  <h2 className="feed-detail-overlay__section-title">
-                    Scope<span className="feed-detail-overlay__cursor">_</span>
-                  </h2>
-
-                  {/* 內容文字 */}
-                  <div className="feed-detail-overlay__section-content">
-                    <p>
-                      The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.
-                    </p>
-                    <p>
-                      Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.
-                    </p>
-                    <p>
-                      The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.
-                    </p>
-                  </div>
-
-                  {/* 第二張 DistortedPixels2D 圖片 */}
+                {/* 第一張主圖 - 從 projectInfo 讀取 */}
+                {projectInfo.mainImage && (
                   <div className="feed-detail-overlay__project-image">
                     <DistortedPixels2D
-                      src={demoShopmatic02Url}
+                      src={resolveImageSrc(projectInfo.mainImage)}
                       objectFit="responsive"
                       direction="y"
                       maxPixelation={80}
@@ -589,105 +674,53 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                       scrollContainer={scrollContentRef}
                     />
                   </div>
-                </div>
+                )}
 
-                {/* Impact 區塊 */}
-                <div className="feed-detail-overlay__project-section">
-                  {/* Pixel 字體標題 */}
-                  <h2 className="feed-detail-overlay__section-title">
-                    Impact<span className="feed-detail-overlay__cursor">_</span>
-                  </h2>
+                {/* 動態渲染專案區塊 */}
+                {projectInfo.sections && projectInfo.sections.map((section, sectionIndex) => (
+                  <div key={`section-${sectionIndex}`} className="feed-detail-overlay__project-section">
+                    {/* Section 標題 */}
+                    <h2 className="feed-detail-overlay__section-title">
+                      {section.title}<span className="feed-detail-overlay__cursor">_</span>
+                    </h2>
 
-                  {/* 內容文字 */}
-                  <div className="feed-detail-overlay__section-content">
-                    <p>
-                      The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.
-                    </p>
-
-                    {/* 引用文字 - > 符號使用 Pixel 字體 */}
-                    <div className="feed-detail-overlay__section-quote">
-                      <p>
-                        <span className="feed-detail-overlay__quote-mark">&gt;</span>
-                        <span className="feed-detail-overlay__quote-text"> "Rating Credibility" Rule: Weighted by the number of raters to reduce early sample bias.</span>
-                      </p>
-                      <p>
-                        <span className="feed-detail-overlay__quote-mark">&gt;</span>
-                        <span className="feed-detail-overlay__quote-text"> Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.</span>
-                      </p>
-                      <p>
-                        <span className="feed-detail-overlay__quote-mark">&gt;</span>
-                        <span className="feed-detail-overlay__quote-text"> GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.</span>
-                      </p>
-                    </div>
-
-                    {/* 大引用文字區塊 - 打字機效果 */}
-                    <blockquote 
-                      ref={blockquoteRef}
-                      className="feed-detail-overlay__section-blockquote"
-                    >
-                      <span className="feed-detail-overlay__blockquote-mark">"</span>
-                      {typewriterText}
-                      {isTyping && <span className="feed-detail-overlay__cursor">_</span>}
-                      {!isTyping && typewriterText.length === blockquoteFullText.length && (
-                        <span className="feed-detail-overlay__blockquote-mark">"</span>
-                      )}
-                    </blockquote>
-
-                    {/* 第三張 DistortedPixels2D 圖片 */}
-                    <div className="feed-detail-overlay__project-image">
-                      <DistortedPixels2D
-                        src={demoShopmatic03Url}
-                        objectFit="responsive"
-                        direction="y"
-                        maxPixelation={80}
-                        maxDistortion={1}
-                        scrollSensitivity={0.2}
-                        decaySpeed={0.95}
-                        scrollContainer={scrollContentRef}
-                      />
-                    </div>
-
-                    {/* 第四張 DistortedPixels2D 圖片 */}
-                    <div className="feed-detail-overlay__project-image">
-                      <DistortedPixels2D
-                        src={demoShopmatic04Url}
-                        objectFit="responsive"
-                        direction="y"
-                        maxPixelation={80}
-                        maxDistortion={1}
-                        scrollSensitivity={0.2}
-                        decaySpeed={0.95}
-                        scrollContainer={scrollContentRef}
-                      />
+                    {/* Section 內容 */}
+                    <div className="feed-detail-overlay__section-content">
+                      {section.content.map((content, contentIndex) => {
+                        // quote 需要包在 section-quote div 中
+                        if (content.type === 'quote') {
+                          // 收集連續的 quote
+                          const quotes: Array<{ type: 'quote'; text: string }> = [];
+                          let idx = contentIndex;
+                          while (idx < section.content.length && section.content[idx].type === 'quote') {
+                            const quoteContent = section.content[idx];
+                            if (quoteContent.type === 'quote') {
+                              quotes.push(quoteContent);
+                            }
+                            idx++;
+                          }
+                          
+                          // 只在第一個 quote 時渲染整組
+                          if (contentIndex === 0 || section.content[contentIndex - 1].type !== 'quote') {
+                            return (
+                              <div key={`quote-group-${contentIndex}`} className="feed-detail-overlay__section-quote">
+                                {quotes.map((quote, quoteIdx) => (
+                                  <p key={`quote-${contentIndex}-${quoteIdx}`}>
+                                    <span className="feed-detail-overlay__quote-mark">&gt;</span>
+                                    <span className="feed-detail-overlay__quote-text"> {quote.text}</span>
+                                  </p>
+                                ))}
+                              </div>
+                            );
+                          }
+                          return null;
+                        }
+                        
+                        return renderProjectSectionContent(content, contentIndex, sectionIndex);
+                      })}
                     </div>
                   </div>
-                </div>
-
-                {/* GET IN TOUCH 區塊 */}
-                <div className="feed-detail-overlay__project-section">
-                  {/* Pixel 字體標題 */}
-                  <h2 className="feed-detail-overlay__section-title">
-                    GET IN TOUCH<span className="feed-detail-overlay__cursor">_</span>
-                  </h2>
-
-                  {/* 內容文字 */}
-                  <div className="feed-detail-overlay__section-content">
-                    <p>
-                      If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.
-                    </p>
-                    <p>
-                      Don't hesitate to contact me at <a 
-                        href="mailto:harrychuang23@gmail.com" 
-                        className="feed-detail-overlay__email-link"
-                      >
-                        harrychuang23@gmail.com
-                      </a>.
-                    </p>
-                    <p>
-                      Let's collaborate to create something exceptional!
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </section>

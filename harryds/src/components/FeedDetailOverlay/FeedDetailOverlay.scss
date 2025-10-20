@@ -92,13 +92,13 @@
     width: 100%;
     z-index: 2; // 確保在背景之上
     
-    // Expanding/Ready 階段：hero 固定 75vh
+    // Expanding/Ready 階段：使用 padding-top 推動內容到下方
     .feed-detail-overlay--expanding &,
     .feed-detail-overlay--ready & {
-      height: 80vh;
+      padding-top: 40vh;
       flex: none; // 不被 flex 擠壓
-      transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      will-change: height;
+      transition: padding-top 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: padding-top;
     }
     
     // 移除擴展階段將 FeedCard 拉到 100vh 的行為，改由 fixed 背景層處理
@@ -117,10 +117,7 @@
   
   // Hero 內容容器：expanding/ready 階段的 FeedCardInfo 容器
   &__hero-content {
-    position: absolute;
-    bottom: 0; // 始終貼在 hero 容器的底部
-    left: 0;
-    right: 0;
+    position: relative;
     z-index: 1002; // 高於 loading(1001) 與背景層
     display: flex;
     align-items: flex-end; // FeedCardInfo 貼在容器底部
@@ -128,7 +125,6 @@
     padding: var(--feed-card-padding, 40px);
     // 平滑進入動畫
     animation: fade-in-hero-content 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-
 
     min-height: 120px; // 確保有最小高度
     
@@ -227,7 +223,7 @@
     display: flex;
     justify-content: center;
     margin-top: 100px; // 與 hero 之間的間距
-    padding: 0 40px 200px; // 底部增加 200px 間距
+    padding: 0 0px 200px; // 底部增加 200px 間距
     color: var(--on-hds-sys-color-surface, #fff);
     animation: slide-up-body 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
@@ -250,7 +246,7 @@
     flex-direction: column;
     gap: 80px; // meta content 和 CTA 按鈕之間的間距
     position: sticky;
-    top: 160px; // 離畫面上方 160px
+    top: 200px; // 離畫面上方 160px
     align-self: flex-start; // 確保 sticky 定位正確運作
     
     @media (max-width: 1024px) {

@@ -92,14 +92,7 @@ export const WithProjectInfo: Story = {
         tags: items[0].tags,
         category: items[0].category,
       }}
-      projectInfo={{
-        client: 'awwrated',
-        project: 'Design System',
-        roles: ['UIUX Design', 'Design System', 'Development'],
-        description: 'Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you\'re a designer or developer, it\'s your resource for intuitive interfaces.',
-        websiteUrl: 'https://example.com',
-        websiteLabel: 'VISIT WEBSITE',
-      }}
+      projectInfo={items[0].projectInfo}
     />
   ),
   args: {
@@ -115,7 +108,7 @@ export const WithProjectInfo: Story = {
   parameters: {
     docs: {
       description: {
-        story: `Demonstrates overlay with hero section and project information. The project info section displays in a 2-column layout below the hero: left column (400px) shows client and roles, right column (flex 1) shows description.`,
+        story: `Demonstrates overlay with hero section and project information loaded from feed.json. The project info includes client, project name, roles, description, and dynamic content sections (Scope, Impact, Get In Touch) with various content types: paragraphs, quotes, blockquotes with typewriter effect, and images with distortion effects.`,
       },
     },
   },

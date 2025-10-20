@@ -8,6 +8,7 @@ export default defineConfig({
     alias: {
       hds: resolve(__dirname, '../harryds/src'),
       '@hds': resolve(__dirname, '../harryds/src'),
+      '@assets': resolve(__dirname, '../harryds/assets'),
       shared: resolve(__dirname, '../shared')
     }
   },

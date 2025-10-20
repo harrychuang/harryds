@@ -746,6 +746,7 @@ const Home: React.FC = () => {
                     infoData={{ id: displayId, heading: item.heading, date: item.date, tags: item.tags, category: item.category }}
                     primaryColor={item.primaryColor}
                     contentBlocks={resolvedBlocks}
+                    projectInfo={item.projectInfo}
                     use2D={size === 'xs'}
                 />
               </div>
