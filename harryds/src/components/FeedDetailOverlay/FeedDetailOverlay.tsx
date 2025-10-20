@@ -15,10 +15,12 @@ import type { FeedContentBlock, ProjectInfo } from '../../types/feed';
 import './FeedDetailOverlay.scss';
 import startSoundUrl from '../../../assets/sound/8-Bit Retro Sound Effect-level-up.mp3';
 import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
-import iconLinkUrl from '../../../assets/imgs/icon/icon-link.svg';
+import { CTAButton } from '../CTAButton';
 import { DistortedPixels2D } from '../DistortedPixels/DistortedPixels2D';
 import demoShopmatic01Url from '../../../assets/imgs/demo/demo-shopmatic-01.jpg';
 import demoShopmatic02Url from '../../../assets/imgs/demo/demo-shopmatic-02.jpg';
+import demoShopmatic03Url from '../../../assets/imgs/demo/demo-shopmatic-03.jpg';
+import demoShopmatic04Url from '../../../assets/imgs/demo/demo-shopmatic-04.jpg';
 
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
   /** 是否開啟 overlay */
@@ -71,6 +73,12 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   
   // 分階段動畫狀態管理
   const [animationPhase, setAnimationPhase] = useState<'closed' | 'expanding' | 'ready'>('closed');
+  
+  // 打字機效果狀態
+  const [typewriterText, setTypewriterText] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const blockquoteRef = useRef<HTMLQuoteElement | null>(null);
+  const typewriterTimerRef = useRef<number | null>(null);
   const startHandleRef = useRef<PlaybackHandle | null>(null);
   const hasPlayedStartSoundRef = useRef<boolean>(false);
   // 滾動交互動態控制 PixelImage 背景（pixelSize 與 maskOpacity）
@@ -81,6 +89,12 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   
   const overlayRef = useRef<HTMLDivElement | null>(null);
   // 注意：hero 高度現在由 CSS 直接設定為 75vh，不再需要 JavaScript 計算
+  
+  // Blockquote 完整文字
+  const blockquoteFullText = useMemo(() => 
+    'The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.',
+    []
+  );
 
   // 動畫階段變化通知
   useEffect(() => {
@@ -284,6 +298,13 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
       hasPlayedStartSoundRef.current = false;
       // 停止播放中的音效
       startHandleRef.current?.stop();
+      // 重置打字機效果
+      setTypewriterText('');
+      setIsTyping(false);
+      if (typewriterTimerRef.current) {
+        cancelAnimationFrame(typewriterTimerRef.current);
+        typewriterTimerRef.current = null;
+      }
       return;
     }
 
@@ -297,7 +318,60 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         setAnimationPhase('ready');
       }, 900); // 800ms expanding + 100ms buffer
     });
-  }, [open, playStartSound]);
+  }, [open, playStartSound, blockquoteFullText]);
+
+  // 打字機效果的 IntersectionObserver
+  useEffect(() => {
+    if (!open || !blockquoteRef.current || animationPhase !== 'ready') return;
+
+    let hasTriggered = false;
+    let timerId: number | null = null;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // 只要元素進入視窗且未觸發過就開始打字
+          if (entry.isIntersecting && !hasTriggered) {
+            hasTriggered = true;
+            setIsTyping(true);
+            setTypewriterText(''); // 重置文字
+            
+            // 使用閉包外的索引來避免閉包問題
+            let currentIndex = 0;
+            
+            const typeCharacter = () => {
+              currentIndex++;
+              setTypewriterText(blockquoteFullText.substring(0, currentIndex));
+              
+              if (currentIndex < blockquoteFullText.length) {
+                timerId = window.setTimeout(typeCharacter, 30);
+              } else {
+                setIsTyping(false);
+                timerId = null;
+              }
+            };
+            
+            // 立即開始第一個字符
+            typeCharacter();
+          }
+        });
+      },
+      {
+        root: null, // 使用 viewport
+        threshold: 0.2, // 當 20% 可見時觸發
+      }
+    );
+
+    observer.observe(blockquoteRef.current);
+
+    return () => {
+      observer.disconnect();
+      if (timerId !== null) {
+        clearTimeout(timerId);
+        timerId = null;
+      }
+    };
+  }, [open, blockquoteFullText, animationPhase]);
 
   // 關閉或初始狀態：外觀與 FeedCard 相同
   if (!open) {
@@ -396,44 +470,12 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                 </div>
                 
                 {projectInfo.websiteUrl && (
-                  <a 
+                  <CTAButton
                     href={projectInfo.websiteUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="feed-detail-overlay__cta-button"
-                  >
-                    <div 
-                      className="feed-detail-overlay__cta-background"
-                      style={{
-                        '--cta-primary': primaryColor,
-                        '--cta-secondary': secondaryColor,
-                      } as React.CSSProperties}
-                    >
-                      {/* 12個方塊背景 - 顏色會循環移動 */}
-                      <div className="feed-detail-overlay__cta-stripe" data-stripe="1" />
-                      <div className="feed-detail-overlay__cta-stripe" data-stripe="2" />
-                      <div className="feed-detail-overlay__cta-stripe" data-stripe="3" />
-                      <div className="feed-detail-overlay__cta-stripe" data-stripe="4" />
-                      <div className="feed-detail-overlay__cta-stripe" data-stripe="5" />
-                      <div className="feed-detail-overlay__cta-stripe" data-stripe="6" />
-                      <div className="feed-detail-overlay__cta-stripe" data-stripe="7" />
-                      <div className="feed-detail-overlay__cta-stripe" data-stripe="8" />
-                      <div className="feed-detail-overlay__cta-stripe" data-stripe="9" />
-                      <div className="feed-detail-overlay__cta-stripe" data-stripe="10" />
-                      <div className="feed-detail-overlay__cta-stripe" data-stripe="11" />
-                      <div className="feed-detail-overlay__cta-stripe" data-stripe="12" />
-                    </div>
-                    <span className="feed-detail-overlay__cta-content">
-                      <img 
-                        src={iconLinkUrl} 
-                        alt="" 
-                        className="feed-detail-overlay__cta-icon"
-                      />
-                      <span className="feed-detail-overlay__cta-text">
-                        {projectInfo.websiteLabel || 'VISIT WEBSITE'}
-                      </span>
-                    </span>
-                  </a>
+                    label={projectInfo.websiteLabel || 'VISIT WEBSITE'}
+                    primaryColor={primaryColor}
+                    secondaryColor={secondaryColor}
+                  />
                 )}
               </aside>
               
@@ -522,12 +564,72 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                       </p>
                     </div>
 
-                    {/* 大引用文字區塊 */}
-                    <blockquote className="feed-detail-overlay__section-blockquote">
+                    {/* 大引用文字區塊 - 打字機效果 */}
+                    <blockquote 
+                      ref={blockquoteRef}
+                      className="feed-detail-overlay__section-blockquote"
+                    >
                       <span className="feed-detail-overlay__blockquote-mark">"</span>
-                      The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.
-                      <span className="feed-detail-overlay__blockquote-mark">"</span>
+                      {typewriterText}
+                      {isTyping && <span className="feed-detail-overlay__cursor">_</span>}
+                      {!isTyping && typewriterText.length === blockquoteFullText.length && (
+                        <span className="feed-detail-overlay__blockquote-mark">"</span>
+                      )}
                     </blockquote>
+
+                    {/* 第三張 DistortedPixels2D 圖片 */}
+                    <div className="feed-detail-overlay__project-image">
+                      <DistortedPixels2D
+                        src={demoShopmatic03Url}
+                        objectFit="responsive"
+                        direction="y"
+                        maxPixelation={80}
+                        maxDistortion={1}
+                        scrollSensitivity={0.2}
+                        decaySpeed={0.95}
+                        scrollContainer={scrollContentRef}
+                      />
+                    </div>
+
+                    {/* 第四張 DistortedPixels2D 圖片 */}
+                    <div className="feed-detail-overlay__project-image">
+                      <DistortedPixels2D
+                        src={demoShopmatic04Url}
+                        objectFit="responsive"
+                        direction="y"
+                        maxPixelation={80}
+                        maxDistortion={1}
+                        scrollSensitivity={0.2}
+                        decaySpeed={0.95}
+                        scrollContainer={scrollContentRef}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* GET IN TOUCH 區塊 */}
+                <div className="feed-detail-overlay__project-section">
+                  {/* Pixel 字體標題 */}
+                  <h2 className="feed-detail-overlay__section-title">
+                    GET IN TOUCH<span className="feed-detail-overlay__cursor">_</span>
+                  </h2>
+
+                  {/* 內容文字 */}
+                  <div className="feed-detail-overlay__section-content">
+                    <p>
+                      If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.
+                    </p>
+                    <p>
+                      Don't hesitate to contact me at <a 
+                        href="mailto:harrychuang23@gmail.com" 
+                        className="feed-detail-overlay__email-link"
+                      >
+                        harrychuang23@gmail.com
+                      </a>.
+                    </p>
+                    <p>
+                      Let's collaborate to create something exceptional!
+                    </p>
                   </div>
                 </div>
               </div>

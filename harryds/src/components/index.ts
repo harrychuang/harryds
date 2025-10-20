@@ -33,3 +33,7 @@ export type { FeedDetailOverlayProps } from './FeedDetailOverlay';
 // VideoPlayer - 支援現代影片播放功能的元件
 export { VideoPlayer } from './VideoPlayer';
 export type { VideoPlayerProps } from './VideoPlayer';
+
+// CTAButton - 帶有動畫條紋背景的 Call-to-Action 按鈕
+export { CTAButton } from './CTAButton';
+export type { CTAButtonProps } from './CTAButton';

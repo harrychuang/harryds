@@ -1,0 +1,267 @@
+// =============================================================================
+// CTA BUTTON 樣式
+// - 動畫條紋背景按鈕
+// - 12 個條紋方塊循環顯示主色與副色
+// - Hover 時加速 8 倍
+// =============================================================================
+
+.cta-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 400px;
+  height: 80px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
+  background: transparent;
+
+  // Hover 時加速動畫（從 12s 變成 1.5s，8 倍速，delay 也相應縮減為 1/8）
+  &:hover {
+    .cta-button__stripe {
+      &::before {
+        animation-duration: 1.5s;
+      }
+      &::after {
+        animation-duration: 1.5s;
+      }
+      
+      // 調整每個方塊的 delay（縮減為 1/8）
+      &[data-stripe="1"] { 
+        &::before { animation-delay: -1.375s; }
+        &::after { animation-delay: -1.375s; }
+      }
+      &[data-stripe="2"] { 
+        &::before { animation-delay: -1.25s; }
+        &::after { animation-delay: -1.25s; }
+      }
+      &[data-stripe="3"] { 
+        &::before { animation-delay: -1.125s; }
+        &::after { animation-delay: -1.125s; }
+      }
+      &[data-stripe="4"] { 
+        &::before { animation-delay: -1s; }
+        &::after { animation-delay: -1s; }
+      }
+      &[data-stripe="5"] { 
+        &::before { animation-delay: -0.875s; }
+        &::after { animation-delay: -0.875s; }
+      }
+      &[data-stripe="6"] { 
+        &::before { animation-delay: -0.75s; }
+        &::after { animation-delay: -0.75s; }
+      }
+      &[data-stripe="7"] { 
+        &::before { animation-delay: -0.625s; }
+        &::after { animation-delay: -0.625s; }
+      }
+      &[data-stripe="8"] { 
+        &::before { animation-delay: -0.5s; }
+        &::after { animation-delay: -0.5s; }
+      }
+      &[data-stripe="9"] { 
+        &::before { animation-delay: -0.375s; }
+        &::after { animation-delay: -0.375s; }
+      }
+      &[data-stripe="10"] { 
+        &::before { animation-delay: -0.25s; }
+        &::after { animation-delay: -0.25s; }
+      }
+      &[data-stripe="11"] { 
+        &::before { animation-delay: -0.125s; }
+        &::after { animation-delay: -0.125s; }
+      }
+      &[data-stripe="12"] { 
+        &::before { animation-delay: 0s; }
+        &::after { animation-delay: 0s; }
+      }
+    }
+  }
+
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.cta-button__background {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: row;
+  z-index: 0;
+}
+
+.cta-button__stripe {
+  flex: 1; // 每個方塊平均分配寬度（12個 = 8.333% 各）
+  height: 100%; // 填滿按鈕高度 (80px)
+  position: relative;
+  
+  // 使用偽元素創建兩層（primary 和 secondary）
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  
+  // Primary layer
+  &::before {
+    background-color: var(--cta-primary, #000);
+    z-index: 1;
+    animation: cta-primary-shift 12s steps(1) infinite;
+  }
+  
+  // Secondary layer
+  &::after {
+    background-color: var(--cta-secondary, #333);
+    z-index: 2;
+    animation: cta-secondary-shift 12s steps(1) infinite;
+  }
+  
+  // 每個方塊有不同的延遲，創造向右移動效果（從左到右）
+  &[data-stripe="1"] { 
+    &::before { animation-delay: -11s; }
+    &::after { animation-delay: -11s; }
+  }
+  &[data-stripe="2"] { 
+    &::before { animation-delay: -10s; }
+    &::after { animation-delay: -10s; }
+  }
+  &[data-stripe="3"] { 
+    &::before { animation-delay: -9s; }
+    &::after { animation-delay: -9s; }
+  }
+  &[data-stripe="4"] { 
+    &::before { animation-delay: -8s; }
+    &::after { animation-delay: -8s; }
+  }
+  &[data-stripe="5"] { 
+    &::before { animation-delay: -7s; }
+    &::after { animation-delay: -7s; }
+  }
+  &[data-stripe="6"] { 
+    &::before { animation-delay: -6s; }
+    &::after { animation-delay: -6s; }
+  }
+  &[data-stripe="7"] { 
+    &::before { animation-delay: -5s; }
+    &::after { animation-delay: -5s; }
+  }
+  &[data-stripe="8"] { 
+    &::before { animation-delay: -4s; }
+    &::after { animation-delay: -4s; }
+  }
+  &[data-stripe="9"] { 
+    &::before { animation-delay: -3s; }
+    &::after { animation-delay: -3s; }
+  }
+  &[data-stripe="10"] { 
+    &::before { animation-delay: -2s; }
+    &::after { animation-delay: -2s; }
+  }
+  &[data-stripe="11"] { 
+    &::before { animation-delay: -1s; }
+    &::after { animation-delay: -1s; }
+  }
+  &[data-stripe="12"] { 
+    &::before { animation-delay: 0s; }
+    &::after { animation-delay: 0s; }
+  }
+}
+
+.cta-button__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.cta-button__icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.cta-button__text {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 130%; /* 26px */
+  text-transform: uppercase;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+// =============================================================================
+// CTA 按鈕方塊顏色循環動畫（12個狀態，每秒切換一次）
+// =============================================================================
+
+// Primary 層動畫（前6個狀態）
+@keyframes cta-primary-shift {
+  // 狀態 1: Primary 100%
+  0%, 8.333% {
+    opacity: 1;
+  }
+  // 狀態 2: Primary 80%
+  8.334%, 16.666% {
+    opacity: 0.8;
+  }
+  // 狀態 3: Primary 60%
+  16.667%, 25% {
+    opacity: 0.6;
+  }
+  // 狀態 4: Primary 40%
+  25.001%, 33.333% {
+    opacity: 0.4;
+  }
+  // 狀態 5: Primary 20%
+  33.334%, 41.666% {
+    opacity: 0.2;
+  }
+  // 狀態 6: Primary 10%
+  41.667%, 50% {
+    opacity: 0.1;
+  }
+  // 狀態 7-12: 隱藏 (切換到 secondary)
+  50.001%, 100% {
+    opacity: 0;
+  }
+}
+
+// Secondary 層動畫（後6個狀態）
+@keyframes cta-secondary-shift {
+  // 狀態 1-6: 隱藏 (顯示 primary)
+  0%, 50% {
+    opacity: 0;
+  }
+  // 狀態 7: Secondary 10%
+  50.001%, 58.333% {
+    opacity: 0.1;
+  }
+  // 狀態 8: Secondary 20%
+  58.334%, 66.666% {
+    opacity: 0.2;
+  }
+  // 狀態 9: Secondary 40%
+  66.667%, 75% {
+    opacity: 0.4;
+  }
+  // 狀態 10: Secondary 60%
+  75.001%, 83.333% {
+    opacity: 0.6;
+  }
+  // 狀態 11: Secondary 80%
+  83.334%, 91.666% {
+    opacity: 0.8;
+  }
+  // 狀態 12: Secondary 100%
+  91.667%, 100% {
+    opacity: 1;
+  }
+}
+
