@@ -16,26 +16,12 @@
   }
 
   &--open {
-    position: relative; // Loading 和 positioning 期間使用 relative
+    position: fixed;
+    inset: 0;
     z-index: 1000;
     // 優化動畫性能
-    will-change: position, transform;
+    will-change: transform;
     transform: translateZ(0); // 啟用硬體加速
-  }
-
-  // Loading 階段：保持在原始位置
-  &--loading {
-    position: relative;
-  }
-
-  // Positioning 階段：從原始位置動畫到全螢幕
-  &--positioning {
-    position: fixed;
-    top: var(--original-y, 0);
-    left: var(--original-x, 0);
-    width: var(--original-width, 100%);
-    height: var(--original-height, auto);
-    animation: move-to-fullscreen 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
   // Expanding 階段：位置固定，FeedCard 開始擴展
@@ -64,24 +50,16 @@
   &__content {
     position: relative;
     z-index: 1;
-    display: block; // Loading 和 positioning 期間使用 block
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    // 平滑滾動
+    scroll-behavior: smooth;
     // 優化滾動性能
-    will-change: display, height;
+    -webkit-overflow-scrolling: touch;
     transform: translateZ(0);
-    
-    // 從 expanding 階段開始切換為 flex 佈局
-    .feed-detail-overlay--expanding &,
-    .feed-detail-overlay--ready & {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      overflow-y: auto;
-      // 平滑滾動
-      scroll-behavior: smooth;
-      // 優化滾動性能
-      -webkit-overflow-scrolling: touch;
-    }
   }
 
   // Fixed 背景層：FeedCard 作為全螢幕背景
@@ -156,24 +134,9 @@
     
     .feed-card-info {
       width: 100%;
-      max-width: var(--feed-card-info-max-width, 1600px);
+      max-width: var(--feed-card-info-max-width, 1400px);
       margin: 0 auto; // 確保置中
     }
-  }
-
-  &__loading {
-    position: absolute; // 始終相對於視窗定位，保持在右上角
-    top: 16px;
-    right: -10px;
-    z-index: 1001;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    // 參考原 close 按鈕的定位方式：fixed 在整個視窗右上角
-    // 優化 loading 動畫性能
-    will-change: opacity, transform;
-    transform: translateZ(0);
-    animation: fade-in-loading 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
   &__body {
@@ -191,16 +154,11 @@
     .feed-detail-overlay--ready & {
       flex: 1 1 auto; // 占取剩餘空間並可捲動
       animation: slide-up-body 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-      
-      // DistortedPixels 進場揭露動畫：等待圖片載入後才觸發（拉開 ::after 遮罩）
-      .fdo-image-container.is-loaded::after {
-        animation: fdo-mask-slide-away 0.7s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
-      }
     }
 
     .fdo-article {
       width: 100%;
-      max-width: 1600px;
+      max-width: 1400px;
       display: grid;
       grid-template-columns: 1fr;
       padding: 0 40px;
@@ -233,34 +191,6 @@
         padding-left: 20px;
       }
 
-      img {
-        width: 100%;
-        height: auto;
-        border-radius: 0;
-        display: block;
-        margin: 8px 0 4px;
-      }
-
-      .fdo-image-container {
-        width: 100%;
-        // 移除固定高度，讓 DistortedPixels 的 responsive 模式自動調整
-        border-radius: 0px;
-        overflow: hidden;
-        margin: 8px 0 4px;
-        display: block;
-        position: relative;
-        // 使用遮罩層進行揭露動畫，避免直接操作 canvas
-        &::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: var(--hds-sys-color-surface, #000);
-          transform: translateY(0%);
-          z-index: 2;
-          pointer-events: none;
-          will-change: transform, opacity;
-        }
-      }
     }
   }
 }
@@ -268,22 +198,6 @@
 // =============================================================================
 // 分階段動畫 Keyframes
 // =============================================================================
-
-// 位置動畫：從原始位置移動到全螢幕
-@keyframes move-to-fullscreen {
-  from {
-    top: var(--original-y, 0);
-    left: var(--original-x, 0);
-    width: var(--original-width, 100%);
-    height: var(--original-height, auto);
-  }
-  to {
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-  }
-}
 
 @keyframes fade-in-backdrop {
   from {
@@ -293,17 +207,6 @@
   to {
     opacity: 1;
     backdrop-filter: blur(4px);
-  }
-}
-
-@keyframes fade-in-loading {
-  from {
-    opacity: 0;
-    transform: translateZ(0) translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateZ(0) translateY(0);
   }
 }
 
@@ -340,35 +243,7 @@
   }
 }
 
-// DistortedPixels 進場：以 ::after 遮罩由上往下滑出
-@keyframes fdo-mask-slide-away {
-  from {
-    transform: translateY(0%);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-}
-
 // 針對不同階段的額外優化
-.feed-detail-overlay--loading {
-  .feed-detail-overlay__content {
-    // Loading 期間減少重排計算
-    contain: layout style;
-  }
-}
-
-.feed-detail-overlay--positioning {
-  // 位置動畫期間的優化
-  will-change: top, left, width, height;
-  
-  .feed-detail-overlay__content {
-    contain: layout style;
-  }
-}
-
 .feed-detail-overlay--expanding {
   // FeedCard 擴展期間的優化
   .feed-detail-overlay__hero .feed-card {

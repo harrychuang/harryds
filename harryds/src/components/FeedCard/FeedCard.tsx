@@ -76,7 +76,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   secondaryColor,
   item,
   infoData,
-  infoMaxWidth = 1600,
+  infoMaxWidth = 1400,
   className = '',
   children,
   style,

@@ -11,14 +11,8 @@ import type { FeedCardProps } from '../FeedCard';
 import type { FeedCardSize } from '../FeedCard/FeedCard';
 import { FeedCardInfo } from '../FeedCard';
 import type { FeedCardInfoData } from '../FeedCard';
-import type { FeedContentBlock } from '../../types/feed';
-import { DistortedPixels2D } from '../DistortedPixels';
-import { PixelText } from '../PixelText';
-import { VideoPlayer } from '../VideoPlayer';
 import './FeedDetailOverlay.scss';
-// import startSoundUrl from '../../../assets/sound/8-Bit Sound Effect.mp3';
 import startSoundUrl from '../../../assets/sound/8-Bit Retro Sound Effect-level-up.mp3';
-import loadingSoundUrl from '../../../assets/sound/8-Bit Game Start Sound.mp3';
 import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
 
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
@@ -27,9 +21,7 @@ export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | '
   /** 關閉事件（按下關閉按鈕或背景時觸發） */
   onClose?: () => void;
   /** 動畫階段變化回調 */
-  onAnimationPhaseChange?: (phase: 'closed' | 'loading' | 'positioning' | 'expanding' | 'ready') => void;
-  /** 初次或再次開啟時的起始階段（預設 loading） */
-  initialPhase?: 'loading' | 'expanding' | 'ready';
+  onAnimationPhaseChange?: (phase: 'closed' | 'expanding' | 'ready') => void;
   /** hero 區高度（vh），預設 75 */
   heroHeightVH?: number;
   /** 關閉/初始狀態時 FeedCard/FeedCardInfo 使用的尺寸（hero/med/sm/xs），開啟時將統一使用 hero */
@@ -38,80 +30,16 @@ export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | '
   infoData?: FeedCardInfoData;
   /** 主色（傳遞至 FeedCardInfo 的文字與標籤背景） */
   primaryColor?: string;
-  /** 自訂文章內容；若未提供則使用預設內容 */
-  content?: React.ReactNode;
-  /** 文章區塊（未來可由 Strapi JSON 映射） */
-  contentBlocks?: FeedContentBlock[];
   /** 額外類名（套用在根節點） */
   className?: string;
 }
 
 // hero 高度現在由 CSS 直接設定為 75vh
 
-// 記憶化的 Loading 組件以減少重渲染
-const LoadingDisplay = memo<{
-  progress: number;
-  primaryColor?: string;
-  secondaryColor?: string;
-}>(({ progress, primaryColor, secondaryColor }) => {
-  const clampedProgress = Math.max(0, Math.min(99, progress));
-  const displayText = `${String(clampedProgress).padStart(2, '0')}%`;
-  return (
-    <div className="feed-detail-overlay__loading">
-      <PixelText
-        text="LOADING"
-        textBoxEnabled={true}
-        textBox={displayText}
-        textBoxWidth={5}
-        textBoxPadding={2}
-        animated={false}
-        durationTime={400}
-        animationDelay={100}
-        easeGlitch={false}
-        primaryColor={primaryColor}
-        onPrimaryColor={secondaryColor}
-        pixelSize={2}
-        letterSpacing={1}
-        width={250}
-        height={50}
-      />
-    </div>
-  );
-});
-LoadingDisplay.displayName = 'LoadingDisplay';
-
-// 記憶化的圖片組件（等圖片載入後才觸發揭露動畫）
-const OptimizedDistortedPixels = memo<{
-  src: string;
-  scrollContainer: React.RefObject<HTMLDivElement>;
-}>(({ src, scrollContainer }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  return (
-    <div className={`fdo-image-container ${isLoaded ? 'is-loaded' : 'is-loading'}`.trim()}>
-      <DistortedPixels2D
-        src={src}
-        objectFit="responsive"
-        direction="y"
-        maxPixelation={150}
-        maxDistortion={1.5}
-        scrollSensitivity={0.1}
-        decaySpeed={0.9}
-        maxPixelRatio={4}
-        scrollContainer={scrollContainer}
-        onLoad={() => setIsLoaded(true)}
-      />
-    </div>
-  );
-});
-OptimizedDistortedPixels.displayName = 'OptimizedDistortedPixels';
-
 const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayProps>(({
   open = false,
   onClose,
   onAnimationPhaseChange,
-  initialPhase = 'loading',
-  content,
-  contentBlocks,
   className = '',
   // FeedCard props passthrough
   src,
@@ -131,23 +59,15 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   const scrollContentRef = useRef<HTMLDivElement | null>(null);
   
   // 分階段動畫狀態管理
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingProgress, setLoadingProgress] = useState(0);
-  const [animationPhase, setAnimationPhase] = useState<'closed' | 'loading' | 'positioning' | 'expanding' | 'ready'>('closed');
-  const loadingAnimationRef = useRef<number | null>(null);
-  const loadingStartTimeRef = useRef<number>(0);
+  const [animationPhase, setAnimationPhase] = useState<'closed' | 'expanding' | 'ready'>('closed');
   const startHandleRef = useRef<PlaybackHandle | null>(null);
   const hasPlayedStartSoundRef = useRef<boolean>(false);
-  const loadingHandleRef = useRef<PlaybackHandle | null>(null);
-  const hasPlayedLoadingSoundRef = useRef<boolean>(false);
   // 滾動交互動態控制 PixelImage 背景（pixelSize 與 maskOpacity）
   const [scrollPixelSize, setScrollPixelSize] = useState<number>(1);
   const [scrollMaskOpacity, setScrollMaskOpacity] = useState<number>(0.8);
   const scrollRafRef = useRef<number | null>(null);
   const lastScrollTopRef = useRef<number>(0);
   
-  // 位置追蹤相關
-  const [originalPosition, setOriginalPosition] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   // 注意：hero 高度現在由 CSS 直接設定為 75vh，不再需要 JavaScript 計算
 
@@ -156,41 +76,15 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     onAnimationPhaseChange?.(animationPhase);
   }, [animationPhase, onAnimationPhaseChange]);
 
-  // 記錄原始位置的函數
-  const captureOriginalPosition = useCallback(() => {
-    if (!overlayRef.current) return;
-    const rect = overlayRef.current.getBoundingClientRect();
-    setOriginalPosition({
-      x: rect.left,
-      y: rect.top,
-      width: rect.width,
-      height: rect.height
-    });
-  }, []);
-
   // 所有 useMemo hooks 必須在 early return 之前調用
   // 記憶化的樣式計算以減少重渲染
   const openStyle = useMemo(() => {
-    const baseStyle = {
+    return {
       '--feed-detail-primary-color': primaryColor,
       '--feed-detail-secondary-color': secondaryColor,
       ...style,
     } as React.CSSProperties;
-
-    // 根據動畫階段添加不同的樣式
-    if (animationPhase === 'positioning' && originalPosition) {
-      // 位置動畫階段：從原始位置移動到 fixed position
-      return {
-        ...baseStyle,
-        '--original-x': `${originalPosition.x}px`,
-        '--original-y': `${originalPosition.y}px`,
-        '--original-width': `${originalPosition.width}px`,
-        '--original-height': `${originalPosition.height}px`,
-      };
-    }
-
-    return baseStyle;
-  }, [primaryColor, secondaryColor, style, animationPhase, originalPosition]);
+  }, [primaryColor, secondaryColor, style]);
 
   // 記憶化的 CSS 類名計算
   const overlayClassName = useMemo(() => {
@@ -223,50 +117,6 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     }
   }, [soundVolume]);
 
-  const playLoadingSound = useCallback(async () => {
-    if (hasPlayedLoadingSoundRef.current) return;
-    try {
-      loadingHandleRef.current?.stop();
-      loadingHandleRef.current = await audioManager.play(loadingSoundUrl, { volume: Math.max(0, Math.min(1, soundVolume ?? 0.3)) });
-      hasPlayedLoadingSoundRef.current = true;
-    } catch (err) {
-      console.warn('Overlay loading sound play failed:', err);
-    }
-  }, [soundVolume]);
-
-  // 記憶化的 FeedCard 屬性以減少重渲染（用於 loading/positioning 階段）
-  const feedCardProps = useMemo(() => ({
-    src,
-    size: sizeWhenClosed as FeedCardSize,
-    height: undefined, // loading/positioning 階段使用預設高度
-    padding,
-    backgroundProps: {
-      ...backgroundProps,
-      pixelSize: scrollPixelSize,
-      maskOpacity: scrollMaskOpacity,
-      hoverPixelToOne: false, // 關閉 hover 時像素補間至 1 的行為
-      maskColor: secondaryColor, // 明確指定遮罩色為 secondaryColor
-    },
-    secondaryColor,
-    infoMaxWidth,
-    className: "feed-detail-overlay__card",
-    enableHoverSound,
-    soundVolume,
-    forceHovered: false, // 不強制 hovered，避免觸發 hover 動畫
-    disableHover: true,
-    use2D,
-  }), [
-    src, 
-    sizeWhenClosed, 
-    padding, 
-    backgroundProps, 
-    secondaryColor, 
-    infoMaxWidth, 
-    enableHoverSound, 
-    soundVolume,
-    use2D
-  ]);
-
   // 記憶化的 FeedCardInfo 屬性
   const feedCardInfoProps = useMemo(() => ({
     data: infoData!,
@@ -283,7 +133,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   
   const heroContentStyle = useMemo((): HeroContentStyle => ({
     '--feed-card-padding': `${Math.max(0, padding)}px`,
-    '--feed-card-info-max-width': `${Math.max(1, infoMaxWidth || 1600)}px`,
+    '--feed-card-info-max-width': `${Math.max(1, infoMaxWidth || 1400)}px`,
   }), [padding, infoMaxWidth]);
 
   // 合併 ref 處理
@@ -356,192 +206,30 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     audioManager.preload(startSoundUrl).catch(() => {});
   }, [soundVolume]);
 
-  // 預載 loading 音效（Web Audio）
-  useEffect(() => {
-    audioManager.preload(loadingSoundUrl).catch(() => {});
-  }, [soundVolume]);
-
-  // 分階段動畫邏輯：loading → positioning → expanding → ready
+  // 分階段動畫邏輯：expanding → ready
   useEffect(() => {
     if (!open) {
       // 關閉時重置所有狀態
-      setIsLoading(false);
-      setLoadingProgress(0);
       setAnimationPhase('closed');
-      setOriginalPosition(null);
       setScrollPixelSize(1);
       setScrollMaskOpacity(0.8);
       hasPlayedStartSoundRef.current = false;
-      hasPlayedLoadingSoundRef.current = false;
       // 停止播放中的音效
       startHandleRef.current?.stop();
-      loadingHandleRef.current?.stop();
-      if (loadingAnimationRef.current) {
-        cancelAnimationFrame(loadingAnimationRef.current);
-        loadingAnimationRef.current = null;
-      }
       return;
     }
 
-    // 開啟時：先記錄原始位置，然後開始 loading
-    captureOriginalPosition();
-    if (initialPhase === 'loading') {
-      setAnimationPhase('loading');
-      setIsLoading(true);
-      setLoadingProgress(0);
-      playLoadingSound();
-
-      // 使用 requestAnimationFrame 優化動畫性能
-      const totalDuration = 2500; // 總時長 2.5 秒
-      loadingStartTimeRef.current = performance.now();
-
-      const updateProgress = (currentTime: number) => {
-        const elapsed = currentTime - loadingStartTimeRef.current;
-        const progress = Math.min(100, Math.round((elapsed / totalDuration) * 100));
-        
-        if (progress < 100) {
-          setLoadingProgress(progress);
-          loadingAnimationRef.current = requestAnimationFrame(updateProgress);
-        } else {
-          // Loading 完成，開始分階段動畫
-          setLoadingProgress(100);
-          setIsLoading(false);
-          
-          // 直接進入擴展階段，避免 hero 先在下方再上升
-          requestAnimationFrame(() => {
-            playStartSound();
-            setAnimationPhase('expanding');
-            
-            // 擴展完成後顯示內容
-            setTimeout(() => {
-              setAnimationPhase('ready');
-            }, 900); // 800ms expanding + 100ms buffer
-          });
-        }
-      };
-
-      // 初始延遲後開始動畫
-      const startDelay = 200;
+    // 開啟時：直接進入 expanding 階段
+    requestAnimationFrame(() => {
+      playStartSound();
+      setAnimationPhase('expanding');
+      
+      // 擴展完成後顯示內容
       setTimeout(() => {
-        loadingStartTimeRef.current = performance.now();
-        loadingAnimationRef.current = requestAnimationFrame(updateProgress);
-      }, startDelay);
-    } else if (initialPhase === 'expanding') {
-      setIsLoading(false);
-      setLoadingProgress(100);
-      requestAnimationFrame(() => {
-        playStartSound();
-        setAnimationPhase('expanding');
-        setTimeout(() => {
-          setAnimationPhase('ready');
-        }, 900);
-      });
-    } else {
-      // initialPhase === 'ready'
-      setIsLoading(false);
-      setLoadingProgress(100);
-      setAnimationPhase('ready');
-    }
-
-    return () => {
-      if (loadingAnimationRef.current) {
-        cancelAnimationFrame(loadingAnimationRef.current);
-        loadingAnimationRef.current = null;
-      }
-    };
-  }, [open, captureOriginalPosition, playStartSound, playLoadingSound, initialPhase]);
-
-  // 記憶化的 renderBlocks 函數以減少重渲染
-  const renderBlocks = useCallback((blocks: FeedContentBlock[]) => {
-    console.log('[FeedDetailOverlay] renderBlocks 收到的區塊:', blocks);
-    
-    return (
-      <article className="fdo-article">
-        {blocks.map((b, i) => {
-          console.log(`[FeedDetailOverlay] 渲染區塊 ${i}:`, { type: b.type, src: (b as any).src });
-          
-          if (b.type === 'heading') {
-            const level = b.level ?? 2;
-            if (level === 1) return <h1 key={i}>{b.content}</h1>;
-            if (level === 3) return <h3 key={i}>{b.content}</h3>;
-            return <h2 key={i}>{b.content}</h2>;
-          }
-          if (b.type === 'paragraph') return <p key={i}>{b.content}</p>;
-          if (b.type === 'image') {
-            console.log(`[FeedDetailOverlay] 使用 OptimizedDistortedPixels (canvas) 渲染 image:`, b);
-            return (
-              <OptimizedDistortedPixels 
-                key={i}
-                src={b.src} 
-                scrollContainer={scrollContentRef}
-              />
-            );
-          }
-          if (b.type === 'video') {
-            console.log(`[FeedDetailOverlay] 使用 VideoPlayer 渲染 video:`, b);
-            return (
-              <VideoPlayer
-                key={i}
-                src={b.src}
-                poster={b.poster}
-                alt={b.alt}
-                autoplay={b.autoplay}
-                loop={b.loop}
-                muted={b.muted}
-                controls={b.controls}
-              />
-            );
-          }
-          if (b.type === 'list') return (
-            <ul key={i}>
-              {b.items.map((t, idx) => <li key={idx}>{t}</li>)}
-            </ul>
-          );
-          console.log(`[FeedDetailOverlay] 未知區塊類型:`, b);
-          return null;
-        })}
-      </article>
-    );
-  }, [scrollContentRef]);
-
-  // 記憶化的默認內容以提升性能
-  const defaultContent = useMemo(() => {
-    if (!src) return null;
-    
-    return (
-      <article className="fdo-article">
-        <h1>UNTITLED PROJECT</h1>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae arcu ac neque commodo
-          aliquet. Integer sodales, magna sit amet interdum luctus, massa risus egestas odio, a
-          aliquet sem nisl id mauris.
-        </p>
-        <OptimizedDistortedPixels src={src} scrollContainer={scrollContentRef} />
-        <h2>Design Goals</h2>
-        <p>
-          Cras non nisl id nibh sollicitudin bibendum. Vestibulum ante ipsum primis in faucibus orci
-          luctus et ultrices posuere cubilia curae; Nullam ultrices, ipsum quis pulvinar dignissim,
-          neque tellus eleifend libero, in aliquam elit felis non magna.
-        </p>
-        <ul>
-          <li>Responsive pixel aesthetics</li>
-          <li>Playful motion with reduced-cost rendering</li>
-          <li>Readable editorial layout</li>
-        </ul>
-        <OptimizedDistortedPixels src={src} scrollContainer={scrollContentRef} />
-        <h2>Process</h2>
-        <p>
-          Aenean imperdiet nunc non tempor laoreet. In et sem id neque volutpat fermentum sit amet
-          id lectus. Integer placerat lectus vel lectus pharetra, non posuere sem convallis.
-        </p>
-        <OptimizedDistortedPixels src={src} scrollContainer={scrollContentRef} />
-        <p>
-          Curabitur fringilla, augue ut suscipit pulvinar, erat lacus posuere turpis, id suscipit
-          velit leo vel purus. Donec sit amet ligula quis ipsum convallis interdum.
-        </p>
-      </article>
-    );
-  }, [src, scrollContentRef]);
+        setAnimationPhase('ready');
+      }, 900); // 800ms expanding + 100ms buffer
+    });
+  }, [open, playStartSound]);
 
   // 關閉或初始狀態：外觀與 FeedCard 相同
   if (!open) {
@@ -602,39 +290,11 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
       {animationPhase === 'ready' && <div className="feed-detail-overlay__backdrop" onClick={onClose} />}
       
       <div ref={scrollContentRef} className="feed-detail-overlay__content" aria-label="Feed detail overlay">
-        {/* Loading 狀態（固定在視窗右上角） */}
-        {isLoading && (
-          <LoadingDisplay 
-            progress={loadingProgress}
-            primaryColor={primaryColor}
-            secondaryColor={secondaryColor}
-          />
-        )}
-        
         {/* Hero 區域 - 分階段動畫 */}
         <div 
           className="feed-detail-overlay__hero" 
           style={heroStyle}
         >
-          {/* Loading 階段：顯示完整的 FeedCard */}
-          {animationPhase === 'loading' && (
-            <FeedCard 
-              {...feedCardProps}
-              forceHovered={true}
-              disableHover={true}
-              backgroundProps={{
-                ...backgroundProps,
-                pixelSize: scrollPixelSize,
-                maskOpacity: scrollMaskOpacity,
-                hoverPixelToOne: false,
-                maskColor: secondaryColor,
-                hoverActive: true,
-              }}
-            >
-              {infoData && <FeedCardInfo {...feedCardInfoProps} />}
-            </FeedCard>
-          )}
-          
           {/* Expanding/Ready 階段：FeedCardInfo 獨立顯示在 hero 底部，背景改由 fixed 層處理 */}
           {(animationPhase === 'expanding' || animationPhase === 'ready') && infoData && (
             <div className="feed-detail-overlay__hero-content" style={heroContentStyle}>
@@ -642,13 +302,6 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
             </div>
           )}
         </div>
-        
-        {/* Body 內容 - 只在 ready 階段顯示 */}
-        {animationPhase === 'ready' && (
-          <div className="feed-detail-overlay__body">
-            {content ?? (contentBlocks ? renderBlocks(contentBlocks) : defaultContent)}
-          </div>
-        )}
       </div>
     </div>
   );
@@ -661,7 +314,7 @@ export const FeedDetailOverlay = memo(FeedDetailOverlayComponent, (prevProps, ne
   // 自定義比較函數，只有在關鍵 props 變化時才重渲染
   const keyProps = [
     'open', 'heroHeightVH', 'sizeWhenClosed', 'src', 'padding', 
-    'primaryColor', 'secondaryColor', 'infoMaxWidth', 'className', 'use2D', 'initialPhase'
+    'primaryColor', 'secondaryColor', 'infoMaxWidth', 'className', 'use2D'
   ] as const;
   
   for (const prop of keyProps) {
@@ -672,11 +325,6 @@ export const FeedDetailOverlay = memo(FeedDetailOverlayComponent, (prevProps, ne
   
   // 深度比較 infoData
   if (JSON.stringify(prevProps.infoData) !== JSON.stringify(nextProps.infoData)) {
-    return false;
-  }
-  
-  // 深度比較 contentBlocks
-  if (JSON.stringify(prevProps.contentBlocks) !== JSON.stringify(nextProps.contentBlocks)) {
     return false;
   }
   

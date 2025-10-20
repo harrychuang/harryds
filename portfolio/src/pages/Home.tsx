@@ -742,7 +742,7 @@ const Home: React.FC = () => {
                       objectFit: 'cover'
                     }}
                     secondaryColor={item.secondaryColor}
-                    infoMaxWidth={1600}
+                    infoMaxWidth={1400}
                     infoData={{ id: displayId, heading: item.heading, date: item.date, tags: item.tags, category: item.category }}
                     primaryColor={item.primaryColor}
                     contentBlocks={resolvedBlocks}

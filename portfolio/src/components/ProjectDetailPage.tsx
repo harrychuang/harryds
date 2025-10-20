@@ -181,7 +181,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
       {/* 內容區域 */}
       <div ref={scrollContainerRef} className="pdp-content">
         <article className="pdp-article">
-          {renderContentBlocks(contentBlocks)}
+          {/* {renderContentBlocks(contentBlocks)} */}
         </article>
       </div>
     </div>
