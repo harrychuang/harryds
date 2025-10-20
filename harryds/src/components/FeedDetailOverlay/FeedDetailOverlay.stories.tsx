@@ -96,6 +96,8 @@ export const WithProjectInfo: Story = {
         client: 'awwrated',
         roles: ['UIUX Design', 'Design System', 'Development'],
         description: 'Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you\'re a designer or developer, it\'s your resource for intuitive interfaces.',
+        websiteUrl: 'https://example.com',
+        websiteLabel: 'VISIT WEBSITE',
       }}
     />
   ),

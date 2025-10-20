@@ -204,7 +204,7 @@
     display: flex;
     justify-content: center;
     margin-top: 100px; // 與 hero 之間的間距
-    padding: 0 40px;
+    padding: 0 40px 200px; // 底部增加 200px 間距
     color: var(--on-hds-sys-color-surface, #fff);
     animation: slide-up-body 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
@@ -225,11 +225,17 @@
     flex: 0 0 400px; // 固定寬度 400px
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 80px; // meta content 和 CTA 按鈕之間的間距
     
     @media (max-width: 1024px) {
       flex: 1;
     }
+  }
+
+  &__meta-content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
   }
 
   &__meta-item {
@@ -289,6 +295,59 @@
     line-height: 130%; /* 39px */
     color: #fff;
     margin: 0;
+  }
+
+  // =============================================================================
+  // CTA 按鈕（特殊棋盤背景）
+  // =============================================================================
+
+  &__cta-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 80px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    background: transparent;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  &__cta-background {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: row;
+    z-index: 0;
+  }
+
+  &__cta-stripe {
+    flex: 1; // 每個方塊平均分配寬度（12個 = 8.333% 各）
+    height: 100%; // 填滿按鈕高度 (80px)
+  }
+
+  &__cta-text {
+    position: relative;
+    z-index: 1;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 130%;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 0.05em;
   }
 }
 
@@ -369,7 +428,7 @@
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
-  padding: 60px 40px 120px;
+  padding: 60px 40px 200px;
   color: var(--feed-detail-primary-color, #ffffff);
   
   // 漸入動畫

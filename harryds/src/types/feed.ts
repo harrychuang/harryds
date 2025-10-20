@@ -29,6 +29,8 @@ export interface ProjectInfo {
   client?: string;
   roles?: string[];
   description?: string;
+  websiteUrl?: string;
+  websiteLabel?: string;
 }
 
 

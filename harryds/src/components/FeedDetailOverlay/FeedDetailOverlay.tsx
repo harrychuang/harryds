@@ -372,21 +372,53 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
           <section className="feed-detail-overlay__project-main">
             <div className="feed-detail-overlay__project-container">
               <aside className="feed-detail-overlay__project-meta">
-                {projectInfo.client && (
-                  <div className="feed-detail-overlay__meta-item">
-                    <h3 className="feed-detail-overlay__meta-label">Client</h3>
-                    <p className="feed-detail-overlay__meta-value">{projectInfo.client}</p>
-                  </div>
-                )}
-                {projectInfo.roles && projectInfo.roles.length > 0 && (
-                  <div className="feed-detail-overlay__meta-item">
-                    <h3 className="feed-detail-overlay__meta-label">Role</h3>
-                    <div className="feed-detail-overlay__meta-value">
-                      {projectInfo.roles.map((role, idx) => (
-                        <p key={idx}>{role}</p>
-                      ))}
+                <div className="feed-detail-overlay__meta-content">
+                  {projectInfo.client && (
+                    <div className="feed-detail-overlay__meta-item">
+                      <h3 className="feed-detail-overlay__meta-label">Client</h3>
+                      <p className="feed-detail-overlay__meta-value">{projectInfo.client}</p>
                     </div>
-                  </div>
+                  )}
+                  {projectInfo.roles && projectInfo.roles.length > 0 && (
+                    <div className="feed-detail-overlay__meta-item">
+                      <h3 className="feed-detail-overlay__meta-label">Role</h3>
+                      <div className="feed-detail-overlay__meta-value">
+                        {projectInfo.roles.map((role, idx) => (
+                          <p key={idx}>{role}</p>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                
+                {projectInfo.websiteUrl && (
+                  <a 
+                    href={projectInfo.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="feed-detail-overlay__cta-button"
+                  >
+                    <div className="feed-detail-overlay__cta-background">
+                      {/* 12個方塊背景 - 前6個 primary，後6個 secondary */}
+                      {/* Primary Color 方塊 (6個): 100%, 80%, 60%, 40%, 20%, 10% */}
+                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: primaryColor, opacity: 1 }} />
+                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: primaryColor, opacity: 0.8 }} />
+                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: primaryColor, opacity: 0.6 }} />
+                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: primaryColor, opacity: 0.4 }} />
+                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: primaryColor, opacity: 0.2 }} />
+                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: primaryColor, opacity: 0.1 }} />
+                      {/* Secondary Color 方塊 (6個): 10%, 20%, 40%, 60%, 80%, 100% */}
+                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: secondaryColor, opacity: 0.1 }} />
+                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: secondaryColor, opacity: 0.2 }} />
+                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: secondaryColor, opacity: 0.4 }} />
+                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: secondaryColor, opacity: 0.6 }} />
+                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: secondaryColor, opacity: 0.8 }} />
+                      <div className="feed-detail-overlay__cta-stripe" style={{ backgroundColor: secondaryColor, opacity: 1 }} />
+                    </div>
+                    <span className="feed-detail-overlay__cta-text">
+                      {projectInfo.websiteLabel || 'VISIT WEBSITE'}
+                    </span>
+                  </a>
                 )}
               </aside>
               
