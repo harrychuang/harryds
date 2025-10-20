@@ -17,7 +17,8 @@ import startSoundUrl from '../../../assets/sound/8-Bit Retro Sound Effect-level-
 import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
 import iconLinkUrl from '../../../assets/imgs/icon/icon-link.svg';
 import { DistortedPixels2D } from '../DistortedPixels/DistortedPixels2D';
-import demoShopmaticUrl from '../../../assets/imgs/demo/demo-shopmatic-01.jpg';
+import demoShopmatic01Url from '../../../assets/imgs/demo/demo-shopmatic-01.jpg';
+import demoShopmatic02Url from '../../../assets/imgs/demo/demo-shopmatic-02.jpg';
 
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
   /** 是否開啟 overlay */
@@ -446,7 +447,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                 {/* DistortedPixels2D 圖片展示 */}
                 <div className="feed-detail-overlay__project-image">
                   <DistortedPixels2D
-                    src={demoShopmaticUrl}
+                    src={demoShopmatic01Url}
                     objectFit="responsive"
                     direction="y"
                     maxPixelation={80}
@@ -461,7 +462,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                 <div className="feed-detail-overlay__project-section">
                   {/* Pixel 字體標題 */}
                   <h2 className="feed-detail-overlay__section-title">
-                    Scope_
+                    Scope<span className="feed-detail-overlay__cursor">_</span>
                   </h2>
 
                   {/* 內容文字 */}
@@ -475,6 +476,58 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                     <p>
                       The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.
                     </p>
+                  </div>
+
+                  {/* 第二張 DistortedPixels2D 圖片 */}
+                  <div className="feed-detail-overlay__project-image">
+                    <DistortedPixels2D
+                      src={demoShopmatic02Url}
+                      objectFit="responsive"
+                      direction="y"
+                      maxPixelation={80}
+                      maxDistortion={1}
+                      scrollSensitivity={0.2}
+                      decaySpeed={0.95}
+                      scrollContainer={scrollContentRef}
+                    />
+                  </div>
+                </div>
+
+                {/* Impact 區塊 */}
+                <div className="feed-detail-overlay__project-section">
+                  {/* Pixel 字體標題 */}
+                  <h2 className="feed-detail-overlay__section-title">
+                    Impact<span className="feed-detail-overlay__cursor">_</span>
+                  </h2>
+
+                  {/* 內容文字 */}
+                  <div className="feed-detail-overlay__section-content">
+                    <p>
+                      The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.
+                    </p>
+
+                    {/* 引用文字 - > 符號使用 Pixel 字體 */}
+                    <div className="feed-detail-overlay__section-quote">
+                      <p>
+                        <span className="feed-detail-overlay__quote-mark">&gt;</span>
+                        <span className="feed-detail-overlay__quote-text"> "Rating Credibility" Rule: Weighted by the number of raters to reduce early sample bias.</span>
+                      </p>
+                      <p>
+                        <span className="feed-detail-overlay__quote-mark">&gt;</span>
+                        <span className="feed-detail-overlay__quote-text"> Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.</span>
+                      </p>
+                      <p>
+                        <span className="feed-detail-overlay__quote-mark">&gt;</span>
+                        <span className="feed-detail-overlay__quote-text"> GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.</span>
+                      </p>
+                    </div>
+
+                    {/* 大引用文字區塊 */}
+                    <blockquote className="feed-detail-overlay__section-blockquote">
+                      <span className="feed-detail-overlay__blockquote-mark">"</span>
+                      The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.
+                      <span className="feed-detail-overlay__blockquote-mark">"</span>
+                    </blockquote>
                   </div>
                 </div>
               </div>
