@@ -27,6 +27,7 @@ export type FeedContentBlock =
 // Project 資訊（用於 FeedDetailOverlay 的專案資訊區塊）
 export interface ProjectInfo {
   client?: string;
+  project?: string;
   roles?: string[];
   description?: string;
   websiteUrl?: string;

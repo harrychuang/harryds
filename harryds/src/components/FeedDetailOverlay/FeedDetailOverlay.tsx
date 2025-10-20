@@ -507,6 +507,12 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                       <p className="feed-detail-overlay__meta-value">{projectInfo.client}</p>
                     </div>
                   )}
+                  {projectInfo.project && (
+                    <div className="feed-detail-overlay__meta-item">
+                      <h3 className="feed-detail-overlay__meta-label">Project</h3>
+                      <p className="feed-detail-overlay__meta-value">{projectInfo.project}</p>
+                    </div>
+                  )}
                   {projectInfo.roles && projectInfo.roles.length > 0 && (
                     <div className="feed-detail-overlay__meta-item">
                       <h3 className="feed-detail-overlay__meta-label">Role</h3>
