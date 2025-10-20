@@ -24,4 +24,11 @@ export type FeedContentBlock =
   | { type: 'video'; src: string; poster?: string; alt?: string; autoplay?: boolean; loop?: boolean; muted?: boolean; controls?: boolean }
   | { type: 'list'; items: string[] };
 
+// Project 資訊（用於 FeedDetailOverlay 的專案資訊區塊）
+export interface ProjectInfo {
+  client?: string;
+  roles?: string[];
+  description?: string;
+}
+
 

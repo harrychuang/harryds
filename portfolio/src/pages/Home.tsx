@@ -102,7 +102,7 @@ const Home: React.FC = () => {
 
   // 性能統計顯示（僅開發環境）
   const [showStats, setShowStats] = useState(false);
-  const statsInterval = useRef<number>();
+  const statsInterval = useRef<number | null>(null);
 
   const originalHomeBackgroundRef = useRef<string>('');
   const homeRef = useRef<HTMLDivElement>(null);
@@ -746,8 +746,7 @@ const Home: React.FC = () => {
                     infoData={{ id: displayId, heading: item.heading, date: item.date, tags: item.tags, category: item.category }}
                     primaryColor={item.primaryColor}
                     contentBlocks={resolvedBlocks}
-                  use2D={size === 'xs'}
-                  initialPhase={initialPhase}
+                    use2D={size === 'xs'}
                 />
               </div>
             );

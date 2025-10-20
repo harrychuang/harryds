@@ -80,3 +80,40 @@ export const Default: Story = {
     },
   },
 };
+
+export const WithProjectInfo: Story = {
+  render: (args) => (
+    <FeedDetailOverlay
+      {...args}
+      infoData={{
+        id: items[0].id,
+        heading: items[0].heading,
+        date: items[0].date,
+        tags: items[0].tags,
+        category: items[0].category,
+      }}
+      projectInfo={{
+        client: 'awwrated',
+        roles: ['UIUX Design', 'Design System', 'Development'],
+        description: 'Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you\'re a designer or developer, it\'s your resource for intuitive interfaces.',
+      }}
+    />
+  ),
+  args: {
+    open: true,
+    heroHeightVH: 65,
+    sizeWhenClosed: 'hero',
+    src: demoSrc,
+    padding: 40,
+    infoMaxWidth: 1400,
+    primaryColor: items[0].primaryColor,
+    secondaryColor: items[0].secondaryColor,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Demonstrates overlay with hero section and project information. The project info section displays in a 2-column layout below the hero: left column (400px) shows client and roles, right column (flex 1) shows description.`,
+      },
+    },
+  },
+};

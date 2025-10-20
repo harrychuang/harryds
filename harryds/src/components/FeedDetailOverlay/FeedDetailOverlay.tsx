@@ -11,6 +11,7 @@ import type { FeedCardProps } from '../FeedCard';
 import type { FeedCardSize } from '../FeedCard/FeedCard';
 import { FeedCardInfo } from '../FeedCard';
 import type { FeedCardInfoData } from '../FeedCard';
+import type { FeedContentBlock, ProjectInfo } from '../../types/feed';
 import './FeedDetailOverlay.scss';
 import startSoundUrl from '../../../assets/sound/8-Bit Retro Sound Effect-level-up.mp3';
 import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
@@ -32,6 +33,10 @@ export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | '
   primaryColor?: string;
   /** 額外類名（套用在根節點） */
   className?: string;
+  /** 文章內容區塊（段落、標題、圖片、影片、列表等） */
+  contentBlocks?: FeedContentBlock[];
+  /** 專案資訊（客戶、角色、描述） */
+  projectInfo?: ProjectInfo;
 }
 
 // hero 高度現在由 CSS 直接設定為 75vh
@@ -54,6 +59,8 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   soundVolume,
   infoData,
   primaryColor,
+  contentBlocks,
+  projectInfo,
 }, ref) => {
   // 滾動容器引用
   const scrollContentRef = useRef<HTMLDivElement | null>(null);
@@ -75,6 +82,63 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   useEffect(() => {
     onAnimationPhaseChange?.(animationPhase);
   }, [animationPhase, onAnimationPhaseChange]);
+
+  // 渲染內容區塊的函數
+  const renderContentBlock = useCallback((block: FeedContentBlock, index: number) => {
+    switch (block.type) {
+      case 'heading':
+        const HeadingTag = `h${block.level || 2}` as keyof JSX.IntrinsicElements;
+        return (
+          <HeadingTag key={index} className="feed-detail-overlay__heading">
+            {block.content}
+          </HeadingTag>
+        );
+      case 'paragraph':
+        return (
+          <p key={index} className="feed-detail-overlay__paragraph">
+            {block.content}
+          </p>
+        );
+      case 'image':
+        return (
+          <figure key={index} className="feed-detail-overlay__image-wrapper">
+            <img 
+              src={block.src} 
+              alt={block.alt || ''} 
+              className="feed-detail-overlay__image"
+            />
+          </figure>
+        );
+      case 'video':
+        return (
+          <figure key={index} className="feed-detail-overlay__video-wrapper">
+            <video 
+              src={block.src}
+              poster={block.poster}
+              autoPlay={block.autoplay}
+              loop={block.loop}
+              muted={block.muted}
+              controls={block.controls}
+              className="feed-detail-overlay__video"
+            >
+              Your browser does not support the video tag.
+            </video>
+          </figure>
+        );
+      case 'list':
+        return (
+          <ul key={index} className="feed-detail-overlay__list">
+            {block.items.map((item, itemIndex) => (
+              <li key={itemIndex} className="feed-detail-overlay__list-item">
+                {item}
+              </li>
+            ))}
+          </ul>
+        );
+      default:
+        return null;
+    }
+  }, []);
 
   // 所有 useMemo hooks 必須在 early return 之前調用
   // 記憶化的樣式計算以減少重渲染
@@ -302,6 +366,47 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
             </div>
           )}
         </div>
+
+        {/* 專案資訊區域 - 只在 ready 階段顯示 */}
+        {animationPhase === 'ready' && projectInfo && (
+          <section className="feed-detail-overlay__project-main">
+            <div className="feed-detail-overlay__project-container">
+              <aside className="feed-detail-overlay__project-meta">
+                {projectInfo.client && (
+                  <div className="feed-detail-overlay__meta-item">
+                    <h3 className="feed-detail-overlay__meta-label">Client</h3>
+                    <p className="feed-detail-overlay__meta-value">{projectInfo.client}</p>
+                  </div>
+                )}
+                {projectInfo.roles && projectInfo.roles.length > 0 && (
+                  <div className="feed-detail-overlay__meta-item">
+                    <h3 className="feed-detail-overlay__meta-label">Role</h3>
+                    <div className="feed-detail-overlay__meta-value">
+                      {projectInfo.roles.map((role, idx) => (
+                        <p key={idx}>{role}</p>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </aside>
+              
+              <div className="feed-detail-overlay__project-content">
+                {projectInfo.description && (
+                  <p className="feed-detail-overlay__project-description">
+                    {projectInfo.description}
+                  </p>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* 文章內容區域 - 只在 ready 階段顯示 */}
+        {animationPhase === 'ready' && contentBlocks && contentBlocks.length > 0 && (
+          <article className="feed-detail-overlay__article">
+            {contentBlocks.map((block, index) => renderContentBlock(block, index))}
+          </article>
+        )}
       </div>
     </div>
   );
@@ -325,6 +430,16 @@ export const FeedDetailOverlay = memo(FeedDetailOverlayComponent, (prevProps, ne
   
   // 深度比較 infoData
   if (JSON.stringify(prevProps.infoData) !== JSON.stringify(nextProps.infoData)) {
+    return false;
+  }
+  
+  // 深度比較 contentBlocks
+  if (JSON.stringify(prevProps.contentBlocks) !== JSON.stringify(nextProps.contentBlocks)) {
+    return false;
+  }
+  
+  // 深度比較 projectInfo
+  if (JSON.stringify(prevProps.projectInfo) !== JSON.stringify(nextProps.projectInfo)) {
     return false;
   }
   

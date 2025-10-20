@@ -2,13 +2,13 @@
   "items": [
     {
       "id": 1,
-      "heading": "Awwrated",
+      "heading": "Shopmatic Design System",
       "date": "Jan 01, 2025 - Jun 30, 2025",
       "tags": ["UI", "UX", "DEV"],
       "category": "project",
       "brand": "Awwrated",
-      "primaryColor": "#FF1246",
-      "secondaryColor": "#1B2350",
+      "primaryColor": "#FF1650",
+      "secondaryColor": "#151648",
       "heroImage": "demo/project-demo-1.jpg",
       "content": [
         { "type": "heading", "level": 1, "content": "Awwrated — Objective Information Platform" },
