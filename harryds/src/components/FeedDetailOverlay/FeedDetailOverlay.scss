@@ -9,8 +9,8 @@
   position: relative;
   width: 100%;
   display: block;
-  // 避免合成層空窗時出現白色閃爍，提供穩定的底色
-  background: #000;
+  // 還原穩定底色，避免背景切層時露出頁面底色
+  background: var(--hds-sys-color-dark-100a, #111);
 
   &--closed {
     // 單純作為 FeedCard 的「容器」，尺寸由外層決定
@@ -462,11 +462,9 @@
 @keyframes fade-in-backdrop {
   from {
     opacity: 0;
-    backdrop-filter: blur(0px);
   }
   to {
     opacity: 1;
-    backdrop-filter: blur(4px);
   }
 }
 

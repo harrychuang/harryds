@@ -293,10 +293,11 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   const computedBgProps = useMemo(() => ({
     ...backgroundProps,
     pixelSize: scrollPixelSize,
+    // 保持背景為彩色且顯示 secondary 遮罩
+    desaturateUntilHover: true,
+    hoverActive: true,
     hoverPixelToOne: false,
     maskColor: secondaryColor,
-    hoverActive: true,
-    // 固定遮罩不透明度，避免於滾動時更新未被使用的屬性造成 re-render
     maskOpacity: backgroundProps?.maskOpacity ?? 0.9,
   }), [backgroundProps, scrollPixelSize, secondaryColor]);
 
@@ -386,6 +387,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     if (!open || !scrollContentRef.current) return;
     const el = scrollContentRef.current;
     let rafId: number | null = null;
+    let lastTop = -10;
 
     const updateScrollEffects = (scrollTop: number) => {
       // 更新背景 pixelSize（僅在有效整數變化時更新以降低 re-render）
@@ -402,7 +404,11 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         lastPixelRef.current = effectivePixel;
         setScrollPixelSize(effectivePixel);
       }
-      setSpecialHeadingImgTop(topPosition);
+      // 降低 parallax setState 次數
+      if (Math.abs(topPosition - lastTop) > 0.2) {
+        lastTop = topPosition;
+        setSpecialHeadingImgTop(topPosition);
+      }
     };
 
     const onScroll = () => {

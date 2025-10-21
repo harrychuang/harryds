@@ -557,10 +557,11 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     const satPass = saturationPassRef.current;
     if (!satPass) return;
     // 當 desaturateUntilHover 為真時：
-    //   - 若啟用 hoverPixelToOne 且目前為 hover 狀態，彩度為 0（原色）
-    //   - 否則彩度為 -1（灰階）
+    //   - 若 hoverActive 為真（由父層控制的 hover 狀態），彩度為 0（原色）
+    //   - 否則若啟用 hoverPixelToOne 且目前為 hover 狀態，彩度為 0（原色）
+    //   - 其他情況彩度為 -1（灰階）
     // 當 desaturateUntilHover 為假時，彩度始終為 0（原色）
-    const shouldBeColor = desaturateUntilHover ? (hoverPixelToOne && isHoveredRef.current) : true;
+    const shouldBeColor = desaturateUntilHover ? (hoverActive || (hoverPixelToOne && isHoveredRef.current)) : true;
     const targetSat = shouldBeColor ? 0 : -1;
     if (satPass.uniforms['saturation'].value !== targetSat) {
       satPass.uniforms['saturation'].value = targetSat;
@@ -568,7 +569,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
         renderLoop();
       }
     }
-  }, [desaturateUntilHover, hoverPixelToOne, renderLoop]);
+  }, [desaturateUntilHover, hoverActive, hoverPixelToOne, renderLoop]);
 
   // 滑鼠懸停動畫：事件處理與啟動補間（提前定義，供後續 effect 與事件使用）
   const startPixelAnimation = useCallback((toPixel: number, toMaskOpacity: number) => {
