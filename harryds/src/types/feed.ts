@@ -39,6 +39,12 @@ export interface ProjectSection {
 }
 
 // Project 資訊（用於 FeedDetailOverlay 的專案資訊區塊）
+// 自訂專案中繼資料（可配置的標籤與值）
+export interface ProjectMetaItem {
+  label: string;
+  value: string | string[];
+}
+
 export interface ProjectInfo {
   client?: string;
   project?: string;
@@ -48,6 +54,11 @@ export interface ProjectInfo {
   websiteLabel?: string;
   mainImage?: string; // 主圖片（description 下方的第一張圖）
   specialHeadingImage?: string; // 特殊主圖（右上角 parallax 效果的圖）
+  /**
+   * 自訂的 meta 陣列，若提供則 FeedDetailOverlay 優先使用此結構渲染標籤與內容。
+   * 若未提供，則會回退使用 client/project/roles 三種欄位渲染。
+   */
+  meta?: ProjectMetaItem[];
   sections?: ProjectSection[];
 }
 

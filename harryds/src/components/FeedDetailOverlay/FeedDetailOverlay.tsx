@@ -618,27 +618,48 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
             <div className="feed-detail-overlay__project-container">
               <aside className="feed-detail-overlay__project-meta">
                 <div className="feed-detail-overlay__meta-content">
-                  {projectInfo.client && (
-                    <div className="feed-detail-overlay__meta-item">
-                      <h3 className="feed-detail-overlay__meta-label">Client</h3>
-                      <p className="feed-detail-overlay__meta-value">{projectInfo.client}</p>
-                    </div>
-                  )}
-                  {projectInfo.project && (
-                    <div className="feed-detail-overlay__meta-item">
-                      <h3 className="feed-detail-overlay__meta-label">Project</h3>
-                      <p className="feed-detail-overlay__meta-value">{projectInfo.project}</p>
-                    </div>
-                  )}
-                  {projectInfo.roles && projectInfo.roles.length > 0 && (
-                    <div className="feed-detail-overlay__meta-item">
-                      <h3 className="feed-detail-overlay__meta-label">Role</h3>
-                      <div className="feed-detail-overlay__meta-value">
-                        {projectInfo.roles.map((role, idx) => (
-                          <p key={idx}>{role}</p>
-                        ))}
-                      </div>
-                    </div>
+                  {Array.isArray(projectInfo.meta) && projectInfo.meta.length > 0 ? (
+                    projectInfo.meta
+                      .filter((item) => item && item.label && (Array.isArray(item.value) ? item.value.length > 0 : !!item.value))
+                      .map((item, idx) => (
+                        <div key={idx} className="feed-detail-overlay__meta-item">
+                          <h3 className="feed-detail-overlay__meta-label">{item.label}</h3>
+                          {Array.isArray(item.value) ? (
+                            <div className="feed-detail-overlay__meta-value">
+                              {item.value.map((val, vIdx) => (
+                                <p key={vIdx}>{val}</p>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="feed-detail-overlay__meta-value">{item.value}</p>
+                          )}
+                        </div>
+                      ))
+                  ) : (
+                    <>
+                      {projectInfo.client && (
+                        <div className="feed-detail-overlay__meta-item">
+                          <h3 className="feed-detail-overlay__meta-label">Client</h3>
+                          <p className="feed-detail-overlay__meta-value">{projectInfo.client}</p>
+                        </div>
+                      )}
+                      {projectInfo.project && (
+                        <div className="feed-detail-overlay__meta-item">
+                          <h3 className="feed-detail-overlay__meta-label">Project</h3>
+                          <p className="feed-detail-overlay__meta-value">{projectInfo.project}</p>
+                        </div>
+                      )}
+                      {projectInfo.roles && projectInfo.roles.length > 0 && (
+                        <div className="feed-detail-overlay__meta-item">
+                          <h3 className="feed-detail-overlay__meta-label">Role</h3>
+                          <div className="feed-detail-overlay__meta-value">
+                            {projectInfo.roles.map((role, idx) => (
+                              <p key={idx}>{role}</p>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
                 

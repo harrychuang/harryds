@@ -9,7 +9,7 @@ import { useStrapiFeed } from '../hooks/useStrapiFeed';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
-import { useSmartPreload, usePreloadDebug } from '../hooks/useSmartPreload';
+import { useSmartPreload } from '../hooks/useSmartPreload';
 import { useTheme } from '../theme/useTheme';
 import { useHover } from '../contexts/HoverContext';
 import { useOverlay } from '../contexts/OverlayContext';
@@ -36,7 +36,7 @@ const Home: React.FC = () => {
       console.log('[Home] 第一個項目圖片:', items[0].heroImage);
     }
   }, [loading, error, items]);
-  const { log } = usePreloadDebug();
+  const log = useCallback((..._args: any[]) => {}, []);
   const { theme, toggleTheme } = useTheme();
   const { hoveredCardId, setHoveredCardId } = useHover();
   const { 
@@ -100,9 +100,7 @@ const Home: React.FC = () => {
     };
   }, []);
 
-  // 性能統計顯示（僅開發環境）
-  const [showStats, setShowStats] = useState(false);
-  const statsInterval = useRef<number | null>(null);
+  // 預載調試面板已移除
 
   const originalHomeBackgroundRef = useRef<string>('');
   const homeRef = useRef<HTMLDivElement>(null);
@@ -116,21 +114,7 @@ const Home: React.FC = () => {
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
 
-  useEffect(() => {
-    // 只有在開發環境且明確啟用調試時才顯示統計
-    if (process.env.NODE_ENV === 'development' && import.meta.env.VITE_PRELOAD_DEBUG === 'true') {
-      statsInterval.current = window.setInterval(() => {
-        const stats = getStats();
-        log('預載統計', stats);
-      }, 10000); // 改為 10 秒顯示一次，減少干擾
-
-      return () => {
-        if (statsInterval.current) {
-          clearInterval(statsInterval.current);
-        }
-      };
-    }
-  }, [getStats, log]);
+  // 預載統計輪詢已移除
 
   useEffect(() => {
     if (!originalHomeBackgroundRef.current && homeRef.current) {
@@ -462,82 +446,11 @@ const Home: React.FC = () => {
     }
   }, [params.id, params.category, items, setContextOpenCardId]);
 
-  // 🎯 開發環境的性能統計面板
-  const renderDebugPanel = () => {
-    if (process.env.NODE_ENV !== 'development') return null;
-
-    const stats = getStats();
-    
-    return (
-      <div 
-        className="debug-panel"
-        style={{
-          position: 'fixed',
-          top: 10,
-          left: 10,
-          background: 'rgba(0,0,0,0.8)',
-          color: 'white',
-          padding: '10px',
-          borderRadius: '4px',
-          fontSize: '12px',
-          fontFamily: 'monospace',
-          zIndex: 9999,
-          display: showStats ? 'block' : 'none'
-        }}
-      >
-        <div><strong>🎯 智能預載統計</strong></div>
-        <div>預載完成: {stats.preloadCount}</div>
-        <div>快取命中: {stats.cacheHits}</div>
-        <div>取消次數: {stats.cancelledCount}</div>
-        <div>命中率: {stats.hitRate}</div>
-        <div>平均時間: {stats.avgPreloadTime.toFixed(0)}ms</div>
-        <div>進行中: {stats.activeCount}</div>
-        <div>隊列長度: {stats.queueLength}</div>
-        <div>快取大小: {stats.cacheSize}</div>
-        <button 
-          onClick={() => clearCache()}
-          style={{
-            marginTop: '5px',
-            padding: '2px 6px',
-            fontSize: '10px',
-            background: '#ff4444',
-            color: 'white',
-            border: 'none',
-            borderRadius: '2px',
-            cursor: 'pointer'
-          }}
-        >
-          清除快取
-        </button>
-      </div>
-    );
-  };
+  // 調試面板已移除
 
   return (
     <div ref={homeRef} className="home">
-      {renderDebugPanel()}
-      
-      {/* 開發環境的統計切換按鈕 */}
-      {process.env.NODE_ENV === 'development' && (
-        <button
-          onClick={() => setShowStats(!showStats)}
-          style={{
-            position: 'fixed',
-            bottom: 10,
-            left: 10,
-            padding: '5px 10px',
-            background: '#007acc',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '12px',
-            zIndex: 9998
-          }}
-        >
-          {showStats ? '隱藏' : '顯示'} 預載統計
-        </button>
-      )}
+      {/* 預載統計面板與切換按鈕已移除 */}
 
       <header className="home__header">
         <div className="header-content">
