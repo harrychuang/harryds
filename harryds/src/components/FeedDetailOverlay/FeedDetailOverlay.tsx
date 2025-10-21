@@ -262,7 +262,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
       
       case 'image':
         return (
-          <div key={key} className="feed-detail-overlay__project-image">
+          <div key={key} className="feed-detail-overlay__project-image fdo-reveal">
             <DistortedPixels2D
               src={resolveImageSrc(content.src)}
               objectFit="responsive"
@@ -528,6 +528,38 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     };
   }, [open, blockquoteFullText, animationPhase]);
 
+  // 右欄內容：滾動揭示（root 為內容滾動容器，底部 100px 觸發）
+  useEffect(() => {
+    if (!open || animationPhase !== 'ready' || !scrollContentRef.current) return;
+    const rootEl = scrollContentRef.current;
+    const selector = '.feed-detail-overlay__project-content .fdo-reveal';
+    const elements = Array.from(rootEl.querySelectorAll<HTMLElement>(selector));
+    if (elements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            el.classList.add('fdo-revealed');
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: rootEl,
+        rootMargin: '0px 0px 50px 0px',
+        threshold: 0,
+      }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [open, animationPhase, projectInfo]);
+
   // 關閉或初始狀態：外觀與 FeedCard 相同
   if (!open) {
     return (
@@ -682,7 +714,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                 
                 {/* 第一張主圖 - 從 projectInfo 讀取 */}
                 {projectInfo.mainImage && (
-                  <div className="feed-detail-overlay__project-image">
+                  <div className="feed-detail-overlay__project-image fdo-reveal">
                     <DistortedPixels2D
                       src={resolveImageSrc(projectInfo.mainImage)}
                       objectFit="responsive"
@@ -705,7 +737,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                     </h2>
 
                     {/* Section 內容 */}
-                    <div className="feed-detail-overlay__section-content">
+                    <div className="feed-detail-overlay__section-content fdo-reveal">
                       {section.content.map((content, contentIndex) => {
                         // quote 需要包在 section-quote div 中
                         if (content.type === 'quote') {
