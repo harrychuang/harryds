@@ -295,9 +295,11 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     pixelSize: scrollPixelSize,
     // 保持背景為彩色且顯示 secondary 遮罩
     desaturateUntilHover: true,
+    // 背景 PixelImage 一律視為 hovered 以使用 secondary 遮罩（expanding 階段也生效）
     hoverActive: true,
     hoverPixelToOne: false,
-    maskColor: secondaryColor,
+    // 若未提供 secondaryColor，避免落回 theme mask(白色)，改用 overlay 變數或深色備援
+    maskColor: secondaryColor ?? 'var(--feed-detail-secondary-color, rgba(0,0,0,0.9))',
     maskOpacity: backgroundProps?.maskOpacity ?? 0.9,
   }), [backgroundProps, scrollPixelSize, secondaryColor]);
 
@@ -566,8 +568,9 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
             secondaryColor={secondaryColor}
             className="feed-detail-overlay__background-card"
             enableHoverSound={false}
+            // 復原 FeedCard 本身的 hover 視覺：不強制 hovered，不禁用 hover
             forceHovered={false}
-            disableHover={true}
+            disableHover={false}
           />
         </div>
       )}

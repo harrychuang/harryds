@@ -561,7 +561,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     //   - 否則若啟用 hoverPixelToOne 且目前為 hover 狀態，彩度為 0（原色）
     //   - 其他情況彩度為 -1（灰階）
     // 當 desaturateUntilHover 為假時，彩度始終為 0（原色）
-    const shouldBeColor = desaturateUntilHover ? (hoverActive || (hoverPixelToOne && isHoveredRef.current)) : true;
+    const shouldBeColor = desaturateUntilHover ? ((hoverActive ?? false) || (hoverPixelToOne && isHoveredRef.current)) : true;
     const targetSat = shouldBeColor ? 0 : -1;
     if (satPass.uniforms['saturation'].value !== targetSat) {
       satPass.uniforms['saturation'].value = targetSat;

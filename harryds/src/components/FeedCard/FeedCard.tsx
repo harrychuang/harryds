@@ -231,6 +231,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
                     data={derivedInfoData}
                     primaryColor={item?.primaryColor}
                     secondaryColor={finalSecondaryColor}
+                    hovered={actualIsHovered}
                   />
                 ) : null
               )}
