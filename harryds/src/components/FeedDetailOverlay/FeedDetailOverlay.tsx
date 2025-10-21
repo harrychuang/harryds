@@ -23,27 +23,29 @@ const imageModules = import.meta.glob<{ default: string }>('../../../assets/imgs
 
 // 輔助函數：解析圖片路徑
 const resolveImageSrc = (src: string): string => {
-  // 如果已經是完整 URL（http/https/blob），直接返回
-  if (/^(https?:|blob:)/.test(src)) {
+  // 已經是可用的絕對來源時直接返回
+  // - http/https、blob、data URL
+  // - 以 "/" 開頭（例如 Vite 產生的 /assets/...）
+  if (/^(https?:|blob:|data:)/.test(src) || src.startsWith('/')) {
     return src;
   }
-  
-  // 嘗試從 glob import 結果中查找
-  // 方法 1: 直接查找完整路徑
+
+  // 嘗試從 glob import 結果中查找（harryds/assets/imgs 下的靜態資產）
+  // 方法 1: 以相對路徑直接查找
   const fullPath = `../../../assets/imgs/${src}`;
   if (imageModules[fullPath]) {
     return imageModules[fullPath].default;
   }
-  
-  // 方法 2: 遍歷所有 keys 找到匹配的結尾
+
+  // 方法 2: 遍歷所有 keys，使用結尾匹配（容錯處理）
   for (const [key, module] of Object.entries(imageModules)) {
     if (key.endsWith(src) || key.endsWith(`/${src}`)) {
       console.log('[FeedDetailOverlay] 解析圖片 (結尾匹配):', src, 'key:', key);
       return module.default;
     }
   }
-  
-  // 如果找不到，回退到使用 new URL 方式
+
+  // 方法 3: 回退為以 harryds 資產為基底的相對 URL
   try {
     return new URL(`../../../assets/imgs/${src}`, import.meta.url).href;
   } catch {
