@@ -9,6 +9,8 @@
   position: relative;
   width: 100%;
   display: block;
+  // 避免合成層空窗時出現白色閃爍，提供穩定的底色
+  background: #000;
 
   &--closed {
     // 單純作為 FeedCard 的「容器」，尺寸由外層決定
@@ -19,9 +21,6 @@
     position: fixed;
     inset: 0;
     z-index: 1000;
-    // 優化動畫性能
-    will-change: transform;
-    transform: translateZ(0); // 啟用硬體加速
   }
 
   // Expanding 階段：位置固定，FeedCard 開始擴展
@@ -40,10 +39,6 @@
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    // 優化背景動畫
-    will-change: opacity;
-    transform: translateZ(0);
     animation: fade-in-backdrop 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
@@ -55,11 +50,13 @@
     width: 100%;
     height: 100%;
     overflow-y: auto;
-    // 平滑滾動
-    scroll-behavior: smooth;
-    // 優化滾動性能
-    -webkit-overflow-scrolling: touch;
-    transform: translateZ(0);
+    overflow-x: hidden;
+    // 移除平滑滾動避免捲動動畫期間的層合成抖動
+    // scroll-behavior: smooth;
+    // 防止 overscroll 導致背景重繪
+    overscroll-behavior: contain;
+    // 創建獨立的堆疊上下文，防止背景閃爍
+    isolation: isolate;
   }
 
   // Fixed 背景層：FeedCard 作為全螢幕背景
@@ -67,11 +64,15 @@
     position: fixed;
     inset: 0;
     z-index: 1;
+    // 使用 transform 創建獨立合成層，防止與滾動內容重繪衝突
+    transform: translateZ(0);
+    will-change: transform;
+    // 防止背景被滾動內容遮擋
+    pointer-events: none;
     
     .feed-card {
-      width: 100vw !important; // 確保覆蓋任何其他樣式
-      height: 100vh !important; // 確保覆蓋任何其他樣式
-      // 平滑進入動畫
+      width: 100vw !important;
+      height: 100vh !important;
       animation: fade-in-background 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
       
       // 確保 PixelImage 填滿整個背景卡片
@@ -82,6 +83,11 @@
         .pixel-image {
           width: 100% !important;
           height: 100% !important;
+        }
+        
+        canvas {
+          // 強制 canvas 使用硬體加速
+          transform: translateZ(0);
         }
       }
     }
@@ -98,6 +104,10 @@
       padding-top: 40vh;
       flex: none; // 不被 flex 擠壓
       transition: padding-top 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    // 只在 expanding 階段使用 will-change
+    .feed-detail-overlay--expanding & {
       will-change: padding-top;
     }
     
@@ -201,9 +211,9 @@
     width: 70vw; // 固定寬度
     height: auto;
     // top 由 JavaScript 動態控制實現 Parallax 效果
-    transition: top 0.1s linear;
-    will-change: top;
     pointer-events: none; // 避免遮擋其他互動元素
+    // 使用硬體加速確保流暢的 parallax 效果
+    will-change: top;
   }
   
   &__special-heading-img {
@@ -226,6 +236,8 @@
     padding: 0 0px 200px; // 底部增加 200px 間距
     color: var(--on-hds-sys-color-surface, #fff);
     animation: slide-up-body 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    // 使用 contain 優化重繪範圍
+    contain: layout style paint;
   }
 
   &__project-container {
@@ -461,56 +473,37 @@
 @keyframes slide-up-body {
   from {
     opacity: 0;
-    transform: translateZ(0) translateY(20px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateZ(0) translateY(0);
+    transform: translateY(0);
   }
 }
 
 @keyframes fade-in-background {
   from {
     opacity: 0;
-    transform: translateZ(0) scale(0.95);
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateZ(0) scale(1);
+    transform: scale(1);
   }
 }
 
 @keyframes fade-in-hero-content {
   from {
     opacity: 0;
-    transform: translateZ(0) translateY(10px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: translateZ(0) translateY(0);
+    transform: translateY(0);
   }
 }
 
-// 針對不同階段的額外優化
-.feed-detail-overlay--expanding {
-  // FeedCard 擴展期間的優化
-  .feed-detail-overlay__hero .feed-card {
-    contain: layout style;
-  }
-}
-
-.feed-detail-overlay--ready {
-  // 最終狀態，移除所有 will-change
-  will-change: auto;
-  
-  .feed-detail-overlay__hero {
-    will-change: auto;
-    
-    .feed-card {
-      will-change: auto;
-    }
-  }
-}
+// 針對不同階段的額外優化已移除，避免過度優化造成閃爍
 
 // =============================================================================
 // 文章內容區域

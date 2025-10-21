@@ -104,20 +104,13 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
       audioRef.current.volume = Math.max(0, Math.min(1, soundVolume)); // 限制音量在 0-1 之間
       
       // 添加載入事件監聽
-      audioRef.current.addEventListener('canplaythrough', () => {
-        console.log('FeedCard hover sound loaded successfully');
-      });
+      audioRef.current.addEventListener('canplaythrough', () => {});
       
-      audioRef.current.addEventListener('error', (e) => {
-        console.error('FeedCard hover sound load failed:', e);
-        console.error('Sound URL:', hoverSoundUrl);
-      });
+      audioRef.current.addEventListener('error', () => {});
     }
     
     return () => {
       if (audioRef.current) {
-        audioRef.current.removeEventListener('canplaythrough', () => {});
-        audioRef.current.removeEventListener('error', () => {});
         audioRef.current = null;
       }
     };
@@ -129,7 +122,6 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
     }
 
     try {
-      console.log('Attempting to play hover sound...');
       audioRef.current.currentTime = 0; // 重設到開頭
       
       // 檢查音效是否已載入
@@ -138,22 +130,18 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
         setHasPlayedSoundInCurrentHover(true); // 標記已播放
         console.log('Hover sound played successfully');
       } else {
-        console.warn('Audio not ready yet, readyState:', audioRef.current.readyState);
         // 嘗試等待載入完成再播放
         audioRef.current.addEventListener('canplay', async () => {
           try {
             await audioRef.current!.play();
             setHasPlayedSoundInCurrentHover(true); // 標記已播放
-            console.log('Hover sound played successfully after loading');
           } catch (err) {
-            console.warn('Delayed sound play failed:', err);
+            // ignore
           }
         }, { once: true });
       }
     } catch (error) {
-      console.warn('FeedCard hover sound play failed:', error);
-      console.warn('Sound URL:', hoverSoundUrl);
-      console.warn('This might be due to browser autoplay policy. Try interacting with the page first.');
+      // ignore
     }
   };
 
@@ -197,8 +185,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
     onError: backgroundProps?.onError,
   };
   
-  // DEBUG: 檢查 pixelSize 傳遞
-  console.log('FeedCard mergedBgProps.pixelSize:', mergedBgProps.pixelSize, 'from backgroundProps?.pixelSize:', backgroundProps?.pixelSize);
+  //
 
   return (
     <div

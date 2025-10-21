@@ -112,11 +112,9 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   const typewriterTimerRef = useRef<number | null>(null);
   const startHandleRef = useRef<PlaybackHandle | null>(null);
   const hasPlayedStartSoundRef = useRef<boolean>(false);
-  // 滾動交互動態控制 PixelImage 背景（pixelSize 與 maskOpacity）
+  // 滾動交互動態控制 PixelImage 背景（僅 pixelSize，避免不必要 re-render）
   const [scrollPixelSize, setScrollPixelSize] = useState<number>(1);
-  const [scrollMaskOpacity, setScrollMaskOpacity] = useState<number>(0.8);
-  const scrollRafRef = useRef<number | null>(null);
-  const lastScrollTopRef = useRef<number>(0);
+  const lastPixelRef = useRef<number>(1);
   
   // 特殊主圖滾動效果狀態（只需要 Parallax top 位置）
   const [specialHeadingImgTop, setSpecialHeadingImgTop] = useState<number>(-10); // vh 單位
@@ -291,6 +289,17 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     } as React.CSSProperties;
   }, [primaryColor, secondaryColor, style]);
 
+  // 穩定化背景屬性，避免每次 render 產生新物件造成子樹 re-render
+  const computedBgProps = useMemo(() => ({
+    ...backgroundProps,
+    pixelSize: scrollPixelSize,
+    hoverPixelToOne: false,
+    maskColor: secondaryColor,
+    hoverActive: true,
+    // 固定遮罩不透明度，避免於滾動時更新未被使用的屬性造成 re-render
+    maskOpacity: backgroundProps?.maskOpacity ?? 0.9,
+  }), [backgroundProps, scrollPixelSize, secondaryColor]);
+
   // 記憶化的 CSS 類名計算
   const overlayClassName = useMemo(() => {
     const classes = ['feed-detail-overlay'];
@@ -371,64 +380,50 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     };
   }, [open]);
 
-  // open 狀態下，根據內容區塊的 Y 捲動量在 0-400px 範圍內映射 pixelSize(1→80) 與 maskOpacity(0.8→0.9)
+  // 合併滾動效果處理：pixelSize 與 parallax 一起更新
+  // 使用單一監聽器和批次更新來減少重渲染
   useEffect(() => {
     if (!open || !scrollContentRef.current) return;
     const el = scrollContentRef.current;
+    let rafId: number | null = null;
 
-    const updateByScrollTop = (scrollTop: number) => {
+    const updateScrollEffects = (scrollTop: number) => {
+      // 更新背景 pixelSize（僅在有效整數變化時更新以降低 re-render）
       const clamped = Math.max(0, Math.min(400, scrollTop)) / 400;
       const pixelSize = 1 + clamped * 79; // 1 → 80
-      const maskOpacity = 0.85 + clamped * 0.1; // 0.8 → 0.95
-      setScrollPixelSize(pixelSize);
-      setScrollMaskOpacity(maskOpacity);
+      const effectivePixel = Math.max(1, Math.round(pixelSize));
+      
+      // 更新 parallax 位置
+      const parallaxOffset = scrollTop * 0.7; // 視差速度為 50%
+      const topPosition = -10 - (parallaxOffset / window.innerHeight * 100); // 轉換為 vh
+      
+      // 僅在 pixel 整數變化時更新，避免頻繁 re-render
+      if (effectivePixel !== lastPixelRef.current) {
+        lastPixelRef.current = effectivePixel;
+        setScrollPixelSize(effectivePixel);
+      }
+      setSpecialHeadingImgTop(topPosition);
     };
 
     const onScroll = () => {
-      lastScrollTopRef.current = el.scrollTop;
-      if (scrollRafRef.current !== null) return;
-      scrollRafRef.current = requestAnimationFrame(() => {
-        updateByScrollTop(lastScrollTopRef.current);
-        scrollRafRef.current = null;
+      if (rafId !== null) return;
+      
+      const scrollTop = el.scrollTop;
+      rafId = requestAnimationFrame(() => {
+        updateScrollEffects(scrollTop);
+        rafId = null;
       });
     };
 
-    // 初始化（進入 open 狀態時依目前 scrollTop 設定一次）
-    updateByScrollTop(el.scrollTop);
+    // 初始化
+    updateScrollEffects(el.scrollTop);
     el.addEventListener('scroll', onScroll, { passive: true });
 
     return () => {
       el.removeEventListener('scroll', onScroll);
-      if (scrollRafRef.current) {
-        cancelAnimationFrame(scrollRafRef.current);
-        scrollRafRef.current = null;
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
       }
-    };
-  }, [open]);
-
-  // 特殊主圖滾動效果：Parallax 效果往上移動
-  useEffect(() => {
-    if (!open || !scrollContentRef.current) return;
-    const el = scrollContentRef.current;
-
-    const updateSpecialHeadingImg = (scrollTop: number) => {
-      // Parallax 效果：使用較慢的視差速度（0.5 倍），讓圖片移動比滾動慢，產生視差效果
-      const parallaxOffset = scrollTop * 0.5; // 視差速度為 50%
-      const topPosition = -10 - (parallaxOffset / window.innerHeight * 100); // 轉換為 vh
-      setSpecialHeadingImgTop(topPosition);
-    };
-
-    const onSpecialImgScroll = () => {
-      const scrollTop = el.scrollTop;
-      requestAnimationFrame(() => updateSpecialHeadingImg(scrollTop));
-    };
-
-    // 初始化
-    updateSpecialHeadingImg(el.scrollTop);
-    el.addEventListener('scroll', onSpecialImgScroll, { passive: true });
-
-    return () => {
-      el.removeEventListener('scroll', onSpecialImgScroll);
     };
   }, [open]);
 
@@ -443,7 +438,6 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
       // 關閉時重置所有狀態
       setAnimationPhase('closed');
       setScrollPixelSize(1);
-      setScrollMaskOpacity(0.8);
       hasPlayedStartSoundRef.current = false;
       // 停止播放中的音效
       startHandleRef.current?.stop();
@@ -562,14 +556,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
             src={src}
             size="hero"
             padding={0}
-            backgroundProps={{
-              ...backgroundProps,
-              pixelSize: scrollPixelSize,
-              maskOpacity: scrollMaskOpacity,
-              hoverPixelToOne: false,
-              maskColor: secondaryColor,
-              hoverActive: true, // 強制 PixelImage 使用 hover 顏色（secondaryColor）
-            }}
+            backgroundProps={computedBgProps}
             secondaryColor={secondaryColor}
             className="feed-detail-overlay__background-card"
             enableHoverSound={false}
@@ -603,6 +590,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
             className="feed-detail-overlay__special-heading"
             style={{
               top: `${specialHeadingImgTop}vh`,
+              transform: 'translateZ(0)',
             }}
           >
             <img 

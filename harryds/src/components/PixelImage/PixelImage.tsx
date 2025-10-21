@@ -499,7 +499,7 @@ const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(({
     if (!renderer || !composer || !pass) return;
 
     const effectivePixel = computeEffectivePixel(pixelSize);
-    console.log('PixelImage pixelSize update:', pixelSize, '-> effectivePixel:', effectivePixel); // DEBUG
+    //
 
     pass.setPixelSize(effectivePixel);
     lastAppliedPixelRef.current = effectivePixel;
