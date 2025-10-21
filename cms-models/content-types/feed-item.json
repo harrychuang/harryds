@@ -24,8 +24,14 @@
         "feed.heading",
         "feed.paragraph",
         "feed.image",
-        "feed.list"
+        "feed.list",
+        "feed.quote",
+        "feed.blockquote",
+        "feed.video"
       ]
+    },
+    "projectInfo": {
+      "type": "json"
     }
   }
 }

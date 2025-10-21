@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_feed_blockquotes",
+  "info": {
+    "displayName": "blockquote"
+  },
+  "attributes": {
+    "text": {
+      "type": "text",
+      "required": true
+    },
+    "enableTypewriter": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
+
