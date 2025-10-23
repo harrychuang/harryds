@@ -200,6 +200,24 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     }
   }, []);
 
+  // 共用的 DistortedPixels2D 圖片渲染
+  const renderDistortedProjectImage = useCallback((imgSrc: string, key?: React.Key) => {
+    return (
+      <div key={key} className="feed-detail-overlay__project-image fdo-reveal">
+        <DistortedPixels2D
+          src={resolveImageSrc(imgSrc)}
+          objectFit="responsive"
+          direction="y"
+          maxPixelation={40}
+          maxDistortion={10}
+          scrollSensitivity={0.1}
+          decaySpeed={0.2}
+          scrollContainer={scrollContentRef}
+        />
+      </div>
+    );
+  }, [scrollContentRef]);
+
   // 渲染專案區塊內容的函數
   const renderProjectSectionContent = useCallback((content: ProjectSectionContent, index: number, sectionIndex: number) => {
     const key = `section-${sectionIndex}-content-${index}`;
@@ -261,20 +279,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         );
       
       case 'image':
-        return (
-          <div key={key} className="feed-detail-overlay__project-image fdo-reveal">
-            <DistortedPixels2D
-              src={resolveImageSrc(content.src)}
-              objectFit="responsive"
-              direction="y"
-              maxPixelation={80}
-              maxDistortion={1}
-              scrollSensitivity={0.2}
-              decaySpeed={0.95}
-              scrollContainer={scrollContentRef}
-            />
-          </div>
-        );
+        return renderDistortedProjectImage(content.src, key);
       
       default:
         return null;
@@ -714,18 +719,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                 
                 {/* 第一張主圖 - 從 projectInfo 讀取 */}
                 {projectInfo.mainImage && (
-                  <div className="feed-detail-overlay__project-image fdo-reveal">
-                    <DistortedPixels2D
-                      src={resolveImageSrc(projectInfo.mainImage)}
-                      objectFit="responsive"
-                      direction="y"
-                      maxPixelation={80}
-                      maxDistortion={1}
-                      scrollSensitivity={0.2}
-                      decaySpeed={0.95}
-                      scrollContainer={scrollContentRef}
-                    />
-                  </div>
+                  renderDistortedProjectImage(projectInfo.mainImage)
                 )}
 
                 {/* 動態渲染專案區塊 */}

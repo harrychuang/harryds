@@ -32,6 +32,13 @@
   &__right {
     display: flex;
     align-items: center;
+    
+    .footer__copyright {
+      font-family: 'Pixel', monospace;
+      font-size: 11px;
+      line-height: 1;
+      white-space: nowrap;
+    }
   }
 }
 
@@ -46,8 +53,10 @@
     
     &__right {
       // 在小屏幕上，版權文字可能太長，調整寬度
-      canvas {
+      .footer__copyright {
         max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }

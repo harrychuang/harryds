@@ -6,6 +6,15 @@
   --hds-sys-color-on-theme-surface: var(--on-hds-sys-color-theme-surface);
 }
 
+/* Pixel font registration (shared from harryds assets) */
+@font-face {
+  font-family: 'Pixel';
+  src: url('/Users/HarryChuang/Dropbox/Works/NOEIN Projects/noeinoi 2025/dev/harryds/assets/fonts/Pixel.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 html, body, #root {
   height: 100%;
 }

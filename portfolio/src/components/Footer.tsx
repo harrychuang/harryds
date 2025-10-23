@@ -94,7 +94,6 @@ const Footer: React.FC = () => {
   
   // 計算實際所需的寬度
   const processWidth = calculatePixelTextWidth(leftText, { pixelSize });
-  const rightWidth = calculatePixelTextWidth(rightText, { pixelSize });
 
   return (
     <footer className="footer">
@@ -124,15 +123,12 @@ const Footer: React.FC = () => {
           />
         </div>
         <div className="footer__right">
-          <PixelText2D 
-            text={rightText}
-            textEnabled 
-            pixelSize={pixelSize}
-            width={rightWidth}
-            height={20}
-            primaryColor={footerColors.primaryColor}
-            onPrimaryColor={footerColors.secondaryColor}
-          />
+          <span
+            className="footer__copyright"
+            style={{ color: footerColors.primaryColor }}
+          >
+            {rightText}
+          </span>
         </div>
       </div>
     </footer>

@@ -2,28 +2,28 @@
   "items": [
     {
       "id": 1,
-      "heading": "Shopmatic Design System",
+      "heading": "Streaming Ratings Guide",
       "date": "Jan 01, 2025 - Jun 30, 2025",
       "tags": ["UI", "UX", "DEV"],
       "category": "project",
-      "brand": "Shopmatic",
+      "brand": "awwrated",
       "primaryColor": "#FF1650",
       "secondaryColor": "#151648",
-      "heroImage": "demo/project-demo-1.jpg",
+      "heroImage": "demo/awwrated/demo-awwrated-bg.jpg",
       "projectInfo": {
         "client": "awwrated",
-        "project": "Design System",
+        "project": "Streaming Ratings Guide",
         "roles": ["UIUX Design", "Design System", "Development"],
         "meta": [
           { "label": "Client", "value": "awwrated" },
-          { "label": "Project", "value": "Design System" },
+          { "label": "Project", "value": "Streaming Ratings Guide" },
           { "label": "Role", "value": ["UIUX Design", "Design System", "Development"] }
         ],
         "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
         "websiteUrl": "https://awwrated.com",
         "websiteLabel": "VISIT WEBSITE",
-        "mainImage": "demo/demo-shopmatic-01.jpg",
-        "specialHeadingImage": "demo/project-awwrated-heading-img.png",
+        "mainImage": "demo/awwrated/demo-awwrated-01.jpg",
+        "specialHeadingImage": "demo/awwrated/demo-awwrated-hero-img.png",
         "sections": [
           {
             "title": "Scope",
@@ -42,7 +42,7 @@
               },
               {
                 "type": "image",
-                "src": "demo/demo-shopmatic-02.jpg",
+                "src": "demo/awwrated/demo-awwrated-02.jpg",
                 "alt": "Shopmatic Design System Interface"
               }
             ]
@@ -73,12 +73,12 @@
               },
               {
                 "type": "image",
-                "src": "demo/demo-shopmatic-03.jpg",
+                "src": "demo/awwrated/demo-awwrated-03.jpg",
                 "alt": "Impact Visualization"
               },
               {
                 "type": "image",
-                "src": "demo/demo-shopmatic-04.jpg",
+                "src": "demo/awwrated/demo-awwrated-04.jpg",
                 "alt": "Design System Components"
               }
             ]
