@@ -504,7 +504,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
               setTypewriterText(blockquoteFullText.substring(0, currentIndex));
               
               if (currentIndex < blockquoteFullText.length) {
-                timerId = window.setTimeout(typeCharacter, 30);
+                timerId = window.setTimeout(typeCharacter, 20);
               } else {
                 setIsTyping(false);
                 timerId = null;
