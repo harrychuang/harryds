@@ -46,6 +46,15 @@ export interface ProjectMetaItem {
 }
 
 export interface ProjectInfo {
+  /**
+   * 品牌名稱。
+   * 備註：原先的 client 與 brand 含義一致，現統一以 brand 命名。
+   * 若同時存在，應優先使用 brand。
+   */
+  brand?: string;
+  /**
+   * 已廢止：請改用 brand。
+   */
   client?: string;
   project?: string;
   roles?: string[];
@@ -56,7 +65,7 @@ export interface ProjectInfo {
   specialHeadingImage?: string; // 特殊主圖（右上角 parallax 效果的圖）
   /**
    * 自訂的 meta 陣列，若提供則 FeedDetailOverlay 優先使用此結構渲染標籤與內容。
-   * 若未提供，則會回退使用 client/project/roles 三種欄位渲染。
+   * 若未提供，則會回退使用 brand/project/roles 三種欄位渲染（brand 優先於 client）。
    */
   meta?: ProjectMetaItem[];
   sections?: ProjectSection[];

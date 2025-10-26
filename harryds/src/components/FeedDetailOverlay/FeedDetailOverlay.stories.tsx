@@ -108,7 +108,7 @@ export const WithProjectInfo: Story = {
   parameters: {
     docs: {
       description: {
-        story: `Demonstrates overlay with hero section and project information loaded from feed.json. The project info includes client, project name, roles, description, and dynamic content sections (Scope, Impact, Get In Touch) with various content types: paragraphs, quotes, blockquotes with typewriter effect, and images with distortion effects.`,
+        story: `Demonstrates overlay with hero section and project information loaded from feed.json. The project info includes brand, project name, roles, description, and dynamic content sections (Scope, Impact, Get In Touch) with various content types: paragraphs, quotes, blockquotes with typewriter effect, and images with distortion effects.`,
       },
     },
   },

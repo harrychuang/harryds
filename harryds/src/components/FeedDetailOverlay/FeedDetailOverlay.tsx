@@ -208,10 +208,10 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
           src={resolveImageSrc(imgSrc)}
           objectFit="responsive"
           direction="y"
-          maxPixelation={40}
-          maxDistortion={10}
+          maxPixelation={20}
+          maxDistortion={1}
           scrollSensitivity={0.1}
-          decaySpeed={0.2}
+          decaySpeed={0.5}
           scrollContainer={scrollContentRef}
         />
       </div>
@@ -658,26 +658,31 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                   {Array.isArray(projectInfo.meta) && projectInfo.meta.length > 0 ? (
                     projectInfo.meta
                       .filter((item) => item && item.label && (Array.isArray(item.value) ? item.value.length > 0 : !!item.value))
-                      .map((item, idx) => (
-                        <div key={idx} className="feed-detail-overlay__meta-item">
-                          <h3 className="feed-detail-overlay__meta-label">{item.label}</h3>
-                          {Array.isArray(item.value) ? (
-                            <div className="feed-detail-overlay__meta-value">
-                              {item.value.map((val, vIdx) => (
-                                <p key={vIdx}>{val}</p>
-                              ))}
-                            </div>
-                          ) : (
-                            <p className="feed-detail-overlay__meta-value">{item.value}</p>
-                          )}
-                        </div>
-                      ))
+                      .map((item, idx) => {
+                        const isClient = String(item.label).toLowerCase() === 'client';
+                        const displayLabel = isClient ? 'Brand' : item.label;
+                        const displayValue = (isClient ? (projectInfo.brand ?? item.value) : item.value) as string | string[];
+                        return (
+                          <div key={idx} className="feed-detail-overlay__meta-item">
+                            <h3 className="feed-detail-overlay__meta-label">{displayLabel}</h3>
+                            {Array.isArray(displayValue) ? (
+                              <div className="feed-detail-overlay__meta-value">
+                                {displayValue.map((val, vIdx) => (
+                                  <p key={vIdx}>{val}</p>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="feed-detail-overlay__meta-value">{displayValue}</p>
+                            )}
+                          </div>
+                        );
+                      })
                   ) : (
                     <>
-                      {projectInfo.client && (
+                      {projectInfo.brand && (
                         <div className="feed-detail-overlay__meta-item">
-                          <h3 className="feed-detail-overlay__meta-label">Client</h3>
-                          <p className="feed-detail-overlay__meta-value">{projectInfo.client}</p>
+                          <h3 className="feed-detail-overlay__meta-label">Brand</h3>
+                          <p className="feed-detail-overlay__meta-value">{projectInfo.brand}</p>
                         </div>
                       )}
                       {projectInfo.project && (
