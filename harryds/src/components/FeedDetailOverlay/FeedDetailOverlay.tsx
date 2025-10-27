@@ -55,6 +55,67 @@ const resolveImageSrc = (src: string): string => {
   }
 };
 
+// 依據背景色計算可讀的對比文字色（白色或深色）
+type RGB = { r: number; g: number; b: number };
+
+const parseColorToRgb = (color: string): RGB | null => {
+  if (!color) return null;
+  const c = color.trim().toLowerCase();
+  if (c.startsWith('#')) {
+    const hex = c.slice(1);
+    if (hex.length === 3) {
+      const r = parseInt(hex[0] + hex[0], 16);
+      const g = parseInt(hex[1] + hex[1], 16);
+      const b = parseInt(hex[2] + hex[2], 16);
+      return { r, g, b };
+    }
+    if (hex.length >= 6) {
+      const r = parseInt(hex.slice(0, 2), 16);
+      const g = parseInt(hex.slice(2, 4), 16);
+      const b = parseInt(hex.slice(4, 6), 16);
+      return { r, g, b };
+    }
+    return null;
+  }
+  const m = c.match(/^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})/);
+  if (m) {
+    const r = Math.max(0, Math.min(255, parseInt(m[1], 10)));
+    const g = Math.max(0, Math.min(255, parseInt(m[2], 10)));
+    const b = Math.max(0, Math.min(255, parseInt(m[3], 10)));
+    return { r, g, b };
+  }
+  return null;
+};
+
+const srgbToLinear = (c: number): number => {
+  const v = c / 255;
+  return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+};
+
+const relativeLuminance = ({ r, g, b }: RGB): number => {
+  const R = srgbToLinear(r);
+  const G = srgbToLinear(g);
+  const B = srgbToLinear(b);
+  return 0.2126 * R + 0.7152 * G + 0.0722 * B;
+};
+
+const contrastRatio = (L1: number, L2: number): number => {
+  const [maxL, minL] = L1 > L2 ? [L1, L2] : [L2, L1];
+  return (maxL + 0.05) / (minL + 0.05);
+};
+
+const pickOnSurfaceColor = (bg: string | undefined): string | undefined => {
+  if (!bg) return undefined;
+  const rgb = parseColorToRgb(bg);
+  if (!rgb) return undefined;
+  const Lbg = relativeLuminance(rgb);
+  const Lwhite = 1;
+  const LdarkRef = relativeLuminance({ r: 0, g: 0, b: 0 }); // 對比計算以黑色作為參考
+  const crWhite = contrastRatio(Lbg, Lwhite);
+  const crDark = contrastRatio(Lbg, LdarkRef);
+  return crDark >= crWhite ? 'rgba(0,0,0,0.8)' : '#fff';
+};
+
 export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | 'size' | 'children'> {
   /** 是否開啟 overlay */
   open?: boolean;
@@ -288,13 +349,16 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
 
   // 所有 useMemo hooks 必須在 early return 之前調用
   // 記憶化的樣式計算以減少重渲染
+  const onSurfaceColor = useMemo(() => pickOnSurfaceColor(secondaryColor), [secondaryColor]);
+
   const openStyle = useMemo(() => {
     return {
       '--feed-detail-primary-color': primaryColor,
       '--feed-detail-secondary-color': secondaryColor,
+      '--on-hds-sys-color-surface': onSurfaceColor,
       ...style,
     } as React.CSSProperties;
-  }, [primaryColor, secondaryColor, style]);
+  }, [primaryColor, secondaryColor, onSurfaceColor, style]);
 
   // 穩定化背景屬性，避免每次 render 產生新物件造成子樹 re-render
   const computedBgProps = useMemo(() => ({
