@@ -225,7 +225,7 @@
         "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
         "websiteUrl": "https://awwrated.com",
         "websiteLabel": "VISIT WEBSITE",
-        "mainImage": "demo/tutorming/demo-tutorming-01.jpg",
+        "mainImage": "demo/shopmaticds/demo-shopmaticds-01.jpg",
         "specialHeadingImage": "demo/shopmaticds/demo-shopmaticds-hero-img.png",
         "sections": [
           {
@@ -245,7 +245,7 @@
               },
               {
                 "type": "image",
-                "src": "demo/tutorming/demo-tutorming-02.jpg",
+                "src": "demo/shopmaticds/demo-shopmaticds-02.jpg",
                 "alt": "Shopmatic Design System Interface"
               }
             ]
@@ -276,12 +276,12 @@
               },
               {
                 "type": "image",
-                "src": "demo/tutorming/demo-tutorming-03.jpg",
+                "src": "demo/shopmaticds/demo-shopmaticds-03.jpg",
                 "alt": "Impact Visualization"
               },
               {
                 "type": "image",
-                "src": "demo/tutorming/demo-tutorming-04.jpg",
+                "src": "demo/shopmaticds/demo-shopmaticds-04.jpg",
                 "alt": "Design System Components"
               }
             ]
@@ -314,7 +314,7 @@
       "category": "project",
       "brand": "TutorMing",
       "primaryColor": "#FF435A",
-      "secondaryColor": "#7DE4D4",
+      "secondaryColor": "#055B4B",
       "heroImage": "demo/tutorming/demo-tutorming-bg.jpg",
       "projectInfo": {
         "project": "Learning Portal",

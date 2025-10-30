@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import './TransitionOverlay.scss';
 import { audioManager } from '../../../harryds/src/utils/audioManager';
 import transitionSoundUrl from '../../assets/sound/8-Bit Game Start Sound.mp3';
+import disappearBeepUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 
 interface TransitionOverlayProps {
   isActive: boolean;
@@ -21,12 +22,23 @@ const TransitionOverlay: React.FC<TransitionOverlayProps> = ({
   shouldStartDisappear = false,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const hasCalledFilledRef = useRef(false);
   const disappearStartTimeRef = useRef<number | null>(null);
   // 使用 ref 來追蹤最新的 shouldStartDisappear 值，避免閉包問題
   const shouldStartDisappearRef = useRef(shouldStartDisappear);
+  const hasPlayedDisappearBeepRef = useRef(false);
+
+  // 4x4 Bayer 抖動矩陣（正規化 0..1）
+  const bayer4x4 = (
+    [
+      [0, 8, 2, 10],
+      [12, 4, 14, 6],
+      [3, 11, 1, 9],
+      [15, 7, 13, 5]
+    ] as number[][]
+  ).map(row => row.map(v => (v + 0.5) / 16));
 
   const easeOutQuart = useCallback((t: number): number => {
     return 1 - Math.pow(1 - t, 4);
@@ -40,6 +52,16 @@ const TransitionOverlay: React.FC<TransitionOverlayProps> = ({
       });
     } catch (err) {
       console.warn('Transition sound play failed:', err);
+    }
+  }, []);
+
+  const playDisappearBeep = useCallback(async () => {
+    if (hasPlayedDisappearBeepRef.current) return;
+    try {
+      await audioManager.play(disappearBeepUrl, { volume: 0.35 });
+      hasPlayedDisappearBeepRef.current = true;
+    } catch (err) {
+      console.warn('Disappear beep play failed:', err);
     }
   }, []);
 
@@ -61,7 +83,7 @@ const TransitionOverlay: React.FC<TransitionOverlayProps> = ({
     // 重置填滿回調標記
     hasCalledFilledRef.current = false;
 
-    const pixelSize = 60; // 8-bit 風格的像素大小（增大讓效果更明顯）
+    const pixelSize = 60; // 8-bit 風格的像素大小
     const cols = Math.ceil(canvas.width / pixelSize);
     const rows = Math.ceil(canvas.height / pixelSize);
     
@@ -101,8 +123,8 @@ const TransitionOverlay: React.FC<TransitionOverlayProps> = ({
       }
     }
 
-    const expandDuration = 250; // 擴展階段持續時間
-    const disappearDuration = 600; // 消失階段持續時間
+    const expandDuration = 300; // 擴展階段持續時間
+    const disappearDuration = 650; // 消失階段持續時間
     const startTime = Date.now();
 
     const animate = () => {
@@ -119,6 +141,7 @@ const TransitionOverlay: React.FC<TransitionOverlayProps> = ({
           // 記錄開始消失的時間
           console.log('[TransitionOverlay] 開始消失動畫');
           disappearStartTimeRef.current = Date.now();
+          playDisappearBeep();
         }
         const disappearElapsed = Date.now() - disappearStartTimeRef.current;
         disappearProgress = Math.min(disappearElapsed / disappearDuration, 1);
@@ -134,65 +157,67 @@ const TransitionOverlay: React.FC<TransitionOverlayProps> = ({
 
       // 使用 easing 函數讓動畫更有趣
       const easedExpandProgress = easeOutQuart(expandProgress);
-      
-      // 繪製像素化的圓形擴展效果（效能優化：使用預計算的距離）
+      const ringWidth = 0.035; // 環狀波紋帶寬
+
+      // 繪製像素化的圓形擴展效果 + 4x4 Bayer 抖動 + 環狀波紋高光
       for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
           const normalizedDistance = pixelDistances[row][col];
-          
-          // 當擴展波到達這個像素時才顯示（效能優化：提前跳出）
-          if (easedExpandProgress < normalizedDistance) continue;
-          
-          // 計算這個像素的透明度（擴展階段）
+          if (easedExpandProgress < normalizedDistance - ringWidth) continue;
+
           const distanceRatio = (easedExpandProgress - normalizedDistance) * 5;
-          let alpha = Math.min(1, distanceRatio);
-          
-          // 消失階段：根據隨機時間讓像素消失
+          let alpha = Math.min(1, Math.max(0, distanceRatio));
+
           if (disappearProgress > 0) {
             const pixelDisappearTime = pixelDisappearTimes[row][col];
-            
-            // 當消失進度超過這個像素的隨機時間時，開始消失
             if (disappearProgress > pixelDisappearTime) {
               const fadeOutProgress = (disappearProgress - pixelDisappearTime) / (1 - pixelDisappearTime);
               alpha *= (1 - fadeOutProgress);
             }
           }
-          
-          // 效能優化：提前跳過幾乎透明的像素
-          if (alpha <= 0.05) continue;
-          
+
+          if (alpha <= 0.04) continue;
+
           const x = col * pixelSize;
           const y = row * pixelSize;
-          
-          // 效能優化：減少 Math.random() 的調用次數（閃爍效果）
-          const shouldFlicker = disappearProgress === 0 && alpha < 0.8 && (row + col) % 17 === 0;
-          
-          if (!shouldFlicker) {
-            // 添加 RGB 分離效果（色彩失真）- 更明顯的效果
-            const offset = pixelSize * 0.15;
-            const chromaAlpha = alpha * 0.4;
-            
-            // 紅色通道
-            ctx.fillStyle = `rgba(255, 0, 0, ${chromaAlpha})`;
-            ctx.fillRect(x - offset, y, pixelSize, pixelSize);
-            
-            // 藍色通道
-            ctx.fillStyle = `rgba(0, 0, 255, ${chromaAlpha})`;
-            ctx.fillRect(x + offset, y, pixelSize, pixelSize);
-            
-            // 主色塊 - 添加像素邊緣效果
-            ctx.fillStyle = color;
-            ctx.globalAlpha = alpha;
-            ctx.fillRect(x + 1, y + 1, pixelSize - 0, pixelSize - 0);
-            
-            ctx.globalAlpha = 1;
+
+          // 輕微的 RGB 分離
+          const offset = pixelSize * 0.12;
+          const chromaAlpha = alpha * 0.25;
+          ctx.fillStyle = `rgba(255, 0, 0, ${chromaAlpha})`;
+          ctx.fillRect(x - offset, y, pixelSize, pixelSize);
+          ctx.fillStyle = `rgba(0, 0, 255, ${chromaAlpha})`;
+          ctx.fillRect(x + offset, y, pixelSize, pixelSize);
+
+          // 4x4 Bayer 抖動塊填色
+          const cell = pixelSize / 4;
+          for (let ry = 0; ry < 4; ry++) {
+            for (let rx = 0; rx < 4; rx++) {
+              if (alpha > bayer4x4[ry][rx]) {
+                ctx.fillStyle = color;
+                ctx.fillRect(x + rx * cell, y + ry * cell, Math.ceil(cell), Math.ceil(cell));
+              }
+            }
+          }
+
+          // 環狀波紋高光
+          const ringDelta = Math.abs(easedExpandProgress - normalizedDistance);
+          if (ringDelta < ringWidth) {
+            const ringAlpha = (1 - (ringDelta / ringWidth)) * 0.6 * (1 - disappearProgress);
+            if (ringAlpha > 0.05) {
+              const prevOp = ctx.globalCompositeOperation;
+              ctx.globalCompositeOperation = 'lighter';
+              ctx.fillStyle = `rgba(255,255,255,${ringAlpha})`;
+              ctx.fillRect(x, y, pixelSize, pixelSize);
+              ctx.globalCompositeOperation = prevOp;
+            }
           }
         }
       }
 
       // 添加掃描線效果（在消失階段淡出）
-      if (expandProgress > 0.3) {
-        const scanlineAlpha = disappearProgress > 0 ? 0.1 * (1 - disappearProgress) : 0.1;
+      if (expandProgress > 0.25) {
+        const scanlineAlpha = disappearProgress > 0 ? 0.08 * (1 - disappearProgress) : 0.08;
         ctx.fillStyle = `rgba(0, 0, 0, ${scanlineAlpha})`;
         for (let i = 0; i < canvas.height; i += 4) {
           ctx.fillRect(0, i, canvas.width, 2);
@@ -212,6 +237,7 @@ const TransitionOverlay: React.FC<TransitionOverlayProps> = ({
           setIsAnimating(false);
           disappearStartTimeRef.current = null; // 重置消失開始時間
           hasCalledFilledRef.current = false; // 重置填滿回調標記
+          hasPlayedDisappearBeepRef.current = false; // 重置 beep 標記
           onComplete?.();
         }, 50);
       }
@@ -259,6 +285,7 @@ const TransitionOverlay: React.FC<TransitionOverlayProps> = ({
         ref={canvasRef}
         className="transition-canvas"
       />
+      <div className="vignette" />
       {/* CRT 效果層 */}
       <div className="crt-effect" />
     </div>
