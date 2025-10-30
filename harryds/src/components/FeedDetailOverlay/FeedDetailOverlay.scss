@@ -245,6 +245,7 @@
     width: 100%;
     max-width: 1400px;
     display: flex;
+    flex-direction: row-reverse; // 反轉左右欄位順序
     gap: 80px; // 左右欄之間的間距
     
     @media (max-width: 1024px) {
