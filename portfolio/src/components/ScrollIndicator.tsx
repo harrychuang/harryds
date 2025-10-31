@@ -64,7 +64,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
         style={{ pointerEvents: showTopArrow ? 'auto' : 'none' }}
       >
         <PixelText2D
-          text="↥"
+          text="↑"
           textEnabled
           pixelSize={2}
           width={40}
