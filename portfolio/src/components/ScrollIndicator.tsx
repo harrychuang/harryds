@@ -49,30 +49,29 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
         />
       </div>
       
-      {showTopArrow && (
-        <div 
-          className="scroll-indicator__arrow"
-          onClick={handleGoToTop}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              handleGoToTop();
-            }
-          }}
-          aria-label="回到頂部"
-        >
-          <PixelText2D
-            text="↑"
-            textEnabled
-            pixelSize={2}
-            width={40}
-            height={40}
-            primaryColor={secondaryColor}
-          />
-        </div>
-      )}
+      <div 
+        className={`scroll-indicator__arrow ${showTopArrow ? 'scroll-indicator__arrow--visible' : ''}`}
+        onClick={handleGoToTop}
+        role="button"
+        tabIndex={showTopArrow ? 0 : -1}
+        onKeyDown={(e) => {
+          if (showTopArrow && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault();
+            handleGoToTop();
+          }
+        }}
+        aria-label="回到頂部"
+        style={{ pointerEvents: showTopArrow ? 'auto' : 'none' }}
+      >
+        <PixelText2D
+          text="↥"
+          textEnabled
+          pixelSize={2}
+          width={40}
+          height={40}
+          primaryColor={secondaryColor}
+        />
+      </div>
     </div>
   );
 };
