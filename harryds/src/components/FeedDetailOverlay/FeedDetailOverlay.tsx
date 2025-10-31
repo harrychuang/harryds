@@ -775,6 +775,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                     label={projectInfo.websiteLabel || 'VISIT WEBSITE'}
                     primaryColor={primaryColor}
                     secondaryColor={secondaryColor}
+                    textColor={onSurfaceColor}
                   />
                 )}
               </aside>

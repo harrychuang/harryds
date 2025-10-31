@@ -99,6 +99,14 @@ const Footer: React.FC = () => {
     <footer className="footer">
       <div className="footer__content">
         <div className="footer__left">
+          <span
+            className="footer__copyright"
+            style={{ color: footerColors.primaryColor }}
+          >
+            {rightText}
+          </span>
+        </div>
+        <div className="footer__right">
           <PixelText2D 
             text={leftText}
             textEnabled 
@@ -121,14 +129,6 @@ const Footer: React.FC = () => {
             primaryColor={footerColors.primaryColor}
             onPrimaryColor={footerColors.secondaryColor}
           />
-        </div>
-        <div className="footer__right">
-          <span
-            className="footer__copyright"
-            style={{ color: footerColors.primaryColor }}
-          >
-            {rightText}
-          </span>
         </div>
       </div>
     </footer>

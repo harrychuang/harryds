@@ -184,6 +184,12 @@
   width: 22px;
   height: 22px;
   flex-shrink: 0;
+  // 如果 icon 是單色 SVG，可以透過 filter 來改變顏色
+  // 這樣可以確保 icon 也會跟著文字顏色變化
+  filter: brightness(0) saturate(100%) invert(var(--cta-icon-invert, 1));
+  
+  // 當文字是深色時，不需要反轉（invert = 0）
+  // 當文字是白色時，需要反轉（invert = 1）
 }
 
 .cta-button__text {
@@ -193,7 +199,7 @@
   font-size: 20px;
   line-height: 130%; /* 26px */
   text-transform: uppercase;
-  color: #fff;
+  color: var(--cta-text-color, #fff);
   letter-spacing: 0.05em;
 }
 

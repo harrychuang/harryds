@@ -34,6 +34,10 @@ const meta: Meta<typeof CTAButton> = {
       control: 'color',
       description: '副色（條紋背景色 2）',
     },
+    textColor: {
+      control: 'color',
+      description: '文字顏色（根據背景色自動判斷亮色或暗色）',
+    },
     iconUrl: {
       control: 'text',
       description: '圖示 URL（預設使用內建的 link icon）',
@@ -59,6 +63,29 @@ export const Default: Story = {
     href: 'https://example.com',
     primaryColor: '#FF6B6B',
     secondaryColor: '#4ECDC4',
+    textColor: '#fff',
+  },
+};
+
+// 亮色背景使用深色文字
+export const LightBackground: Story = {
+  args: {
+    label: 'VISIT WEBSITE',
+    href: 'https://example.com',
+    primaryColor: '#FFE66D',
+    secondaryColor: '#A8DADC',
+    textColor: 'rgba(0,0,0,0.8)',
+  },
+};
+
+// 深色背景使用白色文字
+export const DarkBackground: Story = {
+  args: {
+    label: 'VISIT WEBSITE',
+    href: 'https://example.com',
+    primaryColor: '#1A1A2E',
+    secondaryColor: '#16213E',
+    textColor: '#fff',
   },
 };
 

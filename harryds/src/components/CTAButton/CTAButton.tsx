@@ -18,6 +18,8 @@ export interface CTAButtonProps {
   primaryColor?: string;
   /** 副色（條紋背景色 2） */
   secondaryColor?: string;
+  /** 文字顏色（根據背景色自動判斷亮色或暗色） */
+  textColor?: string;
   /** 圖示 URL（預設使用內建的 link icon） */
   iconUrl?: string;
   /** 是否在新視窗開啟 */
@@ -33,11 +35,17 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
   href,
   primaryColor = '#000',
   secondaryColor = '#333',
+  textColor = '#fff',
   iconUrl = iconLinkUrl,
   target = '_blank',
   className = '',
   onClick,
 }) => {
+  // 判斷是否為深色文字（用於圖示反轉）
+  const isLightIcon = textColor?.toLowerCase().includes('fff') || 
+                       textColor?.toLowerCase().includes('255') ||
+                       textColor?.toLowerCase().includes('white');
+  
   return (
     <a 
       href={href}
@@ -45,6 +53,10 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
       rel={target === '_blank' ? 'noopener noreferrer' : undefined}
       className={`cta-button ${className}`.trim()}
       onClick={onClick}
+      style={{
+        '--cta-text-color': textColor,
+        '--cta-icon-invert': isLightIcon ? '1' : '0',
+      } as React.CSSProperties}
     >
       <div 
         className="cta-button__background"

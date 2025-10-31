@@ -26,19 +26,19 @@
   &__left {
     display: flex;
     align-items: center;
-    gap: 8px; // PROCESS 文字和百分比框之間的間距
   }
   
   &__right {
     display: flex;
     align-items: center;
-    
-    .footer__copyright {
-      font-family: 'Pixel', monospace;
-      font-size: 11px;
-      line-height: 1;
-      white-space: nowrap;
-    }
+    gap: 8px; // PROCESS 文字和百分比框之間的間距
+  }
+  
+  &__copyright {
+    font-family: 'Pixel', monospace;
+    font-size: 11px;
+    line-height: 1;
+    white-space: nowrap;
   }
 }
 
@@ -51,13 +51,11 @@
       max-width: none;
     }
     
-    &__right {
-      // 在小屏幕上，版權文字可能太長，調整寬度
-      .footer__copyright {
-        max-width: 200px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
+    // 在小屏幕上，版權文字可能太長，調整寬度
+    &__copyright {
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
