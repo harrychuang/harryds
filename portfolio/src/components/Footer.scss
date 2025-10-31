@@ -31,7 +31,8 @@
   &__right {
     display: flex;
     align-items: center;
-    gap: 8px; // PROCESS 文字和百分比框之間的間距
+    gap: 8px;
+    margin-bottom: 50px; // 距離底部 50px
   }
   
   &__copyright {

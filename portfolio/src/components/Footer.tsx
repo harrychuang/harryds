@@ -1,22 +1,20 @@
 import React, { useMemo, useEffect } from 'react';
-import { PixelText2D } from 'hds';
 import './Footer.scss';
-import { calculatePixelTextWidth } from '../utils/pixelTextUtils';
 import { useParams } from 'react-router-dom';
 import { useStrapiFeed } from '../hooks/useStrapiFeed';
 import type { FeedItem } from 'hds/types/feed';
 import { useHover } from '../contexts/HoverContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import { useScrollProgress } from '../hooks/useScrollProgress';
+import { useTheme } from '../theme/useTheme';
+import ScrollIndicator from './ScrollIndicator';
 
 const Footer: React.FC = () => {
   const params = useParams();
   const { items } = useStrapiFeed();
   const { hoveredCardId } = useHover();
   const { openCardId, animationPhase, overlayScrollRef } = useOverlay();
-  const pixelSize = 1;
-  const pixelSize2 = 2;
-  const leftText = "PROCESS";
+  const { theme } = useTheme();
   const rightText = "COPYRIGHT © HARRY.DS ALL RIGHTS RESERVED.";
   
   // 決定要監聽的滾動容器：當 overlay 處於 expanding 或 ready 階段時，監聽 overlay 的滾動
@@ -58,9 +56,6 @@ const Footer: React.FC = () => {
   
   const scrollProgress = useScrollProgress({ scrollContainer });
   
-  // 格式化百分比文字（確保是3位數，如 "  0%" 或 "100%"）
-  const progressText = `${scrollProgress.toString().padStart(3, ' ')}%`;
-  
   // 獲取當前活動卡片的顏色（與 Home 組件相同的邏輯）
   const footerColors = useMemo(() => {
     // 首先檢查 URL 中的打開卡片
@@ -91,9 +86,10 @@ const Footer: React.FC = () => {
     
     return {};
   }, [params.id, params.category, hoveredCardId, openCardId, items]);
-  
-  // 計算實際所需的寬度
-  const processWidth = calculatePixelTextWidth(leftText, { pixelSize });
+
+  // 決定 ScrollIndicator 和 Copyright 的顏色：有 primaryColor 時使用，沒有時使用 CSS 變數
+  const displayColor = footerColors.primaryColor || 'var(--hds-sys-color-theme-surface)';
+  const displaySecondaryColor = footerColors.secondaryColor || 'var(--on-hds-sys-color-theme-surface)';
 
   return (
     <footer className="footer">
@@ -101,33 +97,17 @@ const Footer: React.FC = () => {
         <div className="footer__left">
           <span
             className="footer__copyright"
-            style={{ color: footerColors.primaryColor }}
+            style={{ color: displayColor }}
           >
             {rightText}
           </span>
         </div>
         <div className="footer__right">
-          <PixelText2D 
-            text={leftText}
-            textEnabled 
-            pixelSize={pixelSize}
-            width={processWidth}
-            height={20}
-            primaryColor={footerColors.primaryColor}
-            onPrimaryColor={footerColors.secondaryColor}
-          />
-          <PixelText2D 
-            text=""
-            textEnabled={false}
-            textBoxEnabled={true}
-            textBox={progressText}
-            textBoxWidth={4}
-            textBoxPadding={6}
-            pixelSize={pixelSize2}
-            width={80}
-            height={20}
-            primaryColor={footerColors.primaryColor}
-            onPrimaryColor={footerColors.secondaryColor}
+          <ScrollIndicator 
+            scrollProgress={scrollProgress}
+            primaryColor={displayColor}
+            secondaryColor={displaySecondaryColor}
+            scrollContainer={scrollContainer}
           />
         </div>
       </div>
