@@ -92,6 +92,7 @@ const THANK_YOU_MESSAGES = [
 ];
 
 const GIF_DISPLAY_DURATION_MS = 5000;
+const EXIT_ANIMATION_DURATION_MS = 600;
 
 const Footer: React.FC = () => {
   const params = useParams();
@@ -100,10 +101,13 @@ const Footer: React.FC = () => {
   const { openCardId, animationPhase, overlayScrollRef } = useOverlay();
   const { theme } = useTheme();
   const rightText = "COPYRIGHT © HARRY.DS ALL RIGHTS RESERVED.";
-  const [showGifPopup, setShowGifPopup] = useState(false);
+  const [isGifVisible, setIsGifVisible] = useState(false);
+  const [isGifExiting, setIsGifExiting] = useState(false);
   const [currentGifUrl, setCurrentGifUrl] = useState<string | null>(null);
   const [thankYouMessage, setThankYouMessage] = useState<string | null>(null);
   const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const exitTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [popupKey, setPopupKey] = useState(0);
   
   // 決定要監聽的滾動容器：當 overlay 處於 expanding 或 ready 階段時，監聽 overlay 的滾動
   const shouldMonitorOverlay = openCardId && (animationPhase === 'expanding' || animationPhase === 'ready');
@@ -156,22 +160,36 @@ const Footer: React.FC = () => {
 
     setCurrentGifUrl(selectedGif);
     setThankYouMessage(selectedMessage);
-    setShowGifPopup(true);
+    setIsGifExiting(false);
+    setIsGifVisible(true);
+    setPopupKey((prev) => prev + 1);
 
     if (hideTimerRef.current) {
       clearTimeout(hideTimerRef.current);
     }
+    if (exitTimerRef.current) {
+      clearTimeout(exitTimerRef.current);
+      exitTimerRef.current = null;
+    }
 
     hideTimerRef.current = setTimeout(() => {
-      setShowGifPopup(false);
-      setCurrentGifUrl(null);
-      setThankYouMessage(null);
+      setIsGifExiting(true);
+      exitTimerRef.current = setTimeout(() => {
+        setIsGifVisible(false);
+        setIsGifExiting(false);
+        setCurrentGifUrl(null);
+        setThankYouMessage(null);
+        exitTimerRef.current = null;
+      }, EXIT_ANIMATION_DURATION_MS);
     }, GIF_DISPLAY_DURATION_MS);
   }, []);
 
   useEffect(() => () => {
     if (hideTimerRef.current) {
       clearTimeout(hideTimerRef.current);
+    }
+    if (exitTimerRef.current) {
+      clearTimeout(exitTimerRef.current);
     }
   }, []);
 
@@ -222,19 +240,24 @@ const Footer: React.FC = () => {
           </span>
         </div>
         <div className="footer__right">
-          {showGifPopup && currentGifUrl && (
-            <div className="footer__giphy-popup">
-              <div
-                className="footer__giphy-image"
-                style={{ backgroundImage: `url(${currentGifUrl})` }}
-                role="img"
-                aria-label="讚賞動畫"
-              >
-                {thankYouMessage && (
-                  <div className="footer__giphy-overlay">
-                    <span className="footer__giphy-message">{thankYouMessage}</span>
-                  </div>
-                )}
+          {isGifVisible && currentGifUrl && (
+            <div
+              key={popupKey}
+              className={`footer__giphy-popup ${isGifExiting ? 'footer__giphy-popup--exit' : ''}`}
+            >
+              <div className="footer__giphy-inner">
+                <div
+                  className="footer__giphy-image"
+                  style={{ backgroundImage: `url(${currentGifUrl})` }}
+                  role="img"
+                  aria-label="讚賞動畫"
+                >
+                  {thankYouMessage && (
+                    <div className="footer__giphy-overlay">
+                      <span className="footer__giphy-message">{thankYouMessage}</span>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}

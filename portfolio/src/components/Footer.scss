@@ -48,22 +48,38 @@
     right: 0;
     width: 400px;
     height: 300px;
+    z-index: 1200;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    pointer-events: none;
+    transform-origin: 85% 110%;
+    animation: footer-giphy-slide-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    opacity: 0;
+
+    &--exit {
+      animation: footer-giphy-slide-out 0.6s cubic-bezier(0.83, 0, 0.17, 1) forwards;
+    }
+  }
+
+  &__giphy-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
     background: #000;
     color: #fff;
     overflow: hidden;
-    z-index: 1200;
     border: none;
     isolation: isolate;
-    transform-origin: center;
-    animation: scale-easeOutElastic 1s forwards;
+    transform-origin: 100% 100%;
 
     &::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(120deg, #ff6b6b, #f7d794, #1dd1a1, #54a0ff, #5f27cd, #ff6b6b);
+      background: linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f);
       background-size: 400% 400%;
-      animation: footer-giphy-rainbow 1s linear infinite;
+      animation: footer-giphy-rainbow 1.6s linear infinite;
       z-index: 1;
       padding: 10px;
       -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -83,6 +99,7 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    transform-origin: 100% 100%;
   }
 
   &__giphy-overlay {
@@ -100,9 +117,9 @@
     font-size: 30px;
     line-height: 1.2;
     text-transform: uppercase;
-    background: linear-gradient(120deg, #ff6b6b, #f7d794, #1dd1a1, #54a0ff, #5f27cd, #ff6b6b);
+    background: linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f);
     background-size: 400% 400%;
-    animation: footer-giphy-rainbow 1s linear infinite;
+    animation: footer-giphy-rainbow 1.6s linear infinite;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -113,45 +130,30 @@
   0% {
     background-position: 0% 50%;
   }
-  50% {
-    background-position: 100% 50%;
-  }
   100% {
-    background-position: 0% 50%;
+    background-position: 400% 50%;
   }
 }
 
-@keyframes scale-easeOutElastic {
+@keyframes footer-giphy-slide-in {
   0% {
-    transform: scale(0.2);
+    transform: translateX(120%);
+    opacity: 0;
   }
-
-  16% {
-    transform: scale(1.256);
-  }
-
-  28% {
-    transform: scale(0.896);
-  }
-
-  44% {
-    transform: scale(1.04);
-  }
-
-  59% {
-    transform: scale(0.984);
-  }
-
-  73% {
-    transform: scale(1.008);
-  }
-
-  88% {
-    transform: scale(1);
-  }
-
   100% {
-    transform: scale(1);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes footer-giphy-slide-out {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
   }
 }
 
