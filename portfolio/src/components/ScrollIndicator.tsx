@@ -15,6 +15,8 @@ interface ScrollIndicatorProps {
   onIconClick?: () => void;
   arrowClassName?: string;
   bounceDelayMs?: number;
+  sliderMultiplier?: number;
+  sliderOffset?: number;
 }
 
 const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({ 
@@ -29,14 +31,17 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   onIconClick,
   arrowClassName,
   bounceDelayMs = 0,
+  sliderMultiplier = 1,
+  sliderOffset = 0,
 }) => {
   const location = useLocation();
 
-  // 計算滑塊的高度（根據滾動進度，從 0% 到 100%）
-  const sliderHeightPercent = scrollProgress;
-  
-  // 當滾動進度超過 60% 時顯示圖示
-  const showIcon = scrollProgress > 60;
+  // 計算調整後的進度
+  const adjustedProgress = Math.min(100, Math.max(0, scrollProgress * sliderMultiplier + sliderOffset));
+  const sliderHeightPercent = scrollProgress >= 100 ? 100 : adjustedProgress;
+
+  // 當調整後的進度超過 60% 時顯示圖示
+  const showIcon = sliderHeightPercent > 60;
   
   // 控制彈跳動畫
   const [shouldBounce, setShouldBounce] = useState(false);
@@ -71,6 +76,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   // 當圖示出現時觸發動畫
   useEffect(() => {
     if (showIcon && !hasShownIcon) {
+      setHasShownIcon(true);
       if (bounceStartTimerRef.current) {
         clearTimeout(bounceStartTimerRef.current);
       }

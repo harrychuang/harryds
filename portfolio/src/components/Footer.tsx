@@ -114,6 +114,7 @@ const Footer: React.FC = () => {
             iconAriaLabel="收藏"
             arrowClassName="scroll-indicator__arrow--heart"
             bounceDelayMs={100}
+            sliderMultiplier={1}
           />
           <ScrollIndicator 
             scrollProgress={scrollProgress}
@@ -121,6 +122,8 @@ const Footer: React.FC = () => {
             secondaryColor={displaySecondaryColor}
             scrollContainer={scrollContainer}
             openCardId={openCardId}
+            bounceDelayMs={0}
+            sliderMultiplier={2}
           />
         </div>
       </div>
