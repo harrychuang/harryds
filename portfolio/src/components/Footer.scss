@@ -54,6 +54,8 @@
     z-index: 1200;
     border: none;
     isolation: isolate;
+    transform-origin: center;
+    animation: scale-easeOutElastic 1s forwards;
 
     &::before {
       content: '';
@@ -116,6 +118,40 @@
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+@keyframes scale-easeOutElastic {
+  0% {
+    transform: scale(0.2);
+  }
+
+  16% {
+    transform: scale(1.256);
+  }
+
+  28% {
+    transform: scale(0.896);
+  }
+
+  44% {
+    transform: scale(1.04);
+  }
+
+  59% {
+    transform: scale(0.984);
+  }
+
+  73% {
+    transform: scale(1.008);
+  }
+
+  88% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1);
   }
 }
 
