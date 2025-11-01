@@ -95,6 +95,76 @@ const GIF_DISPLAY_DURATION_MS = 5000;
 const EXIT_ANIMATION_DURATION_MS = 600;
 const HEART_STORAGE_KEY = 'noeinoi-heart-liked';
 
+const normalizePathKey = (raw: string | null | undefined): string => {
+  if (!raw) {
+    return '/';
+  }
+
+  const [pathPart] = raw.split('?');
+  let normalized = pathPart || '/';
+
+  if (normalized.length > 1 && normalized.endsWith('/')) {
+    normalized = normalized.slice(0, -1);
+  }
+
+  return normalized || '/';
+};
+
+const getStoredLikedPaths = (): Set<string> => {
+  if (typeof window === 'undefined') {
+    return new Set();
+  }
+
+  const raw = window.localStorage.getItem(HEART_STORAGE_KEY);
+  if (!raw) {
+    return new Set();
+  }
+
+  if (raw === 'true') {
+    return new Set(['/']);
+  }
+
+  if (raw === 'false') {
+    return new Set();
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+
+    if (Array.isArray(parsed)) {
+      return new Set(parsed.map((item) => normalizePathKey(String(item))));
+    }
+
+    if (parsed && typeof parsed === 'object') {
+      const liked = new Set<string>();
+      Object.entries(parsed as Record<string, unknown>).forEach(([key, value]) => {
+        if (value === true || value === 'true') {
+          liked.add(normalizePathKey(key));
+        }
+      });
+      return liked;
+    }
+  } catch (error) {
+    console.warn('[Footer] Failed to parse heart likes from localStorage', error);
+  }
+
+  return new Set();
+};
+
+const persistLikedPaths = (paths: Set<string>) => {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  if (paths.size === 0) {
+    window.localStorage.removeItem(HEART_STORAGE_KEY);
+    return;
+  }
+
+  const payload = Array.from(paths);
+  window.localStorage.setItem(HEART_STORAGE_KEY, JSON.stringify(payload));
+};
+
 const Footer: React.FC = () => {
   const params = useParams();
   const { items } = useStrapiFeed();
@@ -113,42 +183,8 @@ const Footer: React.FC = () => {
   const [isHeartLiked, setIsHeartLiked] = useState(false);
   const hasHydratedPreferenceRef = useRef(false);
   const hydratedPageKeyRef = useRef<string | null>(null);
-  const pageStorageKey = useMemo(() => `${location.pathname}${location.search}`, [location.pathname, location.search]);
+  const pageStorageKey = useMemo(() => normalizePathKey(location.pathname), [location.pathname]);
 
-  const loadStoredLikes = useCallback((): Record<string, boolean> => {
-    if (typeof window === 'undefined') {
-      return {};
-    }
-
-    const raw = window.localStorage.getItem(HEART_STORAGE_KEY);
-    if (!raw) {
-      return {};
-    }
-
-    if (raw === 'true') {
-      return { '*': true };
-    }
-
-    if (raw === 'false') {
-      return {};
-    }
-
-    try {
-      const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === 'object') {
-        const normalized: Record<string, boolean> = {};
-        Object.entries(parsed as Record<string, unknown>).forEach(([key, value]) => {
-          normalized[key] = value === true || value === 'true';
-        });
-        return normalized;
-      }
-    } catch (error) {
-      console.warn('[Footer] Failed to parse heart likes from localStorage', error);
-    }
-
-    return {};
-  }, []);
-  
   // 決定要監聽的滾動容器：當 overlay 處於 expanding 或 ready 階段時，監聽 overlay 的滾動
   const shouldMonitorOverlay = openCardId && (animationPhase === 'expanding' || animationPhase === 'ready');
   
@@ -248,12 +284,12 @@ const Footer: React.FC = () => {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     hasHydratedPreferenceRef.current = false;
-    const likes = loadStoredLikes();
-    const storedLiked = likes[pageStorageKey] ?? likes['*'] ?? false;
+    const likedPaths = getStoredLikedPaths();
+    const storedLiked = likedPaths.has(pageStorageKey);
     setIsHeartLiked(storedLiked);
     hydratedPageKeyRef.current = pageStorageKey;
     hasHydratedPreferenceRef.current = true;
-  }, [loadStoredLikes, pageStorageKey]);
+  }, [pageStorageKey]);
 
   useEffect(() => {
     if (
@@ -264,21 +300,15 @@ const Footer: React.FC = () => {
       return;
     }
 
-    const likes = loadStoredLikes();
+    const likedPaths = getStoredLikedPaths();
     if (isHeartLiked) {
-      likes[pageStorageKey] = true;
+      likedPaths.add(pageStorageKey);
     } else {
-      delete likes[pageStorageKey];
+      likedPaths.delete(pageStorageKey);
     }
-    delete likes['*'];
 
-    const entries = Object.entries(likes);
-    if (entries.length === 0) {
-      window.localStorage.removeItem(HEART_STORAGE_KEY);
-    } else {
-      window.localStorage.setItem(HEART_STORAGE_KEY, JSON.stringify(likes));
-    }
-  }, [isHeartLiked, pageStorageKey, loadStoredLikes]);
+    persistLikedPaths(likedPaths);
+  }, [isHeartLiked, pageStorageKey]);
 
   useEffect(() => {
     if (hideTimerRef.current) {

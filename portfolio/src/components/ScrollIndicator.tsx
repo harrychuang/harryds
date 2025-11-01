@@ -132,6 +132,8 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   const resolvedSecondaryColor = secondaryColor || 'var(--on-hds-sys-color-theme-surface)';
   const ariaLabel = iconAriaLabel || (enableScrollToTop ? '回到頂部' : 'icon');
 
+  const isHeartArrow = arrowClassName?.includes('scroll-indicator__arrow--heart');
+
   const sliderClasses = [
     'scroll-indicator__slider',
     disableProgress ? 'scroll-indicator__slider--locked' : '',
@@ -153,6 +155,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
     showIcon ? 'scroll-indicator__arrow--visible' : '',
     arrowClassName || '',
     isLiked ? 'scroll-indicator__arrow--liked' : '',
+    !isLiked && isHeartArrow ? 'scroll-indicator__arrow--heart-active' : '',
   ].filter(Boolean).join(' ');
 
   const indicatorClasses = [

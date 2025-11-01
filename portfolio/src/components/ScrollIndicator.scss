@@ -28,6 +28,7 @@
     left: 0;
     width: 100%;
     height: 100%;
+    transition: height 0s ease;
     box-sizing: border-box;
   }
 
@@ -54,14 +55,25 @@
     &--visible {
       opacity: 1;
     }
-    
+
     &:hover {
       top: 40%;
     }
-
+    
     &--heart {
       &:hover {
         top: 50%;
+      }
+    }
+
+    &--heart-active {
+      transform: translate(-50%, -50%) scale(1);
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.2s ease;
+
+      &:hover,
+      &:focus-visible {
+        top: 40%;
+        transform: translate(-50%, -50%) scale(1.2);
       }
     }
 
@@ -69,8 +81,15 @@
       width: 50px;
       height: 50px;
       background: linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f);
-      background-size: 600% 200%;
-      animation: footer-giphy-rainbow 8s linear infinite;
+      background-size: 400% 400%;
+      animation: footer-giphy-rainbow 4s linear infinite;
+      transform: translate(-50%, -50%) scale(1);
+      transition: opacity 0.2s ease-out, top 0.2s ease;
+
+      &:hover,
+      &:focus-visible {
+        transform: translate(-50%, -50%) scale(1);
+      }
     }
   }
 
