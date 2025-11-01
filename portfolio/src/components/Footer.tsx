@@ -108,6 +108,7 @@ const Footer: React.FC = () => {
             primaryColor={displayColor}
             secondaryColor={displaySecondaryColor}
             scrollContainer={scrollContainer}
+            openCardId={openCardId}
           />
         </div>
       </div>
