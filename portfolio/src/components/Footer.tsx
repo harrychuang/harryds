@@ -109,6 +109,16 @@ const Footer: React.FC = () => {
             secondaryColor={displaySecondaryColor}
             scrollContainer={scrollContainer}
             openCardId={openCardId}
+            enableScrollToTop={false}
+            icon="♥"
+            iconAriaLabel="收藏"
+          />
+          <ScrollIndicator 
+            scrollProgress={scrollProgress}
+            primaryColor={displayColor}
+            secondaryColor={displaySecondaryColor}
+            scrollContainer={scrollContainer}
+            openCardId={openCardId}
           />
         </div>
       </div>

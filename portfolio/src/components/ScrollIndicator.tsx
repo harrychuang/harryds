@@ -9,6 +9,10 @@ interface ScrollIndicatorProps {
   secondaryColor?: string;
   scrollContainer?: HTMLElement | null;
   openCardId?: number | null; // 用於檢測進入 detail page
+  icon?: string;
+  iconAriaLabel?: string;
+  enableScrollToTop?: boolean;
+  onIconClick?: () => void;
 }
 
 const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({ 
@@ -16,39 +20,45 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   primaryColor,
   secondaryColor,
   scrollContainer,
-  openCardId
+  openCardId,
+  icon = '↑',
+  iconAriaLabel,
+  enableScrollToTop = true,
+  onIconClick,
 }) => {
   const location = useLocation();
 
   // 計算滑塊的高度（根據滾動進度，從 0% 到 100%）
   const sliderHeightPercent = scrollProgress;
   
-  // 當滾動進度超過 80% 時顯示向上箭頭
-  const showTopArrow = scrollProgress > 60;
+  // 當滾動進度超過 60% 時顯示圖示
+  const showIcon = scrollProgress > 60;
   
   // 控制彈跳動畫
   const [shouldBounce, setShouldBounce] = useState(false);
-  const [hasShownArrow, setHasShownArrow] = useState(false);
+  const [hasShownIcon, setHasShownIcon] = useState(false);
   const contextKey = `${location.pathname}${location.search}|${openCardId ?? 'none'}`;
   
-  // 當上下文變化時，重置狀態並將滾動位置回到頂部
+  // 當上下文變化時，重置狀態並將滾動位置回到頂部（若需要）
   useEffect(() => {
-    setHasShownArrow(false);
+    setHasShownIcon(false);
     setShouldBounce(false);
 
-    const container = scrollContainer;
-    if (container && typeof container.scrollTo === 'function') {
-      container.scrollTo({ top: 0, behavior: 'auto' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'auto' });
+    if (enableScrollToTop) {
+      const container = scrollContainer;
+      if (container && typeof container.scrollTo === 'function') {
+        container.scrollTo({ top: 0, behavior: 'auto' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      }
     }
-  }, [contextKey, scrollContainer]);
+  }, [contextKey, scrollContainer, enableScrollToTop]);
   
-  // 當箭頭出現時觸發動畫
+  // 當圖示出現時觸發動畫
   useEffect(() => {
-    if (showTopArrow && !hasShownArrow) {
+    if (showIcon && !hasShownIcon) {
       setShouldBounce(true);
-      setHasShownArrow(true);
+      setHasShownIcon(true);
       
       const timer = setTimeout(() => {
         setShouldBounce(false);
@@ -56,62 +66,72 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
       
       return () => clearTimeout(timer);
     }
-  }, [showTopArrow, hasShownArrow]);
+  }, [showIcon, hasShownIcon]);
   
-  // 點擊後滾動到頂部
-  const handleGoToTop = () => {
-    if (scrollContainer) {
-      // 如果有特定的滾動容器（例如 overlay）
-      scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      // 否則滾動整個頁面
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleIconClick = () => {
+    if (!showIcon) return;
+
+    if (onIconClick) {
+      onIconClick();
+      return;
+    }
+
+    if (enableScrollToTop) {
+      if (scrollContainer) {
+        scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   };
+
+  const resolvedPrimaryColor = primaryColor || '#fff';
+  const resolvedSecondaryColor = secondaryColor || 'var(--on-hds-sys-color-theme-surface)';
+  const ariaLabel = iconAriaLabel || (enableScrollToTop ? '回到頂部' : 'icon');
 
   return (
     <div className="scroll-indicator-wrapper">
       <div 
         className={`scroll-indicator ${shouldBounce ? 'scroll-indicator--bounce' : ''}`}
         style={{
-          borderColor: primaryColor || '#fff',
+          borderColor: resolvedPrimaryColor,
         }}
       >
         <div 
           className="scroll-indicator__slider"
           style={{
-            backgroundColor: primaryColor || '#fff',
+            backgroundColor: resolvedPrimaryColor,
             height: `${sliderHeightPercent}%`,
           }}
         />
       </div>
       
       <div 
-        className={`scroll-indicator__arrow ${showTopArrow ? 'scroll-indicator__arrow--visible' : ''}`}
-        onClick={handleGoToTop}
+        className={`scroll-indicator__arrow ${showIcon ? 'scroll-indicator__arrow--visible' : ''}`}
+        onClick={handleIconClick}
         role="button"
-        tabIndex={showTopArrow ? 0 : -1}
+        tabIndex={showIcon ? 0 : -1}
         onKeyDown={(e) => {
-          if (showTopArrow && (e.key === 'Enter' || e.key === ' ')) {
+          if (showIcon && (e.key === 'Enter' || e.key === ' ')) {
             e.preventDefault();
-            handleGoToTop();
+            handleIconClick();
           }
         }}
-        aria-label="回到頂部"
-        style={{ pointerEvents: showTopArrow ? 'auto' : 'none' }}
+        aria-label={ariaLabel}
+        style={{ pointerEvents: showIcon && (enableScrollToTop || onIconClick) ? 'auto' : 'none' }}
       >
         <PixelText2D
-          text="↑"
+          text={icon}
           textEnabled
           pixelSize={2}
           width={40}
           height={40}
-          primaryColor={secondaryColor}
+          primaryColor={resolvedSecondaryColor}
         />
       </div>
     </div>
   );
-};
+}
 
 export default ScrollIndicator;
 
