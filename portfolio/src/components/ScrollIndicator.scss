@@ -15,10 +15,10 @@
 
   &--liked {
     border: none;
-    padding: 0px;
     width: 50px;
     height: 50px;
     background: linear-gradient(120deg, rgba(255, 18, 79, 0.4), rgba(255, 122, 0, 0.4), rgba(255, 230, 0, 0.4), rgba(25, 255, 182, 0.4), rgba(0, 195, 255, 0.4), rgba(138, 43, 255, 0.4), rgba(255, 0, 240, 0.4), rgba(255, 18, 79, 0.4));
+    border-radius: 14px;
   }
   
   &__slider {
@@ -61,6 +61,8 @@
     }
 
     &--liked {
+      width: 50px;
+      height: 50px;
       background: linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f);
     }
   }

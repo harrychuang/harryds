@@ -155,10 +155,16 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
     isLiked ? 'scroll-indicator__arrow--liked' : '',
   ].filter(Boolean).join(' ');
 
+  const indicatorClasses = [
+    'scroll-indicator',
+    shouldBounce ? 'scroll-indicator--bounce' : '',
+    isLiked ? 'scroll-indicator--liked' : '',
+  ].filter(Boolean).join(' ');
+
   return (
     <div className="scroll-indicator-wrapper">
       <div 
-        className={`scroll-indicator ${shouldBounce ? 'scroll-indicator--bounce' : ''}`}
+        className={indicatorClasses}
         style={{
           borderColor: resolvedPrimaryColor,
         }}
