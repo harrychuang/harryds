@@ -177,13 +177,60 @@ const Footer: React.FC = () => {
   const [isGifExiting, setIsGifExiting] = useState(false);
   const [currentGifUrl, setCurrentGifUrl] = useState<string | null>(null);
   const [thankYouMessage, setThankYouMessage] = useState<string | null>(null);
+  const [preloadedGifUrl, setPreloadedGifUrl] = useState<string | null>(null);
   const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
   const exitTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const preloadImageRef = useRef<HTMLImageElement | null>(null);
   const [popupKey, setPopupKey] = useState(0);
   const [isHeartLiked, setIsHeartLiked] = useState(false);
   const hasHydratedPreferenceRef = useRef(false);
   const hydratedPageKeyRef = useRef<string | null>(null);
   const pageStorageKey = useMemo(() => normalizePathKey(location.pathname), [location.pathname]);
+
+  const pickRandomGifUrl = useCallback((excludeUrl?: string) => {
+    if (GIPHY_URLS.length === 0) {
+      return null;
+    }
+
+    const filtered = excludeUrl ? GIPHY_URLS.filter((url) => url !== excludeUrl) : GIPHY_URLS;
+    const pool = filtered.length > 0 ? filtered : GIPHY_URLS;
+    const index = Math.floor(Math.random() * pool.length);
+
+    return pool[index] ?? null;
+  }, []);
+
+  const preloadRandomGif = useCallback(
+    (excludeUrl?: string) => {
+      if (typeof window === 'undefined') {
+        return;
+      }
+
+      const selected = pickRandomGifUrl(excludeUrl);
+
+      if (!selected) {
+        setPreloadedGifUrl(null);
+        return;
+      }
+
+      const image = new Image();
+      preloadImageRef.current = image;
+
+      image.onload = () => {
+        if (preloadImageRef.current === image) {
+          setPreloadedGifUrl(selected);
+        }
+      };
+
+      image.onerror = () => {
+        if (preloadImageRef.current === image) {
+          setPreloadedGifUrl(selected);
+        }
+      };
+
+      image.src = selected;
+    },
+    [pickRandomGifUrl]
+  );
 
   // 決定要監聽的滾動容器：當 overlay 處於 expanding 或 ready 階段時，監聽 overlay 的滾動
   const shouldMonitorOverlay = openCardId && (animationPhase === 'expanding' || animationPhase === 'ready');
@@ -223,7 +270,18 @@ const Footer: React.FC = () => {
   const scrollContainer = shouldMonitorOverlay ? overlayScrollRef.current : null;
   
   const scrollProgress = useScrollProgress({ scrollContainer });
-  
+
+  useEffect(() => {
+    if (preloadImageRef.current) {
+      preloadImageRef.current.onload = null;
+      preloadImageRef.current.onerror = null;
+      preloadImageRef.current = null;
+    }
+
+    setPreloadedGifUrl(null);
+    preloadRandomGif();
+  }, [pageStorageKey, preloadRandomGif]);
+
   const handleHeartClick = useCallback(() => {
     if (isHeartLiked) {
       setIsHeartLiked(false);
@@ -244,18 +302,18 @@ const Footer: React.FC = () => {
       return;
     }
 
-    if (GIPHY_URLS.length === 0) {
+    const gifToDisplay = preloadedGifUrl ?? pickRandomGifUrl();
+
+    if (!gifToDisplay) {
       return;
     }
 
     setIsHeartLiked(true);
 
-    const randomIndex = Math.floor(Math.random() * GIPHY_URLS.length);
-    const selectedGif = GIPHY_URLS[randomIndex];
     const messageIndex = Math.floor(Math.random() * THANK_YOU_MESSAGES.length);
     const selectedMessage = THANK_YOU_MESSAGES[messageIndex];
 
-    setCurrentGifUrl(selectedGif);
+    setCurrentGifUrl(gifToDisplay);
     setThankYouMessage(selectedMessage);
     setIsGifExiting(false);
     setIsGifVisible(true);
@@ -279,7 +337,11 @@ const Footer: React.FC = () => {
         exitTimerRef.current = null;
       }, EXIT_ANIMATION_DURATION_MS);
     }, GIF_DISPLAY_DURATION_MS);
-  }, [isHeartLiked]);
+    if (preloadedGifUrl) {
+      setPreloadedGifUrl(null);
+    }
+    preloadRandomGif(gifToDisplay);
+  }, [isHeartLiked, pickRandomGifUrl, preloadedGifUrl, preloadRandomGif]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -331,6 +393,11 @@ const Footer: React.FC = () => {
     }
     if (exitTimerRef.current) {
       clearTimeout(exitTimerRef.current);
+    }
+    if (preloadImageRef.current) {
+      preloadImageRef.current.onload = null;
+      preloadImageRef.current.onerror = null;
+      preloadImageRef.current = null;
     }
   }, []);
 
