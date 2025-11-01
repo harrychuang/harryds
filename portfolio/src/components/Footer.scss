@@ -44,15 +44,31 @@
 
   &__giphy-popup {
     position: absolute;
-    bottom: calc(100% + 50px);
+    bottom: calc(100% + 20px);
     right: 0;
     width: 400px;
     height: 300px;
     background: #000;
     color: #fff;
-    border: 5px solid rgba(0, 0, 0, 1);
     overflow: hidden;
     z-index: 1200;
+    border: none;
+    isolation: isolate;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, #ff6b6b, #f7d794, #1dd1a1, #54a0ff, #5f27cd, #ff6b6b);
+      background-size: 400% 400%;
+      animation: footer-giphy-rainbow 1s linear infinite;
+      z-index: 1;
+      padding: 10px;
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask-composite: exclude;
+    }
   }
 
   &__giphy-image {
@@ -79,9 +95,27 @@
 
   &__giphy-message {
     font-family: 'Pixel', monospace;
-    font-size: 24px;
+    font-size: 30px;
     line-height: 1.2;
     text-transform: uppercase;
+    background: linear-gradient(120deg, #ff6b6b, #f7d794, #1dd1a1, #54a0ff, #5f27cd, #ff6b6b);
+    background-size: 400% 400%;
+    animation: footer-giphy-rainbow 1s linear infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+@keyframes footer-giphy-rainbow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
