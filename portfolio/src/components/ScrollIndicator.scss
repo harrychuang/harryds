@@ -17,8 +17,9 @@
     border: none;
     width: 50px;
     height: 50px;
-    background: linear-gradient(120deg, rgba(255, 18, 79, 0.4), rgba(255, 122, 0, 0.4), rgba(255, 230, 0, 0.4), rgba(25, 255, 182, 0.4), rgba(0, 195, 255, 0.4), rgba(138, 43, 255, 0.4), rgba(255, 0, 240, 0.4), rgba(255, 18, 79, 0.4));
-    border-radius: 14px;
+    background: linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f);
+    background-size: 400% 400%;
+    animation: footer-giphy-rainbow 1.6s linear infinite;
   }
   
   &__slider {
@@ -27,8 +28,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    transition: height 0s ease;
+    transition: height 0.2s ease;
     box-sizing: border-box;
+  }
+
+  &__slider--liked {
+    background: linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f);
+    background-size: 400% 400%;
+    animation: footer-giphy-rainbow 1.6s linear infinite;
   }
   
   &__arrow {
@@ -64,11 +71,22 @@
       width: 50px;
       height: 50px;
       background: linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f);
+      background-size: 600% 200%;
+      animation: footer-giphy-rainbow 8s linear infinite;
     }
   }
 
   &__slider--locked {
     transition: none;
+  }
+}
+
+@keyframes scroll-indicator-rainbow {
+  0% {
+    background-position: 600% 100%;
+  }
+  100% {
+    background-position: 600% 200%;
   }
 }
 

@@ -189,14 +189,14 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
         aria-label={ariaLabel}
         style={{ pointerEvents: showIcon ? 'auto' : 'none' }}
       >
-        <PixelText2D
-          text={icon}
-          textEnabled
-          pixelSize={2}
-          width={40}
-          height={40}
-          primaryColor={resolvedSecondaryColor}
-        />
+          <PixelText2D
+            text={icon}
+            textEnabled
+            pixelSize={2}
+            width={isLiked ? 50 : 40}
+            height={isLiked ? 50 : 40}
+            primaryColor={isLiked ? '#ffffff' : resolvedSecondaryColor}
+          />
       </div>
     </div>
   );
