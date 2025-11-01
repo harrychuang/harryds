@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PixelText2D } from 'hds';
 import { useLocation } from 'react-router-dom';
 import './ScrollIndicator.scss';
@@ -13,6 +13,8 @@ interface ScrollIndicatorProps {
   iconAriaLabel?: string;
   enableScrollToTop?: boolean;
   onIconClick?: () => void;
+  arrowClassName?: string;
+  bounceDelayMs?: number;
 }
 
 const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({ 
@@ -25,6 +27,8 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   iconAriaLabel,
   enableScrollToTop = true,
   onIconClick,
+  arrowClassName,
+  bounceDelayMs = 0,
 }) => {
   const location = useLocation();
 
@@ -38,9 +42,19 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   const [shouldBounce, setShouldBounce] = useState(false);
   const [hasShownIcon, setHasShownIcon] = useState(false);
   const contextKey = `${location.pathname}${location.search}|${openCardId ?? 'none'}`;
+  const bounceStartTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const bounceEndTimerRef = useRef<NodeJS.Timeout | null>(null);
   
   // 當上下文變化時，重置狀態並將滾動位置回到頂部（若需要）
   useEffect(() => {
+    if (bounceStartTimerRef.current) {
+      clearTimeout(bounceStartTimerRef.current);
+      bounceStartTimerRef.current = null;
+    }
+    if (bounceEndTimerRef.current) {
+      clearTimeout(bounceEndTimerRef.current);
+      bounceEndTimerRef.current = null;
+    }
     setHasShownIcon(false);
     setShouldBounce(false);
 
@@ -57,16 +71,32 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   // 當圖示出現時觸發動畫
   useEffect(() => {
     if (showIcon && !hasShownIcon) {
-      setShouldBounce(true);
-      setHasShownIcon(true);
-      
-      const timer = setTimeout(() => {
-        setShouldBounce(false);
-      }, 600); // 動畫總時長
-      
-      return () => clearTimeout(timer);
+      if (bounceStartTimerRef.current) {
+        clearTimeout(bounceStartTimerRef.current);
+      }
+      if (bounceEndTimerRef.current) {
+        clearTimeout(bounceEndTimerRef.current);
+      }
+
+      bounceStartTimerRef.current = setTimeout(() => {
+        setShouldBounce(true);
+        bounceEndTimerRef.current = setTimeout(() => {
+          setShouldBounce(false);
+          bounceEndTimerRef.current = null;
+        }, 600);
+      }, bounceDelayMs);
     }
-  }, [showIcon, hasShownIcon]);
+  }, [showIcon, hasShownIcon, bounceDelayMs]);
+
+  // 清理計時器
+  useEffect(() => () => {
+    if (bounceStartTimerRef.current) {
+      clearTimeout(bounceStartTimerRef.current);
+    }
+    if (bounceEndTimerRef.current) {
+      clearTimeout(bounceEndTimerRef.current);
+    }
+  }, []);
   
   const handleIconClick = () => {
     if (!showIcon) return;
@@ -89,6 +119,12 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   const resolvedSecondaryColor = secondaryColor || 'var(--on-hds-sys-color-theme-surface)';
   const ariaLabel = iconAriaLabel || (enableScrollToTop ? '回到頂部' : 'icon');
 
+  const arrowClasses = [
+    'scroll-indicator__arrow',
+    showIcon ? 'scroll-indicator__arrow--visible' : '',
+    arrowClassName || '',
+  ].filter(Boolean).join(' ');
+
   return (
     <div className="scroll-indicator-wrapper">
       <div 
@@ -107,7 +143,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
       </div>
       
       <div 
-        className={`scroll-indicator__arrow ${showIcon ? 'scroll-indicator__arrow--visible' : ''}`}
+        className={arrowClasses}
         onClick={handleIconClick}
         role="button"
         tabIndex={showIcon ? 0 : -1}
@@ -118,7 +154,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
           }
         }}
         aria-label={ariaLabel}
-        style={{ pointerEvents: showIcon && (enableScrollToTop || onIconClick) ? 'auto' : 'none' }}
+        style={{ pointerEvents: showIcon ? 'auto' : 'none' }}
       >
         <PixelText2D
           text={icon}
