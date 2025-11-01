@@ -28,7 +28,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    transition: height 0s ease;
     box-sizing: border-box;
   }
 
@@ -63,7 +62,6 @@
     &--heart {
       &:hover {
         top: 50%;
-        animation: heart-bounce 0.2s ease-out;
       }
     }
 
