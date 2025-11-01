@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { PixelText2D } from 'hds';
 import { useLocation } from 'react-router-dom';
 import './ScrollIndicator.scss';
@@ -17,6 +17,9 @@ interface ScrollIndicatorProps {
   bounceDelayMs?: number;
   sliderMultiplier?: number;
   sliderOffset?: number;
+  disableProgress?: boolean;
+  forceShowIcon?: boolean;
+  isLiked?: boolean;
 }
 
 const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({ 
@@ -33,15 +36,19 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   bounceDelayMs = 0,
   sliderMultiplier = 1,
   sliderOffset = 0,
+  disableProgress = false,
+  forceShowIcon = false,
+  isLiked = false,
 }) => {
   const location = useLocation();
 
   // 計算調整後的進度
   const adjustedProgress = Math.min(100, Math.max(0, scrollProgress * sliderMultiplier + sliderOffset));
   const sliderHeightPercent = scrollProgress >= 100 ? 100 : adjustedProgress;
+  const resolvedSliderHeightPercent = disableProgress ? 100 : sliderHeightPercent;
 
   // 當調整後的進度超過 60% 時顯示圖示
-  const showIcon = sliderHeightPercent > 60;
+  const showIcon = forceShowIcon || isLiked || resolvedSliderHeightPercent > 60;
   
   // 控制彈跳動畫
   const [shouldBounce, setShouldBounce] = useState(false);
@@ -125,10 +132,27 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   const resolvedSecondaryColor = secondaryColor || 'var(--on-hds-sys-color-theme-surface)';
   const ariaLabel = iconAriaLabel || (enableScrollToTop ? '回到頂部' : 'icon');
 
+  const sliderClasses = [
+    'scroll-indicator__slider',
+    disableProgress ? 'scroll-indicator__slider--locked' : '',
+    isLiked ? 'scroll-indicator__slider--liked' : '',
+  ].filter(Boolean).join(' ');
+
+  const sliderStyle: CSSProperties = {
+    height: `${resolvedSliderHeightPercent}%`,
+  };
+
+  if (isLiked) {
+    sliderStyle.background = 'linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f)';
+  } else {
+    sliderStyle.backgroundColor = resolvedPrimaryColor;
+  }
+
   const arrowClasses = [
     'scroll-indicator__arrow',
     showIcon ? 'scroll-indicator__arrow--visible' : '',
     arrowClassName || '',
+    isLiked ? 'scroll-indicator__arrow--liked' : '',
   ].filter(Boolean).join(' ');
 
   return (
@@ -140,11 +164,8 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
         }}
       >
         <div 
-          className="scroll-indicator__slider"
-          style={{
-            backgroundColor: resolvedPrimaryColor,
-            height: `${sliderHeightPercent}%`,
-          }}
+          className={sliderClasses}
+          style={sliderStyle}
         />
       </div>
       

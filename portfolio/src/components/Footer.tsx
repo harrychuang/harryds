@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState, useCallback, useRef } from 'react';
 import './Footer.scss';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useStrapiFeed } from '../hooks/useStrapiFeed';
 import type { FeedItem } from 'hds/types/feed';
 import { useHover } from '../contexts/HoverContext';
@@ -93,6 +93,7 @@ const THANK_YOU_MESSAGES = [
 
 const GIF_DISPLAY_DURATION_MS = 5000;
 const EXIT_ANIMATION_DURATION_MS = 600;
+const HEART_STORAGE_KEY = 'noeinoi-heart-liked';
 
 const Footer: React.FC = () => {
   const params = useParams();
@@ -100,6 +101,7 @@ const Footer: React.FC = () => {
   const { hoveredCardId } = useHover();
   const { openCardId, animationPhase, overlayScrollRef } = useOverlay();
   const { theme } = useTheme();
+  const location = useLocation();
   const rightText = "COPYRIGHT © HARRY.DS ALL RIGHTS RESERVED.";
   const [isGifVisible, setIsGifVisible] = useState(false);
   const [isGifExiting, setIsGifExiting] = useState(false);
@@ -108,6 +110,44 @@ const Footer: React.FC = () => {
   const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
   const exitTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [popupKey, setPopupKey] = useState(0);
+  const [isHeartLiked, setIsHeartLiked] = useState(false);
+  const hasHydratedPreferenceRef = useRef(false);
+  const hydratedPageKeyRef = useRef<string | null>(null);
+  const pageStorageKey = useMemo(() => `${location.pathname}${location.search}`, [location.pathname, location.search]);
+
+  const loadStoredLikes = useCallback((): Record<string, boolean> => {
+    if (typeof window === 'undefined') {
+      return {};
+    }
+
+    const raw = window.localStorage.getItem(HEART_STORAGE_KEY);
+    if (!raw) {
+      return {};
+    }
+
+    if (raw === 'true') {
+      return { '*': true };
+    }
+
+    if (raw === 'false') {
+      return {};
+    }
+
+    try {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        const normalized: Record<string, boolean> = {};
+        Object.entries(parsed as Record<string, unknown>).forEach(([key, value]) => {
+          normalized[key] = value === true || value === 'true';
+        });
+        return normalized;
+      }
+    } catch (error) {
+      console.warn('[Footer] Failed to parse heart likes from localStorage', error);
+    }
+
+    return {};
+  }, []);
   
   // 決定要監聽的滾動容器：當 overlay 處於 expanding 或 ready 階段時，監聽 overlay 的滾動
   const shouldMonitorOverlay = openCardId && (animationPhase === 'expanding' || animationPhase === 'ready');
@@ -149,9 +189,30 @@ const Footer: React.FC = () => {
   const scrollProgress = useScrollProgress({ scrollContainer });
   
   const handleHeartClick = useCallback(() => {
+    if (isHeartLiked) {
+      setIsHeartLiked(false);
+
+      if (hideTimerRef.current) {
+        clearTimeout(hideTimerRef.current);
+        hideTimerRef.current = null;
+      }
+      if (exitTimerRef.current) {
+        clearTimeout(exitTimerRef.current);
+        exitTimerRef.current = null;
+      }
+
+      setIsGifVisible(false);
+      setIsGifExiting(false);
+      setCurrentGifUrl(null);
+      setThankYouMessage(null);
+      return;
+    }
+
     if (GIPHY_URLS.length === 0) {
       return;
     }
+
+    setIsHeartLiked(true);
 
     const randomIndex = Math.floor(Math.random() * GIPHY_URLS.length);
     const selectedGif = GIPHY_URLS[randomIndex];
@@ -182,7 +243,57 @@ const Footer: React.FC = () => {
         exitTimerRef.current = null;
       }, EXIT_ANIMATION_DURATION_MS);
     }, GIF_DISPLAY_DURATION_MS);
-  }, []);
+  }, [isHeartLiked]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    hasHydratedPreferenceRef.current = false;
+    const likes = loadStoredLikes();
+    const storedLiked = likes[pageStorageKey] ?? likes['*'] ?? false;
+    setIsHeartLiked(storedLiked);
+    hydratedPageKeyRef.current = pageStorageKey;
+    hasHydratedPreferenceRef.current = true;
+  }, [loadStoredLikes, pageStorageKey]);
+
+  useEffect(() => {
+    if (
+      !hasHydratedPreferenceRef.current ||
+      typeof window === 'undefined' ||
+      hydratedPageKeyRef.current !== pageStorageKey
+    ) {
+      return;
+    }
+
+    const likes = loadStoredLikes();
+    if (isHeartLiked) {
+      likes[pageStorageKey] = true;
+    } else {
+      delete likes[pageStorageKey];
+    }
+    delete likes['*'];
+
+    const entries = Object.entries(likes);
+    if (entries.length === 0) {
+      window.localStorage.removeItem(HEART_STORAGE_KEY);
+    } else {
+      window.localStorage.setItem(HEART_STORAGE_KEY, JSON.stringify(likes));
+    }
+  }, [isHeartLiked, pageStorageKey, loadStoredLikes]);
+
+  useEffect(() => {
+    if (hideTimerRef.current) {
+      clearTimeout(hideTimerRef.current);
+      hideTimerRef.current = null;
+    }
+    if (exitTimerRef.current) {
+      clearTimeout(exitTimerRef.current);
+      exitTimerRef.current = null;
+    }
+    setIsGifVisible(false);
+    setIsGifExiting(false);
+    setCurrentGifUrl(null);
+    setThankYouMessage(null);
+  }, [pageStorageKey]);
 
   useEffect(() => () => {
     if (hideTimerRef.current) {
@@ -274,6 +385,8 @@ const Footer: React.FC = () => {
             bounceDelayMs={100}
             sliderMultiplier={1}
             onIconClick={handleHeartClick}
+            disableProgress={isHeartLiked}
+            isLiked={isHeartLiked}
           />
           <ScrollIndicator 
             scrollProgress={scrollProgress}
