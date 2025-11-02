@@ -18,6 +18,9 @@ const ClickFireworks: React.FC = () => {
   const [particles, setParticles] = useState<Particle[]>([]);
   const particleIdRef = useRef(0);
   const particleTimeoutsRef = useRef<number[]>([]);
+  const isMouseDownRef = useRef(false);
+  const intervalIdRef = useRef<number | null>(null);
+  const currentPositionRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   const spawnParticles = useCallback((clientX: number, clientY: number) => {
     const count = Math.floor(Math.random() * 30) + 30; // 30-60 顆粒子
@@ -63,9 +66,53 @@ const ClickFireworks: React.FC = () => {
     });
   }, []);
 
+  // 開始連續觸發煙火
+  const startContinuousFireworks = useCallback((clientX: number, clientY: number) => {
+    // 清除舊的 interval
+    if (intervalIdRef.current) {
+      window.clearInterval(intervalIdRef.current);
+    }
+
+    // 立即觸發一次
+    spawnParticles(clientX, clientY);
+    currentPositionRef.current = { x: clientX, y: clientY };
+
+    // 每 200ms 觸發一次
+    intervalIdRef.current = window.setInterval(() => {
+      spawnParticles(currentPositionRef.current.x, currentPositionRef.current.y);
+    }, 200);
+  }, [spawnParticles]);
+
+  // 停止連續觸發
+  const stopContinuousFireworks = useCallback(() => {
+    isMouseDownRef.current = false;
+    if (intervalIdRef.current) {
+      window.clearInterval(intervalIdRef.current);
+      intervalIdRef.current = null;
+    }
+  }, []);
+
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      spawnParticles(e.clientX, e.clientY);
+      // 只在單純點擊時觸發（非長按）
+      if (!isMouseDownRef.current) {
+        spawnParticles(e.clientX, e.clientY);
+      }
+    };
+
+    const handleMouseDown = (e: MouseEvent) => {
+      isMouseDownRef.current = true;
+      startContinuousFireworks(e.clientX, e.clientY);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (isMouseDownRef.current) {
+        currentPositionRef.current = { x: e.clientX, y: e.clientY };
+      }
+    };
+
+    const handleMouseUp = () => {
+      stopContinuousFireworks();
     };
 
     const handleTouch = (e: TouchEvent) => {
@@ -75,18 +122,52 @@ const ClickFireworks: React.FC = () => {
       }
     };
 
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        isMouseDownRef.current = true;
+        startContinuousFireworks(touch.clientX, touch.clientY);
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isMouseDownRef.current && e.touches.length > 0) {
+        const touch = e.touches[0];
+        currentPositionRef.current = { x: touch.clientX, y: touch.clientY };
+      }
+    };
+
+    const handleTouchEnd = () => {
+      stopContinuousFireworks();
+    };
+
     window.addEventListener('click', handleClick);
+    window.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
     window.addEventListener('touchstart', handleTouch);
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchmove', handleTouchMove);
+    window.addEventListener('touchend', handleTouchEnd);
 
     return () => {
       window.removeEventListener('click', handleClick);
+      window.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
       window.removeEventListener('touchstart', handleTouch);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+      
+      // 清理
+      stopContinuousFireworks();
       particleTimeoutsRef.current.forEach((timeoutId) => {
         window.clearTimeout(timeoutId);
       });
       particleTimeoutsRef.current = [];
     };
-  }, [spawnParticles]);
+  }, [spawnParticles, startContinuousFireworks, stopContinuousFireworks]);
 
   return (
     <div className="click-fireworks">
