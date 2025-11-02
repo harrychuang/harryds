@@ -23,12 +23,12 @@ const ClickFireworks: React.FC = () => {
   const currentPositionRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   const spawnParticles = useCallback((clientX: number, clientY: number) => {
-    const count = Math.floor(Math.random() * 30) + 30; // 30-60 顆粒子
+    const count = Math.floor(Math.random() * 10) + 20; // 30-60 顆粒子
     const newParticles: Particle[] = [];
 
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const distance = 50 + Math.random() * 50;
+      const distance = 50 + Math.random() * 80;
       const targetX = Math.cos(angle) * distance;
       const targetY = Math.sin(angle) * distance;
       const size = 4 + Math.random() * 6;
