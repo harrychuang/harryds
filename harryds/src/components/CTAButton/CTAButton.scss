@@ -193,14 +193,16 @@
 }
 
 .cta-button__text {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Pixel', monospace;
   font-style: normal;
   font-weight: 900;
   font-size: 20px;
-  line-height: 130%; /* 26px */
+  line-height: 100%;
   text-transform: uppercase;
   color: var(--cta-text-color, #fff);
-  letter-spacing: 0.05em;
+  letter-spacing: 0em;
+  position: relative;
+  top: 3px;
 }
 
 // =============================================================================
