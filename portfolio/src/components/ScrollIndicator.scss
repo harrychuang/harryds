@@ -72,7 +72,7 @@
 
     &--heart-active {
       transform: translate(-50%, -50%) scale(1);
-      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.2s ease;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.2s ease, opacity 0.2s ease-out;
 
       &:hover,
       &:focus-visible {
@@ -88,7 +88,7 @@
       background-size: 400% 400%;
       animation: footer-giphy-rainbow 4s linear infinite;
       transform: translate(-50%, -50%) scale(1);
-      transition: opacity 0.2s ease-out, top 0.2s ease;
+      transition: opacity 0.2s ease-out, top 0.2s ease, transform 0.2s ease;
 
       &:hover,
       &:focus-visible {
