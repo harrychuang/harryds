@@ -181,6 +181,7 @@ const Footer: React.FC = () => {
   const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
   const exitTimerRef = useRef<NodeJS.Timeout | null>(null);
   const preloadImageRef = useRef<HTMLImageElement | null>(null);
+  const preloadedGifCacheRef = useRef<Set<string>>(new Set());
   const [popupKey, setPopupKey] = useState(0);
   const [isHeartLiked, setIsHeartLiked] = useState(false);
   const hasHydratedPreferenceRef = useRef(false);
@@ -212,17 +213,26 @@ const Footer: React.FC = () => {
         return;
       }
 
+      const cache = preloadedGifCacheRef.current;
+
+      if (cache.has(selected)) {
+        setPreloadedGifUrl(selected);
+        return;
+      }
+
       const image = new Image();
       preloadImageRef.current = image;
 
       image.onload = () => {
         if (preloadImageRef.current === image) {
+          cache.add(selected);
           setPreloadedGifUrl(selected);
         }
       };
 
       image.onerror = () => {
         if (preloadImageRef.current === image) {
+          cache.delete(selected);
           setPreloadedGifUrl(selected);
         }
       };
