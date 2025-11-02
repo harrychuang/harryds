@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Footer from './components/Footer';
+import ClickFireworks from './components/ClickFireworks';
 import { HoverProvider } from './contexts/HoverContext';
 import { OverlayProvider } from './contexts/OverlayContext';
 
@@ -16,6 +17,7 @@ const App: React.FC = () => {
             <Route path=":category/:id/:slug" element={<Home />} />
           </Routes>
           <Footer />
+          <ClickFireworks />
         </div>
       </OverlayProvider>
     </HoverProvider>
