@@ -10,10 +10,11 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: 'zh-Hant',
-    supportedLngs: ['zh-Hant', 'en', 'ja'],
+    fallbackLng: 'en',
+    supportedLngs: ['zh-Hant', 'zh', 'en', 'ja'],
     resources: {
       'zh-Hant': { translation: zhHant },
+      'zh': { translation: zhHant }, // 將 zh 也映射到繁體中文
       en: { translation: en },
       ja: { translation: ja }
     },
@@ -22,7 +23,10 @@ i18n
       lookupQuerystring: 'lang',
       caches: ['localStorage']
     },
-    interpolation: { escapeValue: false }
+    interpolation: { escapeValue: false },
+    // 確保語言代碼標準化
+    load: 'languageOnly',
+    nonExplicitSupportedLngs: false
   });
 
 export default i18n;

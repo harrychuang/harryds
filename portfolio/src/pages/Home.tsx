@@ -25,7 +25,7 @@ const slugify = (text: string) => text
 const Home: React.FC = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { items: strapiItems, loading, error } = useStrapiFeed();
   const items = useMemo(() => strapiItems as FeedItem[], [strapiItems]);
   
@@ -72,8 +72,10 @@ const Home: React.FC = () => {
   const [openCardId, setOpenCardId] = useState<number | null>(null);
   const [openCardAnimationPhase, setOpenCardAnimationPhase] = useState<'closed' | 'loading' | 'positioning' | 'expanding' | 'ready'>('closed');
   const [isLogoHovered, setIsLogoHovered] = useState<boolean>(false);
+  const [isLangDropdownOpen, setIsLangDropdownOpen] = useState<boolean>(false);
   const loadedCardIdsRef = useRef<Set<number>>(new Set());
   const pendingTransitionRef = useRef<{ cardId: number; clickPosition: { x: number; y: number } | null } | null>(null);
+  const langDropdownRef = useRef<HTMLDivElement>(null);
 
   // 導覽選單 hover 觸發一次動畫狀態
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
@@ -197,6 +199,46 @@ const Home: React.FC = () => {
       console.warn('Menu click sound play failed:', err);
     }
   }, []);
+
+  // 語言切換相關
+  const languageMap = useMemo(() => ({
+    'zh-Hant': 'ZH',
+    'zh': 'ZH',
+    'en': 'EN',
+    'ja': 'JP'
+  }), []);
+
+  const currentLangDisplay = useMemo(() => {
+    return languageMap[i18n.language as keyof typeof languageMap] || 'EN';
+  }, [i18n.language, languageMap]);
+
+  const handleLanguageChange = useCallback((lang: string) => {
+    i18n.changeLanguage(lang);
+    setIsLangDropdownOpen(false);
+    playMenuClickSound();
+  }, [i18n, playMenuClickSound]);
+
+  const toggleLangDropdown = useCallback(() => {
+    setIsLangDropdownOpen(prev => !prev);
+    playMenuClickSound();
+  }, [playMenuClickSound]);
+
+  // 點擊外部關閉 dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target as Node)) {
+        setIsLangDropdownOpen(false);
+      }
+    };
+
+    if (isLangDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isLangDropdownOpen]);
 
   const toItemUrl = useCallback((item: FeedItem) => {
     const slug = slugify(item.heading);
@@ -532,6 +574,78 @@ const Home: React.FC = () => {
                   onPrimaryColor={(logoColors as any).secondaryColor}
                 />
               </div>
+            </div>
+            
+            {/* Language toggle button */}
+            <div className="home__nav-item" ref={langDropdownRef}>
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={toggleLangDropdown}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleLangDropdown();
+                  }
+                }}
+                onMouseEnter={() => { playMenuHoverSound(); }}
+                aria-label="切換語言"
+                title="切換語言"
+                className="lang-toggle"
+                style={{ borderColor: ((logoColors as any).primaryColor) || 'var(--hds-sys-color-theme-surface)' }}
+              >
+                <PixelText2D
+                  text={currentLangDisplay}
+                  textEnabled
+                  pixelSize={2}
+                  letterSpacing={0}
+                  width={32}
+                  height={24}
+                  animated={false}
+                  primaryColor={(logoColors as any).primaryColor}
+                  onPrimaryColor={(logoColors as any).secondaryColor}
+                />
+              </div>
+              
+              {/* Dropdown menu */}
+              {isLangDropdownOpen && (
+                <div className="lang-dropdown">
+                  {[
+                    { code: 'en', label: 'EN' },
+                    { code: 'zh-Hant', label: 'ZH' },
+                    { code: 'ja', label: 'JP' }
+                  ].map((lang) => (
+                    <div
+                      key={lang.code}
+                      className={`lang-dropdown__item ${i18n.language === lang.code ? 'active' : ''}`}
+                      onClick={() => handleLanguageChange(lang.code)}
+                      onMouseEnter={() => { playMenuHoverSound(); }}
+                      style={{ 
+                        borderColor: ((logoColors as any).primaryColor) || 'var(--hds-sys-color-theme-surface)',
+                        backgroundColor: i18n.language === lang.code 
+                          ? ((logoColors as any).primaryColor || 'var(--hds-sys-color-theme-surface)')
+                          : 'transparent'
+                      }}
+                    >
+                      <PixelText2D
+                        text={lang.label}
+                        textEnabled
+                        pixelSize={1}
+                        letterSpacing={0}
+                        width={40}
+                        height={24}
+                        animated={false}
+                        primaryColor={
+                          i18n.language === lang.code 
+                            ? ((logoColors as any).secondaryColor || 'var(--hds-sys-color-on-theme-surface)')
+                            : ((logoColors as any).primaryColor || 'var(--hds-sys-color-theme-surface)')
+                        }
+                        onPrimaryColor={(logoColors as any).secondaryColor}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </nav>
         </div>

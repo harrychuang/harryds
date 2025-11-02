@@ -44,10 +44,6 @@
       & > * {
         margin: 0;
       }
-      
-      &:hover {
-        opacity: 0.7;
-      }
     }
   }
 
@@ -63,8 +59,8 @@
     top: -2.5px;
     left: -4px;
     cursor: pointer;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -73,6 +69,76 @@
     border-style: solid;
     padding: 0;
     border-radius: 0;
+    box-sizing: border-box;
+  }
+
+  .lang-toggle {
+    position: relative;
+    top: -3.1px;
+    left: -5px;
+    cursor: pointer;
+    width: auto;
+    min-width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border-width: 4px;
+    border-style: solid;
+    padding: 0 4px;
+    border-radius: 0;
+    margin-left: -10px;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  .lang-dropdown {
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    z-index: 1200;
+    animation: slideDown 0.2s ease;
+
+    &__item {
+      cursor: pointer;
+      width: 48px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-width: 4px;
+      border-style: solid;
+      padding: 0 0;
+      transition: all 0.2s ease;
+      background-color: transparent;
+      box-sizing: border-box;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      &.active {
+        pointer-events: none;
+      }
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   &__container {
