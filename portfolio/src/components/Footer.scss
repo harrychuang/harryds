@@ -77,7 +77,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f);
+      background: var(--noeinoi-rainbow-gradient);
       background-size: 400% 400%;
       animation: footer-giphy-rainbow 1.6s linear infinite;
       z-index: 1;
@@ -117,7 +117,7 @@
     font-size: 30px;
     line-height: 1.2;
     text-transform: uppercase;
-    background: linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f);
+    background: var(--noeinoi-rainbow-gradient);
     background-size: 400% 400%;
     animation: footer-giphy-rainbow 1.6s linear infinite;
     -webkit-background-clip: text;

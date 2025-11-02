@@ -4,6 +4,7 @@
   color-scheme: light dark;
   /* Bridge var name used by pages to HDS token name */
   --hds-sys-color-on-theme-surface: var(--on-hds-sys-color-theme-surface);
+  --noeinoi-rainbow-gradient: linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f);
 }
 
 /* Pixel font registration (shared from harryds assets) */

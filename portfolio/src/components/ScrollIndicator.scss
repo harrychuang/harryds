@@ -17,7 +17,7 @@
     border: none;
     width: 50px;
     height: 50px;
-    background: linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f);
+    background: var(--noeinoi-rainbow-gradient);
     background-size: 400% 400%;
     animation: footer-giphy-rainbow 1.6s linear infinite;
   }
@@ -33,7 +33,7 @@
   }
 
   &__slider--liked {
-    background: linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f);
+    background: var(--noeinoi-rainbow-gradient);
     background-size: 400% 400%;
     animation: footer-giphy-rainbow 1.6s linear infinite;
   }
@@ -84,7 +84,7 @@
     &--liked {
       width: 50px;
       height: 50px;
-      background: linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f);
+      background: var(--noeinoi-rainbow-gradient);
       background-size: 400% 400%;
       animation: footer-giphy-rainbow 4s linear infinite;
       transform: translate(-50%, -50%) scale(1);

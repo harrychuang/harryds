@@ -145,7 +145,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   };
 
   if (isLiked) {
-    sliderStyle.background = 'linear-gradient(120deg, #ff124f, #ff7a00, #ffe600, #19ffb6, #00c3ff, #8a2bff, #ff00f0, #ff124f)';
+    sliderStyle.background = 'var(--noeinoi-rainbow-gradient)';
   } else {
     sliderStyle.backgroundColor = resolvedPrimaryColor;
   }
