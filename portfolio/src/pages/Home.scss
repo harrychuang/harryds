@@ -115,17 +115,13 @@
       justify-content: center;
       border-width: 4px;
       border-style: solid;
-      padding: 0 0;
+      padding: 0;
       transition: all 0.2s ease;
       background-color: transparent;
       box-sizing: border-box;
 
       &:hover {
         transform: scale(1.05);
-      }
-
-      &.active {
-        pointer-events: none;
       }
     }
   }

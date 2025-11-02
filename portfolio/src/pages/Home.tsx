@@ -514,38 +514,41 @@ const Home: React.FC = () => {
             />
           </div>
           <nav className="home__nav">
-            {['home', 'project', 'article', 'about'].map((item) => {
-              const menuText = t(`nav.${item}`);
-              // 精確計算寬度：基於 PixelText 內部算法
-              // 每個字符 = CHAR_WIDTH(8) * pixelSize(2) = 16px
-              // 字符間距 = letterSpacing(1) * pixelSize(2) = 2px  
-              // 總寬度 = 字符數 * 16 + (字符數-1) * 2
-              const charCount = menuText.length;
-              const calculatedWidth = charCount * 16 + Math.max(0, charCount - 1) * 2;
-              
-              return (
-                <div
-                  key={item}
-                  className="home__nav-item"
-                  onMouseEnter={() => { triggerMenuHoverOnce(item); playMenuHoverSound(); }}
-                  onClick={() => { playMenuClickSound(); }}
-                >
-                  <PixelText2D
-                    text={menuText}
-                    textEnabled
-                    pixelSize={2}
-                    width={calculatedWidth}
-                    height={24}
-                    animated={!!menuAnimStates[item]}
-                    totalAnimationDuration={400}
-                    primaryColor={(logoColors as any).primaryColor}
-                    onPrimaryColor={(logoColors as any).secondaryColor}
-                  />
-                </div>
-              );
-            })}
-            {/* Theme toggle button using PixelText2D (2D Canvas, no WebGL) */}
-            <div className="home__nav-item">
+            {/* 在詳情頁時隱藏導覽選單 */}
+            {!(openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready')) && (
+              <>
+                {['home', 'project', 'article', 'about'].map((item) => {
+                  const menuText = t(`nav.${item}`);
+                  // 精確計算寬度：基於 PixelText 內部算法
+                  // 每個字符 = CHAR_WIDTH(8) * pixelSize(2) = 16px
+                  // 字符間距 = letterSpacing(1) * pixelSize(2) = 2px  
+                  // 總寬度 = 字符數 * 16 + (字符數-1) * 2
+                  const charCount = menuText.length;
+                  const calculatedWidth = charCount * 16 + Math.max(0, charCount - 1) * 2;
+                  
+                  return (
+                    <div
+                      key={item}
+                      className="home__nav-item"
+                      onMouseEnter={() => { triggerMenuHoverOnce(item); playMenuHoverSound(); }}
+                      onClick={() => { playMenuClickSound(); }}
+                    >
+                      <PixelText2D
+                        text={menuText}
+                        textEnabled
+                        pixelSize={2}
+                        width={calculatedWidth}
+                        height={24}
+                        animated={!!menuAnimStates[item]}
+                        totalAnimationDuration={400}
+                        primaryColor={(logoColors as any).primaryColor}
+                        onPrimaryColor={(logoColors as any).secondaryColor}
+                      />
+                    </div>
+                  );
+                })}
+                {/* Theme toggle button using PixelText2D (2D Canvas, no WebGL) */}
+                <div className="home__nav-item">
               <div
                 role="button"
                 tabIndex={0}
@@ -575,6 +578,8 @@ const Home: React.FC = () => {
                 />
               </div>
             </div>
+              </>
+            )}
             
             {/* Language toggle button */}
             <div className="home__nav-item" ref={langDropdownRef}>
@@ -614,17 +619,21 @@ const Home: React.FC = () => {
                     { code: 'en', label: 'EN' },
                     { code: 'zh-Hant', label: 'ZH' },
                     { code: 'ja', label: 'JP' }
-                  ].map((lang) => (
+                  ]
+                    .filter((lang) => {
+                      // 過濾掉當前語言，zh 和 zh-Hant 視為相同
+                      const currentLang = i18n.language === 'zh' ? 'zh-Hant' : i18n.language;
+                      return lang.code !== currentLang;
+                    })
+                    .map((lang) => (
                     <div
                       key={lang.code}
-                      className={`lang-dropdown__item ${i18n.language === lang.code ? 'active' : ''}`}
+                      className="lang-dropdown__item"
                       onClick={() => handleLanguageChange(lang.code)}
                       onMouseEnter={() => { playMenuHoverSound(); }}
                       style={{ 
                         borderColor: ((logoColors as any).primaryColor) || 'var(--hds-sys-color-theme-surface)',
-                        backgroundColor: i18n.language === lang.code 
-                          ? ((logoColors as any).primaryColor || 'var(--hds-sys-color-theme-surface)')
-                          : 'transparent'
+                        backgroundColor: 'transparent'
                       }}
                     >
                       <PixelText2D
@@ -635,11 +644,7 @@ const Home: React.FC = () => {
                         width={40}
                         height={24}
                         animated={false}
-                        primaryColor={
-                          i18n.language === lang.code 
-                            ? ((logoColors as any).secondaryColor || 'var(--hds-sys-color-on-theme-surface)')
-                            : ((logoColors as any).primaryColor || 'var(--hds-sys-color-theme-surface)')
-                        }
+                        primaryColor={(logoColors as any).primaryColor || 'var(--hds-sys-color-theme-surface)'}
                         onPrimaryColor={(logoColors as any).secondaryColor}
                       />
                     </div>
