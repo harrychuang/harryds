@@ -13,7 +13,7 @@ interface ScrollIndicatorProps {
   iconAriaLabel?: string;
   enableScrollToTop?: boolean;
   onIconClick?: () => void;
-  arrowClassName?: string;
+  iconClassName?: string;
   bounceDelayMs?: number;
   sliderMultiplier?: number;
   sliderOffset?: number;
@@ -32,7 +32,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   iconAriaLabel,
   enableScrollToTop = true,
   onIconClick,
-  arrowClassName,
+  iconClassName,
   bounceDelayMs = 0,
   sliderMultiplier = 1,
   sliderOffset = 0,
@@ -132,7 +132,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   const resolvedSecondaryColor = secondaryColor || 'var(--on-hds-sys-color-theme-surface)';
   const ariaLabel = iconAriaLabel || (enableScrollToTop ? '回到頂部' : 'icon');
 
-  const isHeartArrow = arrowClassName?.includes('scroll-indicator__arrow--heart');
+  const isHeartIcon = iconClassName?.includes('scroll-indicator__icon--heart');
 
   const sliderClasses = [
     'scroll-indicator__slider',
@@ -150,12 +150,12 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
     sliderStyle.backgroundColor = resolvedPrimaryColor;
   }
 
-  const arrowClasses = [
-    'scroll-indicator__arrow',
-    showIcon ? 'scroll-indicator__arrow--visible' : '',
-    arrowClassName || '',
-    isLiked ? 'scroll-indicator__arrow--liked' : '',
-    !isLiked && isHeartArrow ? 'scroll-indicator__arrow--heart-active' : '',
+  const iconClasses = [
+    'scroll-indicator__icon',
+    showIcon ? 'scroll-indicator__icon--visible' : '',
+    iconClassName || '',
+    isLiked ? 'scroll-indicator__icon--liked' : '',
+    !isLiked && isHeartIcon ? 'scroll-indicator__icon--heart-active' : '',
   ].filter(Boolean).join(' ');
 
   const indicatorClasses = [
@@ -179,7 +179,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
       </div>
       
       <div 
-        className={arrowClasses}
+        className={iconClasses}
         onClick={handleIconClick}
         role="button"
         tabIndex={showIcon ? 0 : -1}

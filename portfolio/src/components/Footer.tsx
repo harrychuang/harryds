@@ -488,7 +488,7 @@ const Footer: React.FC = () => {
             enableScrollToTop={false}
             icon="♥"
             iconAriaLabel="收藏"
-            arrowClassName="scroll-indicator__arrow--heart"
+          iconClassName="scroll-indicator__icon--heart"
             bounceDelayMs={100}
             sliderMultiplier={1}
             onIconClick={handleHeartClick}
