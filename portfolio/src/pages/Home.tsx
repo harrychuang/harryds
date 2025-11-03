@@ -517,7 +517,7 @@ const Home: React.FC = () => {
             {/* 在詳情頁時隱藏導覽選單 */}
             {!(openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready')) && (
               <>
-                {['home', 'project', 'article', 'about'].map((item) => {
+                {['home', 'works', 'article', 'about'].map((item) => {
                   const menuText = t(`nav.${item}`);
                   // 精確計算寬度：基於 PixelText 內部算法
                   // 每個字符 = CHAR_WIDTH(8) * pixelSize(2) = 16px
