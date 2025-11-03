@@ -137,7 +137,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
       // Like/Unlike 按鈕模式
       soundFile = isLiked 
         ? '/assets/sound/8-Bit Powerup Sound Effect.mp3'  // 已 liked，點擊後 unlike
-        : '/assets/sound/8-Bit Coin Pickup Sound.mp3';                       // 未 liked，點擊後 like
+        : '/assets/sound/Win Sound Effect 1.mp3';    // 未 liked，點擊後 like
     } else {
       // Go to top 按鈕模式
       soundFile = '/assets/sound/8-Bit Powerup Sound Effect.mp3';
