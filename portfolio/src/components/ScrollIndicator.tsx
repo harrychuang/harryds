@@ -1,7 +1,7 @@
 import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { PixelText2D } from 'hds';
 import { useLocation } from 'react-router-dom';
-import { audioManager } from '../utils/audioManager';
+import { audioManager, PlaybackHandle } from '../utils/audioManager';
 import './ScrollIndicator.scss';
 
 interface ScrollIndicatorProps {
@@ -57,6 +57,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   const contextKey = `${location.pathname}${location.search}|${openCardId ?? 'none'}`;
   const bounceStartTimerRef = useRef<NodeJS.Timeout | null>(null);
   const bounceEndTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const currentAudioRef = useRef<PlaybackHandle | null>(null);
   
   // 當上下文變化時，重置狀態並將滾動位置回到頂部（若需要）
   useEffect(() => {
@@ -67,6 +68,10 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
     if (bounceEndTimerRef.current) {
       clearTimeout(bounceEndTimerRef.current);
       bounceEndTimerRef.current = null;
+    }
+    if (currentAudioRef.current) {
+      currentAudioRef.current.stop();
+      currentAudioRef.current = null;
     }
     setHasShownIcon(false);
     setShouldBounce(false);
@@ -102,7 +107,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
     }
   }, [showIcon, hasShownIcon, bounceDelayMs]);
 
-  // 清理計時器
+  // 清理計時器和音效
   useEffect(() => () => {
     if (bounceStartTimerRef.current) {
       clearTimeout(bounceStartTimerRef.current);
@@ -110,10 +115,20 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
     if (bounceEndTimerRef.current) {
       clearTimeout(bounceEndTimerRef.current);
     }
+    if (currentAudioRef.current) {
+      currentAudioRef.current.stop();
+      currentAudioRef.current = null;
+    }
   }, []);
   
   const handleIconClick = () => {
     if (!showIcon) return;
+
+    // 停止之前正在播放的音效（如果有的話）
+    if (currentAudioRef.current) {
+      currentAudioRef.current.stop();
+      currentAudioRef.current = null;
+    }
 
     // 根據使用情境播放不同音效
     let soundFile: string;
@@ -128,7 +143,10 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
       soundFile = '/assets/sound/8-Bit Powerup Sound Effect.mp3';
     }
     
-    audioManager.play(soundFile, { volume: 0.5 }).catch(() => {
+    // 播放音效並儲存 handle
+    audioManager.play(soundFile, { volume: 0.5 }).then((handle) => {
+      currentAudioRef.current = handle;
+    }).catch(() => {
       // 忽略音效播放錯誤
     });
 
