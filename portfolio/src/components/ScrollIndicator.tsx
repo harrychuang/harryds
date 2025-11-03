@@ -1,6 +1,7 @@
 import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { PixelText2D } from 'hds';
 import { useLocation } from 'react-router-dom';
+import { audioManager } from '../utils/audioManager';
 import './ScrollIndicator.scss';
 
 interface ScrollIndicatorProps {
@@ -113,6 +114,23 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   
   const handleIconClick = () => {
     if (!showIcon) return;
+
+    // 根據使用情境播放不同音效
+    let soundFile: string;
+    
+    if (onIconClick) {
+      // Like/Unlike 按鈕模式
+      soundFile = isLiked 
+        ? '/assets/sound/8-Bit Powerup Sound Effect.mp3'  // 已 liked，點擊後 unlike
+        : '/assets/sound/liked.mp3';                       // 未 liked，點擊後 like
+    } else {
+      // Go to top 按鈕模式
+      soundFile = '/assets/sound/8-Bit Powerup Sound Effect.mp3';
+    }
+    
+    audioManager.play(soundFile, { volume: 0.5 }).catch(() => {
+      // 忽略音效播放錯誤
+    });
 
     if (onIconClick) {
       onIconClick();
