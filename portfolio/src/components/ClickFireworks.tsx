@@ -94,6 +94,8 @@ const ClickFireworks: React.FC = () => {
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
+      // 只響應左鍵點擊（button === 0）
+      if (e.button !== 0) return;
       // 只在單純點擊時觸發（非長按）
       if (!isMouseDownRef.current) {
         spawnParticles(e.clientX, e.clientY);
@@ -101,6 +103,8 @@ const ClickFireworks: React.FC = () => {
     };
 
     const handleMouseDown = (e: MouseEvent) => {
+      // 只響應左鍵按下（button === 0）
+      if (e.button !== 0) return;
       isMouseDownRef.current = true;
       startContinuousFireworks(e.clientX, e.clientY);
     };
