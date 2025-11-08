@@ -371,12 +371,73 @@
     }
   }
 
-  &__awards {
+  &__awards,
+  &__clients {
     width: 100%;
     text-align: left;
     color: var(--hds-sys-color-theme-surface);
     --feed-detail-primary-color: var(--hds-sys-color-theme-surface);
     --on-hds-sys-color-surface: var(--hds-sys-color-theme-surface);
+  }
+
+  &__clients {
+    margin-top: -200px;
+
+    &-logos {
+      margin-top: 60px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: minmax(100px, auto);
+      gap: 20px 50px;
+      align-items: center;
+      justify-items: start;
+    }
+
+    &-logo {
+      display: block;
+      height: auto;
+    }
+
+    &-logo--awwrated { width: 125px; }
+    &-logo--kkday { width: 150px; }
+    &-logo--nownews { width: 200px; }
+    &-logo--walkerland { width: 180px; }
+    &-logo--ixda { width: 160px; }
+    &-logo--aapd { width: 160px; }
+    &-logo--qnap { width: 200px; }
+    &-logo--uxy { width: 180px; }
+    &-logo--shopmatic { width: 200px; }
+  }
+
+  &__background {
+    width: 100%;
+    text-align: center;
+    color: var(--hds-sys-color-theme-surface);
+    --feed-detail-primary-color: var(--hds-sys-color-theme-surface);
+    --on-hds-sys-color-surface: var(--hds-sys-color-theme-surface);
+    display: flex;
+    justify-content: center;
+  }
+
+  &__background-inner {
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+
+  &__background-title {
+    text-align: center;
+  }
+
+  &__background-description {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.6;
+    color: inherit;
   }
 
   @media (max-width: 768px) {
@@ -401,6 +462,25 @@
 
     &__intro-column--secondary {
       display: none;
+    }
+
+    &__clients {
+      margin-top: 0;
+
+      &-logos {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    &__background-inner {
+      padding: 0 16px;
+      gap: 24px;
+    }
+
+    &__background-description {
+      font-size: 18px;
+      line-height: 1.6;
     }
   }
 }
