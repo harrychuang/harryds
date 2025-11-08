@@ -531,7 +531,12 @@ const Home: React.FC = () => {
                       key={item}
                       className="home__nav-item"
                       onMouseEnter={() => { triggerMenuHoverOnce(item); playMenuHoverSound(); }}
-                      onClick={() => { playMenuClickSound(); }}
+                      onClick={() => { 
+                        playMenuClickSound(); 
+                        if (item === 'about') {
+                          navigate('/about');
+                        }
+                      }}
                     >
                       <PixelText2D
                         text={menuText}

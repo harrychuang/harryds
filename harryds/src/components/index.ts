@@ -37,3 +37,7 @@ export type { VideoPlayerProps } from './VideoPlayer';
 // CTAButton - 帶有動畫條紋背景的 Call-to-Action 按鈕
 export { CTAButton } from './CTAButton';
 export type { CTAButtonProps } from './CTAButton';
+
+// HarryRotation - 循環播放圖片序列形成動畫效果
+export { HarryRotation } from './HarryRotation';
+export type { HarryRotationProps } from './HarryRotation';
