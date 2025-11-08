@@ -167,7 +167,7 @@ const About: React.FC = () => {
         if (introVisualRef.current) {
           timeline.to(
             introVisualRef.current,
-            { yPercent: -15, duration: 2.5, ease: 'none' },
+            { yPercent: -10, duration: 3.5, ease: 'none' },
             'introParallax'
           );
         }
