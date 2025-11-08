@@ -260,6 +260,28 @@ const About: React.FC = () => {
             AND TRULY SOLVE THEIR PROBLEMS.
           </p>
         </section>
+
+        <section className="home__intro" aria-labelledby="about-intro-title">
+          <div className="home__intro-grid">
+            <div className="home__intro-column home__intro-column--primary">
+              <h2 id="about-intro-title" className="home__intro-title feed-detail-overlay__section-title">
+                Who AM I?<span className="feed-detail-overlay__cursor">_</span>
+              </h2>
+              <div className="home__intro-body">
+                <p>
+                  I’m Harry, with nearly 15 years’ experience in Product Design and Front-end Development.
+                </p>
+                <p>
+                  I work as a Product designer and Front-end engineer, and I’m also a Design Systems course instructor at AAPD — using Design System to build processes and component libraries that help design and engineering collaborate efficiently, shorten time-to-market, and accelerate validation.
+                </p>
+                <p>
+                  I also founded and have operated awwrated, a streaming information platform, for 6 years — growing the user base by 300% and page views by 800%.
+                </p>
+              </div>
+            </div>
+            <div className="home__intro-column home__intro-column--secondary" aria-hidden="true" />
+          </div>
+        </section>
       </main>
     </div>
   );

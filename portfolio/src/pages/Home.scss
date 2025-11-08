@@ -224,6 +224,7 @@
 
   &__main {
     padding-top: 20vh;
+    padding-bottom: 20vh;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -233,6 +234,7 @@
     width: 100%;
     margin: 0 auto;
     text-align: center;
+    gap: 400px;
   }
 
   &__hero {
@@ -279,9 +281,55 @@
     opacity: 0.6;
   }
 
+  &__intro {
+    width: 100%;
+    text-align: left;
+    color: var(--hds-sys-color-theme-surface);
+    --feed-detail-primary-color: var(--hds-sys-color-theme-surface);
+    --on-hds-sys-color-surface: var(--hds-sys-color-theme-surface);
+  }
+
+  &__intro-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 64px;
+    align-items: start;
+  }
+
+  &__intro-column {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  &__intro-column--secondary {
+    min-height: 200px;
+  }
+
+  &__intro-title {
+    margin: 0;
+  }
+
+  &__intro-body {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 25px;
+    font-weight: 900;
+    line-height: 1.4;
+    color: inherit;
+
+    p {
+      margin: 0;
+    }
+  }
+
   @media (max-width: 768px) {
     &__main {
       padding-top: 120px;
+      padding-bottom: 20vh;
+      gap: 200px;
     }
 
     &__hero {
@@ -290,6 +338,15 @@
 
     &__hero-description {
       line-height: 1.3;
+    }
+
+    &__intro-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    &__intro-column--secondary {
+      display: none;
     }
   }
 }
