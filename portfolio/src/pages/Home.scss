@@ -325,6 +325,60 @@
     }
   }
 
+  &__intro-awards {
+    list-style: none;
+    padding: 0;
+    margin: 60px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 25px;
+    font-weight: 900;
+    line-height: 1.2;
+    color: inherit;
+    text-transform: uppercase;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .home__intro-award-image {
+      display: block;
+      height: auto;
+      margin: 0 0 16px;
+    }
+
+    .home__intro-award-image--01 { width: 200px; }
+    .home__intro-award-image--02 { width: 80px; }
+    .home__intro-award-image--03 { width: 400px; }
+    .home__intro-award-image--04 { width: 300px; }
+
+    &-label {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+    }
+
+    &-detail {
+      font-size: 25px;
+      font-weight: 500;
+      line-height: 1.2;
+      text-transform: none;
+    }
+  }
+
+  &__awards {
+    width: 100%;
+    text-align: left;
+    color: var(--hds-sys-color-theme-surface);
+    --feed-detail-primary-color: var(--hds-sys-color-theme-surface);
+    --on-hds-sys-color-surface: var(--hds-sys-color-theme-surface);
+  }
+
   @media (max-width: 768px) {
     &__main {
       padding-top: 120px;

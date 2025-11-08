@@ -6,6 +6,10 @@ import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/au
 import { useTheme } from '../theme/useTheme';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
+import award01 from '../../assets/imgs/awards/award-01.png';
+import award02 from '../../assets/imgs/awards/award-02.png';
+import award03 from '../../assets/imgs/awards/award-03.png';
+import award04 from '../../assets/imgs/awards/award-04.png';
 import '../pages/Home.scss';
 
 const About: React.FC = () => {
@@ -280,6 +284,44 @@ const About: React.FC = () => {
               </div>
             </div>
             <div className="home__intro-column home__intro-column--secondary" aria-hidden="true" />
+          </div>
+        </section>
+
+        <section className="home__awards" aria-labelledby="about-awards-title">
+          <div className="home__intro-grid">
+            <div className="home__intro-column home__intro-column--secondary" aria-hidden="true" />
+            <div className="home__intro-column home__intro-column--primary">
+              <h2 id="about-awards-title" className="home__intro-title feed-detail-overlay__section-title">
+                Awards<span className="feed-detail-overlay__cursor">_</span>
+              </h2>
+              <div className="home__intro-body">
+                <p>
+                  I have participated in multiple Website and Product designs and have received the following international awards for recognition.
+                </p>
+              </div>
+              <ul className="home__intro-awards">
+                <li>
+                  <img src={award01} alt="Awwwards Logo" className="home__intro-award-image home__intro-award-image--01" />
+                  <span className="home__intro-awards-label">Awwwards</span>
+                  <span className="home__intro-awards-detail">Honorable Mention, Jul 14, 2017</span>
+                </li>
+                <li>
+                  <img src={award02} alt="App Store Badge" className="home__intro-award-image home__intro-award-image--02" />
+                  <span className="home__intro-awards-label">APP STORE</span>
+                  <span className="home__intro-awards-detail">Editor’s Choice, 2017</span>
+                </li>
+                <li>
+                  <img src={award03} alt="CSS Design Awards Logo" className="home__intro-award-image home__intro-award-image--03" />
+                  <span className="home__intro-awards-label">CSS DesignAwards</span>
+                  <span className="home__intro-awards-detail">Website of the Day, Jan 17, 2013</span>
+                </li>
+                <li>
+                  <img src={award04} alt="iHackGroup Award Logo" className="home__intro-award-image home__intro-award-image--04" />
+                  <span className="home__intro-awards-label">iHackGroup</span>
+                  <span className="home__intro-awards-detail">Best User Experience Award, 2016</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
       </main>
