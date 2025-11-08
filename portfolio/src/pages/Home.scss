@@ -235,6 +235,8 @@
     margin: 0 auto;
     text-align: center;
     gap: 400px;
+    position: relative;
+    overflow: visible;
   }
 
   &__hero {
@@ -287,6 +289,21 @@
     color: var(--hds-sys-color-theme-surface);
     --feed-detail-primary-color: var(--hds-sys-color-theme-surface);
     --on-hds-sys-color-surface: var(--hds-sys-color-theme-surface);
+    position: relative;
+    overflow: visible;
+  }
+
+  &__intro-visual {
+    position: absolute;
+    top: 0;
+    left: 5vw;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &__intro-rotation {
+    width: 2000px;
+    max-width: none;
   }
 
   &__intro-grid {
@@ -294,6 +311,8 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 64px;
     align-items: start;
+    position: relative;
+    z-index: 1;
   }
 
   &__intro-column {
@@ -458,6 +477,10 @@
     &__intro-grid {
       grid-template-columns: 1fr;
       gap: 40px;
+    }
+
+    &__intro-visual {
+      display: none;
     }
 
     &__intro-column--secondary {

@@ -1,11 +1,13 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Logo, PixelText2D } from 'hds';
+import { Logo, PixelText2D, HarryRotation } from 'hds';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 import award01 from '../../assets/imgs/awards/award-01.png';
 import award02 from '../../assets/imgs/awards/award-02.png';
 import award03 from '../../assets/imgs/awards/award-03.png';
@@ -29,6 +31,20 @@ const About: React.FC = () => {
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const heroSectionRef = useRef<HTMLElement>(null);
+  const heroTitleRef = useRef<HTMLHeadingElement>(null);
+  const heroSubtitleRef = useRef<HTMLParagraphElement>(null);
+  const heroDescriptionRef = useRef<HTMLParagraphElement>(null);
+  const introSectionRef = useRef<HTMLElement>(null);
+  const introPrimaryColumnRef = useRef<HTMLDivElement>(null);
+  const introVisualRef = useRef<HTMLDivElement>(null);
+  const awardsSectionRef = useRef<HTMLElement>(null);
+  const clientsSectionRef = useRef<HTMLElement>(null);
+  const backgroundSectionRef = useRef<HTMLElement>(null);
+
+  // HarryRotation frame state
+  const [rotationFrame, setRotationFrame] = useState(1);
 
   // 導覽選單 hover 觸發一次動畫狀態
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
@@ -78,6 +94,139 @@ const About: React.FC = () => {
     audioManager.preload(clickSoundUrl).catch(() => {});
   }, []);
 
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    if (!scrollContainerRef.current) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const updateIntroVisualPosition = () => {
+      if (!introSectionRef.current || !introVisualRef.current) return;
+      const introOffsetTop = introSectionRef.current.offsetTop;
+      const offset5vh = window.innerHeight * 0.15;
+      introVisualRef.current.style.top = `${introOffsetTop - offset5vh}px`;
+    };
+
+    updateIntroVisualPosition();
+    ScrollTrigger.addEventListener('refreshInit', updateIntroVisualPosition);
+
+    const ctx = gsap.context(() => {
+      const heroTexts = [heroTitleRef.current, heroSubtitleRef.current, heroDescriptionRef.current].filter(Boolean);
+
+      const timeline = gsap.timeline({
+        defaults: { ease: 'power3.out' },
+        scrollTrigger: {
+          scrub: 1.5,
+          trigger: scrollContainerRef.current,
+          start: 'top 90%',
+          end: 'bottom 20%',
+        },
+      });
+
+      if (heroSectionRef.current) {
+        timeline.from(heroSectionRef.current, { opacity: 0, yPercent: 10, duration: 0.8 });
+      }
+
+      if (heroTexts.length) {
+        timeline.from(heroTexts, { opacity: 0, yPercent: 30, duration: 0.8, stagger: 0.1 }, '<');
+      }
+
+      if (introSectionRef.current || introVisualRef.current) {
+        timeline.addLabel('introEnter');
+
+        if (introSectionRef.current) {
+          timeline.from(
+            introSectionRef.current,
+            { opacity: 0, yPercent: 45, duration: 0.9 },
+            '-=0.2'
+          );
+        }
+
+        if (introVisualRef.current) {
+          timeline.from(
+            introVisualRef.current,
+            { opacity: 0, yPercent: 0, duration: 0.9 },
+            '<'
+          );
+        }
+
+        timeline.addLabel('introParallax');
+
+        if (introSectionRef.current) {
+          timeline.to(
+            introSectionRef.current,
+            { yPercent: -180, duration: 1, ease: 'none' },
+            'introParallax'
+          );
+        }
+
+        if (introVisualRef.current) {
+          timeline.to(
+            introVisualRef.current,
+            { yPercent: -15, duration: 2.5, ease: 'none' },
+            'introParallax'
+          );
+        }
+
+      }
+
+      if (introPrimaryColumnRef.current && introVisualRef.current) {
+        const alignTimeline = gsap.timeline({
+          defaults: { ease: 'power2.inOut' },
+          scrollTrigger: {
+            trigger: introPrimaryColumnRef.current,
+            start: 'bottom top+=100',
+            end: 'bottom top-=400',
+            scrub: 1.5,
+          },
+        });
+
+        const frameProxy = { frame: 1 };
+        alignTimeline.to(introVisualRef.current, { left: '-50vw', duration: 1.5, ease: 'power3.inOut' }, 0);
+        alignTimeline.to(frameProxy, { 
+          frame: 9, 
+          duration: 1.5, 
+          ease: 'steps(7)',
+          onUpdate: () => {
+            setRotationFrame(Math.round(frameProxy.frame));
+          }
+        }, 0);
+        
+        alignTimeline.to({}, { duration: 0.3 });
+
+        if (awardsSectionRef.current) {
+          alignTimeline.from(
+            awardsSectionRef.current,
+            { yPercent: 50, duration: 1.5, ease: 'power1.out' }
+          );
+        }
+
+        if (clientsSectionRef.current) {
+          alignTimeline.from(
+            clientsSectionRef.current,
+            { yPercent: 50, duration: 1.5, ease: 'power1.out' },
+            '<0.2'
+          );
+        }
+      }
+
+      if (backgroundSectionRef.current) {
+        timeline.from(backgroundSectionRef.current, { opacity: 0, yPercent: 20, duration: 0.8 }, '-=0.1');
+      }
+    }, scrollContainerRef);
+
+    ScrollTrigger.refresh();
+
+    return () => {
+      ScrollTrigger.removeEventListener('refreshInit', updateIntroVisualPosition);
+      ctx.revert();
+    };
+  }, [i18n.language]);
+
   // 語言切換相關
   const languageMap = {
     'zh-Hant': 'ZH',
@@ -117,7 +266,7 @@ const About: React.FC = () => {
   }, [isLangDropdownOpen]);
 
   return (
-    <div className="home">
+    <div className="home scroll-trigger-ready__worm-wrap" ref={scrollContainerRef}>
       <header className="home__header">
         <div className="header-content">
           <div 
@@ -258,12 +407,12 @@ const About: React.FC = () => {
       </header>
       
       <main className="home__main">
-        <section className="home__hero" aria-labelledby="about-hero-title">
-          <h1 id="about-hero-title" className="home__hero-title">
+        <section className="home__hero" aria-labelledby="about-hero-title" ref={heroSectionRef}>
+          <h1 id="about-hero-title" className="home__hero-title" ref={heroTitleRef}>
             HI..I’M HARRY!
           </h1>
-          <p className="home__hero-subtitle">PRODUCT DESIGN</p>
-          <p className="home__hero-description">
+          <p className="home__hero-subtitle" ref={heroSubtitleRef}>PRODUCT DESIGN</p>
+          <p className="home__hero-description" ref={heroDescriptionRef}>
             <span className="home__hero-description-intro">
               ISN’T ABOUT CRAFTING DAZZLING VISUALS OR BUILDING CUTTING-EDGE TECH.
             </span>
@@ -274,9 +423,21 @@ const About: React.FC = () => {
           </p>
         </section>
 
-        <section className="home__intro" aria-labelledby="about-intro-title">
+        <div className="home__intro-visual" aria-hidden="true" ref={introVisualRef}>
+          <HarryRotation
+            width={2000}
+            autoPlay={false}
+            className="home__intro-rotation"
+            frame={rotationFrame}
+          />
+        </div>
+
+        <section className="home__intro" aria-labelledby="about-intro-title" ref={introSectionRef}>
           <div className="home__intro-grid">
-            <div className="home__intro-column home__intro-column--primary">
+            <div
+              className="home__intro-column home__intro-column--primary"
+              ref={introPrimaryColumnRef}
+            >
               <h2 id="about-intro-title" className="home__intro-title feed-detail-overlay__section-title">
                 Who AM I?<span className="feed-detail-overlay__cursor">_</span>
               </h2>
@@ -296,7 +457,7 @@ const About: React.FC = () => {
           </div>
         </section>
 
-        <section className="home__awards" aria-labelledby="about-awards-title">
+        <section className="home__awards" aria-labelledby="about-awards-title" ref={awardsSectionRef}>
           <div className="home__intro-grid">
             <div className="home__intro-column home__intro-column--secondary" aria-hidden="true" />
             <div className="home__intro-column home__intro-column--primary">
@@ -334,7 +495,7 @@ const About: React.FC = () => {
           </div>
         </section>
 
-        <section className="home__clients" aria-labelledby="about-clients-title">
+        <section className="home__clients" aria-labelledby="about-clients-title" ref={clientsSectionRef}>
           <div className="home__intro-grid">
             <div className="home__intro-column home__intro-column--secondary" aria-hidden="true" />
             <div className="home__intro-column home__intro-column--primary">
@@ -366,7 +527,7 @@ const About: React.FC = () => {
           </div>
         </section>
 
-        <section className="home__background" aria-labelledby="about-background-title">
+        <section className="home__background" aria-labelledby="about-background-title" ref={backgroundSectionRef}>
           <div className="home__background-inner">
             <h2 id="about-background-title" className="home__background-title feed-detail-overlay__section-title">
               My design background<span className="feed-detail-overlay__cursor">_</span>
