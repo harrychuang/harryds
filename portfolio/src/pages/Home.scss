@@ -508,4 +508,11 @@
   }
 }
 
-
+// GSAP 行動效所需的最小樣式
+.lineParent {
+  display: block;
+  overflow: hidden;
+}
+.lineChild {
+  display: inline-block;
+}

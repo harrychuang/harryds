@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { Logo, PixelText2D, HarryRotation } from 'hds';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
+import { gsap } from 'gsap';
+import { TextPlugin } from 'gsap/TextPlugin';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
 import award01 from '../../assets/imgs/awards/award-01.png';
 import award02 from '../../assets/imgs/awards/award-02.png';
 import award03 from '../../assets/imgs/awards/award-03.png';
@@ -42,6 +42,15 @@ const About: React.FC = () => {
   const awardsSectionRef = useRef<HTMLElement>(null);
   const clientsSectionRef = useRef<HTMLElement>(null);
   const backgroundSectionRef = useRef<HTMLElement>(null);
+
+  // 量測 HarryRotation 區塊（home__intro-visual）的頂/底座標
+  const rotationMetricsRef = useRef<{
+    viewportTop: number;
+    viewportBottom: number;
+    pageTop: number;
+    pageBottom: number;
+    height: number;
+  }>({ viewportTop: 0, viewportBottom: 0, pageTop: 0, pageBottom: 0, height: 0 });
 
   // HarryRotation frame state
   const [rotationFrame, setRotationFrame] = useState(1);
@@ -94,136 +103,96 @@ const About: React.FC = () => {
     audioManager.preload(clickSoundUrl).catch(() => {});
   }, []);
 
+  // Hero 進場動畫：Title 打字效果 + 0.3s 後內文行動效
+  useLayoutEffect(() => {
+    if (!heroSectionRef.current || !heroTitleRef.current) return;
+    gsap.registerPlugin(TextPlugin);
+
+    const ctx = gsap.context(() => {
+      const titleEl = heroTitleRef.current!;
+      const fullText = (titleEl.textContent || '').trim();
+
+      // 打字機：先清空文字，再以 TextPlugin 輸入
+      gsap.set(titleEl, { text: '' });
+      const tl = gsap.timeline();
+      tl.to(titleEl, {
+        duration: Math.max(0.8, fullText.length * 0.06),
+        text: fullText,
+        ease: 'none'
+      });
+
+      // 行動效：準備並進場（延遲 0.3s）
+      const lineChildren = heroSectionRef.current!.querySelectorAll<HTMLElement>('.lineChild');
+      if (lineChildren.length) {
+        gsap.set(lineChildren, { yPercent: 100 });
+        tl.to(
+          lineChildren,
+          {
+            yPercent: 0,
+            duration: 0.75,
+            stagger: 0.15,
+            ease: 'power3.out'
+          },
+          '+=0.3'
+        );
+      }
+    }, heroSectionRef);
+
+    return () => ctx.revert();
+  }, [i18n.language]);
+
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    if (!scrollContainerRef.current) return;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const updateIntroVisualPosition = () => {
+    // 僅保留初始定位，移除所有與捲動相關的動畫與 pin
+    const update = () => {
       if (!introSectionRef.current || !introVisualRef.current) return;
-      const introOffsetTop = introSectionRef.current.offsetTop;
-      const offset5vh = window.innerHeight * 0.15;
-      introVisualRef.current.style.top = `${introOffsetTop - offset5vh}px`;
+      introVisualRef.current.style.top = `${introSectionRef.current.offsetTop}px`;
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => {
+      window.removeEventListener('resize', update);
+    };
+  }, [i18n.language]);
+
+  // 偵測 HarryRotation 位置（top/bottom），以 rAF 節流更新
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return;
+    const el = introVisualRef.current;
+    if (!el) return;
+
+    let rafId: number | null = null;
+
+    const measure = () => {
+      const rect = el.getBoundingClientRect();
+      const scrollY = window.scrollY || window.pageYOffset || 0;
+      rotationMetricsRef.current = {
+        viewportTop: rect.top,
+        viewportBottom: rect.bottom,
+        pageTop: rect.top + scrollY,
+        pageBottom: rect.bottom + scrollY,
+        height: rect.height,
+      };
     };
 
-    updateIntroVisualPosition();
-    ScrollTrigger.addEventListener('refreshInit', updateIntroVisualPosition);
-
-    const ctx = gsap.context(() => {
-      const heroTexts = [heroTitleRef.current, heroSubtitleRef.current, heroDescriptionRef.current].filter(Boolean);
-
-      const timeline = gsap.timeline({
-        defaults: { ease: 'power3.out' },
-        scrollTrigger: {
-          scrub: 1.5,
-          trigger: scrollContainerRef.current,
-          start: 'top 90%',
-          end: 'bottom 20%',
-        },
+    const onScrollOrResize = () => {
+      if (rafId != null) return;
+      rafId = window.requestAnimationFrame(() => {
+        measure();
+        rafId = null;
       });
+    };
 
-      if (heroSectionRef.current) {
-        timeline.from(heroSectionRef.current, { opacity: 0, yPercent: 10, duration: 0.8 });
-      }
-
-      if (heroTexts.length) {
-        timeline.from(heroTexts, { opacity: 0, yPercent: 30, duration: 0.8, stagger: 0.1 }, '<');
-      }
-
-      if (introSectionRef.current || introVisualRef.current) {
-        timeline.addLabel('introEnter');
-
-        if (introSectionRef.current) {
-          timeline.from(
-            introSectionRef.current,
-            { opacity: 0, yPercent: 45, duration: 0.9 },
-            '-=0.2'
-          );
-        }
-
-        if (introVisualRef.current) {
-          timeline.from(
-            introVisualRef.current,
-            { opacity: 0, yPercent: 0, duration: 0.9 },
-            '<'
-          );
-        }
-
-        timeline.addLabel('introParallax');
-
-        if (introSectionRef.current) {
-          timeline.to(
-            introSectionRef.current,
-            { yPercent: -180, duration: 1, ease: 'none' },
-            'introParallax'
-          );
-        }
-
-        if (introVisualRef.current) {
-          timeline.to(
-            introVisualRef.current,
-            { yPercent: -10, duration: 3.5, ease: 'none' },
-            'introParallax'
-          );
-        }
-
-      }
-
-      if (introPrimaryColumnRef.current && introVisualRef.current) {
-        const alignTimeline = gsap.timeline({
-          defaults: { ease: 'power2.inOut' },
-          scrollTrigger: {
-            trigger: introPrimaryColumnRef.current,
-            start: 'bottom top+=100',
-            end: 'bottom top-=400',
-            scrub: 1.5,
-          },
-        });
-
-        const frameProxy = { frame: 1 };
-        alignTimeline.to(introVisualRef.current, { left: '-50vw', duration: 1.5, ease: 'power3.inOut' }, 0);
-        alignTimeline.to(frameProxy, { 
-          frame: 9, 
-          duration: 1.5, 
-          ease: 'steps(7)',
-          onUpdate: () => {
-            setRotationFrame(Math.round(frameProxy.frame));
-          }
-        }, 0);
-        
-        alignTimeline.to({}, { duration: 0.3 });
-
-        if (awardsSectionRef.current) {
-          alignTimeline.from(
-            awardsSectionRef.current,
-            { yPercent: 50, duration: 1.5, ease: 'power1.out' }
-          );
-        }
-
-        if (clientsSectionRef.current) {
-          alignTimeline.from(
-            clientsSectionRef.current,
-            { yPercent: 50, duration: 1.5, ease: 'power1.out' },
-            '<0.2'
-          );
-        }
-      }
-
-      if (backgroundSectionRef.current) {
-        timeline.from(backgroundSectionRef.current, { opacity: 0, yPercent: 20, duration: 0.8 }, '-=0.1');
-      }
-    }, scrollContainerRef);
-
-    ScrollTrigger.refresh();
+    // 初次量測
+    measure();
+    window.addEventListener('scroll', onScrollOrResize, { passive: true });
+    window.addEventListener('resize', onScrollOrResize);
 
     return () => {
-      ScrollTrigger.removeEventListener('refreshInit', updateIntroVisualPosition);
-      ctx.revert();
+      window.removeEventListener('scroll', onScrollOrResize);
+      window.removeEventListener('resize', onScrollOrResize);
+      if (rafId != null) cancelAnimationFrame(rafId);
     };
   }, [i18n.language]);
 
@@ -411,21 +380,33 @@ const About: React.FC = () => {
           <h1 id="about-hero-title" className="home__hero-title" ref={heroTitleRef}>
             HI..I’M HARRY!
           </h1>
-          <p className="home__hero-subtitle" ref={heroSubtitleRef}>PRODUCT DESIGN</p>
-          <p className="home__hero-description" ref={heroDescriptionRef}>
-            <span className="home__hero-description-intro">
-              ISN’T ABOUT CRAFTING DAZZLING VISUALS OR BUILDING CUTTING-EDGE TECH.
+          <p className="home__hero-subtitle" ref={heroSubtitleRef}>
+            <span className="lineParent">
+              <span className="lineChild">PRODUCT DESIGN</span>
             </span>
-            <br />
-            IT’S ABOUT APPLYING INSIGHT AND ANALYSIS TO REACH THE RIGHT USERS
-            <br />
-            AND TRULY SOLVE THEIR PROBLEMS.
+          </p>
+          <p className="home__hero-description" ref={heroDescriptionRef}>
+            <span className="lineParent">
+              <span className="lineChild">
+                <span className="home__hero-description-intro">
+                  ISN’T ABOUT CRAFTING DAZZLING VISUALS OR BUILDING CUTTING-EDGE TECH.
+                </span>
+              </span>
+            </span>
+            <span className="lineParent">
+              <span className="lineChild">
+                IT’S ABOUT APPLYING INSIGHT AND ANALYSIS TO REACH THE RIGHT USERS
+              </span>
+            </span>
+            <span className="lineParent">
+              <span className="lineChild">AND TRULY SOLVE THEIR PROBLEMS.</span>
+            </span>
           </p>
         </section>
 
         <div className="home__intro-visual" aria-hidden="true" ref={introVisualRef}>
           <HarryRotation
-            width={2000}
+            width={'90vw'}
             autoPlay={false}
             className="home__intro-rotation"
             frame={rotationFrame}
