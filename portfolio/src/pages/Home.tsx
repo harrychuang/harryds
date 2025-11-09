@@ -14,6 +14,7 @@ import { useTheme } from '../theme/useTheme';
 import { useHover } from '../contexts/HoverContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import TransitionOverlay from '../components/TransitionOverlay';
+import Header from '../components/Header';
 
 const slugify = (text: string) => text
   .toLowerCase()
@@ -457,6 +458,27 @@ const Home: React.FC = () => {
   };
 
   // 由於現在完全使用 Strapi 資料，不再需要本地圖片處理
+  
+  // Header 組件所需的派生屬性
+  const shouldHideNav = !!(openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready'));
+  const headerLogoType: 'default' | 'back' = shouldHideNav ? 'back' : 'default';
+  const headerLogoAnimated = shouldHideNav ? isLogoHovered : true;
+  const headerLogoWrapperStyle: React.CSSProperties = {
+    cursor: shouldHideNav ? 'pointer' : 'auto',
+    transform: shouldHideNav ? 'translateX(-10px)' : 'translateX(0px)'
+  };
+  const navColors = {
+    primaryColor: (logoColors as any).primaryColor,
+    secondaryColor: (logoColors as any).secondaryColor
+  };
+  const languageOptions = React.useMemo(() => ([
+    { code: 'en', label: 'EN' },
+    { code: 'zh-Hant', label: 'ZH' },
+    { code: 'ja', label: 'JP' }
+  ].filter((lang) => {
+    const currentLang = i18n.language === 'zh' ? 'zh-Hant' : i18n.language;
+    return lang.code !== currentLang;
+  })), [i18n.language]);
   // strapiClient.ts 中的 resolveMediaUrl 已經處理了所有圖片 URL
   const resolveSrc = (url?: string) => {
     // 直接返回 strapiClient 處理過的 URL，不做任何額外處理
@@ -494,172 +516,39 @@ const Home: React.FC = () => {
     <div ref={homeRef} className="home">
       {/* 預載統計面板與切換按鈕已移除 */}
 
-      <header className="home__header">
-        <div className="header-content">
-          <div 
-            onClick={handleLogoClick}
-            onMouseEnter={handleLogoHover}
-            onMouseLeave={handleLogoLeave}
-            className="logo-wrapper"
-            style={{
-              cursor: openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'pointer' : 'auto',
-              transform: openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'translateX(-10px)' : 'translateX(0px)'
-            }}
-          >
-            <Logo 
-              key={logoKey}
-              type={openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? 'back' : 'default'}
-              animated={openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready') ? isLogoHovered : true}
-              {...logoColors}
-            />
-          </div>
-          <nav className="home__nav">
-            {/* 在詳情頁時隱藏導覽選單 */}
-            {!(openCardId && (openCardAnimationPhase === 'expanding' || openCardAnimationPhase === 'ready')) && (
-              <>
-                {['home', 'works', 'article', 'about'].map((item) => {
-                  const menuText = t(`nav.${item}`);
-                  // 精確計算寬度：基於 PixelText 內部算法
-                  // 每個字符 = CHAR_WIDTH(8) * pixelSize(2) = 16px
-                  // 字符間距 = letterSpacing(1) * pixelSize(2) = 2px  
-                  // 總寬度 = 字符數 * 16 + (字符數-1) * 2
-                  const charCount = menuText.length;
-                  const calculatedWidth = charCount * 16 + Math.max(0, charCount - 1) * 2;
-                  
-                  return (
-                    <div
-                      key={item}
-                      className="home__nav-item"
-                      onMouseEnter={() => { triggerMenuHoverOnce(item); playMenuHoverSound(); }}
-                      onClick={() => { 
-                        playMenuClickSound(); 
-                        if (item === 'about') {
-                          navigate('/about');
-                        }
-                      }}
-                    >
-                      <PixelText2D
-                        text={menuText}
-                        textEnabled
-                        pixelSize={2}
-                        width={calculatedWidth}
-                        height={24}
-                        animated={!!menuAnimStates[item]}
-                        totalAnimationDuration={400}
-                        primaryColor={(logoColors as any).primaryColor}
-                        onPrimaryColor={(logoColors as any).secondaryColor}
-                      />
-                    </div>
-                  );
-                })}
-                {/* Theme toggle button using PixelText2D (2D Canvas, no WebGL) */}
-                <div className="home__nav-item">
-              <div
-                role="button"
-                tabIndex={0}
-                onClick={() => { playMenuClickSound(); toggleTheme(); }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleTheme();
-                  }
-                }}
-                onMouseEnter={() => { playMenuHoverSound(); }}
-                aria-label="切換主題"
-                title={theme === 'dark' ? '切換為亮色' : '切換為暗色'}
-                className="theme-toggle"
-                style={{ borderColor: ((logoColors as any).primaryColor) || 'var(--hds-sys-color-theme-surface)' }}
-              >
-                <PixelText2D
-                  text={theme === 'dark' ? '☽' : '☀'}
-                  textEnabled
-                  pixelSize={2}
-                  letterSpacing={0}
-                  width={36}
-                  height={36}
-                  animated={false}
-                  primaryColor={(logoColors as any).primaryColor}
-                  onPrimaryColor={(logoColors as any).secondaryColor}
-                />
-              </div>
-            </div>
-              </>
-            )}
-            
-            {/* Language toggle button */}
-            <div className="home__nav-item" ref={langDropdownRef}>
-              <div
-                role="button"
-                tabIndex={0}
-                onClick={toggleLangDropdown}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleLangDropdown();
-                  }
-                }}
-                onMouseEnter={() => { playMenuHoverSound(); }}
-                aria-label="切換語言"
-                title="切換語言"
-                className="lang-toggle"
-                style={{ borderColor: ((logoColors as any).primaryColor) || 'var(--hds-sys-color-theme-surface)' }}
-              >
-                <PixelText2D
-                  text={currentLangDisplay}
-                  textEnabled
-                  pixelSize={2}
-                  letterSpacing={0}
-                  width={32}
-                  height={24}
-                  animated={false}
-                  primaryColor={(logoColors as any).primaryColor}
-                  onPrimaryColor={(logoColors as any).secondaryColor}
-                />
-              </div>
-              
-              {/* Dropdown menu */}
-              {isLangDropdownOpen && (
-                <div className="lang-dropdown">
-                  {[
-                    { code: 'en', label: 'EN' },
-                    { code: 'zh-Hant', label: 'ZH' },
-                    { code: 'ja', label: 'JP' }
-                  ]
-                    .filter((lang) => {
-                      // 過濾掉當前語言，zh 和 zh-Hant 視為相同
-                      const currentLang = i18n.language === 'zh' ? 'zh-Hant' : i18n.language;
-                      return lang.code !== currentLang;
-                    })
-                    .map((lang) => (
-                    <div
-                      key={lang.code}
-                      className="lang-dropdown__item"
-                      onClick={() => handleLanguageChange(lang.code)}
-                      onMouseEnter={() => { playMenuHoverSound(); }}
-                      style={{ 
-                        borderColor: ((logoColors as any).primaryColor) || 'var(--hds-sys-color-theme-surface)',
-                        backgroundColor: 'transparent'
-                      }}
-                    >
-                      <PixelText2D
-                        text={lang.label}
-                        textEnabled
-                        pixelSize={1}
-                        letterSpacing={0}
-                        width={40}
-                        height={24}
-                        animated={false}
-                        primaryColor={(logoColors as any).primaryColor || 'var(--hds-sys-color-theme-surface)'}
-                        onPrimaryColor={(logoColors as any).secondaryColor}
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </nav>
-        </div>
-      </header>
+      <Header
+        onLogoClick={handleLogoClick}
+        onLogoMouseEnter={handleLogoHover}
+        onLogoMouseLeave={handleLogoLeave}
+        logoType={headerLogoType}
+        logoAnimated={headerLogoAnimated}
+        logoColors={logoColors as any}
+        logoWrapperStyle={headerLogoWrapperStyle}
+        hideNav={shouldHideNav}
+        menuItems={['home', 'works', 'article', 'about']}
+        t={t}
+        getMenuItemAnimated={(key) => !!menuAnimStates[key]}
+        onMenuItemHover={(key) => { triggerMenuHoverOnce(key); playMenuHoverSound(); }}
+        onMenuItemClick={(key) => { 
+          playMenuClickSound(); 
+          if (key === 'about') { 
+            navigate('/about'); 
+          } 
+        }}
+        navColors={navColors as any}
+        showThemeToggle={true}
+        theme={theme}
+        onToggleTheme={() => { playMenuClickSound(); toggleTheme(); }}
+        onThemeHover={() => { playMenuHoverSound(); }}
+        showLanguageToggle={true}
+        currentLangDisplay={currentLangDisplay}
+        isLangDropdownOpen={isLangDropdownOpen}
+        onToggleLangDropdown={toggleLangDropdown}
+        langDropdownRef={langDropdownRef}
+        languageOptions={languageOptions}
+        onLanguageChange={handleLanguageChange}
+        onLanguageHover={() => { playMenuHoverSound(); }}
+      />
       <div className="home__container">
         <div
           className="home__content"

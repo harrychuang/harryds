@@ -22,6 +22,7 @@ import logoQnap from '../../assets/imgs/logos/logo-qnap-dark.png';
 import logoUxy from '../../assets/imgs/logos/logo-uxy-dark.png';
 import logoShopmatic from '../../assets/imgs/logos/logo-shopmatic-dark.png';
 import '../pages/Home.scss';
+import Header from '../components/Header';
 
 const About: React.FC = () => {
   const navigate = useNavigate();
@@ -236,144 +237,43 @@ const About: React.FC = () => {
 
   return (
     <div className="home scroll-trigger-ready__worm-wrap" ref={scrollContainerRef}>
-      <header className="home__header">
-        <div className="header-content">
-          <div 
-            onClick={() => navigate('/')}
-            className="logo-wrapper"
-            style={{ cursor: 'pointer' }}
-          >
-            <Logo 
-              type="default"
-              animated={true}
-            />
-          </div>
-          <nav className="home__nav">
-            {['home', 'works', 'article', 'about'].map((item) => {
-              const menuText = t(`nav.${item}`);
-              const charCount = menuText.length;
-              const calculatedWidth = charCount * 16 + Math.max(0, charCount - 1) * 2;
-              
-              return (
-                <div
-                  key={item}
-                  className="home__nav-item"
-                  onMouseEnter={() => { triggerMenuHoverOnce(item); playMenuHoverSound(); }}
-                  onClick={() => { 
-                    playMenuClickSound();
-                    if (item === 'home') {
-                      navigate('/');
-                    } else if (item === 'about') {
-                      navigate('/about');
-                    }
-                  }}
-                >
-                  <PixelText2D
-                    text={menuText}
-                    textEnabled
-                    pixelSize={2}
-                    width={calculatedWidth}
-                    height={24}
-                    animated={!!menuAnimStates[item]}
-                    totalAnimationDuration={400}
-                  />
-                </div>
-              );
-            })}
-            
-            {/* Theme toggle button */}
-            <div className="home__nav-item">
-              <div
-                role="button"
-                tabIndex={0}
-                onClick={() => { playMenuClickSound(); toggleTheme(); }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleTheme();
-                  }
-                }}
-                onMouseEnter={() => { playMenuHoverSound(); }}
-                aria-label="切換主題"
-                title={theme === 'dark' ? '切換為亮色' : '切換為暗色'}
-                className="theme-toggle"
-              >
-                <PixelText2D
-                  text={theme === 'dark' ? '☽' : '☀'}
-                  textEnabled
-                  pixelSize={2}
-                  letterSpacing={0}
-                  width={36}
-                  height={36}
-                  animated={false}
-                />
-              </div>
-            </div>
-            
-            {/* Language toggle button */}
-            <div className="home__nav-item" ref={langDropdownRef}>
-              <div
-                role="button"
-                tabIndex={0}
-                onClick={toggleLangDropdown}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleLangDropdown();
-                  }
-                }}
-                onMouseEnter={() => { playMenuHoverSound(); }}
-                aria-label="切換語言"
-                title="切換語言"
-                className="lang-toggle"
-              >
-                <PixelText2D
-                  text={currentLangDisplay}
-                  textEnabled
-                  pixelSize={2}
-                  letterSpacing={0}
-                  width={32}
-                  height={24}
-                  animated={false}
-                />
-              </div>
-              
-              {/* Dropdown menu */}
-              {isLangDropdownOpen && (
-                <div className="lang-dropdown">
-                  {[
-                    { code: 'en', label: 'EN' },
-                    { code: 'zh-Hant', label: 'ZH' },
-                    { code: 'ja', label: 'JP' }
-                  ]
-                    .filter((lang) => {
-                      const currentLang = i18n.language === 'zh' ? 'zh-Hant' : i18n.language;
-                      return lang.code !== currentLang;
-                    })
-                    .map((lang) => (
-                    <div
-                      key={lang.code}
-                      className="lang-dropdown__item"
-                      onClick={() => handleLanguageChange(lang.code)}
-                      onMouseEnter={() => { playMenuHoverSound(); }}
-                    >
-                      <PixelText2D
-                        text={lang.label}
-                        textEnabled
-                        pixelSize={1}
-                        letterSpacing={0}
-                        width={40}
-                        height={24}
-                        animated={false}
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </nav>
-        </div>
-      </header>
+      <Header
+        onLogoClick={() => navigate('/')}
+        logoType="default"
+        logoAnimated={true}
+        hideNav={false}
+        menuItems={['home', 'works', 'article', 'about']}
+        t={t}
+        getMenuItemAnimated={(key) => !!menuAnimStates[key]}
+        onMenuItemHover={(key) => { triggerMenuHoverOnce(key); playMenuHoverSound(); }}
+        onMenuItemClick={(key) => { 
+          playMenuClickSound();
+          if (key === 'home') {
+            navigate('/');
+          } else if (key === 'about') {
+            navigate('/about');
+          }
+        }}
+        showThemeToggle={true}
+        theme={theme}
+        onToggleTheme={() => { playMenuClickSound(); toggleTheme(); }}
+        onThemeHover={() => { playMenuHoverSound(); }}
+        showLanguageToggle={true}
+        currentLangDisplay={currentLangDisplay}
+        isLangDropdownOpen={isLangDropdownOpen}
+        onToggleLangDropdown={toggleLangDropdown}
+        langDropdownRef={langDropdownRef}
+        languageOptions={[
+          { code: 'en', label: 'EN' },
+          { code: 'zh-Hant', label: 'ZH' },
+          { code: 'ja', label: 'JP' }
+        ].filter((lang) => {
+          const currentLang = i18n.language === 'zh' ? 'zh-Hant' : i18n.language;
+          return lang.code !== currentLang;
+        })}
+        onLanguageChange={handleLanguageChange}
+        onLanguageHover={() => { playMenuHoverSound(); }}
+      />
       
       <main className="home__main">
         <section className="home__hero" aria-labelledby="about-hero-title" ref={heroSectionRef}>
