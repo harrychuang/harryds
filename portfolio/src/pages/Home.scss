@@ -292,6 +292,7 @@
     --on-hds-sys-color-surface: var(--hds-sys-color-theme-surface);
     position: relative;
     overflow: visible;
+    margin-top: 20vh;
   }
 
   &__intro-visual {
@@ -303,6 +304,10 @@
     // 啟用 GPU 加速，避免滾動時重繪卡頓
     will-change: transform;
     transform: translateZ(0);
+
+    .home__intro-rotation {
+      margin-top: 0px;
+    }
   }
 
   &__intro-rotation {
