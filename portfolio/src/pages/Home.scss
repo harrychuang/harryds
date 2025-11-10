@@ -464,12 +464,50 @@
     text-align: center;
   }
 
+  &__background-rotation-wrapper {
+    position: relative;
+    width: 100vw;
+    min-height: 250px;
+    margin-top: 50px;
+    // margin-left: calc(-50vw + 50%);
+    overflow: visible; // 允許 HarryRotation 溢出
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__background-marquee {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100vw;
+    height: 250px;
+    transform: translateY(-50%);
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden; // 只在跑馬燈層裁切
+  }
+
+  &__background-marquee-item {
+    position: absolute;
+    width: 300px;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+
   &__background-rotation {
+    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 50px;
     width: 250px;
+    pointer-events: auto;
   }
 
   &__background-description {
@@ -521,6 +559,27 @@
     &__background-inner {
       padding: 0 16px;
       gap: 24px;
+    }
+
+    &__background-rotation-wrapper {
+      min-height: 200px;
+      margin-top: 32px;
+      overflow: visible;
+    }
+
+    &__background-marquee {
+      height: 200px;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    &__background-marquee-item {
+      width: 250px;
+      height: 200px;
+    }
+
+    &__background-rotation {
+      width: 200px;
     }
 
     &__background-description {
