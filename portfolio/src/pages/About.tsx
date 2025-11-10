@@ -57,13 +57,34 @@ const About: React.FC = () => {
   const marqueeRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number | null>(null);
   const itemPositionsRef = useRef<Map<string, number>>(new Map());
+  
+  // 追蹤已使用的 Giphy URL（不重複隨機選擇）
+  const usedGiphyUrlsRef = useRef<Set<string>>(new Set());
+
+  // 獲取不重複的隨機 Giphy URL
+  const getRandomGiphyUrl = useCallback(() => {
+    const usedUrls = usedGiphyUrlsRef.current;
+    
+    // 如果所有 URL 都已使用，重置追蹤
+    if (usedUrls.size >= GIPHY_URLS.length) {
+      usedUrls.clear();
+    }
+    
+    // 獲取未使用的 URL
+    const availableUrls = GIPHY_URLS.filter(url => !usedUrls.has(url));
+    
+    // 從未使用的 URL 中隨機選擇
+    const randomIndex = Math.floor(Math.random() * availableUrls.length);
+    const selectedUrl = availableUrls[randomIndex];
+    
+    // 標記為已使用
+    usedUrls.add(selectedUrl);
+    
+    return selectedUrl;
+  }, []);
 
   // 初始化 giphy 項目
   useEffect(() => {
-    const getRandomGiphyUrl = () => {
-      const index = Math.floor(Math.random() * GIPHY_URLS.length);
-      return GIPHY_URLS[index];
-    };
 
     // 計算初始需要的圖片數量（基於視窗寬度）
     const itemWidth = 300; // 圖片寬度
@@ -87,7 +108,7 @@ const About: React.FC = () => {
       positions.set(item.id, index * totalItemWidth);
     });
     itemPositionsRef.current = positions;
-  }, []);
+  }, [getRandomGiphyUrl]);
 
   // 跑馬燈動畫
   useEffect(() => {
@@ -120,11 +141,6 @@ const About: React.FC = () => {
 
       // 移除離開畫面的項目並添加新項目
       if (itemsToRemove.length > 0) {
-        const getRandomGiphyUrl = () => {
-          const index = Math.floor(Math.random() * GIPHY_URLS.length);
-          return GIPHY_URLS[index];
-        };
-
         // 找到最右邊的項目位置
         let maxPos = -Infinity;
         positions.forEach((pos) => {
@@ -177,7 +193,7 @@ const About: React.FC = () => {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [giphyItems]);
+  }, [giphyItems, getRandomGiphyUrl]);
 
   // 導覽選單 hover 觸發一次動畫狀態
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
