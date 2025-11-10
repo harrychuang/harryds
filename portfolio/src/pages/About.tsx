@@ -175,6 +175,19 @@ const About: React.FC = () => {
       markers: true // 開發時顯示標記，完成後可移除
     });
 
+    // STEP 3: 當 home__intro 底部離開後，移到左邊 -50vw
+    // 在滾動 400px 的距離內完成移動
+    gsap.to(visualElement, {
+      x: '-50vw',
+      scrollTrigger: {
+        trigger: introSectionRef.current,
+        start: 'bottom 10%',
+        end: '+=500',  // 從 start 位置再滾動 500px
+        scrub: true,
+        markers: true // 開發時顯示標記，完成後可移除
+      }
+    });
+
     // 監聽視窗大小變化並刷新
     const handleResize = () => {
       ScrollTrigger.refresh();
