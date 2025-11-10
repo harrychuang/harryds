@@ -6,6 +6,7 @@ import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/au
 import { useTheme } from '../theme/useTheme';
 import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
 import award01 from '../../assets/imgs/awards/award-01.png';
@@ -132,18 +133,58 @@ const About: React.FC = () => {
     return () => ctx.revert();
   }, [i18n.language]);
 
+  // STEP 1 & 2: 視差效果與 pin 動畫
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return;
+    
+    gsap.registerPlugin(ScrollTrigger);
 
-    // 僅保留初始定位，移除所有與捲動相關的動畫與 pin
-    const update = () => {
-      if (!introSectionRef.current || !introVisualRef.current) return;
-      introVisualRef.current.style.top = `${introSectionRef.current.offsetTop}px`;
+    // 初始化視覺元素位置
+    if (!introSectionRef.current || !introVisualRef.current) return;
+    
+    // 設置初始 top 位置
+    const initialTop = introSectionRef.current.offsetTop;
+    gsap.set(introVisualRef.current, { top: initialTop });
+
+    // STEP 1: 視差效果 (0.8 倍速移動)
+    const visualElement = introVisualRef.current;
+    
+    // 計算視差移動距離
+    const introHeight = introSectionRef.current.offsetHeight;
+    const parallaxDistance = introHeight * 0.2; // 因為速度是 0.8，所以會比正常慢 20%
+    
+    gsap.to(visualElement, {
+      y: parallaxDistance,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: introSectionRef.current,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: true,
+        markers: true // 開發時顯示標記，完成後可移除
+      }
+    });
+
+    // STEP 2: 當到達 10% 時 pin 住
+    ScrollTrigger.create({
+      trigger: visualElement,
+      start: 'top 10%',
+      end: 'bottom 10%',
+      pin: true,
+      pinSpacing: false,
+      markers: true // 開發時顯示標記，完成後可移除
+    });
+
+    // 監聽視窗大小變化並刷新
+    const handleResize = () => {
+      ScrollTrigger.refresh();
     };
-    update();
-    window.addEventListener('resize', update);
+    
+    window.addEventListener('resize', handleResize);
+    
     return () => {
-      window.removeEventListener('resize', update);
+      window.removeEventListener('resize', handleResize);
+      ScrollTrigger.getAll().forEach(st => st.kill());
     };
   }, [i18n.language]);
 
