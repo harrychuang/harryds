@@ -169,12 +169,12 @@ const About: React.FC = () => {
     const rotationElement = visualElement.querySelector('.home__intro-rotation') as HTMLElement;
     
     gsap.to(visualElement, {
-      x: '-45vw',
-      y: '-=200',  // 向上移動 200px
+      x: '-51vw',
+      y: '-=0',  // 向上移動 200px
       scrollTrigger: {
         trigger: introSectionRef.current,
         start: 'bottom 10%',
-        end: '+=10%',  // 從 start 位置再滾動 10%
+        end: '+=500',  // 從 start 位置再滾動 10%
         scrub: true,
         markers: true, // 開發時顯示標記，完成後可移除
         onUpdate: (self) => {
@@ -189,7 +189,7 @@ const About: React.FC = () => {
     // 同時改變 HarryRotation 的寬度
     if (rotationElement) {
       gsap.to(rotationElement, {
-        width: '1800px',
+        width: '2000px',
         scrollTrigger: {
           trigger: introSectionRef.current,
           start: 'bottom 10%',
@@ -208,8 +208,8 @@ const About: React.FC = () => {
                                     clientsSectionRef.current.offsetHeight - 
                                     awardsSectionRef.current.offsetTop;
       
-      // 以 1.6 速度移動，表示視差距離 = 滾動距離 * -0.6
-      const step4ParallaxDistance = awardsToClientsHeight * -0.6;
+      // 以 1.7 速度移動，表示視差距離 = 滾動距離 * -0.7
+      const step4ParallaxDistance = awardsToClientsHeight * -0.7;
       
       // 創建一個從當前位置繼續的動畫
       const tl = gsap.timeline({
