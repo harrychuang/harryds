@@ -464,6 +464,14 @@
     text-align: center;
   }
 
+  &__background-rotation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    width: 250px;
+  }
+
   &__background-description {
     margin: 0;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

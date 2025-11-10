@@ -462,12 +462,18 @@ const About: React.FC = () => {
               My design background<span className="feed-detail-overlay__cursor">_</span>
             </h2>
             <p className="home__background-description">
-              My design inspiration didn’t come from textbooks,<br />
+              My design inspiration didn't come from textbooks,<br />
               but from the startup sound of the Famicom (NES).<br />
               Japanese culture of the 1980s, 8-bit pixels, tokusatsu, and anime taught me to tell stories with images. I once aimed to become a manga artist or game illustrator~<br />
               Now I turn that obsession into a design methodology,<br />
               building products that are more loved and more usable.
             </p>
+            <div className="home__background-rotation">
+              <HarryRotation
+                width={'250px'}
+                autoPlay={true}
+              />
+            </div>
           </div>
         </section>
       </main>
