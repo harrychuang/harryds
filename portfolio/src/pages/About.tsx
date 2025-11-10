@@ -164,10 +164,13 @@ const About: React.FC = () => {
       });
     }
 
-    // STEP 3: 當 home__intro 底部離開後，移到左邊 -50vw
-    // 在滾動 500px 的距離內完成移動，同時 rotationFrame 從 1 變化到 8
+    // STEP 3: 當 home__intro 底部離開後，移到左邊 -50vw，同時向上移動 100px
+    // 同時將寬度從 2000px 改為 1950px，rotationFrame 從 1 變化到 8
+    const rotationElement = visualElement.querySelector('.home__intro-rotation') as HTMLElement;
+    
     gsap.to(visualElement, {
       x: '-50vw',
+      y: '-=100',  // 向上移動 100px
       scrollTrigger: {
         trigger: introSectionRef.current,
         start: 'bottom 10%',
@@ -182,6 +185,20 @@ const About: React.FC = () => {
         }
       }
     });
+    
+    // 同時改變 HarryRotation 的寬度
+    if (rotationElement) {
+      gsap.to(rotationElement, {
+        width: '1950px',
+        scrollTrigger: {
+          trigger: introSectionRef.current,
+          start: 'bottom 10%',
+          end: '+=10%',
+          scrub: true,
+          markers: true
+        }
+      });
+    }
 
     // STEP 4: 當 awards 頂部到達 50% 時，取消 pin，以 1.2 速度向上移動
     // 使用 timeline 來確保 y 軸動畫的連續性
