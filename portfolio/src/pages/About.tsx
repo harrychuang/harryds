@@ -169,7 +169,7 @@ const About: React.FC = () => {
     const rotationElement = visualElement.querySelector('.home__intro-rotation') as HTMLElement;
     
     gsap.to(visualElement, {
-      x: '-51vw',
+      x: '-52vw',
       y: '-=0',  // 向上移動 200px
       scrollTrigger: {
         trigger: introSectionRef.current,
