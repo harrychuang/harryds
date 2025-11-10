@@ -306,7 +306,7 @@ const About: React.FC = () => {
 
         <div className="home__intro-visual" aria-hidden="true" ref={introVisualRef}>
           <HarryRotation
-            width={'90vw'}
+            width={'2000px'}
             autoPlay={false}
             className="home__intro-rotation"
             frame={rotationFrame}

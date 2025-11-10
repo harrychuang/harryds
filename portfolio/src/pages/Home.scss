@@ -295,8 +295,8 @@
 
   &__intro-visual {
     position: absolute;
-    top: 0;
-    left: 5vw;
+    display: flex;
+    left: 0vw;
     pointer-events: none;
     z-index: 0;
   }
