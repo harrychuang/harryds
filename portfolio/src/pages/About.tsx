@@ -416,6 +416,7 @@ const About: React.FC = () => {
       // 設置初始狀態：隱藏且位置在畫面上方
       gsap.set(backgroundRotationRef.current, { 
         y: '-250vh',
+        transform: 'scale(1)',
         autoAlpha: 0  // autoAlpha 同時控制 opacity 和 visibility
       });
       
@@ -423,12 +424,34 @@ const About: React.FC = () => {
       gsap.to(backgroundRotationRef.current, {
         y: 0,
         autoAlpha: 1,  // 動畫時變為可見
+        transform: 'scale(1)',
         ease: 'expo.inOut',
         scrollTrigger: {
           trigger: backgroundSectionRef.current,
           start: 'start 90%',
           end: 'top 10%',
-          scrub: 1,  // 使用數值而非 true 以保留 ease 效果
+          scrub: 1.5,  // 使用數值而非 true 以保留 ease 效果
+          markers: true // 開發時顯示標記，完成後可移除
+        }
+      });
+    }
+
+    // STEP 6: 當 background section 到達 start 70% 時，giphy 跑馬燈淡入
+    if (backgroundSectionRef.current && marqueeRef.current) {
+      // 設置初始狀態：完全透明
+      gsap.set(marqueeRef.current, { 
+        transform: 'scale(1) translateY(100%) translateX(500%)'
+      });
+      
+      // 創建淡入動畫
+      gsap.to(marqueeRef.current, {
+        ease: 'power1.out',
+        transform: 'scale(1) translateY(-50%) translateX(0%)',
+        scrollTrigger: {
+          trigger: backgroundSectionRef.current,
+          start: 'start 40%',
+          end: 'start 80%',
+          scrub: 2.5,
           markers: true // 開發時顯示標記，完成後可移除
         }
       });
