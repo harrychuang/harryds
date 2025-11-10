@@ -169,8 +169,8 @@ const About: React.FC = () => {
     const rotationElement = visualElement.querySelector('.home__intro-rotation') as HTMLElement;
     
     gsap.to(visualElement, {
-      x: '-50vw',
-      y: '-=100',  // 向上移動 100px
+      x: '-45vw',
+      y: '-=200',  // 向上移動 200px
       scrollTrigger: {
         trigger: introSectionRef.current,
         start: 'bottom 10%',
@@ -189,7 +189,7 @@ const About: React.FC = () => {
     // 同時改變 HarryRotation 的寬度
     if (rotationElement) {
       gsap.to(rotationElement, {
-        width: '1950px',
+        width: '1800px',
         scrollTrigger: {
           trigger: introSectionRef.current,
           start: 'bottom 10%',
