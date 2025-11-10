@@ -47,6 +47,7 @@ const About: React.FC = () => {
 
   // HarryRotation frame state
   const [rotationFrame, setRotationFrame] = useState(1);
+  const [isPageReady, setIsPageReady] = useState(false);
 
   // Giphy marquee state
   interface GiphyItem {
@@ -195,6 +196,23 @@ const About: React.FC = () => {
     };
   }, [giphyItems, getRandomGiphyUrl]);
 
+  // 頁面 / 圖片載入完成後刷新 ScrollTrigger，避免重新整理時位置錯亂
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const refreshScrollTrigger = () => {
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener('load', refreshScrollTrigger);
+    const refreshTimer = setTimeout(refreshScrollTrigger, 300);
+
+    return () => {
+      window.removeEventListener('load', refreshScrollTrigger);
+      clearTimeout(refreshTimer);
+    };
+  }, []);
+
   // 導覽選單 hover 觸發一次動畫狀態
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
   const menuHoverTimersRef = useRef<Record<string, number>>({});
@@ -282,8 +300,22 @@ const About: React.FC = () => {
   }, [i18n.language]);
 
   // STEP 1 & 2: 視差效果與 pin 動畫
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (typeof window === 'undefined') return;
+
+    if (document.readyState === 'complete') {
+      setIsPageReady(true);
+      return;
+    }
+
+    const handleLoad = () => setIsPageReady(true);
+    window.addEventListener('load', handleLoad);
+
+    return () => window.removeEventListener('load', handleLoad);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined' || !isPageReady) return;
     
     gsap.registerPlugin(ScrollTrigger);
 
@@ -356,8 +388,8 @@ const About: React.FC = () => {
                                     clientsSectionRef.current.offsetHeight - 
                                     awardsSectionRef.current.offsetTop;
       
-      // 以 1.7 速度移動，表示視差距離 = 滾動距離 * -0.7
-      const step4ParallaxDistance = awardsToClientsHeight * -0.7;
+      // 以 1.7 速度移動，表示視差距離 = 滾動距離 * -0.6
+      const step4ParallaxDistance = awardsToClientsHeight * -0.6;
       
       // 創建一個從當前位置繼續的動畫
       const tl = gsap.timeline({
@@ -390,7 +422,7 @@ const About: React.FC = () => {
       ScrollTrigger.getAll().forEach(st => st.kill());
       setRotationFrame(1); // 重置為初始幀
     };
-  }, [i18n.language]);
+  }, [i18n.language, isPageReady]);
 
 
   // 語言切換相關
