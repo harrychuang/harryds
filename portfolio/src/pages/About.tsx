@@ -44,6 +44,7 @@ const About: React.FC = () => {
   const awardsSectionRef = useRef<HTMLElement>(null);
   const clientsSectionRef = useRef<HTMLElement>(null);
   const backgroundSectionRef = useRef<HTMLElement>(null);
+  const backgroundRotationRef = useRef<HTMLDivElement>(null);
 
   // HarryRotation frame state
   const [rotationFrame, setRotationFrame] = useState(1);
@@ -410,6 +411,29 @@ const About: React.FC = () => {
       });
     }
 
+    // STEP 5: 當 background section 頂部到達 30% 時，HarryRotation 從上方移動到當前位置
+    if (backgroundSectionRef.current && backgroundRotationRef.current) {
+      // 設置初始狀態：隱藏且位置在畫面上方
+      gsap.set(backgroundRotationRef.current, { 
+        y: '-250vh',
+        autoAlpha: 0  // autoAlpha 同時控制 opacity 和 visibility
+      });
+      
+      // 創建從上方移動到當前位置的動畫，同時顯示元素
+      gsap.to(backgroundRotationRef.current, {
+        y: 0,
+        autoAlpha: 1,  // 動畫時變為可見
+        ease: 'expo.inOut',
+        scrollTrigger: {
+          trigger: backgroundSectionRef.current,
+          start: 'start 90%',
+          end: 'top 10%',
+          scrub: 1,  // 使用數值而非 true 以保留 ease 效果
+          markers: true // 開發時顯示標記，完成後可移除
+        }
+      });
+    }
+
     // 監聽視窗大小變化並刷新
     const handleResize = () => {
       ScrollTrigger.refresh();
@@ -660,7 +684,7 @@ const About: React.FC = () => {
                   />
                 ))}
               </div>
-              <div className="home__background-rotation">
+              <div className="home__background-rotation" ref={backgroundRotationRef}>
                 <HarryRotation
                   width={'250px'}
                   autoPlay={true}
