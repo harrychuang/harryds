@@ -146,34 +146,23 @@ const About: React.FC = () => {
     const initialTop = introSectionRef.current.offsetTop;
     gsap.set(introVisualRef.current, { top: initialTop });
 
-    // STEP 1: 視差效果 (0.8 倍速移動)
+    // STEP 1: home__intro-visual 和 home__intro 一起以 1 倍速移動
     const visualElement = introVisualRef.current;
     
-    // 計算視差移動距離
-    const introHeight = introSectionRef.current.offsetHeight;
-    const parallaxDistance = introHeight * 0.2; // 因為速度是 0.8，所以會比正常慢 20%
-    
-    gsap.to(visualElement, {
-      y: parallaxDistance,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: introSectionRef.current,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
-        markers: true // 開發時顯示標記，完成後可移除
-      }
-    });
+    // 1 倍速不需要視差動畫，元素會自然跟著頁面滾動
 
-    // STEP 2: 當到達 10% 時 pin 住
-    ScrollTrigger.create({
-      trigger: visualElement,
-      start: 'top 10%',
-      end: 'bottom 10%',
-      pin: true,
-      pinSpacing: false,
-      markers: true // 開發時顯示標記，完成後可移除
-    });
+    // STEP 2: 當到達 10% 時 pin 住，直到 awards 頂部到達 50% 時取消 pin
+    if (awardsSectionRef.current) {
+      ScrollTrigger.create({
+        trigger: visualElement,
+        start: 'top 10%',
+        endTrigger: awardsSectionRef.current,
+        end: 'top 50%',
+        pin: true,
+        pinSpacing: false,
+        markers: true // 開發時顯示標記，完成後可移除
+      });
+    }
 
     // STEP 3: 當 home__intro 底部離開後，移到左邊 -50vw
     // 在滾動 500px 的距離內完成移動，同時 rotationFrame 從 1 變化到 8
@@ -182,7 +171,7 @@ const About: React.FC = () => {
       scrollTrigger: {
         trigger: introSectionRef.current,
         start: 'bottom 10%',
-        end: '+=500',  // 從 start 位置再滾動 500px
+        end: '+=10%',  // 從 start 位置再滾動 10%
         scrub: true,
         markers: true, // 開發時顯示標記，完成後可移除
         onUpdate: (self) => {
@@ -193,6 +182,36 @@ const About: React.FC = () => {
         }
       }
     });
+
+    // STEP 4: 當 awards 頂部到達 50% 時，取消 pin，以 1.2 速度向上移動
+    // 使用 timeline 來確保 y 軸動畫的連續性
+    if (awardsSectionRef.current && clientsSectionRef.current) {
+      // 計算視窗高度的 50% 位置到 clients 底部的滾動距離
+      const awardsToClientsHeight = clientsSectionRef.current.offsetTop + 
+                                    clientsSectionRef.current.offsetHeight - 
+                                    awardsSectionRef.current.offsetTop;
+      
+      // 以 1.6 速度移動，表示視差距離 = 滾動距離 * -0.6
+      const step4ParallaxDistance = awardsToClientsHeight * -0.6;
+      
+      // 創建一個從當前位置繼續的動畫
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: awardsSectionRef.current,
+          start: 'top 50%',
+          endTrigger: clientsSectionRef.current,
+          end: 'bottom bottom',
+          scrub: true,
+          markers: true // 開發時顯示標記，完成後可移除
+        }
+      });
+      
+      // 從當前 y 值繼續向上移動（負值表示加快向上速度）
+      tl.to(visualElement, {
+        y: `+=${step4ParallaxDistance}`,
+        ease: 'none'
+      });
+    }
 
     // 監聽視窗大小變化並刷新
     const handleResize = () => {
