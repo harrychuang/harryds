@@ -8,6 +8,7 @@
   background: var(--hds-sys-color-on-theme-surface);
   color: var(--hds-sys-color-theme-surface);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden; // 防止 2000px 寬的 HarryRotation 造成水平溢出和滾動卡頓
 
   &__header {
     position: fixed;
@@ -299,6 +300,9 @@
     left: 0vw;
     pointer-events: none;
     z-index: 0;
+    // 啟用 GPU 加速，避免滾動時重繪卡頓
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   &__intro-rotation {
@@ -397,6 +401,10 @@
     color: var(--hds-sys-color-theme-surface);
     --feed-detail-primary-color: var(--hds-sys-color-theme-surface);
     --on-hds-sys-color-surface: var(--hds-sys-color-theme-surface);
+  }
+
+  &__awards {
+    margin-top: 200vh;
   }
 
   &__clients {

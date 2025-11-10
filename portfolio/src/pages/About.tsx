@@ -32,7 +32,6 @@ const About: React.FC = () => {
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
   const heroSubtitleRef = useRef<HTMLParagraphElement>(null);
@@ -44,17 +43,8 @@ const About: React.FC = () => {
   const clientsSectionRef = useRef<HTMLElement>(null);
   const backgroundSectionRef = useRef<HTMLElement>(null);
 
-  // 量測 HarryRotation 區塊（home__intro-visual）的頂/底座標
-  const rotationMetricsRef = useRef<{
-    viewportTop: number;
-    viewportBottom: number;
-    pageTop: number;
-    pageBottom: number;
-    height: number;
-  }>({ viewportTop: 0, viewportBottom: 0, pageTop: 0, pageBottom: 0, height: 0 });
-
-  // HarryRotation frame state
-  const [rotationFrame, setRotationFrame] = useState(1);
+  // HarryRotation frame state (固定為第 1 幀)
+  const rotationFrame = 1;
 
   // 導覽選單 hover 觸發一次動畫狀態
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
@@ -157,45 +147,6 @@ const About: React.FC = () => {
     };
   }, [i18n.language]);
 
-  // 偵測 HarryRotation 位置（top/bottom），以 rAF 節流更新
-  useLayoutEffect(() => {
-    if (typeof window === 'undefined') return;
-    const el = introVisualRef.current;
-    if (!el) return;
-
-    let rafId: number | null = null;
-
-    const measure = () => {
-      const rect = el.getBoundingClientRect();
-      const scrollY = window.scrollY || window.pageYOffset || 0;
-      rotationMetricsRef.current = {
-        viewportTop: rect.top,
-        viewportBottom: rect.bottom,
-        pageTop: rect.top + scrollY,
-        pageBottom: rect.bottom + scrollY,
-        height: rect.height,
-      };
-    };
-
-    const onScrollOrResize = () => {
-      if (rafId != null) return;
-      rafId = window.requestAnimationFrame(() => {
-        measure();
-        rafId = null;
-      });
-    };
-
-    // 初次量測
-    measure();
-    window.addEventListener('scroll', onScrollOrResize, { passive: true });
-    window.addEventListener('resize', onScrollOrResize);
-
-    return () => {
-      window.removeEventListener('scroll', onScrollOrResize);
-      window.removeEventListener('resize', onScrollOrResize);
-      if (rafId != null) cancelAnimationFrame(rafId);
-    };
-  }, [i18n.language]);
 
   // 語言切換相關
   const languageMap = {
@@ -236,7 +187,7 @@ const About: React.FC = () => {
   }, [isLangDropdownOpen]);
 
   return (
-    <div className="home scroll-trigger-ready__worm-wrap" ref={scrollContainerRef}>
+    <div className="home">
       <Header
         onLogoClick={() => navigate('/')}
         logoType="default"
