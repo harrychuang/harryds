@@ -44,8 +44,8 @@ const About: React.FC = () => {
   const clientsSectionRef = useRef<HTMLElement>(null);
   const backgroundSectionRef = useRef<HTMLElement>(null);
 
-  // HarryRotation frame state (固定為第 1 幀)
-  const rotationFrame = 1;
+  // HarryRotation frame state
+  const [rotationFrame, setRotationFrame] = useState(1);
 
   // 導覽選單 hover 觸發一次動畫狀態
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
@@ -176,7 +176,7 @@ const About: React.FC = () => {
     });
 
     // STEP 3: 當 home__intro 底部離開後，移到左邊 -50vw
-    // 在滾動 400px 的距離內完成移動
+    // 在滾動 500px 的距離內完成移動，同時 rotationFrame 從 1 變化到 8
     gsap.to(visualElement, {
       x: '-50vw',
       scrollTrigger: {
@@ -184,7 +184,13 @@ const About: React.FC = () => {
         start: 'bottom 10%',
         end: '+=500',  // 從 start 位置再滾動 500px
         scrub: true,
-        markers: true // 開發時顯示標記，完成後可移除
+        markers: true, // 開發時顯示標記，完成後可移除
+        onUpdate: (self) => {
+          // 根據進度計算當前幀數 (1 到 8)
+          const progress = self.progress;
+          const currentFrame = Math.round(1 + progress * 6); // 1 + (0~1) * 7 = 1~8
+          setRotationFrame(currentFrame);
+        }
       }
     });
 
@@ -198,6 +204,7 @@ const About: React.FC = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
       ScrollTrigger.getAll().forEach(st => st.kill());
+      setRotationFrame(1); // 重置為初始幀
     };
   }, [i18n.language]);
 
