@@ -8,7 +8,7 @@
   background: var(--hds-sys-color-on-theme-surface);
   color: var(--hds-sys-color-theme-surface);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  overflow: hidden; // 防止 2000px 寬的 HarryRotation 造成水平溢出和滾動卡頓
+  overflow: hidden; // 防止 2000px 寬的 HarryAnimation 造成水平溢出和滾動卡頓
 
   &__header {
     position: fixed;
@@ -472,7 +472,7 @@
     min-height: 250px;
     margin-top: 30px;
     // margin-left: calc(-50vw + 50%);
-    overflow: visible; // 允許 HarryRotation 溢出
+    overflow: visible; // 允許 HarryAnimation 溢出
     display: flex;
     align-items: center;
     justify-content: center;

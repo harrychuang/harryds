@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Logo, PixelText2D, HarryRotation, ListCard } from 'hds';
+import { Logo, PixelText2D, HarryAnimation, ListCard } from 'hds';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
 import { gsap } from 'gsap';
@@ -124,7 +124,7 @@ const About: React.FC = () => {
     }
   ];
 
-  // HarryRotation frame state
+  // HarryAnimation frame state
   const [rotationFrame, setRotationFrame] = useState(1);
   const [isPageReady, setIsPageReady] = useState(false);
 
@@ -454,7 +454,7 @@ const About: React.FC = () => {
       }
     });
     
-    // 同時改變 HarryRotation 的寬度
+    // 同時改變 HarryAnimation 的寬度
     if (rotationElement) {
       gsap.to(rotationElement, {
         width: '1900px',
@@ -495,7 +495,7 @@ const About: React.FC = () => {
       });
     }
 
-    // STEP 5: 當 background section 頂部到達 30% 時，HarryRotation 從上方移動到當前位置
+    // STEP 5: 當 background section 頂部到達 30% 時，HarryAnimation 從上方移動到當前位置
     if (backgroundSectionRef.current && backgroundRotationRef.current) {
       // 設置初始狀態：隱藏且位置在畫面上方
       gsap.set(backgroundRotationRef.current, { 
@@ -840,7 +840,7 @@ const About: React.FC = () => {
         </section>
 
         <div className="home__intro-visual" aria-hidden="true" ref={introVisualRef}>
-          <HarryRotation
+          <HarryAnimation
             width={'2000px'}
             autoPlay={false}
             className="home__intro-rotation"
@@ -968,7 +968,7 @@ const About: React.FC = () => {
                 ))}
               </div>
               <div className="home__background-rotation" ref={backgroundRotationRef}>
-                <HarryRotation
+                <HarryAnimation
                   width={'250px'}
                   autoPlay={true}
                 />

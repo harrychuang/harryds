@@ -1,13 +1,13 @@
 // =============================================================================
-// HARRY ROTATION - STORYBOOK STORIES
+// HARRY ANIMATION - STORYBOOK STORIES
 // =============================================================================
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { HarryRotation } from './HarryRotation';
+import { HarryAnimation } from './HarryAnimation';
 
-const meta: Meta<typeof HarryRotation> = {
-  title: 'Components/HarryRotation',
-  component: HarryRotation,
+const meta: Meta<typeof HarryAnimation> = {
+  title: 'Components/HarryAnimation',
+  component: HarryAnimation,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
@@ -44,7 +44,7 @@ const meta: Meta<typeof HarryRotation> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof HarryRotation>;
+type Story = StoryObj<typeof HarryAnimation>;
 
 export const Default: Story = {
   args: {

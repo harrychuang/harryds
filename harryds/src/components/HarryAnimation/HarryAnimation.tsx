@@ -1,11 +1,11 @@
 // =============================================================================
-// HARRY ROTATION 元件 - 循環播放圖片序列形成動畫效果
+// HARRY ANIMATION 元件 - 循環播放圖片序列形成動畫效果
 // =============================================================================
 
 import { useEffect, useRef, useState } from 'react';
-import './HarryRotation.scss';
+import './HarryAnimation.scss';
 
-export interface HarryRotationProps {
+export interface HarryAnimationProps {
   /** 每幀的持續時間（毫秒），預設 300ms */
   frameDuration?: number;
   /** 圖片寬度，預設 '100%' */
@@ -47,7 +47,7 @@ const frames = [
   rotation9,
 ];
 
-export const HarryRotation: React.FC<HarryRotationProps> = ({
+export const HarryAnimation: React.FC<HarryAnimationProps> = ({
   frameDuration = 300,
   width = '100%',
   height = 'auto',
@@ -90,16 +90,16 @@ export const HarryRotation: React.FC<HarryRotationProps> = ({
     : currentFrame;
 
   return (
-    <div className={`harry-rotation ${className}`} style={containerStyle}>
+    <div className={`harry-animation ${className}`} style={containerStyle}>
       <img
         src={frames[displayFrame]}
-        alt={`Harry rotation frame ${displayFrame}`}
+        alt={`Harry animation frame ${displayFrame}`}
         style={imgStyle}
-        className="harry-rotation__image"
+        className="harry-animation__image"
       />
     </div>
   );
 };
 
-export default HarryRotation;
+export default HarryAnimation;
 
