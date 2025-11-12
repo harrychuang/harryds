@@ -786,6 +786,18 @@ const About: React.FC = () => {
     // 選取所有 contact 相關的連結（email, phone, social）
     const contactLinks = document.querySelectorAll('.home__contact-email, .home__contact-phone, .home__contact-social-link');
     
+    // 儲存每個元素的原始文字和動畫 tween
+    const linkData = new Map<HTMLElement, { originalText: string, tween: gsap.core.Tween | null }>();
+    
+    // 初始化：儲存每個連結的原始文字
+    contactLinks.forEach((link) => {
+      const element = link as HTMLElement;
+      linkData.set(element, {
+        originalText: element.textContent || '',
+        tween: null
+      });
+    });
+    
     const scrambleText = (element: HTMLElement, finalText: string) => {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-*/=<>[]{}@.';
       let scrambleObj = { progress: 0 };
@@ -810,6 +822,11 @@ const About: React.FC = () => {
         },
         onComplete: () => {
           element.textContent = finalText;
+          // 動畫完成後清除 tween 引用
+          const data = linkData.get(element);
+          if (data) {
+            data.tween = null;
+          }
         }
       });
       
@@ -818,8 +835,17 @@ const About: React.FC = () => {
 
     const handleMouseEnter = (e: Event) => {
       const target = e.currentTarget as HTMLElement;
-      const originalText = target.textContent || '';
-      scrambleText(target, originalText);
+      const data = linkData.get(target);
+      
+      if (!data) return;
+      
+      // 如果有正在進行的動畫，先 kill 掉
+      if (data.tween) {
+        data.tween.kill();
+      }
+      
+      // 使用儲存的原始文字開始新動畫
+      data.tween = scrambleText(target, data.originalText);
     };
 
     contactLinks.forEach((link) => {
@@ -827,9 +853,15 @@ const About: React.FC = () => {
     });
 
     return () => {
+      // 清理：移除事件監聽器並 kill 所有動畫
       contactLinks.forEach((link) => {
         link.removeEventListener('mouseenter', handleMouseEnter);
+        const data = linkData.get(link as HTMLElement);
+        if (data?.tween) {
+          data.tween.kill();
+        }
       });
+      linkData.clear();
     };
   }, [isPageReady]);
 
