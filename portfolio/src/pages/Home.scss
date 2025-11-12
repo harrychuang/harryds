@@ -300,7 +300,7 @@
     display: flex;
     left: 0vw;
     pointer-events: none;
-    z-index: 0;
+    z-index: 2;  // 高於 intro-grid (z-index: 1)
     // 啟用 GPU 加速，避免滾動時重繪卡頓
     will-change: transform;
     transform: translateZ(0);
@@ -411,7 +411,7 @@
   }
 
   &__awards {
-    margin-top: 100vh;
+    margin-top: 70vh;
   }
 
   &__clients {

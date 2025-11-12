@@ -362,17 +362,17 @@ const About: React.FC = () => {
     const rotationElement = visualElement.querySelector('.home__intro-rotation') as HTMLElement;
     
     gsap.to(visualElement, {
-      x: '-50vw',
+      x: '-48vw',
       y: '-=0',  // 向上移動 200px
       scrollTrigger: {
         trigger: introSectionRef.current,
-        start: 'bottom 40%',
+        start: 'bottom 50%',
         scrub: true,
         markers: true, // 開發時顯示標記，完成後可移除
         onUpdate: (self) => {
           // 根據進度計算當前幀數 (1 到 8)
           const progress = self.progress;
-          const currentFrame = Math.round(1 + progress * 6); // 1 + (0~1) * 7 = 1~8
+          const currentFrame = Math.round(1 + progress * 7); // 1 + (0~1) * 7 = 1~8
           setRotationFrame(currentFrame);
         }
       }
@@ -384,8 +384,7 @@ const About: React.FC = () => {
         width: '1900px',
         scrollTrigger: {
           trigger: introSectionRef.current,
-          start: 'bottom 30%',
-          end: '+=10%',
+          start: 'bottom 50%',
           scrub: true,
           markers: true
         }
@@ -401,7 +400,7 @@ const About: React.FC = () => {
                                     awardsSectionRef.current.offsetTop;
       
       // 以 0.2 速度移動，表示視差距離 = 滾動距離 * 0.2
-      const step4ParallaxDistance = awardsToClientsHeight * 0.2;
+      const step4ParallaxDistance = awardsToClientsHeight * 0.1;
       
       // 創建一個從當前位置繼續的動畫
       const tl = gsap.timeline({
