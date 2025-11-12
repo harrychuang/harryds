@@ -128,6 +128,10 @@ const About: React.FC = () => {
   // HarryAnimation frame state
   const [rotationFrame, setRotationFrame] = useState(1);
   const [isPageReady, setIsPageReady] = useState(false);
+  
+  // Email copy tooltip state
+  const [showEmailTooltip, setShowEmailTooltip] = useState(false);
+  const emailRef = useRef<HTMLAnchorElement>(null);
 
   // Giphy marquee state
   interface GiphyItem {
@@ -340,6 +344,26 @@ const About: React.FC = () => {
     audioManager.preload(hoverSoundUrl).catch(() => {});
     audioManager.preload(clickSoundUrl).catch(() => {});
   }, []);
+
+  // 複製 Email 到剪貼簿
+  const handleCopyEmail = useCallback(async (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault(); // 防止打開 mailto
+    
+    const email = 'harrychuang23@gmail.com';
+    
+    try {
+      await navigator.clipboard.writeText(email);
+      setShowEmailTooltip(true);
+      playMenuClickSound();
+      
+      // 3 秒後隱藏 tooltip
+      setTimeout(() => {
+        setShowEmailTooltip(false);
+      }, 3000);
+    } catch (err) {
+      console.warn('Failed to copy email:', err);
+    }
+  }, [playMenuClickSound]);
 
   // Hero 進場動畫：Title 打字效果 + 0.3s 後內文行動效
   useLayoutEffect(() => {
@@ -755,6 +779,60 @@ const About: React.FC = () => {
     return () => ctx.revert();
   }, [i18n.language, isPageReady]);
 
+  // Contact 連結 hover 亂數文字效果（使用 GSAP）
+  useEffect(() => {
+    if (typeof window === 'undefined' || !isPageReady) return;
+
+    // 選取所有 contact 相關的連結（email, phone, social）
+    const contactLinks = document.querySelectorAll('.home__contact-email, .home__contact-phone, .home__contact-social-link');
+    
+    const scrambleText = (element: HTMLElement, finalText: string) => {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-*/=<>[]{}@.';
+      let scrambleObj = { progress: 0 };
+      
+      // 使用 GSAP 動畫來控制亂數進度
+      const tween = gsap.to(scrambleObj, {
+        progress: finalText.length,
+        duration: 0.6,
+        ease: 'none',
+        onUpdate: () => {
+          const progress = scrambleObj.progress;
+          element.textContent = finalText
+            .split('')
+            .map((char, index) => {
+              if (char === ' ' || char === '+' || char === '@' || char === '.') return char;
+              if (index < progress) {
+                return finalText[index];
+              }
+              return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join('');
+        },
+        onComplete: () => {
+          element.textContent = finalText;
+        }
+      });
+      
+      return tween;
+    };
+
+    const handleMouseEnter = (e: Event) => {
+      const target = e.currentTarget as HTMLElement;
+      const originalText = target.textContent || '';
+      scrambleText(target, originalText);
+    };
+
+    contactLinks.forEach((link) => {
+      link.addEventListener('mouseenter', handleMouseEnter);
+    });
+
+    return () => {
+      contactLinks.forEach((link) => {
+        link.removeEventListener('mouseenter', handleMouseEnter);
+      });
+    };
+  }, [isPageReady]);
+
   // 語言切換相關
   const languageMap = {
     'zh-Hant': 'ZH',
@@ -1087,10 +1165,38 @@ const About: React.FC = () => {
                   <span className="lineChild">Have a design or development need? If you're looking for a partner with 15 years in product design, development, and operations, drop me a line — or challenge me to an 8-bit game :D</span>
                 </span>
               </div>
-              <div className="home__contact-info">
+              <div className="home__contact-info" style={{ position: 'relative' }}>
+                {showEmailTooltip && (
+                  <span 
+                    className="email-tooltip"
+                    style={{
+                      position: 'absolute',
+                      bottom: 'calc(100% + 5px)',
+                      left: '0%',
+                      padding: '8px 10px 5px 10px',
+                      backgroundColor: 'var(--hds-sys-color-theme-surface)',
+                      color: 'var(--hds-sys-color-on-theme-surface)',
+                      fontFamily: "'Pixel', 'Courier New', Courier, monospace",
+                      fontSize: '15px',
+                      whiteSpace: 'nowrap',
+                      zIndex: 1000,
+                      animation: 'fadeIn 0.2s ease-in-out',
+                      pointerEvents: 'none',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    Email copied!
+                  </span>
+                )}
                 <span className="lineParent">
-                  <a href="mailto:Harrychuang23@gmail.com" className="home__contact-email lineChild">
-                    Harrychuang23@gmail.com
+                  <a 
+                    ref={emailRef}
+                    href="mailto:harrychuang23@gmail.com" 
+                    className="home__contact-email lineChild"
+                    onClick={handleCopyEmail}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    harrychuang23@gmail.com
                   </a>
                 </span>
                 <span className="lineParent">
