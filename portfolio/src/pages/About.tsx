@@ -901,6 +901,61 @@ const About: React.FC = () => {
             ))}
           </div>
         </section>
+
+        <section className="home__services-contact" aria-labelledby="about-services-title">
+          <div className="home__services-contact-grid">
+            <div className="home__services-contact-column">
+              <h2 id="about-services-title" className="home__intro-title feed-detail-overlay__section-title">
+                Services<span className="feed-detail-overlay__cursor">_</span>
+              </h2>
+              <div className="home__services-subtitle">
+                <p>Flexible Hourly Support</p>
+                <p>Project-Based Outsourcing</p>
+                <p>Design Systems | Training &amp; Consulting</p>
+              </div>
+              <div className="home__services-list">
+                <div className="home__services-category">
+                  <h3 className="home__services-category-title">WEB/APP</h3>
+                  <div className="home__services-items">
+                    <div className="home__services-item">UI/UX DESIGN</div>
+                    <div className="home__services-item">Creative</div>
+                    <div className="home__services-item">SEO</div>
+                  </div>
+                </div>
+                <div className="home__services-category">
+                  <h3 className="home__services-category-title">DEVELOPMENT</h3>
+                  <div className="home__services-items">
+                    <div className="home__services-item">Front-End</div>
+                    <div className="home__services-item">NO-CODE Management</div>
+                  </div>
+                </div>
+                <div className="home__services-category">
+                  <h3 className="home__services-category-title">DESIGN SYSTEM</h3>
+                  <div className="home__services-items">
+                    <div className="home__services-item">Training &amp; Consulting</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="home__services-contact-column">
+              <h2 id="about-contact-title" className="home__intro-title feed-detail-overlay__section-title">
+                CONTACT<span className="feed-detail-overlay__cursor">_</span>
+              </h2>
+              <div className="home__contact-subtitle">
+                <p>Have a design or development need? If you're looking for a partner with 15 years in product design, development, and operations, drop me a line — or challenge me to an 8-bit game :D</p>
+              </div>
+              <div className="home__contact-info">
+                <a href="mailto:Harrychuang23@gmail.com" className="home__contact-email">
+                  Harrychuang23@gmail.com
+                </a>
+                <a href="tel:+886921706170" className="home__contact-phone">
+                  +886 921 706 170
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );
