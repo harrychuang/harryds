@@ -555,6 +555,82 @@ const About: React.FC = () => {
       });
     }
 
+    // STEP 7: 當 referrer section 頂部到達 15% 時，pin 住，滾動 3000px 後解除
+    if (referrerSectionRef.current) {
+      const referrerList = referrerSectionRef.current.querySelector('.home__referrer-list');
+      
+      // Pin 整個 section
+      ScrollTrigger.create({
+        trigger: referrerSectionRef.current,
+        start: 'top 15%',
+        end: '+=3000',  // 從 start 位置再滾動 3000px
+        pin: true,
+        pinSpacing: true,
+        markers: true, // 開發時顯示標記，完成後可移除
+        id: 'referrer-pin'
+      });
+
+      // STEP 7.1: 在 pin 期間，讓整個 list 向上移動
+      if (referrerList) {
+        gsap.to(referrerList, {
+          y: '-100%',  // 向上移動列表
+          ease: 'none',
+          scrollTrigger: {
+            trigger: referrerSectionRef.current,
+            start: 'top 15%',
+            end: '+=4000',
+            scrub: 1,
+            markers: true
+          }
+        });
+      }
+
+      // STEP 7.2: 為每個 ListCard 設置 pin、z-index、translateZ 和 fadeout 效果
+      const listCards = referrerSectionRef.current.querySelectorAll('.home__referrer-card');
+      
+      listCards.forEach((card, index) => {
+        const htmlCard = card as HTMLElement;
+        
+        // 設置初始 z-index 和 3D 屬性（越後面的卡片 z-index 越高，這樣往上滑時會疊在前面的卡片上方）
+        gsap.set(htmlCard, { 
+          zIndex: 1,
+          transformPerspective: 1000,
+          transformStyle: 'preserve-3d'
+        });
+
+        // 當卡片頂部到達 20% 時，pin 住該卡片
+        // 使用 pinType: "transform" 避免 fixed positioning 導致的位置問題
+        ScrollTrigger.create({
+          trigger: htmlCard,
+          start: 'top 10%',
+          end: 'top 10%',
+          pin: true,
+          pinSpacing: false,
+          pinType: 'transform',  // 使用 transform 而非 fixed positioning
+          markers: true, // 開發時顯示標記
+          id: `referrer-card-pin-${index}`
+        });
+
+        // 當卡片頂部到達 20% 時，觸發 z-index 降低、translateZ 往後的效果
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: htmlCard,
+            start: 'top 20%',
+            end: 'top 20%',
+            scrub: true,
+            markers: true, // 開發時顯示標記
+          }
+        });
+
+        // 同時進行：往後移動（translateZ）、縮小（scale）、降低 z-index
+        tl.to(htmlCard, {
+          opacity: 0,
+          zIndex: 0,
+          ease: 'none'
+        });
+      });
+    }
+
     // 監聽視窗大小變化並刷新（使用 debounce 優化性能）
     let resizeTimer: number | null = null;
     const handleResize = () => {

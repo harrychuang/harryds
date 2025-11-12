@@ -546,13 +546,34 @@
     display: flex;
     flex-direction: column;
     gap: 50px;
-    max-width: 700px;
-    width: 100%;
+    max-width: 800px;
+    width: 800px;  // 固定寬度而非彈性寬度
     margin-top: 32px;
+    position: relative;
+    // 確保有足夠的最小高度來容納所有卡片
+    min-height: 100vh;
+    // 3D 透視效果
+    perspective: 1000px;
+    perspective-origin: center center;
   }
 
   &__referrer-card {
     text-align: left;
+    position: relative;
+    // 確保卡片可以接收 z-index
+    isolation: isolate;
+    // 平滑過渡效果
+    transition: opacity 0.3s ease, z-index 0.3s ease;
+    // 背景色，確保卡片疊在一起時不會透出下面的內容
+    background: var(--hds-sys-color-on-theme-surface);
+    // 啟用 3D 轉換
+    transform-style: preserve-3d;
+    // 確保在 3D 空間中平滑渲染
+    backface-visibility: hidden;
+    // GPU 加速
+    will-change: transform, opacity;
+    // 卡片填滿容器寬度
+    width: 100%;
 
     // 覆蓋 ListCard 的顏色，讓內容在 light mode 是暗色，dark mode 是亮色
     .list-card__title,
@@ -639,7 +660,10 @@
 
     &__referrer-list {
       gap: 32px;
+      width: 100%;  // 手機版使用 100% 寬度
       max-width: 100%;
+      padding: 0 16px;  // 添加左右間距
+      box-sizing: border-box;
     }
   }
 }
