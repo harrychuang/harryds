@@ -521,6 +521,50 @@
     color: inherit;
   }
 
+  &__referrer {
+    width: 100%;
+    text-align: center;
+    margin-top: 10vh;
+    color: var(--hds-sys-color-on-theme-surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+
+    // 標題保持暗色（不隨 theme 變化）
+    .home__intro-title,
+    .feed-detail-overlay__section-title {
+      color: var(--hds-sys-color-theme-surface);
+      --feed-detail-primary-color: var(--hds-sys-color-theme-surface);
+      align-self: center;
+      max-width: 800px;
+      width: 100%;
+    }
+  }
+
+  &__referrer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    max-width: 700px;
+    width: 100%;
+    margin-top: 32px;
+  }
+
+  &__referrer-card {
+    text-align: left;
+
+    // 覆蓋 ListCard 的顏色，讓內容在 light mode 是暗色，dark mode 是亮色
+    .list-card__title,
+    .list-card__name,
+    .list-card__testimonial {
+      color: var(--hds-sys-color-on-theme-surface);
+    }
+
+    // outline 顏色也要跟著變化
+    outline-color: var(--hds-sys-color-on-theme-surface);
+  }
+
   @media (max-width: 768px) {
     &__main {
       padding-top: 120px;
@@ -587,6 +631,15 @@
     &__background-description {
       font-size: 18px;
       line-height: 1.6;
+    }
+
+    &__referrer {
+      margin-top: 20vh;
+    }
+
+    &__referrer-list {
+      gap: 32px;
+      max-width: 100%;
     }
   }
 }

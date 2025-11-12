@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Logo, PixelText2D, HarryRotation } from 'hds';
+import { Logo, PixelText2D, HarryRotation, ListCard } from 'hds';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
 import { gsap } from 'gsap';
@@ -22,6 +22,16 @@ import logoAapd from '../../assets/imgs/logos/logo-aapd-dark.png';
 import logoQnap from '../../assets/imgs/logos/logo-qnap-dark.png';
 import logoUxy from '../../assets/imgs/logos/logo-uxy-dark.png';
 import logoShopmatic from '../../assets/imgs/logos/logo-shopmatic-dark.png';
+import referrerKris from '../../assets/imgs/referrers/referrer-kris.jpg';
+import referrerDarwin from '../../assets/imgs/referrers/referrer-darwin.jpg';
+import referrerFreddie from '../../assets/imgs/referrers/referrer-freddie.jpg';
+import referrerThenn from '../../assets/imgs/referrers/referrer-thenn.jpg';
+import referrerSimon from '../../assets/imgs/referrers/referrer-simon.jpg';
+import referrerRyan from '../../assets/imgs/referrers/referrer-ryan.jpg';
+import referrerAstrid from '../../assets/imgs/referrers/referrer-astrid.jpg';
+import referrerKen from '../../assets/imgs/referrers/referrer-ken.jpg';
+import referrerAndrew from '../../assets/imgs/referrers/referrer-andrew.jpg';
+import referrerSherry from '../../assets/imgs/referrers/referrer-sherry.jpg';
 import '../pages/Home.scss';
 import Header from '../components/Header';
 import { GIPHY_URLS } from '../constants/giphy';
@@ -45,6 +55,71 @@ const About: React.FC = () => {
   const clientsSectionRef = useRef<HTMLElement>(null);
   const backgroundSectionRef = useRef<HTMLElement>(null);
   const backgroundRotationRef = useRef<HTMLDivElement>(null);
+  const referrerSectionRef = useRef<HTMLElement>(null);
+
+  // Referrer 資料
+  const referrerData = [
+    {
+      imageSrc: referrerKris,
+      title: 'Ex-Shopmatic Chief Product Officer',
+      name: 'Kris',
+      testimonial: "Working with Harry has been an exceptional experience. His deep understanding of both product design and front-end development allows him to bridge the gap between design and engineering seamlessly. Harry's approach to design systems is methodical and practical, consistently delivering solutions that scale. His ability to balance user needs with technical constraints while maintaining a keen eye for detail makes him an invaluable asset to any team. I highly recommend Harry for any product design or design system initiative."
+    },
+    {
+      imageSrc: referrerDarwin,
+      title: 'Ex-Shopmatic Head of User Experience & Design',
+      name: 'Darwin Ng',
+      testimonial: "Harry's expertise in design systems and component libraries is outstanding. He has a unique talent for creating reusable components that are both beautiful and functional. His technical skills in front-end development complement his design abilities perfectly, enabling him to implement his visions with precision. Harry's collaborative nature and clear communication make working with him a pleasure. He consistently delivers high-quality work that exceeds expectations and drives product success."
+    },
+    {
+      imageSrc: referrerFreddie,
+      title: 'Ex-Shopmatic Sr. Project Manager',
+      name: 'Freddie Wynne',
+      testimonial: "Harry is a rare find in the product design world - someone who truly understands both the creative and technical aspects of digital product development. His systematic approach to design and development has significantly improved our team's efficiency. He's proactive in identifying potential issues and proposing solutions before they become problems. Harry's dedication to creating user-centered designs while maintaining technical feasibility is impressive. Working with him has been instrumental in our project successes."
+    },
+    {
+      imageSrc: referrerThenn,
+      title: 'Ex-Shopmatic Sr. Engineer',
+      name: 'Thenn Arasan',
+      testimonial: "From an engineering perspective, Harry is a dream to work with. His designs are always implementable and he provides clear documentation and specifications. He understands the technical challenges we face and works collaboratively to find solutions that work for both design and development. His knowledge of front-end technologies is extensive, and he's always willing to jump in and help with implementation. Harry's design system work has dramatically improved our code quality and development speed."
+    },
+    {
+      imageSrc: referrerSimon,
+      title: 'AAPD CEO & Canva Staff Designer',
+      name: 'Simon Lin',
+      testimonial: "As an educator and design professional, I've had the privilege of collaborating with Harry on design systems training. His teaching methodology is clear, practical, and rooted in real-world experience. Harry has a gift for breaking down complex design system concepts into digestible lessons that students can immediately apply. His passion for design systems and his commitment to sharing knowledge with the community is commendable. He's not just a skilled practitioner but also an excellent mentor."
+    },
+    {
+      imageSrc: referrerRyan,
+      title: 'Payday Product Designer',
+      name: 'Ryan',
+      testimonial: "Harry's design philosophy centers around solving real user problems rather than just creating beautiful interfaces. This user-first approach, combined with his technical prowess, results in products that are both delightful and functional. He has an impressive ability to analyze complex user journeys and simplify them into intuitive experiences. Harry's work on design systems has set a high standard for consistency and efficiency. His insights and feedback have consistently elevated our design quality."
+    },
+    {
+      imageSrc: referrerAstrid,
+      title: 'Qnap Product Designer',
+      name: 'Astrid',
+      testimonial: "Harry brings a level of professionalism and expertise that is hard to find. His attention to detail is impeccable, and his designs are always thoroughly researched and validated. He has a strong understanding of design principles and applies them consistently across all touchpoints. Working with Harry on design system implementation has taught me valuable lessons about scalability and maintainability. His collaborative spirit and willingness to share knowledge make him an excellent team member."
+    },
+    {
+      imageSrc: referrerKen,
+      title: 'MacroMicro CTO',
+      name: 'Ken Wang',
+      testimonial: "Harry's dual expertise in design and development is invaluable. He speaks both languages fluently, which makes cross-functional collaboration incredibly smooth. His technical understanding allows him to make design decisions that are not only user-friendly but also technically sound and efficient to implement. Harry's work on our design system has significantly reduced technical debt and improved our product consistency. His strategic thinking and execution capabilities are truly first-rate."
+    },
+    {
+      imageSrc: referrerAndrew,
+      title: 'Ex-TutorMing General Manager',
+      name: 'Andrew Tsai',
+      testimonial: "From a business perspective, Harry delivers exceptional value. He understands that design is not just about aesthetics but about driving business outcomes. His data-driven approach to design decisions and his ability to balance user needs with business goals is remarkable. Harry's leadership in establishing design systems has accelerated our product development cycles and improved consistency across our platforms. He's a strategic thinker who contributes far beyond just design execution."
+    },
+    {
+      imageSrc: referrerSherry,
+      title: 'KKDay Sr. Project Manager',
+      name: 'Sherry Shih',
+      testimonial: "Harry is an outstanding product designer who consistently delivers exceptional results. His process is thorough, from research to final implementation, and he maintains high standards throughout. He's responsive to feedback and iterates quickly without compromising quality. Harry's ability to manage complex projects while maintaining attention to detail is impressive. His design system expertise has transformed how our teams work together, creating a more efficient and cohesive product development process. Highly recommended!"
+    }
+  ];
 
   // HarryRotation frame state
   const [rotationFrame, setRotationFrame] = useState(1);
@@ -451,7 +526,7 @@ const About: React.FC = () => {
       ScrollTrigger.create({
         trigger: backgroundSectionRef.current,
         start: 'top 15%',
-        end: '+=400',  // 從 start 位置再滾動 400px
+        end: '+=600',  // 從 start 位置再滾動 400px
         pin: true,
         pinSpacing: true,
         markers: true, // 開發時顯示標記，完成後可移除
@@ -774,6 +849,24 @@ const About: React.FC = () => {
                 />
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="home__referrer" aria-labelledby="about-referrer-title" ref={referrerSectionRef}>
+          <h2 id="about-referrer-title" className="home__intro-title feed-detail-overlay__section-title">
+            Referrer<span className="feed-detail-overlay__cursor">_</span>
+          </h2>
+          <div className="home__referrer-list">
+            {referrerData.map((referrer, index) => (
+              <ListCard
+                key={index}
+                imageSrc={referrer.imageSrc}
+                title={referrer.title}
+                name={referrer.name}
+                testimonial={referrer.testimonial}
+                className="home__referrer-card"
+              />
+            ))}
           </div>
         </section>
       </main>
