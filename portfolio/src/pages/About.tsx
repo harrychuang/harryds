@@ -865,7 +865,7 @@ const About: React.FC = () => {
   }, [isLangDropdownOpen]);
 
   return (
-    <div className="home">
+    <div className="home" data-lang={i18n.language}>
       <Header
         onLogoClick={() => navigate('/')}
         logoType="default"
@@ -1044,7 +1044,8 @@ const About: React.FC = () => {
               {t('about.background.line2')}<br />
               {t('about.background.line3')}<br />
               {t('about.background.line4')}<br />
-              {t('about.background.line5')}
+              {t('about.background.line5')}<br />
+              {t('about.background.line6')}
             </p>
             <div className="home__background-rotation-wrapper">
               <div className="home__background-marquee" ref={marqueeRef} aria-hidden="true">

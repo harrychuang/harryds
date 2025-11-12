@@ -263,9 +263,14 @@
     margin: 0;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: 80px;
-    line-height: 0.8;
+    line-height: 1.2;
     font-weight: 900;
     color: inherit;
+    
+    // 為 lineParent 添加額外的垂直空間，避免中日文字體被裁切
+    .lineParent {
+      padding: 0.1em 0;
+    }
   }
 
   &__hero-description {
@@ -866,5 +871,16 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+// 語言特定樣式：中文和日文環境下標題使用粗體
+.home[data-lang="zh"],
+.home[data-lang="zh-Hant"],
+.home[data-lang="ja"] {
+  .home__intro-title,
+  .feed-detail-overlay__section-title,
+  .home__background-title {
+    font-weight: 900 !important;
   }
 }
