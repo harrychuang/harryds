@@ -45,6 +45,10 @@ const meta: Meta<typeof HarryAnimation> = {
       description: '手動控制當前影格',
       if: { arg: 'autoPlay', truthy: false },
     },
+    enableParticles: {
+      control: 'boolean',
+      description: '是否啟用 pixel particle 效果',
+    },
   },
 };
 
@@ -59,6 +63,7 @@ export const Rotation: Story = {
     height: 'auto',
     autoPlay: true,
     objectFit: 'contain',
+    enableParticles: false,
   },
 };
 
@@ -70,6 +75,31 @@ export const UseMac: Story = {
     height: 'auto',
     autoPlay: true,
     objectFit: 'contain',
+    enableParticles: false,
+  },
+};
+
+export const WithParticles: Story = {
+  args: {
+    type: 'rotation',
+    frameDuration: 300,
+    width: '400px',
+    height: 'auto',
+    autoPlay: true,
+    objectFit: 'contain',
+    enableParticles: true,
+  },
+};
+
+export const UseMacWithParticles: Story = {
+  args: {
+    type: 'usemac',
+    frameDuration: 2000,
+    width: '400px',
+    height: 'auto',
+    autoPlay: true,
+    objectFit: 'contain',
+    enableParticles: true,
   },
 };
 
