@@ -56,6 +56,9 @@ const About: React.FC = () => {
   const backgroundSectionRef = useRef<HTMLElement>(null);
   const backgroundRotationRef = useRef<HTMLDivElement>(null);
   const referrerSectionRef = useRef<HTMLElement>(null);
+  const servicesContactSectionRef = useRef<HTMLElement>(null);
+  const servicesTitleRef = useRef<HTMLHeadingElement>(null);
+  const contactTitleRef = useRef<HTMLHeadingElement>(null);
 
   // Referrer 資料
   const referrerData = [
@@ -638,6 +641,71 @@ const About: React.FC = () => {
     };
   }, [i18n.language, isPageReady]);
 
+  // Services & Contact 進場動畫：當區塊頂部到達 30% 時觸發
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined' || !isPageReady) return;
+    if (!servicesContactSectionRef.current || !servicesTitleRef.current || !contactTitleRef.current) return;
+    
+    gsap.registerPlugin(TextPlugin, ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      const sectionEl = servicesContactSectionRef.current!;
+      const servicesTitleEl = servicesTitleRef.current!;
+      const contactTitleEl = contactTitleRef.current!;
+
+      // 獲取兩個標題的完整文字（移除 cursor）
+      const servicesFullText = 'Services';
+      const contactFullText = 'CONTACT';
+
+      // 準備：清空標題文字，隱藏所有 lineChildren
+      gsap.set(servicesTitleEl, { text: '' });
+      gsap.set(contactTitleEl, { text: '' });
+      
+      const lineChildren = sectionEl.querySelectorAll<HTMLElement>('.lineChild');
+      gsap.set(lineChildren, { yPercent: 100 });
+
+      // 創建 ScrollTrigger 時間軸
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionEl,
+          start: 'top 30%',
+          toggleActions: 'play none none none'
+        }
+      });
+
+      // Services 標題打字機效果
+      tl.to(servicesTitleEl, {
+        duration: Math.max(0.6, servicesFullText.length * 0.06),
+        text: servicesFullText,
+        ease: 'none'
+      });
+
+      // Contact 標題打字機效果（同時進行）
+      tl.to(
+        contactTitleEl,
+        {
+          duration: Math.max(0.6, contactFullText.length * 0.06),
+          text: contactFullText,
+          ease: 'none'
+        },
+        '<' // 與上一個動畫同時開始
+      );
+
+      // 行動效：所有文字內容延遲 0.2s 後進場
+      tl.to(
+        lineChildren,
+        {
+          yPercent: 0,
+          duration: 0.75,
+          stagger: 0.08,
+          ease: 'power3.out'
+        },
+        '+=0.2'
+      );
+    }, servicesContactSectionRef);
+
+    return () => ctx.revert();
+  }, [i18n.language, isPageReady]);
 
   // 語言切換相關
   const languageMap = {
@@ -902,56 +970,86 @@ const About: React.FC = () => {
           </div>
         </section>
 
-        <section className="home__services-contact" aria-labelledby="about-services-title">
+        <section className="home__services-contact" aria-labelledby="about-services-title" ref={servicesContactSectionRef}>
           <div className="home__services-contact-grid">
             <div className="home__services-contact-column">
-              <h2 id="about-services-title" className="home__intro-title feed-detail-overlay__section-title">
+              <h2 id="about-services-title" className="home__intro-title feed-detail-overlay__section-title" ref={servicesTitleRef}>
                 Services<span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__services-subtitle">
-                <p>Flexible Hourly Support</p>
-                <p>Project-Based Outsourcing</p>
-                <p>Design Systems | Training &amp; Consulting</p>
+                <span className="lineParent">
+                  <span className="lineChild">Flexible Hourly Support</span>
+                </span>
+                <span className="lineParent">
+                  <span className="lineChild">Project-Based Outsourcing</span>
+                </span>
+                <span className="lineParent">
+                  <span className="lineChild">Design Systems | Training &amp; Consulting</span>
+                </span>
               </div>
               <div className="home__services-list">
                 <div className="home__services-category">
-                  <h3 className="home__services-category-title">WEB/APP</h3>
+                  <span className="lineParent">
+                    <h3 className="home__services-category-title lineChild">WEB/APP</h3>
+                  </span>
                   <div className="home__services-items">
-                    <div className="home__services-item">UI/UX DESIGN</div>
-                    <div className="home__services-item">Creative</div>
-                    <div className="home__services-item">SEO</div>
+                    <span className="lineParent">
+                      <span className="home__services-item lineChild">UI/UX DESIGN</span>
+                    </span>
+                    <span className="lineParent">
+                      <span className="home__services-item lineChild">Creative</span>
+                    </span>
+                    <span className="lineParent">
+                      <span className="home__services-item lineChild">SEO</span>
+                    </span>
                   </div>
                 </div>
                 <div className="home__services-category">
-                  <h3 className="home__services-category-title">DEVELOPMENT</h3>
+                  <span className="lineParent">
+                    <h3 className="home__services-category-title lineChild">DEVELOPMENT</h3>
+                  </span>
                   <div className="home__services-items">
-                    <div className="home__services-item">Front-End</div>
-                    <div className="home__services-item">NO-CODE Management</div>
+                    <span className="lineParent">
+                      <span className="home__services-item lineChild">Front-End</span>
+                    </span>
+                    <span className="lineParent">
+                      <span className="home__services-item lineChild">NO-CODE Management</span>
+                    </span>
                   </div>
                 </div>
                 <div className="home__services-category">
-                  <h3 className="home__services-category-title">DESIGN SYSTEM</h3>
+                  <span className="lineParent">
+                    <h3 className="home__services-category-title lineChild">DESIGN SYSTEM</h3>
+                  </span>
                   <div className="home__services-items">
-                    <div className="home__services-item">Training &amp; Consulting</div>
+                    <span className="lineParent">
+                      <span className="home__services-item lineChild">Training &amp; Consulting</span>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="home__services-contact-column">
-              <h2 id="about-contact-title" className="home__intro-title feed-detail-overlay__section-title">
+              <h2 id="about-contact-title" className="home__intro-title feed-detail-overlay__section-title" ref={contactTitleRef}>
                 CONTACT<span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__contact-subtitle">
-                <p>Have a design or development need? If you're looking for a partner with 15 years in product design, development, and operations, drop me a line — or challenge me to an 8-bit game :D</p>
+                <span className="lineParent">
+                  <span className="lineChild">Have a design or development need? If you're looking for a partner with 15 years in product design, development, and operations, drop me a line — or challenge me to an 8-bit game :D</span>
+                </span>
               </div>
               <div className="home__contact-info">
-                <a href="mailto:Harrychuang23@gmail.com" className="home__contact-email">
-                  Harrychuang23@gmail.com
-                </a>
-                <a href="tel:+886921706170" className="home__contact-phone">
-                  +886 921 706 170
-                </a>
+                <span className="lineParent">
+                  <a href="mailto:Harrychuang23@gmail.com" className="home__contact-email lineChild">
+                    Harrychuang23@gmail.com
+                  </a>
+                </span>
+                <span className="lineParent">
+                  <a href="tel:+886921706170" className="home__contact-phone lineChild">
+                    +886 921 706 170
+                  </a>
+                </span>
               </div>
             </div>
           </div>
