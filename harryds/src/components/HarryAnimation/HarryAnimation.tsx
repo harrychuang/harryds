@@ -38,6 +38,12 @@ interface Particle {
   delay: number; // 延遲時間 (ms)
 }
 
+interface ValidPixel {
+  x: number; // 0-1
+  y: number; // 0-1
+  color: string; // rgba
+}
+
 // 引入 rotation 圖片
 import rotation0 from '../../../assets/imgs/me/rotation-0.png';
 import rotation1 from '../../../assets/imgs/me/rotation-1.png';
@@ -93,7 +99,9 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
   const [currentFrame, setCurrentFrame] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const imageRef = useRef<HTMLImageElement | null>(null);
   const [particles, setParticles] = useState<Particle[]>([]);
+  const [validPixels, setValidPixels] = useState<ValidPixel[]>([]);
 
   useEffect(() => {
     // 如果有手動設定 frame，就不自動播放
@@ -111,24 +119,96 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
     };
   }, [actualFrameDuration, autoPlay, frame, frames.length]);
 
+  // 分析圖片像素，找出非透明區域
+  useEffect(() => {
+    if (!enableParticles || !imageRef.current) return;
+
+    const analyzeImage = () => {
+      const img = imageRef.current;
+      if (!img || !img.complete) return;
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      if (!ctx) return;
+
+      // 設定 canvas 尺寸（降低取樣率以提升性能）
+      const sampleRate = 0.2; // 取樣率 20%
+      canvas.width = img.naturalWidth * sampleRate;
+      canvas.height = img.naturalHeight * sampleRate;
+
+      // 繪製圖片到 canvas
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      try {
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const pixels = imageData.data;
+        const validPixelsList: ValidPixel[] = [];
+
+        // 每隔幾個像素取樣一次（進一步降低數據量）
+        const step = 4;
+        for (let y = 0; y < canvas.height; y += step) {
+          for (let x = 0; x < canvas.width; x += step) {
+            const i = (y * canvas.width + x) * 4;
+            const r = pixels[i];
+            const g = pixels[i + 1];
+            const b = pixels[i + 2];
+            const a = pixels[i + 3];
+
+            // 只保留非透明像素（alpha > 50）
+            if (a > 50) {
+              validPixelsList.push({
+                x: x / canvas.width,
+                y: y / canvas.height,
+                color: `rgba(${r}, ${g}, ${b}, ${a / 255})`,
+              });
+            }
+          }
+        }
+
+        setValidPixels(validPixelsList);
+      } catch (error) {
+        console.error('Error analyzing image:', error);
+        // 如果分析失敗（可能是 CORS 問題），使用整個區域
+        setValidPixels([
+          { x: 0.5, y: 0.5, color: 'rgba(0, 0, 0, 1)' }
+        ]);
+      }
+    };
+
+    // 如果圖片已經載入，立即分析
+    if (imageRef.current.complete) {
+      analyzeImage();
+    } else {
+      // 否則等待圖片載入
+      imageRef.current.addEventListener('load', analyzeImage);
+      return () => {
+        imageRef.current?.removeEventListener('load', analyzeImage);
+      };
+    }
+  }, [enableParticles, currentFrame, frame]);
+
   // Particle 效果
   useEffect(() => {
-    if (!enableParticles || !containerRef.current) return;
+    if (!enableParticles || !containerRef.current || validPixels.length === 0) return;
 
     // 生成隨機 particle
     const generateParticle = (id: number): Particle => {
       const containerWidth = containerRef.current?.offsetWidth || 300;
-      const baseSize = containerWidth / 50;
-      const sizeVariation = baseSize * 0.05;
+      const baseSize = containerWidth / 40; // 圖片寬度的 1/20
+      const sizeVariation = baseSize * 0.5; // ±50%
       
-      // 黑色和灰色的選擇
+      // 從有效像素中隨機選擇一個位置
+      const randomPixel = validPixels[Math.floor(Math.random() * validPixels.length)];
+      
+      // 使用圖片中的顏色，但調整為灰階（保持原本的想法）
+      // 或者可以選擇：直接使用圖片顏色 randomPixel.color
       const colors = ['#000000', '#1a1a1a', '#333333', '#4d4d4d', '#666666', '#808080', '#999999'];
       
       return {
         id,
-        x: Math.random() * 100, // 0-100%
-        y: Math.random() * 100, // 0-100%
-        size: baseSize + (Math.random() * 2 - 1) * sizeVariation, // baseSize ± 5%
+        x: randomPixel.x * 100, // 轉換為百分比
+        y: randomPixel.y * 100, // 轉換為百分比
+        size: baseSize + (Math.random() * 2 - 1) * sizeVariation, // baseSize ± 10%
         color: colors[Math.floor(Math.random() * colors.length)],
         duration: 2000 + Math.random() * 2000, // 2-4秒
         delay: Math.random() * 1000, // 0-1秒延遲
@@ -136,7 +216,7 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
     };
 
     // 初始化 particles
-    const particleCount = Math.floor(Math.random() * 31) + 30; // 30-60
+    const particleCount = Math.floor(Math.random() * 50) + 50; // 100-150
     const initialParticles = Array.from({ length: particleCount }, (_, i) => generateParticle(i));
     setParticles(initialParticles);
 
@@ -159,7 +239,7 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
     return () => {
       clearInterval(particleInterval);
     };
-  }, [enableParticles]);
+  }, [enableParticles, validPixels]);
 
   const containerStyle: React.CSSProperties = {
     width: typeof width === 'number' ? `${width}px` : width,
@@ -182,10 +262,12 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
       style={containerStyle}
     >
       <img
+        ref={imageRef}
         src={frames[displayFrame]}
         alt={`Harry ${type} animation frame ${displayFrame}`}
         style={imgStyle}
         className="harry-animation__image"
+        crossOrigin="anonymous"
       />
       
       {enableParticles && (
