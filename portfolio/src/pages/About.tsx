@@ -59,6 +59,7 @@ const About: React.FC = () => {
   const servicesContactSectionRef = useRef<HTMLElement>(null);
   const servicesTitleRef = useRef<HTMLHeadingElement>(null);
   const contactTitleRef = useRef<HTMLHeadingElement>(null);
+  const contactAnimationRef = useRef<HTMLDivElement>(null);
 
   // Referrer 資料
   const referrerData = [
@@ -729,6 +730,28 @@ const About: React.FC = () => {
       );
     }, servicesContactSectionRef);
 
+    // STEP 5: usemac 動畫 - 當 contact 區塊頂部到達 50% 時從右側進入
+    if (contactTitleRef.current && contactAnimationRef.current) {
+      // 設置初始狀態：從右側外面開始
+      gsap.set(contactAnimationRef.current, { 
+        x: 300,  // 從右側 300px 外開始
+        opacity: 0
+      });
+      
+      // 創建進場動畫
+      gsap.to(contactAnimationRef.current, {
+        x: 0,  // 移動到原位置
+        opacity: 1,
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: contactTitleRef.current,
+          start: 'top 50%',  // 當 contact 區塊頂部到達 50% 時
+          toggleActions: 'play none none none'
+        }
+      });
+    }
+
     return () => ctx.revert();
   }, [i18n.language, isPageReady]);
 
@@ -1083,50 +1106,59 @@ const About: React.FC = () => {
                 marginTop: '30px',
                 textTransform: 'uppercase',
               }}>
-                <a 
-                  href="https://harrychuang23.medium.com/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="home__contact-social-link"
-                  style={{
-                    fontFamily: "'Pixel', 'Courier New', Courier, monospace",
-                    fontSize: '15px',
-                    color: 'var(--hds-sys-color-theme-surface)',
-                    textDecoration: 'none'
-                  }}
-                >
-                  + Medium +
-                </a>
-                <a 
-                  href="https://www.threads.com/@harrychuang.ds" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="home__contact-social-link"
-                  style={{
-                    fontFamily: "'Pixel', 'Courier New', Courier, monospace",
-                    fontSize: '15px',
-                    color: 'var(--hds-sys-color-theme-surface)',
-                    textDecoration: 'none'
-                  }}
-                >
-                  + Threads +
-                </a>
-                <a 
-                  href="https://www.linkedin.com/in/harrychuang/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="home__contact-social-link"
-                  style={{
-                    fontFamily: "'Pixel', 'Courier New', Courier, monospace",
-                    fontSize: '15px',
-                    color: 'var(--hds-sys-color-theme-surface)',
-                    textDecoration: 'none'
-                  }}
-                >
-                  + LinkedIn +
-                </a>
+                <span className="lineParent">
+                  <a 
+                    href="https://harrychuang23.medium.com/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="home__contact-social-link lineChild"
+                    style={{
+                      fontFamily: "'Pixel', 'Courier New', Courier, monospace",
+                      fontSize: '15px',
+                      color: 'var(--hds-sys-color-theme-surface)',
+                      textDecoration: 'none',
+                      display: 'inline-block'
+                    }}
+                  >
+                    + Medium +
+                  </a>
+                </span>
+                <span className="lineParent">
+                  <a 
+                    href="https://www.threads.com/@harrychuang.ds" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="home__contact-social-link lineChild"
+                    style={{
+                      fontFamily: "'Pixel', 'Courier New', Courier, monospace",
+                      fontSize: '15px',
+                      color: 'var(--hds-sys-color-theme-surface)',
+                      textDecoration: 'none',
+                      display: 'inline-block'
+                    }}
+                  >
+                    + Threads +
+                  </a>
+                </span>
+                <span className="lineParent">
+                  <a 
+                    href="https://www.linkedin.com/in/harrychuang/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="home__contact-social-link lineChild"
+                    style={{
+                      fontFamily: "'Pixel', 'Courier New', Courier, monospace",
+                      fontSize: '15px',
+                      color: 'var(--hds-sys-color-theme-surface)',
+                      textDecoration: 'none',
+                      display: 'inline-block'
+                    }}
+                  >
+                    + LinkedIn +
+                  </a>
+                </span>
               </div>
-              <div className="home__contact-animation" style={{ position: 'absolute', bottom: -100, right: -200 }}>
+              <div className="home__contact-animation" ref={contactAnimationRef} style={{ position: 'absolute', bottom: -100, right: -200 }}>
                 <HarryAnimation
                   type="usemac"
                   frameDuration={200}
