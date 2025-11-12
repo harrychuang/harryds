@@ -1076,6 +1076,56 @@ const About: React.FC = () => {
                   </a>
                 </span>
               </div>
+              <div className="home__contact-social" style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: '15px',
+                marginTop: '30px',
+                textTransform: 'uppercase',
+              }}>
+                <a 
+                  href="https://harrychuang23.medium.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="home__contact-social-link"
+                  style={{
+                    fontFamily: "'Pixel', 'Courier New', Courier, monospace",
+                    fontSize: '15px',
+                    color: 'var(--hds-sys-color-theme-surface)',
+                    textDecoration: 'none'
+                  }}
+                >
+                  + Medium +
+                </a>
+                <a 
+                  href="https://www.threads.com/@harrychuang.ds" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="home__contact-social-link"
+                  style={{
+                    fontFamily: "'Pixel', 'Courier New', Courier, monospace",
+                    fontSize: '15px',
+                    color: 'var(--hds-sys-color-theme-surface)',
+                    textDecoration: 'none'
+                  }}
+                >
+                  + Threads +
+                </a>
+                <a 
+                  href="https://www.linkedin.com/in/harrychuang/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="home__contact-social-link"
+                  style={{
+                    fontFamily: "'Pixel', 'Courier New', Courier, monospace",
+                    fontSize: '15px',
+                    color: 'var(--hds-sys-color-theme-surface)',
+                    textDecoration: 'none'
+                  }}
+                >
+                  + LinkedIn +
+                </a>
+              </div>
               <div className="home__contact-animation" style={{ position: 'absolute', bottom: -100, right: -200 }}>
                 <HarryAnimation
                   type="usemac"
