@@ -300,6 +300,19 @@ const About: React.FC = () => {
     return () => ctx.revert();
   }, [i18n.language]);
 
+  // 立即設置 introVisualRef 的初始位置（在渲染前）
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!introSectionRef.current || !introVisualRef.current) return;
+    
+    // 立即設置初始位置，避免閃爍
+    const initialTop = introSectionRef.current.offsetTop;
+    gsap.set(introVisualRef.current, { 
+      top: initialTop,
+      opacity: 1  // 確保可見
+    });
+  }, []); // 空依賴陣列，只在首次掛載時執行
+
   // STEP 1 & 2: 視差效果與 pin 動畫
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -320,10 +333,10 @@ const About: React.FC = () => {
     
     gsap.registerPlugin(ScrollTrigger);
 
-    // 初始化視覺元素位置
+    // 初始化視覺元素位置（頁面載入完成後重新計算）
     if (!introSectionRef.current || !introVisualRef.current) return;
     
-    // 設置初始 top 位置
+    // 重新設置 top 位置（確保圖片載入後位置正確）
     const initialTop = introSectionRef.current.offsetTop;
     gsap.set(introVisualRef.current, { top: initialTop });
 

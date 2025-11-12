@@ -304,6 +304,8 @@
     // 啟用 GPU 加速，避免滾動時重繪卡頓
     will-change: transform;
     transform: translateZ(0);
+    // 初始隱藏，避免在 JS 設置位置前出現在錯誤位置
+    opacity: 0;
 
     .home__intro-rotation {
       margin-top: -100px;
