@@ -15,7 +15,136 @@
   "about": {
     "title": "About",
     "intro": "Hi, I'm Harry. This is my personal website.",
-    "pixelTitle": "ABOUT HARRY"
+    "pixelTitle": "ABOUT HARRY",
+    "hero": {
+      "subtitle": "PRODUCT DESIGN",
+      "descriptionIntro": "ISN'T ABOUT CRAFTING DAZZLING VISUALS OR BUILDING CUTTING-EDGE TECH.",
+      "descriptionLine1": "IT'S ABOUT APPLYING INSIGHT AND ANALYSIS TO REACH THE RIGHT USERS",
+      "descriptionLine2": "AND TRULY SOLVE THEIR PROBLEMS."
+    },
+    "whoAmI": {
+      "title": "Who AM I?",
+      "paragraph1": "I'm Harry, with nearly 15 years' experience in Product Design and Front-end Development.",
+      "paragraph2": "I work as a Product designer and Front-end engineer, and I'm also a Design Systems course instructor at AAPD — using Design System to build processes and component libraries that help design and engineering collaborate efficiently, shorten time-to-market, and accelerate validation.",
+      "paragraph3": "I also founded and have operated awwrated, a streaming information platform, for 6 years — growing the user base by 300% and page views by 800%."
+    },
+    "awards": {
+      "title": "Awards",
+      "description": "I have participated in multiple Website and Product designs and have received the following international awards for recognition.",
+      "items": {
+        "awwwards": {
+          "label": "Awwwards",
+          "detail": "Honorable Mention, Jul 14, 2017"
+        },
+        "appStore": {
+          "label": "APP STORE",
+          "detail": "Editor's Choice, 2017"
+        },
+        "cssDesign": {
+          "label": "CSS DesignAwards",
+          "detail": "Website of the Day, Jan 17, 2013"
+        },
+        "ihackGroup": {
+          "label": "iHackGroup",
+          "detail": "Best User Experience Award, 2016"
+        }
+      }
+    },
+    "clients": {
+      "title": "Clients & Partners",
+      "paragraph1": "Serving startups and enterprises alike:<br />Product Design / Web Design /<br />Design System Training & Consulting.",
+      "paragraph2": "A Systems-driven approach that helps teams ship faster and improve consistency."
+    },
+    "background": {
+      "title": "My design background",
+      "line1": "My design inspiration didn't come from textbooks,",
+      "line2": "but from the startup sound of the Famicom (NES).",
+      "line3": "Japanese culture of the 1980s, 8-bit pixels, tokusatsu, and anime taught me to tell stories with images. I once aimed to become a manga artist or game illustrator~",
+      "line4": "Now I turn that obsession into a design methodology,",
+      "line5": "building products that are more loved and more usable."
+    },
+    "referrer": {
+      "title": "Referrer",
+      "items": [
+        {
+          "title": "Ex-Shopmatic Chief Product Officer",
+          "name": "Kris",
+          "testimonial": "Working with Harry has been an exceptional experience. His deep understanding of both product design and front-end development allows him to bridge the gap between design and engineering seamlessly. Harry's approach to design systems is methodical and practical, consistently delivering solutions that scale. His ability to balance user needs with technical constraints while maintaining a keen eye for detail makes him an invaluable asset to any team. I highly recommend Harry for any product design or design system initiative."
+        },
+        {
+          "title": "Ex-Shopmatic Head of User Experience & Design",
+          "name": "Darwin Ng",
+          "testimonial": "Harry's expertise in design systems and component libraries is outstanding. He has a unique talent for creating reusable components that are both beautiful and functional. His technical skills in front-end development complement his design abilities perfectly, enabling him to implement his visions with precision. Harry's collaborative nature and clear communication make working with him a pleasure. He consistently delivers high-quality work that exceeds expectations and drives product success."
+        },
+        {
+          "title": "Ex-Shopmatic Sr. Project Manager",
+          "name": "Freddie Wynne",
+          "testimonial": "Harry is a rare find in the product design world - someone who truly understands both the creative and technical aspects of digital product development. His systematic approach to design and development has significantly improved our team's efficiency. He's proactive in identifying potential issues and proposing solutions before they become problems. Harry's dedication to creating user-centered designs while maintaining technical feasibility is impressive. Working with him has been instrumental in our project successes."
+        },
+        {
+          "title": "Ex-Shopmatic Sr. Engineer",
+          "name": "Thenn Arasan",
+          "testimonial": "From an engineering perspective, Harry is a dream to work with. His designs are always implementable and he provides clear documentation and specifications. He understands the technical challenges we face and works collaboratively to find solutions that work for both design and development. His knowledge of front-end technologies is extensive, and he's always willing to jump in and help with implementation. Harry's design system work has dramatically improved our code quality and development speed."
+        },
+        {
+          "title": "AAPD CEO & Canva Staff Designer",
+          "name": "Simon Lin",
+          "testimonial": "As an educator and design professional, I've had the privilege of collaborating with Harry on design systems training. His teaching methodology is clear, practical, and rooted in real-world experience. Harry has a gift for breaking down complex design system concepts into digestible lessons that students can immediately apply. His passion for design systems and his commitment to sharing knowledge with the community is commendable. He's not just a skilled practitioner but also an excellent mentor."
+        },
+        {
+          "title": "Payday Product Designer",
+          "name": "Ryan",
+          "testimonial": "Harry's design philosophy centers around solving real user problems rather than just creating beautiful interfaces. This user-first approach, combined with his technical prowess, results in products that are both delightful and functional. He has an impressive ability to analyze complex user journeys and simplify them into intuitive experiences. Harry's work on design systems has set a high standard for consistency and efficiency. His insights and feedback have consistently elevated our design quality."
+        },
+        {
+          "title": "Qnap Product Designer",
+          "name": "Astrid",
+          "testimonial": "Harry brings a level of professionalism and expertise that is hard to find. His attention to detail is impeccable, and his designs are always thoroughly researched and validated. He has a strong understanding of design principles and applies them consistently across all touchpoints. Working with Harry on design system implementation has taught me valuable lessons about scalability and maintainability. His collaborative spirit and willingness to share knowledge make him an excellent team member."
+        },
+        {
+          "title": "MacroMicro CTO",
+          "name": "Ken Wang",
+          "testimonial": "Harry's dual expertise in design and development is invaluable. He speaks both languages fluently, which makes cross-functional collaboration incredibly smooth. His technical understanding allows him to make design decisions that are not only user-friendly but also technically sound and efficient to implement. Harry's work on our design system has significantly reduced technical debt and improved our product consistency. His strategic thinking and execution capabilities are truly first-rate."
+        },
+        {
+          "title": "Ex-TutorMing General Manager",
+          "name": "Andrew Tsai",
+          "testimonial": "From a business perspective, Harry delivers exceptional value. He understands that design is not just about aesthetics but about driving business outcomes. His data-driven approach to design decisions and his ability to balance user needs with business goals is remarkable. Harry's leadership in establishing design systems has accelerated our product development cycles and improved consistency across our platforms. He's a strategic thinker who contributes far beyond just design execution."
+        },
+        {
+          "title": "KKDay Sr. Project Manager",
+          "name": "Sherry Shih",
+          "testimonial": "Harry is an outstanding product designer who consistently delivers exceptional results. His process is thorough, from research to final implementation, and he maintains high standards throughout. He's responsive to feedback and iterates quickly without compromising quality. Harry's ability to manage complex projects while maintaining attention to detail is impressive. His design system expertise has transformed how our teams work together, creating a more efficient and cohesive product development process. Highly recommended!"
+        }
+      ]
+    },
+    "services": {
+      "title": "Services",
+      "subtitle": {
+        "line1": "Flexible Hourly Support",
+        "line2": "Project-Based Outsourcing",
+        "line3": "Design Systems | Training & Consulting"
+      },
+      "categories": {
+        "webApp": {
+          "title": "WEB/APP",
+          "items": ["UI/UX DESIGN", "Creative", "SEO"]
+        },
+        "development": {
+          "title": "DEVELOPMENT",
+          "items": ["Front-End", "NO-CODE Management"]
+        },
+        "designSystem": {
+          "title": "DESIGN SYSTEM",
+          "items": ["Training & Consulting"]
+        }
+      }
+    },
+    "contact": {
+      "title": "CONTACT",
+      "subtitle": "Have a design or development need? If you're looking for a partner with 15 years in product design, development, and operations, drop me a line — or challenge me to an 8-bit game :D",
+      "emailCopied": "Email copied!"
+    }
   },
   "brand": {
     "harry": "HARRY",

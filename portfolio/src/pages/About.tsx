@@ -61,69 +61,30 @@ const About: React.FC = () => {
   const contactTitleRef = useRef<HTMLHeadingElement>(null);
   const contactAnimationRef = useRef<HTMLDivElement>(null);
 
-  // Referrer 資料
-  const referrerData = [
-    {
-      imageSrc: referrerKris,
-      title: 'Ex-Shopmatic Chief Product Officer',
-      name: 'Kris',
-      testimonial: "Working with Harry has been an exceptional experience. His deep understanding of both product design and front-end development allows him to bridge the gap between design and engineering seamlessly. Harry's approach to design systems is methodical and practical, consistently delivering solutions that scale. His ability to balance user needs with technical constraints while maintaining a keen eye for detail makes him an invaluable asset to any team. I highly recommend Harry for any product design or design system initiative."
-    },
-    {
-      imageSrc: referrerDarwin,
-      title: 'Ex-Shopmatic Head of User Experience & Design',
-      name: 'Darwin Ng',
-      testimonial: "Harry's expertise in design systems and component libraries is outstanding. He has a unique talent for creating reusable components that are both beautiful and functional. His technical skills in front-end development complement his design abilities perfectly, enabling him to implement his visions with precision. Harry's collaborative nature and clear communication make working with him a pleasure. He consistently delivers high-quality work that exceeds expectations and drives product success."
-    },
-    {
-      imageSrc: referrerFreddie,
-      title: 'Ex-Shopmatic Sr. Project Manager',
-      name: 'Freddie Wynne',
-      testimonial: "Harry is a rare find in the product design world - someone who truly understands both the creative and technical aspects of digital product development. His systematic approach to design and development has significantly improved our team's efficiency. He's proactive in identifying potential issues and proposing solutions before they become problems. Harry's dedication to creating user-centered designs while maintaining technical feasibility is impressive. Working with him has been instrumental in our project successes."
-    },
-    {
-      imageSrc: referrerThenn,
-      title: 'Ex-Shopmatic Sr. Engineer',
-      name: 'Thenn Arasan',
-      testimonial: "From an engineering perspective, Harry is a dream to work with. His designs are always implementable and he provides clear documentation and specifications. He understands the technical challenges we face and works collaboratively to find solutions that work for both design and development. His knowledge of front-end technologies is extensive, and he's always willing to jump in and help with implementation. Harry's design system work has dramatically improved our code quality and development speed."
-    },
-    {
-      imageSrc: referrerSimon,
-      title: 'AAPD CEO & Canva Staff Designer',
-      name: 'Simon Lin',
-      testimonial: "As an educator and design professional, I've had the privilege of collaborating with Harry on design systems training. His teaching methodology is clear, practical, and rooted in real-world experience. Harry has a gift for breaking down complex design system concepts into digestible lessons that students can immediately apply. His passion for design systems and his commitment to sharing knowledge with the community is commendable. He's not just a skilled practitioner but also an excellent mentor."
-    },
-    {
-      imageSrc: referrerRyan,
-      title: 'Payday Product Designer',
-      name: 'Ryan',
-      testimonial: "Harry's design philosophy centers around solving real user problems rather than just creating beautiful interfaces. This user-first approach, combined with his technical prowess, results in products that are both delightful and functional. He has an impressive ability to analyze complex user journeys and simplify them into intuitive experiences. Harry's work on design systems has set a high standard for consistency and efficiency. His insights and feedback have consistently elevated our design quality."
-    },
-    {
-      imageSrc: referrerAstrid,
-      title: 'Qnap Product Designer',
-      name: 'Astrid',
-      testimonial: "Harry brings a level of professionalism and expertise that is hard to find. His attention to detail is impeccable, and his designs are always thoroughly researched and validated. He has a strong understanding of design principles and applies them consistently across all touchpoints. Working with Harry on design system implementation has taught me valuable lessons about scalability and maintainability. His collaborative spirit and willingness to share knowledge make him an excellent team member."
-    },
-    {
-      imageSrc: referrerKen,
-      title: 'MacroMicro CTO',
-      name: 'Ken Wang',
-      testimonial: "Harry's dual expertise in design and development is invaluable. He speaks both languages fluently, which makes cross-functional collaboration incredibly smooth. His technical understanding allows him to make design decisions that are not only user-friendly but also technically sound and efficient to implement. Harry's work on our design system has significantly reduced technical debt and improved our product consistency. His strategic thinking and execution capabilities are truly first-rate."
-    },
-    {
-      imageSrc: referrerAndrew,
-      title: 'Ex-TutorMing General Manager',
-      name: 'Andrew Tsai',
-      testimonial: "From a business perspective, Harry delivers exceptional value. He understands that design is not just about aesthetics but about driving business outcomes. His data-driven approach to design decisions and his ability to balance user needs with business goals is remarkable. Harry's leadership in establishing design systems has accelerated our product development cycles and improved consistency across our platforms. He's a strategic thinker who contributes far beyond just design execution."
-    },
-    {
-      imageSrc: referrerSherry,
-      title: 'KKDay Sr. Project Manager',
-      name: 'Sherry Shih',
-      testimonial: "Harry is an outstanding product designer who consistently delivers exceptional results. His process is thorough, from research to final implementation, and he maintains high standards throughout. He's responsive to feedback and iterates quickly without compromising quality. Harry's ability to manage complex projects while maintaining attention to detail is impressive. His design system expertise has transformed how our teams work together, creating a more efficient and cohesive product development process. Highly recommended!"
-    }
+  // Referrer 資料 - 從 i18n 讀取
+  const referrerImages = [
+    referrerKris,
+    referrerDarwin,
+    referrerFreddie,
+    referrerThenn,
+    referrerSimon,
+    referrerRyan,
+    referrerAstrid,
+    referrerKen,
+    referrerAndrew,
+    referrerSherry
   ];
+  
+  const referrerData = t('about.referrer.items', { returnObjects: true }) as Array<{
+    title: string;
+    name: string;
+    testimonial: string;
+  }>;
+  
+  const referrerDataWithImages = referrerData.map((item, index) => ({
+    ...item,
+    imageSrc: referrerImages[index]
+  }));
 
   // HarryAnimation frame state
   const [rotationFrame, setRotationFrame] = useState(1);
@@ -685,9 +646,9 @@ const About: React.FC = () => {
 
       if (!servicesTextEl || !contactTextEl) return;
 
-      // 獲取完整文字
-      const servicesFullText = 'Services';
-      const contactFullText = 'CONTACT';
+      // 獲取完整文字（從翻譯取得）
+      const servicesFullText = t('about.services.title');
+      const contactFullText = t('about.contact.title');
 
       // 準備：清空標題文字，隱藏所有 lineChildren
       gsap.set(servicesTextEl, { text: '' });
@@ -950,24 +911,24 @@ const About: React.FC = () => {
           </h1>
           <p className="home__hero-subtitle" ref={heroSubtitleRef}>
             <span className="lineParent">
-              <span className="lineChild">PRODUCT DESIGN</span>
+              <span className="lineChild">{t('about.hero.subtitle')}</span>
             </span>
           </p>
           <p className="home__hero-description" ref={heroDescriptionRef}>
             <span className="lineParent">
               <span className="lineChild">
                 <span className="home__hero-description-intro">
-                  ISN’T ABOUT CRAFTING DAZZLING VISUALS OR BUILDING CUTTING-EDGE TECH.
+                  {t('about.hero.descriptionIntro')}
                 </span>
               </span>
             </span>
             <span className="lineParent">
               <span className="lineChild">
-                IT’S ABOUT APPLYING INSIGHT AND ANALYSIS TO REACH THE RIGHT USERS
+                {t('about.hero.descriptionLine1')}
               </span>
             </span>
             <span className="lineParent">
-              <span className="lineChild">AND TRULY SOLVE THEIR PROBLEMS.</span>
+              <span className="lineChild">{t('about.hero.descriptionLine2')}</span>
             </span>
           </p>
         </section>
@@ -989,17 +950,17 @@ const About: React.FC = () => {
               ref={introPrimaryColumnRef}
             >
               <h2 id="about-intro-title" className="home__intro-title feed-detail-overlay__section-title">
-                Who AM I?<span className="feed-detail-overlay__cursor">_</span>
+                {t('about.whoAmI.title')}<span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__intro-body">
                 <p>
-                  I’m Harry, with nearly 15 years’ experience in Product Design and Front-end Development.
+                  {t('about.whoAmI.paragraph1')}
                 </p>
                 <p>
-                  I work as a Product designer and Front-end engineer, and I’m also a Design Systems course instructor at AAPD — using Design System to build processes and component libraries that help design and engineering collaborate efficiently, shorten time-to-market, and accelerate validation.
+                  {t('about.whoAmI.paragraph2')}
                 </p>
                 <p>
-                  I also founded and have operated awwrated, a streaming information platform, for 6 years — growing the user base by 300% and page views by 800%.
+                  {t('about.whoAmI.paragraph3')}
                 </p>
               </div>
             </div>
@@ -1012,33 +973,33 @@ const About: React.FC = () => {
             <div className="home__intro-column home__intro-column--secondary" aria-hidden="true" />
             <div className="home__intro-column home__intro-column--primary">
               <h2 id="about-awards-title" className="home__intro-title feed-detail-overlay__section-title">
-                Awards<span className="feed-detail-overlay__cursor">_</span>
+                {t('about.awards.title')}<span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__intro-body">
                 <p>
-                  I have participated in multiple Website and Product designs and have received the following international awards for recognition.
+                  {t('about.awards.description')}
                 </p>
               </div>
               <ul className="home__intro-awards">
                 <li>
                   <img src={award01} alt="Awwwards Logo" className="home__intro-award-image home__intro-award-image--01" />
-                  <span className="home__intro-awards-label">Awwwards</span>
-                  <span className="home__intro-awards-detail">Honorable Mention, Jul 14, 2017</span>
+                  <span className="home__intro-awards-label">{t('about.awards.items.awwwards.label')}</span>
+                  <span className="home__intro-awards-detail">{t('about.awards.items.awwwards.detail')}</span>
                 </li>
                 <li>
                   <img src={award02} alt="App Store Badge" className="home__intro-award-image home__intro-award-image--02" />
-                  <span className="home__intro-awards-label">APP STORE</span>
-                  <span className="home__intro-awards-detail">Editor’s Choice, 2017</span>
+                  <span className="home__intro-awards-label">{t('about.awards.items.appStore.label')}</span>
+                  <span className="home__intro-awards-detail">{t('about.awards.items.appStore.detail')}</span>
                 </li>
                 <li>
                   <img src={award03} alt="CSS Design Awards Logo" className="home__intro-award-image home__intro-award-image--03" />
-                  <span className="home__intro-awards-label">CSS DesignAwards</span>
-                  <span className="home__intro-awards-detail">Website of the Day, Jan 17, 2013</span>
+                  <span className="home__intro-awards-label">{t('about.awards.items.cssDesign.label')}</span>
+                  <span className="home__intro-awards-detail">{t('about.awards.items.cssDesign.detail')}</span>
                 </li>
                 <li>
                   <img src={award04} alt="iHackGroup Award Logo" className="home__intro-award-image home__intro-award-image--04" />
-                  <span className="home__intro-awards-label">iHackGroup</span>
-                  <span className="home__intro-awards-detail">Best User Experience Award, 2016</span>
+                  <span className="home__intro-awards-label">{t('about.awards.items.ihackGroup.label')}</span>
+                  <span className="home__intro-awards-detail">{t('about.awards.items.ihackGroup.detail')}</span>
                 </li>
               </ul>
             </div>
@@ -1050,16 +1011,12 @@ const About: React.FC = () => {
             <div className="home__intro-column home__intro-column--secondary" aria-hidden="true" />
             <div className="home__intro-column home__intro-column--primary">
               <h2 id="about-clients-title" className="home__intro-title feed-detail-overlay__section-title">
-                Clients &amp; Partners<span className="feed-detail-overlay__cursor">_</span>
+                {t('about.clients.title')}<span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__intro-body">
+                <p dangerouslySetInnerHTML={{ __html: t('about.clients.paragraph1') }} />
                 <p>
-                  Serving startups and enterprises alike:<br />
-                  Product Design / Web Design /<br />
-                  Design System Training &amp; Consulting.
-                </p>
-                <p>
-                  A Systems-driven approach that helps teams ship faster and improve consistency.
+                  {t('about.clients.paragraph2')}
                 </p>
               </div>
               <div className="home__clients-logos">
@@ -1080,14 +1037,14 @@ const About: React.FC = () => {
         <section className="home__background" aria-labelledby="about-background-title" ref={backgroundSectionRef}>
           <div className="home__background-inner">
             <h2 id="about-background-title" className="home__background-title feed-detail-overlay__section-title">
-              My design background<span className="feed-detail-overlay__cursor">_</span>
+              {t('about.background.title')}<span className="feed-detail-overlay__cursor">_</span>
             </h2>
             <p className="home__background-description">
-              My design inspiration didn't come from textbooks,<br />
-              but from the startup sound of the Famicom (NES).<br />
-              Japanese culture of the 1980s, 8-bit pixels, tokusatsu, and anime taught me to tell stories with images. I once aimed to become a manga artist or game illustrator~<br />
-              Now I turn that obsession into a design methodology,<br />
-              building products that are more loved and more usable.
+              {t('about.background.line1')}<br />
+              {t('about.background.line2')}<br />
+              {t('about.background.line3')}<br />
+              {t('about.background.line4')}<br />
+              {t('about.background.line5')}
             </p>
             <div className="home__background-rotation-wrapper">
               <div className="home__background-marquee" ref={marqueeRef} aria-hidden="true">
@@ -1113,10 +1070,10 @@ const About: React.FC = () => {
 
         <section className="home__referrer" aria-labelledby="about-referrer-title" ref={referrerSectionRef}>
           <h2 id="about-referrer-title" className="home__intro-title feed-detail-overlay__section-title">
-            Referrer<span className="feed-detail-overlay__cursor">_</span>
+            {t('about.referrer.title')}<span className="feed-detail-overlay__cursor">_</span>
           </h2>
           <div className="home__referrer-list">
-            {referrerData.map((referrer, index) => (
+            {referrerDataWithImages.map((referrer, index) => (
               <ListCard
                 key={index}
                 imageSrc={referrer.imageSrc}
@@ -1133,57 +1090,54 @@ const About: React.FC = () => {
           <div className="home__services-contact-grid">
             <div className="home__services-contact-column">
               <h2 id="about-services-title" className="home__intro-title feed-detail-overlay__section-title" ref={servicesTitleRef}>
-                <span className="title-text">Services</span><span className="feed-detail-overlay__cursor">_</span>
+                <span className="title-text">{t('about.services.title')}</span><span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__services-subtitle">
                 <span className="lineParent">
-                  <span className="lineChild">Flexible Hourly Support</span>
+                  <span className="lineChild">{t('about.services.subtitle.line1')}</span>
                 </span>
                 <span className="lineParent">
-                  <span className="lineChild">Project-Based Outsourcing</span>
+                  <span className="lineChild">{t('about.services.subtitle.line2')}</span>
                 </span>
                 <span className="lineParent">
-                  <span className="lineChild">Design Systems | Training &amp; Consulting</span>
+                  <span className="lineChild">{t('about.services.subtitle.line3')}</span>
                 </span>
               </div>
               <div className="home__services-list">
                 <div className="home__services-category">
                   <span className="lineParent">
-                    <h3 className="home__services-category-title lineChild">WEB/APP</h3>
+                    <h3 className="home__services-category-title lineChild">{t('about.services.categories.webApp.title')}</h3>
                   </span>
                   <div className="home__services-items">
-                    <span className="lineParent">
-                      <span className="home__services-item lineChild">UI/UX DESIGN</span>
-                    </span>
-                    <span className="lineParent">
-                      <span className="home__services-item lineChild">Creative</span>
-                    </span>
-                    <span className="lineParent">
-                      <span className="home__services-item lineChild">SEO</span>
-                    </span>
+                    {(t('about.services.categories.webApp.items', { returnObjects: true }) as string[]).map((item, index) => (
+                      <span key={index} className="lineParent">
+                        <span className="home__services-item lineChild">{item}</span>
+                      </span>
+                    ))}
                   </div>
                 </div>
                 <div className="home__services-category">
                   <span className="lineParent">
-                    <h3 className="home__services-category-title lineChild">DEVELOPMENT</h3>
+                    <h3 className="home__services-category-title lineChild">{t('about.services.categories.development.title')}</h3>
                   </span>
                   <div className="home__services-items">
-                    <span className="lineParent">
-                      <span className="home__services-item lineChild">Front-End</span>
-                    </span>
-                    <span className="lineParent">
-                      <span className="home__services-item lineChild">NO-CODE Management</span>
-                    </span>
+                    {(t('about.services.categories.development.items', { returnObjects: true }) as string[]).map((item, index) => (
+                      <span key={index} className="lineParent">
+                        <span className="home__services-item lineChild">{item}</span>
+                      </span>
+                    ))}
                   </div>
                 </div>
                 <div className="home__services-category">
                   <span className="lineParent">
-                    <h3 className="home__services-category-title lineChild">DESIGN SYSTEM</h3>
+                    <h3 className="home__services-category-title lineChild">{t('about.services.categories.designSystem.title')}</h3>
                   </span>
                   <div className="home__services-items">
-                    <span className="lineParent">
-                      <span className="home__services-item lineChild">Training &amp; Consulting</span>
-                    </span>
+                    {(t('about.services.categories.designSystem.items', { returnObjects: true }) as string[]).map((item, index) => (
+                      <span key={index} className="lineParent">
+                        <span className="home__services-item lineChild">{item}</span>
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -1191,11 +1145,11 @@ const About: React.FC = () => {
 
             <div className="home__services-contact-column">
               <h2 id="about-contact-title" className="home__intro-title feed-detail-overlay__section-title" ref={contactTitleRef}>
-                <span className="title-text">CONTACT</span><span className="feed-detail-overlay__cursor">_</span>
+                <span className="title-text">{t('about.contact.title')}</span><span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__contact-subtitle">
                 <span className="lineParent">
-                  <span className="lineChild">Have a design or development need? If you're looking for a partner with 15 years in product design, development, and operations, drop me a line — or challenge me to an 8-bit game :D</span>
+                  <span className="lineChild">{t('about.contact.subtitle')}</span>
                 </span>
               </div>
               <div className="home__contact-info" style={{ position: 'relative' }}>
@@ -1218,7 +1172,7 @@ const About: React.FC = () => {
                       textTransform: 'uppercase',
                     }}
                   >
-                    Email copied!
+                    {t('about.contact.emailCopied')}
                   </span>
                 )}
                 <span className="lineParent">
