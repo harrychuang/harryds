@@ -496,7 +496,7 @@ const About: React.FC = () => {
     if (backgroundSectionRef.current && backgroundRotationRef.current) {
       // 設置初始狀態：隱藏且位置在畫面上方
       gsap.set(backgroundRotationRef.current, { 
-        y: '-200vh',
+        y: '20vh',
         transform: 'scale(1)',
         autoAlpha: 0  // autoAlpha 同時控制 opacity 和 visibility
       });
