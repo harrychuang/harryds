@@ -449,6 +449,19 @@ const About: React.FC = () => {
       });
     }
 
+    // STEP 5.5: 當 background section 到達頂部 25% 時，pin 住整個 section，滾動 400px 後解除
+    if (backgroundSectionRef.current) {
+      ScrollTrigger.create({
+        trigger: backgroundSectionRef.current,
+        start: 'top 15%',
+        end: '+=400',  // 從 start 位置再滾動 400px
+        pin: true,
+        pinSpacing: true,
+        markers: true, // 開發時顯示標記，完成後可移除
+        id: 'background-pin'
+      });
+    }
+
     // STEP 6: 當 background section 到達 start 70% 時，giphy 跑馬燈淡入
     if (backgroundSectionRef.current && marqueeRef.current) {
       // 設置初始狀態：完全透明
