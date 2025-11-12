@@ -352,7 +352,6 @@ const About: React.FC = () => {
         start: 'top 10%',
         endTrigger: awardsSectionRef.current,
         end: 'top 50%',
-        pin: true,
         pinSpacing: false,
         markers: true // 開發時顯示標記，完成後可移除
       });
@@ -363,12 +362,11 @@ const About: React.FC = () => {
     const rotationElement = visualElement.querySelector('.home__intro-rotation') as HTMLElement;
     
     gsap.to(visualElement, {
-      x: '-52vw',
+      x: '-50vw',
       y: '-=0',  // 向上移動 200px
       scrollTrigger: {
         trigger: introSectionRef.current,
-        start: 'bottom 10%',
-        end: '+=500',  // 從 start 位置再滾動 10%
+        start: 'bottom 40%',
         scrub: true,
         markers: true, // 開發時顯示標記，完成後可移除
         onUpdate: (self) => {
@@ -383,10 +381,10 @@ const About: React.FC = () => {
     // 同時改變 HarryRotation 的寬度
     if (rotationElement) {
       gsap.to(rotationElement, {
-        width: '2000px',
+        width: '1900px',
         scrollTrigger: {
           trigger: introSectionRef.current,
-          start: 'bottom 10%',
+          start: 'bottom 30%',
           end: '+=10%',
           scrub: true,
           markers: true
@@ -402,8 +400,8 @@ const About: React.FC = () => {
                                     clientsSectionRef.current.offsetHeight - 
                                     awardsSectionRef.current.offsetTop;
       
-      // 以 1.7 速度移動，表示視差距離 = 滾動距離 * -0.6
-      const step4ParallaxDistance = awardsToClientsHeight * -0.6;
+      // 以 0.2 速度移動，表示視差距離 = 滾動距離 * 0.2
+      const step4ParallaxDistance = awardsToClientsHeight * 0.2;
       
       // 創建一個從當前位置繼續的動畫
       const tl = gsap.timeline({
@@ -483,15 +481,52 @@ const About: React.FC = () => {
       });
     }
 
-    // 監聽視窗大小變化並刷新
+    // 監聽視窗大小變化並刷新（使用 debounce 優化性能）
+    let resizeTimer: number | null = null;
     const handleResize = () => {
-      ScrollTrigger.refresh();
+      // Debounce: 等待 resize 結束後再處理
+      if (resizeTimer) {
+        clearTimeout(resizeTimer);
+      }
+      
+      resizeTimer = window.setTimeout(() => {
+        if (!introSectionRef.current || !introVisualRef.current) return;
+        
+        const visualElement = introVisualRef.current;
+        
+        // 儲存當前滾動位置
+        const currentScrollY = window.scrollY;
+        
+        // 1. 清除所有 GSAP 設置的內聯樣式（包括 transform 和 pin 樣式）
+        gsap.set(visualElement, { 
+          clearProps: 'all'
+        });
+        
+        // 2. 重新設置初始狀態
+        const newTop = introSectionRef.current.offsetTop;
+        gsap.set(visualElement, { 
+          top: newTop,
+          opacity: 1,
+          left: '0vw',
+          x: 0,
+          y: 0
+        });
+        
+        // 3. 刷新所有 ScrollTrigger，它們會根據當前滾動位置重新計算
+        ScrollTrigger.refresh();
+        
+        // 4. 確保滾動位置不變
+        window.scrollTo(0, currentScrollY);
+      }, 100); // 100ms debounce
     };
     
     window.addEventListener('resize', handleResize);
     
     return () => {
       window.removeEventListener('resize', handleResize);
+      if (resizeTimer) {
+        clearTimeout(resizeTimer);
+      }
       ScrollTrigger.getAll().forEach(st => st.kill());
       setRotationFrame(1); // 重置為初始幀
     };
