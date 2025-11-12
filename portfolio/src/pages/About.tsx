@@ -475,7 +475,7 @@ const About: React.FC = () => {
                                     awardsSectionRef.current.offsetTop;
       
       // 以 0.2 速度移動，表示視差距離 = 滾動距離 * 0.2
-      const step4ParallaxDistance = awardsToClientsHeight * 0.1;
+      const step4ParallaxDistance = awardsToClientsHeight * 0.05;
       
       // 創建一個從當前位置繼續的動畫
       const tl = gsap.timeline({
@@ -524,7 +524,7 @@ const About: React.FC = () => {
       ScrollTrigger.create({
         trigger: backgroundSectionRef.current,
         start: 'top 15%',
-        end: '+=600',  // 從 start 位置再滾動 400px
+        end: '+=800',  // 從 start 位置再滾動 800px
         pin: true,
         pinSpacing: true,
         id: 'background-pin'
@@ -570,8 +570,8 @@ const About: React.FC = () => {
         // 當卡片頂部到達 20% 時，pin 住該卡片，並在滾動過程中淡出
         ScrollTrigger.create({
           trigger: htmlCard,
-          start: 'top 20%',      // 卡片頂部到達 20% 時 pin 住
-          end: '+=100',          // pin 住並滾動 200px 後解除
+          start: 'top 35%',      // 卡片頂部到達 20% 時 pin 住
+          end: '+=250',          // pin 住並滾動 200px 後解除
           pinSpacing: false,
           pinType: 'transform',  // 使用 transform 而非 fixed positioning
           id: `referrer-card-pin-${index}`,
@@ -583,7 +583,8 @@ const About: React.FC = () => {
               top: - self.progress*100,
               zIndex: Math.round((listCards.length - index) * (1 - self.progress)),
               duration: 0.3,
-              overwrite: true
+              overwrite: true,
+              ease: 'power4.out'
             });
           }
         });
@@ -653,13 +654,19 @@ const About: React.FC = () => {
       const servicesTitleEl = servicesTitleRef.current!;
       const contactTitleEl = contactTitleRef.current!;
 
-      // 獲取兩個標題的完整文字（移除 cursor）
+      // 獲取標題文字元素（不包含 cursor）
+      const servicesTextEl = servicesTitleEl.querySelector('.title-text');
+      const contactTextEl = contactTitleEl.querySelector('.title-text');
+
+      if (!servicesTextEl || !contactTextEl) return;
+
+      // 獲取完整文字
       const servicesFullText = 'Services';
       const contactFullText = 'CONTACT';
 
       // 準備：清空標題文字，隱藏所有 lineChildren
-      gsap.set(servicesTitleEl, { text: '' });
-      gsap.set(contactTitleEl, { text: '' });
+      gsap.set(servicesTextEl, { text: '' });
+      gsap.set(contactTextEl, { text: '' });
       
       const lineChildren = sectionEl.querySelectorAll<HTMLElement>('.lineChild');
       gsap.set(lineChildren, { yPercent: 100 });
@@ -674,7 +681,7 @@ const About: React.FC = () => {
       });
 
       // Services 標題打字機效果
-      tl.to(servicesTitleEl, {
+      tl.to(servicesTextEl, {
         duration: Math.max(0.6, servicesFullText.length * 0.06),
         text: servicesFullText,
         ease: 'none'
@@ -682,7 +689,7 @@ const About: React.FC = () => {
 
       // Contact 標題打字機效果（同時進行）
       tl.to(
-        contactTitleEl,
+        contactTextEl,
         {
           duration: Math.max(0.6, contactFullText.length * 0.06),
           text: contactFullText,
@@ -974,7 +981,7 @@ const About: React.FC = () => {
           <div className="home__services-contact-grid">
             <div className="home__services-contact-column">
               <h2 id="about-services-title" className="home__intro-title feed-detail-overlay__section-title" ref={servicesTitleRef}>
-                Services<span className="feed-detail-overlay__cursor">_</span>
+                <span className="title-text">Services</span><span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__services-subtitle">
                 <span className="lineParent">
@@ -1032,7 +1039,7 @@ const About: React.FC = () => {
 
             <div className="home__services-contact-column">
               <h2 id="about-contact-title" className="home__intro-title feed-detail-overlay__section-title" ref={contactTitleRef}>
-                CONTACT<span className="feed-detail-overlay__cursor">_</span>
+                <span className="title-text">CONTACT</span><span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__contact-subtitle">
                 <span className="lineParent">
