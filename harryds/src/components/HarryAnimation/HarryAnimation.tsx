@@ -5,8 +5,12 @@
 import { useEffect, useRef, useState } from 'react';
 import './HarryAnimation.scss';
 
+export type HarryAnimationType = 'rotation' | 'usemac';
+
 export interface HarryAnimationProps {
-  /** 每幀的持續時間（毫秒），預設 300ms */
+  /** 動畫類型，預設 'rotation' */
+  type?: HarryAnimationType;
+  /** 每幀的持續時間（毫秒），rotation 預設 300ms，usemac 預設 2000ms */
   frameDuration?: number;
   /** 圖片寬度，預設 '100%' */
   width?: string | number;
@@ -18,11 +22,11 @@ export interface HarryAnimationProps {
   className?: string;
   /** 圖片 object-fit 模式 */
   objectFit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down';
-  /** 手動控制當前影格（0-9），如果設定此值會覆蓋自動播放 */
+  /** 手動控制當前影格，如果設定此值會覆蓋自動播放 */
   frame?: number;
 }
 
-// 引入圖片
+// 引入 rotation 圖片
 import rotation0 from '../../../assets/imgs/me/rotation-0.png';
 import rotation1 from '../../../assets/imgs/me/rotation-1.png';
 import rotation2 from '../../../assets/imgs/me/rotation-2.png';
@@ -34,7 +38,11 @@ import rotation7 from '../../../assets/imgs/me/rotation-7.png';
 import rotation8 from '../../../assets/imgs/me/rotation-8.png';
 import rotation9 from '../../../assets/imgs/me/rotation-9.png';
 
-const frames = [
+// 引入 usemac 圖片
+import useMac01 from '../../../assets/imgs/usemac/use-mac-01.png';
+import useMac02 from '../../../assets/imgs/usemac/use-mac-02.png';
+
+const rotationFrames = [
   rotation0,
   rotation1,
   rotation2,
@@ -47,8 +55,14 @@ const frames = [
   rotation9,
 ];
 
+const usemacFrames = [
+  useMac01,
+  useMac02,
+];
+
 export const HarryAnimation: React.FC<HarryAnimationProps> = ({
-  frameDuration = 300,
+  type = 'rotation',
+  frameDuration,
   width = '100%',
   height = 'auto',
   autoPlay = true,
@@ -56,6 +70,13 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
   objectFit = 'contain',
   frame,
 }) => {
+  // 根據 type 選擇對應的 frames 陣列
+  const frames = type === 'usemac' ? usemacFrames : rotationFrames;
+  
+  // 根據 type 設定預設的 frameDuration
+  const defaultFrameDuration = type === 'usemac' ? 2000 : 300;
+  const actualFrameDuration = frameDuration ?? defaultFrameDuration;
+
   const [currentFrame, setCurrentFrame] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -66,14 +87,14 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
     // 設置間隔計時器
     intervalRef.current = setInterval(() => {
       setCurrentFrame((prev) => (prev + 1) % frames.length);
-    }, frameDuration);
+    }, actualFrameDuration);
 
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [frameDuration, autoPlay, frame]);
+  }, [actualFrameDuration, autoPlay, frame, frames.length]);
 
   const containerStyle: React.CSSProperties = {
     width: typeof width === 'number' ? `${width}px` : width,
@@ -90,10 +111,10 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
     : currentFrame;
 
   return (
-    <div className={`harry-animation ${className}`} style={containerStyle}>
+    <div className={`harry-animation harry-animation--${type} ${className}`} style={containerStyle}>
       <img
         src={frames[displayFrame]}
-        alt={`Harry animation frame ${displayFrame}`}
+        alt={`Harry ${type} animation frame ${displayFrame}`}
         style={imgStyle}
         className="harry-animation__image"
       />

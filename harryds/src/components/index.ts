@@ -40,7 +40,7 @@ export type { CTAButtonProps } from './CTAButton';
 
 // HarryAnimation - 循環播放圖片序列形成動畫效果
 export { HarryAnimation } from './HarryAnimation';
-export type { HarryAnimationProps } from './HarryAnimation';
+export type { HarryAnimationProps, HarryAnimationType } from './HarryAnimation';
 
 // ListCard - 推薦人卡片元件
 export { ListCard } from './ListCard';

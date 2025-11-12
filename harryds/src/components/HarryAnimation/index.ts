@@ -3,5 +3,5 @@
 // =============================================================================
 
 export { HarryAnimation } from './HarryAnimation';
-export type { HarryAnimationProps } from './HarryAnimation';
+export type { HarryAnimationProps, HarryAnimationType } from './HarryAnimation';
 

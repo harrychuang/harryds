@@ -1076,6 +1076,14 @@ const About: React.FC = () => {
                   </a>
                 </span>
               </div>
+              <div className="home__contact-animation" style={{ position: 'absolute', bottom: -100, right: -200 }}>
+                <HarryAnimation
+                  type="usemac"
+                  frameDuration={200}
+                  width="500px"
+                  autoPlay={true}
+                />
+              </div>
             </div>
           </div>
         </section>

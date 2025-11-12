@@ -13,9 +13,14 @@ const meta: Meta<typeof HarryAnimation> = {
     layout: 'centered',
   },
   argTypes: {
+    type: {
+      control: 'select',
+      options: ['rotation', 'usemac'],
+      description: '動畫類型',
+    },
     frameDuration: {
-      control: { type: 'number', min: 100, max: 2000, step: 50 },
-      description: '每幀的持續時間（毫秒）',
+      control: { type: 'number', min: 100, max: 5000, step: 50 },
+      description: '每幀的持續時間（毫秒），rotation 預設 300ms，usemac 預設 2000ms',
       if: { arg: 'autoPlay', truthy: true },
     },
     width: {
@@ -37,7 +42,7 @@ const meta: Meta<typeof HarryAnimation> = {
     },
     frame: {
       control: { type: 'number', min: 0, max: 9, step: 1 },
-      description: '手動控制當前影格（0-9）',
+      description: '手動控制當前影格',
       if: { arg: 'autoPlay', truthy: false },
     },
   },
@@ -46,9 +51,21 @@ const meta: Meta<typeof HarryAnimation> = {
 export default meta;
 type Story = StoryObj<typeof HarryAnimation>;
 
-export const Default: Story = {
+export const Rotation: Story = {
   args: {
+    type: 'rotation',
     frameDuration: 300,
+    width: '400px',
+    height: 'auto',
+    autoPlay: true,
+    objectFit: 'contain',
+  },
+};
+
+export const UseMac: Story = {
+  args: {
+    type: 'usemac',
+    frameDuration: 2000,
     width: '400px',
     height: 'auto',
     autoPlay: true,
