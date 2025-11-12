@@ -884,3 +884,16 @@
     font-weight: 900 !important;
   }
 }
+
+// Dark theme 樣式：反轉客戶 logo 顏色
+body[data-theme="dark"] {
+  .home__clients-logo {
+    filter: invert(1);
+    transition: filter 0.3s ease;
+  }
+  
+  // 如果 logo 需要在 hover 時有互動效果
+  .home__clients-logo:hover {
+    filter: invert(1) brightness(1.2);
+  }
+}
