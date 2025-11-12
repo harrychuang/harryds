@@ -668,7 +668,7 @@ const About: React.FC = () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionEl,
-          start: 'top 30%',
+          start: 'top 40%',
           toggleActions: 'play none none none'
         }
       });
