@@ -216,7 +216,7 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
     };
 
     // 初始化 particles
-    const particleCount = Math.floor(Math.random() * 50) + 50; // 100-150
+    const particleCount = Math.floor(Math.random() * 40) + 40; // 100-150
     const initialParticles = Array.from({ length: particleCount }, (_, i) => generateParticle(i));
     setParticles(initialParticles);
 

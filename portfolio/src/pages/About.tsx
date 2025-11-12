@@ -978,6 +978,7 @@ const About: React.FC = () => {
             autoPlay={false}
             className="home__intro-rotation"
             frame={rotationFrame}
+            enableParticles={true}
           />
         </div>
 
@@ -1299,9 +1300,10 @@ const About: React.FC = () => {
               <div className="home__contact-animation" ref={contactAnimationRef} style={{ position: 'absolute', bottom: -100, right: -200 }}>
                 <HarryAnimation
                   type="usemac"
-                  frameDuration={200}
+                  frameDuration={500}
                   width="500px"
                   autoPlay={true}
+                  enableParticles={true}
                 />
               </div>
             </div>
