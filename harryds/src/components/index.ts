@@ -41,3 +41,7 @@ export type { CTAButtonProps } from './CTAButton';
 // HarryRotation - 循環播放圖片序列形成動畫效果
 export { HarryRotation } from './HarryRotation';
 export type { HarryRotationProps } from './HarryRotation';
+
+// ListCard - 推薦人卡片元件
+export { ListCard } from './ListCard';
+export type { ListCardProps } from './ListCard';
