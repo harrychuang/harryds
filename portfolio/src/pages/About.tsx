@@ -668,8 +668,14 @@ const About: React.FC = () => {
       gsap.set(servicesTextEl, { text: '' });
       gsap.set(contactTextEl, { text: '' });
       
-      const lineChildren = sectionEl.querySelectorAll<HTMLElement>('.lineChild');
-      gsap.set(lineChildren, { yPercent: 100 });
+      // 分別獲取 Services 和 Contact 的內容元素
+      const servicesColumn = servicesTitleEl.closest('.home__services-contact-column');
+      const contactColumn = contactTitleEl.closest('.home__services-contact-column');
+      
+      const servicesChildren = servicesColumn?.querySelectorAll<HTMLElement>('.lineChild') || [];
+      const contactChildren = contactColumn?.querySelectorAll<HTMLElement>('.lineChild') || [];
+      
+      gsap.set([...servicesChildren, ...contactChildren], { yPercent: 100 });
 
       // 創建 ScrollTrigger 時間軸
       const tl = gsap.timeline({
@@ -680,34 +686,46 @@ const About: React.FC = () => {
         }
       });
 
-      // Services 標題打字機效果
+      // STEP 1: Services 標題打字機效果
       tl.to(servicesTextEl, {
-        duration: Math.max(0.6, servicesFullText.length * 0.06),
+        duration: Math.max(0.3, servicesFullText.length * 0.06),
         text: servicesFullText,
         ease: 'none'
       });
 
-      // Contact 標題打字機效果（同時進行）
+      // STEP 2: Services 內容行動效（延遲 0.2s）
       tl.to(
-        contactTextEl,
-        {
-          duration: Math.max(0.6, contactFullText.length * 0.06),
-          text: contactFullText,
-          ease: 'none'
-        },
-        '<' // 與上一個動畫同時開始
-      );
-
-      // 行動效：所有文字內容延遲 0.2s 後進場
-      tl.to(
-        lineChildren,
+        servicesChildren,
         {
           yPercent: 0,
-          duration: 0.75,
+          duration: 0.5,
           stagger: 0.08,
           ease: 'power3.out'
         },
-        '+=0.2'
+        '0'
+      );
+
+      // STEP 3: Contact 標題打字機效果（延遲 0.3s）
+      tl.to(
+        contactTextEl,
+        {
+          duration: Math.max(0.3, contactFullText.length * 0.06),
+          text: contactFullText,
+          ease: 'none'
+        },
+        '+=0'
+      );
+
+      // STEP 4: Contact 內容行動效（延遲 0.2s）
+      tl.to(
+        contactChildren,
+        {
+          yPercent: 0,
+          duration: 0.5,
+          stagger: 0.08,
+          ease: 'power3.out'
+        },
+        '+=0'
       );
     }, servicesContactSectionRef);
 
