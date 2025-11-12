@@ -427,8 +427,7 @@ const About: React.FC = () => {
         start: 'top 10%',
         endTrigger: awardsSectionRef.current,
         end: 'top 50%',
-        pinSpacing: false,
-        markers: true // 開發時顯示標記，完成後可移除
+        pinSpacing: false
       });
     }
 
@@ -443,7 +442,6 @@ const About: React.FC = () => {
         trigger: introSectionRef.current,
         start: 'bottom 50%',
         scrub: true,
-        markers: true, // 開發時顯示標記，完成後可移除
         onUpdate: (self) => {
           // 根據進度計算當前幀數 (1 到 8)
           const progress = self.progress;
@@ -460,8 +458,7 @@ const About: React.FC = () => {
         scrollTrigger: {
           trigger: introSectionRef.current,
           start: 'bottom 50%',
-          scrub: true,
-          markers: true
+          scrub: true
         }
       });
     }
@@ -484,8 +481,7 @@ const About: React.FC = () => {
           start: 'top 50%',
           endTrigger: clientsSectionRef.current,
           end: 'bottom bottom',
-          scrub: true,
-          markers: true // 開發時顯示標記，完成後可移除
+          scrub: true
         }
       });
       
@@ -500,7 +496,7 @@ const About: React.FC = () => {
     if (backgroundSectionRef.current && backgroundRotationRef.current) {
       // 設置初始狀態：隱藏且位置在畫面上方
       gsap.set(backgroundRotationRef.current, { 
-        y: '-250vh',
+        y: '-200vh',
         transform: 'scale(1)',
         autoAlpha: 0  // autoAlpha 同時控制 opacity 和 visibility
       });
@@ -515,8 +511,7 @@ const About: React.FC = () => {
           trigger: backgroundSectionRef.current,
           start: 'start 90%',
           end: 'top 10%',
-          scrub: 1.5,  // 使用數值而非 true 以保留 ease 效果
-          markers: true // 開發時顯示標記，完成後可移除
+          scrub: 1.5  // 使用數值而非 true 以保留 ease 效果
         }
       });
     }
@@ -529,7 +524,6 @@ const About: React.FC = () => {
         end: '+=600',  // 從 start 位置再滾動 400px
         pin: true,
         pinSpacing: true,
-        markers: true, // 開發時顯示標記，完成後可移除
         id: 'background-pin'
       });
     }
@@ -549,84 +543,46 @@ const About: React.FC = () => {
           trigger: backgroundSectionRef.current,
           start: 'start 40%',
           end: 'start 80%',
-          scrub: 2.5,
-          markers: true // 開發時顯示標記，完成後可移除
+          scrub: 2.5
         }
       });
     }
 
-    // STEP 7: 當 referrer section 頂部到達 15% 時，pin 住，滾動 3000px 後解除
+    // STEP 7: 當 referrer section 頂部到達 15% 時，不 pin section，讓內容自然滾動
+    // 改為只 pin 個別的 ListCard
     if (referrerSectionRef.current) {
-      const referrerList = referrerSectionRef.current.querySelector('.home__referrer-list');
-      
-      // Pin 整個 section
-      ScrollTrigger.create({
-        trigger: referrerSectionRef.current,
-        start: 'top 15%',
-        end: '+=3000',  // 從 start 位置再滾動 3000px
-        pin: true,
-        pinSpacing: true,
-        markers: true, // 開發時顯示標記，完成後可移除
-        id: 'referrer-pin'
-      });
-
-      // STEP 7.1: 在 pin 期間，讓整個 list 向上移動
-      if (referrerList) {
-        gsap.to(referrerList, {
-          y: '-100%',  // 向上移動列表
-          ease: 'none',
-          scrollTrigger: {
-            trigger: referrerSectionRef.current,
-            start: 'top 15%',
-            end: '+=4000',
-            scrub: 1,
-            markers: true
-          }
-        });
-      }
-
-      // STEP 7.2: 為每個 ListCard 設置 pin、z-index、translateZ 和 fadeout 效果
+      // STEP 7.1: 為每個 ListCard 設置 pin、z-index 和 fadeout 效果
       const listCards = referrerSectionRef.current.querySelectorAll('.home__referrer-card');
       
       listCards.forEach((card, index) => {
         const htmlCard = card as HTMLElement;
         
-        // 設置初始 z-index 和 3D 屬性（越後面的卡片 z-index 越高，這樣往上滑時會疊在前面的卡片上方）
+        // 設置初始 z-index 和 3D 屬性
         gsap.set(htmlCard, { 
-          zIndex: 1,
+          zIndex: listCards.length - index,  // 後面的卡片 z-index 較高
           transformPerspective: 1000,
           transformStyle: 'preserve-3d'
         });
 
-        // 當卡片頂部到達 20% 時，pin 住該卡片
-        // 使用 pinType: "transform" 避免 fixed positioning 導致的位置問題
+        // 當卡片頂部到達 20% 時，pin 住該卡片，並在滾動過程中淡出
         ScrollTrigger.create({
           trigger: htmlCard,
-          start: 'top 10%',
-          end: 'top 10%',
-          pin: true,
+          start: 'top 20%',      // 卡片頂部到達 20% 時 pin 住
+          end: '+=100',          // pin 住並滾動 200px 後解除
           pinSpacing: false,
           pinType: 'transform',  // 使用 transform 而非 fixed positioning
-          markers: true, // 開發時顯示標記
-          id: `referrer-card-pin-${index}`
-        });
-
-        // 當卡片頂部到達 20% 時，觸發 z-index 降低、translateZ 往後的效果
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: htmlCard,
-            start: 'top 20%',
-            end: 'top 20%',
-            scrub: true,
-            markers: true, // 開發時顯示標記
+          id: `referrer-card-pin-${index}`,
+          // 在 pin 期間同時執行淡出動畫
+          onUpdate: (self) => {
+            // 根據 pin 的進度來調整透明度
+            gsap.to(htmlCard, {
+              opacity: 1 - self.progress,  // 從 1 漸變到 0
+              top: - self.progress*100,
+              zIndex: Math.round((listCards.length - index) * (1 - self.progress)),
+              duration: 0.3,
+              overwrite: true
+            });
           }
-        });
-
-        // 同時進行：往後移動（translateZ）、縮小（scale）、降低 z-index
-        tl.to(htmlCard, {
-          opacity: 0,
-          zIndex: 0,
-          ease: 'none'
         });
       });
     }
