@@ -103,12 +103,16 @@ export const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
       const scrollInfluence = scrollInfluenceRef.current;
       particle.life += particle.lifeSpeed * scrollInfluence;
       
-      // 根據滾動影響更新 scaleY（向下滾動時拉長）
+      // 根據滾動影響更新 scaleY（向下滾動時拉長，向上滾動時壓縮）
       if (scrollInfluence > 1) {
-        // 向下滾動加速 → Y 軸拉長（係數 1-3，影響範圍約 1-3 倍）
+        // 向下滾動加速 → Y 軸拉長（scaleY > 1）
         particle.scaleY = 1 + (scrollInfluence - 1) * 0.2;
+      } else if (scrollInfluence < 1) {
+        // 向上滾動減速 → Y 軸壓縮（scaleY < 1）
+        // scrollInfluence 從 1 降到 0.2，scaleY 從 1 降到約 0.4
+        particle.scaleY = 0.4 + scrollInfluence * 0.6;
       } else {
-        // 沒有滾動或向上滾動 → 恢復正常
+        // 沒有滾動 → 恢復正常
         particle.scaleY = 1;
       }
       
