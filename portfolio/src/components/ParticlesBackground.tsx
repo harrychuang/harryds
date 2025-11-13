@@ -45,6 +45,12 @@ export const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const animationFrameRef = useRef<number | null>(null);
+  
+  // 追蹤滾動速度
+  const lastScrollYRef = useRef(0);
+  const lastScrollTimeRef = useRef(Date.now());
+  const scrollVelocityRef = useRef(0); // 滾動速度（像素/毫秒）
+  const scrollInfluenceRef = useRef(1); // 滾動對粒子的影響係數 (0.2-4，1 為正常速度)
 
   // 隨機生成粒子（在畫面任何位置出現，向上移動 200-400px）
   const createParticle = useCallback((width: number, height: number, randomLife = false): Particle => {
@@ -91,8 +97,9 @@ export const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
     const { width, height } = canvasRef.current;
     
     particlesRef.current.forEach((particle, index) => {
-      // 更新生命值
-      particle.life += particle.lifeSpeed;
+      // 更新生命值（受滾動速度影響）
+      const scrollInfluence = scrollInfluenceRef.current;
+      particle.life += particle.lifeSpeed * scrollInfluence;
       
       // 如果生命值超過 1，重新初始化該粒子
       if (particle.life >= 1) {
@@ -191,10 +198,53 @@ export const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
       initParticles();
     };
     
+    // 監聽滾動事件，計算滾動速度並更新影響係數
+    const handleScrollEvent = () => {
+      const currentScrollY = window.scrollY;
+      const currentTime = Date.now();
+      
+      const deltaY = currentScrollY - lastScrollYRef.current;
+      const deltaTime = currentTime - lastScrollTimeRef.current;
+      
+      // 計算滾動速度和方向
+      if (deltaTime > 0 && Math.abs(deltaY) > 0) {
+        scrollVelocityRef.current = Math.abs(deltaY) / deltaTime;
+        
+        // 根據滾動方向和速度計算影響係數
+        if (deltaY > 0) {
+          // 向下滾動（內容向上）→ 粒子加速向上（係數 2-20）
+          const velocityFactor = Math.min(20, 2 + Math.log1p(scrollVelocityRef.current * 60));
+          scrollInfluenceRef.current = velocityFactor;
+        } else {
+          // 向上滾動（內容向下）→ 粒子減速（係數 0.2-1）
+          const velocityFactor = Math.max(0.2, 1 - Math.log1p(scrollVelocityRef.current * 2) * 0.4);
+          scrollInfluenceRef.current = velocityFactor;
+        }
+      }
+      
+      // 更新記錄
+      lastScrollYRef.current = currentScrollY;
+      lastScrollTimeRef.current = currentTime;
+    };
+    
+    // 定期衰減影響係數（回到 1）
+    const decayInterval = setInterval(() => {
+      if (scrollInfluenceRef.current > 1) {
+        // 加速狀態 → 逐漸回到 1
+        scrollInfluenceRef.current = Math.max(1, scrollInfluenceRef.current * 0.92);
+      } else if (scrollInfluenceRef.current < 1) {
+        // 減速狀態 → 逐漸回到 1
+        scrollInfluenceRef.current = Math.min(1, scrollInfluenceRef.current + (1 - scrollInfluenceRef.current) * 0.08);
+      }
+    }, 50);
+    
     window.addEventListener('resize', handleResizeEvent);
+    window.addEventListener('scroll', handleScrollEvent, { passive: true });
     
     return () => {
       window.removeEventListener('resize', handleResizeEvent);
+      window.removeEventListener('scroll', handleScrollEvent);
+      clearInterval(decayInterval);
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
