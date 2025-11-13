@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Logo, PixelText2D, HarryAnimation, ListCard } from 'hds';
+import { Logo, PixelText2D, HarryAnimation, ListCard, ParticlesBackground } from 'hds';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
 import { gsap } from 'gsap';
@@ -35,7 +35,6 @@ import referrerSherry from '../../assets/imgs/referrers/referrer-sherry.jpg';
 import '../pages/Home.scss';
 import Header from '../components/Header';
 import { GIPHY_URLS } from '../constants/giphy';
-import ParticlesBackground from '../components/ParticlesBackground';
 
 const About: React.FC = () => {
   const navigate = useNavigate();
@@ -869,7 +868,7 @@ const About: React.FC = () => {
     <div className="home" data-lang={i18n.language}>
       {/* Canvas Particles 背景 */}
       <ParticlesBackground
-        particleCount={50}
+        particleCount={30}
         colors={['#111111', '#1a1a1a', '#333333', '#4d4d4d', '#666666', '#808080', '#999999']}
         sizeRange={[2, 10]}
         fixed={true}

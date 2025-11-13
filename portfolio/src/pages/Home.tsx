@@ -2,7 +2,7 @@ import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react'
 import './Home.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Logo, FeedDetailOverlay, PixelText, PixelText2D } from 'hds';
+import { Logo, FeedDetailOverlay, PixelText, PixelText2D, ParticlesBackground } from 'hds';
 import type { FeedCardSize } from 'hds';
 import type { FeedItem, FeedContentBlock } from '../../../harryds/src/types/feed';
 import { useStrapiFeed } from '../hooks/useStrapiFeed';

@@ -45,3 +45,7 @@ export type { HarryAnimationProps, HarryAnimationType } from './HarryAnimation';
 // ListCard - 推薦人卡片元件
 export { ListCard } from './ListCard';
 export type { ListCardProps } from './ListCard';
+
+// ParticlesBackground - Canvas 背景粒子效果
+export { ParticlesBackground } from './ParticlesBackground';
+export type { ParticlesBackgroundProps } from './ParticlesBackground';

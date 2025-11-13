@@ -525,6 +525,7 @@
     font-weight: 500;
     line-height: 1.6;
     color: inherit;
+    white-space: pre-line; // 讓 \n 自動斷行
   }
 
   &__referrer {
