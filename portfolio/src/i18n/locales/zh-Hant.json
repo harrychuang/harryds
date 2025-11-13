@@ -155,7 +155,7 @@
   },
   "projects": {
     "1": {
-      "heading": "AI 新聞 APP",
+      "heading": "AI News APP",
       "date": "Jan 01, 2025 - PRESENT",
       "brand": "NOWNEWS",
       "projectInfo": {
@@ -192,11 +192,11 @@
       }
     },
     "2": {
-      "heading": "串流影音資訊指南",
+      "heading": "Streaming Video Ratings Guide",
       "date": "Jan 01, 2025 - Jun 30, 2025",
       "brand": "awwrated",
       "projectInfo": {
-        "project": "串流評分指南",
+        "project": "串流影音資訊平台",
         "description": "介紹 Shopmatic 設計系統：一個簡化設計並增強使用者體驗的框架。它提供元件、指南和最佳實踐，用於創建吸引人且功能性的數位產品。無論你是設計師還是開發者，這都是你打造直觀介面的資源。",
         "websiteLabel": "造訪網站",
         "sections": {
@@ -352,7 +352,7 @@
       }
     },
     "7": {
-      "heading": "學習入口網站",
+      "heading": "Learning Portal",
       "date": "Jan 01, 2025 - PRESENT",
       "brand": "TutorMing",
       "projectInfo": {

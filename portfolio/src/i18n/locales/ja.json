@@ -164,7 +164,7 @@
   },
   "projects": {
     "1": {
-      "heading": "AI ニュース APP",
+      "heading": "AI News APP",
       "date": "Jan 01, 2025 - PRESENT",
       "brand": "NOWNEWS",
       "projectInfo": {
@@ -201,7 +201,7 @@
       }
     },
     "2": {
-      "heading": "ストリーミング評価ガイド",
+      "heading": "Streaming Ratings Guide",
       "date": "Jan 01, 2025 - Jun 30, 2025",
       "brand": "awwrated",
       "projectInfo": {
@@ -233,7 +233,7 @@
       }
     },
     "3": {
-      "heading": "デザインシステム",
+      "heading": "Design System",
       "date": "Jan 01, 2025 - PRESENT",
       "brand": "Shopmatic",
       "projectInfo": {
@@ -265,7 +265,7 @@
       }
     },
     "4": {
-      "heading": "バイヤー APP",
+      "heading": "Buyer APP",
       "date": "Jan 01, 2025 - PRESENT",
       "brand": "Shopmatic",
       "projectInfo": {
@@ -297,7 +297,7 @@
       }
     },
     "5": {
-      "heading": "バイヤーチェックアウト",
+      "heading": "Buyer Checkout",
       "date": "Jan 01, 2025 - PRESENT",
       "brand": "Shopmatic",
       "projectInfo": {
@@ -329,11 +329,11 @@
       }
     },
     "6": {
-      "heading": "トラベルモンスター",
+      "heading": "Travel Monster",
       "date": "Jan 01, 2025 - PRESENT",
       "brand": "KKDay",
       "projectInfo": {
-        "project": "トラベルモンスター",
+        "project": "Travel Monster",
         "description": "Shopmatic デザインシステムのご紹介：デザインを効率化し、ユーザー体験を向上させるフレームワークです。魅力的で機能的なデジタル製品を作成するためのコンポーネント、ガイドライン、ベストプラクティスを提供します。デザイナーでも開発者でも、直感的なインターフェースを作成するためのリソースです。",
         "websiteLabel": "ウェブサイトを訪問",
         "sections": {
@@ -361,7 +361,7 @@
       }
     },
     "7": {
-      "heading": "学習ポータル",
+      "heading": "Learning Portal",
       "date": "Jan 01, 2025 - PRESENT",
       "brand": "TutorMing",
       "projectInfo": {
