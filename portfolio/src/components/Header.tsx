@@ -1,5 +1,6 @@
 import React from 'react';
 import { Logo, PixelText2D } from 'hds';
+import './Header.scss';
 
 export interface HeaderProps {
 	// Logo controls
@@ -14,6 +15,7 @@ export interface HeaderProps {
 	// Navigation controls
 	hideNav?: boolean;
 	menuItems?: string[]; // keys like 'home' | 'works' | 'article' | 'about'
+	activeMenuItem?: string; // current active menu item
 	t?: (key: string) => string; // i18n translator
 	getMenuItemAnimated?: (key: string) => boolean;
 	onMenuItemHover?: (key: string) => void; // also for hover sound
@@ -54,6 +56,7 @@ const Header: React.FC<HeaderProps> = ({
 
 	hideNav = false,
 	menuItems = ['works', 'article', 'about'],
+	activeMenuItem,
 	t = (k: string) => k,
 	getMenuItemAnimated,
 	onMenuItemHover,
@@ -100,12 +103,14 @@ const Header: React.FC<HeaderProps> = ({
 								const label = t(`nav.${itemKey}`);
 								const width = calcPixelTextWidth(label);
 								const animated = getMenuItemAnimated ? !!getMenuItemAnimated(itemKey) : false;
+								const isActive = activeMenuItem === itemKey;
 								return (
 									<div
 										key={itemKey}
 										className="home__nav-item"
 										onMouseEnter={() => { onMenuItemHover && onMenuItemHover(itemKey); }}
 										onClick={() => { onMenuItemClick && onMenuItemClick(itemKey); }}
+										style={{ position: 'relative' }}
 									>
 										<PixelText2D
 											text={label}
@@ -118,6 +123,17 @@ const Header: React.FC<HeaderProps> = ({
 											primaryColor={primaryColor}
 											onPrimaryColor={onPrimaryColor}
 										/>
+										{isActive && (
+											<div className="marquee-container">
+												<div className="marquee-pixels" style={{ color: primaryColor || 'var(--hds-sys-color-theme-surface)' }}>
+													<div className="marquee-pixel marquee-pixel--1" style={{ opacity: 0.2 }} />
+													<div className="marquee-pixel marquee-pixel--2" style={{ opacity: 0.4 }} />
+													<div className="marquee-pixel marquee-pixel--3" style={{ opacity: 0.6 }} />
+													<div className="marquee-pixel marquee-pixel--4" style={{ opacity: 0.8 }} />
+													<div className="marquee-pixel marquee-pixel--5" style={{ opacity: 1 }} />
+												</div>
+											</div>
+										)}
 									</div>
 								);
 							})}

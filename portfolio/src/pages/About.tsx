@@ -881,6 +881,7 @@ const About: React.FC = () => {
         logoAnimated={true}
         hideNav={false}
         menuItems={['works', 'article', 'about']}
+        activeMenuItem="about"
         t={t}
         getMenuItemAnimated={(key) => !!menuAnimStates[key]}
         onMenuItemHover={(key) => { triggerMenuHoverOnce(key); playMenuHoverSound(); }}

@@ -526,6 +526,7 @@ const Home: React.FC = () => {
         logoWrapperStyle={headerLogoWrapperStyle}
         hideNav={shouldHideNav}
         menuItems={['works', 'article', 'about']}
+        activeMenuItem="works"
         t={t}
         getMenuItemAnimated={(key) => !!menuAnimStates[key]}
         onMenuItemHover={(key) => { triggerMenuHoverOnce(key); playMenuHoverSound(); }}
