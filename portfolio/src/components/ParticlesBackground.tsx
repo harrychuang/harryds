@@ -163,26 +163,7 @@ export const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
     ctx.globalAlpha = 1;
   }, [backgroundColor]);
 
-  // 動畫循環
-  const animate = useCallback(() => {
-    updateParticles();
-    drawParticles();
-    animationFrameRef.current = requestAnimationFrame(animate);
-  }, [updateParticles, drawParticles]);
-
-  // 處理視窗大小變化
-  const handleResize = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    
-    // 重新初始化粒子
-    initParticles();
-  }, [initParticles]);
-
-  // 初始化 Canvas 和動畫
+  // 初始化 Canvas 和動畫（只在首次掛載時執行）
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -195,18 +176,31 @@ export const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
     initParticles();
     
     // 開始動畫
-    animate();
+    const animateLoop = () => {
+      updateParticles();
+      drawParticles();
+      animationFrameRef.current = requestAnimationFrame(animateLoop);
+    };
+    animateLoop();
     
     // 監聽視窗大小變化
-    window.addEventListener('resize', handleResize);
+    const handleResizeEvent = () => {
+      if (!canvas) return;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    };
+    
+    window.addEventListener('resize', handleResizeEvent);
     
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', handleResizeEvent);
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [initParticles, animate, handleResize]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // 空依賴陣列，只在首次掛載時執行
 
   return (
     <canvas

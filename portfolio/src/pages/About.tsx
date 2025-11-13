@@ -869,9 +869,9 @@ const About: React.FC = () => {
     <div className="home" data-lang={i18n.language}>
       {/* Canvas Particles 背景 */}
       <ParticlesBackground
-        particleCount={80}
+        particleCount={50}
         colors={['#111111', '#1a1a1a', '#333333', '#4d4d4d', '#666666', '#808080', '#999999']}
-        sizeRange={[2, 5]}
+        sizeRange={[2, 10]}
         fixed={true}
         zIndex={0}
       />
