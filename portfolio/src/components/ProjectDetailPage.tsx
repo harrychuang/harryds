@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useRef, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import './ProjectDetailPage.scss';
 import type { FeedItem, FeedContentBlock } from 'hds/types/feed';
 import { DistortedPixels2D, VideoPlayer } from 'hds';
@@ -19,12 +20,86 @@ export interface ProjectDetailPageProps {
  * - 從 FeedDetailOverlay 抽離內容渲染邏輯
  * - 提供更大的設計自由度
  * - 簡化結構，專注於內容呈現
+ * - 支援多語系 i18n
  */
 export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
   item,
   className = '',
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const { t, i18n } = useTranslation();
+
+  // 從 i18n 獲取翻譯資料，並與原始資料合併
+  const localizedItem = useMemo(() => {
+    try {
+      const projectKey = `projects.${item.id}`;
+      const hasTranslation = i18n.exists(projectKey);
+      
+      if (!hasTranslation) {
+        console.warn(`[i18n] 找不到專案 ${item.id} 的翻譯，使用原始資料`);
+        return item;
+      }
+
+      // 獲取翻譯資料
+      const translated = t(projectKey, { returnObjects: true }) as any;
+
+      return {
+        ...item,
+        // 翻譯的文字內容
+        heading: translated.heading || item.heading,
+        date: translated.date || item.date,
+        brand: translated.brand || item.brand,
+        // projectInfo 也使用翻譯
+        projectInfo: item.projectInfo ? {
+          ...item.projectInfo,
+          project: translated.projectInfo?.project || item.projectInfo.project,
+          description: translated.projectInfo?.description || item.projectInfo.description,
+          websiteLabel: translated.projectInfo?.websiteLabel || item.projectInfo.websiteLabel,
+          // 翻譯 sections 內容
+          sections: item.projectInfo.sections?.map((section) => {
+            const translatedSection = translated.projectInfo?.sections?.[section.title.toLowerCase()];
+            
+            if (!translatedSection) {
+              return section;
+            }
+
+            return {
+              ...section,
+              title: translatedSection.title || section.title,
+              content: section.content?.map((contentItem, contentIndex) => {
+                // 根據內容類型翻譯
+                if (contentItem.type === 'paragraph') {
+                  const paragraphKey = `paragraph${contentIndex + 1}`;
+                  return {
+                    ...contentItem,
+                    text: translatedSection[paragraphKey] || contentItem.text
+                  };
+                }
+                if (contentItem.type === 'quote') {
+                  const quoteKey = `quote${contentIndex + 1}`;
+                  return {
+                    ...contentItem,
+                    text: translatedSection[quoteKey] || contentItem.text
+                  };
+                }
+                if (contentItem.type === 'blockquote') {
+                  return {
+                    ...contentItem,
+                    text: translatedSection.blockquote || contentItem.text
+                  };
+                }
+                // image, video 等不需要翻譯
+                return contentItem;
+              })
+            };
+          })
+        } : undefined,
+      };
+    } catch (error) {
+      console.error('[i18n] 翻譯處理錯誤:', error);
+      return item;
+    }
+  }, [item, t, i18n.language]); // 當語言改變時重新計算
 
   // 智能分組連續圖片
   const groupImages = (blocks: FeedContentBlock[]) => {
@@ -166,12 +241,12 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
         </div>
         <div className="pdp-hero__info">
           <div className="pdp-info__meta">
-            <span className="pdp-meta__id">{item.brand || item.id}</span>
-            <span className="pdp-meta__date">{item.date}</span>
+            <span className="pdp-meta__id">{localizedItem.brand || localizedItem.id}</span>
+            <span className="pdp-meta__date">{localizedItem.date}</span>
           </div>
-          <h1 className="pdp-info__heading">{item.heading}</h1>
+          <h1 className="pdp-info__heading">{localizedItem.heading}</h1>
           <div className="pdp-info__tags">
-            {item.tags.map((tag, idx) => (
+            {localizedItem.tags.map((tag, idx) => (
               <span key={idx} className="pdp-tag">{tag}</span>
             ))}
           </div>

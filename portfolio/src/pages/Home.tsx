@@ -28,7 +28,78 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { items: strapiItems, loading, error } = useStrapiFeed();
-  const items = useMemo(() => strapiItems as FeedItem[], [strapiItems]);
+  
+  // 將 Strapi 資料與 i18n 翻譯合併
+  const items = useMemo(() => {
+    const rawItems = strapiItems as FeedItem[];
+    
+    return rawItems.map(item => {
+      try {
+        const projectKey = `projects.${item.id}`;
+        const hasTranslation = i18n.exists(projectKey);
+        
+        if (!hasTranslation) {
+          return item;
+        }
+
+        const translated = t(projectKey, { returnObjects: true }) as any;
+
+        return {
+          ...item,
+          heading: translated.heading || item.heading,
+          date: translated.date || item.date,
+          brand: translated.brand || item.brand,
+          projectInfo: item.projectInfo ? {
+            ...item.projectInfo,
+            project: translated.projectInfo?.project || item.projectInfo.project,
+            description: translated.projectInfo?.description || item.projectInfo.description,
+            websiteLabel: translated.projectInfo?.websiteLabel || item.projectInfo.websiteLabel,
+            // 翻譯 sections 內容
+            sections: item.projectInfo.sections?.map((section, sectionIndex) => {
+              const translatedSection = translated.projectInfo?.sections?.[section.title.toLowerCase()];
+              
+              if (!translatedSection) {
+                return section;
+              }
+
+              return {
+                ...section,
+                title: translatedSection.title || section.title,
+                content: section.content?.map((contentItem, contentIndex) => {
+                  // 根據內容類型翻譯
+                  if (contentItem.type === 'paragraph') {
+                    const paragraphKey = `paragraph${contentIndex + 1}`;
+                    return {
+                      ...contentItem,
+                      text: translatedSection[paragraphKey] || contentItem.text
+                    };
+                  }
+                  if (contentItem.type === 'quote') {
+                    const quoteKey = `quote${contentIndex + 1}`;
+                    return {
+                      ...contentItem,
+                      text: translatedSection[quoteKey] || contentItem.text
+                    };
+                  }
+                  if (contentItem.type === 'blockquote') {
+                    return {
+                      ...contentItem,
+                      text: translatedSection.blockquote || contentItem.text
+                    };
+                  }
+                  // image, video 等不需要翻譯
+                  return contentItem;
+                })
+              };
+            })
+          } : undefined,
+        };
+      } catch (error) {
+        console.error(`[i18n] 項目 ${item.id} 翻譯處理錯誤:`, error);
+        return item;
+      }
+    });
+  }, [strapiItems, t, i18n.language]);
   
   // 調試信息：顯示資料載入狀態
   useEffect(() => {
