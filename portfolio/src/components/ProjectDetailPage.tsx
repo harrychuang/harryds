@@ -37,7 +37,11 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
       
       if (!hasTranslation) {
         console.warn(`[i18n] 找不到專案 ${item.id} 的翻譯，使用原始資料`);
-        return item;
+        // 即使沒有翻譯，也保留 originalHeading 以便生成一致的 URL
+        return {
+          ...item,
+          originalHeading: item.heading
+        };
       }
 
       // 獲取翻譯資料
@@ -45,6 +49,8 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
 
       return {
         ...item,
+        // 保留原始英文 heading 作為 originalHeading，用於生成 URL slug
+        originalHeading: item.heading,
         // 翻譯的文字內容
         heading: translated.heading || item.heading,
         date: translated.date || item.date,

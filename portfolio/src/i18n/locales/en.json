@@ -1,6 +1,6 @@
 {
-  "nav": { 
-    "home": "Home", 
+  "nav": {
+    "home": "Home",
     "about": "About",
     "projects": "Projects",
     "project": "Project",
@@ -131,15 +131,24 @@
       "categories": {
         "webApp": {
           "title": "WEB/APP",
-          "items": ["UI/UX DESIGN", "Creative", "SEO"]
+          "items": [
+            "UI/UX DESIGN",
+            "Creative",
+            "SEO"
+          ]
         },
         "development": {
           "title": "DEVELOPMENT",
-          "items": ["Front-End", "NO-CODE Management"]
+          "items": [
+            "Front-End",
+            "NO-CODE Management"
+          ]
         },
         "designSystem": {
           "title": "DESIGN SYSTEM",
-          "items": ["Training & Consulting"]
+          "items": [
+            "Training & Consulting"
+          ]
         }
       }
     },
@@ -192,13 +201,35 @@
       }
     },
     "2": {
-      "heading": "Streaming Ratings Guide",
+      "heading": "Streaming Video Ratings Guide",
       "date": "Jan 01, 2025 - Jun 30, 2025",
       "brand": "awwrated",
       "projectInfo": {
         "project": "Streaming Ratings Guide",
         "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-        "websiteLabel": "VISIT WEBSITE"
+        "websiteLabel": "VISIT WEBSITE",
+        "sections": {
+          "scope": {
+            "title": "Scope",
+            "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
+            "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
+            "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence."
+          },
+          "impact": {
+            "title": "Impact",
+            "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
+            "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
+            "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
+            "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
+            "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement."
+          },
+          "get in touch": {
+            "title": "GET IN TOUCH",
+            "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
+            "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
+            "paragraph3": "Let's collaborate to create something exceptional!"
+          }
+        }
       }
     },
     "3": {
@@ -208,7 +239,29 @@
       "projectInfo": {
         "project": "Design System",
         "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-        "websiteLabel": "VISIT WEBSITE"
+        "websiteLabel": "VISIT WEBSITE",
+        "sections": {
+          "scope": {
+            "title": "Scope",
+            "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
+            "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
+            "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence."
+          },
+          "impact": {
+            "title": "Impact",
+            "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
+            "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
+            "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
+            "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
+            "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement."
+          },
+          "get in touch": {
+            "title": "GET IN TOUCH",
+            "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
+            "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
+            "paragraph3": "Let's collaborate to create something exceptional!"
+          }
+        }
       }
     },
     "4": {
@@ -218,7 +271,29 @@
       "projectInfo": {
         "project": "Buyer Checkout",
         "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-        "websiteLabel": "VISIT WEBSITE"
+        "websiteLabel": "VISIT WEBSITE",
+        "sections": {
+          "scope": {
+            "title": "Scope",
+            "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
+            "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
+            "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence."
+          },
+          "impact": {
+            "title": "Impact",
+            "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
+            "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
+            "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
+            "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
+            "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement."
+          },
+          "get in touch": {
+            "title": "GET IN TOUCH",
+            "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
+            "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
+            "paragraph3": "Let's collaborate to create something exceptional!"
+          }
+        }
       }
     },
     "5": {
@@ -228,17 +303,61 @@
       "projectInfo": {
         "project": "Buyer Checkout",
         "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-        "websiteLabel": "VISIT WEBSITE"
+        "websiteLabel": "VISIT WEBSITE",
+        "sections": {
+          "scope": {
+            "title": "Scope",
+            "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
+            "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
+            "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence."
+          },
+          "impact": {
+            "title": "Impact",
+            "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
+            "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
+            "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
+            "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
+            "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement."
+          },
+          "get in touch": {
+            "title": "GET IN TOUCH",
+            "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
+            "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
+            "paragraph3": "Let's collaborate to create something exceptional!"
+          }
+        }
       }
     },
     "6": {
-      "heading": "Travel Monster",
+      "heading": "Travel \nMonster",
       "date": "Jan 01, 2025 - PRESENT",
       "brand": "KKDay",
       "projectInfo": {
         "project": "Travel Monster",
         "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-        "websiteLabel": "VISIT WEBSITE"
+        "websiteLabel": "VISIT WEBSITE",
+        "sections": {
+          "scope": {
+            "title": "Scope",
+            "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
+            "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
+            "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence."
+          },
+          "impact": {
+            "title": "Impact",
+            "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
+            "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
+            "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
+            "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
+            "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement."
+          },
+          "get in touch": {
+            "title": "GET IN TOUCH",
+            "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
+            "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
+            "paragraph3": "Let's collaborate to create something exceptional!"
+          }
+        }
       }
     },
     "7": {
@@ -248,10 +367,30 @@
       "projectInfo": {
         "project": "Learning Portal",
         "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-        "websiteLabel": "VISIT WEBSITE"
+        "websiteLabel": "VISIT WEBSITE",
+        "sections": {
+          "scope": {
+            "title": "Scope",
+            "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
+            "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
+            "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence."
+          },
+          "impact": {
+            "title": "Impact",
+            "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
+            "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
+            "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
+            "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
+            "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement."
+          },
+          "get in touch": {
+            "title": "GET IN TOUCH",
+            "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
+            "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
+            "paragraph3": "Let's collaborate to create something exceptional!"
+          }
+        }
       }
     }
   }
 }
-
-

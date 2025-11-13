@@ -39,13 +39,19 @@ const Home: React.FC = () => {
         const hasTranslation = i18n.exists(projectKey);
         
         if (!hasTranslation) {
-          return item;
+          // 即使沒有翻譯，也保留 originalHeading 以便生成一致的 URL
+          return {
+            ...item,
+            originalHeading: item.heading
+          };
         }
 
         const translated = t(projectKey, { returnObjects: true }) as any;
 
         return {
           ...item,
+          // 保留原始英文 heading 作為 originalHeading，用於生成 URL slug
+          originalHeading: item.heading,
           heading: translated.heading || item.heading,
           date: translated.date || item.date,
           brand: translated.brand || item.brand,
@@ -313,7 +319,9 @@ const Home: React.FC = () => {
   }, [isLangDropdownOpen]);
 
   const toItemUrl = useCallback((item: FeedItem) => {
-    const slug = slugify(item.heading);
+    // 使用原始英文 heading 生成 slug，確保所有語系的 URL 一致
+    const headingForSlug = (item as any).originalHeading || item.heading;
+    const slug = slugify(headingForSlug);
     return `/${item.category}/${item.id}/${slug}`;
   }, []);
 

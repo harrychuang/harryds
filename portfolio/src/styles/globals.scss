@@ -33,6 +33,33 @@ body {
   color: #111111;
 }
 
+/* 中文和日文語系的 line-height 調整 */
+:lang(zh-Hant), :lang(zh), :lang(ja) {
+  /* 覆寫所有文字元素的 line-height */
+  * {
+    line-height: 1.5;
+  }
+  
+  /* 特別處理標題，保持更緊湊 */
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.5;
+  }
+
+  h1, h2 {
+    font-weight: 900;
+  }
+
+  p {
+    font-weight: 600;
+  }
+  
+  /* Pixel 字型保持 1.1 (更緊湊) */
+  [style*="font-family: 'Pixel'"],
+  [class*="pixel"] {
+    line-height: 1.1 !important;
+  }
+}
+
 /* 關閉全站橫向捲動，並鎖定視窗寬度為 100vw */
 html, body {
   width: 100vw;

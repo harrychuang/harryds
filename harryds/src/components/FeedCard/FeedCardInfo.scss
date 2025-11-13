@@ -36,6 +36,10 @@
     line-height: 1;
     text-transform: uppercase;
     white-space: pre-line; // 支援 \n 換行符號
+
+    :lang(zh-Hant), :lang(zh), :lang(ja) {
+      line-height: 1.15 !important;
+    }
   }
 
   .feed-card-info__date {
