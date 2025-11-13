@@ -41,11 +41,6 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
   className = '',
   onClick,
 }) => {
-  // 判斷是否為深色文字（用於圖示反轉）
-  const isLightIcon = textColor?.toLowerCase().includes('fff') || 
-                       textColor?.toLowerCase().includes('255') ||
-                       textColor?.toLowerCase().includes('white');
-  
   return (
     <a 
       href={href}
@@ -55,16 +50,11 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
       onClick={onClick}
       style={{
         '--cta-text-color': textColor,
-        '--cta-icon-invert': isLightIcon ? '1' : '0',
+        '--cta-primary': primaryColor,
+        '--cta-secondary': secondaryColor,
       } as React.CSSProperties}
     >
-      <div 
-        className="cta-button__background"
-        style={{
-          '--cta-primary': primaryColor,
-          '--cta-secondary': secondaryColor,
-        } as React.CSSProperties}
-      >
+      <div className="cta-button__background">
         {/* 12個方塊背景 - 顏色會循環移動 */}
         <div className="cta-button__stripe" data-stripe="1" />
         <div className="cta-button__stripe" data-stripe="2" />
@@ -80,10 +70,13 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
         <div className="cta-button__stripe" data-stripe="12" />
       </div>
       <span className="cta-button__content">
-        <img 
-          src={iconUrl} 
-          alt="" 
+        {/* 使用 div + mask 替代 img，這樣可以用 background-color 設定顏色 */}
+        <span 
           className="cta-button__icon"
+          style={{
+            maskImage: `url(${iconUrl})`,
+            WebkitMaskImage: `url(${iconUrl})`,
+          } as React.CSSProperties}
         />
         <span className="cta-button__text">
           {label}
