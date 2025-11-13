@@ -194,7 +194,7 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
     // 生成隨機 particle
     const generateParticle = (id: number): Particle => {
       const containerWidth = containerRef.current?.offsetWidth || 300;
-      const baseSize = containerWidth / 40; // 圖片寬度的 1/20
+      const baseSize = containerWidth / 50; // 圖片寬度的 1/20
       const sizeVariation = baseSize * 0.5; // ±50%
       
       // 從有效像素中隨機選擇一個位置
@@ -202,7 +202,7 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
       
       // 使用圖片中的顏色，但調整為灰階（保持原本的想法）
       // 或者可以選擇：直接使用圖片顏色 randomPixel.color
-      const colors = ['#000000', '#1a1a1a', '#333333', '#4d4d4d', '#666666', '#808080', '#999999'];
+      const colors = ['#111111', '#1a1a1a', '#333333', '#4d4d4d', '#666666', '#808080', '#999999'];
       
       return {
         id,
@@ -210,13 +210,13 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
         y: randomPixel.y * 100, // 轉換為百分比
         size: baseSize + (Math.random() * 2 - 1) * sizeVariation, // baseSize ± 10%
         color: colors[Math.floor(Math.random() * colors.length)],
-        duration: 2000 + Math.random() * 2000, // 2-4秒
+        duration: 1000 + Math.random() * 2000, // 2-4秒
         delay: Math.random() * 1000, // 0-1秒延遲
       };
     };
 
     // 初始化 particles
-    const particleCount = Math.floor(Math.random() * 40) + 40; // 100-150
+    const particleCount = Math.floor(Math.random() * 60) + 40; // 100-150
     const initialParticles = Array.from({ length: particleCount }, (_, i) => generateParticle(i));
     setParticles(initialParticles);
 
@@ -234,7 +234,7 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
         
         return updatedParticles;
       });
-    }, 3000); // 每 3 秒更新一批
+    }, 2000); // 每 3 秒更新一批
 
     return () => {
       clearInterval(particleInterval);

@@ -1063,6 +1063,8 @@ const About: React.FC = () => {
                 <HarryAnimation
                   width={'250px'}
                   autoPlay={true}
+                  enableParticles={true}
+                  frameDuration={1000}
                 />
               </div>
             </div>
@@ -1255,7 +1257,7 @@ const About: React.FC = () => {
               <div className="home__contact-animation" ref={contactAnimationRef} style={{ position: 'absolute', bottom: -100, right: -200 }}>
                 <HarryAnimation
                   type="usemac"
-                  frameDuration={500}
+                  frameDuration={1000}
                   width="500px"
                   autoPlay={true}
                   enableParticles={true}

@@ -30,7 +30,7 @@
     },
     "awards": {
       "title": "獲獎經歷",
-      "description": "我參與過多項網站與產品設計，並獲得以下國際獎項的肯定。",
+      "description": "我參與過多項網站與產品設計，\n並獲得以下國際獎項的肯定。",
       "items": {
         "awwwards": {
           "label": "Awwwards",
