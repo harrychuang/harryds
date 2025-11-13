@@ -15,6 +15,7 @@ import { useHover } from '../contexts/HoverContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import TransitionOverlay from '../components/TransitionOverlay';
 import Header from '../components/Header';
+import ParticlesBackground from '../components/ParticlesBackground';
 
 const slugify = (text: string) => text
   .toLowerCase()
@@ -514,6 +515,15 @@ const Home: React.FC = () => {
 
   return (
     <div ref={homeRef} className="home">
+      {/* Canvas Particles 背景 */}
+      <ParticlesBackground
+        particleCount={80}
+        colors={['#111111', '#1a1a1a', '#333333', '#4d4d4d', '#666666', '#808080', '#999999']}
+        sizeRange={[1, 4]}
+        fixed={true}
+        zIndex={-1}
+      />
+      
       {/* 預載統計面板與切換按鈕已移除 */}
 
       <Header

@@ -35,6 +35,7 @@ import referrerSherry from '../../assets/imgs/referrers/referrer-sherry.jpg';
 import '../pages/Home.scss';
 import Header from '../components/Header';
 import { GIPHY_URLS } from '../constants/giphy';
+import ParticlesBackground from '../components/ParticlesBackground';
 
 const About: React.FC = () => {
   const navigate = useNavigate();
@@ -866,6 +867,15 @@ const About: React.FC = () => {
 
   return (
     <div className="home" data-lang={i18n.language}>
+      {/* Canvas Particles 背景 */}
+      <ParticlesBackground
+        particleCount={80}
+        colors={['#111111', '#1a1a1a', '#333333', '#4d4d4d', '#666666', '#808080', '#999999']}
+        sizeRange={[2, 5]}
+        fixed={true}
+        zIndex={0}
+      />
+      
       <Header
         onLogoClick={() => navigate('/')}
         logoType="default"
@@ -1257,7 +1267,7 @@ const About: React.FC = () => {
               <div className="home__contact-animation" ref={contactAnimationRef} style={{ position: 'absolute', bottom: -100, right: -200 }}>
                 <HarryAnimation
                   type="usemac"
-                  frameDuration={1000}
+                  frameDuration={750}
                   width="500px"
                   autoPlay={true}
                   enableParticles={true}
