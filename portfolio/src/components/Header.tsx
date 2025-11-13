@@ -53,7 +53,7 @@ const Header: React.FC<HeaderProps> = ({
 	logoWrapperStyle,
 
 	hideNav = false,
-	menuItems = ['home', 'works', 'article', 'about'],
+	menuItems = ['works', 'article', 'about'],
 	t = (k: string) => k,
 	getMenuItemAnimated,
 	onMenuItemHover,

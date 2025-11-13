@@ -880,13 +880,13 @@ const About: React.FC = () => {
         logoType="default"
         logoAnimated={true}
         hideNav={false}
-        menuItems={['home', 'works', 'article', 'about']}
+        menuItems={['works', 'article', 'about']}
         t={t}
         getMenuItemAnimated={(key) => !!menuAnimStates[key]}
         onMenuItemHover={(key) => { triggerMenuHoverOnce(key); playMenuHoverSound(); }}
         onMenuItemClick={(key) => { 
           playMenuClickSound();
-          if (key === 'home') {
+          if (key === 'works') {
             navigate('/');
           } else if (key === 'about') {
             navigate('/about');
