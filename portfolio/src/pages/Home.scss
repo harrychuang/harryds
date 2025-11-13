@@ -896,4 +896,11 @@ body[data-theme="dark"] {
   .home__clients-logo:hover {
     filter: invert(1) brightness(1.2);
   }
+  
+  // Awards section：CSS Design Awards 和 iHackGroup logo 反轉
+  .home__intro-award-image--03,
+  .home__intro-award-image--04 {
+    filter: invert(1);
+    transition: filter 0.3s ease;
+  }
 }
