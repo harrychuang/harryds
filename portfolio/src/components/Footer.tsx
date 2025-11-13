@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useState, useCallback, useRef } from 'react';
 import './Footer.scss';
 import { useParams, useLocation } from 'react-router-dom';
-import { useStrapiFeed } from '../hooks/useStrapiFeed';
+import { useI18nFeed } from '../hooks/useI18nFeed';
 import type { FeedItem } from 'hds/types/feed';
 import { useHover } from '../contexts/HoverContext';
 import { useOverlay } from '../contexts/OverlayContext';
@@ -99,7 +99,7 @@ const persistLikedPaths = (paths: Set<string>) => {
 
 const Footer: React.FC = () => {
   const params = useParams();
-  const { items } = useStrapiFeed();
+  const { items } = useI18nFeed();
   const { hoveredCardId } = useHover();
   const { openCardId, animationPhase, overlayScrollRef } = useOverlay();
   const { theme } = useTheme();

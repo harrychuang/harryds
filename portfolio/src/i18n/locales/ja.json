@@ -171,17 +171,31 @@
         "project": "ストリーミング評価ガイド",
         "description": "Shopmatic デザインシステムのご紹介：デザインを効率化し、ユーザー体験を向上させるフレームワークです。魅力的で機能的なデジタル製品を作成するためのコンポーネント、ガイドライン、ベストプラクティスを提供します。デザイナーでも開発者でも、直感的なインターフェースを作成するためのリソースです。",
         "websiteLabel": "ウェブサイトを訪問",
-        "meta": {
-          "brand": "ブランド",
-          "project": "プロジェクト",
-          "role": "役割"
-        },
+        "meta": [
+          {
+            "label": "Brand",
+            "value": "NOWNEWS"
+          },
+          {
+            "label": "Project",
+            "value": "Streaming Ratings Guide"
+          },
+          {
+            "label": "Role",
+            "value": [
+              "UIUX Design",
+              "Design System",
+              "Development"
+            ]
+          }
+        ],
         "sections": {
           "scope": {
             "title": "範囲",
             "paragraph1": "Shopmatic デザインシステムは、デザインプロセスを最適化し、デジタルプラットフォーム全体でユーザー体験を向上させます。デザイナーと開発者向けのコンポーネント、ガイドライン、ベストプラクティスが含まれています。この一貫したツールセットにより、チームは魅力的で機能的なデジタル製品を作成できます。",
             "paragraph2": "コラボレーションと一貫性のために設計されており、アプリケーション間で統一性を保つための再利用可能なコンポーネントを備えています。ガイドラインは、タイポグラフィ、カラースキーム、レイアウト原則をカバーし、情報に基づいたデザイン選択を支援します。",
-            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。"
+            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。",
+            "image1": "demo/nownews/demo-nownews-02.jpg"
           },
           "impact": {
             "title": "影響",
@@ -189,7 +203,9 @@
             "quote1": "「評価の信頼性」ルール：評価者数で重み付けして、初期のサンプルバイアスを減らします。",
             "quote2": "ソートとフィルタリングのルール：人気度、新しさ、最高スコア、評価数に基づく多次元的なソート。",
             "quote3": "GA イベントトラッキング + Hotjar ヒートマップ、データ駆動型のデザイン反復のために導入。",
-            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。"
+            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。",
+            "image1": "demo/nownews/demo-nownews-03.jpg",
+            "image2": "demo/nownews/demo-nownews-04.jpg"
           },
           "get in touch": {
             "title": "お問い合わせ",
@@ -197,8 +213,23 @@
             "paragraph2": "harrychuang23@gmail.com までお気軽にご連絡ください。",
             "paragraph3": "一緒に素晴らしいものを作りましょう！"
           }
-        }
-      }
+        },
+        "websiteUrl": "https://awwrated.com",
+        "mainImage": "demo/nownews/demo-nownews-01.jpg",
+        "specialHeadingImage": "demo/nownews/demo-nownews-hero-img.png",
+        "roles": [
+          "UIUX Design",
+          "Design System"
+        ]
+      },
+      "tags": [
+        "UI",
+        "UX"
+      ],
+      "category": "project",
+      "primaryColor": "#FBC92B",
+      "secondaryColor": "#18181A",
+      "heroImage": "demo/nownews/demo-nownews-bg.jpg"
     },
     "2": {
       "heading": "Streaming Ratings Guide",
@@ -213,7 +244,8 @@
             "title": "範囲",
             "paragraph1": "Shopmatic デザインシステムは、デザインプロセスを最適化し、デジタルプラットフォーム全体でユーザー体験を向上させます。デザイナーと開発者向けのコンポーネント、ガイドライン、ベストプラクティスが含まれています。この一貫したツールセットにより、チームは魅力的で機能的なデジタル製品を作成できます。",
             "paragraph2": "コラボレーションと一貫性のために設計されており、アプリケーション間で統一性を保つための再利用可能なコンポーネントを備えています。ガイドラインは、タイポグラフィ、カラースキーム、レイアウト原則をカバーし、情報に基づいたデザイン選択を支援します。",
-            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。"
+            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。",
+            "image1": "demo/awwrated/demo-awwrated-02.jpg"
           },
           "impact": {
             "title": "影響",
@@ -221,7 +253,9 @@
             "quote1": "「評価の信頼性」ルール：評価者数で重み付けして、初期のサンプルバイアスを減らします。",
             "quote2": "ソートとフィルタリングのルール：人気度、新しさ、最高スコア、評価数に基づく多次元的なソート。",
             "quote3": "GA イベントトラッキング + Hotjar ヒートマップ、データ駆動型のデザイン反復のために導入。",
-            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。"
+            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。",
+            "image1": "demo/awwrated/demo-awwrated-03.jpg",
+            "image2": "demo/awwrated/demo-awwrated-04.jpg"
           },
           "get in touch": {
             "title": "お問い合わせ",
@@ -229,8 +263,43 @@
             "paragraph2": "harrychuang23@gmail.com までお気軽にご連絡ください。",
             "paragraph3": "一緒に素晴らしいものを作りましょう！"
           }
-        }
-      }
+        },
+        "websiteUrl": "https://awwrated.com",
+        "mainImage": "demo/awwrated/demo-awwrated-01.jpg",
+        "specialHeadingImage": "demo/awwrated/demo-awwrated-hero-img.png",
+        "meta": [
+          {
+            "label": "Brand",
+            "value": "awwrated"
+          },
+          {
+            "label": "Project",
+            "value": "Streaming Ratings Guide"
+          },
+          {
+            "label": "Role",
+            "value": [
+              "UIUX Design",
+              "Design System",
+              "Development"
+            ]
+          }
+        ],
+        "roles": [
+          "UIUX Design",
+          "Design System",
+          "Development"
+        ]
+      },
+      "tags": [
+        "UI",
+        "UX",
+        "DEV"
+      ],
+      "category": "project",
+      "primaryColor": "#FF1650",
+      "secondaryColor": "#151648",
+      "heroImage": "demo/awwrated/demo-awwrated-bg.jpg"
     },
     "3": {
       "heading": "Design System",
@@ -245,7 +314,8 @@
             "title": "範囲",
             "paragraph1": "Shopmatic デザインシステムは、デザインプロセスを最適化し、デジタルプラットフォーム全体でユーザー体験を向上させます。デザイナーと開発者向けのコンポーネント、ガイドライン、ベストプラクティスが含まれています。この一貫したツールセットにより、チームは魅力的で機能的なデジタル製品を作成できます。",
             "paragraph2": "コラボレーションと一貫性のために設計されており、アプリケーション間で統一性を保つための再利用可能なコンポーネントを備えています。ガイドラインは、タイポグラフィ、カラースキーム、レイアウト原則をカバーし、情報に基づいたデザイン選択を支援します。",
-            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。"
+            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。",
+            "image1": "demo/shopmaticds/demo-shopmaticds-02.jpg"
           },
           "impact": {
             "title": "影響",
@@ -253,7 +323,9 @@
             "quote1": "「評価の信頼性」ルール：評価者数で重み付けして、初期のサンプルバイアスを減らします。",
             "quote2": "ソートとフィルタリングのルール：人気度、新しさ、最高スコア、評価数に基づく多次元的なソート。",
             "quote3": "GA イベントトラッキング + Hotjar ヒートマップ、データ駆動型のデザイン反復のために導入。",
-            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。"
+            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。",
+            "image1": "demo/shopmaticds/demo-shopmaticds-03.jpg",
+            "image2": "demo/shopmaticds/demo-shopmaticds-04.jpg"
           },
           "get in touch": {
             "title": "お問い合わせ",
@@ -261,8 +333,41 @@
             "paragraph2": "harrychuang23@gmail.com までお気軽にご連絡ください。",
             "paragraph3": "一緒に素晴らしいものを作りましょう！"
           }
-        }
-      }
+        },
+        "websiteUrl": "https://awwrated.com",
+        "mainImage": "demo/shopmaticds/demo-shopmaticds-01.jpg",
+        "specialHeadingImage": "demo/shopmaticds/demo-shopmaticds-hero-img.png",
+        "meta": [
+          {
+            "label": "Brand",
+            "value": "Shopmatic"
+          },
+          {
+            "label": "Project",
+            "value": "Design System"
+          },
+          {
+            "label": "Role",
+            "value": [
+              "UIUX Design",
+              "Design System",
+              "Development"
+            ]
+          }
+        ],
+        "roles": [
+          "UIUX Design",
+          "Design System"
+        ]
+      },
+      "tags": [
+        "UI",
+        "UX"
+      ],
+      "category": "project",
+      "primaryColor": "#4285f4",
+      "secondaryColor": "#212b36",
+      "heroImage": "demo/shopmaticds/demo-shopmaticds-bg.jpg"
     },
     "4": {
       "heading": "Buyer APP",
@@ -277,7 +382,8 @@
             "title": "範囲",
             "paragraph1": "Shopmatic デザインシステムは、デザインプロセスを最適化し、デジタルプラットフォーム全体でユーザー体験を向上させます。デザイナーと開発者向けのコンポーネント、ガイドライン、ベストプラクティスが含まれています。この一貫したツールセットにより、チームは魅力的で機能的なデジタル製品を作成できます。",
             "paragraph2": "コラボレーションと一貫性のために設計されており、アプリケーション間で統一性を保つための再利用可能なコンポーネントを備えています。ガイドラインは、タイポグラフィ、カラースキーム、レイアウト原則をカバーし、情報に基づいたデザイン選択を支援します。",
-            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。"
+            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。",
+            "image1": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-02.jpg"
           },
           "impact": {
             "title": "影響",
@@ -285,7 +391,9 @@
             "quote1": "「評価の信頼性」ルール：評価者数で重み付けして、初期のサンプルバイアスを減らします。",
             "quote2": "ソートとフィルタリングのルール：人気度、新しさ、最高スコア、評価数に基づく多次元的なソート。",
             "quote3": "GA イベントトラッキング + Hotjar ヒートマップ、データ駆動型のデザイン反復のために導入。",
-            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。"
+            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。",
+            "image1": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-03.jpg",
+            "image2": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-04.jpg"
           },
           "get in touch": {
             "title": "お問い合わせ",
@@ -293,11 +401,44 @@
             "paragraph2": "harrychuang23@gmail.com までお気軽にご連絡ください。",
             "paragraph3": "一緒に素晴らしいものを作りましょう！"
           }
-        }
-      }
+        },
+        "websiteUrl": "https://awwrated.com",
+        "mainImage": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-01.jpg",
+        "specialHeadingImage": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-hero-img.png",
+        "meta": [
+          {
+            "label": "Brand",
+            "value": "Shopmatic"
+          },
+          {
+            "label": "Project",
+            "value": "Buyer APP"
+          },
+          {
+            "label": "Role",
+            "value": [
+              "UIUX Design",
+              "Design System",
+              "Development"
+            ]
+          }
+        ],
+        "roles": [
+          "UIUX Design",
+          "Design System"
+        ]
+      },
+      "tags": [
+        "UI",
+        "UX"
+      ],
+      "category": "project",
+      "primaryColor": "#fff",
+      "secondaryColor": "#111",
+      "heroImage": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-bg.jpg"
     },
     "5": {
-      "heading": "Buyer Checkout",
+      "heading": "Buyer \nCheckout",
       "date": "Jan 01, 2025 - PRESENT",
       "brand": "Shopmatic",
       "projectInfo": {
@@ -309,7 +450,8 @@
             "title": "範囲",
             "paragraph1": "Shopmatic デザインシステムは、デザインプロセスを最適化し、デジタルプラットフォーム全体でユーザー体験を向上させます。デザイナーと開発者向けのコンポーネント、ガイドライン、ベストプラクティスが含まれています。この一貫したツールセットにより、チームは魅力的で機能的なデジタル製品を作成できます。",
             "paragraph2": "コラボレーションと一貫性のために設計されており、アプリケーション間で統一性を保つための再利用可能なコンポーネントを備えています。ガイドラインは、タイポグラフィ、カラースキーム、レイアウト原則をカバーし、情報に基づいたデザイン選択を支援します。",
-            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。"
+            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。",
+            "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-02.jpg"
           },
           "impact": {
             "title": "影響",
@@ -317,7 +459,8 @@
             "quote1": "「評価の信頼性」ルール：評価者数で重み付けして、初期のサンプルバイアスを減らします。",
             "quote2": "ソートとフィルタリングのルール：人気度、新しさ、最高スコア、評価数に基づく多次元的なソート。",
             "quote3": "GA イベントトラッキング + Hotjar ヒートマップ、データ駆動型のデザイン反復のために導入。",
-            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。"
+            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。",
+            "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-03.jpg"
           },
           "get in touch": {
             "title": "お問い合わせ",
@@ -325,8 +468,41 @@
             "paragraph2": "harrychuang23@gmail.com までお気軽にご連絡ください。",
             "paragraph3": "一緒に素晴らしいものを作りましょう！"
           }
-        }
-      }
+        },
+        "websiteUrl": "https://awwrated.com",
+        "mainImage": "demo/shopmaticcheckout/demo-shopmaticcheckout-01.jpg",
+        "specialHeadingImage": "demo/shopmaticcheckout/demo-shopmaticcheckout-hero-img.png",
+        "meta": [
+          {
+            "label": "Brand",
+            "value": "Shopmatic"
+          },
+          {
+            "label": "Project",
+            "value": "Buyer Checkout"
+          },
+          {
+            "label": "Role",
+            "value": [
+              "UIUX Design",
+              "Design System",
+              "Development"
+            ]
+          }
+        ],
+        "roles": [
+          "UIUX Design",
+          "Design System"
+        ]
+      },
+      "tags": [
+        "UI",
+        "UX"
+      ],
+      "category": "project",
+      "primaryColor": "#4285f4",
+      "secondaryColor": "#EFF3F6",
+      "heroImage": "demo/shopmaticcheckout/demo-shopmaticcheckout-bg.jpg"
     },
     "6": {
       "heading": "Travel Monster",
@@ -341,7 +517,8 @@
             "title": "範囲",
             "paragraph1": "Shopmatic デザインシステムは、デザインプロセスを最適化し、デジタルプラットフォーム全体でユーザー体験を向上させます。デザイナーと開発者向けのコンポーネント、ガイドライン、ベストプラクティスが含まれています。この一貫したツールセットにより、チームは魅力的で機能的なデジタル製品を作成できます。",
             "paragraph2": "コラボレーションと一貫性のために設計されており、アプリケーション間で統一性を保つための再利用可能なコンポーネントを備えています。ガイドラインは、タイポグラフィ、カラースキーム、レイアウト原則をカバーし、情報に基づいたデザイン選択を支援します。",
-            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。"
+            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。",
+            "image1": "demo/kkday/demo-kkday-02.jpg"
           },
           "impact": {
             "title": "影響",
@@ -349,7 +526,9 @@
             "quote1": "「評価の信頼性」ルール：評価者数で重み付けして、初期のサンプルバイアスを減らします。",
             "quote2": "ソートとフィルタリングのルール：人気度、新しさ、最高スコア、評価数に基づく多次元的なソート。",
             "quote3": "GA イベントトラッキング + Hotjar ヒートマップ、データ駆動型のデザイン反復のために導入。",
-            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。"
+            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。",
+            "image1": "demo/kkday/demo-kkday-03.jpg",
+            "image2": "demo/kkday/demo-kkday-04.jpg"
           },
           "get in touch": {
             "title": "お問い合わせ",
@@ -357,8 +536,41 @@
             "paragraph2": "harrychuang23@gmail.com までお気軽にご連絡ください。",
             "paragraph3": "一緒に素晴らしいものを作りましょう！"
           }
-        }
-      }
+        },
+        "websiteUrl": "https://awwrated.com",
+        "mainImage": "demo/kkday/demo-kkday-01.jpg",
+        "specialHeadingImage": "demo/kkday/demo-kkday-hero-img.png",
+        "meta": [
+          {
+            "label": "Brand",
+            "value": "KKDay"
+          },
+          {
+            "label": "Project",
+            "value": "Travel Monster"
+          },
+          {
+            "label": "Role",
+            "value": [
+              "UIUX Design",
+              "Design System",
+              "Development"
+            ]
+          }
+        ],
+        "roles": [
+          "UIUX Design",
+          "Design System"
+        ]
+      },
+      "tags": [
+        "UI",
+        "UX"
+      ],
+      "category": "project",
+      "primaryColor": "#FFC410",
+      "secondaryColor": "#10A4B1",
+      "heroImage": "demo/kkday/demo-kkday-bg.jpg"
     },
     "7": {
       "heading": "Learning Portal",
@@ -373,7 +585,8 @@
             "title": "範囲",
             "paragraph1": "Shopmatic デザインシステムは、デザインプロセスを最適化し、デジタルプラットフォーム全体でユーザー体験を向上させます。デザイナーと開発者向けのコンポーネント、ガイドライン、ベストプラクティスが含まれています。この一貫したツールセットにより、チームは魅力的で機能的なデジタル製品を作成できます。",
             "paragraph2": "コラボレーションと一貫性のために設計されており、アプリケーション間で統一性を保つための再利用可能なコンポーネントを備えています。ガイドラインは、タイポグラフィ、カラースキーム、レイアウト原則をカバーし、情報に基づいたデザイン選択を支援します。",
-            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。"
+            "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。",
+            "image1": "demo/tutorming/demo-tutorming-02.jpg"
           },
           "impact": {
             "title": "影響",
@@ -381,7 +594,9 @@
             "quote1": "「評価の信頼性」ルール：評価者数で重み付けして、初期のサンプルバイアスを減らします。",
             "quote2": "ソートとフィルタリングのルール：人気度、新しさ、最高スコア、評価数に基づく多次元的なソート。",
             "quote3": "GA イベントトラッキング + Hotjar ヒートマップ、データ駆動型のデザイン反復のために導入。",
-            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。"
+            "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。",
+            "image1": "demo/tutorming/demo-tutorming-03.jpg",
+            "image2": "demo/tutorming/demo-tutorming-04.jpg"
           },
           "get in touch": {
             "title": "お問い合わせ",
@@ -389,8 +604,41 @@
             "paragraph2": "harrychuang23@gmail.com までお気軽にご連絡ください。",
             "paragraph3": "一緒に素晴らしいものを作りましょう！"
           }
-        }
-      }
+        },
+        "websiteUrl": "https://awwrated.com",
+        "mainImage": "demo/tutorming/demo-tutorming-01.jpg",
+        "specialHeadingImage": "demo/tutorming/demo-tutorming-hero-img.png",
+        "meta": [
+          {
+            "label": "Brand",
+            "value": "TutorMing"
+          },
+          {
+            "label": "Project",
+            "value": "Learning Portal"
+          },
+          {
+            "label": "Role",
+            "value": [
+              "UIUX Design",
+              "Design System",
+              "Development"
+            ]
+          }
+        ],
+        "roles": [
+          "UIUX Design",
+          "Design System"
+        ]
+      },
+      "tags": [
+        "UI",
+        "UX"
+      ],
+      "category": "project",
+      "primaryColor": "#FF435A",
+      "secondaryColor": "#111111",
+      "heroImage": "demo/tutorming/demo-tutorming-bg.jpg"
     }
   }
 }

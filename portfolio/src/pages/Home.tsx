@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Logo, FeedDetailOverlay, PixelText, PixelText2D, ParticlesBackground } from 'hds';
 import type { FeedCardSize } from 'hds';
 import type { FeedItem, FeedContentBlock } from '../../../harryds/src/types/feed';
-import { useStrapiFeed } from '../hooks/useStrapiFeed';
+import { useI18nFeed } from '../hooks/useI18nFeed';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
@@ -27,85 +27,8 @@ const Home: React.FC = () => {
   const params = useParams();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const { items: strapiItems, loading, error } = useStrapiFeed();
-  
-  // 將 Strapi 資料與 i18n 翻譯合併
-  const items = useMemo(() => {
-    const rawItems = strapiItems as FeedItem[];
-    
-    return rawItems.map(item => {
-      try {
-        const projectKey = `projects.${item.id}`;
-        const hasTranslation = i18n.exists(projectKey);
-        
-        if (!hasTranslation) {
-          // 即使沒有翻譯，也保留 originalHeading 以便生成一致的 URL
-          return {
-            ...item,
-            originalHeading: item.heading
-          };
-        }
-
-        const translated = t(projectKey, { returnObjects: true }) as any;
-
-        return {
-          ...item,
-          // 保留原始英文 heading 作為 originalHeading，用於生成 URL slug
-          originalHeading: item.heading,
-          heading: translated.heading || item.heading,
-          date: translated.date || item.date,
-          brand: translated.brand || item.brand,
-          projectInfo: item.projectInfo ? {
-            ...item.projectInfo,
-            project: translated.projectInfo?.project || item.projectInfo.project,
-            description: translated.projectInfo?.description || item.projectInfo.description,
-            websiteLabel: translated.projectInfo?.websiteLabel || item.projectInfo.websiteLabel,
-            // 翻譯 sections 內容
-            sections: item.projectInfo.sections?.map((section, sectionIndex) => {
-              const translatedSection = translated.projectInfo?.sections?.[section.title.toLowerCase()];
-              
-              if (!translatedSection) {
-                return section;
-              }
-
-              return {
-                ...section,
-                title: translatedSection.title || section.title,
-                content: section.content?.map((contentItem, contentIndex) => {
-                  // 根據內容類型翻譯
-                  if (contentItem.type === 'paragraph') {
-                    const paragraphKey = `paragraph${contentIndex + 1}`;
-                    return {
-                      ...contentItem,
-                      text: translatedSection[paragraphKey] || contentItem.text
-                    };
-                  }
-                  if (contentItem.type === 'quote') {
-                    const quoteKey = `quote${contentIndex + 1}`;
-                    return {
-                      ...contentItem,
-                      text: translatedSection[quoteKey] || contentItem.text
-                    };
-                  }
-                  if (contentItem.type === 'blockquote') {
-                    return {
-                      ...contentItem,
-                      text: translatedSection.blockquote || contentItem.text
-                    };
-                  }
-                  // image, video 等不需要翻譯
-                  return contentItem;
-                })
-              };
-            })
-          } : undefined,
-        };
-      } catch (error) {
-        console.error(`[i18n] 項目 ${item.id} 翻譯處理錯誤:`, error);
-        return item;
-      }
-    });
-  }, [strapiItems, t, i18n.language]);
+  // 使用新的 i18n-based feed hook，統一從 i18n 管理所有專案資料
+  const { items, loading, error } = useI18nFeed();
   
   // 調試信息：顯示資料載入狀態
   useEffect(() => {
