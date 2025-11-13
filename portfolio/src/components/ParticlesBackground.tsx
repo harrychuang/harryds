@@ -17,6 +17,7 @@ interface Particle {
   lifeSpeed: number; // 生命消耗速度
   fadeInDuration: number; // fade in 階段 (0-0.2)
   fadeOutStart: number; // fade out 開始點 (0.8-1)
+  scaleY: number; // Y 軸縮放（受滾動影響）
 }
 
 export interface ParticlesBackgroundProps {
@@ -72,11 +73,12 @@ export const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
       size: minSize + Math.random() * (maxSize - minSize),
       color: colors[Math.floor(Math.random() * colors.length)],
       opacity: 0,
-      vx: (Math.random() - 0.5) * 0.3, // 輕微的水平漂移
+      vx: (Math.random() - 0.5) * 0, // 輕微的水平漂移
       life: randomLife ? Math.random() : 0, // 初始化時可以隨機生命值，讓粒子不會同時出現
       lifeSpeed: 0.0008 + Math.random() * 0.0012, // 生命消耗速度（調慢一些）
       fadeInDuration: 0.15 + Math.random() * 0.1, // fade in 階段 (0.15-0.25)
       fadeOutStart: 0.7 + Math.random() * 0.15, // fade out 開始點 (0.7-0.85)
+      scaleY: 1, // 初始 Y 軸縮放為 1
     };
   }, [colors, sizeRange]);
 
@@ -100,6 +102,15 @@ export const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
       // 更新生命值（受滾動速度影響）
       const scrollInfluence = scrollInfluenceRef.current;
       particle.life += particle.lifeSpeed * scrollInfluence;
+      
+      // 根據滾動影響更新 scaleY（向下滾動時拉長）
+      if (scrollInfluence > 1) {
+        // 向下滾動加速 → Y 軸拉長（係數 1-3，影響範圍約 1-3 倍）
+        particle.scaleY = 1 + (scrollInfluence - 1) * 0.2;
+      } else {
+        // 沒有滾動或向上滾動 → 恢復正常
+        particle.scaleY = 1;
+      }
       
       // 如果生命值超過 1，重新初始化該粒子
       if (particle.life >= 1) {
@@ -154,17 +165,29 @@ export const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
     
-    // 繪製每個粒子（正方形）
+    // 繪製每個粒子（正方形，帶 Y 軸縮放）
     particlesRef.current.forEach((particle) => {
+      ctx.save(); // 保存當前狀態
+      
+      // 設置透明度和顏色
       ctx.fillStyle = particle.color;
       ctx.globalAlpha = particle.opacity;
-      // 繪製正方形，中心點為 (particle.x, particle.y)
+      
+      // 移動到粒子中心點
+      ctx.translate(particle.x, particle.y);
+      
+      // 應用 Y 軸縮放
+      ctx.scale(1, particle.scaleY);
+      
+      // 繪製正方形（以原點為中心）
       ctx.fillRect(
-        particle.x - particle.size / 2,
-        particle.y - particle.size / 2,
+        -particle.size / 2,
+        -particle.size / 2,
         particle.size,
         particle.size
       );
+      
+      ctx.restore(); // 恢復狀態
     });
     
     ctx.globalAlpha = 1;
@@ -213,7 +236,7 @@ export const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
         // 根據滾動方向和速度計算影響係數
         if (deltaY > 0) {
           // 向下滾動（內容向上）→ 粒子加速向上（係數 2-20）
-          const velocityFactor = Math.min(20, 2 + Math.log1p(scrollVelocityRef.current * 60));
+          const velocityFactor = Math.min(20, 2 + Math.log1p(scrollVelocityRef.current * 200));
           scrollInfluenceRef.current = velocityFactor;
         } else {
           // 向上滾動（內容向下）→ 粒子減速（係數 0.2-1）
