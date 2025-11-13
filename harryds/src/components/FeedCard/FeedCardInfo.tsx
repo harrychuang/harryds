@@ -274,19 +274,23 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
         </div>
       </div>
 
-      <div className="feed-card-info__heading" style={{ fontSize: isHovered ? headingPx * 1.2 : headingPx, color: isHovered ? primaryColor : basePrimary, transition: 'color 300ms ease, font-size 200ms ease' }}>
+      <div className="feed-card-info__heading" style={{ fontSize: isHovered ? headingPx * 1.2 : headingPx, color: isHovered ? primaryColor : basePrimary, transition: 'color 300ms ease, font-size 200ms ease', whiteSpace: 'pre-line' }}>
         {isHovered ? (
           <>
             {Array.from(displayedHeading).map((char, index) => (
-              <span
-                key={index}
-                style={{
-                  opacity: flashingCharIndex === index ? 0.1 : 1,
-                  transition: 'opacity 60ms ease',
-                }}
-              >
-                {char}
-              </span>
+              char === '\n' ? (
+                <br key={index} />
+              ) : (
+                <span
+                  key={index}
+                  style={{
+                    opacity: flashingCharIndex === index ? 0.1 : 1,
+                    transition: 'opacity 60ms ease',
+                  }}
+                >
+                  {char}
+                </span>
+              )
             ))}
             {displayedChars < computedHeading.length && (
               <span 

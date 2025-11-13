@@ -35,6 +35,7 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1;
     text-transform: uppercase;
+    white-space: pre-line; // 支援 \n 換行符號
   }
 
   .feed-card-info__date {
