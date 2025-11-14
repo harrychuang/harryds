@@ -196,7 +196,14 @@
       width: 100%;
       &--hero { grid-column: span 6; }
       &--med { grid-column: span 3; }
-      &--sm { grid-column: span 2; }
+      &--sm { 
+        grid-column: span 2; // 預設 3 columns per row (6/2=3)
+        
+        // 當該 row 只有 2 columns 時，每個卡片佔 3 個 grid columns
+        &[data-columns="2"] {
+          grid-column: span 3;
+        }
+      }
       &--xs { grid-column: span 2; }
     }
   }

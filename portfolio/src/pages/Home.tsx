@@ -30,13 +30,6 @@ const Home: React.FC = () => {
   // 使用新的 i18n-based feed hook，統一從 i18n 管理所有專案資料
   const { items, loading, error } = useI18nFeed();
   
-  // 調試信息：顯示資料載入狀態
-  useEffect(() => {
-    console.log('[Home] 資料載入狀態:', { loading, error, itemCount: items.length });
-    if (items.length > 0) {
-      console.log('[Home] 第一個項目圖片:', items[0].heroImage);
-    }
-  }, [loading, error, items]);
   const log = useCallback((..._args: any[]) => {}, []);
   const { theme, toggleTheme } = useTheme();
   const { hoveredCardId, setHoveredCardId } = useHover();
@@ -452,12 +445,101 @@ const Home: React.FC = () => {
     return `${logoType}-${hasCustomColors ? 'custom' : 'default'}-${isAnimated ? 'animated' : 'static'}`;
   }, [openCardId, hoveredCardId, openCardAnimationPhase, isLogoHovered]);
 
-  const getSizeByIndex = (index: number): FeedCardSize => {
+  // 動態計算 Grid 佈局結構
+  const getGridLayout = useCallback((totalItems: number) => {
+    // 前 3 個固定：1 hero + 2 med
+    const fixed = 3;
+    const remaining = totalItems - fixed;
+    
+    const rows: { startIndex: number; count: number; columns: 2 | 3 }[] = [];
+    
+    // Row 1: hero (1 column)
+    if (totalItems >= 1) {
+      rows.push({ startIndex: 0, count: 1, columns: 1 as any });
+    }
+    
+    // Row 2: med (2 columns)
+    if (totalItems >= 2) {
+      const medCount = Math.min(2, totalItems - 1);
+      rows.push({ startIndex: 1, count: medCount, columns: 2 });
+    }
+    
+    // Row 3+: 動態計算 sm (2 or 3 columns)
+    if (remaining > 0) {
+      let currentIndex = fixed;
+      let remainingItems = remaining;
+      
+      // 判斷是否需要特殊處理最後一個 row（避免單獨 1 個）
+      const needsSpecialHandling = remaining % 3 === 1 && remaining >= 4;
+      
+      if (needsSpecialHandling) {
+        // 前面用 3 columns 的 rows
+        const normalRowCount = Math.floor((remaining - 4) / 3);
+        for (let i = 0; i < normalRowCount; i++) {
+          rows.push({ startIndex: currentIndex, count: 3, columns: 3 });
+          currentIndex += 3;
+          remainingItems -= 3;
+        }
+        
+        // 最後 4 個用 2×2
+        rows.push({ startIndex: currentIndex, count: 2, columns: 2 });
+        rows.push({ startIndex: currentIndex + 2, count: 2, columns: 2 });
+      } else {
+        // 正常佈局：盡量用 3 columns
+        while (remainingItems > 0) {
+          const count = Math.min(3, remainingItems);
+          // 如果是最後一個 row 且只有 2 個，也用 2 columns
+          const columns = count === 2 ? 2 : 3;
+          rows.push({ startIndex: currentIndex, count, columns });
+          currentIndex += count;
+          remainingItems -= count;
+        }
+      }
+    }
+    
+    return rows;
+  }, []);
+
+  const getSizeByIndex = useCallback((index: number): FeedCardSize => {
     if (index === 0) return 'hero';
-    if (index <= 2) return 'med';
-    if (index <= 5) return 'sm';
-    return 'xs';
-  };
+    if (index >= 1 && index <= 2) return 'med';
+    return 'sm';
+  }, []);
+
+  const getRowInfoByIndex = useCallback((index: number, totalItems: number) => {
+    const rows = getGridLayout(totalItems);
+    for (const row of rows) {
+      if (index >= row.startIndex && index < row.startIndex + row.count) {
+        return {
+          rowIndex: rows.indexOf(row),
+          columns: row.columns,
+          isFirstInRow: index === row.startIndex,
+          isLastInRow: index === row.startIndex + row.count - 1,
+        };
+      }
+    }
+    return { rowIndex: -1, columns: 3 as const, isFirstInRow: false, isLastInRow: false };
+  }, [getGridLayout]);
+
+  // 調試信息：顯示資料載入狀態和 Grid 佈局結構
+  useEffect(() => {
+    console.log('[Home] 資料載入狀態:', { loading, error, itemCount: items.length });
+    if (items.length > 0) {
+      console.log('[Home] 第一個項目圖片:', items[0].heroImage);
+      
+      // 顯示 Grid 佈局結構
+      const layout = getGridLayout(items.length);
+      console.log('[Home] 📐 Grid 佈局結構:', {
+        總項目數: items.length,
+        rows: layout.map((row, idx) => ({
+          Row: idx + 1,
+          項目數: row.count,
+          Columns: row.columns,
+          索引範圍: `${row.startIndex}-${row.startIndex + row.count - 1}`,
+        }))
+      });
+    }
+  }, [loading, error, items, getGridLayout]);
 
   // 由於現在完全使用 Strapi 資料，不再需要本地圖片處理
   
@@ -560,8 +642,9 @@ const Home: React.FC = () => {
           data-hover-id={hoveredCardId ?? undefined}
           ref={contentRef}
         >
-        {items.slice(0, 9).map((item, index) => {
+        {items.map((item, index) => {
           const size = getSizeByIndex(index);
+          const rowInfo = getRowInfoByIndex(index, items.length);
           const src = resolveSrc(item.heroImage);
           console.log(`[Home] 項目 ${item.id} 圖片處理:`, { 
             original: item.heroImage, 
@@ -640,6 +723,10 @@ const Home: React.FC = () => {
                 data-id={item.id}
                 data-open={openCardId === item.id ? 'true' : undefined}
                 data-preloaded={isPreloaded(item.id) ? 'true' : undefined}
+                data-row={rowInfo.rowIndex}
+                data-columns={rowInfo.columns}
+                data-first-in-row={rowInfo.isFirstInRow ? 'true' : undefined}
+                data-last-in-row={rowInfo.isLastInRow ? 'true' : undefined}
                 onClick={(e) => {
                   // 當有其他卡片開啟時，禁止點擊
                   if (openCardId && openCardId !== item.id) {
