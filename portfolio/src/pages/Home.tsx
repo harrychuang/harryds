@@ -124,13 +124,33 @@ const Home: React.FC = () => {
     if (activeCardId) {
       const activeItem = items.find(item => item.id === activeCardId);
       if (activeItem && activeItem.secondaryColor) {
+        // 更新 .home 元素背景色
         homeRef.current.style.backgroundColor = activeItem.secondaryColor;
         homeRef.current.style.transition = 'background-color 0.3s ease';
+        
+        // 同時更新 html 和 body 背景色
+        document.documentElement.style.backgroundColor = activeItem.secondaryColor;
+        document.documentElement.style.transition = 'background-color 0.3s ease';
+        document.body.style.backgroundColor = activeItem.secondaryColor;
+        document.body.style.transition = 'background-color 0.3s ease';
       }
     } else {
+      // 恢復原始背景色
       homeRef.current.style.backgroundColor = '';
       homeRef.current.style.transition = 'background-color 0.3s ease';
+      
+      // 清除 html 和 body 的背景色
+      document.documentElement.style.backgroundColor = '';
+      document.documentElement.style.transition = 'background-color 0.3s ease';
+      document.body.style.backgroundColor = '';
+      document.body.style.transition = 'background-color 0.3s ease';
     }
+    
+    // 清理函數：組件卸載時恢復原始背景色
+    return () => {
+      document.documentElement.style.backgroundColor = '';
+      document.body.style.backgroundColor = '';
+    };
   }, [openCardId, hoveredCardId, openCardAnimationPhase, items]);
 
   useEffect(() => {
@@ -447,10 +467,6 @@ const Home: React.FC = () => {
 
   // 動態計算 Grid 佈局結構
   const getGridLayout = useCallback((totalItems: number) => {
-    // 前 3 個固定：1 hero + 2 med
-    const fixed = 3;
-    const remaining = totalItems - fixed;
-    
     const rows: { startIndex: number; count: number; columns: 2 | 3 }[] = [];
     
     // Row 1: hero (1 column)
@@ -464,16 +480,24 @@ const Home: React.FC = () => {
       rows.push({ startIndex: 1, count: medCount, columns: 2 });
     }
     
-    // Row 3+: 動態計算 sm (2 or 3 columns)
-    if (remaining > 0) {
-      let currentIndex = fixed;
+    // Row 3: med (2 columns)
+    if (totalItems >= 4) {
+      const medCount = Math.min(2, totalItems - 3);
+      rows.push({ startIndex: 3, count: medCount, columns: 2 });
+    }
+    
+    // Row 4+: 動態計算 xs (避免最後一個 row 只有 1 個)
+    if (totalItems > 5) {
+      const remaining = totalItems - 5; // 前 5 個已分配：1 hero + 2 med + 2 med
+      let currentIndex = 5;
       let remainingItems = remaining;
       
       // 判斷是否需要特殊處理最後一個 row（避免單獨 1 個）
-      const needsSpecialHandling = remaining % 3 === 1 && remaining >= 4;
+      const needsSpecialHandling = remaining % 3 === 1;
       
       if (needsSpecialHandling) {
-        // 前面用 3 columns 的 rows
+        // 情況：4, 7, 10, 13... (除以 3 餘 1)
+        // 策略：前面的用 3 columns，最後 4 個用 2×2
         const normalRowCount = Math.floor((remaining - 4) / 3);
         for (let i = 0; i < normalRowCount; i++) {
           rows.push({ startIndex: currentIndex, count: 3, columns: 3 });
@@ -502,8 +526,8 @@ const Home: React.FC = () => {
 
   const getSizeByIndex = useCallback((index: number): FeedCardSize => {
     if (index === 0) return 'hero';
-    if (index >= 1 && index <= 2) return 'med';
-    return 'sm';
+    if (index >= 1 && index <= 4) return 'med'; // Row 2 (index 1-2) 和 Row 3 (index 3-4) 都使用 med
+    return 'xs';
   }, []);
 
   const getRowInfoByIndex = useCallback((index: number, totalItems: number) => {
@@ -763,7 +787,7 @@ const Home: React.FC = () => {
                     primaryColor={item.primaryColor}
                     contentBlocks={resolvedBlocks}
                     projectInfo={item.projectInfo}
-                    use2D={size === 'xs'}
+                    use2D={true}
                 />
               </div>
             );
