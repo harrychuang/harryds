@@ -4,7 +4,7 @@
 
 .home {
   min-height: 100vh;
-  padding: 50px 50px 100px 50px; // 增加底部 padding 為 footer 留出空間 (100px + 50px)
+  padding: 50px 50px 70px 50px; // 增加底部 padding 為 footer 留出空間 (100px + 50px)
   background: var(--hds-sys-color-on-theme-surface);
   color: var(--hds-sys-color-theme-surface);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -634,6 +634,10 @@
     flex-direction: column;
     gap: 8px;
 
+    :lang(zh-Hant), :lang(zh), :lang(ja) {
+      line-height: 1.3;
+    }
+
     p {
       margin: 0 0 8px;
       
@@ -689,6 +693,10 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+
+    :lang(zh-Hant), :lang(zh), :lang(ja) {
+      line-height: 1;
+    }
 
     .lineParent {
       display: block;

@@ -72,12 +72,12 @@
         {
           "title": "Ex-Shopmatic Chief Product Officer",
           "name": "Kris",
-          "testimonial": "Working with Harry has been an exceptional experience. His deep understanding of both product design and front-end development allows him to bridge the gap between design and engineering seamlessly. Harry's approach to design systems is methodical and practical, consistently delivering solutions that scale. His ability to balance user needs with technical constraints while maintaining a keen eye for detail makes him an invaluable asset to any team. I highly recommend Harry for any product design or design system initiative."
+          "testimonial": "I have over six years of experience collaborating with Harry, including his tenure at the e-commerce software company I founded. Harry played a core role in product UI design and was responsible for final product refinement.\nHarry not only possesses exceptional professional aesthetic sensibilities and can precisely capture and define a product's visual style, but his most unique value lies in his ability to serve as a perfect bridge between design and front-end engineering.\nHe can accurately understand technical constraints and requirements from an engineering perspective and deliver designs based on this foundation. This greatly enhances collaborative efficiency in the development process, ensuring the quality and precision of the final results. Harry demonstrates remarkable efficiency and refined professionalism that is extremely rare in cross-departmental collaboration.\nWith his combination of a designer's artistic vision and an engineer's logical thinking, Harry brings aesthetically pleasing and highly practical product solutions to any project. I wholeheartedly recommend Harry's professional capabilities."
         },
         {
           "title": "Ex-Shopmatic Head of User Experience & Design",
           "name": "Darwin Ng",
-          "testimonial": "Harry's expertise in design systems and component libraries is outstanding. He has a unique talent for creating reusable components that are both beautiful and functional. His technical skills in front-end development complement his design abilities perfectly, enabling him to implement his visions with precision. Harry's collaborative nature and clear communication make working with him a pleasure. He consistently delivers high-quality work that exceeds expectations and drives product success."
+          "testimonial": "I had the pleasure of working closely with Harry for around 7 years at Shopmatic. Harry consistently impressed me not only with his exceptional design skills but also with his proficiency in front-end development, bridging the gap between design and implementation seamlessly. He approaches projects with creativity, attention to detail, and a collaborative mindset, making him a trusted partner on any team. I wholeheartedly recommend Harry for any design and development work."
         },
         {
           "title": "Ex-Shopmatic Sr. Project Manager",
@@ -639,6 +639,74 @@
       "primaryColor": "#FF435A",
       "secondaryColor": "#111111",
       "heroImage": "demo/tutorming/demo-tutorming-bg.jpg"
+    },
+    "8": {
+      "heading": "Portfolio Site",
+      "date": "Jan 01, 2025 - PRESENT",
+      "brand": "noein",
+      "projectInfo": {
+        "project": "Portfolio Site",
+        "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
+        "websiteLabel": "VISIT WEBSITE",
+        "sections": {
+          "scope": {
+            "title": "Scope",
+            "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
+            "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
+            "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.",
+            "image1": "demo/noein/demo-noein-02.jpg"
+          },
+          "impact": {
+            "title": "Impact",
+            "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
+            "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
+            "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
+            "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
+            "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.",
+            "image1": "demo/noein/demo-noein-03.jpg",
+            "image2": "demo/noein/demo-noein-04.jpg"
+          },
+          "get in touch": {
+            "title": "GET IN TOUCH",
+            "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
+            "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
+            "paragraph3": "Let's collaborate to create something exceptional!"
+          }
+        },
+        "websiteUrl": "https://awwrated.com",
+        "mainImage": "demo/noein/demo-noein-01.jpg",
+        "specialHeadingImage": "demo/noein/demo-noein-hero-img.png",
+        "meta": [
+          {
+            "label": "Brand",
+            "value": "noein"
+          },
+          {
+            "label": "Project",
+            "value": "Portfolio Site"
+          },
+          {
+            "label": "Role",
+            "value": [
+              "UIUX Design",
+              "Design System",
+              "Development"
+            ]
+          }
+        ],
+        "roles": [
+          "UIUX Design",
+          "Design System"
+        ]
+      },
+      "tags": [
+        "UI",
+        "UX"
+      ],
+      "category": "project",
+      "primaryColor": "#4285f4",
+      "secondaryColor": "#212b36",
+      "heroImage": "demo/noein/demo-noein-bg.jpg"
     }
   }
 }

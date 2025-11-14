@@ -38,7 +38,14 @@ export function useI18nFeed() {
   const { t, i18n } = useTranslation();
 
   const items = useMemo(() => {
-    const projectIds = [1, 2, 3, 4, 5, 6, 7];
+    // 自動檢測所有可用的專案 ID
+    const projects = t('projects', { returnObjects: true, lng: 'en' }) as any;
+    const projectIds = Object.keys(projects || {})
+      .map(id => parseInt(id, 10))
+      .filter(id => !isNaN(id))
+      .sort((a, b) => a - b);
+    
+    console.log('[useI18nFeed] 自動檢測到的專案 IDs:', projectIds);
     
     return projectIds.map(id => {
       try {

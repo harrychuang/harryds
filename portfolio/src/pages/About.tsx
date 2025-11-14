@@ -556,7 +556,7 @@ const About: React.FC = () => {
         // 當卡片頂部到達 20% 時，pin 住該卡片，並在滾動過程中淡出
         ScrollTrigger.create({
           trigger: htmlCard,
-          start: 'top 35%',      // 卡片頂部到達 20% 時 pin 住
+          start: 'top 25%',      // 卡片頂部到達 20% 時 pin 住
           end: '+=250',          // pin 住並滾動 200px 後解除
           pinSpacing: false,
           pinType: 'transform',  // 使用 transform 而非 fixed positioning
