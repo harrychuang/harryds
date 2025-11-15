@@ -769,7 +769,8 @@ const Home: React.FC = () => {
                 style={{ 
                   cursor: openCardId === item.id ? 'auto' : (openCardId ? 'default' : 'pointer'),
                   pointerEvents: openCardId && openCardId !== item.id ? 'none' : 'auto',
-                  ['--stagger-index' as any]: index
+                  ['--stagger-index' as any]: index,
+                  ['--card-primary-color' as any]: item.primaryColor
                 } as React.CSSProperties}
               >
                 <FeedDetailOverlay

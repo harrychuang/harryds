@@ -10,7 +10,7 @@
   width: 100%;
   display: block;
   // 還原穩定底色，避免背景切層時露出頁面底色
-  background: var(--hds-sys-color-dark-100a, #111);
+  // background: var(--hds-sys-color-dark-100a, #111);
 
   &--closed {
     // 單純作為 FeedCard 的「容器」，尺寸由外層決定
@@ -80,6 +80,7 @@
       .feed-card__bg {
         position: absolute;
         inset: 0;
+        opacity: 1 !important; // 開啟狀態時背景始終可見，覆蓋 FeedCard 的 hover 效果
         
         .pixel-image {
           width: 100% !important;

@@ -157,8 +157,14 @@
     --pg-dim-opacity: 0.2;
 
     .pg-card {
-      transition: opacity var(--pg-fade-duration) ease;
+      transition: opacity var(--pg-fade-duration) ease, outline-color 0.3s ease;
       opacity: 1;
+      outline: 10px solid var(--hds-sys-color-theme-surface);
+      // outline-offset: -10px;
+
+      &:hover {
+        outline: 10px solid var(--card-primary-color, var(--hds-sys-color-theme-surface));
+      }
     }
 
     &.js-stagger-mode {

@@ -18,12 +18,19 @@
     position: absolute;
     inset: 0;
     pointer-events: none; // 背景不攔截互動
+    opacity: 0; // 初始透明
+    transition: opacity 0.3s ease; // 0.3s 過渡動畫
 
     // 讓 PixelImage 填滿容器
     > .pixel-image {
       width: 100%;
       height: 100%;
     }
+  }
+
+  // Hover 時顯示背景
+  &:hover .feed-card__bg {
+    opacity: 1;
   }
 
   .feed-card__overlay {
