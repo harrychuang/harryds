@@ -621,7 +621,12 @@ const Home: React.FC = () => {
   // 調試面板已移除
 
   return (
-    <div ref={homeRef} className="home">      
+    <div 
+      ref={homeRef} 
+      className="home" 
+      data-page="home"
+      data-detail-open={openCardId !== null ? 'true' : undefined}
+    >      
       {/* 預載統計面板與切換按鈕已移除 */}
 
       <Header

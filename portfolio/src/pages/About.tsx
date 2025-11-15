@@ -865,7 +865,7 @@ const About: React.FC = () => {
   }, [isLangDropdownOpen]);
 
   return (
-    <div className="home" data-lang={i18n.language}>
+    <div className="home" data-lang={i18n.language} data-page="about">
       {/* Canvas Particles 背景 */}
       <ParticlesBackground
         particleCount={30}
