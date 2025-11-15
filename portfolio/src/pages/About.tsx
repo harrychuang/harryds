@@ -570,7 +570,7 @@ const About: React.FC = () => {
               zIndex: Math.round((listCards.length - index) * (1 - self.progress)),
               duration: 0.3,
               overwrite: true,
-              ease: 'power4.out'
+              ease: 'power2.out'
             });
           }
         });
