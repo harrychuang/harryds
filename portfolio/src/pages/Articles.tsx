@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
+import { useI18nFeed } from '../hooks/useI18nFeed';
+import { FeedCard } from 'hds';
+import type { FeedCardSize } from 'hds';
 import './Articles.scss';
 import Header from '../components/Header';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
@@ -10,12 +13,15 @@ import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
 
 const Articles: React.FC = () => {
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation(['common']);
+  const { t, i18n } = useTranslation(['common', 'articles']);
   const { theme, toggleTheme } = useTheme();
+  const { items } = useI18nFeed('articles');
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+  const [hoveredCardId, setHoveredCardId] = useState<number | null>(null);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
+  const cardHoverHandleRef = useRef<PlaybackHandle | null>(null);
 
   // 語言選項
   const languageOptions = [
@@ -108,6 +114,38 @@ const Articles: React.FC = () => {
     setIsLangDropdownOpen(false);
   }, [i18n]);
 
+  // 卡片 hover 處理
+  const handleCardHover = useCallback(async (cardId: number) => {
+    setHoveredCardId(cardId);
+    try {
+      cardHoverHandleRef.current?.stop();
+      cardHoverHandleRef.current = await audioManager.play(hoverSoundUrl, { volume: 0.2 });
+    } catch (err) {
+      console.warn('Card hover sound play failed:', err);
+    }
+  }, []);
+
+  const handleCardLeave = useCallback(() => {
+    setHoveredCardId(null);
+  }, []);
+
+  // 卡片點擊處理
+  const handleCardClick = useCallback(async (articleId: number) => {
+    try {
+      menuClickHandleRef.current?.stop();
+      menuClickHandleRef.current = await audioManager.play(clickSoundUrl, { volume: 0.3 });
+    } catch (err) {
+      console.warn('Card click sound play failed:', err);
+    }
+    
+    const article = items.find(item => item.id === articleId);
+    if (article) {
+      // 生成文章的 slug
+      const slug = article.heading.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
+      navigate(`/article/${articleId}/${slug}`);
+    }
+  }, [items, navigate]);
+
   // 點擊外部關閉語言下拉選單
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -148,7 +186,49 @@ const Articles: React.FC = () => {
       />
 
       <main className="articles-page__content">
-        {/* 空白頁面內容區域 */}
+        <div className="articles-page__grid">
+          {items.map((article, index) => {
+            const size: FeedCardSize = 'xs';
+            const src = article.heroImage || '';
+            
+            return (
+              <div
+                key={article.id}
+                className="article-card"
+                onClick={() => handleCardClick(article.id)}
+                onMouseEnter={() => handleCardHover(article.id)}
+                onMouseLeave={handleCardLeave}
+                style={{
+                  ['--stagger-index' as any]: index,
+                }}
+              >
+                <FeedCard
+                  src={src}
+                  size={size}
+                  height={250}
+                  padding={40}
+                  backgroundProps={{
+                    pixelSize: 60,
+                    hoverPixelToOne: true,
+                    hoverPixelDuration: 500,
+                    desaturateUntilHover: true,
+                    objectFit: 'cover'
+                  }}
+                  infoMaxWidth={1400}
+                  infoData={{
+                    id: '',
+                    heading: article.heading,
+                    date: article.date,
+                    tags: [],
+                    category: article.category
+                  }}
+                  use2D={true}
+                  enableHoverSound={false}
+                />
+              </div>
+            );
+          })}
+        </div>
       </main>
     </div>
   );
