@@ -22,7 +22,7 @@
     padding: 50px;
     
     .header-content {
-      max-width: 1600px;
+      max-width: 1580px;
       width: 100%;
       display: flex;
       align-items: center;
@@ -93,6 +93,10 @@
     margin-left: -10px;
     transition: border-color 0.2s ease;
     box-sizing: border-box;
+  }
+
+  :lang(zh-Hant) .lang-toggle, :lang(zh) .lang-toggle, :lang(ja) .lang-toggle {
+    top: -4.5px;
   }
 
   .lang-dropdown {
