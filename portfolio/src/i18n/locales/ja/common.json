@@ -1,0 +1,21 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "project": "Project",
+    "work": "Work",
+    "works": "Works",
+    "article": "Article",
+    "articles": "Articles",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "作品",
+    "subtitle": "プロジェクトと記事を紹介します"
+  },
+  "brand": {
+    "harry": "HARRY",
+    "tagline": "NOEINOI DESIGN"
+  }
+}

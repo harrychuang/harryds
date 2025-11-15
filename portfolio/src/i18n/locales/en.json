@@ -708,5 +708,67 @@
       "secondaryColor": "#212b36",
       "heroImage": "demo/noein/demo-noein-bg.jpg"
     }
+  },
+  "articles": {
+    "1": {
+      "heading": "Shopmatic Design System",
+      "subtitle": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
+      "date": "Nov 16, 2025",
+      "tags": [
+        "Design System",
+        "Design Token"
+      ],
+      "category": "article",
+      "url": "https://awwrated.com",
+      "images": [
+        "img1.jpg",
+        "img2.jpg"
+      ],
+      "content": {
+        "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
+        "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
+        "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence."
+      }
+    },
+    "2": {
+      "heading": "Building Scalable Design Systems",
+      "subtitle": "Exploring best practices for building scalable design systems that grow with your product. Learn how to create flexible components, maintain consistency, and empower your team to deliver faster.",
+      "date": "Nov 17, 2025",
+      "tags": [
+        "Design System",
+        "Component Library"
+      ],
+      "category": "article",
+      "url": "https://awwrated.com",
+      "images": [
+        "img3.jpg",
+        "img4.jpg"
+      ],
+      "content": {
+        "paragraph1": "Building a scalable design system requires careful planning and a deep understanding of your product's needs. Start by establishing core design principles that will guide all future decisions. These principles should reflect your brand values and user needs.",
+        "paragraph2": "Component architecture is crucial for scalability. Design components to be modular, reusable, and composable. Each component should have a single responsibility and well-defined props. This makes them easier to maintain and extend over time.",
+        "paragraph3": "Documentation is often overlooked but is essential for adoption. Provide clear usage guidelines, accessibility considerations, and code examples. A well-documented design system empowers teams to work independently and consistently."
+      }
+    },
+    "3": {
+      "heading": "Design Tokens: The Foundation of Design Systems",
+      "subtitle": "Understanding design tokens and how they serve as the single source of truth for your design decisions. Discover how tokens enable consistency, theming, and cross-platform design at scale.",
+      "date": "Nov 18, 2025",
+      "tags": [
+        "Design Token",
+        "Design System"
+      ],
+      "category": "article",
+      "url": "https://awwrated.com",
+      "images": [
+        "img5.jpg",
+        "img6.jpg"
+      ],
+      "content": {
+        "paragraph1": "Design tokens are the atomic elements of a design system. They store design decisions like colors, typography, spacing, and more in a platform-agnostic format. This allows you to maintain consistency across web, mobile, and other platforms.",
+        "paragraph2": "Implementing design tokens requires a structured approach. Organize tokens into layers: global tokens define your design language, while semantic tokens apply meaning to those values. This hierarchy makes your system more maintainable and easier to theme.",
+        "paragraph3": "Tools like Style Dictionary can transform your tokens into multiple formats for different platforms. This automation ensures that design updates propagate consistently across all products, reducing manual work and potential inconsistencies."
+      }
+    }
   }
 }

@@ -38,7 +38,7 @@ import { GIPHY_URLS } from '../constants/giphy';
 
 const About: React.FC = () => {
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation(['common', 'about']);
   const { theme, toggleTheme } = useTheme();
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
@@ -75,7 +75,7 @@ const About: React.FC = () => {
     referrerSherry
   ];
   
-  const referrerData = t('about.referrer.items', { returnObjects: true }) as Array<{
+  const referrerData = t('referrer.items', { returnObjects: true, ns: 'about' }) as Array<{
     title: string;
     name: string;
     testimonial: string;
@@ -647,8 +647,8 @@ const About: React.FC = () => {
       if (!servicesTextEl || !contactTextEl) return;
 
       // 獲取完整文字（從翻譯取得）
-      const servicesFullText = t('about.services.title');
-      const contactFullText = t('about.contact.title');
+      const servicesFullText = t('services.title', { ns: 'about' });
+      const contactFullText = t('contact.title', { ns: 'about' });
 
       // 準備：清空標題文字，隱藏所有 lineChildren
       gsap.set(servicesTextEl, { text: '' });
@@ -921,24 +921,24 @@ const About: React.FC = () => {
           </h1>
           <p className="home__hero-subtitle" ref={heroSubtitleRef}>
             <span className="lineParent">
-              <span className="lineChild">{t('about.hero.subtitle')}</span>
+              <span className="lineChild">{t('hero.subtitle', { ns: 'about' })}</span>
             </span>
           </p>
           <p className="home__hero-description" ref={heroDescriptionRef}>
             <span className="lineParent">
               <span className="lineChild">
                 <span className="home__hero-description-intro">
-                  {t('about.hero.descriptionIntro')}
+                  {t('hero.descriptionIntro', { ns: 'about' })}
                 </span>
               </span>
             </span>
             <span className="lineParent">
               <span className="lineChild">
-                {t('about.hero.descriptionLine1')}
+                {t('hero.descriptionLine1', { ns: 'about' })}
               </span>
             </span>
             <span className="lineParent">
-              <span className="lineChild">{t('about.hero.descriptionLine2')}</span>
+              <span className="lineChild">{t('hero.descriptionLine2', { ns: 'about' })}</span>
             </span>
           </p>
         </section>
@@ -960,17 +960,17 @@ const About: React.FC = () => {
               ref={introPrimaryColumnRef}
             >
               <h2 id="about-intro-title" className="home__intro-title feed-detail-overlay__section-title">
-                {t('about.whoAmI.title')}<span className="feed-detail-overlay__cursor">_</span>
+                {t('whoAmI.title', { ns: 'about' })}<span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__intro-body">
                 <p>
-                  {t('about.whoAmI.paragraph1')}
+                  {t('whoAmI.paragraph1', { ns: 'about' })}
                 </p>
                 <p>
-                  {t('about.whoAmI.paragraph2')}
+                  {t('whoAmI.paragraph2', { ns: 'about' })}
                 </p>
                 <p>
-                  {t('about.whoAmI.paragraph3')}
+                  {t('whoAmI.paragraph3', { ns: 'about' })}
                 </p>
               </div>
             </div>
@@ -983,33 +983,33 @@ const About: React.FC = () => {
             <div className="home__intro-column home__intro-column--secondary" aria-hidden="true" />
             <div className="home__intro-column home__intro-column--primary">
               <h2 id="about-awards-title" className="home__intro-title feed-detail-overlay__section-title">
-                {t('about.awards.title')}<span className="feed-detail-overlay__cursor">_</span>
+                {t('awards.title', { ns: 'about' })}<span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__intro-body">
                 <p>
-                  {t('about.awards.description')}
+                  {t('awards.description', { ns: 'about' })}
                 </p>
               </div>
               <ul className="home__intro-awards">
                 <li>
                   <img src={award01} alt="Awwwards Logo" className="home__intro-award-image home__intro-award-image--01" />
-                  <span className="home__intro-awards-label">{t('about.awards.items.awwwards.label')}</span>
-                  <span className="home__intro-awards-detail">{t('about.awards.items.awwwards.detail')}</span>
+                  <span className="home__intro-awards-label">{t('awards.items.awwwards.label', { ns: 'about' })}</span>
+                  <span className="home__intro-awards-detail">{t('awards.items.awwwards.detail', { ns: 'about' })}</span>
                 </li>
                 <li>
                   <img src={award02} alt="App Store Badge" className="home__intro-award-image home__intro-award-image--02" />
-                  <span className="home__intro-awards-label">{t('about.awards.items.appStore.label')}</span>
-                  <span className="home__intro-awards-detail">{t('about.awards.items.appStore.detail')}</span>
+                  <span className="home__intro-awards-label">{t('awards.items.appStore.label', { ns: 'about' })}</span>
+                  <span className="home__intro-awards-detail">{t('awards.items.appStore.detail', { ns: 'about' })}</span>
                 </li>
                 <li>
                   <img src={award03} alt="CSS Design Awards Logo" className="home__intro-award-image home__intro-award-image--03" />
-                  <span className="home__intro-awards-label">{t('about.awards.items.cssDesign.label')}</span>
-                  <span className="home__intro-awards-detail">{t('about.awards.items.cssDesign.detail')}</span>
+                  <span className="home__intro-awards-label">{t('awards.items.cssDesign.label', { ns: 'about' })}</span>
+                  <span className="home__intro-awards-detail">{t('awards.items.cssDesign.detail', { ns: 'about' })}</span>
                 </li>
                 <li>
                   <img src={award04} alt="iHackGroup Award Logo" className="home__intro-award-image home__intro-award-image--04" />
-                  <span className="home__intro-awards-label">{t('about.awards.items.ihackGroup.label')}</span>
-                  <span className="home__intro-awards-detail">{t('about.awards.items.ihackGroup.detail')}</span>
+                  <span className="home__intro-awards-label">{t('awards.items.ihackGroup.label', { ns: 'about' })}</span>
+                  <span className="home__intro-awards-detail">{t('awards.items.ihackGroup.detail', { ns: 'about' })}</span>
                 </li>
               </ul>
             </div>
@@ -1021,12 +1021,12 @@ const About: React.FC = () => {
             <div className="home__intro-column home__intro-column--secondary" aria-hidden="true" />
             <div className="home__intro-column home__intro-column--primary">
               <h2 id="about-clients-title" className="home__intro-title feed-detail-overlay__section-title">
-                {t('about.clients.title')}<span className="feed-detail-overlay__cursor">_</span>
+                {t('clients.title', { ns: 'about' })}<span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__intro-body">
-                <p dangerouslySetInnerHTML={{ __html: t('about.clients.paragraph1') }} />
+                <p dangerouslySetInnerHTML={{ __html: t('clients.paragraph1', { ns: 'about' }) }} />
                 <p>
-                  {t('about.clients.paragraph2')}
+                  {t('clients.paragraph2', { ns: 'about' })}
                 </p>
               </div>
               <div className="home__clients-logos">
@@ -1047,15 +1047,15 @@ const About: React.FC = () => {
         <section className="home__background" aria-labelledby="about-background-title" ref={backgroundSectionRef}>
           <div className="home__background-inner">
             <h2 id="about-background-title" className="home__background-title feed-detail-overlay__section-title">
-              {t('about.background.title')}<span className="feed-detail-overlay__cursor">_</span>
+              {t('background.title', { ns: 'about' })}<span className="feed-detail-overlay__cursor">_</span>
             </h2>
             <p className="home__background-description">
-              {t('about.background.line1')}<br />
-              {t('about.background.line2')}<br />
-              {t('about.background.line3')}<br />
-              {t('about.background.line4')}<br />
-              {t('about.background.line5')}<br />
-              {t('about.background.line6')}
+              {t('background.line1', { ns: 'about' })}<br />
+              {t('background.line2', { ns: 'about' })}<br />
+              {t('background.line3', { ns: 'about' })}<br />
+              {t('background.line4', { ns: 'about' })}<br />
+              {t('background.line5', { ns: 'about' })}<br />
+              {t('background.line6', { ns: 'about' })}
             </p>
             <div className="home__background-rotation-wrapper">
               <div className="home__background-marquee" ref={marqueeRef} aria-hidden="true">
@@ -1083,7 +1083,7 @@ const About: React.FC = () => {
 
         <section className="home__referrer" aria-labelledby="about-referrer-title" ref={referrerSectionRef}>
           <h2 id="about-referrer-title" className="home__intro-title feed-detail-overlay__section-title">
-            {t('about.referrer.title')}<span className="feed-detail-overlay__cursor">_</span>
+            {t('referrer.title', { ns: 'about' })}<span className="feed-detail-overlay__cursor">_</span>
           </h2>
           <div className="home__referrer-list">
             {referrerDataWithImages.map((referrer, index) => (
@@ -1103,26 +1103,26 @@ const About: React.FC = () => {
           <div className="home__services-contact-grid">
             <div className="home__services-contact-column">
               <h2 id="about-services-title" className="home__intro-title feed-detail-overlay__section-title" ref={servicesTitleRef}>
-                <span className="title-text">{t('about.services.title')}</span><span className="feed-detail-overlay__cursor">_</span>
+                <span className="title-text">{t('services.title', { ns: 'about' })}</span><span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__services-subtitle">
                 <span className="lineParent">
-                  <span className="lineChild">{t('about.services.subtitle.line1')}</span>
+                  <span className="lineChild">{t('services.subtitle.line1', { ns: 'about' })}</span>
                 </span>
                 <span className="lineParent">
-                  <span className="lineChild">{t('about.services.subtitle.line2')}</span>
+                  <span className="lineChild">{t('services.subtitle.line2', { ns: 'about' })}</span>
                 </span>
                 <span className="lineParent">
-                  <span className="lineChild">{t('about.services.subtitle.line3')}</span>
+                  <span className="lineChild">{t('services.subtitle.line3', { ns: 'about' })}</span>
                 </span>
               </div>
               <div className="home__services-list">
                 <div className="home__services-category">
                   <span className="lineParent">
-                    <h3 className="home__services-category-title lineChild">{t('about.services.categories.webApp.title')}</h3>
+                    <h3 className="home__services-category-title lineChild">{t('services.categories.webApp.title', { ns: 'about' })}</h3>
                   </span>
                   <div className="home__services-items">
-                    {(t('about.services.categories.webApp.items', { returnObjects: true }) as string[]).map((item, index) => (
+                    {(t('services.categories.webApp.items', { returnObjects: true, ns: 'about' }) as string[]).map((item, index) => (
                       <span key={index} className="lineParent">
                         <span className="home__services-item lineChild">{item}</span>
                       </span>
@@ -1131,10 +1131,10 @@ const About: React.FC = () => {
                 </div>
                 <div className="home__services-category">
                   <span className="lineParent">
-                    <h3 className="home__services-category-title lineChild">{t('about.services.categories.development.title')}</h3>
+                    <h3 className="home__services-category-title lineChild">{t('services.categories.development.title', { ns: 'about' })}</h3>
                   </span>
                   <div className="home__services-items">
-                    {(t('about.services.categories.development.items', { returnObjects: true }) as string[]).map((item, index) => (
+                    {(t('services.categories.development.items', { returnObjects: true, ns: 'about' }) as string[]).map((item, index) => (
                       <span key={index} className="lineParent">
                         <span className="home__services-item lineChild">{item}</span>
                       </span>
@@ -1143,10 +1143,10 @@ const About: React.FC = () => {
                 </div>
                 <div className="home__services-category">
                   <span className="lineParent">
-                    <h3 className="home__services-category-title lineChild">{t('about.services.categories.designSystem.title')}</h3>
+                    <h3 className="home__services-category-title lineChild">{t('services.categories.designSystem.title', { ns: 'about' })}</h3>
                   </span>
                   <div className="home__services-items">
-                    {(t('about.services.categories.designSystem.items', { returnObjects: true }) as string[]).map((item, index) => (
+                    {(t('services.categories.designSystem.items', { returnObjects: true, ns: 'about' }) as string[]).map((item, index) => (
                       <span key={index} className="lineParent">
                         <span className="home__services-item lineChild">{item}</span>
                       </span>
@@ -1158,11 +1158,11 @@ const About: React.FC = () => {
 
             <div className="home__services-contact-column">
               <h2 id="about-contact-title" className="home__intro-title feed-detail-overlay__section-title" ref={contactTitleRef}>
-                <span className="title-text">{t('about.contact.title')}</span><span className="feed-detail-overlay__cursor">_</span>
+                <span className="title-text">{t('contact.title', { ns: 'about' })}</span><span className="feed-detail-overlay__cursor">_</span>
               </h2>
               <div className="home__contact-subtitle">
                 <span className="lineParent">
-                  <span className="lineChild">{t('about.contact.subtitle')}</span>
+                  <span className="lineChild">{t('contact.subtitle', { ns: 'about' })}</span>
                 </span>
               </div>
               <div className="home__contact-info" style={{ position: 'relative' }}>
@@ -1185,7 +1185,7 @@ const About: React.FC = () => {
                       textTransform: 'uppercase',
                     }}
                   >
-                    {t('about.contact.emailCopied')}
+                    {t('contact.emailCopied', { ns: 'about' })}
                   </span>
                 )}
                 <span className="lineParent">

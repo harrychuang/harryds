@@ -26,7 +26,7 @@ const slugify = (text: string) => text
 const Home: React.FC = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation(['common', 'projects']);
   // 使用新的 i18n-based feed hook，統一從 i18n 管理所有專案資料
   const { items, loading, error } = useI18nFeed();
   

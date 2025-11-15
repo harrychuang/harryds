@@ -31,63 +31,71 @@ const resolveImageUrl = (path?: string): string | undefined => {
 };
 
 /**
- * 從 i18n 載入專案資料的 Hook
- * 所有專案資料（文字、顏色、圖片）統一在 i18n 中管理
+ * 從 i18n 載入專案和文章資料的 Hook
+ * 支援從 projects 和 articles namespace 載入資料
  */
-export function useI18nFeed() {
-  const { t, i18n } = useTranslation();
+export function useI18nFeed(namespace: 'projects' | 'articles' = 'projects') {
+  const { t, i18n } = useTranslation(namespace);
 
   const items = useMemo(() => {
-    // 自動檢測所有可用的專案 ID
-    const projects = t('projects', { returnObjects: true, lng: 'en' }) as any;
-    const projectIds = Object.keys(projects || {})
+    // 從 i18n 獲取整個 namespace 的資料
+    const data = i18n.getResourceBundle('en', namespace) as any;
+    const itemIds = Object.keys(data || {})
       .map(id => parseInt(id, 10))
       .filter(id => !isNaN(id))
       .sort((a, b) => a - b);
     
-    console.log('[useI18nFeed] 自動檢測到的專案 IDs:', projectIds);
+    console.log(`[useI18nFeed] 自動檢測到的 ${namespace} IDs:`, itemIds);
     
-    return projectIds.map(id => {
+    return itemIds.map(id => {
       try {
-        const projectKey = `projects.${id}`;
+        const itemKey = `${id}`;
         
-        // 從當前語言獲取專案資料
-        const project = t(projectKey, { returnObjects: true }) as any;
+        // 從當前語言獲取資料
+        const item = t(itemKey, { returnObjects: true, ns: namespace }) as any;
         
-        if (!project || typeof project !== 'object') {
-          console.warn(`[useI18nFeed] 專案 ${id} 資料不存在`);
+        if (!item || typeof item !== 'object') {
+          console.warn(`[useI18nFeed] ${namespace} ${id} 資料不存在`);
           return null;
         }
 
         // 從英文版本獲取配置資料（顏色、圖片等不需翻譯的內容）
-        const enProject = t(projectKey, { returnObjects: true, lng: 'en' }) as any;
+        const enItem = t(itemKey, { returnObjects: true, lng: 'en', ns: namespace }) as any;
 
         // 構建完整的 FeedItem
         const feedItem: FeedItem = {
           id,
-          heading: project.heading || enProject.heading,
-          date: enProject.date, // 日期統一使用英文
-          tags: enProject.tags || [],
-          category: enProject.category || 'project',
-          brand: enProject.brand,
-          primaryColor: enProject.primaryColor,
-          secondaryColor: enProject.secondaryColor,
-          heroImage: resolveImageUrl(enProject.heroImage),
+          heading: item.heading || item.subtitle || enItem.heading || enItem.subtitle,
+          date: enItem.date || item.date, // 日期統一使用英文
+          tags: enItem.tags || [],
+          category: enItem.category || namespace === 'articles' ? 'article' : 'project',
+          brand: enItem.brand,
+          primaryColor: enItem.primaryColor,
+          secondaryColor: enItem.secondaryColor,
+          heroImage: resolveImageUrl(enItem.heroImage || (enItem.images && enItem.images[0])),
           // 保留原始英文 heading 用於 URL slug
-          originalHeading: enProject.heading,
-          projectInfo: project.projectInfo && enProject.projectInfo ? {
-            project: project.projectInfo.project,
-            roles: enProject.projectInfo.roles,
-            meta: enProject.projectInfo.meta,
-            description: project.projectInfo.description,
-            websiteUrl: enProject.projectInfo.websiteUrl,
-            websiteLabel: project.projectInfo.websiteLabel,
-            mainImage: resolveImageUrl(enProject.projectInfo.mainImage),
-            specialHeadingImage: resolveImageUrl(enProject.projectInfo.specialHeadingImage),
-            sections: enProject.projectInfo.sections ? 
-              Object.keys(enProject.projectInfo.sections).map(sectionKey => {
-                const enSection = enProject.projectInfo.sections[sectionKey];
-                const translatedSection = project.projectInfo?.sections?.[sectionKey];
+          originalHeading: enItem.heading || enItem.subtitle,
+          // Articles 的特殊欄位
+          ...(namespace === 'articles' && {
+            subtitle: item.subtitle,
+            url: enItem.url,
+            images: enItem.images,
+            content: item.content
+          }),
+          // Projects 的 projectInfo
+          projectInfo: item.projectInfo && enItem.projectInfo ? {
+            project: item.projectInfo.project,
+            roles: enItem.projectInfo.roles,
+            meta: enItem.projectInfo.meta,
+            description: item.projectInfo.description,
+            websiteUrl: enItem.projectInfo.websiteUrl,
+            websiteLabel: item.projectInfo.websiteLabel,
+            mainImage: resolveImageUrl(enItem.projectInfo.mainImage),
+            specialHeadingImage: resolveImageUrl(enItem.projectInfo.specialHeadingImage),
+            sections: enItem.projectInfo.sections ? 
+              Object.keys(enItem.projectInfo.sections).map(sectionKey => {
+                const enSection = enItem.projectInfo.sections[sectionKey];
+                const translatedSection = item.projectInfo?.sections?.[sectionKey];
                 
                 return {
                   title: translatedSection?.title || enSection.title,
@@ -143,11 +151,11 @@ export function useI18nFeed() {
 
         return feedItem;
       } catch (error) {
-        console.error(`[useI18nFeed] 載入專案 ${id} 時發生錯誤:`, error);
+        console.error(`[useI18nFeed] 載入 ${namespace} ${id} 時發生錯誤:`, error);
         return null;
       }
     }).filter((item): item is FeedItem => item !== null);
-  }, [t, i18n.language]);
+  }, [t, i18n.language, namespace]);
 
   return {
     items,

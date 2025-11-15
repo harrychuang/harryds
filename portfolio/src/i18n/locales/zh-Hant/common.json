@@ -1,0 +1,21 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "project": "Project",
+    "work": "Work",
+    "works": "Works",
+    "article": "Article",
+    "articles": "Articles",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "作品集",
+    "subtitle": "這裡將展示你的專案與文章"
+  },
+  "brand": {
+    "harry": "HARRY",
+    "tagline": "NOEINOI DESIGN"
+  }
+}
