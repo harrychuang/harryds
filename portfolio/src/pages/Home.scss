@@ -2,6 +2,9 @@
 // HOME 頁面樣式（從 Playground.scss 複製並調整命名空間）
 // =============================================================================
 
+// 導入共用的 Header 樣式
+@import '../styles/header-shared';
+
 .home {
   min-height: 100vh;
   padding: 50px 50px 100px 50px; // 增加底部 padding 為 footer 留出空間 (100px + 50px)
@@ -9,139 +12,6 @@
   color: var(--hds-sys-color-theme-surface);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   overflow: hidden; // 防止 2000px 寬的 HarryAnimation 造成水平溢出和滾動卡頓
-
-  &__header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1100; // 確保在 FeedDetailOverlay 之上
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 50px;
-    
-    .header-content {
-      max-width: 1580px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-  }
-
-  &__nav {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    position: relative;
-    right: -0.25vw;
-    
-    &-item {
-      cursor: pointer;
-      transition: opacity 0.2s ease;
-      display: inline-block;
-      
-      // 重置 PixelText 可能的內建 margin
-      & > * {
-        margin: 0;
-      }
-    }
-  }
-
-  // 靜態樣式從 inline style 移至此
-  .logo-wrapper {
-    transition: transform 0.3s ease;
-    position: relative;
-    left: -0.4vw;
-  }
-
-  .theme-toggle {
-    position: relative;
-    top: -2.5px;
-    left: -4px;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    border-width: 4px;
-    border-style: solid;
-    padding: 0;
-    border-radius: 0;
-    box-sizing: border-box;
-  }
-
-  .lang-toggle {
-    position: relative;
-    top: -3.1px;
-    left: -5px;
-    cursor: pointer;
-    width: auto;
-    min-width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    border-width: 4px;
-    border-style: solid;
-    padding: 0 4px;
-    border-radius: 0;
-    margin-left: -10px;
-    transition: border-color 0.2s ease;
-    box-sizing: border-box;
-  }
-
-  :lang(zh-Hant) .lang-toggle, :lang(zh) .lang-toggle, :lang(ja) .lang-toggle {
-    top: -4.5px;
-  }
-
-  .lang-dropdown {
-    position: absolute;
-    top: calc(100% + 5px);
-    right: 5px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    z-index: 1200;
-    animation: slideDown 0.2s ease;
-
-    &__item {
-      cursor: pointer;
-      width: 48px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-width: 4px;
-      border-style: solid;
-      padding: 0;
-      transition: all 0.2s ease;
-      background-color: transparent;
-      box-sizing: border-box;
-
-      &:hover {
-        transform: scale(1.05);
-      }
-    }
-  }
-
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 
   &__container {
     max-width: 1600px;

@@ -1,0 +1,19 @@
+@import '../styles/globals.scss';
+@import '../styles/header-shared';
+
+.articles-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--hds-sys-color-theme-background);
+
+  &__content {
+    flex: 1;
+    padding: 120px 40px 40px;
+    
+    @media (max-width: 768px) {
+      padding: 100px 20px 20px;
+    }
+  }
+}
+

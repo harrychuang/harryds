@@ -647,7 +647,9 @@ const Home: React.FC = () => {
           playMenuClickSound(); 
           if (key === 'about') { 
             navigate('/about'); 
-          } 
+          } else if (key === 'articles') {
+            navigate('/articles');
+          }
         }}
         navColors={navColors as any}
         showThemeToggle={true}

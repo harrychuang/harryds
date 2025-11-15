@@ -32,6 +32,7 @@ import referrerAstrid from '../../assets/imgs/referrers/referrer-astrid.jpg';
 import referrerKen from '../../assets/imgs/referrers/referrer-ken.jpg';
 import referrerAndrew from '../../assets/imgs/referrers/referrer-andrew.jpg';
 import referrerSherry from '../../assets/imgs/referrers/referrer-sherry.jpg';
+import './About.scss';
 import '../pages/Home.scss';
 import Header from '../components/Header';
 import { GIPHY_URLS } from '../constants/giphy';
@@ -891,6 +892,8 @@ const About: React.FC = () => {
             navigate('/');
           } else if (key === 'about') {
             navigate('/about');
+          } else if (key === 'articles') {
+            navigate('/articles');
           }
         }}
         showThemeToggle={true}

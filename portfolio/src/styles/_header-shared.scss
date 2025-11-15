@@ -1,0 +1,146 @@
+// =============================================================================
+// Header 共用樣式 - 供 Home、Articles、About 頁面使用
+// =============================================================================
+
+// Header 容器樣式
+.home__header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100; // 確保在 FeedDetailOverlay 之上
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  
+  .header-content {
+    max-width: 1580px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+// 導航樣式
+.home__nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  right: -0.25vw;
+  
+  &-item {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    display: inline-block;
+    
+    // 重置 PixelText 可能的內建 margin
+    & > * {
+      margin: 0;
+    }
+  }
+}
+
+// Logo 包裹器
+.logo-wrapper {
+  transition: transform 0.3s ease;
+  position: relative;
+  left: -0.4vw;
+}
+
+// 主題切換按鈕
+.theme-toggle {
+  position: relative;
+  top: -2.5px;
+  left: -4px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-width: 4px;
+  border-style: solid;
+  padding: 0;
+  border-radius: 0;
+  box-sizing: border-box;
+}
+
+// 語言切換按鈕
+.lang-toggle {
+  position: relative;
+  top: -3.1px;
+  left: -5px;
+  cursor: pointer;
+  width: auto;
+  min-width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-width: 4px;
+  border-style: solid;
+  padding: 0 4px;
+  border-radius: 0;
+  margin-left: -10px;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+// 語言切換按鈕 - 針對中文和日文的調整
+:lang(zh-Hant) .lang-toggle, 
+:lang(zh) .lang-toggle, 
+:lang(ja) .lang-toggle {
+  top: -4.5px;
+}
+
+// 語言下拉選單
+.lang-dropdown {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  z-index: 1200;
+  animation: slideDown 0.2s ease;
+
+  &__item {
+    cursor: pointer;
+    width: 48px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 4px;
+    border-style: solid;
+    padding: 0;
+    transition: all 0.2s ease;
+    background-color: transparent;
+    box-sizing: border-box;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// 下拉動畫
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
