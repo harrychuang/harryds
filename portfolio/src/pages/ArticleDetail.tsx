@@ -17,6 +17,7 @@ const ArticleDetail: React.FC = () => {
   const { items } = useI18nFeed('articles');
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
@@ -177,6 +178,58 @@ const ArticleDetail: React.FC = () => {
     navigate('/articles');
   }, [navigate]);
 
+  // 獲取文章圖片
+  const articleImages = useMemo(() => {
+    const articleData = t(`${article?.id}`, { returnObjects: true, ns: 'articles' }) as any;
+    return articleData?.images || [];
+  }, [article, t]);
+
+  // 獲取文章內容
+  const articleContent = useMemo(() => {
+    const articleData = t(`${article?.id}`, { returnObjects: true, ns: 'articles' }) as any;
+    const content = articleData?.content || {};
+    return Object.values(content).filter(Boolean) as string[];
+  }, [article, t]);
+
+  // Carousel 控制
+  const handlePrevImage = useCallback(async () => {
+    try {
+      menuClickHandleRef.current?.stop();
+      menuClickHandleRef.current = await audioManager.play(clickSoundUrl, { volume: 0.3 });
+    } catch (err) {
+      console.warn('Prev button sound play failed:', err);
+    }
+    setCurrentImageIndex((prev) => (prev === 0 ? articleImages.length - 1 : prev - 1));
+  }, [articleImages.length]);
+
+  const handleNextImage = useCallback(async () => {
+    try {
+      menuClickHandleRef.current?.stop();
+      menuClickHandleRef.current = await audioManager.play(clickSoundUrl, { volume: 0.3 });
+    } catch (err) {
+      console.warn('Next button sound play failed:', err);
+    }
+    setCurrentImageIndex((prev) => (prev === articleImages.length - 1 ? 0 : prev + 1));
+  }, [articleImages.length]);
+
+  const handlePageClick = useCallback(async (index: number) => {
+    try {
+      menuClickHandleRef.current?.stop();
+      menuClickHandleRef.current = await audioManager.play(clickSoundUrl, { volume: 0.3 });
+    } catch (err) {
+      console.warn('Page click sound play failed:', err);
+    }
+    setCurrentImageIndex(index);
+  }, []);
+
+  // 計算 transform 讓 active 圖片在最左邊
+  const carouselTransform = useMemo(() => {
+    const imageWidth = 600; // max-width
+    const gap = 50;
+    const offset = currentImageIndex * (imageWidth + gap);
+    return `translateX(-${offset}px)`;
+  }, [currentImageIndex]);
+
   // 如果找不到文章，顯示錯誤
   if (!article) {
     return (
@@ -263,6 +316,72 @@ const ArticleDetail: React.FC = () => {
               {/* 第三個 column 先空白 */}
             </div>
           </div>
+
+          {/* Image Carousel */}
+          {articleImages.length > 0 && (
+            <div className="article-detail__carousel">
+              <div className="article-detail__carousel-wrapper">
+                <div 
+                  className="article-detail__carousel-images"
+                  style={{ transform: carouselTransform }}
+                >
+                  {articleImages.map((image: string, index: number) => (
+                    <img
+                      key={index}
+                      src={`/assets/imgs/${image}`}
+                      alt={`${article.heading} - Image ${index + 1}`}
+                      className="article-detail__carousel-image"
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="article-detail__carousel-actions">
+                <div className="article-detail__carousel-pagination">
+                  {articleImages.map((_: any, index: number) => (
+                    <div
+                      key={index}
+                      className={`article-detail__carousel-page ${
+                        index === currentImageIndex ? 'active' : ''
+                      }`}
+                      onClick={() => handlePageClick(index)}
+                    />
+                  ))}
+                </div>
+
+                <div className="article-detail__carousel-controls">
+                  <button
+                    className="article-detail__carousel-control"
+                    onClick={handlePrevImage}
+                    onMouseEnter={handleMenuItemHover}
+                    aria-label="Previous image"
+                  >
+                    &lt;
+                  </button>
+
+                  <button
+                    className="article-detail__carousel-control"
+                    onClick={handleNextImage}
+                    onMouseEnter={handleMenuItemHover}
+                    aria-label="Next image"
+                  >
+                    &gt;
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Article Content */}
+          {articleContent.length > 0 && (
+            <div className="article-detail__content-section">
+              {articleContent.map((paragraph, index) => (
+                <p key={index} className="article-detail__paragraph">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          )}
         </div>
       </main>
     </div>
