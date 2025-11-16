@@ -17,11 +17,9 @@ const Articles: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { items } = useI18nFeed('articles');
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
-  const [hoveredCardId, setHoveredCardId] = useState<number | null>(null);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
-  const cardHoverHandleRef = useRef<PlaybackHandle | null>(null);
 
   // 語言選項
   const languageOptions = [
@@ -114,21 +112,6 @@ const Articles: React.FC = () => {
     setIsLangDropdownOpen(false);
   }, [i18n]);
 
-  // 卡片 hover 處理
-  const handleCardHover = useCallback(async (cardId: number) => {
-    setHoveredCardId(cardId);
-    try {
-      cardHoverHandleRef.current?.stop();
-      cardHoverHandleRef.current = await audioManager.play(hoverSoundUrl, { volume: 0.2 });
-    } catch (err) {
-      console.warn('Card hover sound play failed:', err);
-    }
-  }, []);
-
-  const handleCardLeave = useCallback(() => {
-    setHoveredCardId(null);
-  }, []);
-
   // 卡片點擊處理
   const handleCardClick = useCallback(async (articleId: number) => {
     try {
@@ -196,8 +179,6 @@ const Articles: React.FC = () => {
                 key={article.id}
                 className="article-card"
                 onClick={() => handleCardClick(article.id)}
-                onMouseEnter={() => handleCardHover(article.id)}
-                onMouseLeave={handleCardLeave}
                 style={{
                   ['--stagger-index' as any]: index,
                 }}
@@ -223,7 +204,6 @@ const Articles: React.FC = () => {
                     category: article.category
                   }}
                   use2D={true}
-                  enableHoverSound={false}
                 />
               </div>
             );

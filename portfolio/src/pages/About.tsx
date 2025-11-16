@@ -1077,7 +1077,7 @@ const About: React.FC = () => {
                   width={'250px'}
                   autoPlay={true}
                   enableParticles={true}
-                  frameDuration={1000}
+                  frameDuration={400}
                 />
               </div>
             </div>

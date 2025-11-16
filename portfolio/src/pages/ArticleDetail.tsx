@@ -16,9 +16,11 @@ const ArticleDetail: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { items } = useI18nFeed('articles');
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+  const [isLogoHovered, setIsLogoHovered] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
+  const logoHoverHandleRef = useRef<PlaybackHandle | null>(null);
 
   // 語言選項
   const languageOptions = [
@@ -132,6 +134,27 @@ const ArticleDetail: React.FC = () => {
     };
   }, []);
 
+  // Logo wrapper 樣式（參考 Home 的 project detail）
+  const logoWrapperStyle: React.CSSProperties = {
+    cursor: 'pointer',
+    transform: 'translateX(-10px)'
+  };
+
+  // Logo hover 處理
+  const handleLogoHover = useCallback(async () => {
+    setIsLogoHovered(true);
+    try {
+      logoHoverHandleRef.current?.stop();
+      logoHoverHandleRef.current = await audioManager.play(hoverSoundUrl, { volume: 0.4 });
+    } catch (err) {
+      console.warn('Logo hover sound play failed:', err);
+    }
+  }, []);
+
+  const handleLogoLeave = useCallback(() => {
+    setIsLogoHovered(false);
+  }, []);
+
   // 返回 Articles 列表
   const handleBackToArticles = useCallback(async () => {
     try {
@@ -149,8 +172,11 @@ const ArticleDetail: React.FC = () => {
       <div className="article-detail">
         <Header
           onLogoClick={handleBackToArticles}
+          onLogoMouseEnter={handleLogoHover}
+          onLogoMouseLeave={handleLogoLeave}
           logoType="back"
-          logoAnimated={true}
+          logoAnimated={isLogoHovered}
+          logoWrapperStyle={logoWrapperStyle}
           menuItems={['work', 'articles', 'about']}
           activeMenuItem="articles"
           t={t}
@@ -183,8 +209,11 @@ const ArticleDetail: React.FC = () => {
     <div className="article-detail">
       <Header
         onLogoClick={handleBackToArticles}
+        onLogoMouseEnter={handleLogoHover}
+        onLogoMouseLeave={handleLogoLeave}
         logoType="back"
-        logoAnimated={true}
+        logoAnimated={isLogoHovered}
+        logoWrapperStyle={logoWrapperStyle}
         menuItems={['work', 'articles', 'about']}
         activeMenuItem="articles"
         t={t}
