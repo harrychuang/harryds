@@ -25,7 +25,7 @@
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr); // 使用 6 columns 作為基礎
     gap: 50px;
     
     // 變數與轉場（參考 Home）
@@ -57,6 +57,35 @@
   
   &:hover {
     outline: 10px solid var(--hds-sys-color-theme-surface);
+  }
+  
+  // 前兩個卡片佔據 3 columns (半個寬度)
+  &--featured {
+    grid-column: span 3;
+    
+    @media (max-width: 1200px) {
+      grid-column: span 1;
+    }
+
+    // Medium size FeedCard 的標題限制為 3 行
+    .feed-card-info__heading {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1 !important;
+    }
+  }
+  
+  // 其他卡片佔據 2 columns
+  &:not(&--featured) {
+    grid-column: span 2;
+    
+    @media (max-width: 1200px) {
+      grid-column: span 1;
+    }
   }
   
   // 讓 FeedCard 填滿容器

@@ -183,13 +183,15 @@ const Articles: React.FC = () => {
       <main className="articles-page__content">
         <div className="articles-page__grid">
           {items.map((article, index) => {
-            const size: FeedCardSize = 'xs';
+            // 前兩個為 medium size，其餘為 xs
+            const size: FeedCardSize = index < 2 ? 'med' : 'xs';
+            const height = index < 2 ? 500 : 250;
             const src = article.heroImage || '';
             
             return (
               <div
                 key={article.id}
-                className="article-card"
+                className={`article-card ${index < 2 ? 'article-card--featured' : ''}`}
                 onClick={() => handleCardClick(article.id)}
                 style={{
                   ['--stagger-index' as any]: index,
@@ -198,7 +200,7 @@ const Articles: React.FC = () => {
                 <FeedCard
                   src={src}
                   size={size}
-                  height={250}
+                  height={height}
                   padding={40}
                   backgroundProps={{
                     pixelSize: 60,
