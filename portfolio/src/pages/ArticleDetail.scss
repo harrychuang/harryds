@@ -14,7 +14,7 @@
   flex-direction: column;
   background: var(--hds-sys-color-on-theme-surface);
   color: var(--hds-sys-color-theme-surface);
-  padding: 50px 50px 150px 50px;
+  padding: 50px 50px 200px 50px;
 
   &__content {
     flex: 1;
@@ -116,12 +116,17 @@
   &__carousel-wrapper {
     width: 100%;
     // overflow: hidden;
+    position: relative;
+    min-height: 400px;
   }
 
   &__carousel-images {
     display: flex;
     gap: 50px;
-    transition: transform 0.5s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
 
   &__carousel-image {
@@ -131,6 +136,7 @@
     flex-shrink: 0;
     display: block;
     object-fit: contain;
+    pointer-events: none;
   }
 
   &__carousel-actions {

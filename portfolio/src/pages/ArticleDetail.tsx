@@ -23,6 +23,12 @@ const ArticleDetail: React.FC = () => {
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
   const logoHoverHandleRef = useRef<PlaybackHandle | null>(null);
 
+  // Drag state
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartX, setDragStartX] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
   // 語言切換相關
   const languageMap = {
     'zh-Hant': 'ZH',
@@ -226,9 +232,99 @@ const ArticleDetail: React.FC = () => {
   const carouselTransform = useMemo(() => {
     const imageWidth = 600; // max-width
     const gap = 50;
-    const offset = currentImageIndex * (imageWidth + gap);
+    const baseOffset = currentImageIndex * (imageWidth + gap);
+    const offset = baseOffset - dragOffset; // 減去拖拽偏移，向右拖（dragOffset正）圖片向右移
     return `translateX(-${offset}px)`;
-  }, [currentImageIndex]);
+  }, [currentImageIndex, dragOffset]);
+
+  // Drag handlers
+  const handleDragStart = useCallback((clientX: number) => {
+    setIsDragging(true);
+    setDragStartX(clientX);
+  }, []);
+
+  const handleDragMove = useCallback((clientX: number) => {
+    if (!isDragging) return;
+    const diff = clientX - dragStartX; // 手指移動的距離
+    setDragOffset(diff);
+  }, [isDragging, dragStartX]);
+
+  const handleDragEnd = useCallback(async () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+
+    const imageWidth = 600;
+    const gap = 50;
+    const threshold = (imageWidth + gap) / 3; // 1/3 of image width to trigger change
+
+    if (Math.abs(dragOffset) > threshold) {
+      if (dragOffset > 0) {
+        // Dragged right - previous image
+        if (currentImageIndex > 0) {
+          try {
+            menuClickHandleRef.current?.stop();
+            menuClickHandleRef.current = await audioManager.play(clickSoundUrl, { volume: 0.3 });
+          } catch (err) {
+            console.warn('Drag sound play failed:', err);
+          }
+          setCurrentImageIndex((prev) => prev - 1);
+        }
+      } else {
+        // Dragged left - next image
+        if (currentImageIndex < articleImages.length - 1) {
+          try {
+            menuClickHandleRef.current?.stop();
+            menuClickHandleRef.current = await audioManager.play(clickSoundUrl, { volume: 0.3 });
+          } catch (err) {
+            console.warn('Drag sound play failed:', err);
+          }
+          setCurrentImageIndex((prev) => prev + 1);
+        }
+      }
+    }
+
+    setDragOffset(0);
+  }, [isDragging, dragOffset, currentImageIndex, articleImages.length]);
+
+  // Mouse events
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    handleDragStart(e.clientX);
+  }, [handleDragStart]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    handleDragMove(e.clientX);
+  }, [handleDragMove]);
+
+  const handleMouseUp = useCallback(() => {
+    handleDragEnd();
+  }, [handleDragEnd]);
+
+  // Touch events
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    handleDragStart(e.touches[0].clientX);
+  }, [handleDragStart]);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    handleDragMove(e.touches[0].clientX);
+  }, [handleDragMove]);
+
+  const handleTouchEnd = useCallback(() => {
+    handleDragEnd();
+  }, [handleDragEnd]);
+
+  // Global mouse up listener
+  useEffect(() => {
+    if (isDragging) {
+      const handleGlobalMouseUp = () => {
+        handleDragEnd();
+      };
+      window.addEventListener('mouseup', handleGlobalMouseUp);
+      return () => {
+        window.removeEventListener('mouseup', handleGlobalMouseUp);
+      };
+    }
+  }, [isDragging, handleDragEnd]);
 
   // 如果找不到文章，顯示錯誤
   if (!article) {
@@ -320,10 +416,26 @@ const ArticleDetail: React.FC = () => {
           {/* Image Carousel */}
           {articleImages.length > 0 && (
             <div className="article-detail__carousel">
-              <div className="article-detail__carousel-wrapper">
+              <div 
+                className="article-detail__carousel-wrapper"
+                style={{ 
+                  cursor: isDragging ? 'grabbing' : 'grab'
+                }}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
                 <div 
+                  ref={carouselRef}
                   className="article-detail__carousel-images"
-                  style={{ transform: carouselTransform }}
+                  style={{ 
+                    transform: carouselTransform,
+                    transition: isDragging ? 'none' : 'transform 0.5s ease-in-out'
+                  }}
                 >
                   {articleImages.map((image: string, index: number) => (
                     <img
@@ -331,6 +443,7 @@ const ArticleDetail: React.FC = () => {
                       src={`/assets/imgs/${image}`}
                       alt={`${article.heading} - Image ${index + 1}`}
                       className="article-detail__carousel-image"
+                      draggable={false}
                     />
                   ))}
                 </div>
