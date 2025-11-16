@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Home from './pages/Home';
 import About from './pages/About';
 import Articles from './pages/Articles';
+import ArticleDetail from './pages/ArticleDetail';
 import Footer from './components/Footer';
 import ClickFireworks from './components/ClickFireworks';
 import { HoverProvider } from './contexts/HoverContext';
@@ -35,8 +36,9 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/articles" element={<Articles />} />
-            {/* category: article | project; id + slug SEO */}
-            <Route path=":category/:id/:slug" element={<Home />} />
+            <Route path="/article/:id/:slug" element={<ArticleDetail />} />
+            {/* project detail with SEO-friendly slug */}
+            <Route path="/project/:id/:slug" element={<Home />} />
           </Routes>
           <Footer />
           <ClickFireworks />

@@ -258,7 +258,8 @@ const Home: React.FC = () => {
     // 使用原始英文 heading 生成 slug，確保所有語系的 URL 一致
     const headingForSlug = (item as any).originalHeading || item.heading;
     const slug = slugify(headingForSlug);
-    return `/${item.category}/${item.id}/${slug}`;
+    // Home 頁面只顯示 projects，所以固定使用 /project/ 路徑
+    return `/project/${item.id}/${slug}`;
   }, []);
 
   const handleOpenCard = useCallback((cardId: number, event?: React.MouseEvent) => {
@@ -595,9 +596,9 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     // 將 URL 狀態反映到 openCardId
-    const idParam = params.id; // 單獨的 id
-    const category = params.category as 'article' | 'project' | undefined;
-    if (!idParam || !category) {
+    // Home 頁面路由：/ 或 /project/:id/:slug
+    const idParam = params.id;
+    if (!idParam) {
       setOpenCardId(null);
       setContextOpenCardId(null); // 同步更新 Context
       return;
@@ -608,7 +609,8 @@ const Home: React.FC = () => {
       setContextOpenCardId(null); // 同步更新 Context
       return;
     }
-    const item = items.find(i => i.id === id && i.category === category);
+    // Home 只顯示 projects，所以直接根據 id 查找
+    const item = items.find(i => i.id === id);
     if (item) {
       setOpenCardId(item.id);
       setContextOpenCardId(item.id); // 同步更新 Context
@@ -616,7 +618,7 @@ const Home: React.FC = () => {
       setOpenCardId(null);
       setContextOpenCardId(null); // 同步更新 Context
     }
-  }, [params.id, params.category, items, setContextOpenCardId]);
+  }, [params.id, items, setContextOpenCardId]);
 
   // 調試面板已移除
 

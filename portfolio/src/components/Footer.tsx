@@ -345,12 +345,19 @@ const Footer: React.FC = () => {
 
   // 獲取當前活動卡片的顏色（與 Home 組件相同的邏輯）
   const footerColors = useMemo(() => {
-    // 首先檢查 URL 中的打開卡片
+    // 如果在 /articles, /article/*, 或 /about 路由，不使用顏色
+    const currentPath = location.pathname;
+    if (currentPath === '/articles' || currentPath.startsWith('/article') || currentPath === '/about') {
+      return {};
+    }
+    
+    // 首先檢查 URL 中的打開卡片（只在 Home 頁面的 project 路由中）
     let urlOpenCardId: number | null = null;
     const idParam = params.id;
-    const category = params.category as 'article' | 'project' | undefined;
     
-    if (idParam && category) {
+    // 只在 /project/:id/:slug 路由時才獲取顏色
+    // 透過檢查路徑是否以 /project 開頭
+    if (idParam && currentPath.startsWith('/project')) {
       const id = Number(idParam);
       if (!isNaN(id)) {
         urlOpenCardId = id;
@@ -372,7 +379,7 @@ const Footer: React.FC = () => {
     }
     
     return {};
-  }, [params.id, params.category, hoveredCardId, openCardId, items]);
+  }, [params.id, params.category, hoveredCardId, openCardId, items, location.pathname]);
 
   // 決定 ScrollIndicator 和 Copyright 的顏色：有 primaryColor 時使用，沒有時使用 CSS 變數
   const displayColor = footerColors.primaryColor || 'var(--hds-sys-color-theme-surface)';
