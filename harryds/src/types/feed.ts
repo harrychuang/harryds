@@ -7,6 +7,7 @@ export type FeedCategory = 'article' | 'project';
 export interface FeedItem {
   id: number;
   heading: string;
+  subtitle?: string; // 副標題（可選）
   date: string;
   tags: string[];
   category: FeedCategory;

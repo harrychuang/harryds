@@ -22,14 +22,25 @@ const ArticleDetail: React.FC = () => {
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
   const logoHoverHandleRef = useRef<PlaybackHandle | null>(null);
 
-  // 語言選項
-  const languageOptions = [
-    { code: 'en', label: 'EN' },
-    { code: 'zh-Hant', label: '繁中' },
-    { code: 'ja', label: '日本語' },
-  ];
+  // 語言切換相關
+  const languageMap = {
+    'zh-Hant': 'ZH',
+    'zh': 'ZH',
+    'en': 'EN',
+    'ja': 'JP'
+  };
 
-  const currentLangDisplay = i18n.language === 'zh-Hant' ? '繁中' : i18n.language === 'ja' ? '日本語' : 'EN';
+  const currentLangDisplay = languageMap[i18n.language as keyof typeof languageMap] || 'EN';
+
+  // 語言選項（排除當前語言）
+  const languageOptions = React.useMemo(() => ([
+    { code: 'en', label: 'EN' },
+    { code: 'zh-Hant', label: 'ZH' },
+    { code: 'ja', label: 'JP' }
+  ].filter((lang) => {
+    const currentLang = i18n.language === 'zh' ? 'zh-Hant' : i18n.language;
+    return lang.code !== currentLang;
+  })), [i18n.language]);
 
   // 根據 URL 參數找到對應的文章
   const article = useMemo(() => {
@@ -177,11 +188,7 @@ const ArticleDetail: React.FC = () => {
           logoType="back"
           logoAnimated={isLogoHovered}
           logoWrapperStyle={logoWrapperStyle}
-          menuItems={['work', 'articles', 'about']}
-          activeMenuItem="articles"
-          t={t}
-          onMenuItemHover={handleMenuItemHover}
-          onMenuItemClick={handleMenuItemClick}
+          menuItems={[]}
           showThemeToggle={true}
           theme={theme}
           onToggleTheme={handleToggleTheme}
@@ -214,11 +221,7 @@ const ArticleDetail: React.FC = () => {
         logoType="back"
         logoAnimated={isLogoHovered}
         logoWrapperStyle={logoWrapperStyle}
-        menuItems={['work', 'articles', 'about']}
-        activeMenuItem="articles"
-        t={t}
-        onMenuItemHover={handleMenuItemHover}
-        onMenuItemClick={handleMenuItemClick}
+        menuItems={[]}
         showThemeToggle={true}
         theme={theme}
         onToggleTheme={handleToggleTheme}
@@ -239,6 +242,27 @@ const ArticleDetail: React.FC = () => {
           {article.subtitle && (
             <p className="article-detail__subtitle">{article.subtitle}</p>
           )}
+          
+          <div className="article-detail__info">
+            <div className="article-detail__info-column">
+              <div className="article-detail__info-label">Date</div>
+              <div className="article-detail__info-value">{article.date}</div>
+            </div>
+            <div className="article-detail__info-column">
+              <div className="article-detail__info-label">Topics</div>
+              <div className="article-detail__info-value">
+                {article.tags.map((tag, index) => (
+                  <React.Fragment key={index}>
+                    {tag}
+                    {index < article.tags.length - 1 && <br />}
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+            <div className="article-detail__info-column">
+              {/* 第三個 column 先空白 */}
+            </div>
+          </div>
         </div>
       </main>
     </div>

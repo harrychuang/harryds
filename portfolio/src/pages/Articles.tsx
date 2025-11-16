@@ -21,14 +21,25 @@ const Articles: React.FC = () => {
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
 
-  // 語言選項
-  const languageOptions = [
-    { code: 'en', label: 'EN' },
-    { code: 'zh-Hant', label: '繁中' },
-    { code: 'ja', label: '日本語' },
-  ];
+  // 語言切換相關
+  const languageMap = {
+    'zh-Hant': 'ZH',
+    'zh': 'ZH',
+    'en': 'EN',
+    'ja': 'JP'
+  };
 
-  const currentLangDisplay = i18n.language === 'zh-Hant' ? '繁中' : i18n.language === 'ja' ? '日本語' : 'EN';
+  const currentLangDisplay = languageMap[i18n.language as keyof typeof languageMap] || 'EN';
+
+  // 語言選項（排除當前語言）
+  const languageOptions = React.useMemo(() => ([
+    { code: 'en', label: 'EN' },
+    { code: 'zh-Hant', label: 'ZH' },
+    { code: 'ja', label: 'JP' }
+  ].filter((lang) => {
+    const currentLang = i18n.language === 'zh' ? 'zh-Hant' : i18n.language;
+    return lang.code !== currentLang;
+  })), [i18n.language]);
 
   // 預載音效
   useEffect(() => {

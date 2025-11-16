@@ -10,8 +10,9 @@
     "category": "article",
     "url": "https://awwrated.com",
     "images": [
-      "img1.jpg",
-      "img2.jpg"
+      "articles/01/topics-1-1.jpg",
+      "articles/01/topics-1-2.jpg",
+      "articles/01/topics-1-3.jpg"
     ],
     "content": {
       "paragraph1": "Shopmatic 設計系統優化設計流程，並增強跨數位平台的使用者體驗。它包括元件、指南和最佳實踐，供設計師和開發者使用。這套完整的工具賦能團隊創建吸引人且功能性的數位產品。",
@@ -30,8 +31,12 @@
     "category": "article",
     "url": "https://awwrated.com",
     "images": [
-      "img3.jpg",
-      "img4.jpg"
+      "articles/02/topics-2-1.jpg",
+      "articles/02/topics-2-2.jpg",
+      "articles/02/topics-2-3.jpg",
+      "articles/02/topics-2-4.jpg",
+      "articles/02/topics-2-5.jpg",
+      "articles/02/topics-2-6.jpg"
     ],
     "content": {
       "paragraph1": "建立可擴展的設計系統需要仔細規劃以及深入了解產品需求。首先建立核心設計原則，這些原則將指導所有未來的決策。這些原則應該反映你的品牌價值和使用者需求。",
@@ -50,8 +55,8 @@
     "category": "article",
     "url": "https://awwrated.com",
     "images": [
-      "img5.jpg",
-      "img6.jpg"
+      "articles/03/topics-3-1.jpg",
+      "articles/03/topics-3-2.jpg"
     ],
     "content": {
       "paragraph1": "設計代幣是設計系統的原子元素。它們以平台無關的格式儲存設計決策，如顏色、排版、間距等。這使你能夠在網頁、行動裝置和其他平台之間保持一致性。",
