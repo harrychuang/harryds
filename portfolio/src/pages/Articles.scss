@@ -80,8 +80,17 @@
   }
   
   // 其他卡片佔據 2 columns
-  &:not(&--featured) {
+  &:not(&--featured):not(&--last-group) {
     grid-column: span 2;
+    
+    @media (max-width: 1200px) {
+      grid-column: span 1;
+    }
+  }
+
+  // 最後一組卡片（避免只剩 1 個）佔據 3 columns
+  &--last-group {
+    grid-column: span 3;
     
     @media (max-width: 1200px) {
       grid-column: span 1;

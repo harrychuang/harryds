@@ -188,10 +188,23 @@ const Articles: React.FC = () => {
             const height = index < 2 ? 500 : 250;
             const src = article.heroImage || '';
             
+            // 計算是否為最後幾個卡片（避免最後只剩 1 個）
+            const totalXsCards = items.length - 2;
+            const remainder = totalXsCards % 3;
+            const isInLastGroup = remainder === 1 && index >= items.length - 4;
+            
+            // 決定 className
+            let cardClass = 'article-card';
+            if (index < 2) {
+              cardClass += ' article-card--featured';
+            } else if (isInLastGroup) {
+              cardClass += ' article-card--last-group';
+            }
+            
             return (
               <div
                 key={article.id}
-                className={`article-card ${index < 2 ? 'article-card--featured' : ''}`}
+                className={cardClass}
                 onClick={() => handleCardClick(article.id)}
                 style={{
                   ['--stagger-index' as any]: index,
