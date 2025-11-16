@@ -7,6 +7,7 @@ export type FeedCategory = 'article' | 'project';
 export interface FeedItem {
   id: number;
   heading: string;
+  originalHeading?: string; // 原始英文 heading，用於生成 URL slug（確保多語言一致性）
   subtitle?: string; // 副標題（可選）
   date: string;
   tags: string[];

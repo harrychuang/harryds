@@ -134,8 +134,9 @@ const Articles: React.FC = () => {
     
     const article = items.find(item => item.id === articleId);
     if (article) {
-      // 生成文章的 slug
-      const slug = article.heading.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
+      // 使用原始英文 heading 生成 slug，確保所有語系的 URL 一致
+      const headingForSlug = (article as any).originalHeading || article.heading;
+      const slug = headingForSlug.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
       navigate(`/article/${articleId}/${slug}`);
     }
   }, [items, navigate]);

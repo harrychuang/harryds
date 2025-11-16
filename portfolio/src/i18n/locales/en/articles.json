@@ -63,5 +63,200 @@
       "paragraph2": "Implementing design tokens requires a structured approach. Organize tokens into layers: global tokens define your design language, while semantic tokens apply meaning to those values. This hierarchy makes your system more maintainable and easier to theme.",
       "paragraph3": "Tools like Style Dictionary can transform your tokens into multiple formats for different platforms. This automation ensures that design updates propagate consistently across all products, reducing manual work and potential inconsistencies."
     }
+  },
+  "4": {
+    "heading": "Component-Driven Development",
+    "subtitle": "Learn how component-driven development revolutionizes the way teams build digital products. Discover strategies for creating isolated, reusable components that accelerate development and ensure consistency.",
+    "date": "Nov 19, 2025",
+    "tags": [
+      "Component Library",
+      "Development"
+    ],
+    "category": "article",
+    "url": "https://awwrated.com",
+    "images": [
+      "articles/04/topics-1-1.jpg",
+      "articles/04/topics-1-2.jpg",
+      "articles/04/topics-1-3.jpg"
+    ],
+    "content": {
+      "paragraph1": "Component-driven development (CDD) is a methodology that builds user interfaces from the bottom up, starting with components and ending with pages. This approach encourages developers to build components in isolation, making them more reusable and testable.",
+      "paragraph2": "Tools like Storybook enable teams to develop, document, and test components independently from the main application. This isolation ensures that components work correctly in various states and scenarios before integration.",
+      "paragraph3": "CDD improves collaboration between designers and developers by creating a shared language through components. It also speeds up development by allowing teams to build features by composing existing components rather than starting from scratch."
+    }
+  },
+  "5": {
+    "heading": "Accessibility in Design Systems",
+    "subtitle": "Making your design system accessible by default ensures that all users can interact with your products. Explore best practices for building inclusive components that meet WCAG standards.",
+    "date": "Nov 20, 2025",
+    "tags": [
+      "Accessibility",
+      "Inclusive Design"
+    ],
+    "category": "article",
+    "url": "https://awwrated.com",
+    "images": [
+      "articles/05/topics-2-1.jpg",
+      "articles/05/topics-2-2.jpg",
+      "articles/05/topics-2-3.jpg",
+      "articles/05/topics-2-4.jpg",
+      "articles/05/topics-2-5.jpg",
+      "articles/05/topics-2-6.jpg"
+    ],
+    "content": {
+      "paragraph1": "Accessibility should be baked into your design system from the start, not added as an afterthought. Components should include proper ARIA labels, keyboard navigation support, and color contrast ratios that meet WCAG AA standards at minimum.",
+      "paragraph2": "Testing accessibility early and often prevents costly fixes later. Use automated tools to catch common issues, but also conduct manual testing with screen readers and keyboard-only navigation. Consider hiring users with disabilities to test your products.",
+      "paragraph3": "Document accessibility requirements for each component, including keyboard shortcuts, screen reader announcements, and focus management. This guidance helps designers and developers create accessible experiences consistently across your products."
+    }
+  },
+  "6": {
+    "heading": "Design System Governance",
+    "subtitle": "Establishing clear governance ensures your design system evolves sustainably. Learn how to create processes for contributions, versioning, and decision-making that scale with your team.",
+    "date": "Nov 21, 2025",
+    "tags": [
+      "Governance",
+      "Process"
+    ],
+    "category": "article",
+    "url": "https://awwrated.com",
+    "images": [
+      "articles/06/topics-3-1.jpg",
+      "articles/06/topics-3-2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Good governance is essential for a design system's long-term success. Without clear processes, systems can become fragmented or stagnate. Define roles and responsibilities for maintaining, contributing to, and approving changes to your system.",
+      "paragraph2": "Create a contribution model that balances openness with quality control. Whether you choose a federated model where multiple teams contribute or a centralized model with a dedicated team, document the process clearly and make it easy to follow.",
+      "paragraph3": "Establish versioning strategies that allow teams to adopt updates at their own pace while ensuring security fixes are applied promptly. Communicate breaking changes well in advance and provide migration guides to ease transitions."
+    }
+  },
+  "7": {
+    "heading": "Micro-Interactions and Animation",
+    "subtitle": "Small animations and micro-interactions bring interfaces to life and provide crucial feedback to users. Discover how to design and implement meaningful motion in your design system.",
+    "date": "Nov 22, 2025",
+    "tags": [
+      "Animation",
+      "Interaction Design"
+    ],
+    "category": "article",
+    "url": "https://awwrated.com",
+    "images": [
+      "articles/07/topics-1-1.jpg",
+      "articles/07/topics-1-2.jpg",
+      "articles/07/topics-1-3.jpg"
+    ],
+    "content": {
+      "paragraph1": "Micro-interactions are the small moments that happen when users interact with your product. A button press, a loading state, or a success confirmation—these tiny animations provide feedback and create a sense of direct manipulation that makes interfaces feel responsive and alive.",
+      "paragraph2": "Animation in design systems should be purposeful and consistent. Define timing curves, durations, and easing functions as tokens. Create guidelines for when and how to use motion, ensuring animations enhance rather than distract from the user experience.",
+      "paragraph3": "Consider performance and accessibility when implementing animations. Respect the prefers-reduced-motion setting for users who are sensitive to motion. Keep animations short and snappy—typically under 300ms for interactions and 500ms for transitions."
+    }
+  },
+  "8": {
+    "heading": "Responsive Design Patterns",
+    "subtitle": "Creating flexible, responsive components that work across all devices is fundamental to modern web design. Learn strategies for building adaptive layouts that maintain consistency.",
+    "date": "Nov 23, 2025",
+    "tags": [
+      "Responsive Design",
+      "Mobile First"
+    ],
+    "category": "article",
+    "url": "https://awwrated.com",
+    "images": [
+      "articles/08/topics-2-1.jpg",
+      "articles/08/topics-2-2.jpg",
+      "articles/08/topics-2-3.jpg",
+      "articles/08/topics-2-4.jpg",
+      "articles/08/topics-2-5.jpg",
+      "articles/08/topics-2-6.jpg"
+    ],
+    "content": {
+      "paragraph1": "Responsive design isn't just about making things smaller on mobile devices. It's about creating thoughtful experiences that adapt to different contexts, screen sizes, and input methods. Start with mobile-first design to ensure core functionality works on constrained devices.",
+      "paragraph2": "Use container queries and responsive tokens to create truly flexible components. Instead of relying solely on viewport-based breakpoints, components should adapt based on their own container size, making them more reusable across different layouts.",
+      "paragraph3": "Test your components on real devices, not just browser simulators. Pay attention to touch target sizes, readability at different distances, and performance on lower-end devices. Responsive design should enhance, not compromise, the user experience."
+    }
+  },
+  "9": {
+    "heading": "Color Theory for Digital Interfaces",
+    "subtitle": "Understanding color theory helps create harmonious and accessible color palettes. Explore how to build flexible color systems that work across light and dark themes.",
+    "date": "Nov 24, 2025",
+    "tags": [
+      "Color Theory",
+      "Theming"
+    ],
+    "category": "article",
+    "url": "https://awwrated.com",
+    "images": [
+      "articles/09/topics-3-1.jpg",
+      "articles/09/topics-3-2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Color is one of the most powerful tools in a designer's toolkit. It conveys meaning, creates hierarchy, and evokes emotion. When building a color system, start with a primary brand color and use color theory to generate complementary palettes that maintain harmony.",
+      "paragraph2": "Accessibility must be a primary concern when working with color. Ensure sufficient contrast between text and backgrounds, and never rely on color alone to convey information. Use tools to test color combinations against WCAG standards before implementing them.",
+      "paragraph3": "Modern design systems need to support multiple themes, especially dark mode. Instead of defining absolute colors, create semantic color tokens that describe purpose rather than appearance. This abstraction makes theme switching seamless and maintainable."
+    }
+  },
+  "10": {
+    "heading": "Typography Systems at Scale",
+    "subtitle": "A robust typography system forms the backbone of readable, accessible content. Learn how to create flexible type scales that work across different platforms and screen sizes.",
+    "date": "Nov 25, 2025",
+    "tags": [
+      "Typography",
+      "Content Design"
+    ],
+    "category": "article",
+    "url": "https://awwrated.com",
+    "images": [
+      "articles/10/topics-1-1.jpg",
+      "articles/10/topics-1-2.jpg",
+      "articles/10/topics-1-3.jpg"
+    ],
+    "content": {
+      "paragraph1": "Typography is the art of arranging type to make written language legible, readable, and appealing. In digital products, typography must work across various devices, resolutions, and reading distances. Start by choosing fonts that are optimized for screen display and support your content needs.",
+      "paragraph2": "Create a modular type scale that provides clear hierarchy while maintaining visual harmony. Use a ratio-based approach where each size relates mathematically to the others. This creates rhythm and consistency across your interface while making it easier to choose appropriate sizes.",
+      "paragraph3": "Don't forget the details: line height, letter spacing, and measure all affect readability. Line height should generally be 1.4-1.6 for body text, tighter for headings. Keep line length between 45-75 characters for optimal reading comfort."
+    }
+  },
+  "11": {
+    "heading": "Form Design Best Practices",
+    "subtitle": "Forms are critical touchpoints in user journeys. Discover how to design intuitive, accessible forms that minimize errors and maximize completion rates.",
+    "date": "Nov 26, 2025",
+    "tags": [
+      "Forms",
+      "User Experience"
+    ],
+    "category": "article",
+    "url": "https://awwrated.com",
+    "images": [
+      "articles/11/topics-2-1.jpg",
+      "articles/11/topics-2-2.jpg",
+      "articles/11/topics-2-3.jpg",
+      "articles/11/topics-2-4.jpg",
+      "articles/11/topics-2-5.jpg",
+      "articles/11/topics-2-6.jpg"
+    ],
+    "content": {
+      "paragraph1": "Good form design can significantly impact conversion rates and user satisfaction. Start by asking only for information you truly need. Every additional field increases cognitive load and abandonment risk. Group related fields logically and provide clear labels and instructions.",
+      "paragraph2": "Validation should be helpful, not punishing. Validate fields inline as users complete them, but wait until they've finished typing to show errors. Use clear, actionable error messages that tell users exactly how to fix problems. Success states are equally important for confirming correct input.",
+      "paragraph3": "Make forms accessible by default. Use proper HTML form elements, associate labels with inputs, provide helpful placeholder text, and ensure keyboard navigation works smoothly. Consider adding autocomplete attributes to help users fill forms faster with saved information."
+    }
+  },
+  "12": {
+    "heading": "Design System Metrics and ROI",
+    "subtitle": "Measuring the success and impact of your design system helps justify investment and guide improvements. Learn what metrics matter and how to track them effectively.",
+    "date": "Nov 27, 2025",
+    "tags": [
+      "Metrics",
+      "ROI"
+    ],
+    "category": "article",
+    "url": "https://awwrated.com",
+    "images": [
+      "articles/12/topics-3-1.jpg",
+      "articles/12/topics-3-2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Demonstrating the value of a design system requires tracking both qualitative and quantitative metrics. Common measurements include adoption rate, component usage, design-to-development time, and consistency scores across products. These numbers tell the story of efficiency gains and quality improvements.",
+      "paragraph2": "Developer satisfaction and velocity are important indicators of system health. Survey your users regularly to understand pain points and areas for improvement. Track how quickly teams can build new features using system components versus custom code.",
+      "paragraph3": "Calculate ROI by comparing time saved, reduced design drift, and decreased maintenance costs against the system's operational costs. Don't forget softer benefits like improved brand consistency, better accessibility, and enhanced collaboration between designers and developers."
+    }
   }
 }
