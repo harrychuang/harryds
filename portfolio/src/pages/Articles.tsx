@@ -17,9 +17,11 @@ const Articles: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { items } = useI18nFeed('articles');
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+  const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
+  const menuHoverTimersRef = useRef<Record<string, number>>({});
 
   // 語言切換相關
   const languageMap = {
@@ -45,6 +47,29 @@ const Articles: React.FC = () => {
   useEffect(() => {
     audioManager.preload(hoverSoundUrl).catch(() => {});
     audioManager.preload(clickSoundUrl).catch(() => {});
+  }, []);
+
+  // 導覽選單 hover 觸發一次動畫狀態
+  const triggerMenuHoverOnce = useCallback((key: string) => {
+    // 若已在動畫中就不重複觸發
+    if (menuAnimStates[key]) return;
+    setMenuAnimStates((prev) => ({ ...prev, [key]: true }));
+    // 預設動畫總時長，完成後重置為 false 以便再次觸發
+    const DURATION = 1200;
+    if (menuHoverTimersRef.current[key]) {
+      clearTimeout(menuHoverTimersRef.current[key]);
+    }
+    menuHoverTimersRef.current[key] = window.setTimeout(() => {
+      setMenuAnimStates((prev) => ({ ...prev, [key]: false }));
+      delete menuHoverTimersRef.current[key];
+    }, DURATION);
+  }, [menuAnimStates]);
+
+  useEffect(() => {
+    return () => {
+      Object.values(menuHoverTimersRef.current).forEach((id) => clearTimeout(id));
+      menuHoverTimersRef.current = {};
+    };
   }, []);
 
   // Logo 點擊 - 返回首頁
@@ -81,10 +106,10 @@ const Articles: React.FC = () => {
   }, [navigate]);
 
   // Hover 音效
-  const handleMenuItemHover = useCallback(async () => {
+  const playMenuHoverSound = useCallback(async () => {
     try {
       menuHoverHandleRef.current?.stop();
-      menuHoverHandleRef.current = await audioManager.play(hoverSoundUrl, { volume: 0.2 });
+      menuHoverHandleRef.current = await audioManager.play(hoverSoundUrl, { volume: 0.4 });
     } catch (err) {
       console.warn('Menu hover sound play failed:', err);
     }
@@ -164,12 +189,13 @@ const Articles: React.FC = () => {
         menuItems={['work', 'articles', 'about']}
         activeMenuItem="articles"
         t={t}
-        onMenuItemHover={handleMenuItemHover}
+        getMenuItemAnimated={(key) => !!menuAnimStates[key]}
+        onMenuItemHover={(key) => { triggerMenuHoverOnce(key); playMenuHoverSound(); }}
         onMenuItemClick={handleMenuItemClick}
         showThemeToggle={true}
         theme={theme}
         onToggleTheme={handleToggleTheme}
-        onThemeHover={handleMenuItemHover}
+        onThemeHover={() => { playMenuHoverSound(); }}
         showLanguageToggle={true}
         currentLangDisplay={currentLangDisplay}
         isLangDropdownOpen={isLangDropdownOpen}
@@ -177,7 +203,7 @@ const Articles: React.FC = () => {
         langDropdownRef={langDropdownRef}
         languageOptions={languageOptions}
         onLanguageChange={handleLanguageChange}
-        onLanguageHover={handleMenuItemHover}
+        onLanguageHover={() => { playMenuHoverSound(); }}
       />
 
       <main className="articles-page__content">
@@ -227,7 +253,7 @@ const Articles: React.FC = () => {
                     id: '',
                     heading: article.heading,
                     date: article.date,
-                    tags: [],
+                    tags: article.tags.length > 0 ? [article.tags[0]] : [],
                     category: article.category
                   }}
                   use2D={true}

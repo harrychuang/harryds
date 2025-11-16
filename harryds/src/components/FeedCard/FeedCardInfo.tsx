@@ -195,20 +195,13 @@ export const FeedCardInfo = forwardRef<HTMLDivElement, FeedCardInfoProps>(({
     return typeof computedIndex === 'string' ? computedIndex : padTo8Bits(computedIndex);
   }, [computedIndex]);
   // 將標籤映射為「符號 + 原文字」，並以單一空白分隔各組
-  const TAG_SYMBOL_MAP: Record<string, string> = {
-    'UI': '▲',
-    'UX': '●',
-    'DEV': '◆',
-    'ARTICLE': '+',
-    'DESIGN SYSTEM': '◼',
-  };
+  // 統一使用正方形符號
+  const TAG_SYMBOL = '◼';
   const tagsDisplayText = useMemo(() => {
     const list = Array.isArray(computedTags) ? computedTags : [];
     return list
       .map((original) => {
-        const key = original.trim().toUpperCase();
-        const symbol = TAG_SYMBOL_MAP[key] || '';
-        return symbol ? `${symbol} ${original}` : original;
+        return `${TAG_SYMBOL} ${original}`;
       })
       .join('  ');
   }, [computedTags]);
