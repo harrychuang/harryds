@@ -18,6 +18,19 @@ const joinUrl = (base: string, path: string) => {
   return `${b}${p}`;
 };
 
+// 兼容相對路徑（/strapi）與絕對 URL 的建構器
+const buildStrapiUrl = (path: string): string => {
+  const joined = joinUrl(STRAPI_URL || '', path);
+  // 絕對 URL 直接返回
+  if (/^https?:\/\//i.test(joined)) return joined;
+  // 使用 window.location 作為 base，讓 /strapi 這類相對路徑也能被 new URL 接受
+  if (typeof window !== 'undefined' && window.location) {
+    return new URL(joined, window.location.origin).toString();
+  }
+  // 無 window（如 SSR）時回傳原始拼接字串
+  return joined;
+};
+
 export const normalizeAssetUrl = (url?: string | null): string => {
   if (!url) return '';
   if (/^https?:\/\//i.test(url) || url.startsWith('//')) return url;
@@ -234,7 +247,7 @@ const mapFeedItem = (entity: any): FeedItem => {
 
 export async function fetchFeedItemsFromStrapi(): Promise<FeedItem[]> {
   if (!STRAPI_URL) throw new Error('VITE_STRAPI_URL 未設定');
-  const url = new URL(joinUrl(STRAPI_URL, '/api/feed-items'));
+  const url = new URL(buildStrapiUrl('/api/feed-items'));
   // Strapi v5: 精準 populate，避免觸發非法鍵（如 heroImage.related）
   url.searchParams.set('populate[heroImage][fields][0]', 'url');
   url.searchParams.set('populate[heroImage][fields][1]', 'alternativeText');
@@ -268,4 +281,54 @@ export async function fetchFeedItemsFromStrapi(): Promise<FeedItem[]> {
   }
 }
 
+/**
+ * 取得 Projects 資料（新的 API）
+ */
+export async function getProjects(params?: {
+  populate?: string;
+  sort?: string;
+  filters?: Record<string, any>;
+}): Promise<{ data: any[] }> {
+  if (!STRAPI_URL) throw new Error('VITE_STRAPI_URL 未設定');
+  
+  const url = new URL(buildStrapiUrl('/api/projects'));
+  
+  if (params?.populate) {
+    url.searchParams.set('populate', params.populate);
+  }
+  if (params?.sort) {
+    url.searchParams.set('sort', params.sort);
+  }
+  if (params?.filters) {
+    Object.entries(params.filters).forEach(([key, value]) => {
+      url.searchParams.set(`filters[${key}]`, String(value));
+    });
+  }
+  
+  url.searchParams.set('pagination[pageSize]', '100');
+  url.searchParams.set('publicationState', 'live');
+
+  try {
+    // 注意：生產環境應該移除 mode: 'cors' 和使用正式 SSL 憑證
+    const res = await fetch(url.toString(), { 
+      headers: { 'Cache-Control': 'no-cache' },
+      mode: 'cors'
+    });
+    
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Strapi 請求失敗: HTTP ${res.status} — ${text.slice(0, 200)}`);
+    }
+    
+    return await res.json();
+  } catch (e: any) {
+    console.error('[Strapi] getProjects error:', e?.message || e);
+    throw e;
+  }
+}
+
+export const strapiClient = {
+  resolveMediaUrl,
+  getProjects
+};
 
