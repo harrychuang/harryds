@@ -7,7 +7,8 @@
     "start": "strapi start",
     "build": "strapi build",
     "strapi": "strapi",
-    "import-data": "node scripts/import-feed-data.js"
+    "import-data": "node scripts/import-feed-data.js",
+    "import-projects": "node scripts/import-projects.mjs"
   },
   "dependencies": {
     "@strapi/plugin-users-permissions": "5.28.0",
