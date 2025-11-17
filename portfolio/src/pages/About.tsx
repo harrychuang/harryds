@@ -27,10 +27,6 @@ import referrerDarwin from '../../assets/imgs/referrers/referrer-darwin.jpg';
 import referrerFreddie from '../../assets/imgs/referrers/referrer-freddie.jpg';
 import referrerThenn from '../../assets/imgs/referrers/referrer-thenn.jpg';
 import referrerSimon from '../../assets/imgs/referrers/referrer-simon.jpg';
-import referrerRyan from '../../assets/imgs/referrers/referrer-ryan.jpg';
-import referrerAstrid from '../../assets/imgs/referrers/referrer-astrid.jpg';
-import referrerKen from '../../assets/imgs/referrers/referrer-ken.jpg';
-import referrerAndrew from '../../assets/imgs/referrers/referrer-andrew.jpg';
 import referrerSherry from '../../assets/imgs/referrers/referrer-sherry.jpg';
 import './About.scss';
 import '../pages/Home.scss';
@@ -69,10 +65,6 @@ const About: React.FC = () => {
     referrerFreddie,
     referrerThenn,
     referrerSimon,
-    referrerRyan,
-    referrerAstrid,
-    referrerKen,
-    referrerAndrew,
     referrerSherry
   ];
   
