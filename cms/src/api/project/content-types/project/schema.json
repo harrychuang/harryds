@@ -1,0 +1,73 @@
+{
+  "kind": "collectionType",
+  "collectionName": "projects",
+  "info": {
+    "singularName": "project",
+    "pluralName": "projects",
+    "displayName": "Project",
+    "description": "Portfolio projects with multilingual content"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "json",
+      "required": true,
+      "description": "Multilingual titles: { en, ja, zh-Hant }"
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "description": {
+      "type": "json",
+      "description": "Multilingual descriptions: { en, ja, zh-Hant }"
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date string (e.g. 'Jan 01, 2025 - PRESENT')"
+    },
+    "tags": {
+      "type": "json",
+      "description": "Array of tag strings"
+    },
+    "categories": {
+      "type": "json",
+      "description": "Array of category strings"
+    },
+    "brand": {
+      "type": "string",
+      "description": "Brand name"
+    },
+    "primaryColor": {
+      "type": "string",
+      "description": "Primary brand color (hex)"
+    },
+    "secondaryColor": {
+      "type": "string",
+      "description": "Secondary brand color (hex)"
+    },
+    "meta": {
+      "type": "json",
+      "description": "Multilingual meta information: { en, ja, zh-Hant } with project, websiteUrl, roles, etc."
+    },
+    "content": {
+      "type": "json",
+      "description": "Multilingual content sections: { en, ja, zh-Hant } with scope, impact, etc."
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images", "videos"]
+    }
+  }
+}
