@@ -1,0 +1,30 @@
+# Strapi 環境變數範本
+# 
+# 使用方式：
+# 1. 複製此檔案為 .env: cp env-template.txt .env
+# 2. 使用以下命令生成隨機密鑰：
+#    node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+# 3. 將生成的密鑰填入下方對應的位置
+# 4. 儲存檔案並啟動 Strapi
+
+# Server Configuration
+HOST=0.0.0.0
+PORT=1337
+
+# Security Keys (請替換為您自己生成的隨機密鑰)
+# 生成方式：node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+APP_KEYS=toBeModified1,toBeModified2
+API_TOKEN_SALT=tobemodified
+ADMIN_JWT_SECRET=tobemodified
+TRANSFER_TOKEN_SALT=tobemodified
+JWT_SECRET=tobemodified
+
+# Database (預設使用 SQLite)
+DATABASE_CLIENT=sqlite
+DATABASE_FILENAME=.tmp/data.db
+
+# API Token for Import Script (建立後填入)
+# 在 Strapi 管理面板中建立 API Token 後，將 token 填入這裡
+# Settings → API Tokens → Create new API Token
+# STRAPI_API_TOKEN=your_token_here
+
