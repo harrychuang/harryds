@@ -68,36 +68,36 @@
     "heroImage": "demo/nownews/demo-nownews-bg.jpg"
   },
   "2": {
-    "heading": "Streaming Ratings Guide",
-    "date": "Jan 01, 2025 - Jun 30, 2025",
+    "heading": "串流影劇指南",
+    "date": "2019 - PRESENT",
     "brand": "awwrated",
     "projectInfo": {
-      "project": "串流影音資訊平台",
-      "description": "介紹 Shopmatic 設計系統：一個簡化設計並增強使用者體驗的框架。它提供元件、指南和最佳實踐，用於創建吸引人且功能性的數位產品。無論你是設計師還是開發者，這都是你打造直觀介面的資源。",
-      "websiteLabel": "造訪網站",
+      "project": "awwrated 平台",
+      "description": "從零開始創立並建立電影評分聚合平台。透過整合 IMDb、Rotten Tomatoes 和 TMDB 的資料，awwrated 解決了「看什麼」的困境，透過自然 SEO 成長服務超過 300 萬使用者。",
+      "websiteLabel": "造訪平台",
       "sections": {
         "scope": {
-          "title": "範圍",
-          "paragraph1": "Shopmatic 設計系統優化設計流程，並增強跨數位平台的使用者體驗。它包括元件、指南和最佳實踐，供設計師和開發者使用。這套完整的工具賦能團隊創建吸引人且功能性的數位產品。",
-          "paragraph2": "專為協作和一致性而設計，它提供可重用元件，確保應用程式之間的統一性。指南涵蓋排版、色彩方案和版面原則，協助做出明智的設計選擇。",
-          "paragraph3": "該系統強調以使用者為中心的設計，優先考慮使用者需求，打造直觀的介面以實現無縫互動。無論是開始新專案還是優化現有專案，它都是實現設計卓越的必備工具。",
+          "title": "挑戰與策略",
+          "paragraph1": "挑戰：Netflix 等串流服務經常隱藏客觀評分，導致「決策癱瘓」。使用者花在滑動上的時間比觀看還多。",
+          "paragraph2": "解決方案：awwrated 透過垂直搜尋引擎聚合跨平台評分。核心價值在於「awwrated 分數」——一個平衡影評人評論（Rotten Tomatoes）與觀眾偏好（IMDb）的加權演算法。",
+          "paragraph3": "產品開發：作為全端 React/Next.js 應用程式建構，平台整合多個第三方 API（IMDb、Rotten Tomatoes、TMDB）以確保即時資料同步和精確的評分計算。",
           "image1": "demo/awwrated/demo-awwrated-02.jpg"
         },
         "impact": {
-          "title": "影響",
-          "paragraph1": "Shopmatic 設計系統透過簡化流程和增強使用者體驗，對數位設計產生重大影響。它提供一個強大的框架，充滿可重用元件和設計指南，促進專案之間的一致性。透過專注於以使用者為中心的設計，它確保介面直觀且引人入勝。該系統不僅協助設計師和開發者創建視覺上吸引人的產品，還促進協作，使其成為實現設計卓越的必備資源。",
-          "quote1": "「評分可信度」規則：透過評分者數量加權，以減少早期樣本偏差。",
-          "quote2": "排序和篩選規則：基於熱門度、最新性、最高評分和評分數量的多維度排序。",
-          "quote3": "GA 事件追蹤 + Hotjar 熱力圖，引入數據驅動的設計迭代。",
-          "blockquote": "Shopmatic 設計系統確保了一致且使用者友好的體驗。它提供設計一致性的指南，增強品牌識別度和使用者參與度。",
+          "title": "成長與工程",
+          "paragraph1": "透過策略性的技術 SEO 和效能優化，平台實現了頁面瀏覽量 640% 的成長。如今，awwrated 透過廣告變現和聯盟合作模式自我維持，每月服務超過 300 萬使用者。",
+          "quote1": "300 萬以上頁面瀏覽量：透過自然成長和技術 SEO 策略達成。",
+          "quote2": "資料視覺化：將複雜的原始資料轉化為直觀的評分圖表。",
+          "quote3": "長期營運：超過 5 年的產品迭代，從 MVP 到變現平台。",
+          "blockquote": "「此平台證明了結合以使用者為中心的設計與紮實的技術執行，能夠創造永續價值——300 萬以上頁面瀏覽量且持續成長。」",
           "image1": "demo/awwrated/demo-awwrated-03.jpg",
           "image2": "demo/awwrated/demo-awwrated-04.jpg"
         },
         "get in touch": {
-          "title": "聯絡我",
-          "paragraph1": "如果你對 Shopmatic 設計系統感興趣，歡迎聯繫我！我在這裡協助你完成設計流程，並確保你充分利用這個強大的框架。無論你需要以使用者為中心的設計協助，還是想要增強專案的視覺吸引力，我隨時可以提供協助。",
-          "paragraph2": "請隨時透過 harrychuang23@gmail.com 與我聯繫。",
-          "paragraph3": "讓我們合作創造卓越的作品！"
+          "title": "我能提供的服務",
+          "paragraph1": "awwrated 展示了如何透過完善的產品策略——結合使用者研究、技術架構和成長策略——大規模解決真實的使用者問題。",
+          "paragraph2": "從概念驗證到技術執行與永續成長，此專案展現了建立使用者信任的數據驅動型平台的完整生命週期。",
+          "paragraph3": "有興趣建立類似的平台嗎？歡迎透過 harrychuang23@gmail.com 與我討論。"
         }
       },
       "websiteUrl": "https://awwrated.com",
@@ -105,32 +105,39 @@
       "specialHeadingImage": "demo/awwrated/demo-awwrated-hero-img.png",
       "meta": [
         {
-          "label": "Brand",
-          "value": "awwrated"
+          "label": "類型",
+          "value": "自有產品"
         },
         {
-          "label": "Project",
-          "value": "Streaming Ratings Guide"
+          "label": "狀態",
+          "value": "上線中（5年以上）"
         },
         {
-          "label": "Role",
+          "label": "我的角色",
           "value": [
-            "UIUX Design",
-            "Design System",
-            "Development"
+            "創辦人",
+            "產品設計",
+            "全端開發"
+          ]
+        },
+        {
+          "label": "成長",
+          "value": [
+            "300萬以上瀏覽",
+            "640% 成長"
           ]
         }
       ],
       "roles": [
-        "UIUX Design",
-        "Design System",
-        "Development"
+        "Product Strategy",
+        "Full-stack Dev",
+        "Growth"
       ]
     },
     "tags": [
-      "UI",
-      "UX",
-      "DEV"
+      "Web App",
+      "React / Next.js",
+      "Data Viz"
     ],
     "category": "project",
     "primaryColor": "#FF1650",

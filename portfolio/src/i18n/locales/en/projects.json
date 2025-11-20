@@ -68,36 +68,36 @@
     }
   },
   "2": {
-    "heading": "Streaming Ratings Guide",
-    "date": "Jan 01, 2025 - Jun 30, 2025",
+    "heading": "Streaming\nGuide",
+    "date": "2019 - PRESENT",
     "brand": "awwrated",
     "projectInfo": {
-      "project": "Streaming Ratings Guide",
-      "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-      "websiteLabel": "VISIT WEBSITE",
+      "project": "awwrated Platform",
+      "description": "Founded and built a movie rating aggregation platform from scratch. By consolidating data from IMDb, Rotten Tomatoes, and TMDB, awwrated solves the 'What to watch' dilemma, serving over 3 million users through organic SEO growth.",
+      "websiteLabel": "VISIT PLATFORM",
       "sections": {
         "scope": {
-          "title": "Scope",
-          "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
-          "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
-          "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.",
+          "title": "The Challenge & Strategy",
+          "paragraph1": "The Challenge: Streaming services like Netflix often hide objective ratings, leading to 'Decision Paralysis.' Users spent more time scrolling than watching.",
+          "paragraph2": "The Solution: awwrated aggregates cross-platform ratings through a vertical search engine. The core value lies in the 'awwrated Score'—a weighted algorithm that balances critic reviews (Rotten Tomatoes) with audience preference (IMDb).",
+          "paragraph3": "Product Development: Built as a full-stack React/Next.js application, the platform integrates multiple 3rd-party APIs (IMDb, Rotten Tomatoes, TMDB) to ensure real-time data synchronization and accurate rating calculations.",
           "image1": "demo/awwrated/demo-awwrated-02.jpg"
         },
         "impact": {
-          "title": "Impact",
-          "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
-          "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
-          "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
-          "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
-          "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.",
+          "title": "Growth & Engineering",
+          "paragraph1": "Through strategic Technical SEO and performance optimizations, the platform achieved 640% growth in page views. Today, awwrated sustains itself through ad monetization and affiliate partnerships, serving 3M+ monthly users.",
+          "quote1": "3M+ Page Views: Achieved through organic growth and Technical SEO strategies.",
+          "quote2": "Data Visualization: Transformed complex raw data into intuitive rating graphs.",
+          "quote3": "Long-term Ops: 5+ years of product iteration, from MVP to a monetized platform.",
+          "blockquote": "\"This platform proves that combining user-centered design with solid technical execution creates sustainable value—3M+ page views and growing.\"",
           "image1": "demo/awwrated/demo-awwrated-03.jpg",
           "image2": "demo/awwrated/demo-awwrated-04.jpg"
         },
         "get in touch": {
-          "title": "GET IN TOUCH",
-          "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
-          "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
-          "paragraph3": "Let's collaborate to create something exceptional!"
+          "title": "WHAT I OFFER",
+          "paragraph1": "awwrated demonstrates how a well-executed product strategy—combining user research, technical architecture, and growth tactics—can solve real user problems at scale.",
+          "paragraph2": "From concept validation to technical execution and sustainable growth, this project showcases the full lifecycle of building a data-driven platform that users trust.",
+          "paragraph3": "Interested in building a similar platform? Let's discuss at harrychuang23@gmail.com."
         }
       },
       "websiteUrl": "https://awwrated.com",
@@ -105,32 +105,39 @@
       "specialHeadingImage": "demo/awwrated/demo-awwrated-hero-img.png",
       "meta": [
         {
-          "label": "Brand",
-          "value": "awwrated"
+          "label": "Type",
+          "value": "Internal Product"
         },
         {
-          "label": "Project",
-          "value": "Streaming Ratings Guide"
+          "label": "Status",
+          "value": "Live (5+ Years)"
         },
         {
-          "label": "Role",
+          "label": "My Role",
           "value": [
-            "UIUX Design",
-            "Design System",
-            "Development"
+            "Founder",
+            "Product Design",
+            "Full-stack Dev"
+          ]
+        },
+        {
+          "label": "Growth",
+          "value": [
+            "3M+ Views",
+            "640% Growth"
           ]
         }
       ],
       "roles": [
-        "UIUX Design",
-        "Design System",
-        "Development"
+        "Product Strategy",
+        "Full-stack Dev",
+        "Growth"
       ]
     },
     "tags": [
-      "UI",
-      "UX",
-      "DEV"
+      "Web App",
+      "React / Next.js",
+      "Data Viz"
     ],
     "category": "project",
     "primaryColor": "#FF1650",
