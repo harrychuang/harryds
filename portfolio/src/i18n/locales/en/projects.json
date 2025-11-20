@@ -145,67 +145,77 @@
     "heroImage": "demo/awwrated/demo-awwrated-bg.jpg"
   },
   "3": {
-    "heading": "Design System",
-    "date": "Jan 01, 2025 - PRESENT",
+    "heading": "Design System\nArchitecture",
+    "date": "2019 - 2020",
     "brand": "Shopmatic",
     "projectInfo": {
-      "project": "Design System",
-      "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-      "websiteLabel": "VISIT WEBSITE",
+      "project": "Scalable Design System",
+      "description": "Establishing a unified Design Language System (DLS) to bridge the gap between creative design and engineering. This infrastructure accelerated feature delivery, reduced technical debt, and ensured visual consistency across all product lines.",
+      "websiteLabel": "READ ARTICLE",
       "sections": {
         "scope": {
-          "title": "Scope",
-          "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
-          "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
-          "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.",
+          "title": "The Challenge & Solution",
+          "paragraph1": "The Challenge: As the product scaled, UI inconsistencies and code redundancy began to slow down development cycles. The lack of a shared vocabulary between designers and developers led to friction during handoffs and increased QA overhead.",
+          "paragraph2": "The Solution: Implementation of a centralized React-based component library managed via Storybook. By adopting Atomic Design methodology, the interface was broken down into reusable, testable building blocks.",
+          "paragraph3": "System Architecture: The system serves as the 'Single Source of Truth.' It decouples UI logic from business logic, allowing developers to integrate pre-validated components without reinventing the wheel.",
           "image1": "demo/shopmaticds/demo-shopmaticds-02.jpg"
         },
         "impact": {
-          "title": "Impact",
-          "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
-          "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
-          "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
-          "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
-          "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.",
+          "title": "Efficiency & Collaboration",
+          "paragraph1": "The introduction of the Design System fundamentally transformed the product workflow. It shifted the focus from 'fixing UI bugs' to 'building new features,' resulting in measurable reductions in manpower costs and time-to-market.",
+          "quote1": "Cost Reduction: Significantly lowered development time by eliminating repetitive coding tasks.",
+          "quote2": "Seamless Handoff: Storybook provides a live documentation hub, removing ambiguity between design mocks and final code.",
+          "quote3": "QA Velocity: Components are tested in isolation, ensuring that UI updates don't break existing functionality.",
+          "blockquote": "\"The Design System is not just a library; it is an operational asset that scales the team's output without scaling the team size.\"",
           "image1": "demo/shopmaticds/demo-shopmaticds-03.jpg",
           "image2": "demo/shopmaticds/demo-shopmaticds-04.jpg"
         },
         "get in touch": {
-          "title": "GET IN TOUCH",
-          "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
-          "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
-          "paragraph3": "Let's collaborate to create something exceptional!"
+          "title": "SCALE YOUR PRODUCT",
+          "paragraph1": "A Design System is the foundation of a mature digital product.",
+          "paragraph2": "If your team is struggling with slow iterations or inconsistent UI, a structured architectural approach is the solution.",
+          "paragraph3": "Contact me at harrychuang23@gmail.com to discuss how to optimize your product development workflow."
         }
       },
-      "websiteUrl": "https://awwrated.com",
+      "websiteUrl": "https://medium.com/@harrychuang23/storybook-by-react-design-system-development-shopmatic-7aac6f82de25",
       "mainImage": "demo/shopmaticds/demo-shopmaticds-01.jpg",
       "specialHeadingImage": "demo/shopmaticds/demo-shopmaticds-hero-img.png",
       "meta": [
         {
-          "label": "Brand",
-          "value": "Shopmatic"
+          "label": "Client",
+          "value": "Shopmatic Group"
         },
         {
-          "label": "Project",
-          "value": "Design System"
+          "label": "Outcome",
+          "value": "Dev Efficiency"
         },
         {
-          "label": "Role",
+          "label": "Deliverables",
           "value": [
-            "UIUX Design",
-            "Design System",
-            "Development"
+            "Component Library",
+            "Style Guide",
+            "Doc Site"
+          ]
+        },
+        {
+          "label": "Tech Stack",
+          "value": [
+            "React / Storybook",
+            "Styled-components",
+            "Atomic Design"
           ]
         }
       ],
       "roles": [
-        "UIUX Design",
-        "Design System"
+        "Design Ops",
+        "Frontend Arch",
+        "System Design"
       ]
     },
     "tags": [
-      "UI",
-      "UX"
+      "Design Ops",
+      "Storybook",
+      "React"
     ],
     "category": "project",
     "primaryColor": "#4285f4",

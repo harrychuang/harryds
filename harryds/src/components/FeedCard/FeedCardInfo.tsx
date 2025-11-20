@@ -107,7 +107,7 @@ const computeTextBoxCanvasSize = (
 
 const SIZE_PRESETS: Record<FeedCardSize, { id: number; headingPx: number; date: number; tags: number }> = {
   hero: { id: 4, headingPx: 120, date: 3, tags: 2 },
-  med:  { id: 3, headingPx: 80,  date: 2, tags: 2 },
+  med:  { id: 3, headingPx: 60,  date: 2, tags: 2 },
   sm:   { id: 2, headingPx: 46,  date: 1, tags: 1 },
   xs:   { id: 1, headingPx: 30,  date: 1, tags: 1 },
 };

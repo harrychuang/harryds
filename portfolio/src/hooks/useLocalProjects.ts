@@ -41,10 +41,11 @@ const resolveLocalImageUrl = (path?: string): string | undefined => {
 /**
  * 將本地 i18n 資料轉換為 FeedItem 格式
  */
-const transformLocalToFeedItem = (id: string, data: any): FeedItem => {
+const transformLocalToFeedItem = (id: string, data: any, originalHeading?: string): FeedItem => {
   return {
     id: parseInt(id),
     heading: data.heading || '',
+    originalHeading: originalHeading || data.heading || '', // 保存原始英文 heading 用於生成一致的 URL
     date: data.date || '',
     tags: data.tags || [],
     category: data.category || 'project',
@@ -136,21 +137,34 @@ export function useLocalProjects() {
         // 根據當前語言載入對應的 projects.json
         const locale = i18n.language === 'zh' ? 'zh-Hant' : i18n.language;
         
-        // 使用動態 import 載入 JSON
+        // 首先載入英文版本以取得 originalHeading
+        let enProjectsData: any;
+        try {
+          enProjectsData = await import(`../i18n/locales/en/projects.json`);
+        } catch (err) {
+          console.error('[useLocalProjects] 無法載入英文版本資料:', err);
+        }
+        
+        // 使用動態 import 載入當前語言的 JSON
         let projectsData: any;
         try {
           // 嘗試載入指定語言的資料
           projectsData = await import(`../i18n/locales/${locale}/projects.json`);
         } catch (err) {
           console.warn(`[useLocalProjects] 找不到 ${locale} 的專案資料，使用英文版本`);
-          projectsData = await import(`../i18n/locales/en/projects.json`);
+          projectsData = enProjectsData;
         }
 
         if (!isMounted) return;
 
         // 轉換資料格式
+        const enData = enProjectsData?.default || enProjectsData || {};
         const feedItems: FeedItem[] = Object.entries(projectsData.default || projectsData)
-          .map(([id, data]) => transformLocalToFeedItem(id, data))
+          .map(([id, data]) => {
+            // 從英文版本取得 originalHeading，用於生成一致的 URL slug
+            const originalHeading = enData[id]?.heading;
+            return transformLocalToFeedItem(id, data, originalHeading);
+          })
           .sort((a, b) => a.id - b.id); // 按 ID 排序
 
         console.log('[useLocalProjects] 載入完成，項目數:', feedItems.length);
