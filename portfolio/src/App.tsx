@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import ClickFireworks from './components/ClickFireworks';
 import { HoverProvider } from './contexts/HoverContext';
 import { OverlayProvider } from './contexts/OverlayContext';
+import { DataSourceProvider } from './contexts/DataSourceContext';
 
 const App: React.FC = () => {
   const { i18n } = useTranslation();
@@ -29,9 +30,10 @@ const App: React.FC = () => {
   }, [i18n]);
 
   return (
-    <HoverProvider>
-      <OverlayProvider>
-        <div className="app">
+    <DataSourceProvider>
+      <HoverProvider>
+        <OverlayProvider>
+          <div className="app">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -45,6 +47,7 @@ const App: React.FC = () => {
         </div>
       </OverlayProvider>
     </HoverProvider>
+    </DataSourceProvider>
   );
 };
 

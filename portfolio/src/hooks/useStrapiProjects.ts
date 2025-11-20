@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { strapiClient } from '../services/strapiClient';
-import type { FeedItem, ProjectInfo, ProjectSection, ProjectSectionContent } from '../types/feed';
+import type { FeedItem, ProjectInfo, ProjectSection, ProjectSectionContent } from '../../../harryds/src/types/feed';
 
 // 預載本地資產，便於解析 i18n 匯入時保留的相對路徑圖片
 const imageModules = import.meta.glob<{ default: string }>(

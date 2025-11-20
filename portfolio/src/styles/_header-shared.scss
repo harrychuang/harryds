@@ -69,6 +69,28 @@
   box-sizing: border-box;
 }
 
+// 資料來源切換按鈕
+.data-source-toggle {
+  position: relative;
+  top: -3.1px;
+  left: -5px;
+  cursor: pointer;
+  width: auto;
+  min-width: 56px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-width: 4px;
+  border-style: solid;
+  padding: 0 4px;
+  border-radius: 0;
+  margin-left: -10px;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
 // 語言切換按鈕
 .lang-toggle {
   position: relative;

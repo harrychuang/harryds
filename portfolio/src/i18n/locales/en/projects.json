@@ -274,66 +274,76 @@
     "heroImage": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-bg.jpg"
   },
   "5": {
-    "heading": "Buyer \nCheckout",
-    "date": "Jan 01, 2025 - PRESENT",
+    "heading": "Payment Flow\nOptimization",
+    "date": "2018 - 2019",
     "brand": "Shopmatic",
     "projectInfo": {
-      "project": "Buyer Checkout",
-      "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-      "websiteLabel": "VISIT WEBSITE",
+      "project": "Payment Flow Optimization",
+      "description": "Transforming a fragmented 3-step checkout into a seamless Single-Page Application (SPA). This redesign reduced user friction, integrated a scalable Design System, and bridged the gap between design and frontend development.",
+      "websiteLabel": "READ CASE STUDY",
       "sections": {
         "scope": {
-          "title": "Scope",
-          "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
-          "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
-          "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.",
+          "title": "The Challenge & Solution",
+          "paragraph1": "The Challenge: The legacy checkout process was split across three separate pages, causing high drop-off rates. Distractions like prominent discount code fields and complex member verification logic interrupted the user's purchase intent.",
+          "paragraph2": "The Solution: I engineered a Single-Page Checkout experience. By consolidating steps and implementing inline validation, users can now complete purchases without page reloads. We also hid distraction-heavy elements (like discount codes) behind interactions to keep the focus on payment.",
+          "paragraph3": "Bridging Design & Dev: This wasn't just a UI reskin. I worked on the frontend logic to ensure the 'Guest Checkout' and 'Member Login' flows merged seamlessly, proving that complex logic can coexist with a clean interface.",
           "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-02.jpg"
         },
         "impact": {
-          "title": "Impact",
-          "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
-          "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
-          "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
-          "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
-          "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.",
+          "title": "Key Features & Dev Impact",
+          "paragraph1": "Beyond the interface, this project established the foundation for Shopmatic's Design System. We utilized Storybook to build and test isolated components before integration, ensuring high code reusability and reducing UI bugs in production.",
+          "quote1": "Single-Page Architecture: Consolidated 3 steps into 1 seamless view to reduce friction.",
+          "quote2": "Smart Account Verification: Inline logic detects existing users without forcing page redirects.",
+          "quote3": "Storybook Integration: Bridged design and dev by testing components in isolation.",
+          "blockquote": "\"Great job! It's inspiring to see how the original checkout process has been evolved. Clean and straightforward.\"",
           "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-03.jpg"
         },
         "get in touch": {
-          "title": "GET IN TOUCH",
-          "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
-          "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
-          "paragraph3": "Let's collaborate to create something exceptional!"
+          "title": "NEXT STEP",
+          "paragraph1": "This project highlights the impact of streamlining payment flows—reducing friction, improving conversion rates, and creating seamless checkout experiences that users trust.",
+          "paragraph2": "If your product needs a better checkout experience or you're looking to optimize payment flows, let's connect.",
+          "paragraph3": "Contact me at harrychuang23@gmail.com to discuss your product."
         }
       },
-      "websiteUrl": "https://awwrated.com",
+      "websiteUrl": "https://harrychuang23.medium.com/ui-ux-design-payment-process-interface-optimization-9ca88649dad1",
       "mainImage": "demo/shopmaticcheckout/demo-shopmaticcheckout-01.jpg",
       "specialHeadingImage": "demo/shopmaticcheckout/demo-shopmaticcheckout-hero-img.png",
       "meta": [
         {
-          "label": "Brand",
-          "value": "Shopmatic"
+          "label": "Client",
+          "value": "Shopmatic (SaaS)"
         },
         {
-          "label": "Project",
-          "value": "Buyer Checkout"
+          "label": "Focus",
+          "value": "eCommerce Optimization"
         },
         {
-          "label": "Role",
+          "label": "My Role",
           "value": [
-            "UIUX Design",
-            "Design System",
-            "Development"
+            "Product Design",
+            "Frontend Dev",
+            "Design System"
+          ]
+        },
+        {
+          "label": "Tech Stack",
+          "value": [
+            "Figma",
+            "Storybook",
+            "HTML/CSS/JS"
           ]
         }
       ],
       "roles": [
         "UIUX Design",
-        "Design System"
+        "Frontend Dev",
+        "Strategy"
       ]
     },
     "tags": [
-      "UI",
-      "UX"
+      "eCommerce",
+      "SaaS",
+      "Refactor"
     ],
     "category": "project",
     "primaryColor": "#4285f4",
@@ -477,7 +487,7 @@
     "heroImage": "demo/tutorming/demo-tutorming-bg.jpg"
   },
   "8": {
-    "heading": "Portfolio Site",
+    "heading": "Portfolio \nSite 2017",
     "date": "Jan 01, 2025 - PRESENT",
     "brand": "noein",
     "projectInfo": {
@@ -540,8 +550,8 @@
       "UX"
     ],
     "category": "project",
-    "primaryColor": "#4285f4",
-    "secondaryColor": "#212b36",
+    "primaryColor": "#28F1C3",
+    "secondaryColor": "#161B1A",
     "heroImage": "demo/noein/demo-noein-bg.jpg"
   }
 }

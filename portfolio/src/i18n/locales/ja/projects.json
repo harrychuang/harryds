@@ -274,66 +274,76 @@
     "heroImage": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-bg.jpg"
   },
   "5": {
-    "heading": "Buyer \nCheckout",
-    "date": "Jan 01, 2025 - PRESENT",
+    "heading": "決済フロー\n最適化",
+    "date": "2018 - 2019",
     "brand": "Shopmatic",
     "projectInfo": {
-      "project": "バイヤーチェックアウト",
-      "description": "Shopmatic デザインシステムのご紹介：デザインを効率化し、ユーザー体験を向上させるフレームワークです。魅力的で機能的なデジタル製品を作成するためのコンポーネント、ガイドライン、ベストプラクティスを提供します。デザイナーでも開発者でも、直感的なインターフェースを作成するためのリソースです。",
-      "websiteLabel": "ウェブサイトを訪問",
+      "project": "決済フロー最適化",
+      "description": "断片化された3ステップのチェックアウトをシームレスなシングルページアプリケーション（SPA）に変革。このリデザインにより、ユーザーの摩擦を削減し、スケーラブルなデザインシステムを統合し、デザインとフロントエンド開発のギャップを埋めました。",
+      "websiteLabel": "ケーススタディを読む",
       "sections": {
         "scope": {
-          "title": "範囲",
-          "paragraph1": "Shopmatic デザインシステムは、デザインプロセスを最適化し、デジタルプラットフォーム全体でユーザー体験を向上させます。デザイナーと開発者向けのコンポーネント、ガイドライン、ベストプラクティスが含まれています。この一貫したツールセットにより、チームは魅力的で機能的なデジタル製品を作成できます。",
-          "paragraph2": "コラボレーションと一貫性のために設計されており、アプリケーション間で統一性を保つための再利用可能なコンポーネントを備えています。ガイドラインは、タイポグラフィ、カラースキーム、レイアウト原則をカバーし、情報に基づいたデザイン選択を支援します。",
-          "paragraph3": "このシステムは、ユーザー中心のデザインを強調し、ユーザーのニーズを優先して、シームレスなインタラクションのための直感的なインターフェースを作成します。新しいプロジェクトを開始する場合でも、既存のプロジェクトを洗練する場合でも、デザインの卓越性を実現するために不可欠です。",
+          "title": "課題とソリューション",
+          "paragraph1": "課題：従来のチェックアウトプロセスは3つの別々のページに分割されており、高い離脱率を引き起こしていました。目立つ割引コードフィールドや複雑な会員確認ロジックなどの気を散らす要素が、ユーザーの購入意図を妨げていました。",
+          "paragraph2": "ソリューション：私はシングルページチェックアウト体験を設計しました。ステップを統合し、インライン検証を実装することで、ユーザーはページの再読み込みなしで購入を完了できるようになりました。また、割引コードなどの気を散らす要素をインタラクションの背後に隠し、支払いに集中できるようにしました。",
+          "paragraph3": "デザインと開発の架け橋：これは単なるUIの見た目の変更ではありませんでした。私はフロントエンドロジックに取り組み、「ゲストチェックアウト」と「会員ログイン」のフローがシームレスに統合されることを保証し、複雑なロジックがクリーンなインターフェースと共存できることを証明しました。",
           "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-02.jpg"
         },
         "impact": {
-          "title": "影響",
-          "paragraph1": "Shopmatic デザインシステムは、プロセスを効率化し、ユーザー体験を向上させることで、デジタルデザインに大きな影響を与えています。プロジェクト間の一貫性を促進する再利用可能なコンポーネントとデザインガイドラインで満たされた堅牢なフレームワークを提供します。ユーザー中心のデザインに焦点を当てることで、インターフェースが直感的で魅力的であることを保証します。このシステムは、デザイナーと開発者が視覚的に魅力的な製品を作成するのを支援するだけでなく、コラボレーションを促進し、デザインの卓越性を達成するための不可欠なリソースとなっています。",
-          "quote1": "「評価の信頼性」ルール：評価者数で重み付けして、初期のサンプルバイアスを減らします。",
-          "quote2": "ソートとフィルタリングのルール：人気度、新しさ、最高スコア、評価数に基づく多次元的なソート。",
-          "quote3": "GA イベントトラッキング + Hotjar ヒートマップ、データ駆動型のデザイン反復のために導入。",
-          "blockquote": "Shopmatic デザインシステムは、一貫性があり、ユーザーフレンドリーな体験を保証します。デザインの一貫性のためのガイドラインを提供し、ブランドアイデンティティとユーザーエンゲージメントを向上させます。",
+          "title": "主な機能と開発への影響",
+          "paragraph1": "インターフェースを超えて、このプロジェクトはShopmaticのデザインシステムの基盤を確立しました。統合前に分離されたコンポーネントを構築およびテストするためにStorybookを活用し、高いコードの再利用性を確保し、本番環境でのUIバグを削減しました。",
+          "quote1": "シングルページアーキテクチャ：摩擦を減らすために3ステップを1つのシームレスなビューに統合。",
+          "quote2": "スマートアカウント認証：インラインロジックがページリダイレクトを強制せずに既存ユーザーを検出。",
+          "quote3": "Storybook統合：コンポーネントを分離してテストすることで、デザインと開発を架け橋。",
+          "blockquote": "「素晴らしい仕事です！元のチェックアウトプロセスがどのように進化したかを見るのは刺激的です。クリーンで分かりやすい。」",
           "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-03.jpg"
         },
         "get in touch": {
-          "title": "お問い合わせ",
-          "paragraph1": "プロジェクトで Shopmatic デザインシステムに興味がある場合は、お気軽にご連絡ください！デザインプロセスをナビゲートし、この強力なフレームワークを最大限に活用できるようサポートします。ユーザー中心のデザインのサポートが必要な場合や、プロジェクトの視覚的魅力を向上させたい場合は、メールでご連絡ください。",
-          "paragraph2": "harrychuang23@gmail.com までお気軽にご連絡ください。",
-          "paragraph3": "一緒に素晴らしいものを作りましょう！"
+          "title": "次のステップ",
+          "paragraph1": "このプロジェクトは、決済フローの最適化がもたらす影響を示しています。摩擦を減らし、コンバージョン率を向上させ、ユーザーが信頼できるシームレスなチェックアウト体験を創出します。",
+          "paragraph2": "より良いチェックアウト体験が必要な場合、または決済フローの最適化をお考えの場合は、ぜひご連絡ください。",
+          "paragraph3": "製品について議論するために、harrychuang23@gmail.com までご連絡ください。"
         }
       },
-      "websiteUrl": "https://awwrated.com",
+      "websiteUrl": "https://harrychuang23.medium.com/ui-ux-design-payment-process-interface-optimization-9ca88649dad1",
       "mainImage": "demo/shopmaticcheckout/demo-shopmaticcheckout-01.jpg",
       "specialHeadingImage": "demo/shopmaticcheckout/demo-shopmaticcheckout-hero-img.png",
       "meta": [
         {
-          "label": "Brand",
-          "value": "Shopmatic"
+          "label": "クライアント",
+          "value": "Shopmatic (SaaS)"
         },
         {
-          "label": "Project",
-          "value": "Buyer Checkout"
+          "label": "焦点",
+          "value": "eコマース最適化"
         },
         {
-          "label": "Role",
+          "label": "私の役割",
           "value": [
-            "UIUX Design",
-            "Design System",
-            "Development"
+            "プロダクトデザイン",
+            "フロントエンド開発",
+            "デザインシステム"
+          ]
+        },
+        {
+          "label": "技術スタック",
+          "value": [
+            "Figma",
+            "Storybook",
+            "HTML/CSS/JS"
           ]
         }
       ],
       "roles": [
         "UIUX Design",
-        "Design System"
+        "Frontend Dev",
+        "Strategy"
       ]
     },
     "tags": [
-      "UI",
-      "UX"
+      "eCommerce",
+      "SaaS",
+      "Refactor"
     ],
     "category": "project",
     "primaryColor": "#4285f4",
@@ -477,7 +487,7 @@
     "heroImage": "demo/tutorming/demo-tutorming-bg.jpg"
   },
   "8": {
-    "heading": "Portfolio Site",
+    "heading": "Portfolio \nSite 2017",
     "date": "Jan 01, 2025 - PRESENT",
     "brand": "noein",
     "projectInfo": {
@@ -540,8 +550,8 @@
       "UX"
     ],
     "category": "project",
-    "primaryColor": "#4285f4",
-    "secondaryColor": "#212b36",
+    "primaryColor": "#28F1C3",
+    "secondaryColor": "#161B1A",
     "heroImage": "demo/noein/demo-noein-bg.jpg"
   }
 }
