@@ -452,8 +452,6 @@
     line-height: 130%; /* 52px */
     color: var(--feed-detail-primary-color, var(--on-hds-sys-color-surface, #fff));
     margin: 40px 0 0 0;
-    // 預留完整文字的高度，避免打字機效果造成內容推擠
-    min-height: 260px; // 約 5 行文字的高度 (52px * 5)
     
     // 打字機游標在 blockquote 中也使用相同的閃爍動畫
     .feed-detail-overlay__cursor {

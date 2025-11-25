@@ -28,6 +28,8 @@ import referrerFreddie from '../../assets/imgs/referrers/referrer-freddie.jpg';
 import referrerThenn from '../../assets/imgs/referrers/referrer-thenn.jpg';
 import referrerSimon from '../../assets/imgs/referrers/referrer-simon.jpg';
 import referrerSherry from '../../assets/imgs/referrers/referrer-sherry.jpg';
+import referrerRyan from '../../assets/imgs/referrers/referrer-ryan.jpg';
+import referrerAstrid from '../../assets/imgs/referrers/referrer-astrid.jpg';
 import './About.scss';
 import '../pages/Home.scss';
 import Header from '../components/Header';
@@ -65,7 +67,9 @@ const About: React.FC = () => {
     referrerFreddie,
     referrerThenn,
     referrerSimon,
-    referrerSherry
+    referrerSherry,
+    referrerRyan,
+    referrerAstrid
   ];
   
   const referrerData = t('referrer.items', { returnObjects: true, ns: 'about' }) as Array<{
