@@ -41,6 +41,7 @@
     line-height: 1;
     margin: 0;
     text-transform: uppercase;
+    white-space: pre-line;
     color: var(--hds-sys-color-theme-surface);
     
     @media (max-width: 768px) {
@@ -137,6 +138,7 @@
     display: block;
     object-fit: contain;
     pointer-events: none;
+    outline: 10px solid rgba(0, 0, 0, 0.05);
   }
 
   &__carousel-actions {

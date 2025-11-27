@@ -1,262 +1,124 @@
 {
   "1": {
-    "heading": "Shopmatic Design System",
-    "subtitle": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-    "date": "Nov 16, 2025",
+    "heading": "Design Systems:\nThe Solution to Product Collaboration",
+    "subtitle": "As a product person, I love using this diagram to share the product design and development process—teams often face this dilemma.",
+    "date": "Nov 11, 2024",
+    "tags": [
+      "Design System",
+      "Product Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/00/topics-0.1.jpg",
+      "articles/00/topics-0.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "As a product person, I love using this diagram to share the product design and development process—teams often face this dilemma: When designers craft excellent UI/UX, entering the development phase often leads to communication loops with engineers. Due to product launch pressures, the final result ends up being a compromised version.",
+      "paragraph2": "This dilemma persists whether it was 10 years ago or today. Actually, this isn't a problem with designers or engineers—it's a difference in goals and perspectives. As a product designer, I've experienced this countless times. During my 6 years working in Singapore, I gradually explored design systems and discovered they're an effective way to solve this pain point. Design systems ensure consistency between designers and engineers through standardized specifications, significantly reducing communication costs and improving development efficiency.",
+      "paragraph3": "Design systems may sound complex, but they're actually not. Simply put, it's like building with blocks—invest time upfront to create the blocks, then flexibly assemble products later. For product teams, this not only reduces communication and labor costs but also allows teams to focus on innovation and product optimization rather than getting bogged down in minor communication details."
+    }
+  },
+  "2": {
+    "heading": "Bridging the Gap Between Design and Development",
+    "subtitle": "Communication between designers and engineers sometimes feels like two parallel worlds.",
+    "date": "Nov 15, 2024",
+    "tags": [
+      "Design System",
+      "UX Engineer"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/01/topics-1.1.jpg",
+      "articles/01/topics-1.2.jpg",
+      "articles/01/topics-1.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "Two years ago, I shared design system insights at IxDA. In product design and development pain points, the core issue often stems from product designers and engineers approaching design and development from different perspectives, leading to various frictions and disagreements. My UI and feature designs were often rejected by engineers saying 'this can't be done' or 'that's not practical.' To understand the essence of product development, I started learning front-end development and gradually understood the perspective gap between designers and engineers.",
+      "paragraph2": "Designers' pain point is that their designs often lose their original appearance after development, with some features being compromised or modified. Engineers' frustration is that design specs lack consistency—buttons and text details vary slightly across different pages, increasing maintenance difficulty. Designers and engineers have vastly different backgrounds. Engineers' task is to ensure features are completed on time, while designers pursue visual and experience optimization. This difference makes product specification crucial, especially the convergence and integration of design elements. But relying solely on design specs from designers hardly solves the problem because engineers aren't familiar with visual layout configurations and aesthetic details—this is where the UX Engineer role comes from.",
+      "paragraph3": "Therefore, the core value of design systems isn't just visual specifications, but a component library with code and demos that increases engineers' willingness to use design systems, reduces their investment in visual details, and lets engineers focus more on product feature development."
+    }
+  },
+  "3": {
+    "heading": "The Art of Design Decluttering",
+    "subtitle": "Design systems are essentially a process of 'integration and quantification.'",
+    "date": "Nov 19, 2024",
+    "tags": [
+      "Design System",
+      "Design Guidelines"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/02/topics-2.1.jpg",
+      "articles/02/topics-2.2.jpg",
+      "articles/02/topics-2.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "My dad once told me a story about his childhood when his family was very poor—it left a deep impression. He said they could only afford three tubes of watercolor paint, but with just those three colors, he won second place in the school watercolor competition 😂 This story is actually very similar to product design. Sometimes we feel there are too many rules and constraints—won't they limit UI/UX creativity and prevent us from creating features and interfaces users love? But think about it differently: rules are like those paint tubes. If you make good use of limited resources, you can still create new possibilities through flexible combinations!",
+      "paragraph2": "As products mature, this 'design decluttering' becomes even more important. We need to start converging similar colors, elements, text, and even numbers—quantifying them. We don't let numbers expand infinitely because each number must have a confirmed purpose. For example, with font sizes: 10 might be the smallest text, 14 is default text, 24 is heading text... We need to clearly assign their purposes. The same goes for colors—they won't be expanded without reason.",
+      "paragraph3": "Why? Because in later product stages, components and features only multiply. Infinite expansion only makes projects more complex, development difficulty skyrockets, and ultimately increases labor costs and time. Instead, it's better to converge early, making complex things simple, efficient, and flexible, allowing products to maintain stable output throughout their evolution."
+    }
+  },
+  "4": {
+    "heading": "Implementing Design Systems:\nA Mountain Worth Climbing",
+    "subtitle": "Implementing a design system in a product team is challenging—like climbing a mountain, but the view from the top is absolutely worth it.",
+    "date": "Nov 27, 2024",
+    "tags": [
+      "Design System",
+      "Product Team"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/03/topics-3.1.jpg",
+      "articles/03/topics-3.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "I recently listened to @vktechread share about The Hard Thing About Hard Things, and it really resonated with me. To simplify work and improve efficiency, we must first go through the most difficult challenges—like implementing a design system in a product team. Although it feels like climbing a mountain at first, requiring extensive communication, integration, and research, it's precisely these processes that bring the greatest value.",
+      "paragraph2": "As product scale grows, technical debt and system complexity make development time longer and costs higher. When I worked at enterprises, I often saw large development teams spending 60-70% of their resources maintaining old architectures rather than innovating or optimizing products.",
+      "paragraph3": "This is exactly where design systems prove their worth. After implementation, product development becomes more like assembling blocks, eliminating the tedious 'clay molding' process and simplifying communication and workflows. Teams can then focus on product innovation rather than getting caught up in minor details. In business competition, speed matters. Shortening development time and quickly entering the market to test and iterate not only improves efficiency and reduces costs but is also key to winning for companies and products."
+    }
+  },
+  "5": {
+    "heading": "Work Hard & Smart",
+    "subtitle": "Work hard? Work smart? Combining both seems even better!",
+    "date": "Dec 11, 2024",
+    "tags": [
+      "Design System",
+      "Work Efficiency"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/04/topics-4.1.jpg",
+      "articles/04/topics-4.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "I really love this animation about work from overseas. Just like when we first enter the workforce, most of us approach every task with full dedication, hoping to do our best. As experience accumulates and we enter mid-career, we start finding clever ways to simplify processes and improve efficiency. In the mature stage of our careers, we gradually realize there's no such thing as 'easy' work, but through accumulated experience, we can combine hard work with smart work to achieve excellent results with half the effort.",
+      "paragraph2": "The design system workflow is similar. Building a design system is often challenging at first, but once completed and integrated into the product development process, it becomes like the Work Hard & Smart animation in this video—the work mode becomes smooth and efficient, simplifying work while significantly improving product quality and consistency.",
+      "paragraph3": "So, instead of choosing between working hard or working smart, consider how to combine both to make work more efficient while also gaining a sense of achievement."
+    }
+  },
+  "6": {
+    "heading": "Design Token:\nThe Shared Language of Design and Development",
+    "subtitle": "Design Tokens can become a shared configuration file between design and development.",
+    "date": "Dec 16, 2024",
     "tags": [
       "Design System",
       "Design Token"
     ],
     "category": "article",
-    "url": "https://awwrated.com",
+    "url": "",
     "images": [
-      "articles/01/topics-1-1.jpg",
-      "articles/01/topics-1-2.jpg",
-      "articles/01/topics-1-3.jpg"
+      "articles/05/topics-5.1.jpg",
+      "articles/05/topics-5.2.mp4"
     ],
     "content": {
-      "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
-      "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
-      "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence."
-    }
-  },
-  "2": {
-    "heading": "Building Scalable Design Systems",
-    "subtitle": "Exploring best practices for building scalable design systems that grow with your product. Learn how to create flexible components, maintain consistency, and empower your team to deliver faster.",
-    "date": "Nov 17, 2025",
-    "tags": [
-      "Design System",
-      "Component Library"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/02/topics-2-1.jpg",
-      "articles/02/topics-2-2.jpg",
-      "articles/02/topics-2-3.jpg",
-      "articles/02/topics-2-4.jpg",
-      "articles/02/topics-2-5.jpg",
-      "articles/02/topics-2-6.jpg"
-    ],
-    "content": {
-      "paragraph1": "Building a scalable design system requires careful planning and a deep understanding of your product's needs. Start by establishing core design principles that will guide all future decisions. These principles should reflect your brand values and user needs.",
-      "paragraph2": "Component architecture is crucial for scalability. Design components to be modular, reusable, and composable. Each component should have a single responsibility and well-defined props. This makes them easier to maintain and extend over time.",
-      "paragraph3": "Documentation is often overlooked but is essential for adoption. Provide clear usage guidelines, accessibility considerations, and code examples. A well-documented design system empowers teams to work independently and consistently."
-    }
-  },
-  "3": {
-    "heading": "Design Tokens: The Foundation of Design Systems",
-    "subtitle": "Understanding design tokens and how they serve as the single source of truth for your design decisions. Discover how tokens enable consistency, theming, and cross-platform design at scale.",
-    "date": "Nov 18, 2025",
-    "tags": [
-      "Design Token",
-      "Design System"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/03/topics-3-1.jpg",
-      "articles/03/topics-3-2.jpg"
-    ],
-    "content": {
-      "paragraph1": "Design tokens are the atomic elements of a design system. They store design decisions like colors, typography, spacing, and more in a platform-agnostic format. This allows you to maintain consistency across web, mobile, and other platforms.",
-      "paragraph2": "Implementing design tokens requires a structured approach. Organize tokens into layers: global tokens define your design language, while semantic tokens apply meaning to those values. This hierarchy makes your system more maintainable and easier to theme.",
-      "paragraph3": "Tools like Style Dictionary can transform your tokens into multiple formats for different platforms. This automation ensures that design updates propagate consistently across all products, reducing manual work and potential inconsistencies."
-    }
-  },
-  "4": {
-    "heading": "Component-Driven Development",
-    "subtitle": "Learn how component-driven development revolutionizes the way teams build digital products. Discover strategies for creating isolated, reusable components that accelerate development and ensure consistency.",
-    "date": "Nov 19, 2025",
-    "tags": [
-      "Component Library",
-      "Development"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/04/topics-1-1.jpg",
-      "articles/04/topics-1-2.jpg",
-      "articles/04/topics-1-3.jpg"
-    ],
-    "content": {
-      "paragraph1": "Component-driven development (CDD) is a methodology that builds user interfaces from the bottom up, starting with components and ending with pages. This approach encourages developers to build components in isolation, making them more reusable and testable.",
-      "paragraph2": "Tools like Storybook enable teams to develop, document, and test components independently from the main application. This isolation ensures that components work correctly in various states and scenarios before integration.",
-      "paragraph3": "CDD improves collaboration between designers and developers by creating a shared language through components. It also speeds up development by allowing teams to build features by composing existing components rather than starting from scratch."
-    }
-  },
-  "5": {
-    "heading": "Accessibility in Design Systems",
-    "subtitle": "Making your design system accessible by default ensures that all users can interact with your products. Explore best practices for building inclusive components that meet WCAG standards.",
-    "date": "Nov 20, 2025",
-    "tags": [
-      "Accessibility",
-      "Inclusive Design"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/05/topics-2-1.jpg",
-      "articles/05/topics-2-2.jpg",
-      "articles/05/topics-2-3.jpg",
-      "articles/05/topics-2-4.jpg",
-      "articles/05/topics-2-5.jpg",
-      "articles/05/topics-2-6.jpg"
-    ],
-    "content": {
-      "paragraph1": "Accessibility should be baked into your design system from the start, not added as an afterthought. Components should include proper ARIA labels, keyboard navigation support, and color contrast ratios that meet WCAG AA standards at minimum.",
-      "paragraph2": "Testing accessibility early and often prevents costly fixes later. Use automated tools to catch common issues, but also conduct manual testing with screen readers and keyboard-only navigation. Consider hiring users with disabilities to test your products.",
-      "paragraph3": "Document accessibility requirements for each component, including keyboard shortcuts, screen reader announcements, and focus management. This guidance helps designers and developers create accessible experiences consistently across your products."
-    }
-  },
-  "6": {
-    "heading": "Design System Governance",
-    "subtitle": "Establishing clear governance ensures your design system evolves sustainably. Learn how to create processes for contributions, versioning, and decision-making that scale with your team.",
-    "date": "Nov 21, 2025",
-    "tags": [
-      "Governance",
-      "Process"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/06/topics-3-1.jpg",
-      "articles/06/topics-3-2.jpg"
-    ],
-    "content": {
-      "paragraph1": "Good governance is essential for a design system's long-term success. Without clear processes, systems can become fragmented or stagnate. Define roles and responsibilities for maintaining, contributing to, and approving changes to your system.",
-      "paragraph2": "Create a contribution model that balances openness with quality control. Whether you choose a federated model where multiple teams contribute or a centralized model with a dedicated team, document the process clearly and make it easy to follow.",
-      "paragraph3": "Establish versioning strategies that allow teams to adopt updates at their own pace while ensuring security fixes are applied promptly. Communicate breaking changes well in advance and provide migration guides to ease transitions."
-    }
-  },
-  "7": {
-    "heading": "Micro-Interactions and Animation",
-    "subtitle": "Small animations and micro-interactions bring interfaces to life and provide crucial feedback to users. Discover how to design and implement meaningful motion in your design system.",
-    "date": "Nov 22, 2025",
-    "tags": [
-      "Animation",
-      "Interaction Design"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/07/topics-1-1.jpg",
-      "articles/07/topics-1-2.jpg",
-      "articles/07/topics-1-3.jpg"
-    ],
-    "content": {
-      "paragraph1": "Micro-interactions are the small moments that happen when users interact with your product. A button press, a loading state, or a success confirmation—these tiny animations provide feedback and create a sense of direct manipulation that makes interfaces feel responsive and alive.",
-      "paragraph2": "Animation in design systems should be purposeful and consistent. Define timing curves, durations, and easing functions as tokens. Create guidelines for when and how to use motion, ensuring animations enhance rather than distract from the user experience.",
-      "paragraph3": "Consider performance and accessibility when implementing animations. Respect the prefers-reduced-motion setting for users who are sensitive to motion. Keep animations short and snappy—typically under 300ms for interactions and 500ms for transitions."
-    }
-  },
-  "8": {
-    "heading": "Responsive Design Patterns",
-    "subtitle": "Creating flexible, responsive components that work across all devices is fundamental to modern web design. Learn strategies for building adaptive layouts that maintain consistency.",
-    "date": "Nov 23, 2025",
-    "tags": [
-      "Responsive Design",
-      "Mobile First"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/08/topics-2-1.jpg",
-      "articles/08/topics-2-2.jpg",
-      "articles/08/topics-2-3.jpg",
-      "articles/08/topics-2-4.jpg",
-      "articles/08/topics-2-5.jpg",
-      "articles/08/topics-2-6.jpg"
-    ],
-    "content": {
-      "paragraph1": "Responsive design isn't just about making things smaller on mobile devices. It's about creating thoughtful experiences that adapt to different contexts, screen sizes, and input methods. Start with mobile-first design to ensure core functionality works on constrained devices.",
-      "paragraph2": "Use container queries and responsive tokens to create truly flexible components. Instead of relying solely on viewport-based breakpoints, components should adapt based on their own container size, making them more reusable across different layouts.",
-      "paragraph3": "Test your components on real devices, not just browser simulators. Pay attention to touch target sizes, readability at different distances, and performance on lower-end devices. Responsive design should enhance, not compromise, the user experience."
-    }
-  },
-  "9": {
-    "heading": "Color Theory for Digital Interfaces",
-    "subtitle": "Understanding color theory helps create harmonious and accessible color palettes. Explore how to build flexible color systems that work across light and dark themes.",
-    "date": "Nov 24, 2025",
-    "tags": [
-      "Color Theory",
-      "Theming"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/09/topics-3-1.jpg",
-      "articles/09/topics-3-2.jpg"
-    ],
-    "content": {
-      "paragraph1": "Color is one of the most powerful tools in a designer's toolkit. It conveys meaning, creates hierarchy, and evokes emotion. When building a color system, start with a primary brand color and use color theory to generate complementary palettes that maintain harmony.",
-      "paragraph2": "Accessibility must be a primary concern when working with color. Ensure sufficient contrast between text and backgrounds, and never rely on color alone to convey information. Use tools to test color combinations against WCAG standards before implementing them.",
-      "paragraph3": "Modern design systems need to support multiple themes, especially dark mode. Instead of defining absolute colors, create semantic color tokens that describe purpose rather than appearance. This abstraction makes theme switching seamless and maintainable."
-    }
-  },
-  "10": {
-    "heading": "Typography Systems at Scale",
-    "subtitle": "A robust typography system forms the backbone of readable, accessible content. Learn how to create flexible type scales that work across different platforms and screen sizes.",
-    "date": "Nov 25, 2025",
-    "tags": [
-      "Typography",
-      "Content Design"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/10/topics-1-1.jpg",
-      "articles/10/topics-1-2.jpg",
-      "articles/10/topics-1-3.jpg"
-    ],
-    "content": {
-      "paragraph1": "Typography is the art of arranging type to make written language legible, readable, and appealing. In digital products, typography must work across various devices, resolutions, and reading distances. Start by choosing fonts that are optimized for screen display and support your content needs.",
-      "paragraph2": "Create a modular type scale that provides clear hierarchy while maintaining visual harmony. Use a ratio-based approach where each size relates mathematically to the others. This creates rhythm and consistency across your interface while making it easier to choose appropriate sizes.",
-      "paragraph3": "Don't forget the details: line height, letter spacing, and measure all affect readability. Line height should generally be 1.4-1.6 for body text, tighter for headings. Keep line length between 45-75 characters for optimal reading comfort."
-    }
-  },
-  "11": {
-    "heading": "Form Design Best Practices",
-    "subtitle": "Forms are critical touchpoints in user journeys. Discover how to design intuitive, accessible forms that minimize errors and maximize completion rates.",
-    "date": "Nov 26, 2025",
-    "tags": [
-      "Forms",
-      "User Experience"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/11/topics-2-1.jpg",
-      "articles/11/topics-2-2.jpg",
-      "articles/11/topics-2-3.jpg",
-      "articles/11/topics-2-4.jpg",
-      "articles/11/topics-2-5.jpg",
-      "articles/11/topics-2-6.jpg"
-    ],
-    "content": {
-      "paragraph1": "Good form design can significantly impact conversion rates and user satisfaction. Start by asking only for information you truly need. Every additional field increases cognitive load and abandonment risk. Group related fields logically and provide clear labels and instructions.",
-      "paragraph2": "Validation should be helpful, not punishing. Validate fields inline as users complete them, but wait until they've finished typing to show errors. Use clear, actionable error messages that tell users exactly how to fix problems. Success states are equally important for confirming correct input.",
-      "paragraph3": "Make forms accessible by default. Use proper HTML form elements, associate labels with inputs, provide helpful placeholder text, and ensure keyboard navigation works smoothly. Consider adding autocomplete attributes to help users fill forms faster with saved information."
-    }
-  },
-  "12": {
-    "heading": "Design System Metrics and ROI",
-    "subtitle": "Measuring the success and impact of your design system helps justify investment and guide improvements. Learn what metrics matter and how to track them effectively.",
-    "date": "Nov 27, 2025",
-    "tags": [
-      "Metrics",
-      "ROI"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/12/topics-3-1.jpg",
-      "articles/12/topics-3-2.jpg"
-    ],
-    "content": {
-      "paragraph1": "Demonstrating the value of a design system requires tracking both qualitative and quantitative metrics. Common measurements include adoption rate, component usage, design-to-development time, and consistency scores across products. These numbers tell the story of efficiency gains and quality improvements.",
-      "paragraph2": "Developer satisfaction and velocity are important indicators of system health. Survey your users regularly to understand pain points and areas for improvement. Track how quickly teams can build new features using system components versus custom code.",
-      "paragraph3": "Calculate ROI by comparing time saved, reduced design drift, and decreased maintenance costs against the system's operational costs. Don't forget softer benefits like improved brand consistency, better accessibility, and enhanced collaboration between designers and developers."
+      "paragraph1": "During the online briefing for the design system course, I discovered many questions I hadn't thought of before. Many people asked how to convert Figma designs into UI component libraries (Storybook) code and sync them, and whether designers need to know coding to maintain frontend component libraries.",
+      "paragraph2": "In my view, designers don't necessarily need to write code or use tools that generate code directly from Figma, as the output code may not be complete. However, in product teams, designers and engineers can plan Design Tokens together. Design Tokens are like a shared configuration file between design and development, and Figma's new Variables feature is designed to set up and manage these tokens. This way, from design to development, you can painlessly connect parameters to the code-side Variables through Figma Variables export or sync, achieving component style synchronization.",
+      "paragraph3": "I encourage designers to learn some front-end development knowledge—it helps understand product development logic better. Design can be output quickly, but understanding how to actually execute within limited resources and time matters. Knowing some programming thinking makes collaboration between design and development smoother! In this design system course, Design Token is the longest module XD"
     }
   }
 }
