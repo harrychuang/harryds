@@ -391,5 +391,238 @@
       "paragraph2": "Previously, these values couldn't be centrally managed—you could only set various Styles separately. Now with Figma Variables, you can uniformly store and manage these colors, text, numbers, and other values.",
       "paragraph3": "For designers, the two may seem abstract but are actually inseparable in practice; for engineers, Design Tokens are like variables in code."
     }
+  },
+  "20": {
+    "heading": "MCP Tool Share:\nCursor Talk to Figma",
+    "subtitle": "Through the MCP protocol, enabling communication between Cursor and Figma, automatically reading and editing design files through code.",
+    "date": "Mar 26, 2025",
+    "tags": [
+      "Design System",
+      "Figma",
+      "AI"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/19/topics-19.1.jpg",
+      "articles/19/topics-19.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "Recently, MCP (Model Context Protocol) has been very popular. Simply put, MCP is an open protocol that acts like a 'universal adapter' between AI and various tools (such as Figma, Cursor AI), allowing AI to more easily read and manipulate external data.",
+      "paragraph2": "So I tested using Cursor AI commands to have Figma automatically generate a color scheme. The process was: 1. Provide CSS Variables so AI understands the Design Token settings used in the design system. 2. Provide a color system design file for AI to reference the layout and create a new design. The results were quite good—since the task scope was small and the layout relatively simple, having AI complete design system layouts and content is feasible. Especially for parts requiring extensive settings like colors, text, and icons, as long as relevant materials are provided, AI can process or modify them. However, AI-designed drafts still can't be perfectly organized, and details like layer management need improvement.",
+      "paragraph3": "It's also great for handling repetitive design work like IG and FB posts—just feed the relevant data to maintain and update design content. The current MCP protocol has great potential but isn't mature enough yet, with slower operation speeds, somewhat like current robots moving slowly. Once further optimized in the future, such automated design tools will be highly anticipated!"
+    }
+  },
+  "21": {
+    "heading": "Design Principles:\nGuiding Design Decisions",
+    "subtitle": "In design systems, design principles provide 'core guidelines' and 'methods' for decisions, guiding the planning of design elements in product projects to ensure consistency and user experience.",
+    "date": "Apr 3, 2025",
+    "tags": [
+      "Design System",
+      "Design Principles"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/20/topics-20.1.jpg",
+      "articles/20/topics-20.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Just watched the newly released Nintendo Switch 2 video and official website, which reminded me of the design system and design principles mentioned in the course—as fundamental guidelines and methods for guiding design decisions. Colors, fonts, and other visual elements form the foundation of design systems, based on which product project planning and design are conducted.",
+      "paragraph2": "Like Nintendo's design approach for Switch, the design team first establishes product design principles (which can be concrete or abstract), then defines the required design elements from them. For example, their design principles include innovation, uniqueness, intuition, comfort, fun, and family social entertainment, so design elements present vitality, warm and lively tones, modularity and expandability, smooth curves and minimalist lines, while copy is more relaxed and fun.",
+      "paragraph3": "Therefore, design systems must first establish top-level design principles, then formulate specific design elements based on these goals and themes, ensuring the product maintains consistent visual style and excellent user experience."
+    }
+  },
+  "22": {
+    "heading": "The Role of Secondary Colors:\nResolving Color Conflicts",
+    "subtitle": "Secondary/auxiliary colors not only enrich visual layers and color variations but more importantly serve as functional roles to resolve and harmonize when primary and system colors conflict.",
+    "date": "Apr 9, 2025",
+    "tags": [
+      "Design System",
+      "Color"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/21/topics-21.1.jpg",
+      "articles/21/topics-21.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "When brand primary colors conflict with status colors, we need to re-plan color strategies to avoid confusion.",
+      "paragraph2": "For example, when Netflix presents different subscription plans, buttons and selection colors use blue auxiliary colors for payment functions; while on marketing or brand websites, Netflix and Coca-Cola directly use red for CTA buttons because this doesn't directly affect 'user rights.'",
+      "paragraph3": "So while auxiliary colors aren't essential, when primary and system colors conflict (especially since red is often associated with warnings or error messages), using auxiliary or secondary colors to highlight key functions can avoid misunderstanding and optimize user experience."
+    }
+  },
+  "23": {
+    "heading": "Starting with New Features:\nDesign System Adoption Strategy",
+    "subtitle": "By first adopting 'design systems' in new products and learning the new workflow through the process, existing products can be updated faster.",
+    "date": "Apr 16, 2025",
+    "tags": [
+      "Design System",
+      "Product Team"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/22/topics-22.1.jpg"
+    ],
+    "content": {
+      "paragraph1": "When sharing design systems at IxDA previously, someone asked: 'If existing products haven't adopted design systems, how do you drive adoption?' My past company experience faced similar situations.",
+      "paragraph2": "At that time, we started with new feature requirements to adopt the design system. Since new features are like blank canvases, they're easier to apply new processes to. During development, we simultaneously learned and practiced various design system processes. As the product team became familiar with the new workflow, project managers arranged to gradually convert existing product interfaces and incorporate design system components. This approach not only ensured smooth transitions between new and old features but also promoted the team's mastery and application of the entire design system, further accelerating iteration upgrades of existing products and features.",
+      "paragraph3": "Although adopting design systems requires higher time investment initially, from a long-term perspective, it significantly improves product development speed and efficiency while effectively reducing labor and resource costs."
+    }
+  },
+  "24": {
+    "heading": "Design Token:\nThe Meaning of Multi-Layer Inheritance",
+    "subtitle": "Does Design Token need multi-layer inheritance? There's no fixed standard—plan according to project and team scale, balancing system flexibility with subsequent maintenance.",
+    "date": "Apr 23, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/23/topics-23.1.jpg",
+      "articles/23/topics-23.2.jpg",
+      "articles/23/topics-23.3.jpg",
+      "articles/23/topics-23.4.jpg",
+      "articles/23/topics-23.5.jpg",
+      "articles/23/topics-23.6.jpg",
+      "articles/23/topics-23.7.jpg"
+    ],
+    "content": {
+      "paragraph1": "In course assignments, students often ask: Why use a multi-layer Design Token inheritance system? Inheritance example: Given a color code #FF104C, it can be named by these layers: Value: #FF104C (this value is hard to understand), Reference Token (ref-color-red): Intuitively naming the value 'red' improves readability, System Token (sys-color-brand): Defines this 'red's' role in the project, e.g., brand primary color, Component Token (comp-color-button-brand): Assigns this brand color to buttons, inheriting settings.",
+      "paragraph2": "Why layer? Clear naming: Reference Tokens make abstract color codes simple and memorable. Centralized management: System Tokens clarify 'red's' purpose in the project, avoiding hard-coded values in components. Flexible adjustments: If brand colors change, just modify System Tokens and all Component Tokens update automatically. Simplified approach for small projects: Two-layer structure—for smaller scales, skip Reference Tokens and use System Tokens directly (like sys-color-brand) distributed to components. But this doesn't mean Reference tokens aren't important—besides helping name values more intuitively, they also control and limit values used in products.",
+      "paragraph3": "Why is Google so complex? Behind Google's enterprise are numerous designers and developers, so rigorous planning benefits: Unified management ensuring consistent overall style, reduced communication costs with clear layer responsibilities, rolling updates over time reducing maintenance burden. Design Tokens aren't an easy system to understand—they originate from technical variable settings, and different projects use different methods, requiring practice time. When you understand Design Token usage, design and engineering can collaborate better~"
+    }
+  },
+  "25": {
+    "heading": "Design Token:\nThe Cross-Platform Bridge",
+    "subtitle": "Design Token serves as a cross-platform/cross-technology configuration standard, helping design and engineering build bridges across platforms.",
+    "date": "Apr 30, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/24/topics-24.1.jpg",
+      "articles/24/topics-24.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "A student asked: 'Our company already has multiple tech stacks—products are developed simultaneously on Web, iOS, Android, React, Angular, Vue, and other platforms and frameworks. Would this conflict with a design system?'",
+      "paragraph2": "Actually, a design system is essentially a collaboration tool that can become the organization's 'core.' It's not just a component library but also a communication specification. Design Tokens can serve as a cross-platform/cross-technology bridge: colors, fonts, spacing, etc. only need to be maintained once, then exported via tools as CSS custom properties, SCSS variables, Android XML, iOS JSON, and other formats. Whether Web or native App, teams can reference the same set of Tokens, maintaining visual and behavioral consistency.",
+      "paragraph3": "Therefore, promoting design systems won't conflict with existing Tech Stacks and can become a 'common language' and collaboration method for different technical teams."
+    }
+  },
+  "26": {
+    "heading": "Design Token:\nThe Clothing Size Analogy",
+    "subtitle": "Design Token is like clothing size labels—Ref Token corresponds to exact centimeter measurements, while System Token converts numbers into semantic sizes like S/M/XL.",
+    "date": "May 7, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/25/topics-25.1.jpg",
+      "articles/25/topics-25.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Recently, I've been thinking about making Design Token explanations easier to understand. We actually use 'Tokens' every day. The S/M/XL you see when shopping at Uniqlo or Zara are System Tokens—semantic sizes. The corresponding values like 23 cm, 28 cm are Reference Tokens. Different regions or brands (Asian S ≠ European S) only need to change the Reference Token's centimeter values; System Token labels stay the same.",
+      "paragraph2": "In design system courses, Design Token has always been a relatively abstract and difficult knowledge chapter. So students, including myself when first learning, were confused and only partially understood—this is normal! I remember my experience understanding Design Tokens: first try to implement, then when you find the logic is wrong, fix what was wrong to be more ideal. Frequent modifications are a normal process 🤓",
+      "paragraph3": "So don't be too afraid of making mistakes, because making mistakes, trial and error, and correcting errors are all normal processes for understanding knowledge. The best learning method: hands-on practice → discover unreasonable aspects → adjust and iterate."
+    }
+  },
+  "27": {
+    "heading": "Design System Scale:\nContextual Planning",
+    "subtitle": "Design System scale adjusts based on product complexity, organizational maturity, and team size. The constant members are designers, engineers, and project managers.",
+    "date": "May 14, 2025",
+    "tags": [
+      "Design System",
+      "Product Team"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/26/topics-26.1.jpg",
+      "articles/26/topics-26.2.jpg",
+      "articles/26/topics-26.3.jpg",
+      "articles/26/topics-26.4.jpg"
+    ],
+    "content": {
+      "paragraph1": "Design system scale flexibly changes with product complexity, team maturity, and project size: functionality can range from a simple set of color and component specifications to encompassing Design Tokens, design and development documentation, etc. Regardless of scale, designers, engineers, project managers, and QA remain the roles driving and implementing, respectively responsible for visual language, technical implementation, priority coordination, and quality assurance.",
+      "paragraph2": "In small to medium teams, design systems are often maintained 'part-time' by product team members—designers and front-end engineers collaborate to establish component libraries and style guidelines, project managers integrate requirements and scheduling, QA verifies consistency at the end of development cycles. This model focuses on a single product, emphasizing speed and practicality: only specifying the most commonly used components and processes to avoid losing efficiency advantages due to excessive maintenance costs.",
+      "paragraph3": "Large enterprises often make design systems an independent dedicated team, playing a 'central factory' role. They may have multiple product lines with connection requirements, establish cross-platform standards, and need to maintain multiple versions and assist various teams with adoption. So don't blindly copy large-scale architectures like Google Material Design; the real challenge lies in adjusting and expanding based on organizational culture, technology, and usage scenarios, letting design systems unify brand consistency while ensuring product flexibility and creative space."
+    }
+  },
+  "28": {
+    "heading": "AI-Accelerated Design:\nFoundation First",
+    "subtitle": "Before using AI to accelerate design systems, understand the foundational context: Design Principles → Elements → Components → Modules → Product, then amplify efficiency through AI.",
+    "date": "May 21, 2025",
+    "tags": [
+      "Design System",
+      "AI",
+      "Design Principles"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/27/topics-27.1.jpg",
+      "articles/27/topics-27.2.jpg",
+      "articles/27/topics-27.3.jpg",
+      "articles/27/topics-27.4.jpg",
+      "articles/27/topics-27.5.jpg",
+      "articles/27/topics-27.6.jpg"
+    ],
+    "content": {
+      "paragraph1": "Before introducing AI, build a solid foundation for design systems—understanding atomic design methods and processes in order from 'Design Principles → Design Elements → Components → Modules → Product Interfaces' allows us to more precisely present each step's requirements to AI, avoiding process confusion.",
+      "paragraph2": "I often use AI to improve design speed myself; similarly, if you have basic concepts in programming development, you can more effectively complete tasks through AI. Whether design or programming, as long as the foundation is solid, it's easier to correct AI output and clearly grasp objectives.",
+      "paragraph3": "Therefore, foundational knowledge allows you to make methods and results more focused and clear when interacting with AI, truly amplifying the speed and benefits AI brings ✨"
+    }
+  },
+  "29": {
+    "heading": "Vibe Coding:\nAI as Engineer",
+    "subtitle": "In the future, designers might serve as product managers while AI becomes a real engineer, helping develop products and features.",
+    "date": "May 23, 2025",
+    "tags": [
+      "Design System",
+      "AI",
+      "Color"
+    ],
+    "category": "article",
+    "url": "https://noeinoi.com/storybook/?path=/story/tools-color-tool--default",
+    "images": [
+      "articles/28/topics-28.1.jpg"
+    ],
+    "content": {
+      "paragraph1": "Recently, I developed a color tool for the design system course—users can pick a primary color, then automatically generate related auxiliary colors and status colors. This feature's main purpose was to test current AI Coding capabilities. After seeing a tech expert recommend Cline.bot on Threads, I decided to try using it to develop this tool. Previously, I had been using Cursor as my AI development tool, but switching to Cline.bot this time was super amazing!",
+      "paragraph2": "The entire development process was quite smooth: I explained the feature requirements and provided a design mockup, then Cline.bot wrote code based on the design. In this process, it not only understood requirements but also automatically debugged code, progressively opened windows, checked various interface functions, and conducted QA testing. What's more remarkable is that it would self-confirm 'Perfect, this feature is correct!' as if there was a real engineer behind it. All of this made me deeply feel that AI Coding is continuously evolving.",
+      "paragraph3": "In the future, designers might serve as product managers while AI becomes a real engineer, helping develop products and features. Therefore, if designers can master some basic programming logic, it will greatly help and advance future product design~"
+    }
+  },
+  "30": {
+    "heading": "Color Hierarchy:\nThe Meaning of Numbers",
+    "subtitle": "Color Token's 10-90 represents brightness from light to dark within the same hue. First establish the core color at level 50 as the midpoint, then derive lighter and darker shades toward both ends.",
+    "date": "May 29, 2025",
+    "tags": [
+      "Design System",
+      "Color",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/29/topics-29.1.jpg",
+      "articles/29/topics-29.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Number hierarchies in color systems (like 5-95 or 50-950) mark brightness gradients from lightest to darkest within the same hue. Designers typically first lock in the 'core color' (usually at level 50 or 500) using HSL Lightness, or OKLCH L values that better match human eye perception, then derive gradually changing lighter and darker shades toward both ends, ensuring both light and dark modes maintain consistency and contrast compliance.",
+      "paragraph2": "Using 10 or 100 as units rather than 1, 2, 3... is to reserve expansion space: if a new shade needs to be inserted between 10 and 20 in the future, just name it 15. The specific choice of 10 or 100 intervals depends on team naming conventions and programming implementation convenience.",
+      "paragraph3": "Finally, color systems aren't about 'more colors being better.' Each shade should serve a clear UI function—like brand primary color, interaction states, background levels, or text colors—avoiding increased maintenance and accessibility testing complexity from pursuing richness."
+    }
   }
 }
