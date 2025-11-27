@@ -27,7 +27,9 @@ const ArticleDetail: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartX, setDragStartX] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
+  const [carouselWrapperWidth, setCarouselWrapperWidth] = useState(1100);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const carouselWrapperRef = useRef<HTMLDivElement>(null);
 
   // 語言切換相關
   const languageMap = {
@@ -228,14 +230,43 @@ const ArticleDetail: React.FC = () => {
     setCurrentImageIndex(index);
   }, []);
 
-  // 計算 transform 讓 active 圖片在最左邊
+  // 監聽 carousel wrapper 寬度變化
+  useEffect(() => {
+    const wrapper = carouselWrapperRef.current;
+    if (!wrapper) return;
+
+    const updateWidth = () => {
+      setCarouselWrapperWidth(wrapper.clientWidth);
+    };
+
+    updateWidth();
+    
+    const resizeObserver = new ResizeObserver(updateWidth);
+    resizeObserver.observe(wrapper);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  // 計算 transform，最後一張圖片對齊右側
   const carouselTransform = useMemo(() => {
     const imageWidth = 600; // max-width
     const gap = 50;
+    const totalImages = articleImages.length;
+    
+    // 計算總寬度和最大偏移量
+    const totalWidth = totalImages * imageWidth + (totalImages - 1) * gap;
+    const maxOffset = Math.max(0, totalWidth - carouselWrapperWidth);
+    
+    // 計算當前偏移量
     const baseOffset = currentImageIndex * (imageWidth + gap);
-    const offset = baseOffset - dragOffset; // 減去拖拽偏移，向右拖（dragOffset正）圖片向右移
+    // 限制偏移量不超過最大值（讓最後一張圖片對齊右側）
+    const clampedOffset = Math.min(baseOffset, maxOffset);
+    const offset = clampedOffset - dragOffset;
+    
     return `translateX(-${offset}px)`;
-  }, [currentImageIndex, dragOffset]);
+  }, [currentImageIndex, dragOffset, articleImages.length, carouselWrapperWidth]);
 
   // 判斷媒體類型
   const isVideoFile = useCallback((filename: string) => {
@@ -477,6 +508,7 @@ const ArticleDetail: React.FC = () => {
           {articleImages.length > 0 && (
             <div className="article-detail__carousel">
               <div 
+                ref={carouselWrapperRef}
                 className="article-detail__carousel-wrapper"
                 style={{ 
                   cursor: isDragging ? 'grabbing' : 'grab'
