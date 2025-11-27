@@ -522,39 +522,41 @@ const ArticleDetail: React.FC = () => {
                 </div>
               </div>
 
-              <div className="article-detail__carousel-actions">
-                <div className="article-detail__carousel-pagination">
-                  {articleImages.map((_: any, index: number) => (
-                    <div
-                      key={index}
-                      className={`article-detail__carousel-page ${
-                        index === currentImageIndex ? 'active' : ''
-                      }`}
-                      onClick={() => handlePageClick(index)}
-                    />
-                  ))}
-                </div>
+              {articleImages.length > 1 && (
+                <div className="article-detail__carousel-actions">
+                  <div className="article-detail__carousel-pagination">
+                    {articleImages.map((_: any, index: number) => (
+                      <div
+                        key={index}
+                        className={`article-detail__carousel-page ${
+                          index === currentImageIndex ? 'active' : ''
+                        }`}
+                        onClick={() => handlePageClick(index)}
+                      />
+                    ))}
+                  </div>
 
-                <div className="article-detail__carousel-controls">
-                  <button
-                    className="article-detail__carousel-control"
-                    onClick={handlePrevImage}
-                    onMouseEnter={handleMenuItemHover}
-                    aria-label="Previous image"
-                  >
-                    &lt;
-                  </button>
+                  <div className="article-detail__carousel-controls">
+                    <button
+                      className="article-detail__carousel-control"
+                      onClick={handlePrevImage}
+                      onMouseEnter={handleMenuItemHover}
+                      aria-label="Previous image"
+                    >
+                      &lt;
+                    </button>
 
-                  <button
-                    className="article-detail__carousel-control"
-                    onClick={handleNextImage}
-                    onMouseEnter={handleMenuItemHover}
-                    aria-label="Next image"
-                  >
-                    &gt;
-                  </button>
+                    <button
+                      className="article-detail__carousel-control"
+                      onClick={handleNextImage}
+                      onMouseEnter={handleMenuItemHover}
+                      aria-label="Next image"
+                    >
+                      &gt;
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
 

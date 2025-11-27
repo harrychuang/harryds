@@ -262,7 +262,7 @@ const Articles: React.FC = () => {
                     id: '',
                     heading: article.heading,
                     date: article.date,
-                    tags: article.tags.length > 0 ? [article.tags[0]] : [],
+                    tags: article.tags.length > 1 ? [article.tags[1]] : (article.tags.length > 0 ? [article.tags[0]] : []),
                     category: article.category
                   }}
                   use2D={true}
