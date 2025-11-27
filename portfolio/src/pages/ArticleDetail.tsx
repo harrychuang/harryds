@@ -253,9 +253,9 @@ const ArticleDetail: React.FC = () => {
 
   // 解析段落中的連結格式：文字（URL）或 文字(URL)
   const renderParagraphWithLinks = useCallback((text: string) => {
-    // 匹配 文字（URL）或 文字(URL) 的格式
-    // 支援全形括號（）和半形括號()
-    const linkRegex = /([^\s（(]+)[（(](https?:\/\/[^\s）)]+)[）)]/g;
+    // 匹配 文字（URL）或 文字 (URL) 的格式
+    // 支援全形括號（）和半形括號()，以及括號前可選的空格
+    const linkRegex = /([^\s（(][^（(]*?)\s*[（(](https?:\/\/[^\s）)]+)[）)]/g;
     
     const parts: (string | React.ReactNode)[] = [];
     let lastIndex = 0;
