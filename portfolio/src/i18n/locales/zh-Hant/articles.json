@@ -120,5 +120,175 @@
       "paragraph2": "以我的想法來說，設計師不一定要會寫程式碼，或使用從 Figma 直接產出程式碼的工具或插件，因為輸出的程式碼也不一定完整。但產品團隊中，設計師和工程師可以一起規劃 Design Token。因為 Design Token 就像設計端和技術端共用的設定檔，而 Figma 新推出的 Variables 功能，正好就是用來設定與管理這些 Token。這樣未來從設計到開發，就能透過 Figma Variables 的輸出或同步，把參數無痛地對接到程式端的 Variables，達到元件樣式的同步。",
       "paragraph3": "蠻鼓勵設計師能適度學一點前端開發的知識，可以更容易理解產品開發的邏輯。設計可以很快進行輸出，但實際怎麼在有限資源和時間內執行出來，所以懂一些程式思維，能讓設計和開發之間的合作更順暢！而這次的設計系統課程規劃中，Design Token 是其中最長篇幅的課程 XD"
     }
+  },
+  "7": {
+    "heading": "Design Token 命名：\n三層結構的藝術",
+    "subtitle": "Design Token 命名較抽象，設計與工程團隊可以協作～制定清晰一致的命名規範。",
+    "date": "2024 年 12 月 25 日",
+    "tags": [
+      "設計系統",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/06/topics-6.1.jpg",
+      "articles/06/topics-6.2.jpg",
+      "articles/06/topics-6.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "延續對 Design Token 的討論，Design Token 的規劃需要設計師與工程師共同協作，確保命名規範與結構的一致性。以 Google Material Design 為例，Design Token 分為三個層次：第一是設計系統的前綴，例如「ABC Design System」可用 abcd 作為前綴，其中 d 表示 Design System；第二是 Token 的類型，包括 Reference（基礎值，如顏色、字體大小）、System（語意化屬性，如 primary 或 secondary）與 Component（元件層級屬性，如按鈕背景色）；第三是角色與使用目的，說明 Token 用於哪些屬性如顏色、圓角或間距。",
+      "paragraph2": "Reference 和 Component Token 命名會很直覺，而 System Token 因抽象性需更多共識。不論規劃方式如何，各層次結構的順序必須一致，讓命名規範更直覺並提升搜尋效率。",
+      "paragraph3": "因為規劃課程的關係，也特別開發了一個 Design Token 命名的小工具，可以透過選擇題的方式，更好理解命名與邏輯的順序。"
+    }
+  },
+  "8": {
+    "heading": "Token 繼承：\n主廚排餐的智慧",
+    "subtitle": "Design Token 繼承系統可以提升靈活性與擴展性，同時降低維護成本～",
+    "date": "2025 年 1 月 2 日",
+    "tags": [
+      "設計系統",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/07/topics-7.1.jpg",
+      "articles/07/topics-7.2.jpg",
+      "articles/07/topics-7.2-1.jpg"
+    ],
+    "content": {
+      "paragraph1": "有同學提問到關於不同階層的 Design token 的繼承關係，不繼承會有什麼差別～先說 Ref token，這一層的命名非常直覺，例如紅就是紅，藍就是藍。但如果直接在元件或文字中使用 Ref token，未來需要調整顏色或樣式時，就必須逐一尋找所有使用該 token 的地方進行修改。這正是需要第二層語意化 token 的原因，提供彈性與容錯空間。",
+      "paragraph2": "舉個例子，一間餐廳的菜單，如果料理名稱是「牛排」，那食材就只能是牛肉。如果某天牛肉缺貨需要改成豬肉，餐廳就必須把菜名改為「豬排」。但如果一開始菜名就為「主廚排餐」，無論未來換成豬肉、雞肉或其他食材，都可以輕鬆替換，而不需要每次更改菜單名稱。這也是 Token 語意化命名並繼承的目的～提高靈活性，減少修改成本。",
+      "paragraph3": "以實務面來說，Design token 通常會被建立在不同的檔案中，透過語意化的繼承系統，工程師可以在 Sys Token 層進行統一調整，而不必調整每一個元件檔案中的樣式碼，提高維護效率～但也並非所有專案都需要 3 層繼承結構。對於中小型專案，Ref 到 Sys 兩層已足夠。關鍵在於與工程團隊溝通，確保方法同步 ✨"
+    }
+  },
+  "9": {
+    "heading": "Token 語意化：\n統一命名系統",
+    "subtitle": "Design Token 語意系統化減少引用時的混亂～",
+    "date": "2025 年 1 月 8 日",
+    "tags": [
+      "設計系統",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/08/topics-8.1.jpg",
+      "articles/08/topics-8.2.jpg",
+      "articles/08/topics-8.3.jpg",
+      "articles/08/topics-8.4.jpg",
+      "articles/08/topics-8.5.jpg",
+      "articles/08/topics-8.6.jpg",
+      "articles/08/topics-8.7.jpg"
+    ],
+    "content": {
+      "paragraph1": "近期在課程中閱讀同學的 Design Token 設計作業時，發現一個常見的挑戰是 Design Token 的狀態命名，特別是在系統語意化部分。由於每個人對語意的理解和描述可能有所不同，導致在引用時產生混亂。為了解決這個問題，花了一些時間整理出常用的 Token 狀態形容詞，例如顏色的明暗、深淺、實色到透明，大小、粗細等。",
+      "paragraph2": "蠻推薦產品團隊可以規劃出類似的圖例，並將其納入產品專案的共用文件中。這樣，團隊成員在設計 Design Token 時，能有一個統一的命名系統作為依據，從而減少引用時的混亂。",
+      "paragraph3": "另外在工程端，變數命名也一直是個痛點。透過將語意系統化，可以大大減少命名上的不一致，提升整體協作效率 :)"
+    }
+  },
+  "10": {
+    "heading": "跨團隊的設計系統：\nStorybook 的價值",
+    "subtitle": "產品團隊需要的～是一個能「跨團隊」使用的設計系統。",
+    "date": "2025 年 1 月 15 日",
+    "tags": [
+      "設計系統",
+      "Storybook"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/09/topics-9.1.jpg",
+      "articles/09/topics-9.2.mp4",
+      "articles/09/topics-9.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "我自己過去有一個經驗，設計團隊即使有完整規劃好一套的設計系統，但最後都會被擱置在一旁。主要原因在於，工程師以開發產品和功能為優先，除非時間非常寬裕，否則很少會仔細閱讀設計規範，另外懂視覺樣式的工程師也相對稀少～因此，產品團隊需要一個能同時支援設計與工程的系統。那什麼是「能跨團隊的設計系統」？在 2016 年，來自斯里蘭卡的一個新創團隊就開發了可用於建立設計系統與元件庫的工具——Storybook。",
+      "paragraph2": "很幸運的是在 2017 年～當時和工程團隊溝通如何解決設計與技術之間的協作難題以及溝通問題時，當時的工程師提出了這個可以解決設計與工程溝通難題的設計系統工具，也就是 Storybook，自此自己也開始研究並學習如何以 Storybook 建構產品的設計系統。Storybook 的最大優勢，在於同時為設計師與工程師提供文件與元件管理：工程師能直接複製元件程式碼到專案中；設計師則可在上面查看規範與文件，並且最後成為產品團隊中的產品的維基百科～",
+      "paragraph3": "一個可以跨團隊合作、活用於產品的設計系統，才不會淪為靜態的設計指南，被放置在產品專案的角落～"
+    }
+  },
+  "11": {
+    "heading": "色彩規劃：\n少即是多",
+    "subtitle": "設計系統中的色彩規劃先明確掌握每個顏色的目的再進行配置～避免擴充多餘的色彩階層。",
+    "date": "2025 年 1 月 22 日",
+    "tags": [
+      "設計系統",
+      "色彩"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/10/topics-10.1.jpg",
+      "articles/10/topics-10.2.jpg",
+      "articles/10/topics-10.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "在規劃設計系統的色彩時，必須先釐清每個色彩的實際用途，再進行合適的配置，避免只是為了色彩多樣性而額外增加過多、缺乏明確目的的色階。",
+      "paragraph2": "與 Google Material Design 相比，一般專案通常不需要大量可客製化的樣式，也不會打造過度龐大的設計系統，而是根據產品需求，規劃出符合專案規模的系統與色彩元素。設計系統的核心目標在於提升產品團隊的執行效率，因此在有限的設計元素範疇內，保持簡潔易懂更為重要；一個簡化的設計系統更容易真正落實於團隊之中。",
+      "paragraph3": "當然，我們可以參考不同規模的設計系統及其邏輯，但同時透過適度的精簡，避免色彩與其他元素無限制地擴充，導致產品專案日益複雜、難以維護～這樣才能在協助專案發展的同時，維持設計系統的有效性與易用性 🤓 少即是多！"
+    }
+  },
+  "12": {
+    "heading": "主題反轉色：\n中性語意命名法",
+    "subtitle": "使用中性語意/數字層級，命名設計系統中明暗主題反轉色的 Token。",
+    "date": "2025 年 2 月 4 日",
+    "tags": [
+      "設計系統",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/11/topics-11.1.jpg",
+      "articles/11/topics-11.2.jpg",
+      "articles/11/topics-11.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "在設計色彩 Token 時，常見的問題在於如何為不同亮暗主題下的容器與文字顏色進行合理命名。舉例來說，假設在亮色主題中，黑色的 Token 命名為 color-dark，但進入暗色主題後，這個黑色會反轉為白色，會讓原本的命名顯得不直覺。",
+      "paragraph2": "因此，會建議採用形容詞語意化或數字層級的方式來命名。比如，在亮色主題中，黑色屬於較「重」的色調，而在暗色主題中反轉後的白色仍保留這種「重感」。這時，我們可以使用 Heavy、Level-100 等命名方法，讓反轉色在不同主題中更清晰地理解這個顏色的定位。",
+      "paragraph3": ""
+    }
+  },
+  "13": {
+    "heading": "工具分享：\nColor Contrast Checker",
+    "subtitle": "檢測色彩對比度是否符合 WCAG 標準，確保網頁設計的可讀性與視覺清晰度。",
+    "date": "2025 年 2 月 11 日",
+    "tags": [
+      "設計系統",
+      "設計工具"
+    ],
+    "category": "article",
+    "url": "https://coolors.co/contrast-checker",
+    "images": [
+      "articles/12/topics-12.1.jpg",
+      "articles/12/topics-12.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "今天想跟大大們分享一個蠻簡單易用的工具 — Color Contrast Checker（https://coolors.co/contrast-checker）。這款工具讓你可以輕鬆測試背景色與文字色的對比是否達標，確保網頁閱讀起來舒適又清晰。只要輸入你選的顏色，就能立刻看到它們的搭配效果。一般來說，工具裡提到的大字是指 24px 以上，小字則是 18px 以下，而普通文字大約介於 18px 至 24px 之間。",
+      "paragraph2": "理想的配色評分應該至少達到 7 分以上，可以從工具介面直觀地辨識出符合要求的顏色搭配。這個工具是依據 WCAG（Web Content Accessibility Guidelines，網頁內容無障礙指南）的標準來評估色彩對比度，特別針對不同字體大小設定了最低對比率要求，讓我們能夠更科學地進行色彩搭配設計，從而照顧到視覺需求較特殊的用戶。",
+      "paragraph3": "另外，設計暗黑主題時，這款工具也能大大幫助你精準挑選色彩，確保每一組配色都達到理想的可讀性。"
+    }
+  },
+  "14": {
+    "heading": "Icon 設計：\n統一尺寸與對齊",
+    "subtitle": "設計或引用 Icon 時請統一尺寸並精準對齊格線～以免輸出使用時出現尺寸不均或對齊偏差。",
+    "date": "2025 年 2 月 19 日",
+    "tags": [
+      "設計系統",
+      "Icon"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/13/topics-13.1.jpg",
+      "articles/13/topics-13.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "在開發設計系統時，有時候會遇到 Icon 尺寸與粗細不一的問題，因為設計師有時自行設計，有時引用第三方 Icon，容易導致尺寸、粗細不一致，進而影響 Icon 與文字的對齊，甚至使 Icon Font 輸出時出現模糊情況。",
+      "paragraph2": "因此，建議在設計或引用 Icon 時，採用固定的畫板（如 24x24px），確保每個像素都對齊格線，尤其注意粗細一致。這樣工程師在實作產品時，才能更好地整合文字與 Icon，並保持產品品質的一致性 :)",
+      "paragraph3": ""
+    }
   }
 }

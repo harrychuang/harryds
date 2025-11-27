@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
@@ -15,7 +15,16 @@ const Articles: React.FC = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation(['common', 'articles']);
   const { theme, toggleTheme } = useTheme();
-  const { items } = useI18nFeed('articles');
+  const { items: rawItems } = useI18nFeed('articles');
+
+  // 按日期從新到舊排序
+  const items = useMemo(() => {
+    return [...rawItems].sort((a, b) => {
+      const dateA = new Date(a.date || '');
+      const dateB = new Date(b.date || '');
+      return dateB.getTime() - dateA.getTime(); // 新的在前
+    });
+  }, [rawItems]);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
   const langDropdownRef = useRef<HTMLDivElement>(null);

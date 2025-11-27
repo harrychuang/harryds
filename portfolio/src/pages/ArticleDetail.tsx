@@ -237,6 +237,66 @@ const ArticleDetail: React.FC = () => {
     return `translateX(-${offset}px)`;
   }, [currentImageIndex, dragOffset]);
 
+  // 判斷媒體類型
+  const isVideoFile = useCallback((filename: string) => {
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov'];
+    return videoExtensions.some(ext => filename.toLowerCase().endsWith(ext));
+  }, []);
+
+  // 連結文字對應不同語言
+  const linkTextMap: Record<string, string> = {
+    'zh-Hant': '🔗 連結',
+    'zh': '🔗 連結',
+    'en': '🔗 Link',
+    'ja': '🔗 リンク'
+  };
+
+  // 解析段落中的連結格式：文字（URL）或 文字(URL)
+  const renderParagraphWithLinks = useCallback((text: string) => {
+    // 匹配 文字（URL）或 文字(URL) 的格式
+    // 支援全形括號（）和半形括號()
+    const linkRegex = /([^\s（(]+)[（(](https?:\/\/[^\s）)]+)[）)]/g;
+    
+    const parts: (string | React.ReactNode)[] = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = linkRegex.exec(text)) !== null) {
+      // 添加連結前的文字
+      if (match.index > lastIndex) {
+        parts.push(text.slice(lastIndex, match.index));
+      }
+
+      const linkLabel = match[1];
+      const url = match[2];
+      const linkText = linkTextMap[i18n.language] || linkTextMap['en'];
+
+      // 添加連結元素
+      parts.push(
+        <React.Fragment key={match.index}>
+          {linkLabel}{' '}
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="article-detail__link"
+          >
+            [ {linkText} ]
+          </a>
+        </React.Fragment>
+      );
+
+      lastIndex = match.index + match[0].length;
+    }
+
+    // 添加剩餘的文字
+    if (lastIndex < text.length) {
+      parts.push(text.slice(lastIndex));
+    }
+
+    return parts.length > 0 ? parts : text;
+  }, [i18n.language]);
+
   // Drag handlers
   const handleDragStart = useCallback((clientX: number) => {
     setIsDragging(true);
@@ -437,14 +497,27 @@ const ArticleDetail: React.FC = () => {
                     transition: isDragging ? 'none' : 'transform 0.5s ease-in-out'
                   }}
                 >
-                  {articleImages.map((image: string, index: number) => (
-                    <img
-                      key={index}
-                      src={`/assets/imgs/${image}`}
-                      alt={`${article.heading} - Image ${index + 1}`}
-                      className="article-detail__carousel-image"
-                      draggable={false}
-                    />
+                  {articleImages.map((media: string, index: number) => (
+                    isVideoFile(media) ? (
+                      <video
+                        key={index}
+                        src={`/assets/imgs/${media}`}
+                        className="article-detail__carousel-media article-detail__carousel-video"
+                        draggable={false}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                      />
+                    ) : (
+                      <img
+                        key={index}
+                        src={`/assets/imgs/${media}`}
+                        alt={`${article.heading} - Image ${index + 1}`}
+                        className="article-detail__carousel-media article-detail__carousel-image"
+                        draggable={false}
+                      />
+                    )
                   ))}
                 </div>
               </div>
@@ -490,7 +563,7 @@ const ArticleDetail: React.FC = () => {
             <div className="article-detail__content-section">
               {articleContent.map((paragraph, index) => (
                 <p key={index} className="article-detail__paragraph">
-                  {paragraph}
+                  {renderParagraphWithLinks(paragraph)}
                 </p>
               ))}
             </div>

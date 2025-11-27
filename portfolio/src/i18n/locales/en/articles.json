@@ -120,5 +120,175 @@
       "paragraph2": "In my view, designers don't necessarily need to write code or use tools that generate code directly from Figma, as the output code may not be complete. However, in product teams, designers and engineers can plan Design Tokens together. Design Tokens are like a shared configuration file between design and development, and Figma's new Variables feature is designed to set up and manage these tokens. This way, from design to development, you can painlessly connect parameters to the code-side Variables through Figma Variables export or sync, achieving component style synchronization.",
       "paragraph3": "I encourage designers to learn some front-end development knowledge—it helps understand product development logic better. Design can be output quickly, but understanding how to actually execute within limited resources and time matters. Knowing some programming thinking makes collaboration between design and development smoother! In this design system course, Design Token is the longest module XD"
     }
+  },
+  "7": {
+    "heading": "Design Token Naming:\nThe Art of Three-Layer Structure",
+    "subtitle": "Design Token naming is abstract—design and engineering teams can collaborate to establish clear, consistent naming conventions.",
+    "date": "Dec 25, 2024",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/06/topics-6.1.jpg",
+      "articles/06/topics-6.2.jpg",
+      "articles/06/topics-6.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "Continuing the Design Token discussion, Design Token planning requires collaboration between designers and engineers to ensure naming conventions and structural consistency. Using Google Material Design as an example, Design Tokens are divided into three layers: First is the design system prefix—for example, 'ABC Design System' can use 'abcd' as a prefix, where 'd' stands for Design System; Second is the Token type, including Reference (base values like colors, font sizes), System (semantic properties like primary or secondary), and Component (component-level properties like button background color); Third is the role and purpose, explaining which properties the Token is used for, such as color, border-radius, or spacing.",
+      "paragraph2": "Reference and Component Token naming is intuitive, while System Tokens require more consensus due to their abstract nature. Regardless of the planning approach, the order of each layer structure must be consistent to make naming conventions more intuitive and improve search efficiency.",
+      "paragraph3": "Because of course planning, I also developed a small Design Token naming tool that uses multiple-choice questions to better understand the naming and logic sequence."
+    }
+  },
+  "8": {
+    "heading": "Token Inheritance:\nThe Chef's Special Wisdom",
+    "subtitle": "Design Token inheritance systems can improve flexibility and scalability while reducing maintenance costs.",
+    "date": "Jan 2, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/07/topics-7.1.jpg",
+      "articles/07/topics-7.2.jpg",
+      "articles/07/topics-7.2-1.jpg"
+    ],
+    "content": {
+      "paragraph1": "A student asked about the inheritance relationship between different levels of Design tokens and what the difference would be without inheritance. Let's start with Ref tokens—naming at this layer is very intuitive, like red is red, blue is blue. But if you use Ref tokens directly in components or text, when you need to adjust colors or styles in the future, you'll have to find and modify every place using that token. This is exactly why we need the second semantic token layer—to provide flexibility and error tolerance.",
+      "paragraph2": "Here's an example: In a restaurant menu, if the dish name is 'Steak,' the ingredient can only be beef. If beef runs out one day and needs to be changed to pork, the restaurant must change the dish name to 'Pork Chop.' But if the dish name was 'Chef's Special' from the start, whether it's changed to pork, chicken, or other ingredients in the future, it can be easily swapped without changing the menu name each time. This is the purpose of semantic Token naming with inheritance—improving flexibility and reducing modification costs.",
+      "paragraph3": "In practice, Design tokens are usually created in different files. Through a semantic inheritance system, engineers can make unified adjustments at the Sys Token layer without modifying style code in every component file, improving maintenance efficiency. However, not all projects need a 3-layer inheritance structure. For small to medium projects, Ref to Sys two layers are sufficient. The key is communicating with the engineering team to ensure methods are synchronized ✨"
+    }
+  },
+  "9": {
+    "heading": "Token Semantics:\nUnified Naming System",
+    "subtitle": "Systematizing Design Token semantics reduces confusion when referencing.",
+    "date": "Jan 8, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/08/topics-8.1.jpg",
+      "articles/08/topics-8.2.jpg",
+      "articles/08/topics-8.3.jpg",
+      "articles/08/topics-8.4.jpg",
+      "articles/08/topics-8.5.jpg",
+      "articles/08/topics-8.6.jpg",
+      "articles/08/topics-8.7.jpg"
+    ],
+    "content": {
+      "paragraph1": "Recently, while reviewing students' Design Token design assignments in the course, I found a common challenge is Design Token state naming, especially in the system semantic part. Since everyone may understand and describe semantics differently, it causes confusion when referencing. To solve this problem, I spent some time organizing commonly used Token state adjectives, such as color brightness/darkness, depth/shallowness, solid to transparent, size, weight, etc.",
+      "paragraph2": "I highly recommend product teams plan similar diagrams and include them in shared project documentation. This way, team members have a unified naming system to reference when designing Design Tokens, reducing confusion when referencing.",
+      "paragraph3": "Additionally, on the engineering side, variable naming has always been a pain point. By systematizing semantics, naming inconsistencies can be greatly reduced, improving overall collaboration efficiency :)"
+    }
+  },
+  "10": {
+    "heading": "Cross-Team Design Systems:\nThe Value of Storybook",
+    "subtitle": "What product teams need is a design system that can be used 'across teams.'",
+    "date": "Jan 15, 2025",
+    "tags": [
+      "Design System",
+      "Storybook"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/09/topics-9.1.jpg",
+      "articles/09/topics-9.2.mp4",
+      "articles/09/topics-9.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "I've had an experience where even when the design team had a complete design system planned, it ended up being shelved. The main reason is that engineers prioritize product and feature development—unless time is very generous, they rarely read design specifications carefully. Also, engineers who understand visual styles are relatively rare. Therefore, product teams need a system that supports both design and engineering. What is a 'cross-team design system'? In 2016, a startup team from Sri Lanka developed a tool for building design systems and component libraries—Storybook.",
+      "paragraph2": "Fortunately, in 2017, when discussing how to solve collaboration and communication issues between design and technology with the engineering team, the engineers proposed this design system tool that could solve design-engineering communication challenges—Storybook. Since then, I began researching and learning how to build product design systems with Storybook. Storybook's greatest advantage is providing documentation and component management for both designers and engineers: engineers can directly copy component code into projects; designers can view specifications and documentation, ultimately becoming the product team's product Wikipedia.",
+      "paragraph3": "A design system that enables cross-team collaboration and is actively used in products won't become a static design guide left in the corner of the project."
+    }
+  },
+  "11": {
+    "heading": "Color Planning:\nLess Is More",
+    "subtitle": "When planning colors in design systems, first clarify the purpose of each color before configuration—avoid adding unnecessary color levels.",
+    "date": "Jan 22, 2025",
+    "tags": [
+      "Design System",
+      "Color"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/10/topics-10.1.jpg",
+      "articles/10/topics-10.2.jpg",
+      "articles/10/topics-10.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "When planning colors for design systems, you must first clarify the actual purpose of each color before making appropriate configurations—avoid adding too many color scales without clear purposes just for color diversity.",
+      "paragraph2": "Compared to Google Material Design, typical projects usually don't need a large number of customizable styles or an overly massive design system. Instead, they plan systems and color elements that match the project scale based on product needs. The core goal of design systems is to improve product team efficiency, so maintaining simplicity and clarity within limited design elements is more important; a simplified design system is easier to truly implement within teams.",
+      "paragraph3": "Of course, we can reference design systems of different scales and their logic, but through moderate streamlining, we avoid unlimited expansion of colors and other elements that make product projects increasingly complex and difficult to maintain. This way, we can maintain the effectiveness and usability of the design system while supporting project development 🤓 Less is more!"
+    }
+  },
+  "12": {
+    "heading": "Theme Inversion Colors:\nNeutral Semantic Naming",
+    "subtitle": "Use neutral semantics/number levels to name inverted color Tokens for light and dark themes in design systems.",
+    "date": "Feb 4, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/11/topics-11.1.jpg",
+      "articles/11/topics-11.2.jpg",
+      "articles/11/topics-11.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "When designing color Tokens, a common problem is how to reasonably name container and text colors for different light and dark themes. For example, if in the light theme, a black Token is named color-dark, but in the dark theme, this black inverts to white, making the original naming unintuitive.",
+      "paragraph2": "Therefore, it's recommended to use adjective semantics or number levels for naming. For example, in the light theme, black is a 'heavier' tone, and when inverted to white in the dark theme, it still retains this 'heaviness.' In this case, we can use naming methods like Heavy or Level-100, making inverted colors clearer in understanding their position across different themes.",
+      "paragraph3": ""
+    }
+  },
+  "13": {
+    "heading": "Tool Share:\nColor Contrast Checker",
+    "subtitle": "Check if color contrast meets WCAG standards to ensure readability and visual clarity in web design.",
+    "date": "Feb 11, 2025",
+    "tags": [
+      "Design System",
+      "Design Tool"
+    ],
+    "category": "article",
+    "url": "https://coolors.co/contrast-checker",
+    "images": [
+      "articles/12/topics-12.1.jpg",
+      "articles/12/topics-12.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "Today I want to share a simple and easy-to-use tool — Color Contrast Checker (https://coolors.co/contrast-checker). This tool lets you easily test whether the contrast between background and text colors meets standards, ensuring comfortable and clear web reading. Just enter your chosen colors and immediately see their combination effect. Generally, large text in the tool refers to 24px and above, small text is 18px and below, and regular text is approximately between 18px to 24px.",
+      "paragraph2": "Ideal color scoring should reach at least 7 points, and you can intuitively identify compliant color combinations from the tool interface. This tool evaluates color contrast based on WCAG (Web Content Accessibility Guidelines) standards, specifically setting minimum contrast ratio requirements for different font sizes, enabling more scientific color design that cares for users with special visual needs.",
+      "paragraph3": "Additionally, when designing dark themes, this tool greatly helps you accurately select colors, ensuring every color combination achieves ideal readability."
+    }
+  },
+  "14": {
+    "heading": "Icon Design:\nUnified Size and Alignment",
+    "subtitle": "When designing or referencing icons, unify sizes and precisely align to grids—to avoid uneven sizes or alignment deviations when exported.",
+    "date": "Feb 19, 2025",
+    "tags": [
+      "Design System",
+      "Icon"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/13/topics-13.1.jpg",
+      "articles/13/topics-13.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "When developing design systems, sometimes you encounter issues with inconsistent icon sizes and stroke weights. Because designers sometimes create their own icons and sometimes reference third-party icons, this easily leads to inconsistent sizes and weights, affecting icon-to-text alignment, and even causing blurriness when exporting icon fonts.",
+      "paragraph2": "Therefore, when designing or referencing icons, it's recommended to use a fixed artboard (such as 24x24px), ensuring every pixel aligns to the grid, especially maintaining consistent stroke weight. This way, when engineers implement products, they can better integrate text and icons while maintaining consistent product quality :)",
+      "paragraph3": ""
+    }
   }
 }
