@@ -1169,7 +1169,7 @@
   "56": {
     "heading": "Typography Styles:\nPlanning and Convergence",
     "subtitle": "When planning design system typography, first organize 'commonly used text content' and clearly label their purposes and functions. This gives direction when establishing typography rules, avoiding accidentally creating many similar-looking text styles. A simple approach: design a complete article interface page, observe from actual screens what needs headings, body text, notes, etc., then organize and categorize these common styles, giving each its role and function.",
-    "date": "Feb 11, 2025",
+    "date": "Nov 26, 2025",
     "tags": [
       "Design System",
       "Typography"
