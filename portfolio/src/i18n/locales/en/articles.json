@@ -290,5 +290,106 @@
       "paragraph2": "Therefore, when designing or referencing icons, it's recommended to use a fixed artboard (such as 24x24px), ensuring every pixel aligns to the grid, especially maintaining consistent stroke weight. This way, when engineers implement products, they can better integrate text and icons while maintaining consistent product quality :)",
       "paragraph3": ""
     }
+  },
+  "15": {
+    "heading": "Component Deconstruction:\nExtracting Design Elements",
+    "subtitle": "Design systems are a process of deconstruction—extracting core design elements by breaking down components. Each component is composed of diverse design elements.",
+    "date": "Feb 26, 2025",
+    "tags": [
+      "Design System",
+      "Atomic Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/14/topics-14.1.jpg",
+      "articles/14/topics-14.2.jpg",
+      "articles/14/topics-14.3.jpg",
+      "articles/14/topics-14.4.jpg"
+    ],
+    "content": {
+      "paragraph1": "In typical product projects, we usually design components and interfaces first. Although design systems are a quantum design process from micro to macro, we can also work in reverse—starting from interface and component design, then breaking them down into sub-components, and extracting the design elements needed for the project.",
+      "paragraph2": "Using the example in the image, after designing a product information card component, we can further break it down into card, button, title, text, image, and icon components, then extract design elements like colors, font sizes, border-radius, dimensions, spacing, and shadows.",
+      "paragraph3": "After organizing the deconstructed components and elements, they can be integrated into the design system with relevant documentation. Design systems are like building blocks, and these blocks are what we obtain through product deconstruction."
+    }
+  },
+  "16": {
+    "heading": "Component Composition:\nFlexible Building Block Thinking",
+    "subtitle": "Components in design systems are made up of different elements. When designing components and interfaces, focus on creating flexible components that can be combined into multi-functional assemblies for different scenarios.",
+    "date": "Mar 5, 2025",
+    "tags": [
+      "Design System",
+      "Atomic Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/15/topics-15.1.jpg",
+      "articles/15/topics-15.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "Continuing the component deconstruction theme, each component is composed of smaller sub-components and elements. We can use this concept to create flexible components through different combinations of elements and components, applying them to various functions and scenarios.",
+      "paragraph2": "For example, a card component can transform into a member card, date card, news card, or description card based on needs. Therefore, when designing components, consider their multiple uses and future assembly possibilities.",
+      "paragraph3": "From an engineer's perspective, achieving multi-functionality through component composition not only shortens repetitive development time but also helps maintain product projects more efficiently."
+    }
+  },
+  "17": {
+    "heading": "Clay vs. Blocks:\nTwo Design Mindsets",
+    "subtitle": "Molding clay is free and fun but hard to replicate; assembling blocks may be more 'boring' but allows for quick, mass reproduction.",
+    "date": "Mar 8, 2025",
+    "tags": [
+      "Design System",
+      "Atomic Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/17/topics-17.1.jpg"
+    ],
+    "content": {
+      "paragraph1": "I recently saw this meme that reminded me of the design system concept: one approach is like freely 'molding clay,' while another is modular like 'building blocks.' The 2009 McDonald's architecture was creative and distinctive but difficult to replicate at scale. In contrast, today's McDonald's appearance may be more 'boring' but can be mass-replicated more efficiently—a choice more aligned with business needs.",
+      "paragraph2": "From a design system perspective, this 'replicable, expandable' model is perfect for products requiring long-term maintenance and expansion. Conversely, marketing websites or campaign projects often prioritize rapid iteration and eye-catching visuals with shorter lifespans, so highly standardized design system processes may not suit them.",
+      "paragraph3": "When businesses expand and product lines diversify, implementing design systems enables teams to maintain and develop more efficiently with smoother collaboration. But neither approach is absolutely better—the key is choosing the most suitable method based on project needs and business stage ✨"
+    }
+  },
+  "18": {
+    "heading": "AI and Design Systems:\nFuture Collaboration",
+    "subtitle": "By training AI to learn product design systems and component libraries, it can automatically use these standardized components for assembly, significantly improving automation efficiency.",
+    "date": "Mar 12, 2025",
+    "tags": [
+      "Design System",
+      "AI"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/16/topics-16.1.jpg",
+      "articles/16/topics-16.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "While preparing the design system course, I designed a chapter focusing on using AI to accelerate design system planning and component development. Thinking about this topic reminded me of Figma's future AI design capabilities: having AI help plan products and content based on user needs.",
+      "paragraph2": "Currently, Figma cannot set component library sources, but if this feature opens in the future, AI could reference design systems and related components in product projects, understand their functions and purposes, and automatically design interfaces and features that better match product needs—not just stopping at the wireframe stage.",
+      "paragraph3": "Additionally, AI can help teams develop prototypes faster by learning design system component libraries, even achieving complete products. Therefore, whether conceptually or practically, design systems will play an increasingly important role in the future. Let's look forward to the day when AI fully integrates into product design with more mature applications ✨"
+    }
+  },
+  "19": {
+    "heading": "Variables and Styles:\nAn Inseparable Relationship",
+    "subtitle": "In design systems, Design Tokens (Variables) and Styles are inseparable. Design Tokens provide foundational values for Styles, such as colors, fonts, sizes, etc.",
+    "date": "Mar 20, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/18/topics-18.1.jpg",
+      "articles/18/topics-18.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Recently, a student asked about the difference between Variables and Styles in Figma. Actually, Variables are specific setting values, while Styles are like groups (for example, a button Style contains color, text, size, etc., and these can all reference Design Tokens, which are Variable values).",
+      "paragraph2": "Previously, these values couldn't be centrally managed—you could only set various Styles separately. Now with Figma Variables, you can uniformly store and manage these colors, text, numbers, and other values.",
+      "paragraph3": "For designers, the two may seem abstract but are actually inseparable in practice; for engineers, Design Tokens are like variables in code."
+    }
   }
 }
