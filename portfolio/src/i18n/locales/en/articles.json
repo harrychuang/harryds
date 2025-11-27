@@ -1,262 +1,1191 @@
 {
   "1": {
-    "heading": "Shopmatic Design System",
-    "subtitle": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-    "date": "Nov 16, 2025",
+    "heading": "Design Systems:\nThe Solution to Product Collaboration",
+    "subtitle": "As a product person, I love using this diagram to share the product design and development process—teams often face this dilemma.",
+    "date": "Nov 11, 2024",
+    "tags": [
+      "Design System",
+      "Product Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/00/topics-0.1.jpg",
+      "articles/00/topics-0.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "As a product person, I love using this diagram to share the product design and development process—teams often face this dilemma: When designers craft excellent UI/UX, entering the development phase often leads to communication loops with engineers. Due to product launch pressures, the final result ends up being a compromised version.",
+      "paragraph2": "This dilemma persists whether it was 10 years ago or today. Actually, this isn't a problem with designers or engineers—it's a difference in goals and perspectives. As a product designer, I've experienced this countless times. During my 6 years working in Singapore, I gradually explored design systems and discovered they're an effective way to solve this pain point. Design systems ensure consistency between designers and engineers through standardized specifications, significantly reducing communication costs and improving development efficiency.",
+      "paragraph3": "Design systems may sound complex, but they're actually not. Simply put, it's like building with blocks—invest time upfront to create the blocks, then flexibly assemble products later. For product teams, this not only reduces communication and labor costs but also allows teams to focus on innovation and product optimization rather than getting bogged down in minor communication details."
+    }
+  },
+  "2": {
+    "heading": "Bridging the Gap Between Design and Development",
+    "subtitle": "Communication between designers and engineers sometimes feels like two parallel worlds.",
+    "date": "Nov 15, 2024",
+    "tags": [
+      "Design System",
+      "UX Engineer"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/01/topics-1.1.jpg",
+      "articles/01/topics-1.2.jpg",
+      "articles/01/topics-1.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "Two years ago, I shared design system insights at IxDA. In product design and development pain points, the core issue often stems from product designers and engineers approaching design and development from different perspectives, leading to various frictions and disagreements. My UI and feature designs were often rejected by engineers saying 'this can't be done' or 'that's not practical.' To understand the essence of product development, I started learning front-end development and gradually understood the perspective gap between designers and engineers.",
+      "paragraph2": "Designers' pain point is that their designs often lose their original appearance after development, with some features being compromised or modified. Engineers' frustration is that design specs lack consistency—buttons and text details vary slightly across different pages, increasing maintenance difficulty. Designers and engineers have vastly different backgrounds. Engineers' task is to ensure features are completed on time, while designers pursue visual and experience optimization. This difference makes product specification crucial, especially the convergence and integration of design elements. But relying solely on design specs from designers hardly solves the problem because engineers aren't familiar with visual layout configurations and aesthetic details—this is where the UX Engineer role comes from.",
+      "paragraph3": "Therefore, the core value of design systems isn't just visual specifications, but a component library with code and demos that increases engineers' willingness to use design systems, reduces their investment in visual details, and lets engineers focus more on product feature development."
+    }
+  },
+  "3": {
+    "heading": "The Art of Design Decluttering",
+    "subtitle": "Design systems are essentially a process of 'integration and quantification.'",
+    "date": "Nov 19, 2024",
+    "tags": [
+      "Design System",
+      "Design Guidelines"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/02/topics-2.1.jpg",
+      "articles/02/topics-2.2.jpg",
+      "articles/02/topics-2.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "My dad once told me a story about his childhood when his family was very poor—it left a deep impression. He said they could only afford three tubes of watercolor paint, but with just those three colors, he won second place in the school watercolor competition 😂 This story is actually very similar to product design. Sometimes we feel there are too many rules and constraints—won't they limit UI/UX creativity and prevent us from creating features and interfaces users love? But think about it differently: rules are like those paint tubes. If you make good use of limited resources, you can still create new possibilities through flexible combinations!",
+      "paragraph2": "As products mature, this 'design decluttering' becomes even more important. We need to start converging similar colors, elements, text, and even numbers—quantifying them. We don't let numbers expand infinitely because each number must have a confirmed purpose. For example, with font sizes: 10 might be the smallest text, 14 is default text, 24 is heading text... We need to clearly assign their purposes. The same goes for colors—they won't be expanded without reason.",
+      "paragraph3": "Why? Because in later product stages, components and features only multiply. Infinite expansion only makes projects more complex, development difficulty skyrockets, and ultimately increases labor costs and time. Instead, it's better to converge early, making complex things simple, efficient, and flexible, allowing products to maintain stable output throughout their evolution."
+    }
+  },
+  "4": {
+    "heading": "Implementing Design Systems:\nA Mountain Worth Climbing",
+    "subtitle": "Implementing a design system in a product team is challenging—like climbing a mountain, but the view from the top is absolutely worth it.",
+    "date": "Nov 27, 2024",
+    "tags": [
+      "Design System",
+      "Product Team"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/03/topics-3.1.jpg",
+      "articles/03/topics-3.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "I recently listened to @vktechread share about The Hard Thing About Hard Things, and it really resonated with me. To simplify work and improve efficiency, we must first go through the most difficult challenges—like implementing a design system in a product team. Although it feels like climbing a mountain at first, requiring extensive communication, integration, and research, it's precisely these processes that bring the greatest value.",
+      "paragraph2": "As product scale grows, technical debt and system complexity make development time longer and costs higher. When I worked at enterprises, I often saw large development teams spending 60-70% of their resources maintaining old architectures rather than innovating or optimizing products.",
+      "paragraph3": "This is exactly where design systems prove their worth. After implementation, product development becomes more like assembling blocks, eliminating the tedious 'clay molding' process and simplifying communication and workflows. Teams can then focus on product innovation rather than getting caught up in minor details. In business competition, speed matters. Shortening development time and quickly entering the market to test and iterate not only improves efficiency and reduces costs but is also key to winning for companies and products."
+    }
+  },
+  "5": {
+    "heading": "Work Hard & Smart",
+    "subtitle": "Work hard? Work smart? Combining both seems even better!",
+    "date": "Dec 11, 2024",
+    "tags": [
+      "Design System",
+      "Work Efficiency"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/04/topics-4.1.jpg",
+      "articles/04/topics-4.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "I really love this animation about work from overseas. Just like when we first enter the workforce, most of us approach every task with full dedication, hoping to do our best. As experience accumulates and we enter mid-career, we start finding clever ways to simplify processes and improve efficiency. In the mature stage of our careers, we gradually realize there's no such thing as 'easy' work, but through accumulated experience, we can combine hard work with smart work to achieve excellent results with half the effort.",
+      "paragraph2": "The design system workflow is similar. Building a design system is often challenging at first, but once completed and integrated into the product development process, it becomes like the Work Hard & Smart animation in this video—the work mode becomes smooth and efficient, simplifying work while significantly improving product quality and consistency.",
+      "paragraph3": "So, instead of choosing between working hard or working smart, consider how to combine both to make work more efficient while also gaining a sense of achievement."
+    }
+  },
+  "6": {
+    "heading": "Design Token:\nThe Shared Language of Design and Development",
+    "subtitle": "Design Tokens can become a shared configuration file between design and development.",
+    "date": "Dec 16, 2024",
     "tags": [
       "Design System",
       "Design Token"
     ],
     "category": "article",
-    "url": "https://awwrated.com",
+    "url": "",
     "images": [
-      "articles/01/topics-1-1.jpg",
-      "articles/01/topics-1-2.jpg",
-      "articles/01/topics-1-3.jpg"
+      "articles/05/topics-5.1.jpg",
+      "articles/05/topics-5.2.mp4"
     ],
     "content": {
-      "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
-      "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
-      "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence."
-    }
-  },
-  "2": {
-    "heading": "Building Scalable Design Systems",
-    "subtitle": "Exploring best practices for building scalable design systems that grow with your product. Learn how to create flexible components, maintain consistency, and empower your team to deliver faster.",
-    "date": "Nov 17, 2025",
-    "tags": [
-      "Design System",
-      "Component Library"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/02/topics-2-1.jpg",
-      "articles/02/topics-2-2.jpg",
-      "articles/02/topics-2-3.jpg",
-      "articles/02/topics-2-4.jpg",
-      "articles/02/topics-2-5.jpg",
-      "articles/02/topics-2-6.jpg"
-    ],
-    "content": {
-      "paragraph1": "Building a scalable design system requires careful planning and a deep understanding of your product's needs. Start by establishing core design principles that will guide all future decisions. These principles should reflect your brand values and user needs.",
-      "paragraph2": "Component architecture is crucial for scalability. Design components to be modular, reusable, and composable. Each component should have a single responsibility and well-defined props. This makes them easier to maintain and extend over time.",
-      "paragraph3": "Documentation is often overlooked but is essential for adoption. Provide clear usage guidelines, accessibility considerations, and code examples. A well-documented design system empowers teams to work independently and consistently."
-    }
-  },
-  "3": {
-    "heading": "Design Tokens: The Foundation of Design Systems",
-    "subtitle": "Understanding design tokens and how they serve as the single source of truth for your design decisions. Discover how tokens enable consistency, theming, and cross-platform design at scale.",
-    "date": "Nov 18, 2025",
-    "tags": [
-      "Design Token",
-      "Design System"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/03/topics-3-1.jpg",
-      "articles/03/topics-3-2.jpg"
-    ],
-    "content": {
-      "paragraph1": "Design tokens are the atomic elements of a design system. They store design decisions like colors, typography, spacing, and more in a platform-agnostic format. This allows you to maintain consistency across web, mobile, and other platforms.",
-      "paragraph2": "Implementing design tokens requires a structured approach. Organize tokens into layers: global tokens define your design language, while semantic tokens apply meaning to those values. This hierarchy makes your system more maintainable and easier to theme.",
-      "paragraph3": "Tools like Style Dictionary can transform your tokens into multiple formats for different platforms. This automation ensures that design updates propagate consistently across all products, reducing manual work and potential inconsistencies."
-    }
-  },
-  "4": {
-    "heading": "Component-Driven Development",
-    "subtitle": "Learn how component-driven development revolutionizes the way teams build digital products. Discover strategies for creating isolated, reusable components that accelerate development and ensure consistency.",
-    "date": "Nov 19, 2025",
-    "tags": [
-      "Component Library",
-      "Development"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/04/topics-1-1.jpg",
-      "articles/04/topics-1-2.jpg",
-      "articles/04/topics-1-3.jpg"
-    ],
-    "content": {
-      "paragraph1": "Component-driven development (CDD) is a methodology that builds user interfaces from the bottom up, starting with components and ending with pages. This approach encourages developers to build components in isolation, making them more reusable and testable.",
-      "paragraph2": "Tools like Storybook enable teams to develop, document, and test components independently from the main application. This isolation ensures that components work correctly in various states and scenarios before integration.",
-      "paragraph3": "CDD improves collaboration between designers and developers by creating a shared language through components. It also speeds up development by allowing teams to build features by composing existing components rather than starting from scratch."
-    }
-  },
-  "5": {
-    "heading": "Accessibility in Design Systems",
-    "subtitle": "Making your design system accessible by default ensures that all users can interact with your products. Explore best practices for building inclusive components that meet WCAG standards.",
-    "date": "Nov 20, 2025",
-    "tags": [
-      "Accessibility",
-      "Inclusive Design"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/05/topics-2-1.jpg",
-      "articles/05/topics-2-2.jpg",
-      "articles/05/topics-2-3.jpg",
-      "articles/05/topics-2-4.jpg",
-      "articles/05/topics-2-5.jpg",
-      "articles/05/topics-2-6.jpg"
-    ],
-    "content": {
-      "paragraph1": "Accessibility should be baked into your design system from the start, not added as an afterthought. Components should include proper ARIA labels, keyboard navigation support, and color contrast ratios that meet WCAG AA standards at minimum.",
-      "paragraph2": "Testing accessibility early and often prevents costly fixes later. Use automated tools to catch common issues, but also conduct manual testing with screen readers and keyboard-only navigation. Consider hiring users with disabilities to test your products.",
-      "paragraph3": "Document accessibility requirements for each component, including keyboard shortcuts, screen reader announcements, and focus management. This guidance helps designers and developers create accessible experiences consistently across your products."
-    }
-  },
-  "6": {
-    "heading": "Design System Governance",
-    "subtitle": "Establishing clear governance ensures your design system evolves sustainably. Learn how to create processes for contributions, versioning, and decision-making that scale with your team.",
-    "date": "Nov 21, 2025",
-    "tags": [
-      "Governance",
-      "Process"
-    ],
-    "category": "article",
-    "url": "https://awwrated.com",
-    "images": [
-      "articles/06/topics-3-1.jpg",
-      "articles/06/topics-3-2.jpg"
-    ],
-    "content": {
-      "paragraph1": "Good governance is essential for a design system's long-term success. Without clear processes, systems can become fragmented or stagnate. Define roles and responsibilities for maintaining, contributing to, and approving changes to your system.",
-      "paragraph2": "Create a contribution model that balances openness with quality control. Whether you choose a federated model where multiple teams contribute or a centralized model with a dedicated team, document the process clearly and make it easy to follow.",
-      "paragraph3": "Establish versioning strategies that allow teams to adopt updates at their own pace while ensuring security fixes are applied promptly. Communicate breaking changes well in advance and provide migration guides to ease transitions."
+      "paragraph1": "During the online briefing for the design system course, I discovered many questions I hadn't thought of before. Many people asked how to convert Figma designs into UI component libraries (Storybook) code and sync them, and whether designers need to know coding to maintain frontend component libraries.",
+      "paragraph2": "In my view, designers don't necessarily need to write code or use tools that generate code directly from Figma, as the output code may not be complete. However, in product teams, designers and engineers can plan Design Tokens together. Design Tokens are like a shared configuration file between design and development, and Figma's new Variables feature is designed to set up and manage these tokens. This way, from design to development, you can painlessly connect parameters to the code-side Variables through Figma Variables export or sync, achieving component style synchronization.",
+      "paragraph3": "I encourage designers to learn some front-end development knowledge—it helps understand product development logic better. Design can be output quickly, but understanding how to actually execute within limited resources and time matters. Knowing some programming thinking makes collaboration between design and development smoother! In this design system course, Design Token is the longest module XD"
     }
   },
   "7": {
-    "heading": "Micro-Interactions and Animation",
-    "subtitle": "Small animations and micro-interactions bring interfaces to life and provide crucial feedback to users. Discover how to design and implement meaningful motion in your design system.",
-    "date": "Nov 22, 2025",
+    "heading": "Design Token Naming:\nThe Art of Three-Layer Structure",
+    "subtitle": "Design Token naming is abstract—design and engineering teams can collaborate to establish clear, consistent naming conventions.",
+    "date": "Dec 25, 2024",
     "tags": [
-      "Animation",
-      "Interaction Design"
+      "Design System",
+      "Design Token"
     ],
     "category": "article",
-    "url": "https://awwrated.com",
+    "url": "",
     "images": [
-      "articles/07/topics-1-1.jpg",
-      "articles/07/topics-1-2.jpg",
-      "articles/07/topics-1-3.jpg"
+      "articles/06/topics-6.1.jpg",
+      "articles/06/topics-6.2.jpg",
+      "articles/06/topics-6.3.jpg"
     ],
     "content": {
-      "paragraph1": "Micro-interactions are the small moments that happen when users interact with your product. A button press, a loading state, or a success confirmation—these tiny animations provide feedback and create a sense of direct manipulation that makes interfaces feel responsive and alive.",
-      "paragraph2": "Animation in design systems should be purposeful and consistent. Define timing curves, durations, and easing functions as tokens. Create guidelines for when and how to use motion, ensuring animations enhance rather than distract from the user experience.",
-      "paragraph3": "Consider performance and accessibility when implementing animations. Respect the prefers-reduced-motion setting for users who are sensitive to motion. Keep animations short and snappy—typically under 300ms for interactions and 500ms for transitions."
+      "paragraph1": "Continuing the Design Token discussion, Design Token planning requires collaboration between designers and engineers to ensure naming conventions and structural consistency. Using Google Material Design as an example, Design Tokens are divided into three layers: First is the design system prefix—for example, 'ABC Design System' can use 'abcd' as a prefix, where 'd' stands for Design System; Second is the Token type, including Reference (base values like colors, font sizes), System (semantic properties like primary or secondary), and Component (component-level properties like button background color); Third is the role and purpose, explaining which properties the Token is used for, such as color, border-radius, or spacing.",
+      "paragraph2": "Reference and Component Token naming is intuitive, while System Tokens require more consensus due to their abstract nature. Regardless of the planning approach, the order of each layer structure must be consistent to make naming conventions more intuitive and improve search efficiency.",
+      "paragraph3": "Because of course planning, I also developed a small Design Token naming tool that uses multiple-choice questions to better understand the naming and logic sequence."
     }
   },
   "8": {
-    "heading": "Responsive Design Patterns",
-    "subtitle": "Creating flexible, responsive components that work across all devices is fundamental to modern web design. Learn strategies for building adaptive layouts that maintain consistency.",
-    "date": "Nov 23, 2025",
+    "heading": "Token Inheritance:\nThe Chef's Special Wisdom",
+    "subtitle": "Design Token inheritance systems can improve flexibility and scalability while reducing maintenance costs.",
+    "date": "Jan 2, 2025",
     "tags": [
-      "Responsive Design",
-      "Mobile First"
+      "Design System",
+      "Design Token"
     ],
     "category": "article",
-    "url": "https://awwrated.com",
+    "url": "",
     "images": [
-      "articles/08/topics-2-1.jpg",
-      "articles/08/topics-2-2.jpg",
-      "articles/08/topics-2-3.jpg",
-      "articles/08/topics-2-4.jpg",
-      "articles/08/topics-2-5.jpg",
-      "articles/08/topics-2-6.jpg"
+      "articles/07/topics-7.1.jpg",
+      "articles/07/topics-7.2.jpg",
+      "articles/07/topics-7.2-1.jpg"
     ],
     "content": {
-      "paragraph1": "Responsive design isn't just about making things smaller on mobile devices. It's about creating thoughtful experiences that adapt to different contexts, screen sizes, and input methods. Start with mobile-first design to ensure core functionality works on constrained devices.",
-      "paragraph2": "Use container queries and responsive tokens to create truly flexible components. Instead of relying solely on viewport-based breakpoints, components should adapt based on their own container size, making them more reusable across different layouts.",
-      "paragraph3": "Test your components on real devices, not just browser simulators. Pay attention to touch target sizes, readability at different distances, and performance on lower-end devices. Responsive design should enhance, not compromise, the user experience."
+      "paragraph1": "A student asked about the inheritance relationship between different levels of Design tokens and what the difference would be without inheritance. Let's start with Ref tokens—naming at this layer is very intuitive, like red is red, blue is blue. But if you use Ref tokens directly in components or text, when you need to adjust colors or styles in the future, you'll have to find and modify every place using that token. This is exactly why we need the second semantic token layer—to provide flexibility and error tolerance.",
+      "paragraph2": "Here's an example: In a restaurant menu, if the dish name is 'Steak,' the ingredient can only be beef. If beef runs out one day and needs to be changed to pork, the restaurant must change the dish name to 'Pork Chop.' But if the dish name was 'Chef's Special' from the start, whether it's changed to pork, chicken, or other ingredients in the future, it can be easily swapped without changing the menu name each time. This is the purpose of semantic Token naming with inheritance—improving flexibility and reducing modification costs.",
+      "paragraph3": "In practice, Design tokens are usually created in different files. Through a semantic inheritance system, engineers can make unified adjustments at the Sys Token layer without modifying style code in every component file, improving maintenance efficiency. However, not all projects need a 3-layer inheritance structure. For small to medium projects, Ref to Sys two layers are sufficient. The key is communicating with the engineering team to ensure methods are synchronized ✨"
     }
   },
   "9": {
-    "heading": "Color Theory for Digital Interfaces",
-    "subtitle": "Understanding color theory helps create harmonious and accessible color palettes. Explore how to build flexible color systems that work across light and dark themes.",
-    "date": "Nov 24, 2025",
+    "heading": "Token Semantics:\nUnified Naming System",
+    "subtitle": "Systematizing Design Token semantics reduces confusion when referencing.",
+    "date": "Jan 8, 2025",
     "tags": [
-      "Color Theory",
-      "Theming"
+      "Design System",
+      "Design Token"
     ],
     "category": "article",
-    "url": "https://awwrated.com",
+    "url": "",
     "images": [
-      "articles/09/topics-3-1.jpg",
-      "articles/09/topics-3-2.jpg"
+      "articles/08/topics-8.1.jpg",
+      "articles/08/topics-8.2.jpg",
+      "articles/08/topics-8.3.jpg",
+      "articles/08/topics-8.4.jpg",
+      "articles/08/topics-8.5.jpg",
+      "articles/08/topics-8.6.jpg",
+      "articles/08/topics-8.7.jpg"
     ],
     "content": {
-      "paragraph1": "Color is one of the most powerful tools in a designer's toolkit. It conveys meaning, creates hierarchy, and evokes emotion. When building a color system, start with a primary brand color and use color theory to generate complementary palettes that maintain harmony.",
-      "paragraph2": "Accessibility must be a primary concern when working with color. Ensure sufficient contrast between text and backgrounds, and never rely on color alone to convey information. Use tools to test color combinations against WCAG standards before implementing them.",
-      "paragraph3": "Modern design systems need to support multiple themes, especially dark mode. Instead of defining absolute colors, create semantic color tokens that describe purpose rather than appearance. This abstraction makes theme switching seamless and maintainable."
+      "paragraph1": "Recently, while reviewing students' Design Token design assignments in the course, I found a common challenge is Design Token state naming, especially in the system semantic part. Since everyone may understand and describe semantics differently, it causes confusion when referencing. To solve this problem, I spent some time organizing commonly used Token state adjectives, such as color brightness/darkness, depth/shallowness, solid to transparent, size, weight, etc.",
+      "paragraph2": "I highly recommend product teams plan similar diagrams and include them in shared project documentation. This way, team members have a unified naming system to reference when designing Design Tokens, reducing confusion when referencing.",
+      "paragraph3": "Additionally, on the engineering side, variable naming has always been a pain point. By systematizing semantics, naming inconsistencies can be greatly reduced, improving overall collaboration efficiency :)"
     }
   },
   "10": {
-    "heading": "Typography Systems at Scale",
-    "subtitle": "A robust typography system forms the backbone of readable, accessible content. Learn how to create flexible type scales that work across different platforms and screen sizes.",
-    "date": "Nov 25, 2025",
+    "heading": "Cross-Team Design Systems:\nThe Value of Storybook",
+    "subtitle": "What product teams need is a design system that can be used 'across teams.'",
+    "date": "Jan 15, 2025",
     "tags": [
-      "Typography",
-      "Content Design"
+      "Design System",
+      "Storybook"
     ],
     "category": "article",
-    "url": "https://awwrated.com",
+    "url": "",
     "images": [
-      "articles/10/topics-1-1.jpg",
-      "articles/10/topics-1-2.jpg",
-      "articles/10/topics-1-3.jpg"
+      "articles/09/topics-9.1.jpg",
+      "articles/09/topics-9.2.mp4",
+      "articles/09/topics-9.3.jpg"
     ],
     "content": {
-      "paragraph1": "Typography is the art of arranging type to make written language legible, readable, and appealing. In digital products, typography must work across various devices, resolutions, and reading distances. Start by choosing fonts that are optimized for screen display and support your content needs.",
-      "paragraph2": "Create a modular type scale that provides clear hierarchy while maintaining visual harmony. Use a ratio-based approach where each size relates mathematically to the others. This creates rhythm and consistency across your interface while making it easier to choose appropriate sizes.",
-      "paragraph3": "Don't forget the details: line height, letter spacing, and measure all affect readability. Line height should generally be 1.4-1.6 for body text, tighter for headings. Keep line length between 45-75 characters for optimal reading comfort."
+      "paragraph1": "I've had an experience where even when the design team had a complete design system planned, it ended up being shelved. The main reason is that engineers prioritize product and feature development—unless time is very generous, they rarely read design specifications carefully. Also, engineers who understand visual styles are relatively rare. Therefore, product teams need a system that supports both design and engineering. What is a 'cross-team design system'? In 2016, a startup team from Sri Lanka developed a tool for building design systems and component libraries—Storybook.",
+      "paragraph2": "Fortunately, in 2017, when discussing how to solve collaboration and communication issues between design and technology with the engineering team, the engineers proposed this design system tool that could solve design-engineering communication challenges—Storybook. Since then, I began researching and learning how to build product design systems with Storybook. Storybook's greatest advantage is providing documentation and component management for both designers and engineers: engineers can directly copy component code into projects; designers can view specifications and documentation, ultimately becoming the product team's product Wikipedia.",
+      "paragraph3": "A design system that enables cross-team collaboration and is actively used in products won't become a static design guide left in the corner of the project."
     }
   },
   "11": {
-    "heading": "Form Design Best Practices",
-    "subtitle": "Forms are critical touchpoints in user journeys. Discover how to design intuitive, accessible forms that minimize errors and maximize completion rates.",
-    "date": "Nov 26, 2025",
+    "heading": "Color Planning:\nLess Is More",
+    "subtitle": "When planning colors in design systems, first clarify the purpose of each color before configuration—avoid adding unnecessary color levels.",
+    "date": "Jan 22, 2025",
     "tags": [
-      "Forms",
-      "User Experience"
+      "Design System",
+      "Color"
     ],
     "category": "article",
-    "url": "https://awwrated.com",
+    "url": "",
     "images": [
-      "articles/11/topics-2-1.jpg",
-      "articles/11/topics-2-2.jpg",
-      "articles/11/topics-2-3.jpg",
-      "articles/11/topics-2-4.jpg",
-      "articles/11/topics-2-5.jpg",
-      "articles/11/topics-2-6.jpg"
+      "articles/10/topics-10.1.jpg",
+      "articles/10/topics-10.2.jpg",
+      "articles/10/topics-10.3.jpg"
     ],
     "content": {
-      "paragraph1": "Good form design can significantly impact conversion rates and user satisfaction. Start by asking only for information you truly need. Every additional field increases cognitive load and abandonment risk. Group related fields logically and provide clear labels and instructions.",
-      "paragraph2": "Validation should be helpful, not punishing. Validate fields inline as users complete them, but wait until they've finished typing to show errors. Use clear, actionable error messages that tell users exactly how to fix problems. Success states are equally important for confirming correct input.",
-      "paragraph3": "Make forms accessible by default. Use proper HTML form elements, associate labels with inputs, provide helpful placeholder text, and ensure keyboard navigation works smoothly. Consider adding autocomplete attributes to help users fill forms faster with saved information."
+      "paragraph1": "When planning colors for design systems, you must first clarify the actual purpose of each color before making appropriate configurations—avoid adding too many color scales without clear purposes just for color diversity.",
+      "paragraph2": "Compared to Google Material Design, typical projects usually don't need a large number of customizable styles or an overly massive design system. Instead, they plan systems and color elements that match the project scale based on product needs. The core goal of design systems is to improve product team efficiency, so maintaining simplicity and clarity within limited design elements is more important; a simplified design system is easier to truly implement within teams.",
+      "paragraph3": "Of course, we can reference design systems of different scales and their logic, but through moderate streamlining, we avoid unlimited expansion of colors and other elements that make product projects increasingly complex and difficult to maintain. This way, we can maintain the effectiveness and usability of the design system while supporting project development 🤓 Less is more!"
     }
   },
   "12": {
-    "heading": "Design System Metrics and ROI",
-    "subtitle": "Measuring the success and impact of your design system helps justify investment and guide improvements. Learn what metrics matter and how to track them effectively.",
-    "date": "Nov 27, 2025",
+    "heading": "Theme Inversion Colors:\nNeutral Semantic Naming",
+    "subtitle": "Use neutral semantics/number levels to name inverted color Tokens for light and dark themes in design systems.",
+    "date": "Feb 4, 2025",
     "tags": [
-      "Metrics",
-      "ROI"
+      "Design System",
+      "Design Token"
     ],
     "category": "article",
-    "url": "https://awwrated.com",
+    "url": "",
     "images": [
-      "articles/12/topics-3-1.jpg",
-      "articles/12/topics-3-2.jpg"
+      "articles/11/topics-11.1.jpg",
+      "articles/11/topics-11.2.jpg",
+      "articles/11/topics-11.3.jpg"
     ],
     "content": {
-      "paragraph1": "Demonstrating the value of a design system requires tracking both qualitative and quantitative metrics. Common measurements include adoption rate, component usage, design-to-development time, and consistency scores across products. These numbers tell the story of efficiency gains and quality improvements.",
-      "paragraph2": "Developer satisfaction and velocity are important indicators of system health. Survey your users regularly to understand pain points and areas for improvement. Track how quickly teams can build new features using system components versus custom code.",
-      "paragraph3": "Calculate ROI by comparing time saved, reduced design drift, and decreased maintenance costs against the system's operational costs. Don't forget softer benefits like improved brand consistency, better accessibility, and enhanced collaboration between designers and developers."
+      "paragraph1": "When designing color Tokens, a common problem is how to reasonably name container and text colors for different light and dark themes. For example, if in the light theme, a black Token is named color-dark, but in the dark theme, this black inverts to white, making the original naming unintuitive.",
+      "paragraph2": "Therefore, it's recommended to use adjective semantics or number levels for naming. For example, in the light theme, black is a 'heavier' tone, and when inverted to white in the dark theme, it still retains this 'heaviness.' In this case, we can use naming methods like Heavy or Level-100, making inverted colors clearer in understanding their position across different themes.",
+      "paragraph3": ""
+    }
+  },
+  "13": {
+    "heading": "Tool Share:\nColor Contrast Checker",
+    "subtitle": "Check if color contrast meets WCAG standards to ensure readability and visual clarity in web design.",
+    "date": "Feb 11, 2025",
+    "tags": [
+      "Design System",
+      "Design Tool"
+    ],
+    "category": "article",
+    "url": "https://coolors.co/contrast-checker",
+    "images": [
+      "articles/12/topics-12.1.jpg",
+      "articles/12/topics-12.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "Today I want to share a simple and easy-to-use tool — Color Contrast Checker (https://coolors.co/contrast-checker). This tool lets you easily test whether the contrast between background and text colors meets standards, ensuring comfortable and clear web reading. Just enter your chosen colors and immediately see their combination effect. Generally, large text in the tool refers to 24px and above, small text is 18px and below, and regular text is approximately between 18px to 24px.",
+      "paragraph2": "Ideal color scoring should reach at least 7 points, and you can intuitively identify compliant color combinations from the tool interface. This tool evaluates color contrast based on WCAG (Web Content Accessibility Guidelines) standards, specifically setting minimum contrast ratio requirements for different font sizes, enabling more scientific color design that cares for users with special visual needs.",
+      "paragraph3": "Additionally, when designing dark themes, this tool greatly helps you accurately select colors, ensuring every color combination achieves ideal readability."
+    }
+  },
+  "14": {
+    "heading": "Icon Design:\nUnified Size and Alignment",
+    "subtitle": "When designing or referencing icons, unify sizes and precisely align to grids—to avoid uneven sizes or alignment deviations when exported.",
+    "date": "Feb 19, 2025",
+    "tags": [
+      "Design System",
+      "Icon"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/13/topics-13.1.jpg",
+      "articles/13/topics-13.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "When developing design systems, sometimes you encounter issues with inconsistent icon sizes and stroke weights. Because designers sometimes create their own icons and sometimes reference third-party icons, this easily leads to inconsistent sizes and weights, affecting icon-to-text alignment, and even causing blurriness when exporting icon fonts.",
+      "paragraph2": "Therefore, when designing or referencing icons, it's recommended to use a fixed artboard (such as 24x24px), ensuring every pixel aligns to the grid, especially maintaining consistent stroke weight. This way, when engineers implement products, they can better integrate text and icons while maintaining consistent product quality :)",
+      "paragraph3": ""
+    }
+  },
+  "15": {
+    "heading": "Component Deconstruction:\nExtracting Design Elements",
+    "subtitle": "Design systems are a process of deconstruction—extracting core design elements by breaking down components. Each component is composed of diverse design elements.",
+    "date": "Feb 26, 2025",
+    "tags": [
+      "Design System",
+      "Atomic Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/14/topics-14.1.jpg",
+      "articles/14/topics-14.2.jpg",
+      "articles/14/topics-14.3.jpg",
+      "articles/14/topics-14.4.jpg"
+    ],
+    "content": {
+      "paragraph1": "In typical product projects, we usually design components and interfaces first. Although design systems are a quantum design process from micro to macro, we can also work in reverse—starting from interface and component design, then breaking them down into sub-components, and extracting the design elements needed for the project.",
+      "paragraph2": "Using the example in the image, after designing a product information card component, we can further break it down into card, button, title, text, image, and icon components, then extract design elements like colors, font sizes, border-radius, dimensions, spacing, and shadows.",
+      "paragraph3": "After organizing the deconstructed components and elements, they can be integrated into the design system with relevant documentation. Design systems are like building blocks, and these blocks are what we obtain through product deconstruction."
+    }
+  },
+  "16": {
+    "heading": "Component Composition:\nFlexible Building Block Thinking",
+    "subtitle": "Components in design systems are made up of different elements. When designing components and interfaces, focus on creating flexible components that can be combined into multi-functional assemblies for different scenarios.",
+    "date": "Mar 5, 2025",
+    "tags": [
+      "Design System",
+      "Atomic Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/15/topics-15.1.jpg",
+      "articles/15/topics-15.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "Continuing the component deconstruction theme, each component is composed of smaller sub-components and elements. We can use this concept to create flexible components through different combinations of elements and components, applying them to various functions and scenarios.",
+      "paragraph2": "For example, a card component can transform into a member card, date card, news card, or description card based on needs. Therefore, when designing components, consider their multiple uses and future assembly possibilities.",
+      "paragraph3": "From an engineer's perspective, achieving multi-functionality through component composition not only shortens repetitive development time but also helps maintain product projects more efficiently."
+    }
+  },
+  "17": {
+    "heading": "Clay vs. Blocks:\nTwo Design Mindsets",
+    "subtitle": "Molding clay is free and fun but hard to replicate; assembling blocks may be more 'boring' but allows for quick, mass reproduction.",
+    "date": "Mar 8, 2025",
+    "tags": [
+      "Design System",
+      "Atomic Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/17/topics-17.1.jpg"
+    ],
+    "content": {
+      "paragraph1": "I recently saw this meme that reminded me of the design system concept: one approach is like freely 'molding clay,' while another is modular like 'building blocks.' The 2009 McDonald's architecture was creative and distinctive but difficult to replicate at scale. In contrast, today's McDonald's appearance may be more 'boring' but can be mass-replicated more efficiently—a choice more aligned with business needs.",
+      "paragraph2": "From a design system perspective, this 'replicable, expandable' model is perfect for products requiring long-term maintenance and expansion. Conversely, marketing websites or campaign projects often prioritize rapid iteration and eye-catching visuals with shorter lifespans, so highly standardized design system processes may not suit them.",
+      "paragraph3": "When businesses expand and product lines diversify, implementing design systems enables teams to maintain and develop more efficiently with smoother collaboration. But neither approach is absolutely better—the key is choosing the most suitable method based on project needs and business stage ✨"
+    }
+  },
+  "18": {
+    "heading": "AI and Design Systems:\nFuture Collaboration",
+    "subtitle": "By training AI to learn product design systems and component libraries, it can automatically use these standardized components for assembly, significantly improving automation efficiency.",
+    "date": "Mar 12, 2025",
+    "tags": [
+      "Design System",
+      "AI"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/16/topics-16.1.jpg",
+      "articles/16/topics-16.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "While preparing the design system course, I designed a chapter focusing on using AI to accelerate design system planning and component development. Thinking about this topic reminded me of Figma's future AI design capabilities: having AI help plan products and content based on user needs.",
+      "paragraph2": "Currently, Figma cannot set component library sources, but if this feature opens in the future, AI could reference design systems and related components in product projects, understand their functions and purposes, and automatically design interfaces and features that better match product needs—not just stopping at the wireframe stage.",
+      "paragraph3": "Additionally, AI can help teams develop prototypes faster by learning design system component libraries, even achieving complete products. Therefore, whether conceptually or practically, design systems will play an increasingly important role in the future. Let's look forward to the day when AI fully integrates into product design with more mature applications ✨"
+    }
+  },
+  "19": {
+    "heading": "Variables and Styles:\nAn Inseparable Relationship",
+    "subtitle": "In design systems, Design Tokens (Variables) and Styles are inseparable. Design Tokens provide foundational values for Styles, such as colors, fonts, sizes, etc.",
+    "date": "Mar 20, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/18/topics-18.1.jpg",
+      "articles/18/topics-18.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Recently, a student asked about the difference between Variables and Styles in Figma. Actually, Variables are specific setting values, while Styles are like groups (for example, a button Style contains color, text, size, etc., and these can all reference Design Tokens, which are Variable values).",
+      "paragraph2": "Previously, these values couldn't be centrally managed—you could only set various Styles separately. Now with Figma Variables, you can uniformly store and manage these colors, text, numbers, and other values.",
+      "paragraph3": "For designers, the two may seem abstract but are actually inseparable in practice; for engineers, Design Tokens are like variables in code."
+    }
+  },
+  "20": {
+    "heading": "MCP Tool Share:\nCursor Talk to Figma",
+    "subtitle": "Through the MCP protocol, enabling communication between Cursor and Figma, automatically reading and editing design files through code.",
+    "date": "Mar 26, 2025",
+    "tags": [
+      "Design System",
+      "Figma",
+      "AI"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/19/topics-19.1.jpg",
+      "articles/19/topics-19.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "Recently, MCP (Model Context Protocol) has been very popular. Simply put, MCP is an open protocol that acts like a 'universal adapter' between AI and various tools (such as Figma, Cursor AI), allowing AI to more easily read and manipulate external data.",
+      "paragraph2": "So I tested using Cursor AI commands to have Figma automatically generate a color scheme. The process was: 1. Provide CSS Variables so AI understands the Design Token settings used in the design system. 2. Provide a color system design file for AI to reference the layout and create a new design. The results were quite good—since the task scope was small and the layout relatively simple, having AI complete design system layouts and content is feasible. Especially for parts requiring extensive settings like colors, text, and icons, as long as relevant materials are provided, AI can process or modify them. However, AI-designed drafts still can't be perfectly organized, and details like layer management need improvement.",
+      "paragraph3": "It's also great for handling repetitive design work like IG and FB posts—just feed the relevant data to maintain and update design content. The current MCP protocol has great potential but isn't mature enough yet, with slower operation speeds, somewhat like current robots moving slowly. Once further optimized in the future, such automated design tools will be highly anticipated!"
+    }
+  },
+  "21": {
+    "heading": "Design Principles:\nGuiding Design Decisions",
+    "subtitle": "In design systems, design principles provide 'core guidelines' and 'methods' for decisions, guiding the planning of design elements in product projects to ensure consistency and user experience.",
+    "date": "Apr 3, 2025",
+    "tags": [
+      "Design System",
+      "Design Principles"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/20/topics-20.1.jpg",
+      "articles/20/topics-20.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Just watched the newly released Nintendo Switch 2 video and official website, which reminded me of the design system and design principles mentioned in the course—as fundamental guidelines and methods for guiding design decisions. Colors, fonts, and other visual elements form the foundation of design systems, based on which product project planning and design are conducted.",
+      "paragraph2": "Like Nintendo's design approach for Switch, the design team first establishes product design principles (which can be concrete or abstract), then defines the required design elements from them. For example, their design principles include innovation, uniqueness, intuition, comfort, fun, and family social entertainment, so design elements present vitality, warm and lively tones, modularity and expandability, smooth curves and minimalist lines, while copy is more relaxed and fun.",
+      "paragraph3": "Therefore, design systems must first establish top-level design principles, then formulate specific design elements based on these goals and themes, ensuring the product maintains consistent visual style and excellent user experience."
+    }
+  },
+  "22": {
+    "heading": "The Role of Secondary Colors:\nResolving Color Conflicts",
+    "subtitle": "Secondary/auxiliary colors not only enrich visual layers and color variations but more importantly serve as functional roles to resolve and harmonize when primary and system colors conflict.",
+    "date": "Apr 9, 2025",
+    "tags": [
+      "Design System",
+      "Color"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/21/topics-21.1.jpg",
+      "articles/21/topics-21.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "When brand primary colors conflict with status colors, we need to re-plan color strategies to avoid confusion.",
+      "paragraph2": "For example, when Netflix presents different subscription plans, buttons and selection colors use blue auxiliary colors for payment functions; while on marketing or brand websites, Netflix and Coca-Cola directly use red for CTA buttons because this doesn't directly affect 'user rights.'",
+      "paragraph3": "So while auxiliary colors aren't essential, when primary and system colors conflict (especially since red is often associated with warnings or error messages), using auxiliary or secondary colors to highlight key functions can avoid misunderstanding and optimize user experience."
+    }
+  },
+  "23": {
+    "heading": "Starting with New Features:\nDesign System Adoption Strategy",
+    "subtitle": "By first adopting 'design systems' in new products and learning the new workflow through the process, existing products can be updated faster.",
+    "date": "Apr 16, 2025",
+    "tags": [
+      "Design System",
+      "Product Team"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/22/topics-22.1.jpg"
+    ],
+    "content": {
+      "paragraph1": "When sharing design systems at IxDA previously, someone asked: 'If existing products haven't adopted design systems, how do you drive adoption?' My past company experience faced similar situations.",
+      "paragraph2": "At that time, we started with new feature requirements to adopt the design system. Since new features are like blank canvases, they're easier to apply new processes to. During development, we simultaneously learned and practiced various design system processes. As the product team became familiar with the new workflow, project managers arranged to gradually convert existing product interfaces and incorporate design system components. This approach not only ensured smooth transitions between new and old features but also promoted the team's mastery and application of the entire design system, further accelerating iteration upgrades of existing products and features.",
+      "paragraph3": "Although adopting design systems requires higher time investment initially, from a long-term perspective, it significantly improves product development speed and efficiency while effectively reducing labor and resource costs."
+    }
+  },
+  "24": {
+    "heading": "Design Token:\nThe Meaning of Multi-Layer Inheritance",
+    "subtitle": "Does Design Token need multi-layer inheritance? There's no fixed standard—plan according to project and team scale, balancing system flexibility with subsequent maintenance.",
+    "date": "Apr 23, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/23/topics-23.1.jpg",
+      "articles/23/topics-23.2.jpg",
+      "articles/23/topics-23.3.jpg",
+      "articles/23/topics-23.4.jpg",
+      "articles/23/topics-23.5.jpg",
+      "articles/23/topics-23.6.jpg",
+      "articles/23/topics-23.7.jpg"
+    ],
+    "content": {
+      "paragraph1": "In course assignments, students often ask: Why use a multi-layer Design Token inheritance system? Inheritance example: Given a color code #FF104C, it can be named by these layers: Value: #FF104C (this value is hard to understand), Reference Token (ref-color-red): Intuitively naming the value 'red' improves readability, System Token (sys-color-brand): Defines this 'red's' role in the project, e.g., brand primary color, Component Token (comp-color-button-brand): Assigns this brand color to buttons, inheriting settings.",
+      "paragraph2": "Why layer? Clear naming: Reference Tokens make abstract color codes simple and memorable. Centralized management: System Tokens clarify 'red's' purpose in the project, avoiding hard-coded values in components. Flexible adjustments: If brand colors change, just modify System Tokens and all Component Tokens update automatically. Simplified approach for small projects: Two-layer structure—for smaller scales, skip Reference Tokens and use System Tokens directly (like sys-color-brand) distributed to components. But this doesn't mean Reference tokens aren't important—besides helping name values more intuitively, they also control and limit values used in products.",
+      "paragraph3": "Why is Google so complex? Behind Google's enterprise are numerous designers and developers, so rigorous planning benefits: Unified management ensuring consistent overall style, reduced communication costs with clear layer responsibilities, rolling updates over time reducing maintenance burden. Design Tokens aren't an easy system to understand—they originate from technical variable settings, and different projects use different methods, requiring practice time. When you understand Design Token usage, design and engineering can collaborate better~"
+    }
+  },
+  "25": {
+    "heading": "Design Token:\nThe Cross-Platform Bridge",
+    "subtitle": "Design Token serves as a cross-platform/cross-technology configuration standard, helping design and engineering build bridges across platforms.",
+    "date": "Apr 30, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/24/topics-24.1.jpg",
+      "articles/24/topics-24.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "A student asked: 'Our company already has multiple tech stacks—products are developed simultaneously on Web, iOS, Android, React, Angular, Vue, and other platforms and frameworks. Would this conflict with a design system?'",
+      "paragraph2": "Actually, a design system is essentially a collaboration tool that can become the organization's 'core.' It's not just a component library but also a communication specification. Design Tokens can serve as a cross-platform/cross-technology bridge: colors, fonts, spacing, etc. only need to be maintained once, then exported via tools as CSS custom properties, SCSS variables, Android XML, iOS JSON, and other formats. Whether Web or native App, teams can reference the same set of Tokens, maintaining visual and behavioral consistency.",
+      "paragraph3": "Therefore, promoting design systems won't conflict with existing Tech Stacks and can become a 'common language' and collaboration method for different technical teams."
+    }
+  },
+  "26": {
+    "heading": "Design Token:\nThe Clothing Size Analogy",
+    "subtitle": "Design Token is like clothing size labels—Ref Token corresponds to exact centimeter measurements, while System Token converts numbers into semantic sizes like S/M/XL.",
+    "date": "May 7, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/25/topics-25.1.jpg",
+      "articles/25/topics-25.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Recently, I've been thinking about making Design Token explanations easier to understand. We actually use 'Tokens' every day. The S/M/XL you see when shopping at Uniqlo or Zara are System Tokens—semantic sizes. The corresponding values like 23 cm, 28 cm are Reference Tokens. Different regions or brands (Asian S ≠ European S) only need to change the Reference Token's centimeter values; System Token labels stay the same.",
+      "paragraph2": "In design system courses, Design Token has always been a relatively abstract and difficult knowledge chapter. So students, including myself when first learning, were confused and only partially understood—this is normal! I remember my experience understanding Design Tokens: first try to implement, then when you find the logic is wrong, fix what was wrong to be more ideal. Frequent modifications are a normal process 🤓",
+      "paragraph3": "So don't be too afraid of making mistakes, because making mistakes, trial and error, and correcting errors are all normal processes for understanding knowledge. The best learning method: hands-on practice → discover unreasonable aspects → adjust and iterate."
+    }
+  },
+  "27": {
+    "heading": "Design System Scale:\nContextual Planning",
+    "subtitle": "Design System scale adjusts based on product complexity, organizational maturity, and team size. The constant members are designers, engineers, and project managers.",
+    "date": "May 14, 2025",
+    "tags": [
+      "Design System",
+      "Product Team"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/26/topics-26.1.jpg",
+      "articles/26/topics-26.2.jpg",
+      "articles/26/topics-26.3.jpg",
+      "articles/26/topics-26.4.jpg"
+    ],
+    "content": {
+      "paragraph1": "Design system scale flexibly changes with product complexity, team maturity, and project size: functionality can range from a simple set of color and component specifications to encompassing Design Tokens, design and development documentation, etc. Regardless of scale, designers, engineers, project managers, and QA remain the roles driving and implementing, respectively responsible for visual language, technical implementation, priority coordination, and quality assurance.",
+      "paragraph2": "In small to medium teams, design systems are often maintained 'part-time' by product team members—designers and front-end engineers collaborate to establish component libraries and style guidelines, project managers integrate requirements and scheduling, QA verifies consistency at the end of development cycles. This model focuses on a single product, emphasizing speed and practicality: only specifying the most commonly used components and processes to avoid losing efficiency advantages due to excessive maintenance costs.",
+      "paragraph3": "Large enterprises often make design systems an independent dedicated team, playing a 'central factory' role. They may have multiple product lines with connection requirements, establish cross-platform standards, and need to maintain multiple versions and assist various teams with adoption. So don't blindly copy large-scale architectures like Google Material Design; the real challenge lies in adjusting and expanding based on organizational culture, technology, and usage scenarios, letting design systems unify brand consistency while ensuring product flexibility and creative space."
+    }
+  },
+  "28": {
+    "heading": "AI-Accelerated Design:\nFoundation First",
+    "subtitle": "Before using AI to accelerate design systems, understand the foundational context: Design Principles → Elements → Components → Modules → Product, then amplify efficiency through AI.",
+    "date": "May 21, 2025",
+    "tags": [
+      "Design System",
+      "AI",
+      "Design Principles"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/27/topics-27.1.jpg",
+      "articles/27/topics-27.2.jpg",
+      "articles/27/topics-27.3.jpg",
+      "articles/27/topics-27.4.jpg",
+      "articles/27/topics-27.5.jpg",
+      "articles/27/topics-27.6.jpg"
+    ],
+    "content": {
+      "paragraph1": "Before introducing AI, build a solid foundation for design systems—understanding atomic design methods and processes in order from 'Design Principles → Design Elements → Components → Modules → Product Interfaces' allows us to more precisely present each step's requirements to AI, avoiding process confusion.",
+      "paragraph2": "I often use AI to improve design speed myself; similarly, if you have basic concepts in programming development, you can more effectively complete tasks through AI. Whether design or programming, as long as the foundation is solid, it's easier to correct AI output and clearly grasp objectives.",
+      "paragraph3": "Therefore, foundational knowledge allows you to make methods and results more focused and clear when interacting with AI, truly amplifying the speed and benefits AI brings ✨"
+    }
+  },
+  "29": {
+    "heading": "Vibe Coding:\nAI as Engineer",
+    "subtitle": "In the future, designers might serve as product managers while AI becomes a real engineer, helping develop products and features.",
+    "date": "May 23, 2025",
+    "tags": [
+      "Design System",
+      "AI",
+      "Color"
+    ],
+    "category": "article",
+    "url": "https://noeinoi.com/storybook/?path=/story/tools-color-tool--default",
+    "images": [
+      "articles/28/topics-28.1.jpg"
+    ],
+    "content": {
+      "paragraph1": "Recently, I developed a color tool for the design system course—users can pick a primary color, then automatically generate related auxiliary colors and status colors. This feature's main purpose was to test current AI Coding capabilities. After seeing a tech expert recommend Cline.bot on Threads, I decided to try using it to develop this tool. Previously, I had been using Cursor as my AI development tool, but switching to Cline.bot this time was super amazing! Color Tool (https://noeinoi.com/storybook/?path=/story/tools-color-tool--default)",
+      "paragraph2": "The entire development process was quite smooth: I explained the feature requirements and provided a design mockup, then Cline.bot wrote code based on the design. In this process, it not only understood requirements but also automatically debugged code, progressively opened windows, checked various interface functions, and conducted QA testing. What's more remarkable is that it would self-confirm 'Perfect, this feature is correct!' as if there was a real engineer behind it. All of this made me deeply feel that AI Coding is continuously evolving.",
+      "paragraph3": "In the future, designers might serve as product managers while AI becomes a real engineer, helping develop products and features. Therefore, if designers can master some basic programming logic, it will greatly help and advance future product design~"
+    }
+  },
+  "30": {
+    "heading": "Color Hierarchy:\nThe Meaning of Numbers",
+    "subtitle": "Color Token's 10-90 represents brightness from light to dark within the same hue. First establish the core color at level 50 as the midpoint, then derive lighter and darker shades toward both ends.",
+    "date": "May 29, 2025",
+    "tags": [
+      "Design System",
+      "Color",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/29/topics-29.1.jpg",
+      "articles/29/topics-29.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Number hierarchies in color systems (like 5-95 or 50-950) mark brightness gradients from lightest to darkest within the same hue. Designers typically first lock in the 'core color' (usually at level 50 or 500) using HSL Lightness, or OKLCH L values that better match human eye perception, then derive gradually changing lighter and darker shades toward both ends, ensuring both light and dark modes maintain consistency and contrast compliance.",
+      "paragraph2": "Using 10 or 100 as units rather than 1, 2, 3... is to reserve expansion space: if a new shade needs to be inserted between 10 and 20 in the future, just name it 15. The specific choice of 10 or 100 intervals depends on team naming conventions and programming implementation convenience.",
+      "paragraph3": "Finally, color systems aren't about 'more colors being better.' Each shade should serve a clear UI function—like brand primary color, interaction states, background levels, or text colors—avoiding increased maintenance and accessibility testing complexity from pursuing richness."
+    }
+  },
+  "31": {
+    "heading": "Simplification & Convergence:\nLessons from Raptor 3",
+    "subtitle": "SpaceX Raptor 3 achieves higher performance with fewer parts, just like design systems make development more efficient and processes more agile through simplification and convergence, accelerating product iteration.",
+    "date": "Jun 4, 2025",
+    "tags": [
+      "Design System",
+      "Product Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/30/topics-30.1.jpg",
+      "articles/30/topics-30.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Watching SpaceX's latest Raptor 3 rocket engine presentation, they showed the evolution from Raptor 1 to Raptor 3: from previously complex, tangled piping to the latest version's high integration, with overall design being more streamlined and performance stronger. This reminded me of the core purpose of 'design systems'—supporting maximum requirements with the fewest, most consistent components, making development processes more concise and efficient.",
+      "paragraph2": "In reality, products often only need a stable-performance car, but without a design system, we might accidentally build a clunky rocket while repeatedly reinventing the wheel. The value of design systems isn't in unlimited production of duplicate new parts, but in properly managing and improving existing components, letting them satisfy new requirements in more refined ways.",
+      "paragraph3": "Therefore, 'simplification and convergence' is the essential thinking path for design systems: continuously removing redundancy, merging similar elements, keeping structure predictable and easy to maintain. Only by staying simplified can design systems become a team's common language, helping new members get up to speed quickly, truly internalizing into product culture rather than evolving over time into another unwieldy giant difficult to maintain."
+    }
+  },
+  "32": {
+    "heading": "Neutral vs. Light/Dark Colors:\nFunctional Differences",
+    "subtitle": "Neutral colors and light/dark colors have some functional usage differences: semi-transparent dark colors are often used for overlays; semi-transparent light colors work well layered on colored or image backgrounds—while opaque neutral colors are mostly used for large background areas or text.",
+    "date": "Jun 12, 2025",
+    "tags": [
+      "Design System",
+      "Color"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/31/topics-31.1.jpg",
+      "articles/31/topics-31.2.jpg",
+      "articles/31/topics-31.3.jpg",
+      "articles/31/topics-31.4.jpg",
+      "articles/31/topics-31.5.jpg"
+    ],
+    "content": {
+      "paragraph1": "Some students ask about the difference between neutral colors and light/dark colors. While neutral colors seem to encompass both light and dark colors, and the extreme ends of neutral appear similar to light/dark colors, there are practical usage differences. In most design systems, 'neutral color scales' typically refer to colors without obvious hue, mainly grayscale or near-grayscale, usually planned by brightness. 'Light/dark colors' mostly add transparency (alpha) to black or white base colors, allowing colors to maintain contrast and readability when covering any colored or image background.",
+      "paragraph2": "The biggest difference between the two: when neutral colors are placed on colored or image backgrounds, contrast may be insufficient, causing color blending issues. Transparent light/dark overlays blend with backgrounds and adjust their visual changes, thus ensuring text or overlay visibility and being less susceptible to color absorption.",
+      "paragraph3": "Additionally, some design systems include transparency as part of Design Tokens, so 'neutral color + transparency' mixed use can achieve similar effects. However, 'color × transparency' becomes multiplicative settings, potentially making color systems slightly more complex with increased maintenance costs—I personally don't recommend this approach."
+    }
+  },
+  "33": {
+    "heading": "Design Token:\nIt's Just Variables",
+    "subtitle": "Design Token is essentially variable settings on the technical side—using a name to bind design values like colors, font sizes, or spacing. When modified in the source file, all components referencing that variable update together.",
+    "date": "Jun 18, 2025",
+    "tags": [
+      "Design System",
+      "Design Token",
+      "Figma"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/31-2/topics-31-2.1.jpg",
+      "articles/31-2/topics-31-2.2.jpg",
+      "articles/31-2/topics-31-2.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "Design Token is essentially variables in programming—this is why Figma named the related feature 'Variables' in 2023. From an engineering perspective, whether it's JavaScript's common var, Sass variables, or later CSS Variables, the purpose is to create names and methods for design values that can be reused and centrally managed; Design Token just renames the same concept, making it convenient for designers and engineers to share.",
+      "paragraph2": "A few years ago when asked 'What is Design Token' in class, I also got confused 😅 The reason is that the same thing with different labels easily makes people think it's an entirely new concept. For most designers with limited programming experience, they may be unsure what variables are; if uniformly renamed to 'Design Variables' 😂 it might be more intuitive for both designers and engineers. Regardless of the name, the core is: using unified variables to record design decisions like colors, font sizes, spacing—once adjusted in the source file, all references sync automatically.",
+      "paragraph3": "So don't be fooled by fancy-sounding proprietary terms like Design Token—it's actually just simple variables~"
+    }
+  },
+  "34": {
+    "heading": "Token Naming Structure:\nTeam Collaboration Planning",
+    "subtitle": "Design Token naming structure can be planned together by product teams, ensuring engineering can immediately and seamlessly apply what design outputs.",
+    "date": "Jun 25, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/32/topics-32.1.jpg",
+      "articles/32/topics-32.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Design Token naming strategy shouldn't be designers working alone, but designers and engineers jointly developing it, keeping both sides consistent in semantics and implementation.",
+      "paragraph2": "Teams should establish a 'naming convention table' listing all necessary structures in a table—prefix, category, role, component, variant, target, state. List possible vocabulary for each field with example explanations. When adding new Tokens in the future, just follow this table to complete naming, eliminating human differences and enabling design-side style code output to sync to engineering.",
+      "paragraph3": "Although every company's Design Token structure and planning differs, one principle must be strictly followed: once naming structure hierarchy and order are established, they shouldn't be changed arbitrarily. For example, if 'state' is fixed at the naming end, this rule should be maintained in the future, ensuring overall consistency and predictability."
+    }
+  },
+  "35": {
+    "heading": "Figma Variables:\nAI-Accelerated Workflow",
+    "subtitle": "Through Figma Variables export/import functionality, combined with AI (like ChatGPT, Claude AI, etc.), design decisions can be converted to Design Tokens and imported back to Figma to quickly build product Variables.",
+    "date": "Jul 2, 2025",
+    "tags": [
+      "Design System",
+      "AI",
+      "Figma",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "https://www.figma.com/community/plugin/1256972111705530093/export-import-variables",
+    "images": [
+      "articles/33/topics-33.1.jpg",
+      "articles/33/topics-33.2.jpg",
+      "articles/33/topics-33.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "This week I want to introduce a very practical Figma plugin: Export / Import Variables~ Export / Import Variables (https://www.figma.com/community/plugin/1256972111705530093/export-import-variables) It can export existing Variables (Design Tokens) in your project to JSON files, convenient for backup or transferring Variable settings~",
+      "paragraph2": "The exported variables.json can be sent directly to AI (ChatGPT, Claude... any works). We can have AI perform tasks like completing or expanding tokens (e.g., automatically generating complete shade scales, semantic color systems), checking/optimizing naming structure and rules, ensuring hierarchy and semantic consistency~",
+      "paragraph3": "The new variables-new.json generated by AI can then be imported back to Figma through this plugin, quickly applying more complete, clean Design Tokens back to the project, accelerating the design system planning process~"
+    }
+  },
+  "36": {
+    "heading": "Color Overlay Strategy:\nSimplifying Token Management",
+    "subtitle": "Besides using hierarchies for state colors, color systems can also use transparent white or black overlays for different color states—reducing color Token planning while making code easier to maintain.",
+    "date": "Jul 10, 2025",
+    "tags": [
+      "Design System",
+      "Color",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/34/topics-34.1.jpg",
+      "articles/34/topics-34.2.jpg",
+      "articles/34/topics-34.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "When developing design system component libraries in the past, because I care about efficiency, I tried to simplify Design Tokens. Taking 'color' as an example, for different interaction states of the same hue (like hover, pressed), I use a 'light/dark transparency overlay' blending approach. This method allows designing just one base color, then converting it to different state colors through the same overlay method, reducing the need to define color hierarchies like primary-30, primary-50, primary-70.",
+      "paragraph2": "Advantages: 1. Token convergence: Just plan minimal core colors like primary, secondary, success, error, then use transparency overlays to correspond to all interaction levels, avoiding color code explosion. 2. Simplified code maintenance: Engineers only need to set one variable per base color, without creating aliases for each button state—cleaner code, lower maintenance costs. Disadvantages: Color presentation becomes more fixed; in specific scenarios, the technical side needs to think about how to implement the same overlay method.",
+      "paragraph3": "So besides traditional color scale planning, overlay strategies can simultaneously optimize design system management efficiency and engineering implementation experience."
+    }
+  },
+  "37": {
+    "heading": "Number Management:\nDesign System Convergence",
+    "subtitle": "Design systems are about organizing design. An important part is 'number management'—using tables to consolidate shared values while avoiding unlimited expansion of these 'numbers' over time, which makes design elements increasingly complex and hard to manage.",
+    "date": "Jul 16, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/35/topics-35.1.jpg",
+      "articles/35/topics-35.2.jpg",
+      "articles/35/topics-35.3.jpg",
+      "articles/35/topics-35.4.jpg"
+    ],
+    "content": {
+      "paragraph1": "When planning and building design systems, the trickiest part is often organizing design elements—like living in a house for a long time, clutter unknowingly piles up everywhere. Product design is the same. One of the biggest tasks of design systems is properly organizing these elements, especially since design elements are closely related to 'numbers'—font sizes, border radius, spacing, etc. Different designers sometimes create various values for subtle aesthetic needs, indirectly expanding too many numbers.",
+      "paragraph2": "We should avoid excessive number divergence; just as components can be shared, numbers also need convergence and flexible sharing across different scenarios. For example, 12 might simultaneously represent small font size, default border radius, or medium spacing. We can use tables to record and consolidate these shared values, tracking what numbers the current project uses and preventing unlimited number expansion that makes design elements increasingly complex and hard to manage over time.",
+      "paragraph3": "These numbers are like existing ingredients in the refrigerator. When designing products, we should first use existing ingredients from the 'fridge' to cook, rather than running to the supermarket to restock for every new dish and stuffing the fridge full. Fridge space is a limited resource; similarly, product design needs to first make good use of existing numbers to keep the entire system lean and easy to maintain."
+    }
+  },
+  "38": {
+    "heading": "Experiment Sandbox:\nFlexible Design System Process",
+    "subtitle": "Through flexible design system processes, new components or ideas can first enter an 'experiment sandbox' for actual UX testing. If validated as cross-interface shareable and experience-enhancing, they can be upgraded to the Design System!",
+    "date": "Jul 23, 2025",
+    "tags": [
+      "Design System",
+      "Product Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/36/topics-36.1.jpg",
+      "articles/36/topics-36.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Recently I saw someone mention that design system teams and product teams have inconsistent thinking, making it difficult for design systems to solve frontline product pain points. Actually, design system teams are indeed like central factories in product design: responsible for maintaining consistent output, building shareable architecture, and preventing unlimited accumulation of design and technical debt. At the same time, their daily tasks include understanding frontline product team needs and providing corresponding support, finding compromises when conflicts arise to move forward together.",
+      "paragraph2": "For small to medium projects, design systems don't have to become rigid dictionaries. Through flexible processes—like establishing an 'experiment sandbox' mechanism—teams can first validate new ideas and components, then use quantitative data to decide whether to upgrade and incorporate into the system.",
+      "paragraph3": "A mature product ultimately relies on data-validated user experience for continuous iteration. So whether design-to-design or design-to-technology, it ultimately depends on consensus and communication to achieve more efficient, balanced collaboration models."
+    }
+  },
+  "39": {
+    "heading": "Token Roles:\nThe Meaning of Three-Layer Definition",
+    "subtitle": "Different types of Tokens (Reference, System, Component) each have their functions and meanings. When a value is set as a Token, we can more clearly explain what role this value plays, where it belongs, and its actual purpose.",
+    "date": "Jul 30, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/37/topics-37.1.jpg",
+      "articles/37/topics-37.2.jpg",
+      "articles/37/topics-37.3.jpg",
+      "articles/37/topics-37.4.jpg",
+      "articles/37/topics-37.5.jpg"
+    ],
+    "content": {
+      "paragraph1": "A student asked how to correctly define System Tokens. Actually, System Tokens are inherently more flexible, so there's no single answer. In my experience, I try not to define too many state-related Tokens at the System level, otherwise the semantic layer becomes overly complex; I try to arrange states at the Component level, like hover, disabled, etc.—putting state decisions in component context is clearer.",
+      "paragraph2": "We can view different Token levels from a 'role' perspective: Initially we only have a value, like #4D47E5. But looking at this value, it's hard to know its 'role.' So at the first Reference level, we name this value 'purple,' letting everyone first know 'what it's called.' Then at System level, we further define what I do—like 'I'm a designer.' This layer is more flexible, doesn't need to be too rigid, preserving room for error tolerance and expandability. At Component level, we need more explicit definition of 'where this role is and what it does'—like 'I'm awwrated's product designer.' At this point, semantics and context are specifically bound to particular components and states, becoming more direct and clear.",
+      "paragraph3": "Therefore, from an initial value, through Reference → System → Component layer-by-layer definition, we can better understand who it is, what it does, where it does it—the entire inheritance relationship makes the original value clearer. Returning to the student's question, multiple approaches are viable. You can define semantics more completely at System level, or leave more state and scenario decisions to Component level. The key is product teams having consistent usage, because System Token is the most flexible layer—there's no right or wrong, just clear context."
+    }
+  },
+  "40": {
+    "heading": "Document Sync:\nNotion and Storybook",
+    "subtitle": "After design systems are established, design and engineering documents often become out of sync. We can use Notion as the document source, convert to MD/MDX and import to Storybook, keeping product documentation consistent.",
+    "date": "Aug 7, 2025",
+    "tags": [
+      "Design System",
+      "Storybook"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/38/topics-38.1.jpg",
+      "articles/38/topics-38.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Today I shared a design system course at a tech company, where a common product team problem came up: design team and engineering team documentation may have sync issues.",
+      "paragraph2": "I happened to have seen someone share using Notion as a CMS data source and exporting for website use. So through the same method, we can use cloud document platforms like Notion to create design system documentation that both designers and engineers can collaboratively edit, converting content to Markdown/MDX via code, importing to Storybook (design system component library) for unified presentation.",
+      "paragraph3": "This way, product teams just need to update documentation in Notion, and after sync and build, the latest content can be published to component library documentation—reducing the pain of scattered document maintenance while improving product documentation consistency and tracking."
+    }
+  },
+  "41": {
+    "heading": "Goal Setting:\nChoosing OKR vs KPI",
+    "subtitle": "For setting design system goals: use OKR for early-stage establishment and advancement, use KPI for mature-stage tracking and optimization. Stage-based goal setting gives product teams clear direction in different cycles to achieve goals step by step.",
+    "date": "Aug 14, 2025",
+    "tags": [
+      "Design System",
+      "Product Team"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/39/topics-39.1.jpg",
+      "articles/39/topics-39.2.jpg",
+      "articles/39/topics-39.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "During a corporate training last week, a designer asked 'How to evaluate and set KPIs for implementing design systems?' I don't have experience setting KPIs XD so I wasn't sure how to answer correctly. In smaller past companies, design teams didn't establish tracking metrics like KPIs. My experience was: after establishing design system design and development goals, we'd have regular meetings, then designers and engineers would collaborate and start implementing within 3-6 months. I found some articles online sharing different teams' experiences implementing design systems and setting KPIs: Design System Metrics (https://www.uxpin.com/studio/blog/design-system-metrics) | Without design systems, your product is already failing (https://www.mindtheproduct.com/without-design-systems-your-product-is-already-failing/)",
+      "paragraph2": "Looking at OKR vs KPI characteristics, for design systems going from 0 to 1, OKR is more suitable. This stage focuses on setting initial goals and work items, then pushing implementation—like organizing design principles, converging design elements, establishing Design Tokens, etc. KPI seems better suited for mature-stage tracking and optimization, like: Has component reuse rate improved? Has design duplication decreased? Have consistency issues reduced? Has delivery time shortened? Before implementing design systems, there's lack of before/after data comparison, making it hard to evaluate if optimization metrics are achieved. So product teams can start recording relevant data before implementation: time spent on new interface or component design, current number of inconsistent components, problems and time spent communicating with engineers.",
+      "paragraph3": "With these records, after implementing design systems in the future, you can better evaluate whether these problems are solved. Early stage's main goal is designing and implementing the design system, while mature stage shifts to tracking and optimizing design system effectiveness. When product teams have consensus on implementing design systems, they can simultaneously plan short and long-term goals, making the entire process more directed and achieving goals step by step. From past experience, the huge efficiency improvement design systems bring to product teams is unquestionable ✨✨"
+    }
+  },
+  "42": {
+    "heading": "Building Blocks:\nDesign System Collaboration Flow",
+    "subtitle": "Once design systems have a solid foundation, when laying out interfaces or components, whether on design or engineering side, the entire process becomes more like assembling building blocks.",
+    "date": "Aug 21, 2025",
+    "tags": [
+      "Design System",
+      "Component",
+      "Grid System"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/40/topics-40.1.jpg",
+      "articles/40/topics-40.2.jpg",
+      "articles/40/topics-40.3.jpg",
+      "articles/40/topics-40.4.jpg"
+    ],
+    "content": {
+      "paragraph1": "Once design systems and component libraries have a solid foundation, when designing and developing interfaces or components, the entire process becomes more like assembling building blocks. For example, a simple profile card component—we combine Avatar, Text-Box, and Card components. Designers can communicate with engineers through Grid System: Avatar and Text-Box occupy 1 Column and 2 Columns respectively in the Card component, and how much Gutter spacing, etc.",
+      "paragraph2": "Beyond components, interface layouts can also collaborate with engineering the same way. The biggest difference from the past is designers no longer need to frequently communicate back and forth with engineers adjusting component visual details, but instead let engineering clearly understand component positions and proportions in space, correctly assembling them into interfaces.",
+      "paragraph3": "This approach significantly improves communication efficiency, avoiding repetitive 'Pixel pushing' processes, because design system components are already well-designed and tested beforehand, ready to use directly as mature, stable components in interfaces, modules, or features ✨✨✨"
+    }
+  },
+  "43": {
+    "heading": "AI-Assisted:\nBuilding Design System Component Libraries",
+    "subtitle": "Using AI to help plan and build design system component libraries.",
+    "date": "Aug 23, 2025",
+    "tags": [
+      "Design System",
+      "Storybook",
+      "AI",
+      "VibeCoding"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/41/topics-41.1.mp4"
+    ],
+    "content": {
+      "paragraph1": "Recently started redesigning and developing a new version of my personal portfolio website. Different from before, this time I'm first developing the components needed for the website interface. The previous version of my personal website was from 2017—8 years ago. Compared to before, the biggest difference now is directly communicating ideas with AI, then building components one by one in Storybook.",
+      "paragraph2": "Previous development was more like one-time development—after development ended, this project couldn't continue to the next project. But through Storybook management, when redesigning in the future, you can keep needed components and iterate on styles, finally reusing them in the next version of the project.",
+      "paragraph3": "Now Storybook can also be quickly built through Vibe Coding, so I encourage designers to learn how to use AI to help develop design system component libraries. Compared to directly using some frontend component libraries, it's more fun because you can put in more of your own ideas. If there are product designers interested in Storybook, welcome to discuss and exchange ideas ✨✨"
+    }
+  },
+  "44": {
+    "heading": "Figma Tools:\nColor Guide Generator",
+    "subtitle": "Figma tool share 'Color Variables Style Guide': After creating color Tokens in Figma Variables, we can use Figma Plugins to directly output visual color guides.",
+    "date": "Sep 3, 2025",
+    "tags": [
+      "Design System",
+      "Figma",
+      "Color"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/42/topics-42.1.jpg",
+      "articles/42/topics-42.2.jpg",
+      "articles/42/topics-42.3.jpg",
+      "articles/42/topics-42.4.jpg"
+    ],
+    "content": {
+      "paragraph1": "When we create color Tokens in Figma Variables, it's actually hard to understand and grasp the project's overall color planning at a glance. If we need to arrange each color one by one into design files, it's relatively troublesome and time-consuming. But there are many amazing tools on Figma 😆 I recommend two practical plugins: 'Color Variables Style Guide' and 'Color Variables Style Guide Generator.' Both can quickly format Color Variables into visual color guides, reducing manual organization time.",
+      "paragraph2": "Although the two tools have very similar names, there are actually some differences: 'Color Variables Style Guide': Can sync variable names and descriptions into the output, supports custom layouts, especially friendly for document delivery. 'Color Variables Style Guide Generator': Clearly presents Variables inheritance relationships, supports multi-Mode comparison, suitable for design system health checks or color refactoring.",
+      "paragraph3": "Plugin links: Color Variables Style Guide (http://www.figma.com/community/plugin/1264487790204417601/color-variables-style-guide) | Color Variables Style Guide Generator (http://www.figma.com/community/plugin/1349082257648855815/color-variables-style-guide-generator)"
+    }
+  },
+  "45": {
+    "heading": "Token Layers:\nTwo-Layer vs Three-Layer Models",
+    "subtitle": "Design Tokens have two common layering models: 2-layer (Global → Alias) and 3-layer (Reference → System → Component). Though inheritance methods differ slightly, token naming structure and principles are basically consistent.",
+    "date": "Sep 10, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/43/topics-43.1.jpg",
+      "articles/43/topics-43.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "In different design systems or enterprises, Design Tokens commonly have two layering approaches: 2-layer (Primitive/Global → Semantic/Alias) and 3-layer (Reference/Primitive → System/Semantic → Component). Though Token inheritance methods differ, naming structure and principles are basically consistent: they all include system prefix, token type, role, and when necessary add component, variant, and state, etc. In past companies I mainly used 2-layer (because product projects were relatively simple and easy to manage), and only understood Material Design's 3-layer inheritance management while preparing design system courses. Neither is right or wrong—the key is team consensus and maintenance management methods.",
+      "paragraph2": "Let me roughly describe the pros and cons of these 2 methods: [2-Layer] Pros: Simple structure, fast implementation, low naming and maintenance costs. Potential issues: Semantic layer easily 'bears too many scenarios and states,' exception rules increase in large component libraries. Suitable for: Single brand, component library not too large. [3-Layer] Pros: Component layer can clearly manage different components, variants, and states; better extension and transfer when cross-brand/theme. Potential issues: More layers, governance and sync relatively complex. Suitable for: Large or multi-brand products, theme switching, design systems with complex component libraries.",
+      "paragraph3": "Extended method for initially building design systems: Start with 2-layer, establish Design Token design foundation. When future product component scale and cross-scenario complexity increase, then introduce Component layer—this is also a gradual approach. These 2 methods have no right or wrong—it depends on what the team ultimately decides. As long as everyone has consensus and can get started, that's the best Design Token design method."
+    }
+  },
+  "46": {
+    "heading": "Multi-Brand Management:\nShared Token Strategy",
+    "subtitle": "When designing a multi-brand design system, you can set up shared Reference layer Tokens and systematically inherit them to Semantic layer Tokens. This teaches how to share resources and reduce multi-brand maintenance costs, without maintaining separate design systems for each brand.",
+    "date": "Sep 17, 2025",
+    "tags": [
+      "Design System",
+      "Design Token",
+      "Figma"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/44/topics-44.1.jpg",
+      "articles/44/topics-44.2.jpg",
+      "articles/44/topics-44.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "Recently a student was rebuilding their company's design system, but since the company has many products, the system must consider multi-brand (multi-product) scenarios. In this brain-burning situation, how can we manage more efficiently? We can start from Design Tokens—because planning and designing Tokens itself is a systematic management method.",
+      "paragraph2": "After actually designing design systems a few times, you'll find that most setting values don't differ much, especially foundational values like typography, spacing, border radius, colors, etc.—they can all be shared. So first establish Reference layer Tokens shared by all brands, then think about how to systematically inherit to the second System layer tokens, while planning different brand settings at the semantic layer (like color, typography differences, etc.).",
+      "paragraph3": "In implementation, engineering only needs to switch Theme settings, and the component layer can automatically correspond to different brand Tokens, completing style switching without changing component code—avoiding maintaining separate design systems and components for multi-brand products. Through this planning process, you can learn how to share resources and reduce multi-brand maintenance costs 🤓 By the way, Figma Variables Modes are great for learning to manage multi-brand design system settings and planning."
+    }
+  },
+  "47": {
+    "heading": "Elevation:\nInterface Z-Axis Design",
+    "subtitle": "An often overlooked element in design systems is Elevation (height)—the z-axis position on interfaces. Google Material Design uses physical world properties as elevation design logic—including height itself and corresponding shadow variations at different heights, presenting layers and depth.",
+    "date": "Sep 24, 2025",
+    "tags": [
+      "Design System",
+      "Material Design"
+    ],
+    "category": "article",
+    "url": "http://m3.material.io/styles/elevation/overview",
+    "images": [
+      "articles/45/topics-45.1.jpg",
+      "articles/45/topics-45.2.jpg",
+      "articles/45/topics-45.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "When designing or developing design systems, Elevation (height/layer z-axis position) is an often-overlooked design element. Google Material Design has clear design logic ✨ It uses real physical world properties to uniformly plan height and shadows, so the same component at different heights shows different shadows, presenting interface layers and depth.",
+      "paragraph2": "When planning elevation, we should keep it simple. Taking Material Design as an example, it defines different height levels. Using Google Map as an example: level 0 (map background), level 1 (floating button), level 2 (card), level 3 (main menu), level 4 (popup window), etc. Common components can correspond to these levels and apply consistent shadow settings—this benefits shadow element design through consistent logic.",
+      "paragraph3": "In Design Token and engineering, these levels can also be used to set shadows and z-index. Adopting this concept avoids chaotic z-index settings on the engineering side. Attached: Google Material Design elevation documentation (http://m3.material.io/styles/elevation/overview)"
+    }
+  },
+  "48": {
+    "heading": "Composability:\nComponent Assembly Thinking",
+    "subtitle": "Design systems are methods for deconstructing interfaces and reassembling components. Like building blocks, when designing each piece, you need to first think clearly about how it connects with other blocks. When these connection rules are properly defined, assembly enables quick construction of consistent, extensible, maintainable components and interface applications.",
+    "date": "Oct 1, 2025",
+    "tags": [
+      "Design System",
+      "Grid System",
+      "Component",
+      "Product Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/46/topics-46.1.jpg",
+      "articles/46/topics-46.2.jpg",
+      "articles/46/topics-46.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "When planning design systems, we can think of each component as connectable square building blocks. When designing, first consider how this block connects with other blocks, including size and height, padding and margin, alignment and baseline, and different state behaviors, enabling smooth assembly in various scenarios.",
+      "paragraph2": "Taking Input as an example, it often combines with Button to form search components. At this point, you need to check if both heights and margins are consistent, avoiding poor fit due to mismatched sizes. Or Button often consists of Icon and text—you also need to confirm if label text and Icon sizes and spacing are coordinated, and if they can align on the same baseline.",
+      "paragraph3": "We all know these are basic, but if 'composability' is ignored during design, implementation easily encounters connection problems. Converting components to square blocks to think about their connection methods, simultaneously considering proportions, positions, and responsive behavior—when handing off designs to engineering, it helps engineers understand assembly logic faster, making frontend development and RWD technical communication smoother."
+    }
+  },
+  "49": {
+    "heading": "Design Systems Surf:\nDesign System Database",
+    "subtitle": "Design system database 'Design Systems Surf' compiles public design system databases. It provides cross-system component and foundation references, and also supports very practical search functions for 'design system libraries/components/documentation.' Very useful for planning design systems!",
+    "date": "Oct 9, 2025",
+    "tags": [
+      "Design System",
+      "Design Tool"
+    ],
+    "category": "article",
+    "url": "http://designsystems.surf/",
+    "images": [
+      "articles/47/topics-47.1.jpg",
+      "articles/47/topics-47.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "This week I want to share a 'very' practical design system database platform 'Design Systems Surf.' Besides finding major design systems, you can also use indexes like color systems, components, etc. to quickly understand how different companies plan their design systems, components, and documentation. Design Systems Surf (http://designsystems.surf/)",
+      "paragraph2": "When we want to plan design systems, or already have initial ideas ready for implementation, we often get stuck on complex foundations and design details, uncertain how to better implement. At this point, first reference different foreign companies' design systems—understand how different companies plan and make tradeoffs, find methods and knowledge worth referencing. Different teams have different approaches in foundation layers (like color planning, Design Token structure...) and component methods—they won't be exactly the same.",
+      "paragraph3": "Therefore, design systems are harder to understand and enter initially because there are too many directions—more references means more confused ideas. So suggest first confirming goals and scope with the team, then compare systems and examples (components, foundations, documentation...) closer to your needs—absorb, converge, and integrate usable parts. Generally, you don't need to start complex. First establish a minimum viable (MVP) set of foundations + core components, confirm what's needed, simplify unnecessary parts first, extract advantages from various sources and integrate—that forms your team's own design system library."
+    }
+  },
+  "50": {
+    "heading": "On Naming:\nColor Token Pairing Strategy",
+    "subtitle": "When designing Color Tokens, Material Design uses 'on' to indicate content colors (like text or icons) overlaid on a base color—like primary/onPrimary, error/onError. This naming approach creates more stable color combinations and ensures readability and contrast, but with relatively lower flexibility for mixing.",
+    "date": "Oct 16, 2025",
+    "tags": [
+      "Design System",
+      "Design Token",
+      "Color"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/48/topics-48.1.jpg",
+      "articles/48/topics-48.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "When designing Color Tokens, we often need to handle contrast relationships between 'background colors' and 'content colors (text, icons)'—like button background vs button text color, or error prompt background vs its icon/text color. So Material Design provides a naming method: using 'On' to represent content colors 'on top of a certain color.' For example, if the main color is primary, the content color displayed on this primary surface is named onPrimary; similarly, error color's content color is onError. Well-designed paired color settings help us confirm readability and contrast at the system level.",
+      "paragraph2": "This method's advantage is relatively stable color matching with pre-vetted readability and contrast. However, flexibility is lower when mixing, and because design requires ensuring contrast color combinations (like primaryContainer/onPrimaryContainer, surface/onSurface, etc.), maintenance complexity increases significantly 😅 So I've tried another more flexible approach—using On-Light/On-Dark as unified content colors for light or dark backgrounds, combined with state intensity (strong/weak) for different scenarios. This reduces Color Token count and increases configuration flexibility; but compared to fixed pairing, it needs more team standards, otherwise inconsistent mixing may occur between different designers.",
+      "paragraph3": "Color Token has always been one of the most brain-burning parts of Design Tokens—many use cases, big project differences, plus designers often need more flexible color matching. But regardless of method used, as long as the team can define it clearly together, that's fine. Actually, thinking through and polishing these Color Token solutions is quite fun 😆"
+    }
+  },
+  "51": {
+    "heading": "Token Naming Tool:\nBuilding Consistent Structure",
+    "subtitle": "This is a Design Token naming tool developed last year for design system courses, helping designers and engineers follow unified structures for settings and outputting corresponding names, reducing team inconsistencies and improving alignment and overall consistency.",
+    "date": "Oct 22, 2025",
+    "tags": [
+      "Design System",
+      "Design Token",
+      "Design Tool"
+    ],
+    "category": "article",
+    "url": "http://noeinoi.com/storybook/iframe.html?globals=theme%3Alight&args=&id=tools-token--token&viewMode=story",
+    "images": [
+      "articles/49/topics-49.1.jpg",
+      "articles/49/topics-49.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "This week I'm sharing a Design Token naming tool developed last year for design system courses (http://noeinoi.com/storybook/iframe.html?globals=theme%3Alight&args=&id=tools-token--token&viewMode=story). Started running design system knowledge content last November, and it's already been a year—so fast XD. When collaborating with AAPD on courses, planned monthly sharing of design system tools and practical knowledge.",
+      "paragraph2": "One of them is this Design Token naming tool: through preset structures and options (like prefix, category, role, component, variant, target, and state), it helps designers and engineers build and align consistent Token naming. For beginners, it also clearly presents Token structural thinking.",
+      "paragraph3": "This month slightly upgraded with custom options and import/export functionality, convenient for team management and adjustments. Although AI assistance exists now, I still use this tool to ensure naming standards consistency. Welcome to use and provide feedback to continuously optimize this tool 😃"
+    }
+  },
+  "52": {
+    "heading": "Token Structure:\nUnderstanding Each Level's Purpose",
+    "subtitle": "When designing and planning Design Tokens, we first need to understand what each structure represents. Taking component-layer Tokens as an example, they're often divided into variant, target, and state structures. When we can clearly define and distinguish these structures' purposes, Token naming, inheritance and override rules, and engineering communication all become relatively simpler, and system maintenance becomes easier.",
+    "date": "Oct 29, 2025",
+    "tags": [
+      "Design System",
+      "Design Token"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/50/topics-50.1.jpg",
+      "articles/50/topics-50.2.jpg",
+      "articles/50/topics-50.3.jpg",
+      "articles/50/topics-50.4.jpg"
+    ],
+    "content": {
+      "paragraph1": "When designing Design Tokens, we should first understand the purpose and function in token naming structures. Think of Tokens like a home address: gradually narrowing from large scope to house number, finally forming a complete address; Design Tokens use similar layering concepts and methods. Taking component-layer tokens as example, they're usually divided into variant, target property, and state.",
+      "paragraph2": "Taking the button component in the illustration as example: its variants include Primary, Secondary, Error, etc.; target properties refer to attributes to set on components, like Background, Label, Shadow, Border, Corner, etc.; states describe component changes under different interaction or system contexts, like Default, Hovered, Pressed, etc.",
+      "paragraph3": "Compared to addresses: component is like county/city (large area), variant is like district/town (smaller area), target property is like street (finer classification), state is like house number (specific destination). Through this Design Token structural design, teams can more clearly understand each token's meaning and application, achieving consistency in naming, inheritance and override rules, and improving design-engineering communication efficiency and system maintainability."
+    }
+  },
+  "53": {
+    "heading": "Semantic Tokens:\nFocusing on Essential Settings",
+    "subtitle": "Semantic Tokens help product teams more clearly understand each Token's purpose and function, while also constraining and limiting Design Token planning. Since semantic naming has inherent limitations, flexibility is naturally less than number-named Tokens—can't easily insert new levels into existing settings. Therefore, when designing Design Tokens, focus as much as possible on truly necessary and representative semantic Tokens, keeping Tokens concise and maintainable.",
+    "date": "Nov 5, 2025",
+    "tags": [
+      "Design System",
+      "Design Token",
+      "Color"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/51/topics-51.1.jpg",
+      "articles/51/topics-51.2.jpg",
+      "articles/51/topics-51.3-1.jpg",
+      "articles/51/topics-51.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "In the Design Token planning process, a common mistake is neglecting hierarchical Tokens like size and depth, not reserving enough flexibility and space for them. For example, after defining Light, Default, Dark colors, if later you need to insert a new shade between Light and Default, you face unnatural naming problems—forced to add numbers or extra adjectives, making the overall structure appear chaotic and inconsistent.",
+      "paragraph2": "Therefore, when designing hierarchical Tokens, first establish more complete numerical scales, and think about correspondence between semantic naming and numerical levels, while reserving some intermediate levels for flexible future Token additions. This planning avoids later 'no namespace available' awkward situations due to requirement changes 😅",
+      "paragraph3": "Of course, some may think: since that's the case, why not use numbers for everything from the start for more flexible insertion. This is indeed viable, but its downside is that numerical Tokens, though flexible, aren't intuitively understandable for purpose and function, and excessive flexibility may lead to unlimited expansion. Relatively, semantic Tokens have limited flexibility but effectively converge design language, maintain structural clarity and consistency, and make systems more stable and manageable for long-term maintenance."
+    }
+  },
+  "54": {
+    "heading": "Slot Composition:\nComponent Extension Method",
+    "subtitle": "Designing components is like assembling building blocks. When designing components, we inevitably encounter variants with similar functions. At this point, think about 'assembly principles'—through Slots and composition, replacing or adding blocks without changing component cores, letting the same component extend into different functions, states, and purposes. This expands large component capabilities through small component combinations, reducing repetitive design and development costs.",
+    "date": "Nov 12, 2025",
+    "tags": [
+      "Design System",
+      "Figma",
+      "Component",
+      "Product Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/52/topics-52.1.jpg",
+      "articles/52/topics-52.2.jpg",
+      "articles/52/topics-52.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "This topic was actually shared before. Recently Figma also demonstrated thinking about component design with 'slot-based composition': treating components as assemblable building blocks, letting the same component develop new uses and purposes in different scenarios. When we encounter similar functional requirements in design, sometimes there's a new component that seems similar to an old one—that's when we can think about 'assembly principles.' Using Slots and composition, replacing or adding blocks without changing the core, letting the same component extend into different functions, states, and purposes.",
+      "paragraph2": "Taking the card in the illustration as example: the card reserves a Slot, allowing dates, icons, or photos to be inserted as needed. By replacing sub-components, you can expand the card's capabilities, corresponding to multiple scenarios without adding different variants. This not only converges design components but also reduces engineering time costs—because this process is more like stacking blocks rather than developing a new component from scratch.",
+      "paragraph3": "So when designing components, the key is maintaining imagination and creativity, leveraging existing component combinations, letting old components expand new value in new scenarios. The goal of design systems is convergence and consistency, not endless expansion."
+    }
+  },
+  "55": {
+    "heading": "Token Inheritance Practice:\nFill-in-the-Blank Table Method",
+    "subtitle": "When first learning Design Tokens, it's often unclear what inheritance relationships exist between various Tokens. At this point, make a simple comparison table, dividing Tokens into three columns: Reference Token, System Token, Component Token. Then pick a component like Modal, break it down into Card, Heading, Description, Button... sub-components, and fill in the Tokens each part uses into the table. This method helps clarify Token inheritance relationships and serves as practice to deepen understanding of Design Token structure.",
+    "date": "Nov 19, 2025",
+    "tags": [
+      "Design System",
+      "Design Token",
+      "Material Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/53/topics-53.1.jpg",
+      "articles/53/topics-53.2.jpg",
+      "articles/53/topics-53.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "For newcomers to design systems, Design Token is often the confusing part. Especially Token inheritance: how to design reasonably? How to plan so different components can share? When planning design system courses, one assignment has students do 'fill-in-the-blank exercises.'",
+      "paragraph2": "One assignment has a table with columns divided into: Reference Token, System Token, Component Token—three roles to fill in. Then, pick a larger component from the project, like Modal, break it down into sub-components: Card, Heading, Description, Button, etc. Then use fill-in-the-blank method to fill in Tokens each part needs into corresponding columns. Through this practice, you can more intuitively understand Token inheritance relationships and better understand how to plan Tokens as foundations shareable across different components—especially helpful for Design Token beginners.",
+      "paragraph3": "If interested, you can use the table below for fill-in-the-blank practice. After completion, feel free to share your answers in the comments—I'll check if they're reasonable and give some suggestions 😃"
+    }
+  },
+  "56": {
+    "heading": "Typography Styles:\nPlanning and Convergence",
+    "subtitle": "When planning design system typography, first organize 'commonly used text content' and clearly label their purposes and functions. This gives direction when establishing typography rules, avoiding accidentally creating many similar-looking text styles. A simple approach: design a complete article interface page, observe from actual screens what needs headings, body text, notes, etc., then organize and categorize these common styles, giving each its role and function.",
+    "date": "Feb 11, 2025",
+    "tags": [
+      "Design System",
+      "Typography"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/54/topics-54.1.jpg",
+      "articles/54/topics-54.2.jpg",
+      "articles/54/topics-54.3.jpg",
+      "articles/54/topics-54.4.jpg"
+    ],
+    "content": {
+      "paragraph1": "When planning text styles in design systems, first list 'commonly used text' like: headings, subheadings, body text, notes, links, etc., then briefly label each text type's purpose and function. This gives direction when planning fonts and sizes, and avoids continuously expanding into many similar-looking styles without clear differences 😅",
+      "paragraph2": "Additionally, we can first design a complete article layout page—because articles typically use more different text levels. From the article, organize needed styles one by one: where's the page main heading, section headings, regular body text, card titles, descriptions, links or notes, etc., then categorize by usage and explain purposes.",
+      "paragraph3": "So typography planning should avoid being overly complex—especially when using fonts, best to keep within 2-3 types. This helps engineers manage font resources, saves project costs, and reduces development confusion. From my past company experience, our implemented text styles were under 10 types—actually quite sufficient throughout 😁 While text style choices can enrich visuals, also consider project complexity and learning curve, helping product teams reduce mixing similar styles."
     }
   }
 }

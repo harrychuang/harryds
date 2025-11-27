@@ -1,103 +1,112 @@
 {
   "1": {
-    "heading": "AI News APP",
-    "date": "Jan 01, 2025 - PRESENT",
+    "heading": "Immersive AI\nNews Experience",
+    "date": "2025 - PRESENT",
     "tags": [
-      "UI",
-      "UX"
+      "AI",
+      "Mobile App",
+      "Media"
     ],
     "category": "project",
-    "brand": "NOWNEWS",
+    "brand": "NOWnews",
     "primaryColor": "#FBC92B",
     "secondaryColor": "#18181A",
     "heroImage": "demo/nownews/demo-nownews-bg.jpg",
     "projectInfo": {
-      "project": "Streaming Ratings Guide",
-      "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-      "websiteUrl": "https://awwrated.com",
-      "websiteLabel": "VISIT WEBSITE",
+      "project": "AI News App Redesign",
+      "description": "Redefining the news consumption experience by integrating an interactive AI Anchor with gamification mechanics. This rebrand transforms a traditional news reader into a personalized, daily lifestyle companion, blending information with entertainment.",
+      "websiteUrl": "#",
+      "websiteLabel": "IN DEVELOPMENT",
       "mainImage": "demo/nownews/demo-nownews-01.jpg",
       "specialHeadingImage": "demo/nownews/demo-nownews-hero-img.png",
       "meta": [
         {
-          "label": "Brand",
-          "value": "NOWNEWS"
+          "label": "Client",
+          "value": "NOWnews Media"
         },
         {
-          "label": "Project",
-          "value": "Streaming Ratings Guide"
+          "label": "Focus",
+          "value": "AI / Gamification"
         },
         {
-          "label": "Role",
+          "label": "My Role",
           "value": [
-            "UIUX Design",
-            "Design System",
-            "Development"
+            "UI/UX Design",
+            "Rebrand Strategy",
+            "Concept Dev"
+          ]
+        },
+        {
+          "label": "Key Tech",
+          "value": [
+            "AI Avatar",
+            "Audio Gen",
+            "Figma"
           ]
         }
       ],
       "roles": [
-        "UIUX Design",
-        "Design System"
+        "Product Design",
+        "Gamification",
+        "AI Strategy"
       ],
       "sections": {
         "scope": {
-          "title": "Scope",
-          "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
-          "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
-          "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.",
+          "title": "The Challenge & Strategy",
+          "paragraph1": "The Challenge: Following a corporate acquisition, the client sought a complete rebrand of their legacy news app. The goal was to integrate an 'AI Anchor' not just as a visual gimmick, but as a core feature that drives genuine user retention and engagement.",
+          "paragraph2": "The Strategy: To solve the low-retention issue common with AI avatars, we introduced a 'Gamified Economy.' Users earn virtual currency through daily check-ins and reading habits, which can be used to customize the AI anchor's appearance (outfits, makeup), fostering an emotional connection.",
+          "paragraph3": "Lifestyle Integration: We expanded the app's utility beyond news. By integrating AI-read daily horoscopes, weather forecasts, and location-based event suggestions, the app becomes an essential part of the user's morning routine.",
           "image1": "demo/nownews/demo-nownews-02.jpg"
         },
         "impact": {
-          "title": "Impact",
-          "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
-          "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
-          "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
-          "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
-          "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.",
-          "image1": "demo/nownews/demo-nownews-03.jpg",
-          "image2": "demo/nownews/demo-nownews-04.jpg"
+          "title": "Features & Recognition",
+          "paragraph1": "The redesign focuses on 'Scenario-Based' consumption. We identified the needs of commuters and students, developing a feature that generates personalized 5, 15, or 30-minute audio briefings (podcasts) in multiple languages.",
+          "quote1": "Gamification: Increased stickiness by allowing users to 'invest' in their personal AI Anchor.",
+          "quote2": "Smart Audio: On-demand AI podcast generation tailored for different commute durations.",
+          "quote3": "Pitch Win: The innovative concept and UX strategy successfully won the competitive pitch against other agencies.",
+          "blockquote": "\"The stakeholder feedback highlighted that the new experience successfully bridges the gap between traditional news and Gen Z's interactive habits.\"",
+          "image1": "demo/nownews/demo-nownews-03.jpg"
         },
         "get in touch": {
-          "title": "GET IN TOUCH",
-          "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
-          "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
-          "paragraph3": "Let's collaborate to create something exceptional!"
+          "title": "FUTURE OF MEDIA",
+          "paragraph1": "Integrating AI into traditional media requires a balance of innovation and usability. This project demonstrates how thoughtful gamification and user-centered design can transform content consumption into an engaging, habit-forming experience.",
+          "paragraph2": "If you're exploring AI integration, gamification strategies, or need expertise in designing next-generation media experiences, I'd be happy to discuss how these approaches can elevate your platform.",
+          "paragraph3": "Contact me at harrychuang23@gmail.com to explore how AI can transform your product."
         }
       }
     }
   },
   "2": {
-    "heading": "Streaming Ratings Guide",
-    "date": "Jan 01, 2025 - Jun 30, 2025",
+    "heading": "Streaming\nGuide",
+    "date": "2019 - PRESENT",
     "brand": "awwrated",
     "projectInfo": {
-      "project": "Streaming Ratings Guide",
-      "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-      "websiteLabel": "VISIT WEBSITE",
+      "project": "awwrated Platform",
+      "description": "Founded and built a movie rating aggregation platform from scratch. By consolidating data from IMDb, Rotten Tomatoes, and TMDB, awwrated solves the 'What to watch' dilemma, serving over 3 million users through organic SEO growth.",
+      "websiteLabel": "VISIT PLATFORM",
       "sections": {
         "scope": {
-          "title": "Scope",
-          "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
-          "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
-          "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.",
+          "title": "The Challenge & Strategy",
+          "paragraph1": "The Challenge: Streaming services like Netflix often hide objective ratings, leading to 'Decision Paralysis.' Users spent more time scrolling than watching.",
+          "paragraph2": "The Solution: awwrated aggregates cross-platform ratings through a vertical search engine. The core value lies in the 'awwrated Score'—a weighted algorithm that balances critic reviews (Rotten Tomatoes) with audience preference (IMDb).",
+          "paragraph3": "Product Development: Built as a full-stack React/Next.js application, the platform integrates multiple 3rd-party APIs (IMDb, Rotten Tomatoes, TMDB) to ensure real-time data synchronization and accurate rating calculations.",
           "image1": "demo/awwrated/demo-awwrated-02.jpg"
         },
         "impact": {
-          "title": "Impact",
-          "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
-          "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
-          "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
-          "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
-          "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.",
+          "title": "Growth & Engineering",
+          "paragraph1": "Through strategic Technical SEO and performance optimizations, the platform achieved 640% growth in page views. Today, awwrated sustains itself through ad monetization and affiliate partnerships, serving 3M+ monthly users.",
+          "quote1": "3M+ Page Views: Achieved through organic growth and Technical SEO strategies.",
+          "quote2": "Data Visualization: Transformed complex raw data into intuitive rating graphs.",
+          "quote3": "Long-term Ops: 5+ years of product iteration, from MVP to a monetized platform.",
+          "blockquote": "\"This platform proves that combining user-centered design with solid technical execution creates sustainable value—3M+ page views and growing.\"",
           "image1": "demo/awwrated/demo-awwrated-03.jpg",
           "image2": "demo/awwrated/demo-awwrated-04.jpg"
         },
         "get in touch": {
-          "title": "GET IN TOUCH",
-          "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
-          "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
-          "paragraph3": "Let's collaborate to create something exceptional!"
+          "title": "WHAT I OFFER",
+          "paragraph1": "awwrated demonstrates how a well-executed product strategy—combining user research, technical architecture, and growth tactics—can solve real user problems at scale.",
+          "paragraph2": "From concept validation to technical execution and sustainable growth, this project showcases the full lifecycle of building a data-driven platform that users trust.",
+          "paragraph3": "Interested in building a similar platform? Let's discuss at harrychuang23@gmail.com."
         }
       },
       "websiteUrl": "https://awwrated.com",
@@ -105,32 +114,39 @@
       "specialHeadingImage": "demo/awwrated/demo-awwrated-hero-img.png",
       "meta": [
         {
-          "label": "Brand",
-          "value": "awwrated"
+          "label": "Type",
+          "value": "Internal Product"
         },
         {
-          "label": "Project",
-          "value": "Streaming Ratings Guide"
+          "label": "Status",
+          "value": "Live (5+ Years)"
         },
         {
-          "label": "Role",
+          "label": "My Role",
           "value": [
-            "UIUX Design",
-            "Design System",
-            "Development"
+            "Founder",
+            "Product Design",
+            "Full-stack Dev"
+          ]
+        },
+        {
+          "label": "Growth",
+          "value": [
+            "3M+ Views",
+            "640% Growth"
           ]
         }
       ],
       "roles": [
-        "UIUX Design",
-        "Design System",
-        "Development"
+        "Product Strategy",
+        "Full-stack Dev",
+        "Growth"
       ]
     },
     "tags": [
-      "UI",
-      "UX",
-      "DEV"
+      "Web App",
+      "React / Next.js",
+      "Data Viz"
     ],
     "category": "project",
     "primaryColor": "#FF1650",
@@ -138,67 +154,77 @@
     "heroImage": "demo/awwrated/demo-awwrated-bg.jpg"
   },
   "3": {
-    "heading": "Design System",
-    "date": "Jan 01, 2025 - PRESENT",
+    "heading": "Design System\nArchitecture",
+    "date": "2019 - 2020",
     "brand": "Shopmatic",
     "projectInfo": {
-      "project": "Design System",
-      "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-      "websiteLabel": "VISIT WEBSITE",
+      "project": "Scalable Design System",
+      "description": "Establishing a unified Design Language System (DLS) to bridge the gap between creative design and engineering. This infrastructure accelerated feature delivery, reduced technical debt, and ensured visual consistency across all product lines.",
+      "websiteLabel": "READ ARTICLE",
       "sections": {
         "scope": {
-          "title": "Scope",
-          "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
-          "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
-          "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.",
+          "title": "The Challenge & Solution",
+          "paragraph1": "The Challenge: As the product scaled, UI inconsistencies and code redundancy began to slow down development cycles. The lack of a shared vocabulary between designers and developers led to friction during handoffs and increased QA overhead.",
+          "paragraph2": "The Solution: Implementation of a centralized React-based component library managed via Storybook. By adopting Atomic Design methodology, the interface was broken down into reusable, testable building blocks.",
+          "paragraph3": "System Architecture: The system serves as the 'Single Source of Truth.' It decouples UI logic from business logic, allowing developers to integrate pre-validated components without reinventing the wheel.",
           "image1": "demo/shopmaticds/demo-shopmaticds-02.jpg"
         },
         "impact": {
-          "title": "Impact",
-          "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
-          "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
-          "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
-          "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
-          "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.",
+          "title": "Efficiency & Collaboration",
+          "paragraph1": "The introduction of the Design System fundamentally transformed the product workflow. It shifted the focus from 'fixing UI bugs' to 'building new features,' resulting in measurable reductions in manpower costs and time-to-market.",
+          "quote1": "Cost Reduction: Significantly lowered development time by eliminating repetitive coding tasks.",
+          "quote2": "Seamless Handoff: Storybook provides a live documentation hub, removing ambiguity between design mocks and final code.",
+          "quote3": "QA Velocity: Components are tested in isolation, ensuring that UI updates don't break existing functionality.",
+          "blockquote": "\"The Design System is not just a library; it is an operational asset that scales the team's output without scaling the team size.\"",
           "image1": "demo/shopmaticds/demo-shopmaticds-03.jpg",
           "image2": "demo/shopmaticds/demo-shopmaticds-04.jpg"
         },
         "get in touch": {
-          "title": "GET IN TOUCH",
-          "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
-          "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
-          "paragraph3": "Let's collaborate to create something exceptional!"
+          "title": "SCALE YOUR PRODUCT",
+          "paragraph1": "A Design System is the foundation of a mature digital product.",
+          "paragraph2": "If your team is struggling with slow iterations or inconsistent UI, a structured architectural approach is the solution.",
+          "paragraph3": "Contact me at harrychuang23@gmail.com to discuss how to optimize your product development workflow."
         }
       },
-      "websiteUrl": "https://awwrated.com",
+      "websiteUrl": "https://medium.com/@harrychuang23/storybook-by-react-design-system-development-shopmatic-7aac6f82de25",
       "mainImage": "demo/shopmaticds/demo-shopmaticds-01.jpg",
       "specialHeadingImage": "demo/shopmaticds/demo-shopmaticds-hero-img.png",
       "meta": [
         {
-          "label": "Brand",
-          "value": "Shopmatic"
+          "label": "Client",
+          "value": "Shopmatic Group"
         },
         {
-          "label": "Project",
-          "value": "Design System"
+          "label": "Outcome",
+          "value": "Dev Efficiency"
         },
         {
-          "label": "Role",
+          "label": "Deliverables",
           "value": [
-            "UIUX Design",
-            "Design System",
-            "Development"
+            "Component Library",
+            "Style Guide",
+            "Doc Site"
+          ]
+        },
+        {
+          "label": "Tech Stack",
+          "value": [
+            "React / Storybook",
+            "Styled-components",
+            "Atomic Design"
           ]
         }
       ],
       "roles": [
-        "UIUX Design",
-        "Design System"
+        "Design Ops",
+        "Frontend Arch",
+        "System Design"
       ]
     },
     "tags": [
-      "UI",
-      "UX"
+      "Design Ops",
+      "Storybook",
+      "React"
     ],
     "category": "project",
     "primaryColor": "#4285f4",
@@ -206,67 +232,76 @@
     "heroImage": "demo/shopmaticds/demo-shopmaticds-bg.jpg"
   },
   "4": {
-    "heading": "Buyer APP",
-    "date": "Jan 01, 2025 - PRESENT",
+    "heading": "Brand\nE-commerce APP",
+    "date": "2020 - 2021",
     "brand": "Shopmatic",
     "projectInfo": {
-      "project": "Buyer Checkout",
-      "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-      "websiteLabel": "VISIT WEBSITE",
+      "project": "Brand E-commerce APP",
+      "description": "A scalable mobile app framework empowering Indian merchants to launch their own branded e-commerce apps. This solution extends Shopmatic's web platform into mobile, featuring a dynamic design system that adapts to each merchant's unique brand identity.",
+      "websiteLabel": "INTERNAL PROJECT",
       "sections": {
         "scope": {
-          "title": "Scope",
-          "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
-          "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
-          "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.",
+          "title": "The Challenge & Market",
+          "paragraph1": "The Challenge: Shopmatic's core market, India, is mobile-first. Merchants needed more than just a responsive website; they demanded a dedicated mobile app presence to engage buyers.",
+          "paragraph2": "The Complexity: The system had to be a 'White-label' solution. It needed to automatically generate thousands of unique apps—one for each merchant—while maintaining their individual branding (colors, logos) without manual engineering intervention.",
+          "paragraph3": "Offline Needs: Given the unstable network connectivity in some regions, the app also required a lightweight POS feature for offline/in-person transactions.",
           "image1": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-02.jpg"
         },
         "impact": {
-          "title": "Impact",
-          "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
-          "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
-          "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
-          "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
-          "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.",
-          "image1": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-03.jpg",
-          "image2": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-04.jpg"
+          "title": "Architecture & System",
+          "paragraph1": "I architected the 'Theming Engine' within the Mobile Design System. This allowed the app's UI to dynamically inject the merchant's brand colors and fonts at runtime, ensuring brand consistency at scale.",
+          "quote1": "Dynamic Theming: Created a flexible UI framework that adapts to any merchant's brand identity.",
+          "quote2": "Mobile Design System: Established the team's first React-Native component library to speed up assembly.",
+          "quote3": "Hybrid Solution: Integrated online ordering with offline POS capabilities for omnichannel selling.",
+          "blockquote": "\"Although the project halted due to acquisition, the Mobile Design System laid the groundwork for future React-Native initiatives, proving the value of modular architecture.\"",
+          "image1": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-03.jpg"
         },
         "get in touch": {
-          "title": "GET IN TOUCH",
-          "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
-          "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
-          "paragraph3": "Let's collaborate to create something exceptional!"
+          "title": "SCALABLE UI",
+          "paragraph1": "Designing for one brand is easy; designing a system for thousands of brands requires architectural thinking. This project showcases the intersection of design systems, mobile architecture, and white-label scalability.",
+          "paragraph2": "If you're building multi-tenant platforms, white-label solutions, or need expertise in designing scalable product foundations, I'd be happy to discuss how strategic system design can future-proof your product.",
+          "paragraph3": "Contact me at harrychuang23@gmail.com to build a scalable product foundation together."
         }
       },
-      "websiteUrl": "https://awwrated.com",
+      "websiteUrl": "#",
       "mainImage": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-01.jpg",
       "specialHeadingImage": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-hero-img.png",
       "meta": [
         {
-          "label": "Brand",
-          "value": "Shopmatic"
+          "label": "Market",
+          "value": "India (Mobile First)"
         },
         {
-          "label": "Project",
-          "value": "Buyer APP"
+          "label": "Type",
+          "value": "White-label App"
         },
         {
-          "label": "Role",
+          "label": "My Role",
           "value": [
-            "UIUX Design",
-            "Design System",
-            "Development"
+            "Mobile System Arch",
+            "UI/UX Design",
+            "Prototyping"
+          ]
+        },
+        {
+          "label": "Tech Stack",
+          "value": [
+            "Figma",
+            "React Native",
+            "Design Token"
           ]
         }
       ],
       "roles": [
-        "UIUX Design",
-        "Design System"
+        "System Architecture",
+        "Mobile UI",
+        "B2B2C"
       ]
     },
     "tags": [
-      "UI",
-      "UX"
+      "SaaS",
+      "Design System",
+      "Mobile"
     ],
     "category": "project",
     "primaryColor": "#fff",
@@ -274,66 +309,76 @@
     "heroImage": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-bg.jpg"
   },
   "5": {
-    "heading": "Buyer \nCheckout",
-    "date": "Jan 01, 2025 - PRESENT",
+    "heading": "Payment Flow\nOptimization",
+    "date": "2018 - 2019",
     "brand": "Shopmatic",
     "projectInfo": {
-      "project": "Buyer Checkout",
-      "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-      "websiteLabel": "VISIT WEBSITE",
+      "project": "Payment Flow Optimization",
+      "description": "Transforming a fragmented 3-step checkout into a seamless Single-Page Application (SPA). This redesign reduced user friction, integrated a scalable Design System, and bridged the gap between design and frontend development.",
+      "websiteLabel": "READ CASE STUDY",
       "sections": {
         "scope": {
-          "title": "Scope",
-          "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
-          "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
-          "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.",
+          "title": "The Challenge & Solution",
+          "paragraph1": "The Challenge: The legacy checkout process was split across three separate pages, causing high drop-off rates. Distractions like prominent discount code fields and complex member verification logic interrupted the user's purchase intent.",
+          "paragraph2": "The Solution: I engineered a Single-Page Checkout experience. By consolidating steps and implementing inline validation, users can now complete purchases without page reloads. We also hid distraction-heavy elements (like discount codes) behind interactions to keep the focus on payment.",
+          "paragraph3": "Bridging Design & Dev: This wasn't just a UI reskin. I worked on the frontend logic to ensure the 'Guest Checkout' and 'Member Login' flows merged seamlessly, proving that complex logic can coexist with a clean interface.",
           "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-02.jpg"
         },
         "impact": {
-          "title": "Impact",
-          "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
-          "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
-          "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
-          "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
-          "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.",
+          "title": "Key Features & Dev Impact",
+          "paragraph1": "Beyond the interface, this project established the foundation for Shopmatic's Design System. We utilized Storybook to build and test isolated components before integration, ensuring high code reusability and reducing UI bugs in production.",
+          "quote1": "Single-Page Architecture: Consolidated 3 steps into 1 seamless view to reduce friction.",
+          "quote2": "Smart Account Verification: Inline logic detects existing users without forcing page redirects.",
+          "quote3": "Storybook Integration: Bridged design and dev by testing components in isolation.",
+          "blockquote": "\"Great job! It's inspiring to see how the original checkout process has been evolved. Clean and straightforward.\"",
           "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-03.jpg"
         },
         "get in touch": {
-          "title": "GET IN TOUCH",
-          "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
-          "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
-          "paragraph3": "Let's collaborate to create something exceptional!"
+          "title": "NEXT STEP",
+          "paragraph1": "This project highlights the impact of streamlining payment flows—reducing friction, improving conversion rates, and creating seamless checkout experiences that users trust.",
+          "paragraph2": "If your product needs a better checkout experience or you're looking to optimize payment flows, let's connect.",
+          "paragraph3": "Contact me at harrychuang23@gmail.com to discuss your product."
         }
       },
-      "websiteUrl": "https://awwrated.com",
+      "websiteUrl": "https://harrychuang23.medium.com/ui-ux-design-payment-process-interface-optimization-9ca88649dad1",
       "mainImage": "demo/shopmaticcheckout/demo-shopmaticcheckout-01.jpg",
       "specialHeadingImage": "demo/shopmaticcheckout/demo-shopmaticcheckout-hero-img.png",
       "meta": [
         {
-          "label": "Brand",
-          "value": "Shopmatic"
+          "label": "Client",
+          "value": "Shopmatic (SaaS)"
         },
         {
-          "label": "Project",
-          "value": "Buyer Checkout"
+          "label": "Focus",
+          "value": "eCommerce Optimization"
         },
         {
-          "label": "Role",
+          "label": "My Role",
           "value": [
-            "UIUX Design",
-            "Design System",
-            "Development"
+            "Product Design",
+            "Frontend Dev",
+            "Design System"
+          ]
+        },
+        {
+          "label": "Tech Stack",
+          "value": [
+            "Figma",
+            "Storybook",
+            "HTML/CSS/JS"
           ]
         }
       ],
       "roles": [
         "UIUX Design",
-        "Design System"
+        "Frontend Dev",
+        "Strategy"
       ]
     },
     "tags": [
-      "UI",
-      "UX"
+      "eCommerce",
+      "SaaS",
+      "Refactor"
     ],
     "category": "project",
     "primaryColor": "#4285f4",
@@ -341,67 +386,72 @@
     "heroImage": "demo/shopmaticcheckout/demo-shopmaticcheckout-bg.jpg"
   },
   "6": {
-    "heading": "Travel \nMonster",
-    "date": "Jan 01, 2025 - PRESENT",
-    "brand": "KKDay",
+    "heading": "Travel Monster\nBrand Incubation",
+    "date": "2016 - 2017",
+    "brand": "KKday",
     "projectInfo": {
-      "project": "Travel Monster",
-      "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-      "websiteLabel": "VISIT WEBSITE",
+      "project": "Travel Monster App",
+      "description": "Incubating a sub-brand for KKday to capture the independent traveler market. By focusing on itinerary planning and travel knowledge, the app bridged the gap between inspiration and booking, ultimately earning the prestigious Apple App Store Editor's Choice award.",
+      "websiteLabel": "READ CASE STUDY",
       "sections": {
         "scope": {
-          "title": "Scope",
-          "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
-          "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
-          "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.",
+          "title": "Brand Strategy & UX",
+          "paragraph1": "The Challenge: KKday sought to expand beyond transactional bookings and engage travelers earlier in their journey—during the planning phase. The goal was to create a distinct sub-brand that felt adventurous, informative, and helpful.",
+          "paragraph2": "The Strategy: The project established a unique visual identity for 'Travel Monster,' distinct from the main corporate brand. Design direction focused on an immersive, content-first experience that helped users digest complex travel information and organize itineraries effortlessly.",
+          "paragraph3": "Design Direction: Strategic guidance was provided to the product team to ensure visual consistency and user-centricity. This involved defining the design language, navigation patterns, and core interaction models that prioritized discovery over pure transaction.",
           "image1": "demo/kkday/demo-kkday-02.jpg"
         },
         "impact": {
-          "title": "Impact",
-          "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
-          "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
-          "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
-          "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
-          "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.",
-          "image1": "demo/kkday/demo-kkday-03.jpg",
-          "image2": "demo/kkday/demo-kkday-04.jpg"
+          "title": "Market Recognition",
+          "paragraph1": "The launch of Travel Monster validated the sub-brand strategy. The app's high-quality interface and intuitive user experience resonated with the market, leading to significant organic growth and industry recognition.",
+          "quote1": "Editor's Choice: Recognized by the Apple App Store for outstanding design and user experience.",
+          "quote2": "User-Centricity: Shifted the focus from 'selling tickets' to 'empowering travelers' with knowledge.",
+          "quote3": "Brand Architecture: Successfully established a standalone sub-brand that complements the main ecosystem.",
+          "blockquote": "\"The recognition as an Apple App Store Editor's Choice app confirms that a user-first approach to travel content drives both engagement and brand value.\"",
+          "image1": "demo/kkday/demo-kkday-03.jpg"
         },
         "get in touch": {
-          "title": "GET IN TOUCH",
-          "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
-          "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
-          "paragraph3": "Let's collaborate to create something exceptional!"
+          "title": "BRAND STRATEGY",
+          "paragraph1": "Building a sub-brand from the ground up requires strategic vision, design excellence, and deep market understanding. This project demonstrates how thoughtful brand incubation—combined with user-centered design—can create products that resonate with audiences and earn industry recognition.",
+          "paragraph2": "If you're launching a new product, exploring sub-brand opportunities, or need strategic design guidance to elevate your brand's digital presence, I'd love to discuss how to bring your vision to life.",
+          "paragraph3": "Contact me at harrychuang23@gmail.com to explore collaboration opportunities."
         }
       },
-      "websiteUrl": "https://awwrated.com",
+      "websiteUrl": "https://medium.com/@harrychuang23/YOUR_KKDAY_ARTICLE_LINK_HERE",
       "mainImage": "demo/kkday/demo-kkday-01.jpg",
       "specialHeadingImage": "demo/kkday/demo-kkday-hero-img.png",
       "meta": [
         {
-          "label": "Brand",
-          "value": "KKDay"
+          "label": "Client",
+          "value": "KKday Group"
         },
         {
-          "label": "Project",
-          "value": "Travel Monster"
+          "label": "Achievement",
+          "value": "Editor's Choice"
         },
         {
-          "label": "Role",
+          "label": "Focus",
+          "value": "Sub-brand Incubation"
+        },
+        {
+          "label": "My Role",
           "value": [
-            "UIUX Design",
-            "Design System",
-            "Development"
+            "Design Direction",
+            "Brand Strategy",
+            "UX Guidance"
           ]
         }
       ],
       "roles": [
-        "UIUX Design",
-        "Design System"
+        "Art Direction",
+        "Product Strategy",
+        "Mobile UX"
       ]
     },
     "tags": [
-      "UI",
-      "UX"
+      "Mobile App",
+      "Branding",
+      "Strategy"
     ],
     "category": "project",
     "primaryColor": "#FFC410",
@@ -409,67 +459,76 @@
     "heroImage": "demo/kkday/demo-kkday-bg.jpg"
   },
   "7": {
-    "heading": "Learning Portal",
-    "date": "Jan 01, 2025 - PRESENT",
+    "heading": "Global Chinese\nLearning Ecosystem",
+    "date": "2015 - 2017",
     "brand": "TutorMing",
     "projectInfo": {
-      "project": "Learning Portal",
-      "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-      "websiteLabel": "VISIT WEBSITE",
+      "project": "Chinese Learning Portal",
+      "description": "A comprehensive rebranding and UX overhaul for the world's leading Chinese learning platform targeting Western markets. This project modernized a legacy system into a responsive, multi-device ecosystem, bridging the gap between students, teachers, and support teams.",
+      "websiteLabel": "CASE STUDY",
       "sections": {
         "scope": {
-          "title": "Scope",
-          "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
-          "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
-          "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.",
+          "title": "The Challenge & Friction",
+          "paragraph1": "The Challenge: The platform faced a disconnect between its outdated, desktop-only interface and the expectations of modern Western users. The visual identity felt 20 years behind, lacking credibility in the global market.",
+          "paragraph2": "Operational Bottleneck: The most critical issue was the 'Class Entry' process. It was so confusing that Customer Support (CS) had to manually guide students into classrooms for almost every session, causing a massive drain on human resources.",
+          "paragraph3": "Scope: A complete full-stack redesign—from visual rebranding and UI/UX strategy to Frontend implementation (React)—across Desktop, Tablet, and Mobile.",
           "image1": "demo/tutorming/demo-tutorming-02.jpg"
         },
         "impact": {
-          "title": "Impact",
-          "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
-          "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
-          "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
-          "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
-          "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.",
-          "image1": "demo/tutorming/demo-tutorming-03.jpg",
-          "image2": "demo/tutorming/demo-tutorming-04.jpg"
+          "title": "Solution & Business Impact",
+          "paragraph1": "We implemented a 'Smart Floating Bar' that appears 15 minutes before a session, offering a one-click entry to the classroom. This single UX improvement reduced class-entry support tickets by 90%, freeing up the CS team to focus on sales and retention.",
+          "quote1": "Cost Efficiency: Reduced operational support workload by 90% through intuitive UI.",
+          "quote2": "Visual System: Introduced a color-coded schedule (1-on-1 vs. Lecture) for instant readability.",
+          "quote3": "Learning Experience: Digitized homework and flashcards, creating a seamless study loop.",
+          "blockquote": "\"The transformation successfully positioned the brand as the world's largest Chinese learning platform, offering a frictionless experience for Western learners.\"",
+          "image1": "demo/tutorming/demo-tutorming-03.jpg"
         },
         "get in touch": {
-          "title": "GET IN TOUCH",
-          "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
-          "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
-          "paragraph3": "Let's collaborate to create something exceptional!"
+          "title": "SOLVING PAIN POINTS",
+          "paragraph1": "Good design doesn't just look good; it solves expensive business problems. This project demonstrates how strategic UX optimization can directly reduce operational costs and improve user satisfaction.",
+          "paragraph2": "If your product is facing friction points that drain resources or frustrate users, I'd be happy to help identify and solve them through thoughtful design and implementation.",
+          "paragraph3": "Contact me at harrychuang23@gmail.com to find the friction in your product and fix it."
         }
       },
-      "websiteUrl": "https://awwrated.com",
+      "websiteUrl": "#",
       "mainImage": "demo/tutorming/demo-tutorming-01.jpg",
       "specialHeadingImage": "demo/tutorming/demo-tutorming-hero-img.png",
       "meta": [
         {
-          "label": "Brand",
-          "value": "TutorMing"
+          "label": "Market",
+          "value": "US / Europe"
         },
         {
-          "label": "Project",
-          "value": "Learning Portal"
+          "label": "Metric",
+          "value": "-90% Support Cost"
         },
         {
-          "label": "Role",
+          "label": "My Role",
           "value": [
-            "UIUX Design",
-            "Design System",
-            "Development"
+            "Product Design",
+            "Frontend Dev",
+            "Rebranding"
+          ]
+        },
+        {
+          "label": "Tech Stack",
+          "value": [
+            "React JS",
+            "Sketch",
+            "Responsive Web"
           ]
         }
       ],
       "roles": [
-        "UIUX Design",
-        "Design System"
+        "Full-stack Design",
+        "UX Strategy",
+        "Rebranding"
       ]
     },
     "tags": [
-      "UI",
-      "UX"
+      "EdTech",
+      "Full-stack",
+      "Rebrand"
     ],
     "category": "project",
     "primaryColor": "#FF435A",
@@ -477,71 +536,80 @@
     "heroImage": "demo/tutorming/demo-tutorming-bg.jpg"
   },
   "8": {
-    "heading": "Portfolio Site",
-    "date": "Jan 01, 2025 - PRESENT",
-    "brand": "noein",
+    "heading": "Interactive\nWeb Experience",
+    "date": "2017",
+    "brand": "NOEIN",
     "projectInfo": {
-      "project": "Portfolio Site",
-      "description": "Introducing the Shopmatic Design System: a framework to streamline design and enhance user experience. It offers components, guidelines, and best practices for creating appealing and functional digital products. Whether you're a designer or developer, it's your resource for intuitive interfaces.",
-      "websiteLabel": "VISIT WEBSITE",
+      "project": "Interactive Portfolio Site",
+      "description": "An experimental showcase of creative coding and motion design. This project pushes the boundaries of web interaction with fluid page transitions, binary-themed aesthetics, and micro-interactions, earning recognition from Awwwards.",
+      "websiteLabel": "VIEW ARCHIVE",
       "sections": {
         "scope": {
-          "title": "Scope",
-          "paragraph1": "The Shopmatic Design System optimizes design processes and enhances user experiences across digital platforms. It includes components, guidelines, and best practices for designers and developers. This cohesive set of tools empowers teams to create appealing and functional digital products.",
-          "paragraph2": "Designed for collaboration and consistency, it features reusable components for uniformity across applications. Guidelines cover typography, color schemes, and layout principles, aiding informed design choices.",
-          "paragraph3": "The system emphasizes user-centered design, prioritizing user needs to craft intuitive interfaces for seamless interactions. Whether starting a new project or refining one, it is essential for design excellence.",
+          "title": "The Concept & Challenge",
+          "paragraph1": "The Challenge: Personal portfolios often feel static and linear. The goal was to break this mold by creating a digital identity that embodies 'Interaction Design' itself—where the navigation and transitions are part of the storytelling.",
+          "paragraph2": "The Concept: Built around the binary concept of '0 and 1', the visual language reflects the duality of a Designer (Visual) and Developer (Code). The site serves as a playground for advanced frontend experiments.",
+          "paragraph3": "Technical Execution: Developed entirely in React, the focus was on bridging the gap between design fidelity and code performance, ensuring that complex animations ran smoothly across devices.",
           "image1": "demo/noein/demo-noein-02.jpg"
         },
         "impact": {
-          "title": "Impact",
-          "paragraph1": "The Shopmatic Design System has a significant impact on digital design by streamlining processes and enhancing user experiences. It offers a robust framework filled with reusable components and design guidelines that promote consistency across projects. By focusing on user-centered design, it ensures that interfaces are intuitive and engaging. This system not only assists designers and developers in creating visually appealing products but also fosters collaboration, making it an essential resource for achieving design excellence.",
-          "quote1": "\"Rating Credibility\" Rule: Weighted by the number of raters to reduce early sample bias.",
-          "quote2": "Sorting and Filtering Rules: Multi-dimensional based on popularity, recency, highest scores, and number of ratings.",
-          "quote3": "GA event tracking + Hotjar heatmaps, introduced for data-driven design iterations.",
-          "blockquote": "The Shopmatic Design System ensures a cohesive, user-friendly experience. It provides guidelines for design consistency, enhancing brand identity and user engagement.",
-          "image1": "demo/noein/demo-noein-03.jpg",
-          "image2": "demo/noein/demo-noein-04.jpg"
+          "title": "Creative Engineering",
+          "paragraph1": "The site is defined by its 'Seamless Transitions.' Unlike traditional page loads, content flows fluidly through distortion effects and morphing animations, creating a continuous, app-like experience.",
+          "quote1": "Awwwards Recognition: Awarded 'Honorable Mention' for design excellence and creativity.",
+          "quote2": "Fluid Navigation: Implemented distortion-based transitions for a seamless user journey.",
+          "quote3": "Micro-Interactions: Morphing buttons (Expand to Close) enhance the tactile feel of the UI.",
+          "blockquote": "\"This project stands as a testament to the belief that code is a creative medium. It validates the ability to execute complex, high-fidelity interactions that captivate users.\"",
+          "image1": "demo/noein/demo-noein-03.jpg"
         },
         "get in touch": {
-          "title": "GET IN TOUCH",
-          "paragraph1": "If you're interested in the Shopmatic Design System for your project, feel free to reach out! I'm here to help you navigate through the design process and ensure you get the most out of this powerful framework. Whether you need assistance with user-centered design or want to enhance your project's visual appeal, I'm just an email away.",
-          "paragraph2": "Don't hesitate to contact me at harrychuang23@gmail.com.",
-          "paragraph3": "Let's collaborate to create something exceptional!"
+          "title": "CREATIVE CODING",
+          "paragraph1": "Do you need a website that wows your audience? Beyond standard layouts, I specialize in crafting memorable digital experiences that blend design excellence with technical sophistication.",
+          "paragraph2": "If you're looking to create a brand presence that stands out through high-end interactions and creative coding, I'd be happy to discuss how we can bring your vision to life.",
+          "paragraph3": "Contact me at harrychuang23@gmail.com to create a memorable digital experience."
         }
       },
-      "websiteUrl": "https://awwrated.com",
+      "websiteUrl": "https://www.awwwards.com/sites/noein",
       "mainImage": "demo/noein/demo-noein-01.jpg",
       "specialHeadingImage": "demo/noein/demo-noein-hero-img.png",
       "meta": [
         {
-          "label": "Brand",
-          "value": "noein"
+          "label": "Recognition",
+          "value": "Awwwards H.M."
         },
         {
-          "label": "Project",
-          "value": "Portfolio Site"
+          "label": "Type",
+          "value": "Creative Coding"
         },
         {
-          "label": "Role",
+          "label": "My Role",
           "value": [
-            "UIUX Design",
-            "Design System",
-            "Development"
+            "UI/UX Design",
+            "Frontend Dev",
+            "Motion Design"
+          ]
+        },
+        {
+          "label": "Tech Stack",
+          "value": [
+            "React",
+            "SPA",
+            "Advanced CSS"
           ]
         }
       ],
       "roles": [
-        "UIUX Design",
-        "Design System"
+        "Creative Coding",
+        "Interaction",
+        "Visual Design"
       ]
     },
     "tags": [
-      "UI",
-      "UX"
+      "Awwwards",
+      "Portfolio",
+      "Motion"
     ],
     "category": "project",
-    "primaryColor": "#4285f4",
-    "secondaryColor": "#212b36",
+    "primaryColor": "#28F1C3",
+    "secondaryColor": "#161B1A",
     "heroImage": "demo/noein/demo-noein-bg.jpg"
   }
 }

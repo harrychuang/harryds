@@ -27,7 +27,9 @@ const ArticleDetail: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartX, setDragStartX] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
+  const [carouselWrapperWidth, setCarouselWrapperWidth] = useState(1100);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const carouselWrapperRef = useRef<HTMLDivElement>(null);
 
   // 語言切換相關
   const languageMap = {
@@ -228,14 +230,103 @@ const ArticleDetail: React.FC = () => {
     setCurrentImageIndex(index);
   }, []);
 
-  // 計算 transform 讓 active 圖片在最左邊
+  // 監聽 carousel wrapper 寬度變化
+  useEffect(() => {
+    const wrapper = carouselWrapperRef.current;
+    if (!wrapper) return;
+
+    const updateWidth = () => {
+      setCarouselWrapperWidth(wrapper.clientWidth);
+    };
+
+    updateWidth();
+    
+    const resizeObserver = new ResizeObserver(updateWidth);
+    resizeObserver.observe(wrapper);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  // 計算 transform，最後一張圖片對齊右側
   const carouselTransform = useMemo(() => {
     const imageWidth = 600; // max-width
     const gap = 50;
+    const totalImages = articleImages.length;
+    
+    // 計算總寬度和最大偏移量
+    const totalWidth = totalImages * imageWidth + (totalImages - 1) * gap;
+    const maxOffset = Math.max(0, totalWidth - carouselWrapperWidth);
+    
+    // 計算當前偏移量
     const baseOffset = currentImageIndex * (imageWidth + gap);
-    const offset = baseOffset - dragOffset; // 減去拖拽偏移，向右拖（dragOffset正）圖片向右移
+    // 限制偏移量不超過最大值（讓最後一張圖片對齊右側）
+    const clampedOffset = Math.min(baseOffset, maxOffset);
+    const offset = clampedOffset - dragOffset;
+    
     return `translateX(-${offset}px)`;
-  }, [currentImageIndex, dragOffset]);
+  }, [currentImageIndex, dragOffset, articleImages.length, carouselWrapperWidth]);
+
+  // 判斷媒體類型
+  const isVideoFile = useCallback((filename: string) => {
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov'];
+    return videoExtensions.some(ext => filename.toLowerCase().endsWith(ext));
+  }, []);
+
+  // 連結文字對應不同語言
+  const linkTextMap: Record<string, string> = {
+    'zh-Hant': '🔗 連結',
+    'zh': '🔗 連結',
+    'en': '🔗 Link',
+    'ja': '🔗 リンク'
+  };
+
+  // 解析段落中的連結格式：文字（URL）或 文字(URL)
+  const renderParagraphWithLinks = useCallback((text: string) => {
+    // 匹配 文字（URL）或 文字 (URL) 的格式
+    // 支援全形括號（）和半形括號()，以及括號前可選的空格
+    const linkRegex = /([^\s（(][^（(]*?)\s*[（(](https?:\/\/[^\s）)]+)[）)]/g;
+    
+    const parts: (string | React.ReactNode)[] = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = linkRegex.exec(text)) !== null) {
+      // 添加連結前的文字
+      if (match.index > lastIndex) {
+        parts.push(text.slice(lastIndex, match.index));
+      }
+
+      const linkLabel = match[1];
+      const url = match[2];
+      const linkText = linkTextMap[i18n.language] || linkTextMap['en'];
+
+      // 添加連結元素
+      parts.push(
+        <React.Fragment key={match.index}>
+          {linkLabel}{' '}
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="article-detail__link"
+          >
+            [ {linkText} ]
+          </a>
+        </React.Fragment>
+      );
+
+      lastIndex = match.index + match[0].length;
+    }
+
+    // 添加剩餘的文字
+    if (lastIndex < text.length) {
+      parts.push(text.slice(lastIndex));
+    }
+
+    return parts.length > 0 ? parts : text;
+  }, [i18n.language]);
 
   // Drag handlers
   const handleDragStart = useCallback((clientX: number) => {
@@ -417,6 +508,7 @@ const ArticleDetail: React.FC = () => {
           {articleImages.length > 0 && (
             <div className="article-detail__carousel">
               <div 
+                ref={carouselWrapperRef}
                 className="article-detail__carousel-wrapper"
                 style={{ 
                   cursor: isDragging ? 'grabbing' : 'grab'
@@ -437,51 +529,66 @@ const ArticleDetail: React.FC = () => {
                     transition: isDragging ? 'none' : 'transform 0.5s ease-in-out'
                   }}
                 >
-                  {articleImages.map((image: string, index: number) => (
-                    <img
-                      key={index}
-                      src={`/assets/imgs/${image}`}
-                      alt={`${article.heading} - Image ${index + 1}`}
-                      className="article-detail__carousel-image"
-                      draggable={false}
-                    />
+                  {articleImages.map((media: string, index: number) => (
+                    isVideoFile(media) ? (
+                      <video
+                        key={index}
+                        src={`/assets/imgs/${media}`}
+                        className="article-detail__carousel-media article-detail__carousel-video"
+                        draggable={false}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                      />
+                    ) : (
+                      <img
+                        key={index}
+                        src={`/assets/imgs/${media}`}
+                        alt={`${article.heading} - Image ${index + 1}`}
+                        className="article-detail__carousel-media article-detail__carousel-image"
+                        draggable={false}
+                      />
+                    )
                   ))}
                 </div>
               </div>
 
-              <div className="article-detail__carousel-actions">
-                <div className="article-detail__carousel-pagination">
-                  {articleImages.map((_: any, index: number) => (
-                    <div
-                      key={index}
-                      className={`article-detail__carousel-page ${
-                        index === currentImageIndex ? 'active' : ''
-                      }`}
-                      onClick={() => handlePageClick(index)}
-                    />
-                  ))}
-                </div>
+              {articleImages.length > 1 && (
+                <div className="article-detail__carousel-actions">
+                  <div className="article-detail__carousel-pagination">
+                    {articleImages.map((_: any, index: number) => (
+                      <div
+                        key={index}
+                        className={`article-detail__carousel-page ${
+                          index === currentImageIndex ? 'active' : ''
+                        }`}
+                        onClick={() => handlePageClick(index)}
+                      />
+                    ))}
+                  </div>
 
-                <div className="article-detail__carousel-controls">
-                  <button
-                    className="article-detail__carousel-control"
-                    onClick={handlePrevImage}
-                    onMouseEnter={handleMenuItemHover}
-                    aria-label="Previous image"
-                  >
-                    &lt;
-                  </button>
+                  <div className="article-detail__carousel-controls">
+                    <button
+                      className="article-detail__carousel-control"
+                      onClick={handlePrevImage}
+                      onMouseEnter={handleMenuItemHover}
+                      aria-label="Previous image"
+                    >
+                      &lt;
+                    </button>
 
-                  <button
-                    className="article-detail__carousel-control"
-                    onClick={handleNextImage}
-                    onMouseEnter={handleMenuItemHover}
-                    aria-label="Next image"
-                  >
-                    &gt;
-                  </button>
+                    <button
+                      className="article-detail__carousel-control"
+                      onClick={handleNextImage}
+                      onMouseEnter={handleMenuItemHover}
+                      aria-label="Next image"
+                    >
+                      &gt;
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
 
@@ -490,7 +597,7 @@ const ArticleDetail: React.FC = () => {
             <div className="article-detail__content-section">
               {articleContent.map((paragraph, index) => (
                 <p key={index} className="article-detail__paragraph">
-                  {paragraph}
+                  {renderParagraphWithLinks(paragraph)}
                 </p>
               ))}
             </div>

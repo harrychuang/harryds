@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { Logo, FeedDetailOverlay, PixelText, PixelText2D, ParticlesBackground } from 'hds';
 import type { FeedCardSize } from 'hds';
 import type { FeedItem, FeedContentBlock } from '../../../harryds/src/types/feed';
-import { useI18nFeed } from '../hooks/useI18nFeed';
+import { useProjects } from '../hooks/useProjects';
+import { useDataSource } from '../contexts/DataSourceContext';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
@@ -27,8 +28,9 @@ const Home: React.FC = () => {
   const params = useParams();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation(['common', 'projects']);
-  // 使用新的 i18n-based feed hook，統一從 i18n 管理所有專案資料
-  const { items, loading, error } = useI18nFeed();
+  // 使用統一的資料介面，根據設定自動選擇資料來源
+  const { items, loading, error, dataSource } = useProjects();
+  const { toggleDataSource } = useDataSource();
   
   const log = useCallback((..._args: any[]) => {}, []);
   const { theme, toggleTheme } = useTheme();
@@ -658,6 +660,10 @@ const Home: React.FC = () => {
         theme={theme}
         onToggleTheme={() => { playMenuClickSound(); toggleTheme(); }}
         onThemeHover={() => { playMenuHoverSound(); }}
+        showDataSourceToggle={true}
+        dataSource={dataSource}
+        onToggleDataSource={() => { playMenuClickSound(); toggleDataSource(); }}
+        onDataSourceHover={() => { playMenuHoverSound(); }}
         showLanguageToggle={true}
         currentLangDisplay={currentLangDisplay}
         isLangDropdownOpen={isLangDropdownOpen}

@@ -1,0 +1,18 @@
+module.exports = ({ env }) => ({
+  host: env('HOST', '127.0.0.1'),
+  port: env.int('PORT', 1337),
+  app: {
+    keys: env.array('APP_KEYS'),
+  },
+  session: {
+    key: env('SESSION_KEY', 'strapi.sid'),
+    secret: env('SESSION_SECRET', 'change-me'),
+    cookie: {
+      secure: true,  // HTTPS 環境下必須為 true
+      sameSite: 'lax',
+    },
+  },
+  webhooks: {
+    populateRelations: env.bool('WEBHOOKS_POPULATE_RELATIONS', false),
+  },
+});
