@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
+import { useSound } from '../hooks/useSound';
 import { useI18nFeed } from '../hooks/useI18nFeed';
 import './ArticleDetail.scss';
 import Header from '../components/Header';
@@ -14,6 +15,7 @@ const ArticleDetail: React.FC = () => {
   const params = useParams<{ id: string; slug: string }>();
   const { t, i18n } = useTranslation(['common', 'articles']);
   const { theme, toggleTheme } = useTheme();
+  const { isSoundEnabled, toggleSound } = useSound();
   const { items } = useI18nFeed('articles');
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
@@ -433,6 +435,10 @@ const ArticleDetail: React.FC = () => {
           theme={theme}
           onToggleTheme={handleToggleTheme}
           onThemeHover={handleMenuItemHover}
+          showSoundToggle={true}
+          isSoundEnabled={isSoundEnabled}
+          onToggleSound={toggleSound}
+          onSoundHover={handleMenuItemHover}
           showLanguageToggle={true}
           currentLangDisplay={currentLangDisplay}
           isLangDropdownOpen={isLangDropdownOpen}
@@ -466,6 +472,10 @@ const ArticleDetail: React.FC = () => {
         theme={theme}
         onToggleTheme={handleToggleTheme}
         onThemeHover={handleMenuItemHover}
+        showSoundToggle={true}
+        isSoundEnabled={isSoundEnabled}
+        onToggleSound={toggleSound}
+        onSoundHover={handleMenuItemHover}
         showLanguageToggle={true}
         currentLangDisplay={currentLangDisplay}
         isLangDropdownOpen={isLangDropdownOpen}

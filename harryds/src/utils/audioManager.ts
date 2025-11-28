@@ -3,7 +3,11 @@
 // - 單例 AudioContext
 // - 音效快取（AudioBuffer）避免重複解碼
 // - 一次性播放 helper，回傳可停止的控制句柄
+// - 全局靜音控制
 // =============================================================================
+
+// LocalStorage key for sound enabled state
+const SOUND_ENABLED_KEY = 'portfolio-sound-enabled';
 
 export type PlayOptions = {
   volume?: number;
@@ -20,6 +24,47 @@ export type PlaybackHandle = {
 class AudioManager {
   private audioContext: AudioContext | null = null;
   private bufferCache: Map<string, Promise<AudioBuffer>> = new Map();
+  private _isSoundEnabled: boolean = true;
+  private _listeners: Set<(enabled: boolean) => void> = new Set();
+
+  constructor() {
+    // 從 localStorage 讀取音效狀態
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem(SOUND_ENABLED_KEY);
+      this._isSoundEnabled = stored !== 'false'; // 預設為 true
+    }
+  }
+
+  // 取得音效是否開啟
+  get isSoundEnabled(): boolean {
+    return this._isSoundEnabled;
+  }
+
+  // 設定音效是否開啟
+  setSoundEnabled(enabled: boolean): void {
+    this._isSoundEnabled = enabled;
+    // 儲存到 localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(SOUND_ENABLED_KEY, enabled ? 'true' : 'false');
+    }
+    // 通知所有監聽者
+    this._listeners.forEach((listener) => listener(enabled));
+  }
+
+  // 切換音效狀態
+  toggleSound(): boolean {
+    const newState = !this._isSoundEnabled;
+    this.setSoundEnabled(newState);
+    return newState;
+  }
+
+  // 訂閱音效狀態變化
+  subscribe(listener: (enabled: boolean) => void): () => void {
+    this._listeners.add(listener);
+    return () => {
+      this._listeners.delete(listener);
+    };
+  }
 
   private getContext(): AudioContext | null {
     if (typeof window === 'undefined') return null;
@@ -61,6 +106,11 @@ class AudioManager {
   }
 
   async play(url: string, options: PlayOptions = {}): Promise<PlaybackHandle | null> {
+    // 如果音效關閉，直接返回空句柄
+    if (!this._isSoundEnabled) {
+      return { stop: () => {}, source: null, gain: null };
+    }
+
     const ctx = this.getContext();
     if (!ctx) return null;
     await this.resume();

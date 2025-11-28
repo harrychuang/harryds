@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Logo, PixelText2D, HarryAnimation, ListCard, ParticlesBackground } from 'hds';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
+import { useSound } from '../hooks/useSound';
 import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -39,6 +40,7 @@ const About: React.FC = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation(['common', 'about']);
   const { theme, toggleTheme } = useTheme();
+  const { isSoundEnabled, toggleSound } = useSound();
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
@@ -896,6 +898,10 @@ const About: React.FC = () => {
         theme={theme}
         onToggleTheme={() => { playMenuClickSound(); toggleTheme(); }}
         onThemeHover={() => { playMenuHoverSound(); }}
+        showSoundToggle={true}
+        isSoundEnabled={isSoundEnabled}
+        onToggleSound={() => { playMenuClickSound(); toggleSound(); }}
+        onSoundHover={() => { playMenuHoverSound(); }}
         showLanguageToggle={true}
         currentLangDisplay={currentLangDisplay}
         isLangDropdownOpen={isLangDropdownOpen}

@@ -13,6 +13,7 @@ import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/au
 import { useSmartPreload } from '../hooks/useSmartPreload';
 import { useTheme } from '../theme/useTheme';
 import { useHover } from '../contexts/HoverContext';
+import { useSound } from '../hooks/useSound';
 import { useOverlay } from '../contexts/OverlayContext';
 import TransitionOverlay from '../components/TransitionOverlay';
 import Header from '../components/Header';
@@ -35,6 +36,7 @@ const Home: React.FC = () => {
   const log = useCallback((..._args: any[]) => {}, []);
   const { theme, toggleTheme } = useTheme();
   const { hoveredCardId, setHoveredCardId } = useHover();
+  const { isSoundEnabled, toggleSound } = useSound();
   const { 
     setOpenCardId: setContextOpenCardId, 
     setAnimationPhase: setContextAnimationPhase, 
@@ -660,6 +662,10 @@ const Home: React.FC = () => {
         theme={theme}
         onToggleTheme={() => { playMenuClickSound(); toggleTheme(); }}
         onThemeHover={() => { playMenuHoverSound(); }}
+        showSoundToggle={true}
+        isSoundEnabled={isSoundEnabled}
+        onToggleSound={() => { playMenuClickSound(); toggleSound(); }}
+        onSoundHover={() => { playMenuHoverSound(); }}
         showDataSourceToggle={true}
         dataSource={dataSource}
         onToggleDataSource={() => { playMenuClickSound(); toggleDataSource(); }}

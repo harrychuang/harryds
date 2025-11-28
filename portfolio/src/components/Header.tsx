@@ -28,6 +28,12 @@ export interface HeaderProps {
 	onToggleTheme?: () => void;
 	onThemeHover?: () => void;
 
+	// Sound toggle
+	showSoundToggle?: boolean;
+	isSoundEnabled?: boolean;
+	onToggleSound?: () => void;
+	onSoundHover?: () => void;
+
 	// Data source toggle
 	showDataSourceToggle?: boolean;
 	dataSource?: 'local' | 'strapi';
@@ -73,6 +79,11 @@ const Header: React.FC<HeaderProps> = ({
 	theme,
 	onToggleTheme,
 	onThemeHover,
+
+	showSoundToggle = true,
+	isSoundEnabled = true,
+	onToggleSound,
+	onSoundHover,
 
 	showDataSourceToggle = false,
 	dataSource,
@@ -168,6 +179,38 @@ const Header: React.FC<HeaderProps> = ({
 									>
 										<PixelText2D
 											text={theme === 'dark' ? '☽' : '☀'}
+											textEnabled
+											pixelSize={2}
+											letterSpacing={0}
+											width={36}
+											height={36}
+											animated={false}
+											primaryColor={primaryColor}
+											onPrimaryColor={onPrimaryColor}
+										/>
+									</div>
+								</div>
+							)}
+							{showSoundToggle && (
+								<div className="home__nav-item">
+									<div
+										role="button"
+										tabIndex={0}
+										onClick={onToggleSound}
+										onKeyDown={(e) => {
+											if (e.key === 'Enter' || e.key === ' ') {
+												e.preventDefault();
+												onToggleSound && onToggleSound();
+											}
+										}}
+										onMouseEnter={onSoundHover}
+										aria-label="切換音效"
+										title={isSoundEnabled ? '關閉音效' : '開啟音效'}
+										className="sound-toggle"
+										style={{ borderColor: primaryColor || 'var(--hds-sys-color-theme-surface)' }}
+									>
+										<PixelText2D
+											text={isSoundEnabled ? '🔊' : '🔇'}
 											textEnabled
 											pixelSize={2}
 											letterSpacing={0}

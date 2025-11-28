@@ -1,7 +1,7 @@
 import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { PixelText2D } from 'hds';
 import { useLocation } from 'react-router-dom';
-import { audioManager, PlaybackHandle } from '../utils/audioManager';
+import { audioManager, PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import './ScrollIndicator.scss';
 
 interface ScrollIndicatorProps {

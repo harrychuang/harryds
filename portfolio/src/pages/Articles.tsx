@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
+import { useSound } from '../hooks/useSound';
 import { useI18nFeed } from '../hooks/useI18nFeed';
 import { FeedCard } from 'hds';
 import type { FeedCardSize } from 'hds';
@@ -15,6 +16,7 @@ const Articles: React.FC = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation(['common', 'articles']);
   const { theme, toggleTheme } = useTheme();
+  const { isSoundEnabled, toggleSound } = useSound();
   const { items: rawItems } = useI18nFeed('articles');
 
   // 按日期從新到舊排序
@@ -205,6 +207,10 @@ const Articles: React.FC = () => {
         theme={theme}
         onToggleTheme={handleToggleTheme}
         onThemeHover={() => { playMenuHoverSound(); }}
+        showSoundToggle={true}
+        isSoundEnabled={isSoundEnabled}
+        onToggleSound={toggleSound}
+        onSoundHover={() => { playMenuHoverSound(); }}
         showLanguageToggle={true}
         currentLangDisplay={currentLangDisplay}
         isLangDropdownOpen={isLangDropdownOpen}

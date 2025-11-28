@@ -69,6 +69,26 @@
   box-sizing: border-box;
 }
 
+// 音效切換按鈕
+.sound-toggle {
+  position: relative;
+  top: -2.5px;
+  left: -4px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-width: 4px;
+  border-style: solid;
+  padding: 0;
+  border-radius: 0;
+  margin-left: -10px;
+  box-sizing: border-box;
+}
+
 // 資料來源切換按鈕
 .data-source-toggle {
   position: relative;

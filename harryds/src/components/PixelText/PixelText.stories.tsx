@@ -115,10 +115,11 @@ import { PixelText } from 'hds';
 - **Geometric shapes**: ▶︎ ▷ ◆ ● ◼︎ ◻︎
 - **Arrow symbols**: ↑ ↓ ← → < > ^ ↧
 - **Light & celestial**: ☀︎ ☽
+- **Sound controls**: 🔊 🔇
 - **Other symbols**: ﹅ ⟨ ⟩ [ ] ⎢
 - **Space**
 
-Total of **75 characters** supported. Unsupported characters will display as spaces and show warnings in console.
+Total of **77 characters** supported. Unsupported characters will display as spaces and show warnings in console.
         `,
       },
     },
@@ -389,11 +390,11 @@ These are the most commonly used basic characters, supporting all uppercase Engl
 // Symbols and Icons showcase
 export const SymbolsAndIcons: Story = {
   args: {
-    text: ',。.-?!@″„   +×÷%   ‼︎⁇   ▶︎▷◆●◼︎◻︎   ☀︎☽   ﹅⟨⟩[]⎢',
+    text: ',。.-?!@″„   +×÷%   ‼︎⁇   ▶︎▷◆●◼︎◻︎   ☀︎☽   🔊🔇   ﹅⟨⟩[]⎢',
     pixelSize: 2,
     pixelGap: 0,
     letterSpacing: 2,
-    width: 1100,
+    width: 1200,
     height: 120,
   },
   parameters: {
@@ -406,6 +407,7 @@ export const SymbolsAndIcons: Story = {
 **Special symbols** (2): ‼︎ ⁇  
 **Geometric shapes** (6): ▶︎ ▷ ◆ ● ◼︎ ◻︎  
 **Light & celestial** (2): ☀︎ ☽  
+**Sound controls** (2): 🔊 🔇  
 **Other symbols** (5): ﹅ ⟨ ⟩ [ ] ⎢
 
 These symbols can be used to create richer visual effects and information displays.`,
