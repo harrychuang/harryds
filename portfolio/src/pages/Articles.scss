@@ -19,12 +19,18 @@
   // Topics Filter Bar
   &__topics-bar {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 10px 20px;
     max-width: 1580px;
     margin: 0 auto;
     padding-top: 100px;
     width: 100%;
+    overflow: hidden;
+    
+    // 展開時允許換行
+    &--expanded {
+      flex-wrap: wrap;
+    }
     
     @media (max-width: 768px) {
       padding-top: 120px;
@@ -44,6 +50,20 @@
     transition: opacity 0.2s ease;
     white-space: nowrap;
     text-transform: uppercase;
+    position: relative;
+    flex-shrink: 0;
+
+    // 在每個選項後加上 | 分隔符
+    &::after {
+      content: '|';
+      margin-left: 20px;
+      opacity: 0.25;
+    }
+
+    // 最後一個選項不顯示 |
+    &:last-child::after {
+      content: none;
+    }
 
     &:hover {
       opacity: 1;
@@ -51,6 +71,19 @@
 
     &--active {
       opacity: 1;
+    }
+
+    // ...more topics 按鈕樣式
+    &--more {
+      opacity: 0.25;
+      
+      &::after {
+        content: none;
+      }
+      
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 

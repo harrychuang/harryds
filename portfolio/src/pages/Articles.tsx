@@ -30,6 +30,10 @@ const Articles: React.FC = () => {
 
   // Topics 選項狀態
   const [selectedTopic, setSelectedTopic] = useState<string>('all');
+  const [isTopicsExpanded, setIsTopicsExpanded] = useState(false);
+  
+  // 初始顯示的 topic 數量（不含 All）
+  const INITIAL_TOPICS_COUNT = 5;
 
   // 從所有文章中提取 tags 並按出現次數排序
   const sortedTopics = useMemo(() => {
@@ -212,6 +216,17 @@ const Articles: React.FC = () => {
     setSelectedTopic(topic);
   }, []);
 
+  // 展開/收合 topics
+  const handleToggleTopics = useCallback(async () => {
+    try {
+      menuClickHandleRef.current?.stop();
+      menuClickHandleRef.current = await audioManager.play(clickSoundUrl, { volume: 0.3 });
+    } catch (err) {
+      console.warn('Toggle topics sound play failed:', err);
+    }
+    setIsTopicsExpanded((prev) => !prev);
+  }, []);
+
   // 點擊外部關閉語言下拉選單
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -257,7 +272,7 @@ const Articles: React.FC = () => {
       />
 
       {/* Topics Filter Bar */}
-      <div className="articles-page__topics-bar">
+      <div className={`articles-page__topics-bar ${isTopicsExpanded ? 'articles-page__topics-bar--expanded' : ''}`}>
         <button
           className={`articles-page__topic-item ${selectedTopic === 'all' ? 'articles-page__topic-item--active' : ''}`}
           onClick={() => handleTopicClick('all')}
@@ -265,7 +280,7 @@ const Articles: React.FC = () => {
         >
           {selectedTopic === 'all' ? '[All]' : 'All'}
         </button>
-        {sortedTopics.map((topic) => (
+        {(isTopicsExpanded ? sortedTopics : sortedTopics.slice(0, INITIAL_TOPICS_COUNT)).map((topic) => (
           <button
             key={topic}
             className={`articles-page__topic-item ${selectedTopic === topic ? 'articles-page__topic-item--active' : ''}`}
@@ -275,6 +290,15 @@ const Articles: React.FC = () => {
             {selectedTopic === topic ? `[${topic}]` : topic}
           </button>
         ))}
+        {sortedTopics.length > INITIAL_TOPICS_COUNT && (
+          <button
+            className="articles-page__topic-item articles-page__topic-item--more"
+            onClick={handleToggleTopics}
+            onMouseEnter={playMenuHoverSound}
+          >
+            {isTopicsExpanded ? '...less' : '...more topics'}
+          </button>
+        )}
       </div>
 
       <main className="articles-page__content">
