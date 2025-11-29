@@ -71,6 +71,52 @@ const Articles: React.FC = () => {
     return items.filter((item) => item.tags?.includes(selectedTopic));
   }, [items, selectedTopic]);
 
+  // 計算每個卡片的 column span（2 columns = span 3, 3 columns = span 2）
+  // 第一排固定 2 columns，之後隨機 2 或 3 columns
+  const cardSpanMap = useMemo(() => {
+    const spanMap: Record<number, number> = {};
+    const remainingItems = filteredItems.slice(2); // 跳過前兩個 featured
+    
+    if (remainingItems.length === 0) return spanMap;
+    
+    // 使用基於文章 ID 的 seed 來產生穩定的隨機序列
+    const seed = filteredItems.reduce((acc, item) => acc + item.id, 0);
+    let randomIndex = seed;
+    const seededRandom = () => {
+      randomIndex = (randomIndex * 9301 + 49297) % 233280;
+      return randomIndex / 233280;
+    };
+    
+    let currentIndex = 0;
+    while (currentIndex < remainingItems.length) {
+      // 隨機決定這一排是 2 columns (span 3) 還是 3 columns (span 2)
+      const isTwoColumns = seededRandom() > 0.5;
+      const cardsInRow = isTwoColumns ? 2 : 3;
+      const spanValue = isTwoColumns ? 3 : 2;
+      
+      // 檢查剩餘卡片數量
+      const remainingCount = remainingItems.length - currentIndex;
+      
+      // 如果剩餘數量小於等於這一排要放的數量，直接放完
+      if (remainingCount <= cardsInRow) {
+        // 平均分配最後幾張卡片
+        const finalSpan = Math.floor(6 / remainingCount);
+        for (let i = currentIndex; i < remainingItems.length; i++) {
+          spanMap[remainingItems[i].id] = finalSpan;
+        }
+        break;
+      }
+      
+      // 分配這一排的卡片
+      for (let i = 0; i < cardsInRow && currentIndex < remainingItems.length; i++) {
+        spanMap[remainingItems[currentIndex].id] = spanValue;
+        currentIndex++;
+      }
+    }
+    
+    return spanMap;
+  }, [filteredItems]);
+
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
   const langDropdownRef = useRef<HTMLDivElement>(null);
@@ -332,17 +378,17 @@ const Articles: React.FC = () => {
             const height = index < 2 ? 500 : 250;
             const src = article.heroImage || '';
             
-            // 計算是否為最後幾個卡片（避免最後只剩 1 個）
-            const totalXsCards = filteredItems.length - 2;
-            const remainder = totalXsCards % 3;
-            const isInLastGroup = remainder === 1 && index >= filteredItems.length - 4;
-            
-            // 決定 className
+            // 決定 className 和 grid-column span
             let cardClass = 'article-card';
+            let gridSpan = 2; // 預設 span 2
+            
             if (index < 2) {
+              // 前兩個 featured 卡片固定 span 3
               cardClass += ' article-card--featured';
-            } else if (isInLastGroup) {
-              cardClass += ' article-card--last-group';
+              gridSpan = 3;
+            } else {
+              // 其他卡片根據隨機分配的 span
+              gridSpan = cardSpanMap[article.id] || 2;
             }
             
             return (
@@ -352,6 +398,7 @@ const Articles: React.FC = () => {
                 onClick={() => handleCardClick(article.id)}
                 style={{
                   ['--stagger-index' as any]: index,
+                  gridColumn: `span ${gridSpan}`,
                 }}
               >
                 <FeedCard

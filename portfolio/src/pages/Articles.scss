@@ -142,14 +142,13 @@
     outline: 10px solid var(--hds-sys-color-theme-surface);
   }
   
-  // 前兩個卡片佔據 3 columns (半個寬度)
+  // RWD: 平板以下改為單欄
+  @media (max-width: 1200px) {
+    grid-column: span 1 !important;
+  }
+  
+  // Featured 卡片的標題限制
   &--featured {
-    grid-column: span 3;
-    
-    @media (max-width: 1200px) {
-      grid-column: span 1;
-    }
-
     // Medium size FeedCard 的標題限制為 3 行
     .feed-card-info__heading {
       display: -webkit-box;
@@ -159,24 +158,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
       line-height: 1 !important;
-    }
-  }
-  
-  // 其他卡片佔據 2 columns
-  &:not(&--featured):not(&--last-group) {
-    grid-column: span 2;
-    
-    @media (max-width: 1200px) {
-      grid-column: span 1;
-    }
-  }
-
-  // 最後一組卡片（避免只剩 1 個）佔據 3 columns
-  &--last-group {
-    grid-column: span 3;
-    
-    @media (max-width: 1200px) {
-      grid-column: span 1;
     }
   }
   
