@@ -48,31 +48,52 @@ const About: React.FC = () => {
   
   // 追蹤 Hero 動畫是否可以開始
   const [canStartHeroAnimation, setCanStartHeroAnimation] = useState(false);
+  // 追蹤是否正在等待 loading 動畫完成（初始為 false，避免競爭條件）
+  const [isWaitingForAnimation, setIsWaitingForAnimation] = useState(false);
+  // 追蹤初始化是否完成
+  const isInitializedRef = useRef(false);
   
-  // 頁面進入時檢查是否已載入過
+  // 頁面進入時檢查是否已載入過（只在組件掛載時執行一次）
   useEffect(() => {
-    if (isPageLoaded(PAGE_NAME)) {
+    const alreadyLoaded = isPageLoaded(PAGE_NAME);
+    
+    if (alreadyLoaded) {
       // 頁面已載入過，直接跳過 loading，立即開始動畫
       setLoading(false);
       setAnimationComplete(true);
       setCanStartHeroAnimation(true);
+      isInitializedRef.current = true;
     } else {
-      // 首次載入，顯示 loading
+      // 首次載入，重置本地動畫狀態
+      setCanStartHeroAnimation(false);
+      // 顯示 loading（PageLoader 會自動重置 animationComplete）
       setLoading(true);
+      
+      // 延遲設置 isWaitingForAnimation，確保 PageLoader 有時間重置 isAnimationComplete
+      requestAnimationFrame(() => {
+        setIsWaitingForAnimation(true);
+        isInitializedRef.current = true;
+      });
+      
       const timer = setTimeout(() => {
         setLoading(false);
         markPageAsLoaded(PAGE_NAME);
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // 只在組件掛載時執行一次
   
   // 當 loading 動畫完成後，允許開始 Hero 動畫
   useEffect(() => {
-    if (isAnimationComplete && !canStartHeroAnimation) {
+    // 只有在初始化完成後才處理
+    if (!isInitializedRef.current) return;
+    
+    if (isWaitingForAnimation && isAnimationComplete && !canStartHeroAnimation) {
       setCanStartHeroAnimation(true);
+      setIsWaitingForAnimation(false);
     }
-  }, [isAnimationComplete, canStartHeroAnimation]);
+  }, [isWaitingForAnimation, isAnimationComplete, canStartHeroAnimation]);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);

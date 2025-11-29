@@ -23,9 +23,11 @@ const ArticleDetail: React.FC = () => {
   // 每篇文章有獨立的頁面名稱
   const pageName = `article-${params.id}`;
   
-  // 頁面進入時檢查是否已載入過
+  // 頁面進入時檢查是否已載入過（只在 pageName 改變時執行）
   useEffect(() => {
-    if (isPageLoaded(pageName)) {
+    const alreadyLoaded = isPageLoaded(pageName);
+    
+    if (alreadyLoaded) {
       // 頁面已載入過，直接跳過 loading
       setLoading(false);
       setAnimationComplete(true);
@@ -38,7 +40,8 @@ const ArticleDetail: React.FC = () => {
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [pageName, setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageName]); // 只在 pageName 改變時執行
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

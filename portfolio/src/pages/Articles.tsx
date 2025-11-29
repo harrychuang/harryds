@@ -24,9 +24,11 @@ const Articles: React.FC = () => {
   const { items: rawItems } = useI18nFeed('articles');
   const { setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete } = usePageLoader();
   
-  // 頁面進入時檢查是否已載入過
+  // 頁面進入時檢查是否已載入過（只在組件掛載時執行一次）
   useEffect(() => {
-    if (isPageLoaded(PAGE_NAME)) {
+    const alreadyLoaded = isPageLoaded(PAGE_NAME);
+    
+    if (alreadyLoaded) {
       // 頁面已載入過，直接跳過 loading
       setLoading(false);
       setAnimationComplete(true);
@@ -39,7 +41,8 @@ const Articles: React.FC = () => {
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // 只在組件掛載時執行一次
 
   // 按日期從新到舊排序
   const items = useMemo(() => {
