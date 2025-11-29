@@ -17,7 +17,7 @@ import { useSound } from '../hooks/useSound';
 import { useOverlay } from '../contexts/OverlayContext';
 import TransitionOverlay from '../components/TransitionOverlay';
 import Header from '../components/Header';
-import PageLoader from '../components/PageLoader';
+import { usePageLoader } from '../contexts/PageLoaderContext';
 
 const slugify = (text: string) => text
   .toLowerCase()
@@ -33,6 +33,12 @@ const Home: React.FC = () => {
   // 使用統一的資料介面，根據設定自動選擇資料來源
   const { items, loading, error, dataSource } = useProjects();
   const { toggleDataSource } = useDataSource();
+  const { setLoading } = usePageLoader();
+  
+  // 同步 loading 狀態到全域 PageLoader
+  useEffect(() => {
+    setLoading(loading);
+  }, [loading, setLoading]);
   
   const log = useCallback((..._args: any[]) => {}, []);
   const { theme, toggleTheme } = useTheme();
@@ -634,12 +640,6 @@ const Home: React.FC = () => {
       data-page="home"
       data-detail-open={openCardId !== null ? 'true' : undefined}
     >
-      {/* 頁面載入動畫 */}
-      <PageLoader 
-        isLoading={loading} 
-        labels={['LOADING...', 'HARRY DESIGN STUDIO']}
-      />
-      
       {/* 預載統計面板與切換按鈕已移除 */}
 
       <Header

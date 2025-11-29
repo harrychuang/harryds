@@ -35,12 +35,24 @@ import './About.scss';
 import '../pages/Home.scss';
 import Header from '../components/Header';
 import { GIPHY_URLS } from '../constants/giphy';
+import { usePageLoader } from '../contexts/PageLoaderContext';
 
 const About: React.FC = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation(['common', 'about']);
   const { theme, toggleTheme } = useTheme();
   const { isSoundEnabled, toggleSound } = useSound();
+  const { setLoading } = usePageLoader();
+  
+  // 頁面進入時顯示 loading，元件掛載完成後結束
+  useEffect(() => {
+    setLoading(true);
+    // 短暫延遲後結束 loading（讓頁面有時間渲染）
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [setLoading]);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);

@@ -9,6 +9,7 @@ import './ArticleDetail.scss';
 import Header from '../components/Header';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
+import { usePageLoader } from '../contexts/PageLoaderContext';
 
 const ArticleDetail: React.FC = () => {
   const navigate = useNavigate();
@@ -17,6 +18,16 @@ const ArticleDetail: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { isSoundEnabled, toggleSound } = useSound();
   const { items } = useI18nFeed('articles');
+  const { setLoading } = usePageLoader();
+  
+  // 頁面進入時顯示 loading，元件掛載完成後結束
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [setLoading]);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
