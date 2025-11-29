@@ -4,7 +4,7 @@
 // FeedCardInfo 預設 max-width 1600px
 // =============================================================================
 
-import React, { CSSProperties, createContext, forwardRef, useState, useRef, useEffect } from 'react';
+import React, { CSSProperties, createContext, forwardRef, useState, useRef, useEffect, useCallback } from 'react';
 import { PixelImage, PixelImage2D } from '../PixelImage';
 import type { PixelImageProps } from '../PixelImage';
 import FeedCardInfo from './FeedCardInfo';
@@ -12,6 +12,7 @@ import type { FeedCardInfoData } from './FeedCardInfo';
 import type { FeedItem } from '../../types/feed';
 import './FeedCard.scss';
 import hoverSoundUrl from '../../../assets/sound/Coin Collect Retro 8-bit Sound Effect.mp3';
+import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
 
 export type FeedCardSize = 'hero' | 'med' | 'sm' | 'xs';
 export const FeedCardHoverContext = createContext<boolean>(false);
@@ -88,7 +89,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
 }, ref) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hasPlayedSoundInCurrentHover, setHasPlayedSoundInCurrentHover] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hoverSoundHandleRef = useRef<PlaybackHandle | null>(null);
   const computedHeight = Math.max(1, Math.floor(height ?? SIZE_TO_HEIGHT[size]));
   
   // 計算實際的 hover 狀態：forceHovered 優先，否則使用 isHovered
@@ -96,54 +97,28 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   // 允許父層以 backgroundProps.hoverActive 覆寫 hover 狀態（例如 Overlay 固定啟用）
   const explicitHoverActive = backgroundProps?.hoverActive;
 
-  // 初始化音效
+  // 預載音效
   useEffect(() => {
     if (enableHoverSound) {
-      audioRef.current = new Audio(hoverSoundUrl);
-      audioRef.current.preload = 'auto';
-      audioRef.current.volume = Math.max(0, Math.min(1, soundVolume)); // 限制音量在 0-1 之間
-      
-      // 添加載入事件監聽
-      audioRef.current.addEventListener('canplaythrough', () => {});
-      
-      audioRef.current.addEventListener('error', () => {});
+      audioManager.preload(hoverSoundUrl).catch(() => {});
     }
-    
-    return () => {
-      if (audioRef.current) {
-        audioRef.current = null;
-      }
-    };
-  }, [enableHoverSound, soundVolume]);
+  }, [enableHoverSound]);
 
-  const playHoverSound = async () => {
-    if (!enableHoverSound || !audioRef.current || hasPlayedSoundInCurrentHover) {
+  const playHoverSound = useCallback(async () => {
+    if (!enableHoverSound || hasPlayedSoundInCurrentHover) {
       return;
     }
 
     try {
-      audioRef.current.currentTime = 0; // 重設到開頭
-      
-      // 檢查音效是否已載入
-      if (audioRef.current.readyState >= 2) { // HAVE_CURRENT_DATA
-        await audioRef.current.play();
-        setHasPlayedSoundInCurrentHover(true); // 標記已播放
-        console.log('Hover sound played successfully');
-      } else {
-        // 嘗試等待載入完成再播放
-        audioRef.current.addEventListener('canplay', async () => {
-          try {
-            await audioRef.current!.play();
-            setHasPlayedSoundInCurrentHover(true); // 標記已播放
-          } catch (err) {
-            // ignore
-          }
-        }, { once: true });
-      }
+      hoverSoundHandleRef.current?.stop();
+      hoverSoundHandleRef.current = await audioManager.play(hoverSoundUrl, { 
+        volume: Math.max(0, Math.min(1, soundVolume)) 
+      });
+      setHasPlayedSoundInCurrentHover(true);
     } catch (error) {
       // ignore
     }
-  };
+  }, [enableHoverSound, hasPlayedSoundInCurrentHover, soundVolume]);
 
   // 以 CSS 變數傳遞 padding 和 info max-width，樣式中使用 var() 引用
   const rootStyle: FeedCardStyle = {
