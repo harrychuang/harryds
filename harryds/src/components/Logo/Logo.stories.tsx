@@ -13,7 +13,7 @@ const meta = {
     docs: {
       description: {
         component: `
-Harry Design Studio brand logo component, implementing 8-bit text effects using PixelText.
+Harry Design Studio brand logo component, implementing 8-bit text effects using PixelText2D.
 
 ## Features
 - 🎮 8-bit pixel style brand logo
@@ -21,18 +21,15 @@ Harry Design Studio brand logo component, implementing 8-bit text effects using 
 - 🎭 Supports glitch decode animation with seamless marquee transitions
 - 🎨 Customizable theme colors
 - 🔧 Adjustable visual parameters for optimal visual balance
-- 🚀 **WebGL mode**: GPU-accelerated rendering for complex pages with many animations
-- 🖼️ **Canvas2D mode**: Without WebGL context limitations, better device compatibility
+- 🖼️ Canvas2D rendering without WebGL context limitations
+- 📱 Better device compatibility
 
 ## Usage
 \`\`\`tsx
 import { Logo } from 'hds';
 
-// Basic usage - default brand logo (Canvas2D)
+// Basic usage - default brand logo
 <Logo />
-
-// WebGL mode for better performance on complex pages
-<Logo renderMode="webgl" />
 
 // Back button style
 <Logo type="back" />
@@ -49,7 +46,6 @@ import { Logo } from 'hds';
   type="default"
   animated={true}
   marqueeEnabled={true}
-  renderMode="webgl"  // Use WebGL for GPU acceleration
 />
 \`\`\`
         `,
@@ -100,15 +96,9 @@ import { Logo } from 'hds';
         defaultValue: { summary: 'true' },
       },
     },
-    renderMode: {
-      control: { type: 'inline-radio' },
-      options: ['canvas2d', 'webgl'],
-      description: 'Rendering mode. "webgl" uses GPU acceleration (better for complex pages), "canvas2d" uses 2D Canvas (avoids WebGL context limits)',
-      table: {
-        type: { summary: 'LogoRenderMode' },
-        defaultValue: { summary: 'canvas2d' },
-      },
-    },
+
+
+
     className: {
       control: 'text',
       description: 'Additional CSS class name',
@@ -138,39 +128,5 @@ export const Back: Story = {
     type: 'back',
     animated: true,
     marqueeEnabled: false,
-  },
-};
-
-// WebGL mode - GPU accelerated rendering (recommended for complex pages)
-export const WebGL: Story = {
-  args: {
-    type: 'default',
-    animated: true,
-    marqueeEnabled: true,
-    renderMode: 'webgl',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Uses WebGL (Three.js) for GPU-accelerated rendering. Better performance on pages with many animations like the About page.',
-      },
-    },
-  },
-};
-
-// WebGL Back button style
-export const WebGLBack: Story = {
-  args: {
-    type: 'back',
-    animated: true,
-    marqueeEnabled: false,
-    renderMode: 'webgl',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Back button style with WebGL rendering.',
-      },
-    },
   },
 };

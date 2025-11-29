@@ -1,16 +1,15 @@
 // =============================================================================
-// LOGO 元件 - 使用 PixelText 建立品牌標誌
+// LOGO 元件 - 使用 PixelText2D 建立品牌標誌
 // - 主文字：Harry
 // - Text-box：跑馬燈顯示完整資訊
-// - 支援 WebGL (Three.js) 或 Canvas2D 渲染模式
+// - 使用 Canvas2D 版本避免 WebGL context 限制
 // =============================================================================
 
 import { forwardRef } from 'react';
-import { PixelText, PixelText2D } from '../PixelText';
+import { PixelText2D } from '../PixelText';
 import { HDS_TOKENS } from '../../utils/colorTokens';
 
 export type LogoType = 'default' | 'back';
-export type LogoRenderMode = 'webgl' | 'canvas2d';
 
 export interface LogoProps {
   /** Logo 類型 */
@@ -25,8 +24,6 @@ export interface LogoProps {
   marqueeEnabled?: boolean;
   /** 額外的 CSS 類名 */
   className?: string;
-  /** 渲染模式：webgl 使用 GPU 加速（適合複雜頁面）、canvas2d 使用 2D Canvas（避免 WebGL context 限制） */
-  renderMode?: LogoRenderMode;
 }
 
 export const Logo = forwardRef<HTMLDivElement, LogoProps>(({
@@ -36,7 +33,6 @@ export const Logo = forwardRef<HTMLDivElement, LogoProps>(({
   animated = true,
   marqueeEnabled = true,
   className = '',
-  renderMode = 'canvas2d',
 }, ref) => {
   // 根據 type 設定不同的內容和配置
   const getLogoConfig = () => {
@@ -63,37 +59,6 @@ export const Logo = forwardRef<HTMLDivElement, LogoProps>(({
 
   const config = getLogoConfig();
 
-  // 共用的 props
-  const pixelTextProps = {
-    key: `logo-${type}-${config.width}-${config.height}-${renderMode}`,
-    text: config.logoText,
-    textEnabled: true,
-    textBoxEnabled: true,
-    textBox: config.logoTextBox,
-    textBoxWidth: type === 'back' ? 1 : 4,
-    textBoxPadding: type === 'back' ? 1 : 2,
-    textBoxBottomPaddingOffset: type === 'default' ? -1 : 0,
-    swapTextAndBox: config.swapTextAndBox,
-    primaryColor: primaryColor,
-    onPrimaryColor: secondaryColor,
-    pixelSize: 4,
-    pixelGap: 0,
-    letterSpacing: 1,
-    animated: animated,
-    marqueeEnabled: type === 'back' ? false : marqueeEnabled,
-    marqueeSpeed: 15,
-    marqueePause: 0,
-    width: config.width,
-    height: config.height,
-    totalAnimationDuration: 1000,
-    durationTime: 500,
-    animationDelay: 0,
-    easeGlitch: false,
-  };
-
-  // 根據 renderMode 選擇渲染組件
-  const PixelTextComponent = renderMode === 'webgl' ? PixelText : PixelText2D;
-
   return (
     <div
       ref={ref}
@@ -103,7 +68,32 @@ export const Logo = forwardRef<HTMLDivElement, LogoProps>(({
         position: 'relative',
       }}
     >
-      <PixelTextComponent {...pixelTextProps} />
+      <PixelText2D
+        key={`logo-${type}-${config.width}-${config.height}`} // 強制重新創建實例以確保尺寸正確更新
+        text={config.logoText}
+        textEnabled={true}
+        textBoxEnabled={true}
+        textBox={config.logoTextBox}
+        textBoxWidth={type === 'back' ? 1 : 4}
+        textBoxPadding={type === 'back' ? 1 : 2}
+        textBoxBottomPaddingOffset={type === 'default' ? -1 : 0}
+        swapTextAndBox={config.swapTextAndBox}
+        primaryColor={primaryColor}
+        onPrimaryColor={secondaryColor}
+        pixelSize={4}
+        pixelGap={0}
+        letterSpacing={1}
+        animated={animated}
+        marqueeEnabled={type === 'back' ? false : marqueeEnabled} // Back 類型不需要跑馬燈
+        marqueeSpeed={15}
+        marqueePause={0}
+        width={config.width}
+        height={config.height}
+        totalAnimationDuration={1000}
+        durationTime={500}
+        animationDelay={0}
+        easeGlitch={false}
+      />
     </div>
   );
 });
