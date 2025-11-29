@@ -14,6 +14,7 @@ interface ScrollIndicatorProps {
   iconAriaLabel?: string;
   enableScrollToTop?: boolean;
   onIconClick?: () => void;
+  onIconHover?: () => void;
   iconClassName?: string;
   bounceDelayMs?: number;
   sliderMultiplier?: number;
@@ -33,6 +34,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   iconAriaLabel,
   enableScrollToTop = true,
   onIconClick,
+  onIconHover,
   iconClassName,
   bounceDelayMs = 0,
   sliderMultiplier = 1,
@@ -217,6 +219,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
       <div 
         className={iconClasses}
         onClick={handleIconClick}
+        onMouseEnter={() => { if (showIcon && onIconHover) onIconHover(); }}
         role="button"
         tabIndex={showIcon ? 0 : -1}
         onKeyDown={(e) => {

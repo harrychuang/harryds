@@ -9,6 +9,8 @@ import { useScrollProgress } from '../hooks/useScrollProgress';
 import { useTheme } from '../theme/useTheme';
 import ScrollIndicator from './ScrollIndicator';
 import { GIPHY_URLS } from '../constants/giphy';
+import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
+import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 
 const THANK_YOU_MESSAGES = [
   'Thanks!',
@@ -119,6 +121,24 @@ const Footer: React.FC = () => {
   const hasHydratedPreferenceRef = useRef(false);
   const hydratedPageKeyRef = useRef<string | null>(null);
   const pageStorageKey = useMemo(() => normalizePathKey(location.pathname), [location.pathname]);
+  
+  // Hover 音效
+  const hoverSoundHandleRef = useRef<PlaybackHandle | null>(null);
+  
+  // 預載 hover 音效
+  useEffect(() => {
+    audioManager.preload(hoverSoundUrl).catch(() => {});
+  }, []);
+  
+  // 播放 hover 音效
+  const playHoverSound = useCallback(async () => {
+    try {
+      hoverSoundHandleRef.current?.stop();
+      hoverSoundHandleRef.current = await audioManager.play(hoverSoundUrl, { volume: 0.4 });
+    } catch (err) {
+      console.warn('Footer hover sound play failed:', err);
+    }
+  }, []);
 
   const pickRandomGifUrl = useCallback((excludeUrl?: string) => {
     if (GIPHY_URLS.length === 0) {
@@ -427,10 +447,11 @@ const Footer: React.FC = () => {
             enableScrollToTop={false}
             icon="♥"
             iconAriaLabel="收藏"
-          iconClassName="scroll-indicator__icon--heart"
+            iconClassName="scroll-indicator__icon--heart"
             bounceDelayMs={100}
             sliderMultiplier={1}
             onIconClick={handleHeartClick}
+            onIconHover={playHoverSound}
             disableProgress={isHeartLiked}
             isLiked={isHeartLiked}
           />
@@ -442,6 +463,7 @@ const Footer: React.FC = () => {
             openCardId={openCardId}
             bounceDelayMs={0}
             sliderMultiplier={2}
+            onIconHover={playHoverSound}
           />
         </div>
       </div>

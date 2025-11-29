@@ -5,6 +5,24 @@
 @import '../styles/globals.scss';
 @import '../styles/header-shared';
 
+// PublicPixel font registration
+@font-face {
+  font-family: 'PublicPixel';
+  src: url('../../assets/fonts/PublicPixel.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+// Contact social links
+.home__contact-social-link {
+  font-family: 'PublicPixel', monospace;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--hds-sys-color-theme-surface);
+  text-decoration: none;
+  display: inline-block;
+}
+
 // About 頁面使用 .home 容器類名來復用樣式
 // 其他 About 特定的樣式可以在這裡添加
 

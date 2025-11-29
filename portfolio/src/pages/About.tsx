@@ -1219,19 +1219,22 @@ const About: React.FC = () => {
               }}>
                 <span className="lineParent">
                   <a 
+                    href="https://academy.aapd.com.tw/courses/ds" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="home__contact-social-link lineChild"
+                  >
+                    [ AAPD Course ]
+                  </a>
+                </span>
+                <span className="lineParent">
+                  <a 
                     href="https://harrychuang23.medium.com/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="home__contact-social-link lineChild"
-                    style={{
-                      fontFamily: "'Pixel', 'Courier New', Courier, monospace",
-                      fontSize: '15px',
-                      color: 'var(--hds-sys-color-theme-surface)',
-                      textDecoration: 'none',
-                      display: 'inline-block'
-                    }}
                   >
-                    + Medium +
+                    [ Medium ]
                   </a>
                 </span>
                 <span className="lineParent">
@@ -1240,15 +1243,8 @@ const About: React.FC = () => {
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="home__contact-social-link lineChild"
-                    style={{
-                      fontFamily: "'Pixel', 'Courier New', Courier, monospace",
-                      fontSize: '15px',
-                      color: 'var(--hds-sys-color-theme-surface)',
-                      textDecoration: 'none',
-                      display: 'inline-block'
-                    }}
                   >
-                    + Threads +
+                    [ Threads ]
                   </a>
                 </span>
                 <span className="lineParent">
@@ -1257,15 +1253,8 @@ const About: React.FC = () => {
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="home__contact-social-link lineChild"
-                    style={{
-                      fontFamily: "'Pixel', 'Courier New', Courier, monospace",
-                      fontSize: '15px',
-                      color: 'var(--hds-sys-color-theme-surface)',
-                      textDecoration: 'none',
-                      display: 'inline-block'
-                    }}
                   >
-                    + LinkedIn +
+                    [ LinkedIn ]
                   </a>
                 </span>
               </div>
