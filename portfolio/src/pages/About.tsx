@@ -42,7 +42,7 @@ const About: React.FC = () => {
   const { t, i18n } = useTranslation(['common', 'about']);
   const { theme, toggleTheme } = useTheme();
   const { isSoundEnabled, toggleSound } = useSound();
-  const { setLoading } = usePageLoader();
+  const { setLoading, isAnimationComplete } = usePageLoader();
   
   // 頁面進入時顯示 loading，元件掛載完成後結束
   useEffect(() => {
@@ -53,6 +53,16 @@ const About: React.FC = () => {
     }, 100);
     return () => clearTimeout(timer);
   }, [setLoading]);
+  
+  // 追蹤 Hero 動畫是否可以開始
+  const [canStartHeroAnimation, setCanStartHeroAnimation] = useState(false);
+  
+  // 當 loading 動畫完成後，允許開始 Hero 動畫
+  useEffect(() => {
+    if (isAnimationComplete) {
+      setCanStartHeroAnimation(true);
+    }
+  }, [isAnimationComplete]);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
@@ -338,16 +348,24 @@ const About: React.FC = () => {
   }, [playMenuClickSound]);
 
   // Hero 進場動畫：Title 打字效果 + 0.3s 後內文行動效
+  // 等待 loading 動畫完成後才開始
   useLayoutEffect(() => {
+    // 只有當 canStartHeroAnimation 為 true 時才執行動畫
+    if (!canStartHeroAnimation) return;
     if (!heroSectionRef.current || !heroTitleRef.current) return;
+    
     gsap.registerPlugin(TextPlugin);
+    
+    const titleEl = heroTitleRef.current;
+    const fullText = 'HI..I\'M HARRY!'; // 固定文字，避免從 DOM 讀取
+    const lineChildren = heroSectionRef.current.querySelectorAll<HTMLElement>('.lineChild');
 
     const ctx = gsap.context(() => {
-      const titleEl = heroTitleRef.current!;
-      const fullText = (titleEl.textContent || '').trim();
-
-      // 打字機：先清空文字，再以 TextPlugin 輸入
-      gsap.set(titleEl, { text: '' });
+      // 先設置初始狀態
+      gsap.set(titleEl, { text: '', visibility: 'visible' });
+      gsap.set(lineChildren, { yPercent: 100 });
+      
+      // 打字機：以 TextPlugin 輸入
       const tl = gsap.timeline();
       tl.to(titleEl, {
         duration: Math.max(0.8, fullText.length * 0.06),
@@ -356,9 +374,7 @@ const About: React.FC = () => {
       });
 
       // 行動效：準備並進場（延遲 0.3s）
-      const lineChildren = heroSectionRef.current!.querySelectorAll<HTMLElement>('.lineChild');
       if (lineChildren.length) {
-        gsap.set(lineChildren, { yPercent: 100 });
         tl.to(
           lineChildren,
           {
@@ -373,7 +389,7 @@ const About: React.FC = () => {
     }, heroSectionRef);
 
     return () => ctx.revert();
-  }, [i18n.language]);
+  }, [canStartHeroAnimation]);
 
   // 立即設置 introVisualRef 的初始位置（在渲染前）
   useLayoutEffect(() => {
@@ -933,29 +949,38 @@ const About: React.FC = () => {
       
       <main className="home__main">
         <section className="home__hero" aria-labelledby="about-hero-title" ref={heroSectionRef}>
-          <h1 id="about-hero-title" className="home__hero-title" ref={heroTitleRef}>
-            HI..I’M HARRY!
+          <h1 
+            id="about-hero-title" 
+            className="home__hero-title" 
+            ref={heroTitleRef}
+            style={{ visibility: canStartHeroAnimation ? 'visible' : 'hidden' }}
+          >
+            HI..I'M HARRY!
           </h1>
           <p className="home__hero-subtitle" ref={heroSubtitleRef}>
             <span className="lineParent">
-              <span className="lineChild">{t('hero.subtitle', { ns: 'about' })}</span>
+              <span className="lineChild" style={{ transform: canStartHeroAnimation ? undefined : 'translateY(100%)' }}>
+                {t('hero.subtitle', { ns: 'about' })}
+              </span>
             </span>
           </p>
           <p className="home__hero-description" ref={heroDescriptionRef}>
             <span className="lineParent">
-              <span className="lineChild">
+              <span className="lineChild" style={{ transform: canStartHeroAnimation ? undefined : 'translateY(100%)' }}>
                 <span className="home__hero-description-intro">
                   {t('hero.descriptionIntro', { ns: 'about' })}
                 </span>
               </span>
             </span>
             <span className="lineParent">
-              <span className="lineChild">
+              <span className="lineChild" style={{ transform: canStartHeroAnimation ? undefined : 'translateY(100%)' }}>
                 {t('hero.descriptionLine1', { ns: 'about' })}
               </span>
             </span>
             <span className="lineParent">
-              <span className="lineChild">{t('hero.descriptionLine2', { ns: 'about' })}</span>
+              <span className="lineChild" style={{ transform: canStartHeroAnimation ? undefined : 'translateY(100%)' }}>
+                {t('hero.descriptionLine2', { ns: 'about' })}
+              </span>
             </span>
           </p>
         </section>

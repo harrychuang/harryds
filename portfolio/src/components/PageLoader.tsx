@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PixelLoading } from 'hds';
+import { usePageLoader } from '../contexts/PageLoaderContext';
 import './PageLoader.scss';
 
 interface PageLoaderProps {
@@ -25,6 +26,8 @@ const PageLoader: React.FC<PageLoaderProps> = ({
   backgroundColor = '#111111',
   minDisplayTime = 1000,
 }) => {
+  const { setAnimationComplete } = usePageLoader();
+  
   // 動畫階段: 'hidden' | 'entering' | 'visible' | 'exiting' | 'mask-closing'
   const [phase, setPhase] = useState<'hidden' | 'entering' | 'visible' | 'exiting' | 'mask-closing'>('hidden');
   const [loadStartTime, setLoadStartTime] = useState<number | null>(null);
@@ -43,8 +46,9 @@ const PageLoader: React.FC<PageLoaderProps> = ({
       loadingFinishedRef.current = false;
       minTimeElapsedRef.current = false;
       setSimulatedProgress(0);
+      setAnimationComplete(false); // 重置動畫完成狀態
     }
-  }, [isLoading, phase]);
+  }, [isLoading, phase, setAnimationComplete]);
 
   // 進入動畫完成後變為 visible
   useEffect(() => {
@@ -113,12 +117,13 @@ const PageLoader: React.FC<PageLoaderProps> = ({
         setLoadStartTime(null);
         loadingFinishedRef.current = false;
         minTimeElapsedRef.current = false;
+        setAnimationComplete(true); // 標記動畫完成
         onComplete?.();
       }, 800); // mask 關閉動畫時間（含 delay）
       
       return () => clearTimeout(timer);
     }
-  }, [phase, onComplete]);
+  }, [phase, onComplete, setAnimationComplete]);
 
   // 計算動態進度
   useEffect(() => {
