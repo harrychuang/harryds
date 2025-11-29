@@ -40,7 +40,7 @@
     inset: 0;
     background: var(--feed-detail-secondary-color, rgba(0,0,0,0.9));
     opacity: 0.9;
-    animation: fade-in-backdrop 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    // 移除進場動畫，直接顯示
   }
 
   &__content {
@@ -74,7 +74,7 @@
     .feed-card {
       width: 100vw !important;
       height: 100vh !important;
-      animation: fade-in-background 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      // 移除進場動畫，直接顯示
       
       // 確保 PixelImage 填滿整個背景卡片
       .feed-card__bg {
@@ -100,17 +100,12 @@
     width: 100%;
     z-index: 2; // 確保在背景之上
     
-    // Expanding/Ready 階段：使用 padding-top 推動內容到下方
+    // Expanding/Ready 階段：使用 padding-top 推動內容到下方（移除過渡動畫）
     .feed-detail-overlay--expanding &,
     .feed-detail-overlay--ready & {
       padding-top: 40vh;
       flex: none; // 不被 flex 擠壓
-      transition: padding-top 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    // 只在 expanding 階段使用 will-change
-    .feed-detail-overlay--expanding & {
-      will-change: padding-top;
+      // 移除 transition，直接顯示
     }
     
     // 移除擴展階段將 FeedCard 拉到 100vh 的行為，改由 fixed 背景層處理
@@ -135,8 +130,7 @@
     align-items: flex-end; // FeedCardInfo 貼在容器底部
     justify-content: center; // 水平置中
     padding: var(--feed-card-padding, 40px);
-    // 平滑進入動畫
-    animation: fade-in-hero-content 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    // 移除進場動畫，直接顯示
 
     min-height: 120px; // 確保有最小高度
     
@@ -158,10 +152,10 @@
     color: var(--on-hds-sys-color-surface, #fff);
     padding: 32px 0px 100px;
     
-    // 只在 ready 階段應用 flex 相關樣式，並添加進入動畫
+    // 只在 ready 階段應用 flex 相關樣式
     .feed-detail-overlay--ready & {
       flex: 1 1 auto; // 占取剩餘空間並可捲動
-      animation: slide-up-body 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      // 移除進場動畫，直接顯示
     }
 
     .fdo-article {
@@ -221,6 +215,8 @@
     pointer-events: none; // 避免遮擋其他互動元素
     // 使用硬體加速確保流暢的 parallax 效果
     will-change: top;
+    // 進場 fade-in 動畫
+    animation: fade-in-special-heading 0.6s ease-out forwards;
     
     // 在大螢幕上進一步限制寬度
     @media (min-width: 1800px) {
@@ -544,6 +540,15 @@
   }
 }
 
+@keyframes fade-in-special-heading {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 // 針對不同階段的額外優化已移除，避免過度優化造成閃爍
 
 // =============================================================================
@@ -557,8 +562,7 @@
   padding: 60px 40px 200px;
   color: var(--feed-detail-primary-color, #ffffff);
   
-  // 漸入動畫
-  animation: fadeInUp 0.6s ease-out;
+  // 移除進場動畫，直接顯示
   
   @media (max-width: 768px) {
     padding: 40px 20px 80px;
