@@ -179,7 +179,7 @@ const ArticleDetail: React.FC = () => {
     setIsLogoHovered(false);
   }, []);
 
-  // 返回 Articles 列表
+  // 返回 Articles 列表（使用瀏覽器返回以保留 URL 參數如 topic）
   const handleBackToArticles = useCallback(async () => {
     try {
       menuClickHandleRef.current?.stop();
@@ -187,7 +187,7 @@ const ArticleDetail: React.FC = () => {
     } catch (err) {
       console.warn('Back button sound play failed:', err);
     }
-    navigate('/articles');
+    navigate(-1);
   }, [navigate]);
 
   // 獲取文章圖片
