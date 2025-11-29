@@ -1,6 +1,12 @@
 @import '../styles/globals.scss';
 @import '../styles/header-shared';
 
+// PublicPixel font registration
+@font-face {
+  font-family: 'PublicPixel';
+  src: url('../../assets/fonts/PublicPixel.ttf') format('truetype');
+}
+
 .articles-page {
   min-height: 100vh;
   display: flex;
@@ -10,16 +16,54 @@
   color: var(--hds-sys-color-theme-surface);
   padding: 50px 50px 100px 50px;
 
-  &__content {
-    flex: 1;
-    max-width: 1600px;
+  // Topics Filter Bar
+  &__topics-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    max-width: 1580px;
     margin: 0 auto;
     padding-top: 100px;
-    padding-bottom: 10px;
     width: 100%;
     
     @media (max-width: 768px) {
       padding-top: 120px;
+      gap: 10px 16px;
+    }
+  }
+
+  &__topic-item {
+    font-family: 'PublicPixel', monospace;
+    font-size: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 0;
+    color: var(--hds-sys-color-theme-surface);
+    opacity: 0.25;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+    text-transform: uppercase;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &--active {
+      opacity: 1;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding-top: 40px;
+    padding-bottom: 10px;
+    width: 100%;
+    
+    @media (max-width: 768px) {
+      padding-top: 30px;
     }
   }
 

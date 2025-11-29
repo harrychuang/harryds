@@ -27,6 +27,30 @@ const Articles: React.FC = () => {
       return dateB.getTime() - dateA.getTime(); // 新的在前
     });
   }, [rawItems]);
+
+  // Topics 選項狀態
+  const [selectedTopic, setSelectedTopic] = useState<string>('all');
+
+  // 從所有文章中提取 tags 並按出現次數排序
+  const sortedTopics = useMemo(() => {
+    const tagCount: Record<string, number> = {};
+    items.forEach((item) => {
+      item.tags?.forEach((tag: string) => {
+        tagCount[tag] = (tagCount[tag] || 0) + 1;
+      });
+    });
+    // 按出現次數由多到少排序
+    return Object.entries(tagCount)
+      .sort((a, b) => b[1] - a[1])
+      .map(([tag]) => tag);
+  }, [items]);
+
+  // 根據選擇的 topic 篩選文章
+  const filteredItems = useMemo(() => {
+    if (selectedTopic === 'all') return items;
+    return items.filter((item) => item.tags?.includes(selectedTopic));
+  }, [items, selectedTopic]);
+
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
   const langDropdownRef = useRef<HTMLDivElement>(null);
@@ -177,6 +201,17 @@ const Articles: React.FC = () => {
     }
   }, [items, navigate]);
 
+  // Topic 點擊處理
+  const handleTopicClick = useCallback(async (topic: string) => {
+    try {
+      menuClickHandleRef.current?.stop();
+      menuClickHandleRef.current = await audioManager.play(clickSoundUrl, { volume: 0.3 });
+    } catch (err) {
+      console.warn('Topic click sound play failed:', err);
+    }
+    setSelectedTopic(topic);
+  }, []);
+
   // 點擊外部關閉語言下拉選單
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -221,18 +256,39 @@ const Articles: React.FC = () => {
         onLanguageHover={() => { playMenuHoverSound(); }}
       />
 
+      {/* Topics Filter Bar */}
+      <div className="articles-page__topics-bar">
+        <button
+          className={`articles-page__topic-item ${selectedTopic === 'all' ? 'articles-page__topic-item--active' : ''}`}
+          onClick={() => handleTopicClick('all')}
+          onMouseEnter={playMenuHoverSound}
+        >
+          {selectedTopic === 'all' ? '[All]' : 'All'}
+        </button>
+        {sortedTopics.map((topic) => (
+          <button
+            key={topic}
+            className={`articles-page__topic-item ${selectedTopic === topic ? 'articles-page__topic-item--active' : ''}`}
+            onClick={() => handleTopicClick(topic)}
+            onMouseEnter={playMenuHoverSound}
+          >
+            {selectedTopic === topic ? `[${topic}]` : topic}
+          </button>
+        ))}
+      </div>
+
       <main className="articles-page__content">
         <div className="articles-page__grid">
-          {items.map((article, index) => {
+          {filteredItems.map((article, index) => {
             // 前兩個為 medium size，其餘為 xs
             const size: FeedCardSize = index < 2 ? 'med' : 'xs';
             const height = index < 2 ? 500 : 250;
             const src = article.heroImage || '';
             
             // 計算是否為最後幾個卡片（避免最後只剩 1 個）
-            const totalXsCards = items.length - 2;
+            const totalXsCards = filteredItems.length - 2;
             const remainder = totalXsCards % 3;
-            const isInLastGroup = remainder === 1 && index >= items.length - 4;
+            const isInLastGroup = remainder === 1 && index >= filteredItems.length - 4;
             
             // 決定 className
             let cardClass = 'article-card';
