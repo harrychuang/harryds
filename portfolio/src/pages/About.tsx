@@ -37,32 +37,42 @@ import Header from '../components/Header';
 import { GIPHY_URLS } from '../constants/giphy';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 
+const PAGE_NAME = 'about';
+
 const About: React.FC = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation(['common', 'about']);
   const { theme, toggleTheme } = useTheme();
   const { isSoundEnabled, toggleSound } = useSound();
-  const { setLoading, isAnimationComplete } = usePageLoader();
-  
-  // 頁面進入時顯示 loading，元件掛載完成後結束
-  useEffect(() => {
-    setLoading(true);
-    // 短暫延遲後結束 loading（讓頁面有時間渲染）
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 100);
-    return () => clearTimeout(timer);
-  }, [setLoading]);
+  const { setLoading, isAnimationComplete, isPageLoaded, markPageAsLoaded, setAnimationComplete } = usePageLoader();
   
   // 追蹤 Hero 動畫是否可以開始
   const [canStartHeroAnimation, setCanStartHeroAnimation] = useState(false);
   
+  // 頁面進入時檢查是否已載入過
+  useEffect(() => {
+    if (isPageLoaded(PAGE_NAME)) {
+      // 頁面已載入過，直接跳過 loading，立即開始動畫
+      setLoading(false);
+      setAnimationComplete(true);
+      setCanStartHeroAnimation(true);
+    } else {
+      // 首次載入，顯示 loading
+      setLoading(true);
+      const timer = setTimeout(() => {
+        setLoading(false);
+        markPageAsLoaded(PAGE_NAME);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete]);
+  
   // 當 loading 動畫完成後，允許開始 Hero 動畫
   useEffect(() => {
-    if (isAnimationComplete) {
+    if (isAnimationComplete && !canStartHeroAnimation) {
       setCanStartHeroAnimation(true);
     }
-  }, [isAnimationComplete]);
+  }, [isAnimationComplete, canStartHeroAnimation]);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);

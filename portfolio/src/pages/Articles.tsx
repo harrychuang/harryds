@@ -13,6 +13,8 @@ import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 
+const PAGE_NAME = 'articles';
+
 const Articles: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,16 +22,24 @@ const Articles: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { isSoundEnabled, toggleSound } = useSound();
   const { items: rawItems } = useI18nFeed('articles');
-  const { setLoading } = usePageLoader();
+  const { setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete } = usePageLoader();
   
-  // 頁面進入時顯示 loading，元件掛載完成後結束
+  // 頁面進入時檢查是否已載入過
   useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => {
+    if (isPageLoaded(PAGE_NAME)) {
+      // 頁面已載入過，直接跳過 loading
       setLoading(false);
-    }, 100);
-    return () => clearTimeout(timer);
-  }, [setLoading]);
+      setAnimationComplete(true);
+    } else {
+      // 首次載入，顯示 loading
+      setLoading(true);
+      const timer = setTimeout(() => {
+        setLoading(false);
+        markPageAsLoaded(PAGE_NAME);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete]);
 
   // 按日期從新到舊排序
   const items = useMemo(() => {

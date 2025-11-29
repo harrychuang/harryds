@@ -26,6 +26,8 @@ const slugify = (text: string) => text
   .replace(/\s+/g, '-')
   .replace(/-+/g, '-');
 
+const PAGE_NAME = 'home';
+
 const Home: React.FC = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -33,12 +35,24 @@ const Home: React.FC = () => {
   // 使用統一的資料介面，根據設定自動選擇資料來源
   const { items, loading, error, dataSource } = useProjects();
   const { toggleDataSource } = useDataSource();
-  const { setLoading } = usePageLoader();
+  const { setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete } = usePageLoader();
   
   // 同步 loading 狀態到全域 PageLoader
+  // 如果頁面已載入過，跳過 loading
   useEffect(() => {
-    setLoading(loading);
-  }, [loading, setLoading]);
+    if (isPageLoaded(PAGE_NAME)) {
+      // 頁面已載入過，直接跳過 loading
+      setLoading(false);
+      setAnimationComplete(true);
+    } else {
+      // 首次載入，顯示 loading
+      setLoading(loading);
+      // 載入完成後標記頁面為已載入
+      if (!loading) {
+        markPageAsLoaded(PAGE_NAME);
+      }
+    }
+  }, [loading, setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete]);
   
   const log = useCallback((..._args: any[]) => {}, []);
   const { theme, toggleTheme } = useTheme();
