@@ -23,7 +23,8 @@
     gap: 10px 20px;
     max-width: 1580px;
     margin: 0 auto;
-    padding-top: 100px;
+    padding-top: 90px;
+    padding-bottom: 20px;
     width: 100%;
     overflow: hidden;
     
@@ -44,7 +45,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 8px 0;
+    padding: 5px 0;
     color: var(--hds-sys-color-theme-surface);
     opacity: 0.25;
     transition: opacity 0.2s ease;
@@ -84,6 +85,11 @@
       &:hover {
         opacity: 1;
       }
+    }
+
+    // ...more topics 前一個按鈕的 | 也要消失
+    &:has(+ &--more)::after {
+      content: none;
     }
   }
 
