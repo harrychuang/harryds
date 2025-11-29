@@ -49,3 +49,7 @@ export type { ListCardProps } from './ListCard';
 // ParticlesBackground - Canvas 背景粒子效果
 export { ParticlesBackground } from './ParticlesBackground';
 export type { ParticlesBackgroundProps } from './ParticlesBackground';
+
+// PixelLoading - 8-bit 風格像素進度條
+export { PixelLoading } from './PixelLoading';
+export type { PixelLoadingProps } from './PixelLoading';

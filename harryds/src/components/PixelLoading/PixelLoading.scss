@@ -1,0 +1,41 @@
+// =============================================================================
+// PIXEL LOADING 元件樣式 - 8-bit 風格二進位像素顯示
+// =============================================================================
+
+.pixel-loading {
+  display: inline-block;
+  font-family: 'Pixel', 'Press Start 2P', monospace;
+  
+  &__pixel {
+    box-sizing: border-box;
+    
+    &.on {
+      // opacity 在 inline style 中設定
+    }
+    
+    &.off {
+      // opacity 在 inline style 中設定
+    }
+  }
+  
+  // 動畫效果
+  &.animated {
+    .pixel-loading__pixel {
+      &.on {
+        animation: pixel-glow 0s ease-in-out infinite;
+      }
+    }
+  }
+}
+
+// 像素發光動畫
+@keyframes pixel-glow {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.85;
+    filter: brightness(1.1);
+  }
+}
