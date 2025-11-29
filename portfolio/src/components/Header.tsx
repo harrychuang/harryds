@@ -11,6 +11,8 @@ export interface HeaderProps {
 	logoAnimated?: boolean;
 	logoColors?: { primaryColor?: string; secondaryColor?: string };
 	logoWrapperStyle?: React.CSSProperties;
+	/** Logo 渲染模式：webgl 使用 GPU 加速（適合複雜頁面）、canvas2d 使用 2D Canvas（預設） */
+	logoRenderMode?: 'webgl' | 'canvas2d';
 
 	// Navigation controls
 	hideNav?: boolean;
@@ -65,6 +67,7 @@ const Header: React.FC<HeaderProps> = ({
 	logoAnimated = true,
 	logoColors,
 	logoWrapperStyle,
+	logoRenderMode = 'canvas2d',
 
 	hideNav = false,
 	menuItems = ['work', 'articles', 'about'],
@@ -115,6 +118,7 @@ const Header: React.FC<HeaderProps> = ({
 					<Logo
 						type={logoType}
 						animated={!!logoAnimated}
+						renderMode={logoRenderMode}
 						{...(logoColors || {})}
 					/>
 				</div>

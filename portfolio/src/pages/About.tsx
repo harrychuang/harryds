@@ -937,6 +937,7 @@ const About: React.FC = () => {
         onLogoClick={() => navigate('/')}
         logoType="default"
         logoAnimated={true}
+        logoRenderMode="webgl"
         hideNav={false}
         menuItems={['work', 'articles', 'about']}
         activeMenuItem="about"
