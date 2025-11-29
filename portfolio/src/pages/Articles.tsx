@@ -33,8 +33,8 @@ const Articles: React.FC = () => {
       setLoading(false);
       setAnimationComplete(true);
     } else {
-      // 首次載入，顯示 loading
-      setLoading(true);
+      // 首次載入：loading 狀態應該已經由前一頁設置
+      // 這裡只需要在資料準備好後關閉 loading
       const timer = setTimeout(() => {
         setLoading(false);
         markPageAsLoaded(PAGE_NAME);
@@ -206,8 +206,14 @@ const Articles: React.FC = () => {
     } catch (err) {
       console.warn('Logo click sound play failed:', err);
     }
-    navigate('/');
-  }, [navigate]);
+    // 如果頁面已載入過，直接導航；否則先觸發 loading
+    if (isPageLoaded('home')) {
+      navigate('/');
+    } else {
+      setLoading(true);
+      setTimeout(() => navigate('/'), 50);
+    }
+  }, [navigate, setLoading, isPageLoaded]);
 
   // 導覽選單點擊
   const handleMenuItemClick = useCallback(async (itemKey: string) => {
@@ -220,16 +226,28 @@ const Articles: React.FC = () => {
 
     switch (itemKey) {
       case 'work':
-        navigate('/');
+        // 如果頁面已載入過，直接導航；否則先觸發 loading
+        if (isPageLoaded('home')) {
+          navigate('/');
+        } else {
+          setLoading(true);
+          setTimeout(() => navigate('/'), 50);
+        }
         break;
       case 'articles':
         // 已經在 articles 頁面
         break;
       case 'about':
-        navigate('/about');
+        // 如果頁面已載入過，直接導航；否則先觸發 loading
+        if (isPageLoaded('about')) {
+          navigate('/about');
+        } else {
+          setLoading(true);
+          setTimeout(() => navigate('/about'), 50);
+        }
         break;
     }
-  }, [navigate]);
+  }, [navigate, setLoading, isPageLoaded]);
 
   // Hover 音效
   const playMenuHoverSound = useCallback(async () => {

@@ -934,7 +934,14 @@ const About: React.FC = () => {
       />
       
       <Header
-        onLogoClick={() => navigate('/')}
+        onLogoClick={() => { 
+          if (isPageLoaded('home')) {
+            navigate('/');
+          } else {
+            setLoading(true); 
+            setTimeout(() => navigate('/'), 50); 
+          }
+        }}
         logoType="default"
         logoAnimated={true}
         hideNav={false}
@@ -946,11 +953,23 @@ const About: React.FC = () => {
         onMenuItemClick={(key) => { 
           playMenuClickSound();
           if (key === 'work') {
-            navigate('/');
+            // 如果頁面已載入過，直接導航；否則先觸發 loading
+            if (isPageLoaded('home')) {
+              navigate('/');
+            } else {
+              setLoading(true);
+              setTimeout(() => navigate('/'), 50);
+            }
           } else if (key === 'about') {
-            navigate('/about');
+            // 已經在 about 頁面
           } else if (key === 'articles') {
-            navigate('/articles');
+            // 如果頁面已載入過，直接導航；否則先觸發 loading
+            if (isPageLoaded('articles')) {
+              navigate('/articles');
+            } else {
+              setLoading(true);
+              setTimeout(() => navigate('/articles'), 50);
+            }
           }
         }}
         showThemeToggle={true}
@@ -1147,7 +1166,7 @@ const About: React.FC = () => {
                   width={'250px'}
                   autoPlay={true}
                   enableParticles={true}
-                  frameDuration={400}
+                  frameDuration={500}
                 />
               </div>
             </div>

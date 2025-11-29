@@ -630,10 +630,22 @@ const Home: React.FC = () => {
         onMenuItemHover={(key) => { triggerMenuHoverOnce(key); playMenuHoverSound(); }}
         onMenuItemClick={(key) => { 
           playMenuClickSound(); 
-          if (key === 'about') { 
-            navigate('/about'); 
+          if (key === 'about') {
+            // 如果頁面已載入過，直接導航；否則先觸發 loading
+            if (isPageLoaded('about')) {
+              navigate('/about');
+            } else {
+              setLoading(true);
+              setTimeout(() => navigate('/about'), 50);
+            }
           } else if (key === 'articles') {
-            navigate('/articles');
+            // 如果頁面已載入過，直接導航；否則先觸發 loading
+            if (isPageLoaded('articles')) {
+              navigate('/articles');
+            } else {
+              setLoading(true);
+              setTimeout(() => navigate('/articles'), 50);
+            }
           }
         }}
         navColors={navColors as any}
