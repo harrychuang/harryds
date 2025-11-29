@@ -90,7 +90,8 @@ const Articles: React.FC = () => {
     let currentIndex = 0;
     while (currentIndex < remainingItems.length) {
       // 隨機決定這一排是 2 columns (span 3) 還是 3 columns (span 2)
-      const isTwoColumns = seededRandom() > 0.5;
+      // 2 columns 比例為 20%，3 columns 為 80%
+      const isTwoColumns = seededRandom() < 0.4;
       const cardsInRow = isTwoColumns ? 2 : 3;
       const spanValue = isTwoColumns ? 3 : 2;
       
