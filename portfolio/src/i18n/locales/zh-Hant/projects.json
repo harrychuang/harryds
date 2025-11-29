@@ -98,7 +98,7 @@
           "quote1": "300 萬以上頁面瀏覽量：透過自然成長和技術 SEO 策略達成。",
           "quote2": "資料視覺化：將複雜的原始資料轉化為直觀的評分圖表。",
           "quote3": "長期營運：超過 5 年的產品迭代，從 MVP 到變現平台。",
-          "blockquote": "「此平台證明了結合以使用者為中心的設計與紮實的技術執行，能夠創造永續價值——300 萬以上頁面瀏覽量且持續成長。」",
+          "blockquote": "此平台證明了結合以使用者為中心的設計與紮實的技術執行，能夠創造永續價值——300 萬以上頁面瀏覽量且持續成長。",
           "image1": "demo/awwrated/demo-awwrated-03.jpg",
           "image2": "demo/awwrated/demo-awwrated-04.jpg"
         },
@@ -175,7 +175,7 @@
           "quote1": "成本降低：透過消除重複的編碼任務，大幅縮短開發時間。",
           "quote2": "無縫交接：Storybook 提供即時文件中心，消除設計稿與最終程式碼之間的模糊性。",
           "quote3": "QA 速度：元件被獨立測試，確保 UI 更新不會破壞現有功能。",
-          "blockquote": "「設計系統不僅僅是一個函式庫；它是一個運營資產，能在不擴大團隊規模的情況下擴展團隊產出。」",
+          "blockquote": "設計系統不僅僅是一個函式庫；它是一個運營資產，能在不擴大團隊規模的情況下擴展團隊產出。",
           "image1": "demo/shopmaticds/demo-shopmaticds-03.jpg",
           "image2": "demo/shopmaticds/demo-shopmaticds-04.jpg"
         },
@@ -273,7 +273,7 @@
         },
         {
           "label": "類型",
-          "value": "白標 App"
+          "value": "品牌專屬 APP"
         },
         {
           "label": "我的角色",
@@ -330,7 +330,7 @@
           "quote1": "單頁架構：將 3 個步驟整合為 1 個無縫視圖，以減少摩擦。",
           "quote2": "智慧帳戶驗證：即時邏輯偵測現有使用者，無需強制頁面重新導向。",
           "quote3": "Storybook 整合：透過獨立測試元件，架接設計與開發。",
-          "blockquote": "「做得很好！看到原始結帳流程如何演進令人振奮。簡潔且直觀。」",
+          "blockquote": "做得很好！看到原始結帳流程如何演進令人振奮。簡潔且直觀。",
           "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-03.jpg"
         },
         "get in touch": {

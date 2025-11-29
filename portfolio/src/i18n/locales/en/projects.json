@@ -64,7 +64,7 @@
           "quote1": "Gamification: Increased stickiness by allowing users to 'invest' in their personal AI Anchor.",
           "quote2": "Smart Audio: On-demand AI podcast generation tailored for different commute durations.",
           "quote3": "Pitch Win: The innovative concept and UX strategy successfully won the competitive pitch against other agencies.",
-          "blockquote": "\"The stakeholder feedback highlighted that the new experience successfully bridges the gap between traditional news and Gen Z's interactive habits.\"",
+          "blockquote": "The stakeholder feedback highlighted that the new experience successfully bridges the gap between traditional news and Gen Z's interactive habits.",
           "image1": "demo/nownews/demo-nownews-03.jpg"
         },
         "get in touch": {
@@ -98,7 +98,7 @@
           "quote1": "3M+ Page Views: Achieved through organic growth and Technical SEO strategies.",
           "quote2": "Data Visualization: Transformed complex raw data into intuitive rating graphs.",
           "quote3": "Long-term Ops: 5+ years of product iteration, from MVP to a monetized platform.",
-          "blockquote": "\"This platform proves that combining user-centered design with solid technical execution creates sustainable value—3M+ page views and growing.\"",
+          "blockquote": "This platform proves that combining user-centered design with solid technical execution creates sustainable value—3M+ page views and growing.",
           "image1": "demo/awwrated/demo-awwrated-03.jpg",
           "image2": "demo/awwrated/demo-awwrated-04.jpg"
         },
@@ -175,7 +175,7 @@
           "quote1": "Cost Reduction: Significantly lowered development time by eliminating repetitive coding tasks.",
           "quote2": "Seamless Handoff: Storybook provides a live documentation hub, removing ambiguity between design mocks and final code.",
           "quote3": "QA Velocity: Components are tested in isolation, ensuring that UI updates don't break existing functionality.",
-          "blockquote": "\"The Design System is not just a library; it is an operational asset that scales the team's output without scaling the team size.\"",
+          "blockquote": "The Design System is not just a library; it is an operational asset that scales the team's output without scaling the team size.",
           "image1": "demo/shopmaticds/demo-shopmaticds-03.jpg",
           "image2": "demo/shopmaticds/demo-shopmaticds-04.jpg"
         },
@@ -253,7 +253,7 @@
           "quote1": "Dynamic Theming: Created a flexible UI framework that adapts to any merchant's brand identity.",
           "quote2": "Mobile Design System: Established the team's first React-Native component library to speed up assembly.",
           "quote3": "Hybrid Solution: Integrated online ordering with offline POS capabilities for omnichannel selling.",
-          "blockquote": "\"Although the project halted due to acquisition, the Mobile Design System laid the groundwork for future React-Native initiatives, proving the value of modular architecture.\"",
+          "blockquote": "Although the project halted due to acquisition, the Mobile Design System laid the groundwork for future React-Native initiatives, proving the value of modular architecture.",
           "image1": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-03.jpg"
         },
         "get in touch": {
@@ -273,7 +273,7 @@
         },
         {
           "label": "Type",
-          "value": "White-label App"
+          "value": "Branded App"
         },
         {
           "label": "My Role",
@@ -330,7 +330,7 @@
           "quote1": "Single-Page Architecture: Consolidated 3 steps into 1 seamless view to reduce friction.",
           "quote2": "Smart Account Verification: Inline logic detects existing users without forcing page redirects.",
           "quote3": "Storybook Integration: Bridged design and dev by testing components in isolation.",
-          "blockquote": "\"Great job! It's inspiring to see how the original checkout process has been evolved. Clean and straightforward.\"",
+          "blockquote": "Great job! It's inspiring to see how the original checkout process has been evolved. Clean and straightforward.",
           "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-03.jpg"
         },
         "get in touch": {
@@ -407,7 +407,7 @@
           "quote1": "Editor's Choice: Recognized by the Apple App Store for outstanding design and user experience.",
           "quote2": "User-Centricity: Shifted the focus from 'selling tickets' to 'empowering travelers' with knowledge.",
           "quote3": "Brand Architecture: Successfully established a standalone sub-brand that complements the main ecosystem.",
-          "blockquote": "\"The recognition as an Apple App Store Editor's Choice app confirms that a user-first approach to travel content drives both engagement and brand value.\"",
+          "blockquote": "The recognition as an Apple App Store Editor's Choice app confirms that a user-first approach to travel content drives both engagement and brand value.",
           "image1": "demo/kkday/demo-kkday-03.jpg"
         },
         "get in touch": {
@@ -480,7 +480,7 @@
           "quote1": "Cost Efficiency: Reduced operational support workload by 90% through intuitive UI.",
           "quote2": "Visual System: Introduced a color-coded schedule (1-on-1 vs. Lecture) for instant readability.",
           "quote3": "Learning Experience: Digitized homework and flashcards, creating a seamless study loop.",
-          "blockquote": "\"The transformation successfully positioned the brand as the world's largest Chinese learning platform, offering a frictionless experience for Western learners.\"",
+          "blockquote": "The transformation successfully positioned the brand as the world's largest Chinese learning platform, offering a frictionless experience for Western learners.",
           "image1": "demo/tutorming/demo-tutorming-03.jpg"
         },
         "get in touch": {
@@ -557,7 +557,7 @@
           "quote1": "Awwwards Recognition: Awarded 'Honorable Mention' for design excellence and creativity.",
           "quote2": "Fluid Navigation: Implemented distortion-based transitions for a seamless user journey.",
           "quote3": "Micro-Interactions: Morphing buttons (Expand to Close) enhance the tactile feel of the UI.",
-          "blockquote": "\"This project stands as a testament to the belief that code is a creative medium. It validates the ability to execute complex, high-fidelity interactions that captivate users.\"",
+          "blockquote": "This project stands as a testament to the belief that code is a creative medium. It validates the ability to execute complex, high-fidelity interactions that captivate users.",
           "image1": "demo/noein/demo-noein-03.jpg"
         },
         "get in touch": {
