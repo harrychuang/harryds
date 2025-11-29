@@ -15,7 +15,6 @@ import { useTheme } from '../theme/useTheme';
 import { useHover } from '../contexts/HoverContext';
 import { useSound } from '../hooks/useSound';
 import { useOverlay } from '../contexts/OverlayContext';
-import TransitionOverlay from '../components/TransitionOverlay';
 import Header from '../components/Header';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 
@@ -62,14 +61,6 @@ const Home: React.FC = () => {
     setOpenCardId: setContextOpenCardId, 
     setAnimationPhase: setContextAnimationPhase, 
     overlayScrollRef,
-    isTransitioning,
-    setIsTransitioning,
-    transitionClickPosition,
-    setTransitionClickPosition,
-    transitionColor,
-    setTransitionColor,
-    shouldStartDisappear,
-    setShouldStartDisappear,
   } = useOverlay();
 
   // 智能預載配置
@@ -93,7 +84,6 @@ const Home: React.FC = () => {
   const [isLogoHovered, setIsLogoHovered] = useState<boolean>(false);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState<boolean>(false);
   const loadedCardIdsRef = useRef<Set<number>>(new Set());
-  const pendingTransitionRef = useRef<{ cardId: number; clickPosition: { x: number; y: number } | null } | null>(null);
   const langDropdownRef = useRef<HTMLDivElement>(null);
 
   // 導覽選單 hover 觸發一次動畫狀態
@@ -288,9 +278,9 @@ const Home: React.FC = () => {
   }, []);
 
   const handleOpenCard = useCallback((cardId: number, event?: React.MouseEvent) => {
-    // 如果已經有卡片開啟或正在轉場中，直接返回（避免重複觸發）
-    if (openCardId !== null || isTransitioning) {
-      console.log('[Home] 阻止重複開啟卡片，當前狀態:', { openCardId, isTransitioning });
+    // 如果已經有卡片開啟，直接返回（避免重複觸發）
+    if (openCardId !== null) {
+      console.log('[Home] 阻止重複開啟卡片，當前狀態:', { openCardId });
       return;
     }
     
@@ -299,34 +289,23 @@ const Home: React.FC = () => {
     
     console.log('[Home] 開啟卡片:', cardId);
     
-    // 保存卡片資訊，用於載入完成後的判斷
-    const clickPos = event ? { x: event.clientX, y: event.clientY } : null;
-    pendingTransitionRef.current = { cardId, clickPosition: clickPos };
+    // 檢查是否已經載入過
+    const hasLoaded = loadedCardIdsRef.current.has(cardId);
     
-    // 設置轉場顏色為卡片的主色
-    setTransitionColor(item.primaryColor || '#000000');
-    
-    // 設置點擊位置
-    if (clickPos) {
-      setTransitionClickPosition(clickPos);
-    } else {
-      setTransitionClickPosition({ 
-        x: window.innerWidth / 2, 
-        y: window.innerHeight / 2 
-      });
-    }
-    
-    // 重置消失狀態
-    setShouldStartDisappear(false);
-    
-    // 立即播放轉場動畫（擴展階段）
-    setIsTransitioning(true);
-    
-    // 延遲一小段時間再導航，確保動畫已經開始
-    setTimeout(() => {
+    if (hasLoaded) {
+      // 已載入過，直接導航，不顯示 loading
+      console.log('[Home] 卡片已載入過，直接進入:', cardId);
       navigate(toItemUrl(item), { replace: false });
-    }, 50);
-  }, [openCardId, isTransitioning, items, navigate, toItemUrl, setTransitionColor, setTransitionClickPosition, setShouldStartDisappear, setIsTransitioning]);
+    } else {
+      // 首次載入，觸發 PageLoader 動畫
+      setLoading(true);
+      
+      // 延遲一小段時間再導航，確保 loading 動畫已經開始
+      setTimeout(() => {
+        navigate(toItemUrl(item), { replace: false });
+      }, 100);
+    }
+  }, [openCardId, items, navigate, toItemUrl, setLoading]);
 
   const handleCloseCard = useCallback(() => {
     console.log('[Home] 關閉卡片');
@@ -341,13 +320,8 @@ const Home: React.FC = () => {
     logoHoverHandleRef.current?.stop();
     logoClickHandleRef.current?.stop();
     
-    // 重置轉場動畫狀態
-    setIsTransitioning(false);
-    setShouldStartDisappear(false);
-    pendingTransitionRef.current = null;
-    
     navigate('/', { replace: false });
-  }, [navigate, setContextOpenCardId, setContextAnimationPhase, setIsTransitioning, setShouldStartDisappear]);
+  }, [navigate, setContextOpenCardId, setContextAnimationPhase]);
 
   const handleLogoClick = useCallback(() => {
     hasPlayedLogoClickSoundRef.current = false;
@@ -363,31 +337,15 @@ const Home: React.FC = () => {
     console.log(`Animation phase changed to: ${phase}, openCardId: ${openCardId}`);
     setOpenCardAnimationPhase(phase);
     setContextAnimationPhase(phase); // 同步更新 Context
-    // 當動畫到達 ready 階段時，記錄該卡片已載入過
+    // 當動畫到達 ready 階段時，記錄該卡片已載入過，並關閉 PageLoader
     if (phase === 'ready' && openCardId != null) {
       console.log(`Adding card ${openCardId} to loaded set`);
       loadedCardIdsRef.current.add(openCardId);
       console.log(`Loaded cards after add:`, Array.from(loadedCardIdsRef.current));
+      // 關閉 PageLoader
+      setLoading(false);
     }
-  }, [openCardId, setContextAnimationPhase]);
-
-  // 監聽動畫階段變化，當內容載入完成（ready）時開始消失動畫
-  useEffect(() => {
-    if (openCardAnimationPhase === 'ready' && pendingTransitionRef.current) {
-      const { cardId } = pendingTransitionRef.current;
-      
-      // 確認是同一張卡片
-      if (cardId === openCardId) {
-        console.log('[Home] 內容載入完成，開始消失動畫');
-        
-        // 通知轉場動畫可以開始消失了
-        setShouldStartDisappear(true);
-        
-        // 清除待處理的轉場
-        pendingTransitionRef.current = null;
-      }
-    }
-  }, [openCardAnimationPhase, openCardId, setShouldStartDisappear]);
+  }, [openCardId, setContextAnimationPhase, setLoading]);
 
   useEffect(() => {
     const root = contentRef.current;
@@ -837,22 +795,6 @@ const Home: React.FC = () => {
           })}
         </div>
       </div>
-
-      {/* 8-bit 風格的轉場動畫 */}
-      <TransitionOverlay
-        isActive={isTransitioning}
-        clickPosition={transitionClickPosition || undefined}
-        color={transitionColor}
-        shouldStartDisappear={shouldStartDisappear}
-        onFilled={() => {
-          console.log('[Home] 轉場動畫已填滿畫面');
-        }}
-        onComplete={() => {
-          console.log('[Home] 轉場動畫完成');
-          setIsTransitioning(false);
-          setShouldStartDisappear(false);
-        }}
-      />
     </div>
   );
 };
