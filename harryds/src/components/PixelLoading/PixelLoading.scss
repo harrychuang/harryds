@@ -3,8 +3,13 @@
 // =============================================================================
 
 .pixel-loading {
-  display: inline-block;
-  font-family: 'Pixel', 'Press Start 2P', monospace;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  
+  &__binary {
+    // 二進位數字容器
+  }
   
   &__pixel {
     box-sizing: border-box;
@@ -18,11 +23,23 @@
     }
   }
   
+  &__label {
+    // 使用 Pixel 字型
+    font-family: 'Pixel', monospace;
+    letter-spacing: 0.05em;
+    padding-top: 10px;
+  }
+  
+  &__dot {
+    display: inline-block;
+    animation: dot-blink 0.2s ease-in-out infinite;
+  }
+  
   // 動畫效果
   &.animated {
     .pixel-loading__pixel {
       &.on {
-        animation: pixel-glow 0s ease-in-out infinite;
+        animation: pixel-glow 0.6s ease-in-out infinite;
       }
     }
   }
@@ -35,7 +52,17 @@
     filter: brightness(1);
   }
   50% {
-    opacity: 0.85;
+    opacity: 1;
     filter: brightness(1.1);
+  }
+}
+
+// 點點閃爍動畫
+@keyframes dot-blink {
+  0%, 20% {
+    opacity: 0;
+  }
+  40%, 100% {
+    opacity: 1;
   }
 }

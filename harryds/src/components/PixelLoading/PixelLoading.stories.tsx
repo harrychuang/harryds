@@ -88,9 +88,6 @@ export const Animated: Story = {
       return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
           <PixelLoading progress={progress} animated={true} pixelGap={1} />
-          <span style={{ fontSize: '12px', color: '#666', fontFamily: 'monospace' }}>
-            {progress} = {toBinary(progress)}
-          </span>
         </div>
       );
     };
