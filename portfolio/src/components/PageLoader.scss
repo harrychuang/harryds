@@ -1,0 +1,126 @@
+@use '../../../harryds/src/styles/tokens.scss' as *;
+
+.page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: all;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Mask 背景
+  &__mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--loader-bg, #111111);
+    transform-origin: center bottom;
+  }
+
+  // Loading 內容
+  &__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // ============================================
+  // 動畫階段樣式
+  // ============================================
+
+  // 進入階段：mask 立即顯示，loading 從下往上 fade in
+  &--entering {
+    .page-loader__mask {
+      opacity: 1;
+    }
+
+    .page-loader__content {
+      animation: loader-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  }
+
+  // 可見階段：正常顯示
+  &--visible {
+    .page-loader__mask {
+      opacity: 1;
+    }
+
+    .page-loader__content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // 退出階段：loading 往下移動並淡出
+  &--exiting {
+    .page-loader__mask {
+      opacity: 1;
+    }
+
+    .page-loader__content {
+      animation: loader-exit 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
+    }
+  }
+
+  // Mask 關閉階段：mask 高度從中心向下縮到 0
+  &--mask-closing {
+    .page-loader__mask {
+      animation: mask-close 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
+      animation-delay: 0.1s;
+    }
+
+    .page-loader__content {
+      opacity: 0;
+      transform: translateY(100px);
+    }
+  }
+}
+
+// ============================================
+// 動畫 Keyframes
+// ============================================
+
+// Loading 進入動畫：從下往上 fade in
+@keyframes loader-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Loading 退出動畫：往下移動並淡出
+@keyframes loader-exit {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+}
+
+// Mask 關閉動畫：從中心向下縮到 0
+@keyframes mask-close {
+  0% {
+    transform: scaleY(1);
+    transform-origin: center bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: center bottom;
+  }
+}
+

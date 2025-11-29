@@ -2,13 +2,13 @@
 // PIXEL LOADING 元件 - 8-bit 風格二進位像素顯示
 // =============================================================================
 
-import { useMemo, forwardRef, useState, useEffect, useCallback } from 'react';
+import { useMemo, forwardRef, useState, useEffect, useCallback, useRef } from 'react';
 import { resolveCssColor, HDS_TOKENS } from '../../utils/colorTokens';
 import { getCharacterPixelData, CHAR_WIDTH, CHAR_HEIGHT } from '../PixelText/pixelFont';
 import './PixelLoading.scss';
 
 // 隨機字符集
-const GLITCH_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*';
+const GLITCH_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!';
 
 export interface PixelLoadingProps {
   /** 進度值 (0-100) */
@@ -31,10 +31,8 @@ export interface PixelLoadingProps {
   letterSpacing?: number;
   /** 是否顯示 Loading... 文字 */
   showLabel?: boolean;
-  /** Loading 文字內容（不含 ...） */
-  label?: string;
-  /** 點點數量 */
-  dotCount?: number;
+  /** 循環顯示的文字陣列 */
+  labels?: string[];
   /** 亂數效果間隔 (ms) */
   glitchInterval?: number;
   /** 亂數跳動次數 */
@@ -54,11 +52,10 @@ const PixelLoading = forwardRef<HTMLDivElement, PixelLoadingProps>(({
   className = '',
   letterSpacing = 1,
   showLabel = true,
-  label = 'LOADING',
-  dotCount = 3,
-  glitchInterval = 1500,
-  glitchCount = 5,
-  glitchSpeed = 100,
+  labels = ['LOADING...', 'HARRY DESIGN STUDIO'],
+  glitchInterval = 1000,
+  glitchCount = 10,
+  glitchSpeed = 50,
 }, ref) => {
   // 確保進度值在 0-100 範圍內
   const clampedProgress = Math.max(0, Math.min(100, progress));
@@ -73,68 +70,83 @@ const PixelLoading = forwardRef<HTMLDivElement, PixelLoadingProps>(({
     return binary.padStart(binaryDigits, '0');
   }, [clampedProgress, binaryDigits]);
   
-  // 完整的 label 文字（含點點）
-  const fullLabel = useMemo(() => {
-    return label + '.'.repeat(dotCount);
-  }, [label, dotCount]);
-  
   // 顯示用的 label 文字（可能是亂數）
-  const [displayLabel, setDisplayLabel] = useState(fullLabel);
+  const [displayLabel, setDisplayLabel] = useState(labels[0] || '');
   
-  // 生成隨機字串
-  const generateRandomLabel = useCallback(() => {
-    return fullLabel.split('').map(char => {
-      if (char === '.') return '.';
-      return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
-    }).join('');
-  }, [fullLabel]);
+  // 使用 ref 追蹤當前 label 索引，避免 useEffect 重新執行
+  const currentLabelIndexRef = useRef(0);
+  const isGlitchingRef = useRef(false);
+  const labelsRef = useRef(labels);
   
-  // 亂數效果
+  // 更新 labels ref
   useEffect(() => {
-    if (!animated || !showLabel) {
-      setDisplayLabel(fullLabel);
+    labelsRef.current = labels;
+  }, [labels]);
+  
+  // 計算最長文字的長度（用於固定寬度）
+  const maxLabelLength = useMemo(() => {
+    return Math.max(...labels.map(l => l.length));
+  }, [labels]);
+  
+  // 生成隨機字串（基於目標文字長度）
+  const generateRandomLabel = useCallback((targetLength: number) => {
+    return Array.from({ length: targetLength }, () => 
+      GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]
+    ).join('');
+  }, []);
+  
+  // 亂數效果與文字切換
+  useEffect(() => {
+    if (!animated || !showLabel || labels.length === 0) {
+      setDisplayLabel(labels[0] || '');
       return;
     }
     
-    let mainIntervalId: NodeJS.Timeout;
+    // 初始化顯示
+    setDisplayLabel(labelsRef.current[0] || '');
+    currentLabelIndexRef.current = 0;
+    
     let glitchTimeoutIds: NodeJS.Timeout[] = [];
     
-    const startGlitch = () => {
+    const startGlitchAndSwitch = () => {
+      if (isGlitchingRef.current) return;
+      isGlitchingRef.current = true;
+      
       // 清除之前的 timeout
       glitchTimeoutIds.forEach(id => clearTimeout(id));
       glitchTimeoutIds = [];
       
+      // 計算下一個 label 索引
+      const currentLabels = labelsRef.current;
+      const nextIndex = (currentLabelIndexRef.current + 1) % currentLabels.length;
+      const nextLabel = currentLabels[nextIndex];
+      
       // 執行亂數跳動
       for (let i = 0; i < glitchCount; i++) {
         const timeoutId = setTimeout(() => {
-          setDisplayLabel(generateRandomLabel());
+          setDisplayLabel(generateRandomLabel(nextLabel.length));
         }, i * glitchSpeed);
         glitchTimeoutIds.push(timeoutId);
       }
       
-      // 最後恢復正確值
+      // 最後切換到下一個文字
       const finalTimeoutId = setTimeout(() => {
-        setDisplayLabel(fullLabel);
+        setDisplayLabel(nextLabel);
+        currentLabelIndexRef.current = nextIndex;
+        isGlitchingRef.current = false;
       }, glitchCount * glitchSpeed);
       glitchTimeoutIds.push(finalTimeoutId);
     };
     
-    // 立即執行一次
-    startGlitch();
-    
     // 設置定期執行
-    mainIntervalId = setInterval(startGlitch, glitchInterval);
+    const mainIntervalId = setInterval(startGlitchAndSwitch, glitchInterval);
     
     return () => {
       clearInterval(mainIntervalId);
       glitchTimeoutIds.forEach(id => clearTimeout(id));
+      isGlitchingRef.current = false;
     };
-  }, [animated, showLabel, glitchInterval, glitchCount, glitchSpeed, fullLabel, generateRandomLabel]);
-  
-  // 當 label 改變時更新顯示
-  useEffect(() => {
-    setDisplayLabel(fullLabel);
-  }, [fullLabel]);
+  }, [animated, showLabel, glitchInterval, glitchCount, glitchSpeed, generateRandomLabel, labels.length]);
   
   // 計算單位像素大小（含間隔）
   const pixelWithGap = pixelSize + pixelGap;
@@ -194,29 +206,6 @@ const PixelLoading = forwardRef<HTMLDivElement, PixelLoadingProps>(({
     return pixels;
   }, [binaryString, pixelSize, pixelWithGap, letterSpacing, resolvedColor, animated, animationSpeed]);
 
-  // 渲染 label 文字（分離點點以保持動畫）
-  const renderLabel = useMemo(() => {
-    const labelPart = displayLabel.slice(0, label.length);
-    const dotsPart = displayLabel.slice(label.length);
-    
-    return (
-      <>
-        {labelPart}
-        {dotsPart.split('').map((dot, index) => (
-          <span
-            key={`dot-${index}`}
-            className="pixel-loading__dot"
-            style={{
-              animationDelay: `${index * 300}ms`,
-            }}
-          >
-            {dot}
-          </span>
-        ))}
-      </>
-    );
-  }, [displayLabel, label.length]);
-
   return (
     <div
       ref={ref}
@@ -250,9 +239,10 @@ const PixelLoading = forwardRef<HTMLDivElement, PixelLoadingProps>(({
             color: resolvedColor,
             textAlign: 'center',
             lineHeight: 1,
+            minWidth: `${maxLabelLength * labelFontSize * 0.6}px`,
           }}
         >
-          {renderLabel}
+          {displayLabel}
         </div>
       )}
     </div>

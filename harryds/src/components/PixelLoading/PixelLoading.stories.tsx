@@ -80,7 +80,7 @@ export const Animated: Story = {
             if (prev >= 100) return 0;
             return prev + 1;
           });
-        }, 100);
+        }, 50);
         
         return () => clearInterval(interval);
       }, []);

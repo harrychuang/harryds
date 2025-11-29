@@ -17,6 +17,7 @@ import { useSound } from '../hooks/useSound';
 import { useOverlay } from '../contexts/OverlayContext';
 import TransitionOverlay from '../components/TransitionOverlay';
 import Header from '../components/Header';
+import PageLoader from '../components/PageLoader';
 
 const slugify = (text: string) => text
   .toLowerCase()
@@ -632,7 +633,13 @@ const Home: React.FC = () => {
       className="home" 
       data-page="home"
       data-detail-open={openCardId !== null ? 'true' : undefined}
-    >      
+    >
+      {/* 頁面載入動畫 */}
+      <PageLoader 
+        isLoading={loading} 
+        labels={['LOADING...', 'HARRY DESIGN STUDIO']}
+      />
+      
       {/* 預載統計面板與切換按鈕已移除 */}
 
       <Header
