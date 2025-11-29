@@ -18,30 +18,14 @@ const ArticleDetail: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { isSoundEnabled, toggleSound } = useSound();
   const { items } = useI18nFeed('articles');
-  const { setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete } = usePageLoader();
+  const { setLoading, setAnimationComplete } = usePageLoader();
   
-  // 每篇文章有獨立的頁面名稱
-  const pageName = `article-${params.id}`;
-  
-  // 頁面進入時檢查是否已載入過（只在 pageName 改變時執行）
+  // 文章詳情頁不需要 loading 動畫，直接顯示內容
   useEffect(() => {
-    const alreadyLoaded = isPageLoaded(pageName);
-    
-    if (alreadyLoaded) {
-      // 頁面已載入過，直接跳過 loading
-      setLoading(false);
-      setAnimationComplete(true);
-    } else {
-      // 首次載入，顯示 loading
-      setLoading(true);
-      const timer = setTimeout(() => {
-        setLoading(false);
-        markPageAsLoaded(pageName);
-      }, 100);
-      return () => clearTimeout(timer);
-    }
+    setLoading(false);
+    setAnimationComplete(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageName]); // 只在 pageName 改變時執行
+  }, []);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
