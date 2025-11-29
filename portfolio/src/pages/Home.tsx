@@ -8,7 +8,7 @@ import type { FeedItem, FeedContentBlock } from '../../../harryds/src/types/feed
 import { useProjects } from '../hooks/useProjects';
 import { useDataSource } from '../contexts/DataSourceContext';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
-import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
+import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useSmartPreload } from '../hooks/useSmartPreload';
 import { useTheme } from '../theme/useTheme';

@@ -131,9 +131,8 @@
   }
 
   &__carousel-media {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
+    height: 600px;
+    width: auto;
     flex-shrink: 0;
     display: block;
     object-fit: contain;
@@ -147,6 +146,10 @@
   &__carousel-video {
     pointer-events: auto;
     background: #000;
+    height: auto;
+    min-height: 400px;
+    max-height: 600px;
+    width: auto;
     
     &::-webkit-media-controls {
       opacity: 0;

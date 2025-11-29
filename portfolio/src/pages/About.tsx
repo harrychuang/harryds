@@ -9,7 +9,7 @@ import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
-import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
+import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import award01 from '../../assets/imgs/awards/award-01.png';
 import award02 from '../../assets/imgs/awards/award-02.png';
 import award03 from '../../assets/imgs/awards/award-03.png';

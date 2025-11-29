@@ -8,7 +8,7 @@ import { useI18nFeed } from '../hooks/useI18nFeed';
 import './ArticleDetail.scss';
 import Header from '../components/Header';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
-import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
+import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 
 const ArticleDetail: React.FC = () => {
   const navigate = useNavigate();
@@ -30,8 +30,10 @@ const ArticleDetail: React.FC = () => {
   const [dragStartX, setDragStartX] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [carouselWrapperWidth, setCarouselWrapperWidth] = useState(1100);
+  const [mediaWidths, setMediaWidths] = useState<number[]>([]);
   const carouselRef = useRef<HTMLDivElement>(null);
   const carouselWrapperRef = useRef<HTMLDivElement>(null);
+  const mediaRefs = useRef<(HTMLImageElement | HTMLVideoElement | null)[]>([]);
 
   // 語言切換相關
   const languageMap = {
@@ -251,24 +253,53 @@ const ArticleDetail: React.FC = () => {
     };
   }, []);
 
+  // 追蹤媒體元素的寬度
+  const updateMediaWidths = useCallback(() => {
+    const widths = mediaRefs.current.map(ref => ref?.offsetWidth || 600);
+    setMediaWidths(widths);
+  }, []);
+
+  // 當媒體載入完成時更新寬度
+  const handleMediaLoad = useCallback((index: number) => {
+    // 延遲一點確保 DOM 已更新
+    setTimeout(() => {
+      updateMediaWidths();
+    }, 50);
+  }, [updateMediaWidths]);
+
+  // 監聽 articleImages 變化時重置 mediaRefs
+  useEffect(() => {
+    mediaRefs.current = mediaRefs.current.slice(0, articleImages.length);
+    // 初始化時也更新一次寬度
+    setTimeout(() => {
+      updateMediaWidths();
+    }, 100);
+  }, [articleImages.length, updateMediaWidths]);
+
   // 計算 transform，最後一張圖片對齊右側
   const carouselTransform = useMemo(() => {
-    const imageWidth = 600; // max-width
     const gap = 50;
     const totalImages = articleImages.length;
     
+    // 使用實際媒體寬度，如果還未載入則使用預設值
+    const widths = mediaWidths.length === totalImages ? mediaWidths : Array(totalImages).fill(600);
+    
     // 計算總寬度和最大偏移量
-    const totalWidth = totalImages * imageWidth + (totalImages - 1) * gap;
+    const totalWidth = widths.reduce((sum, w) => sum + w, 0) + (totalImages - 1) * gap;
     const maxOffset = Math.max(0, totalWidth - carouselWrapperWidth);
     
-    // 計算當前偏移量
-    const baseOffset = currentImageIndex * (imageWidth + gap);
+    // 計算當前偏移量（累加前面所有媒體的寬度）
+    let baseOffset = 0;
+    for (let i = 0; i < currentImageIndex; i++) {
+      baseOffset += widths[i] + gap;
+    }
+    
     // 限制偏移量不超過最大值（讓最後一張圖片對齊右側）
     const clampedOffset = Math.min(baseOffset, maxOffset);
     const offset = clampedOffset - dragOffset;
     
     return `translateX(-${offset}px)`;
-  }, [currentImageIndex, dragOffset, articleImages.length, carouselWrapperWidth]);
+  }, [currentImageIndex, dragOffset, articleImages.length, carouselWrapperWidth, mediaWidths]);
 
   // 判斷媒體類型
   const isVideoFile = useCallback((filename: string) => {
@@ -346,9 +377,10 @@ const ArticleDetail: React.FC = () => {
     if (!isDragging) return;
     setIsDragging(false);
 
-    const imageWidth = 600;
+    // 使用當前媒體的寬度來計算 threshold
+    const currentMediaWidth = mediaWidths[currentImageIndex] || 600;
     const gap = 50;
-    const threshold = (imageWidth + gap) / 3; // 1/3 of image width to trigger change
+    const threshold = (currentMediaWidth + gap) / 3; // 1/3 of media width to trigger change
 
     if (Math.abs(dragOffset) > threshold) {
       if (dragOffset > 0) {
@@ -377,7 +409,7 @@ const ArticleDetail: React.FC = () => {
     }
 
     setDragOffset(0);
-  }, [isDragging, dragOffset, currentImageIndex, articleImages.length]);
+  }, [isDragging, dragOffset, currentImageIndex, articleImages.length, mediaWidths]);
 
   // Mouse events
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -543,6 +575,7 @@ const ArticleDetail: React.FC = () => {
                     isVideoFile(media) ? (
                       <video
                         key={index}
+                        ref={(el) => { mediaRefs.current[index] = el; }}
                         src={`/assets/imgs/${media}`}
                         className="article-detail__carousel-media article-detail__carousel-video"
                         draggable={false}
@@ -550,14 +583,17 @@ const ArticleDetail: React.FC = () => {
                         loop
                         muted
                         playsInline
+                        onLoadedMetadata={() => handleMediaLoad(index)}
                       />
                     ) : (
                       <img
                         key={index}
+                        ref={(el) => { mediaRefs.current[index] = el; }}
                         src={`/assets/imgs/${media}`}
                         alt={`${article.heading} - Image ${index + 1}`}
                         className="article-detail__carousel-media article-detail__carousel-image"
                         draggable={false}
+                        onLoad={() => handleMediaLoad(index)}
                       />
                     )
                   ))}

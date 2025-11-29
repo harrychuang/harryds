@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
@@ -10,10 +10,11 @@ import type { FeedCardSize } from 'hds';
 import './Articles.scss';
 import Header from '../components/Header';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
-import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep 3.mp3';
+import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 
 const Articles: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { t, i18n } = useTranslation(['common', 'articles']);
   const { theme, toggleTheme } = useTheme();
   const { isSoundEnabled, toggleSound } = useSound();
@@ -28,8 +29,11 @@ const Articles: React.FC = () => {
     });
   }, [rawItems]);
 
+  // 從 URL 讀取 topic 參數，預設為 'all'
+  const topicFromUrl = searchParams.get('topic') || 'all';
+  
   // Topics 選項狀態
-  const [selectedTopic, setSelectedTopic] = useState<string>('all');
+  const [selectedTopic, setSelectedTopic] = useState<string>(topicFromUrl);
   const [isTopicsExpanded, setIsTopicsExpanded] = useState(false);
   
   // 初始顯示的 topic 數量（不含 All）
@@ -48,6 +52,18 @@ const Articles: React.FC = () => {
       .sort((a, b) => b[1] - a[1])
       .map(([tag]) => tag);
   }, [items]);
+
+  // 當 URL 參數變化時同步 state（例如瀏覽器返回）
+  useEffect(() => {
+    setSelectedTopic(topicFromUrl);
+    // 如果選擇的 topic 不在初始顯示的前幾個中，自動展開
+    if (topicFromUrl !== 'all') {
+      const topicIndex = sortedTopics.indexOf(topicFromUrl);
+      if (topicIndex >= INITIAL_TOPICS_COUNT) {
+        setIsTopicsExpanded(true);
+      }
+    }
+  }, [topicFromUrl, sortedTopics]);
 
   // 根據選擇的 topic 篩選文章
   const filteredItems = useMemo(() => {
@@ -214,7 +230,14 @@ const Articles: React.FC = () => {
       console.warn('Topic click sound play failed:', err);
     }
     setSelectedTopic(topic);
-  }, []);
+    // 更新 URL 參數
+    if (topic === 'all') {
+      searchParams.delete('topic');
+    } else {
+      searchParams.set('topic', topic);
+    }
+    setSearchParams(searchParams, { replace: true });
+  }, [searchParams, setSearchParams]);
 
   // 展開/收合 topics
   const handleToggleTopics = useCallback(async () => {
