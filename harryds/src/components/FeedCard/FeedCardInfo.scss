@@ -35,9 +35,14 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1 !important;
     text-transform: uppercase;
-    white-space: pre-line; // 支援 \n 換行符號
     margin-top: 10px;
     margin-bottom: 10px;
+    // 限制最多 3 行
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
     span {
       line-height: 1 !important;
     }

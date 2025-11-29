@@ -805,7 +805,7 @@ const Home: React.FC = () => {
                     }}
                     secondaryColor={item.secondaryColor}
                     infoMaxWidth={1400}
-                    infoData={{ id: displayId, heading: item.heading, date: item.date, tags: item.tags, category: item.category }}
+                    infoData={{ id: displayId, heading: item.heading, date: item.date, tags: item.tags.slice(0, 2), category: item.category }}
                     primaryColor={item.primaryColor}
                     contentBlocks={resolvedBlocks}
                     projectInfo={item.projectInfo}
