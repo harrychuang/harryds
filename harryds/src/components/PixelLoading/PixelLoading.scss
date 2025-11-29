@@ -30,6 +30,19 @@
     padding-top: 10px;
   }
   
+  &__progress-blocks {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    margin-top: 10px;
+  }
+  
+  &__progress-block {
+    width: 2px;
+    height: 2px;
+    transition: opacity 0.15s ease-in-out;
+  }
+  
   &__dot {
     display: inline-block;
     animation: dot-blink 0.2s ease-in-out infinite;
