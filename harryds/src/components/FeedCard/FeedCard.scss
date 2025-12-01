@@ -31,6 +31,10 @@
   // Hover 時顯示背景
   &:hover .feed-card__bg {
     opacity: 1;
+    
+    > .pixelation-img {
+      opacity: 0.5;
+    }
   }
 
   .feed-card__overlay {

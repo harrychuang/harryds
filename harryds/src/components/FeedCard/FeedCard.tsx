@@ -170,11 +170,11 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
     >
       <div className="feed-card__bg">
         <PixelationImg
-          src={finalSrc}
-          {...mergedBgProps}
-          hoverActive={explicitHoverActive !== undefined ? explicitHoverActive : actualIsHovered}
-          pixelSize={mergedBgProps.pixelSize}
-        />
+            src={finalSrc} 
+            {...mergedBgProps}
+            hoverActive={explicitHoverActive !== undefined ? explicitHoverActive : actualIsHovered} 
+            pixelSize={mergedBgProps.pixelSize}
+          />
       </div>
 
       <div className="feed-card__overlay">
