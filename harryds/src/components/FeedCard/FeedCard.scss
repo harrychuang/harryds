@@ -21,8 +21,8 @@
     opacity: 0; // 初始透明
     transition: opacity 0.3s ease; // 0.3s 過渡動畫
 
-    // 讓 PixelImage 填滿容器
-    > .pixel-image {
+    // 讓 PixelationImg 填滿容器
+    > .pixelation-img {
       width: 100%;
       height: 100%;
     }

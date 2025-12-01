@@ -1,12 +1,12 @@
 // =============================================================================
-// FEED CARD 元件 - 使用 PixelImage 作為背景的卡片
+// FEED CARD 元件 - 使用 PixelationImg 作為背景的卡片
 // 尺寸：hero(600)、med(500)、sm(400)、xs(240)；預設 padding 40，內容水平置中
 // FeedCardInfo 預設 max-width 1600px
 // =============================================================================
 
 import React, { CSSProperties, createContext, forwardRef, useState, useRef, useEffect, useCallback } from 'react';
-import { PixelImage, PixelImage2D } from '../PixelImage';
-import type { PixelImageProps } from '../PixelImage';
+import { PixelationImg } from '../PixelationImg';
+import type { PixelationImgProps } from '../PixelationImg';
 import FeedCardInfo from './FeedCardInfo';
 import type { FeedCardInfoData } from './FeedCardInfo';
 import type { FeedItem } from '../../types/feed';
@@ -20,7 +20,7 @@ export const FeedCardSizeContext = createContext<FeedCardSize>('hero');
 
 
 export interface FeedCardProps {
-  /** 背景圖來源 URL（交由 PixelImage 載入） */
+  /** 背景圖來源 URL（交由 PixelationImg 載入） */
   src: string;
   /** 尺寸分類（預設 hero） */
   size?: FeedCardSize;
@@ -28,9 +28,9 @@ export interface FeedCardProps {
   height?: number;
   /** 內距（px）。預設 40 */
   padding?: number;
-  /** 傳遞給 PixelImage 的額外參數（不含 src） */
-  backgroundProps?: Partial<Omit<PixelImageProps, 'src'>>;
-  /** JSON 的 secondary color（hover 時套用至 PixelImage maskColor） */
+  /** 傳遞給 PixelationImg 的額外參數（不含 src） */
+  backgroundProps?: Partial<Omit<PixelationImgProps, 'src'>>;
+  /** JSON 的 secondary color（hover 時套用至 PixelationImg maskColor） */
   secondaryColor?: string;
   /** 若提供，將自動從 item 取用 src/顏色，且在未提供 children 時自動渲染 FeedCardInfo */
   item?: FeedItem;
@@ -52,8 +52,6 @@ export interface FeedCardProps {
   forceHovered?: boolean;
   /** 禁用滑鼠 hover 事件 */
   disableHover?: boolean;
-  /** 使用 2D Canvas 版本的 PixelImage（預設 false，使用 WebGL 版） */
-  use2D?: boolean;
 }
 
 const SIZE_TO_HEIGHT: Record<FeedCardSize, number> = {
@@ -85,7 +83,6 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   soundVolume = 0.3,
   forceHovered = false,
   disableHover = false,
-  use2D = false,
 }, ref) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hasPlayedSoundInCurrentHover, setHasPlayedSoundInCurrentHover] = useState(false);
@@ -139,22 +136,17 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
     category: item.category,
   } : undefined);
 
-  // 與 PixelImage Default demo 一致的預設參數（允許 backgroundProps 覆寫）
-  const mergedBgProps: Omit<PixelImageProps, 'src'> = {
+  // 與 PixelationImg 一致的預設參數（允許 backgroundProps 覆寫）
+  const mergedBgProps: Omit<PixelationImgProps, 'src'> = {
     pixelSize: backgroundProps?.pixelSize ?? 80,
-    hoverPixelToOne: backgroundProps?.hoverPixelToOne ?? true,
-    hoverPixelDuration: backgroundProps?.hoverPixelDuration ?? 500,
+    hoverToOriginal: backgroundProps?.hoverToOriginal ?? true,
+    hoverDuration: backgroundProps?.hoverDuration ?? 500,
     desaturateUntilHover: backgroundProps?.desaturateUntilHover ?? true,
-    outline: backgroundProps?.outline ?? true,
-    normalEdgeStrength: backgroundProps?.normalEdgeStrength ?? 0.2,
-    depthEdgeStrength: backgroundProps?.depthEdgeStrength ?? 0.3,
-    normalTolerance: backgroundProps?.normalTolerance ?? 0.2,
-    depthTolerance: backgroundProps?.depthTolerance ?? 0.1,
     objectFit: backgroundProps?.objectFit ?? 'cover',
     // Hover 時使用資料的 secondaryColor；無資料時退回 theme mask
     maskColor: backgroundProps?.maskColor ?? (finalSecondaryColor ?? 'var(--hds-sys-color-theme-mask)'),
-    maskOpacity: backgroundProps?.maskOpacity ?? 0.8,
-    maxPixelRatio: backgroundProps?.maxPixelRatio ?? 1.5,
+    maskOpacity: backgroundProps?.maskOpacity ?? 0.6,
+    maxPixelRatio: backgroundProps?.maxPixelRatio ?? 2,
     className: backgroundProps?.className,
     onLoad: backgroundProps?.onLoad,
     onError: backgroundProps?.onError,
@@ -177,23 +169,12 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
       }}
     >
       <div className="feed-card__bg">
-        {use2D ? (
-          <PixelImage2D
-            src={finalSrc}
-            {...mergedBgProps}
-            hoverActive={explicitHoverActive !== undefined ? explicitHoverActive : actualIsHovered}
-            // DEBUG: 明確的 pixelSize 傳遞
-            pixelSize={mergedBgProps.pixelSize}
-          />
-        ) : (
-          <PixelImage 
-            src={finalSrc} 
-            {...mergedBgProps}
-            hoverActive={explicitHoverActive !== undefined ? explicitHoverActive : actualIsHovered} 
-            // DEBUG: 明確的 pixelSize 傳遞
-            pixelSize={mergedBgProps.pixelSize}
-          />
-        )}
+        <PixelationImg
+          src={finalSrc}
+          {...mergedBgProps}
+          hoverActive={explicitHoverActive !== undefined ? explicitHoverActive : actualIsHovered}
+          pixelSize={mergedBgProps.pixelSize}
+        />
       </div>
 
       <div className="feed-card__overlay">

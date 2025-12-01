@@ -1,6 +1,6 @@
 // =============================================================================
 // DISTORTED PIXELS 2D 元件 - 使用 2D Canvas 實現滾動扭曲與像素化
-// 與三維版保持相同 API，並參考 PixelImage2D 的 DPR、佈局與效能處理
+// 與三維版保持相同 API，並參考 PixelationImg 的 DPR、佈局與效能處理
 // =============================================================================
 
 import { useEffect, useRef, useState, useCallback, forwardRef } from 'react';

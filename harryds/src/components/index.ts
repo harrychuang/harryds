@@ -10,9 +10,8 @@ export type { PixelTextProps } from './PixelText';
 // 例如：
 // export { Button } from './Button';
 // export type { ButtonProps } from './Button';
-export { PixelImage, PixelImage2D } from './PixelImage';
-export type { PixelImageProps, PixelImageObjectFit } from './PixelImage';
-// FeedCard - 以 PixelImage 作為背景的卡片
+
+// FeedCard - 以 PixelationImg 作為背景的卡片
 export { FeedCard } from './FeedCard';
 export type { FeedCardProps, FeedCardSize } from './FeedCard';
 export { FeedCardInfo } from './FeedCard';
@@ -53,3 +52,7 @@ export type { ParticlesBackgroundProps } from './ParticlesBackground';
 // PixelLoading - 8-bit 風格像素進度條
 export { PixelLoading } from './PixelLoading';
 export type { PixelLoadingProps } from './PixelLoading';
+
+// PixelationImg - 優化的像素化圖片元件（支援多實例）
+export { PixelationImg, PixelationManager } from './PixelationImg';
+export type { PixelationImgProps, PixelationImgObjectFit, PixelationInstance } from './PixelationImg';

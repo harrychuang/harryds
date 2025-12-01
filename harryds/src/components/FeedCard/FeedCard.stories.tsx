@@ -16,18 +16,17 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Card with PixelImage as background. Full width (max 1600px), horizontally centered content, default padding 40px, FeedCardInfo default max-width 1600px.',
+        component: 'Card with PixelationImg as background. Full width (max 1600px), horizontally centered content, default padding 40px, FeedCardInfo default max-width 1600px.',
       },
     },
     controls: {
-      include: ['src', 'size', 'height', 'padding', 'infoMaxWidth', 'use2D', 'className'],
+      include: ['src', 'size', 'height', 'padding', 'infoMaxWidth', 'className'],
       exclude: ['children'],
     },
   },
   tags: ['autodocs'],
   argTypes: {
     src: { control: 'text', description: 'Background image URL' },
-    use2D: { control: 'boolean', description: 'Switch to use 2D Canvas version of PixelImage' },
     size: {
       control: { type: 'radio' },
       options: ['hero', 'med', 'sm', 'xs'],
@@ -65,7 +64,6 @@ export const Default: Story = {
   args: {
     src: new URL(`../../../assets/imgs/${items[0].heroImage}`, import.meta.url).href,
     size: 'hero',
-    use2D: false,
     secondaryColor: items[0].secondaryColor,
     padding: 40,
     infoMaxWidth: 1400,

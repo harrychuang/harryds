@@ -162,7 +162,7 @@ portfolio/
 
 - React 18、React Router 6
 - i18next、react-i18next、語言自動偵測
-- three / @types/three：供 `hds` 元件（如 `PixelText`、`PixelImage` 等）在開發期使用
+- three / @types/three：供 `hds` 元件（如 `PixelText`、`PixelationImg` 等）在開發期使用
 
 ## 注意事項
 

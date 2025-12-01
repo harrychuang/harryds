@@ -154,7 +154,6 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   secondaryColor,
   infoMaxWidth,
   style,
-  use2D,
   enableHoverSound,
   soundVolume,
   infoData,
@@ -175,7 +174,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   const typewriterTimerRef = useRef<number | null>(null);
   const startHandleRef = useRef<PlaybackHandle | null>(null);
   const hasPlayedStartSoundRef = useRef<boolean>(false);
-  // 滾動交互動態控制 PixelImage 背景（僅 pixelSize，避免不必要 re-render）
+  // 滾動交互動態控制 PixelationImg 背景（僅 pixelSize，避免不必要 re-render）
   const [scrollPixelSize, setScrollPixelSize] = useState<number>(1);
   const lastPixelRef = useRef<number>(1);
   
@@ -366,9 +365,9 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     pixelSize: scrollPixelSize,
     // 保持背景為彩色且顯示 secondary 遮罩
     desaturateUntilHover: true,
-    // 背景 PixelImage 一律視為 hovered 以使用 secondary 遮罩（expanding 階段也生效）
+    // 背景 PixelationImg 一律視為 hovered 以使用 secondary 遮罩（expanding 階段也生效）
     hoverActive: true,
-    hoverPixelToOne: false,
+    hoverToOriginal: false,
     // 若未提供 secondaryColor，避免落回 theme mask(白色)，改用 overlay 變數或深色備援
     maskColor: secondaryColor ?? 'var(--feed-detail-secondary-color, rgba(0,0,0,0.9))',
     maskOpacity: backgroundProps?.maskOpacity ?? 0.9,
@@ -643,7 +642,6 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
           className="feed-detail-overlay__card"
           enableHoverSound={enableHoverSound}
           soundVolume={soundVolume}
-          use2D={use2D}
         >
           {infoData && (
             <FeedCardInfo
@@ -860,7 +858,7 @@ export const FeedDetailOverlay = memo(FeedDetailOverlayComponent, (prevProps, ne
   // 自定義比較函數，只有在關鍵 props 變化時才重渲染
   const keyProps = [
     'open', 'heroHeightVH', 'sizeWhenClosed', 'src', 'padding', 
-    'primaryColor', 'secondaryColor', 'infoMaxWidth', 'className', 'use2D'
+    'primaryColor', 'secondaryColor', 'infoMaxWidth', 'className'
   ] as const;
   
   for (const prop of keyProps) {

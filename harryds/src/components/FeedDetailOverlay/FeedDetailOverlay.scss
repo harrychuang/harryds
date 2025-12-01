@@ -76,18 +76,20 @@
       height: 100vh !important;
       animation: fade-in-background 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
       
-      // 確保 PixelImage 填滿整個背景卡片
+      // 確保 PixelationImg 填滿整個背景卡片
       .feed-card__bg {
         position: absolute;
         inset: 0;
         opacity: 1 !important; // 開啟狀態時背景始終可見，覆蓋 FeedCard 的 hover 效果
         
-        .pixel-image {
+        .pixelation-img {
           width: 100% !important;
           height: 100% !important;
         }
         
         canvas {
+          width: 100% !important;
+          height: 100% !important;
           // 強制 canvas 使用硬體加速
           transform: translateZ(0);
         }
