@@ -789,8 +789,8 @@ const Home: React.FC = () => {
                     padding={40}
                     backgroundProps={{ 
                       pixelSize: size === 'hero' ? 80 : size === 'med' ? 70 : size === 'sm' ? 60 : 50,
-                      hoverPixelToOne: true,
-                      hoverPixelDuration: 500,
+                      hoverToOriginal: true,
+                      hoverDuration: 500,
                       desaturateUntilHover: true,
                       objectFit: 'cover'
                     }}
@@ -800,7 +800,6 @@ const Home: React.FC = () => {
                     primaryColor={item.primaryColor}
                     contentBlocks={resolvedBlocks}
                     projectInfo={item.projectInfo}
-                    use2D={true}
                 />
               </div>
             );

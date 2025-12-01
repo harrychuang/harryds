@@ -435,21 +435,24 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
 
   // 高度計算已移除，由 CSS 75vh 直接處理
 
-  // 開啟時鎖住 body 捲動（優化版本）
+  // 開啟時鎖住頁面捲動（同時處理 html 和 body，避免多個 scrollbar）
   useEffect(() => {
     if (!open) return;
     
-    // 使用 requestAnimationFrame 確保在瀏覽器重繪前應用樣式
-    let rafId: number;
-    const prev = document.body.style.overflow;
+    const html = document.documentElement;
+    const body = document.body;
     
-    rafId = requestAnimationFrame(() => {
-      document.body.style.overflow = 'hidden';
-    });
+    // 保存原始狀態
+    const prevHtmlOverflow = html.style.overflow;
+    const prevBodyOverflow = body.style.overflow;
+    
+    // 同時隱藏 html 和 body 的 overflow
+    html.style.overflow = 'hidden';
+    body.style.overflow = 'hidden';
     
     return () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      document.body.style.overflow = prev;
+      html.style.overflow = prevHtmlOverflow;
+      body.style.overflow = prevBodyOverflow;
     };
   }, [open]);
 

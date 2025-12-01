@@ -146,6 +146,17 @@
       width: 100%;
       max-width: var(--feed-card-info-max-width, 1400px);
       margin: 0 auto; // 確保置中
+      
+      // 在 FeedDetailOverlay 中取消 heading 行數限制
+      .feed-card-info__heading {
+        -webkit-line-clamp: unset;
+        display: block;
+        overflow: visible;
+        text-overflow: unset;
+        // 以單字為單位斷行，避免字母單獨斷行
+        word-break: normal;
+        overflow-wrap: break-word;
+      }
     }
   }
 
