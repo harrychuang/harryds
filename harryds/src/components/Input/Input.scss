@@ -1,0 +1,94 @@
+// =============================================================================
+// INPUT 元件樣式
+// - 使用 theme 變數，自動適應 light/dark 主題
+// =============================================================================
+
+.hds-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+
+  // Label 樣式
+  &__label {
+    font-size: 15px;
+    color: var(--hds-sys-color-theme-surface);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  &__required {
+    color: var(--hds-sys-color-error-default);
+    margin-left: 4px;
+  }
+
+  // Input 樣式
+  &__field {
+    height: 50px;
+    padding: 0 16px;
+    background-color: var(--hds-sys-color-dark-10a);
+    border: none;
+    border-radius: 0;
+    color: var(--hds-sys-color-theme-surface);
+    font-size: 16px;
+    outline: none;
+    transition: outline-color 0.2s ease, background-color 0.2s ease;
+
+    &::placeholder {
+      color: var(--hds-sys-color-dark-40a);
+    }
+
+    &:focus {
+      outline: 1px solid var(--hds-sys-color-dark-60a);
+      background-color: var(--hds-sys-color-dark-20a);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // 錯誤訊息
+  &__error {
+    font-size: 12px;
+    color: var(--hds-sys-color-error-default);
+    line-height: 1.4;
+  }
+
+  // 錯誤狀態
+  &--error {
+    .hds-input__field {
+      outline: 1px solid var(--hds-sys-color-error-default);
+
+      &:focus {
+        outline: 1px solid var(--hds-sys-color-error-default);
+      }
+    }
+  }
+}
+
+// Dark mode 覆寫
+html[theme='dark'],
+body[theme='dark'] {
+  .hds-input {
+    &__field {
+      background-color: var(--hds-sys-color-light-20a);
+      color: var(--hds-sys-color-light-100a);
+
+      &::placeholder {
+        color: var(--hds-sys-color-light-40a);
+      }
+
+      &:focus {
+        outline: 1px solid var(--hds-sys-color-light-60a);
+        background-color: var(--hds-sys-color-light-40a);
+      }
+    }
+
+    &__label {
+      color: var(--hds-sys-color-light-100a);
+    }
+  }
+}
+

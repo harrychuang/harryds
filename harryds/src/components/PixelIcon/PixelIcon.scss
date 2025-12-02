@@ -1,0 +1,17 @@
+// =============================================================================
+// PIXEL ICON 元件樣式
+// =============================================================================
+
+.hds-pixel-icon {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+
+  &__pixel {
+    position: absolute;
+    width: var(--pixel-size);
+    height: var(--pixel-size);
+    background-color: var(--pixel-color);
+  }
+}
+

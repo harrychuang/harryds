@@ -1,0 +1,207 @@
+// =============================================================================
+// DROPDOWN 元件樣式
+// - 使用 theme 變數，自動適應 light/dark 主題
+// - 與 Input 元件風格一致
+// =============================================================================
+
+.hds-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  position: relative;
+
+  // Label 樣式
+  &__label {
+    font-size: 15px;
+    color: var(--hds-sys-color-theme-surface);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  &__required {
+    color: var(--hds-sys-color-error-default);
+    margin-left: 4px;
+  }
+
+  // Trigger 樣式（選擇框）
+  &__trigger {
+    height: 50px;
+    padding: 0 16px;
+    background-color: var(--hds-sys-color-dark-10a);
+    border: none;
+    border-radius: 0;
+    color: var(--hds-sys-color-theme-surface);
+    font-size: 16px;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: outline-color 0.2s ease, background-color 0.2s ease;
+
+    &:focus {
+      outline: 1px solid var(--hds-sys-color-dark-60a);
+      background-color: var(--hds-sys-color-dark-20a);
+    }
+  }
+
+  &__value {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &--placeholder {
+      color: var(--hds-sys-color-dark-40a);
+    }
+  }
+
+  &__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 12px;
+    transition: transform 0.2s ease;
+    color: var(--hds-sys-color-dark-60a);
+  }
+
+  // 下拉選單
+  &__menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+    background-color: var(--hds-sys-color-dark-100a);
+    border: none;
+    border-radius: 0;
+    max-height: 240px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  &__option {
+    height: 44px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: var(--hds-sys-color-light-100a);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--hds-sys-color-light-10a);
+    }
+
+    &--selected {
+      background-color: var(--hds-sys-color-light-20a);
+    }
+
+    &--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  // 錯誤訊息
+  &__error {
+    font-size: 12px;
+    color: var(--hds-sys-color-error-default);
+    line-height: 1.4;
+  }
+
+  // ===== 狀態 =====
+
+  // 展開狀態
+  &--open {
+    .hds-dropdown__trigger {
+      outline: 1px solid var(--hds-sys-color-dark-60a);
+      background-color: var(--hds-sys-color-dark-20a);
+    }
+
+    .hds-dropdown__arrow {
+      transform: rotate(180deg);
+    }
+  }
+
+  // 錯誤狀態
+  &--error {
+    .hds-dropdown__trigger {
+      outline: 1px solid var(--hds-sys-color-error-default);
+
+      &:focus {
+        outline: 1px solid var(--hds-sys-color-error-default);
+      }
+    }
+  }
+
+  // 禁用狀態
+  &--disabled {
+    .hds-dropdown__trigger {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Dark mode 覆寫
+html[theme='dark'],
+body[theme='dark'] {
+  .hds-dropdown {
+    &__trigger {
+      background-color: var(--hds-sys-color-light-20a);
+      color: var(--hds-sys-color-light-100a);
+
+      &:focus {
+        outline: 1px solid var(--hds-sys-color-light-60a);
+        background-color: var(--hds-sys-color-light-40a);
+      }
+    }
+
+    &__value--placeholder {
+      color: var(--hds-sys-color-light-40a);
+    }
+
+    &__arrow {
+      color: var(--hds-sys-color-light-60a);
+    }
+
+    &__label {
+      color: var(--hds-sys-color-light-100a);
+    }
+
+    &__menu {
+      background-color: var(--hds-sys-color-light-100a);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    &__option {
+      color: var(--hds-sys-color-dark-100a);
+
+      &:hover {
+        background-color: var(--hds-sys-color-dark-10a);
+      }
+
+      &--selected {
+        background-color: var(--hds-sys-color-dark-20a);
+      }
+    }
+
+    &--open {
+      .hds-dropdown__trigger {
+        outline: 1px solid var(--hds-sys-color-light-60a);
+        background-color: var(--hds-sys-color-light-40a);
+      }
+    }
+  }
+}
+

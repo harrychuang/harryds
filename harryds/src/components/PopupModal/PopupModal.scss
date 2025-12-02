@@ -1,0 +1,189 @@
+// =============================================================================
+// POPUP MODAL 元件樣式
+// - 使用 theme 變數，自動適應 light/dark 主題
+// - 與 Input, Dropdown 元件風格一致
+// =============================================================================
+
+.hds-modal__overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--hds-sys-color-dark-60a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 1000;
+  animation: modalOverlayFadeIn 0.2s ease;
+}
+
+.hds-modal {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--hds-sys-color-light-100a);
+  padding: 32px;
+  animation: modalSlideIn 0.25s ease;
+
+  // 關閉按鈕
+  &__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--hds-sys-color-dark-40a);
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--hds-sys-color-dark-100a);
+    }
+  }
+
+  // Header
+  &__header {
+    margin-bottom: 24px;
+  }
+
+  &__heading {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--hds-sys-color-dark-100a);
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+
+  &__description {
+    font-size: 16px;
+    color: var(--hds-sys-color-dark-60a);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  // Content
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  // Footer / Buttons
+  &__footer {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+  }
+
+  &__button {
+    height: 50px;
+    padding: 0 24px;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+
+    &--primary {
+      background-color: var(--hds-sys-color-dark-100a);
+      color: var(--hds-sys-color-light-100a);
+
+      &:hover {
+        background-color: var(--hds-sys-color-dark-80a);
+      }
+
+      &:active {
+        background-color: var(--hds-sys-color-dark-100a);
+      }
+    }
+
+    &--secondary {
+      background-color: var(--hds-sys-color-dark-10a);
+      color: var(--hds-sys-color-dark-100a);
+
+      &:hover {
+        background-color: var(--hds-sys-color-dark-20a);
+      }
+
+      &:active {
+        background-color: var(--hds-sys-color-dark-10a);
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes modalOverlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Dark mode 覆寫
+html[theme='dark'],
+body[theme='dark'] {
+  .hds-modal__overlay {
+    background-color: var(--hds-sys-color-dark-80a);
+  }
+
+  .hds-modal {
+    background-color: var(--hds-sys-color-dark-100a);
+
+    &__close {
+      color: var(--hds-sys-color-light-40a);
+
+      &:hover {
+        color: var(--hds-sys-color-light-100a);
+      }
+    }
+
+    &__heading {
+      color: var(--hds-sys-color-light-100a);
+    }
+
+    &__description {
+      color: var(--hds-sys-color-light-60a);
+    }
+
+    &__button {
+      &--primary {
+        background-color: var(--hds-sys-color-light-100a);
+        color: var(--hds-sys-color-dark-100a);
+
+        &:hover {
+          background-color: var(--hds-sys-color-light-80a);
+        }
+      }
+
+      &--secondary {
+        background-color: var(--hds-sys-color-light-20a);
+        color: var(--hds-sys-color-light-100a);
+
+        &:hover {
+          background-color: var(--hds-sys-color-light-40a);
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,138 @@
+// =============================================================================
+// BUTTON 元件樣式
+// - 使用 theme 變數，自動適應 light/dark 主題
+// - 與 Input, Dropdown, PopupModal 元件風格一致
+// =============================================================================
+
+.hds-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // ===== Sizes =====
+  &--small {
+    height: 36px;
+    padding: 0 16px;
+    font-size: 14px;
+  }
+
+  &--medium {
+    height: 50px;
+    padding: 0 24px;
+    font-size: 16px;
+  }
+
+  &--large {
+    height: 60px;
+    padding: 0 32px;
+    font-size: 18px;
+  }
+
+  // ===== Variants =====
+
+  // Primary
+  &--primary {
+    background-color: var(--hds-sys-color-dark-100a);
+    color: var(--hds-sys-color-light-100a);
+
+    &:hover:not(:disabled) {
+      background-color: var(--hds-sys-color-dark-80a);
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--hds-sys-color-dark-100a);
+    }
+  }
+
+  // Secondary
+  &--secondary {
+    background-color: var(--hds-sys-color-dark-10a);
+    color: var(--hds-sys-color-dark-100a);
+
+    &:hover:not(:disabled) {
+      background-color: var(--hds-sys-color-dark-20a);
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--hds-sys-color-dark-10a);
+    }
+  }
+
+  // Ghost
+  &--ghost {
+    background-color: transparent;
+    color: var(--hds-sys-color-dark-100a);
+
+    &:hover:not(:disabled) {
+      background-color: var(--hds-sys-color-dark-10a);
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--hds-sys-color-dark-5a);
+    }
+  }
+
+  // ===== Full Width =====
+  &--full-width {
+    width: 100%;
+  }
+}
+
+// Dark mode 覆寫
+html[theme='dark'],
+body[theme='dark'] {
+  .hds-button {
+    // Primary
+    &--primary {
+      background-color: var(--hds-sys-color-light-100a);
+      color: var(--hds-sys-color-dark-100a);
+
+      &:hover:not(:disabled) {
+        background-color: var(--hds-sys-color-light-80a);
+      }
+
+      &:active:not(:disabled) {
+        background-color: var(--hds-sys-color-light-100a);
+      }
+    }
+
+    // Secondary
+    &--secondary {
+      background-color: var(--hds-sys-color-light-20a);
+      color: var(--hds-sys-color-light-100a);
+
+      &:hover:not(:disabled) {
+        background-color: var(--hds-sys-color-light-40a);
+      }
+
+      &:active:not(:disabled) {
+        background-color: var(--hds-sys-color-light-20a);
+      }
+    }
+
+    // Ghost
+    &--ghost {
+      background-color: transparent;
+      color: var(--hds-sys-color-light-100a);
+
+      &:hover:not(:disabled) {
+        background-color: var(--hds-sys-color-light-10a);
+      }
+
+      &:active:not(:disabled) {
+        background-color: var(--hds-sys-color-light-5a);
+      }
+    }
+  }
+}
+

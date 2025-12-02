@@ -56,3 +56,23 @@ export type { PixelLoadingProps } from './PixelLoading';
 // PixelationImg - 優化的像素化圖片元件（支援多實例）
 export { PixelationImg, PixelationManager } from './PixelationImg';
 export type { PixelationImgProps, PixelationImgObjectFit, PixelationInstance } from './PixelationImg';
+
+// Input - 深色主題輸入框元件
+export { Input } from './Input';
+export type { InputProps } from './Input';
+
+// Dropdown - 深色主題下拉選單元件
+export { Dropdown } from './Dropdown';
+export type { DropdownProps, DropdownOption } from './Dropdown';
+
+// PopupModal - 深色主題彈出視窗元件
+export { PopupModal } from './PopupModal';
+export type { PopupModalProps } from './PopupModal';
+
+// Button - 深色主題按鈕元件
+export { Button } from './Button';
+export type { ButtonProps, ButtonVariant, ButtonSize } from './Button';
+
+// PixelIcon - 8-bit 風格圖示元件
+export { PixelIcon } from './PixelIcon';
+export type { PixelIconProps } from './PixelIcon';
