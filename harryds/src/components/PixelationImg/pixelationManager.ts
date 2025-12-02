@@ -246,7 +246,10 @@ class PixelationManager {
       offCanvas.height = blocksY;
     }
 
-    offCtx.imageSmoothingEnabled = false;
+    // 當像素大小 <= 2 時啟用平滑化，避免鋸齒
+    const shouldSmooth = effectivePixel <= 2;
+    offCtx.imageSmoothingEnabled = shouldSmooth;
+    offCtx.imageSmoothingQuality = 'high';
     offCtx.clearRect(0, 0, blocksX, blocksY);
 
     // 將原圖縮小繪製到離屏（取樣）
@@ -255,7 +258,8 @@ class PixelationManager {
     // 重置主 canvas 變換
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
-    ctx.imageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = shouldSmooth;
+    ctx.imageSmoothingQuality = 'high';
 
     // 清除 canvas
     ctx.clearRect(0, 0, width, height);

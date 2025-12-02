@@ -140,6 +140,11 @@ const Footer: React.FC = () => {
     }
   }, []);
 
+  // Email 按鈕點擊處理
+  const handleEmailClick = useCallback(() => {
+    window.location.href = 'mailto:hello@noeinoi.com';
+  }, []);
+
   const pickRandomGifUrl = useCallback((excludeUrl?: string) => {
     if (GIPHY_URLS.length === 0) {
       return null;
@@ -438,6 +443,21 @@ const Footer: React.FC = () => {
               </div>
             </div>
           )}
+          <ScrollIndicator 
+            scrollProgress={scrollProgress}
+            primaryColor={displayColor}
+            secondaryColor={displaySecondaryColor}
+            scrollContainer={scrollContainer}
+            openCardId={openCardId}
+            enableScrollToTop={false}
+            icon="✉"
+            iconAriaLabel="寄信給我"
+            iconClassName="scroll-indicator__icon--email"
+            bounceDelayMs={200}
+            sliderMultiplier={0.5}
+            onIconClick={handleEmailClick}
+            onIconHover={playHoverSound}
+          />
           <ScrollIndicator 
             scrollProgress={scrollProgress}
             primaryColor={displayColor}
