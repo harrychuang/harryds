@@ -22,7 +22,7 @@
   max-width: 480px;
   background-color: var(--hds-sys-color-light-100a);
   padding: 32px;
-  animation: modalPixelReveal 0.4s steps(8) forwards;
+  animation: modalPixelReveal 0.5s step-end forwards;
 
   // 關閉按鈕
   &__close {
@@ -132,32 +132,38 @@
   }
 }
 
-// 8-bit 像素化展開動畫
+// 8-bit 像素化展開動畫 (ease-out 風格: 開始快，結束慢)
 @keyframes modalPixelReveal {
   0% {
     clip-path: inset(50% 50% 50% 50%);
     opacity: 1;
   }
-  12.5% {
-    clip-path: inset(43.75% 43.75% 43.75% 43.75%);
+  5% {
+    clip-path: inset(45% 45% 45% 45%);
   }
-  25% {
-    clip-path: inset(37.5% 37.5% 37.5% 37.5%);
+  12% {
+    clip-path: inset(40% 40% 40% 40%);
   }
-  37.5% {
-    clip-path: inset(31.25% 31.25% 31.25% 31.25%);
+  20% {
+    clip-path: inset(35% 35% 35% 35%);
   }
-  50% {
+  30% {
+    clip-path: inset(30% 30% 30% 30%);
+  }
+  42% {
     clip-path: inset(25% 25% 25% 25%);
   }
-  62.5% {
-    clip-path: inset(18.75% 18.75% 18.75% 18.75%);
+  55% {
+    clip-path: inset(20% 20% 20% 20%);
   }
-  75% {
-    clip-path: inset(12.5% 12.5% 12.5% 12.5%);
+  68% {
+    clip-path: inset(15% 15% 15% 15%);
   }
-  87.5% {
-    clip-path: inset(6.25% 6.25% 6.25% 6.25%);
+  80% {
+    clip-path: inset(10% 10% 10% 10%);
+  }
+  90% {
+    clip-path: inset(5% 5% 5% 5%);
   }
   100% {
     clip-path: inset(0% 0% 0% 0%);
