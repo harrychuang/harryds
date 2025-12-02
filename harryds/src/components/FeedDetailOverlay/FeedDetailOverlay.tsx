@@ -327,14 +327,23 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
             <blockquote 
               key={key}
               ref={blockquoteRef}
-              className="feed-detail-overlay__section-blockquote"
+              className="feed-detail-overlay__section-blockquote feed-detail-overlay__section-blockquote--typewriter"
             >
-              <span className="feed-detail-overlay__blockquote-mark">"</span>
-              {typewriterText}
-              {isTyping && <span className="feed-detail-overlay__cursor">_</span>}
-              {!isTyping && typewriterText.length === blockquoteFullText.length && (
+              {/* 隱藏的完整文字，用來預留高度空間 */}
+              <span className="feed-detail-overlay__blockquote-placeholder" aria-hidden="true">
                 <span className="feed-detail-overlay__blockquote-mark">"</span>
-              )}
+                {content.text}
+                <span className="feed-detail-overlay__blockquote-mark">"</span>
+              </span>
+              {/* 實際顯示的打字文字，絕對定位覆蓋在上面 */}
+              <span className="feed-detail-overlay__blockquote-typing">
+                <span className="feed-detail-overlay__blockquote-mark">"</span>
+                {typewriterText}
+                {isTyping && <span className="feed-detail-overlay__cursor">_</span>}
+                {!isTyping && typewriterText.length === blockquoteFullText.length && (
+                  <span className="feed-detail-overlay__blockquote-mark">"</span>
+                )}
+              </span>
             </blockquote>
           );
         }

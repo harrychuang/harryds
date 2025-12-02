@@ -484,6 +484,38 @@
     .feed-detail-overlay__cursor {
       color: var(--feed-detail-primary-color, var(--on-hds-sys-color-surface, #fff));
     }
+    
+    // 打字機效果專用樣式：預留高度空間
+    &--typewriter {
+      position: relative;
+    }
+  }
+
+  // 隱藏的 placeholder 文字，用來預先撐開高度空間
+  &__blockquote-placeholder {
+    display: block;
+    visibility: hidden;
+    // 保持與實際文字相同的樣式
+    font-family: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  // 實際顯示的打字文字，絕對定位覆蓋在 placeholder 上
+  &__blockquote-typing {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    // 繼承父元素的文字樣式
+    font-family: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
   }
 
   &__blockquote-mark {

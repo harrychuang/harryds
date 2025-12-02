@@ -243,24 +243,24 @@
         "scope": {
           "title": "The Challenge & Market",
           "paragraph1": "The Challenge: Shopmatic's core market, India, is mobile-first. Merchants needed more than just a responsive website; they demanded a dedicated mobile app presence to engage buyers.",
-          "paragraph2": "The Complexity: The system had to be a 'White-label' solution. It needed to automatically generate thousands of unique apps—one for each merchant—while maintaining their individual branding (colors, logos) without manual engineering intervention.",
+          "paragraph2": "The Complexity: The system had to be a 'Custom-branded' solution. It needed to automatically generate thousands of unique apps—one for each merchant—while maintaining their individual branding (colors, logos) without manual engineering intervention.",
           "paragraph3": "Offline Needs: Given the unstable network connectivity in some regions, the app also required a lightweight POS feature for offline/in-person transactions.",
           "image1": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-02.jpg"
         },
         "impact": {
           "title": "Architecture & System",
-          "paragraph1": "I architected the 'Theming Engine' within the Mobile Design System. This allowed the app's UI to dynamically inject the merchant's brand colors and fonts at runtime, ensuring brand consistency at scale.",
+          "paragraph1": "Architected the 'Theming Engine' within the Mobile Design System. This allowed the app's UI to dynamically inject the merchant's brand colors and fonts at runtime, ensuring brand consistency at scale.",
           "quote1": "Dynamic Theming: Created a flexible UI framework that adapts to any merchant's brand identity.",
           "quote2": "Mobile Design System: Established the team's first React-Native component library to speed up assembly.",
           "quote3": "Hybrid Solution: Integrated online ordering with offline POS capabilities for omnichannel selling.",
-          "blockquote": "Although the project halted due to acquisition, the Mobile Design System laid the groundwork for future React-Native initiatives, proving the value of modular architecture.",
+          "blockquote": "The mobile design system validated that an architecture centered on modularity and dynamic theming can effectively support large-scale expansion needs in multi-brand e-commerce scenarios. This foundation successfully established cross-brand consistency, shortened development cycles, and provided reusable design and technical frameworks for subsequent React-Native product initiatives.",
           "image1": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-03.jpg"
         },
         "get in touch": {
-          "title": "SCALABLE UI",
-          "paragraph1": "Designing for one brand is easy; designing a system for thousands of brands requires architectural thinking. This project showcases the intersection of design systems, mobile architecture, and white-label scalability.",
-          "paragraph2": "If you're building multi-tenant platforms, white-label solutions, or need expertise in designing scalable product foundations, I'd be happy to discuss how strategic system design can future-proof your product.",
-          "paragraph3": "Contact me at harrychuang23@gmail.com to build a scalable product foundation together."
+          "title": "SHOPPING & CHECKOUT EXPERIENCE DESIGN",
+          "paragraph1": "Building a brand isn't difficult, but designing an e-commerce App UI/UX that supports multiple brands, diverse product types, and various checkout flows requires deeper architectural thinking. This project demonstrates how to handle shopping flows (product listings, product details, add to cart) in a modular way, along with dynamic pricing, promotion logic, shipping options, and complete checkout journeys.",
+          "paragraph2": "If you're planning an e-commerce App, mobile shopping experience optimization, checkout conversion rate improvement, or multi-tenant custom-branded shopping systems, I can help you establish a long-term scalable shopping experience that truly drives revenue—from UX architecture, design systems, user flow design, to UI component specifications.",
+          "paragraph3": "If you want to improve shopping flow efficiency or build an App UI that automatically adapts to different brands and products, feel free to contact me at harrychuang23@gmail.com to create smoother, more efficient mobile e-commerce experiences together."
         }
       },
       "websiteUrl": "#",
