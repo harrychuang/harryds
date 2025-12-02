@@ -20,7 +20,6 @@ export const DataSourceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   // 當資料來源改變時，儲存到 localStorage
   useEffect(() => {
     localStorage.setItem('portfolio-data-source', dataSource);
-    console.log('[DataSource] 資料來源切換為:', dataSource);
   }, [dataSource]);
 
   const setDataSource = (source: DataSource) => {

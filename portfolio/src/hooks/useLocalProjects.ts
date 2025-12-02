@@ -131,8 +131,6 @@ export function useLocalProjects() {
       try {
         setLoading(true);
         setError(null);
-
-        console.log('[useLocalProjects] 開始載入本地專案資料...');
         
         // 根據當前語言載入對應的 projects.json
         const locale = i18n.language === 'zh' ? 'zh-Hant' : i18n.language;
@@ -166,9 +164,6 @@ export function useLocalProjects() {
             return transformLocalToFeedItem(id, data, originalHeading);
           })
           .sort((a, b) => a.id - b.id); // 按 ID 排序
-
-        console.log('[useLocalProjects] 載入完成，項目數:', feedItems.length);
-        console.log('[useLocalProjects] 第一個項目:', feedItems[0]);
 
         setItems(feedItems);
       } catch (err) {

@@ -209,15 +209,11 @@ export function useStrapiProjects() {
         setLoading(true);
         setError(null);
 
-        console.log('[useStrapiProjects] 開始取得專案資料...');
-
         // 取得所有專案，並 populate 圖片
         const response = await strapiClient.getProjects({
           populate: '*',
           sort: 'id:asc'
         });
-
-        console.log('[useStrapiProjects] API 回應:', response);
 
         if (!isMounted) return;
 
@@ -225,8 +221,6 @@ export function useStrapiProjects() {
         const feedItems = response.data.map((project: StrapiProject) => 
           transformStrapiToFeedItem(project, i18n.language)
         );
-
-        console.log('[useStrapiProjects] 轉換後的資料:', feedItems);
 
         setItems(feedItems);
       } catch (err) {

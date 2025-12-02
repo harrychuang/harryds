@@ -344,12 +344,12 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
               </span>
               {/* 實際顯示的打字文字，絕對定位覆蓋在上面 */}
               <span className="feed-detail-overlay__blockquote-typing">
+              <span className="feed-detail-overlay__blockquote-mark">"</span>
+              {typewriterText}
+              {isTyping && <span className="feed-detail-overlay__cursor">_</span>}
+              {!isTyping && typewriterText.length === blockquoteFullText.length && (
                 <span className="feed-detail-overlay__blockquote-mark">"</span>
-                {typewriterText}
-                {isTyping && <span className="feed-detail-overlay__cursor">_</span>}
-                {!isTyping && typewriterText.length === blockquoteFullText.length && (
-                  <span className="feed-detail-overlay__blockquote-mark">"</span>
-                )}
+              )}
               </span>
             </blockquote>
           );
@@ -807,12 +807,12 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                   const isSpecialStatus = isInDevelopment || isArchived;
                   
                   return (
-                    <CTAButton
+                  <CTAButton
                       href={isSpecialStatus ? '#' : projectInfo.websiteUrl}
-                      label={projectInfo.websiteLabel || 'VISIT WEBSITE'}
-                      primaryColor={primaryColor}
-                      secondaryColor={secondaryColor}
-                      textColor={primaryColor}
+                    label={projectInfo.websiteLabel || 'VISIT WEBSITE'}
+                    primaryColor={primaryColor}
+                    secondaryColor={secondaryColor}
+                    textColor={primaryColor}
                       iconUrl={isSpecialStatus ? iconClockUrl : undefined}
                       onClick={isSpecialStatus ? (e) => {
                         e.preventDefault();
@@ -822,7 +822,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                           onArchivedClick?.();
                         }
                       } : undefined}
-                    />
+                  />
                   );
                 })()}
               </aside>

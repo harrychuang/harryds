@@ -117,6 +117,15 @@ const Home: React.FC = () => {
     { value: '200k+', label: t('contactModal.budgets.200k+', { ns: 'common' }) },
   ], [t]);
 
+  // 設計系統/顧問專用的預算選項
+  const consultingBudgetOptions: DropdownOption[] = useMemo(() => [
+    { value: 'unsure', label: t('contactModal.consultingBudgets.unsure', { ns: 'common' }) },
+    { value: 'under5k', label: t('contactModal.consultingBudgets.under5k', { ns: 'common' }) },
+    { value: '5k-10k', label: t('contactModal.consultingBudgets.5k-10k', { ns: 'common' }) },
+    { value: '10k+', label: t('contactModal.consultingBudgets.10k+', { ns: 'common' }) },
+  ], [t]);
+
+
   // 導覽選單 hover 觸發一次動畫狀態
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
   const menuHoverTimersRef = useRef<Record<string, number>>({});
@@ -311,21 +320,17 @@ const Home: React.FC = () => {
   const handleOpenCard = useCallback((cardId: number, event?: React.MouseEvent) => {
     // 如果已經有卡片開啟，直接返回（避免重複觸發）
     if (openCardId !== null) {
-      console.log('[Home] 阻止重複開啟卡片，當前狀態:', { openCardId });
       return;
     }
     
     const item = items.find(i => i.id === cardId);
     if (!item) return;
     
-    console.log('[Home] 開啟卡片:', cardId);
-    
     // 檢查是否已經載入過
     const hasLoaded = loadedCardIdsRef.current.has(cardId);
     
     if (hasLoaded) {
       // 已載入過，直接導航，不顯示 loading
-      console.log('[Home] 卡片已載入過，直接進入:', cardId);
       navigate(toItemUrl(item), { replace: false });
     } else {
       // 首次載入，觸發 PageLoader 動畫
@@ -339,7 +344,6 @@ const Home: React.FC = () => {
   }, [openCardId, items, navigate, toItemUrl, setLoading]);
 
   const handleCloseCard = useCallback(() => {
-    console.log('[Home] 關閉卡片');
     setOpenCardId(null);
     setContextOpenCardId(null); // 同步更新 Context
     setOpenCardAnimationPhase('closed');
@@ -410,14 +414,11 @@ const Home: React.FC = () => {
   }, [playLogoClickSound, openCardId, openCardAnimationPhase, handleCloseCard]);
 
   const handleAnimationPhaseChange = useCallback((phase: 'closed' | 'loading' | 'positioning' | 'expanding' | 'ready') => {
-    console.log(`Animation phase changed to: ${phase}, openCardId: ${openCardId}`);
     setOpenCardAnimationPhase(phase);
     setContextAnimationPhase(phase); // 同步更新 Context
     // 當動畫到達 ready 階段時，記錄該卡片已載入過，並關閉 PageLoader
     if (phase === 'ready' && openCardId != null) {
-      console.log(`Adding card ${openCardId} to loaded set`);
       loadedCardIdsRef.current.add(openCardId);
-      console.log(`Loaded cards after add:`, Array.from(loadedCardIdsRef.current));
       // 關閉 PageLoader
       setLoading(false);
     }
@@ -605,26 +606,6 @@ const Home: React.FC = () => {
     return { rowIndex: -1, columns: 3 as const, isFirstInRow: false, isLastInRow: false };
   }, [getGridLayout]);
 
-  // 調試信息：顯示資料載入狀態和 Grid 佈局結構
-  useEffect(() => {
-    console.log('[Home] 資料載入狀態:', { loading, error, itemCount: items.length });
-    if (items.length > 0) {
-      console.log('[Home] 第一個項目圖片:', items[0].heroImage);
-      
-      // 顯示 Grid 佈局結構
-      const layout = getGridLayout(items.length);
-      console.log('[Home] 📐 Grid 佈局結構:', {
-        總項目數: items.length,
-        rows: layout.map((row, idx) => ({
-          Row: idx + 1,
-          項目數: row.count,
-          Columns: row.columns,
-          索引範圍: `${row.startIndex}-${row.startIndex + row.count - 1}`,
-        }))
-      });
-    }
-  }, [loading, error, items, getGridLayout]);
-
   // 由於現在完全使用 Strapi 資料，不再需要本地圖片處理
   
   // Header 組件所需的派生屬性
@@ -758,11 +739,6 @@ const Home: React.FC = () => {
           const size = getSizeByIndex(index);
           const rowInfo = getRowInfoByIndex(index, items.length);
           const src = resolveSrc(item.heroImage);
-          console.log(`[Home] 項目 ${item.id} 圖片處理:`, { 
-            original: item.heroImage, 
-            resolved: src,
-            hasImage: !!src
-          });
             const rawBlocks: FeedContentBlock[] | undefined =
               Array.isArray(item.content)
                 ? (item.content as FeedContentBlock[])
@@ -770,26 +746,16 @@ const Home: React.FC = () => {
                     ? ([{ type: 'paragraph', content: item.content }] as FeedContentBlock[])
                     : undefined);
             const resolvedBlocks = rawBlocks
-              ? rawBlocks.map((b, blockIndex) => {
-                  // 📹 調試：記錄每個內容區塊的類型
-                  console.log(`[Home] 項目 ${item.id} 區塊 ${blockIndex}:`, {
-                    type: b.type,
-                    hasVideoSrc: b.type === 'video' && !!(b as any).src,
-                    hasImageSrc: b.type === 'image' && !!(b as any).src,
-                    blockData: b
-                  });
-                  
+              ? rawBlocks.map((b) => {
                   if (b.type === 'image') {
                     return { ...b, src: resolveSrc(b.src) };
                   }
                   if (b.type === 'video') {
-                    const resolvedVideo = { 
+                    return { 
                       ...b, 
                       src: resolveSrc(b.src),
                       poster: b.poster ? resolveSrc(b.poster) : undefined
                     };
-                    console.log(`[Home] Video 區塊解析結果:`, resolvedVideo);
-                    return resolvedVideo;
                   }
                   return b;
                 })
@@ -915,12 +881,17 @@ const Home: React.FC = () => {
           label={t('contactModal.projectType', { ns: 'common' })}
           options={projectTypeOptions}
           value={contactProjectType}
-          onChange={(val) => setContactProjectType(val)}
+          onChange={(val) => {
+            setContactProjectType(val);
+            // 當專案類型改變時，重置預算選擇
+            setContactBudget('');
+          }}
           placeholder={t('contactModal.projectTypePlaceholder', { ns: 'common' })}
         />
         <Dropdown
+          key={`budget-${contactProjectType}`}
           label={t('contactModal.budget', { ns: 'common' })}
-          options={budgetOptions}
+          options={contactProjectType === 'brand' ? consultingBudgetOptions : budgetOptions}
           value={contactBudget}
           onChange={(val) => setContactBudget(val)}
           placeholder={t('contactModal.budgetPlaceholder', { ns: 'common' })}

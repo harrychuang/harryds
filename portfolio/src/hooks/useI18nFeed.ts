@@ -45,8 +45,6 @@ export function useI18nFeed(namespace: 'projects' | 'articles' = 'projects') {
       .filter(id => !isNaN(id))
       .sort((a, b) => a - b);
     
-    console.log(`[useI18nFeed] 自動檢測到的 ${namespace} IDs:`, itemIds);
-    
     return itemIds.map(id => {
       try {
         const itemKey = `${id}`;

@@ -23,7 +23,6 @@ export function useProjects(): {
   // 根據當前設定選擇資料來源
   const result = useMemo(() => {
     if (dataSource === 'local') {
-      console.log('[useProjects] 使用本地資料來源');
       return {
         items: localData.items,
         loading: localData.loading,
@@ -31,7 +30,6 @@ export function useProjects(): {
         dataSource: 'local' as const
       };
     } else {
-      console.log('[useProjects] 使用 Strapi 資料來源');
       return {
         items: strapiData.items,
         loading: strapiData.loading,

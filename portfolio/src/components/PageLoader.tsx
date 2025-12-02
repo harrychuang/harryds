@@ -40,7 +40,6 @@ const PageLoader: React.FC<PageLoaderProps> = ({
   // 當 isLoading 變為 true 時開始進入動畫
   useEffect(() => {
     if (isLoading && phase === 'hidden') {
-      console.log('[PageLoader] 開始載入動畫');
       setPhase('entering');
       setLoadStartTime(Date.now());
       loadingFinishedRef.current = false;
@@ -54,7 +53,6 @@ const PageLoader: React.FC<PageLoaderProps> = ({
   useEffect(() => {
     if (phase === 'entering') {
       const timer = setTimeout(() => {
-        console.log('[PageLoader] 進入動畫完成，切換到 visible');
         setPhase('visible');
       }, 600);
       
@@ -66,12 +64,10 @@ const PageLoader: React.FC<PageLoaderProps> = ({
   useEffect(() => {
     if (phase === 'entering' || phase === 'visible') {
       const timer = setTimeout(() => {
-        console.log('[PageLoader] 最小顯示時間已過');
         minTimeElapsedRef.current = true;
         
         // 如果載入已完成，開始退出
         if (loadingFinishedRef.current) {
-          console.log('[PageLoader] 載入已完成，開始退出動畫');
           setPhase('exiting');
         }
       }, minDisplayTime);
@@ -83,13 +79,11 @@ const PageLoader: React.FC<PageLoaderProps> = ({
   // 監聽 isLoading 變化
   useEffect(() => {
     if (!isLoading && (phase === 'visible' || phase === 'entering')) {
-      console.log('[PageLoader] 載入完成');
       loadingFinishedRef.current = true;
       setSimulatedProgress(100);
       
       // 如果最小時間已過，立即開始退出
       if (minTimeElapsedRef.current) {
-        console.log('[PageLoader] 最小時間已過，開始退出動畫');
         setPhase('exiting');
       }
     }
@@ -98,9 +92,7 @@ const PageLoader: React.FC<PageLoaderProps> = ({
   // 退出動畫：loading 往下移動後，開始關閉 mask
   useEffect(() => {
     if (phase === 'exiting') {
-      console.log('[PageLoader] 執行退出動畫');
       const timer = setTimeout(() => {
-        console.log('[PageLoader] 開始關閉 mask');
         setPhase('mask-closing');
       }, 500);
       
@@ -112,7 +104,6 @@ const PageLoader: React.FC<PageLoaderProps> = ({
   useEffect(() => {
     if (phase === 'mask-closing') {
       const timer = setTimeout(() => {
-        console.log('[PageLoader] 動畫完成，隱藏 loader');
         setPhase('hidden');
         setLoadStartTime(null);
         loadingFinishedRef.current = false;

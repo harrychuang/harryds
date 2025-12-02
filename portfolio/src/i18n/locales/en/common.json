@@ -27,8 +27,8 @@
     "description": "Due to company strategy changes, this project has been discontinued. This page documents the complete design context and outcomes to preserve and share its UX and product strategy value."
   },
   "contactModal": {
-    "heading": "Let's Work Together",
-    "description": "Tell us about your project and we'll get back to you within 24 hours.",
+    "heading": "LET'S BUILD BETTER PRODUCTS TOGETHER",
+    "description": "Whether you're planning a new experience, restructuring an existing product, or looking to improve outcomes through better design systems and UX processes, I can help you find a clear direction. Share your needs, and I'll respond within 24 hours with initial guidance.",
     "name": "Name",
     "namePlaceholder": "Your name",
     "email": "Email",
@@ -36,7 +36,7 @@
     "projectType": "Project Type",
     "projectTypePlaceholder": "Select project type...",
     "projectTypes": {
-      "brand": "Brand Identity",
+      "brand": "Design System / Coaching / Consulting",
       "web": "Web Design",
       "uiux": "UI/UX Design",
       "dev": "Development",
@@ -50,6 +50,12 @@
       "20k-100k": "$600 - $3,000 USD",
       "100k-200k": "$3,000 - $6,000 USD",
       "200k+": "$6,000+ USD"
+    },
+    "consultingBudgets": {
+      "unsure": "Not Sure",
+      "under5k": "< $150 USD",
+      "5k-10k": "$150 - $300 USD",
+      "10k+": "$300+ USD"
     },
     "message": "Message",
     "messagePlaceholder": "Tell us about your project...",
