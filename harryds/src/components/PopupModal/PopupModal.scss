@@ -27,21 +27,25 @@
   // 關閉按鈕
   &__close {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 32px;
-    height: 32px;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: none;
+    background-color: transparent;
     border: none;
     cursor: pointer;
-    color: var(--hds-sys-color-dark-40a);
-    transition: color 0.2s ease;
+    color: var(--hds-sys-color-dark-100a);
+    transition: background-color 0s ease;
+
+    .hds-pixel-icon {
+      left: 2px;
+    }
 
     &:hover {
-      color: var(--hds-sys-color-dark-100a);
+      background-color: var(--hds-sys-color-dark-10a);
     }
   }
 
@@ -150,10 +154,11 @@ body[theme='dark'] {
     background-color: var(--hds-sys-color-dark-100a);
 
     &__close {
-      color: var(--hds-sys-color-light-40a);
+      background-color: transparent;
+      color: var(--hds-sys-color-light-100a);
 
       &:hover {
-        color: var(--hds-sys-color-light-100a);
+        background-color: var(--hds-sys-color-light-10a);
       }
     }
 

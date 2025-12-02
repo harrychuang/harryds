@@ -97,7 +97,7 @@ export const PopupModal: React.FC<PopupModalProps> = ({
             onClick={onClose}
             aria-label="Close modal"
           >
-            <PixelIcon symbol="×" pixelSize={2} />
+            <PixelIcon symbol="×" pixelSize={2.5} />
           </button>
         )}
 
