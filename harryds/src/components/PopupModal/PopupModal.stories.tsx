@@ -262,3 +262,118 @@ export const NoCloseButton: Story = {
   render: () => <NoCloseButtonTemplate />,
 };
 
+// Contact Modal - 工作室聯繫表單
+const ContactTemplate = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [projectType, setProjectType] = useState('');
+  const [budget, setBudget] = useState('');
+  const [message, setMessage] = useState('');
+
+  const projectTypeOptions: DropdownOption[] = [
+    { value: 'brand', label: 'Brand Identity' },
+    { value: 'web', label: 'Web Design' },
+    { value: 'uiux', label: 'UI/UX Design' },
+    { value: 'dev', label: 'Development' },
+    { value: 'other', label: 'Other' },
+  ];
+
+  const budgetOptions: DropdownOption[] = [
+    { value: 'under5k', label: '< $5,000' },
+    { value: '5k-10k', label: '$5,000 - $10,000' },
+    { value: '10k-25k', label: '$10,000 - $25,000' },
+    { value: '25k+', label: '$25,000+' },
+    { value: 'unsure', label: 'Not Sure' },
+  ];
+
+  const handleSubmit = () => {
+    console.log({
+      name,
+      email,
+      projectType,
+      budget,
+      message,
+    });
+    alert(`Thank you, ${name}! We'll get back to you soon.`);
+    setIsOpen(false);
+    // Reset form
+    setName('');
+    setEmail('');
+    setProjectType('');
+    setBudget('');
+    setMessage('');
+  };
+
+  const isFormValid = name && email;
+
+  return (
+    <>
+      <button
+        onClick={() => setIsOpen(true)}
+        style={{
+          padding: '16px 32px',
+          fontSize: '16px',
+          cursor: 'pointer',
+          background: '#171717',
+          color: '#fff',
+          border: 'none',
+          fontFamily: "'PublicPixel', monospace",
+          textTransform: 'uppercase',
+        }}
+      >
+        Let's Work Together
+      </button>
+      <PopupModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        heading="Let's Work Together"
+        description="Tell us about your project and we'll get back to you within 24 hours."
+        primaryButtonText="Send Message"
+        secondaryButtonText="Cancel"
+        onPrimaryClick={handleSubmit}
+      >
+        <Input
+          label="Name"
+          placeholder="Your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <Input
+          label="Email"
+          placeholder="your@email.com"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <Dropdown
+          label="Project Type"
+          options={projectTypeOptions}
+          value={projectType}
+          onChange={(val) => setProjectType(val)}
+          placeholder="Select project type..."
+        />
+        <Dropdown
+          label="Budget"
+          options={budgetOptions}
+          value={budget}
+          onChange={(val) => setBudget(val)}
+          placeholder="Select budget range..."
+        />
+        <Input
+          label="Message"
+          placeholder="Tell us about your project..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+      </PopupModal>
+    </>
+  );
+};
+
+export const ContactModal: Story = {
+  render: () => <ContactTemplate />,
+};
+

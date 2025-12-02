@@ -22,6 +22,7 @@
   max-width: 480px;
   background-color: var(--hds-sys-color-light-100a);
   padding: 32px;
+  overflow: visible;
   animation: modalPixelReveal 0.5s step-end forwards;
 
   // 關閉按鈕
@@ -75,6 +76,7 @@
     flex-direction: column;
     gap: 16px;
     margin-bottom: 24px;
+    overflow: visible;
   }
 
   // Footer / Buttons
