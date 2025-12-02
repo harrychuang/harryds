@@ -280,11 +280,11 @@ const ContactTemplate = () => {
   ];
 
   const budgetOptions: DropdownOption[] = [
-    { value: 'under5k', label: '< $5,000' },
-    { value: '5k-10k', label: '$5,000 - $10,000' },
-    { value: '10k-25k', label: '$10,000 - $25,000' },
-    { value: '25k+', label: '$25,000+' },
     { value: 'unsure', label: 'Not Sure' },
+    { value: 'under20k', label: '< $600' },
+    { value: '20k-100k', label: '$600 - $3,000' },
+    { value: '100k-200k', label: '$3,000 - $6,000' },
+    { value: '200k+', label: '$6,000+' },
   ];
 
   const handleSubmit = () => {

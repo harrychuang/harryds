@@ -1,8 +1,11 @@
 import React, { useMemo, useEffect, useState, useCallback, useRef } from 'react';
 import './Footer.scss';
 import { useParams, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useI18nFeed } from '../hooks/useI18nFeed';
 import type { FeedItem } from 'hds/types/feed';
+import { PopupModal, Input, Dropdown } from 'hds';
+import type { DropdownOption } from 'hds';
 import { useHover } from '../contexts/HoverContext';
 import { useOverlay } from '../contexts/OverlayContext';
 import { useScrollProgress } from '../hooks/useScrollProgress';
@@ -101,6 +104,7 @@ const persistLikedPaths = (paths: Set<string>) => {
 
 const Footer: React.FC = () => {
   const params = useParams();
+  const { t } = useTranslation('common');
   const { items } = useI18nFeed();
   const { hoveredCardId } = useHover();
   const { openCardId, animationPhase, overlayScrollRef } = useOverlay();
@@ -121,6 +125,31 @@ const Footer: React.FC = () => {
   const hasHydratedPreferenceRef = useRef(false);
   const hydratedPageKeyRef = useRef<string | null>(null);
   const pageStorageKey = useMemo(() => normalizePathKey(location.pathname), [location.pathname]);
+
+  // Contact Modal state
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [contactName, setContactName] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactProjectType, setContactProjectType] = useState('');
+  const [contactBudget, setContactBudget] = useState('');
+  const [contactMessage, setContactMessage] = useState('');
+
+  // Contact Modal options
+  const projectTypeOptions: DropdownOption[] = useMemo(() => [
+    { value: 'brand', label: t('contactModal.projectTypes.brand') },
+    { value: 'web', label: t('contactModal.projectTypes.web') },
+    { value: 'uiux', label: t('contactModal.projectTypes.uiux') },
+    { value: 'dev', label: t('contactModal.projectTypes.dev') },
+    { value: 'other', label: t('contactModal.projectTypes.other') },
+  ], [t]);
+
+  const budgetOptions: DropdownOption[] = useMemo(() => [
+    { value: 'unsure', label: t('contactModal.budgets.unsure') },
+    { value: 'under20k', label: t('contactModal.budgets.under20k') },
+    { value: '20k-100k', label: t('contactModal.budgets.20k-100k') },
+    { value: '100k-200k', label: t('contactModal.budgets.100k-200k') },
+    { value: '200k+', label: t('contactModal.budgets.200k+') },
+  ], [t]);
   
   // Hover 音效
   const hoverSoundHandleRef = useRef<PlaybackHandle | null>(null);
@@ -140,10 +169,34 @@ const Footer: React.FC = () => {
     }
   }, []);
 
-  // Email 按鈕點擊處理
+  // Email 按鈕點擊處理 - 打開 Contact Modal
   const handleEmailClick = useCallback(() => {
-    window.location.href = 'mailto:hello@noeinoi.com';
+    setIsContactModalOpen(true);
   }, []);
+
+  // Contact Modal 關閉處理
+  const handleContactModalClose = useCallback(() => {
+    setIsContactModalOpen(false);
+  }, []);
+
+  // Contact Modal 提交處理
+  const handleContactSubmit = useCallback(() => {
+    console.log({
+      name: contactName,
+      email: contactEmail,
+      projectType: contactProjectType,
+      budget: contactBudget,
+      message: contactMessage,
+    });
+    alert(t('contactModal.success'));
+    setIsContactModalOpen(false);
+    // Reset form
+    setContactName('');
+    setContactEmail('');
+    setContactProjectType('');
+    setContactBudget('');
+    setContactMessage('');
+  }, [contactName, contactEmail, contactProjectType, contactBudget, contactMessage, t]);
 
   const pickRandomGifUrl = useCallback((excludeUrl?: string) => {
     if (GIPHY_URLS.length === 0) {
@@ -487,6 +540,53 @@ const Footer: React.FC = () => {
           />
         </div>
       </div>
+
+      {/* Contact Modal */}
+      <PopupModal
+        isOpen={isContactModalOpen}
+        onClose={handleContactModalClose}
+        heading={t('contactModal.heading')}
+        description={t('contactModal.description')}
+        primaryButtonText={t('contactModal.send')}
+        secondaryButtonText={t('contactModal.cancel')}
+        onPrimaryClick={handleContactSubmit}
+      >
+        <Input
+          label={t('contactModal.name')}
+          placeholder={t('contactModal.namePlaceholder')}
+          value={contactName}
+          onChange={(e) => setContactName(e.target.value)}
+          required
+        />
+        <Input
+          label={t('contactModal.email')}
+          placeholder={t('contactModal.emailPlaceholder')}
+          type="email"
+          value={contactEmail}
+          onChange={(e) => setContactEmail(e.target.value)}
+          required
+        />
+        <Dropdown
+          label={t('contactModal.projectType')}
+          options={projectTypeOptions}
+          value={contactProjectType}
+          onChange={(val) => setContactProjectType(val)}
+          placeholder={t('contactModal.projectTypePlaceholder')}
+        />
+        <Dropdown
+          label={t('contactModal.budget')}
+          options={budgetOptions}
+          value={contactBudget}
+          onChange={(val) => setContactBudget(val)}
+          placeholder={t('contactModal.budgetPlaceholder')}
+        />
+        <Input
+          label={t('contactModal.message')}
+          placeholder={t('contactModal.messagePlaceholder')}
+          value={contactMessage}
+          onChange={(e) => setContactMessage(e.target.value)}
+        />
+      </PopupModal>
     </footer>
   );
 };

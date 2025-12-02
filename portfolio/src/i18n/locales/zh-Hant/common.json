@@ -17,5 +17,36 @@
   "brand": {
     "harry": "HARRY",
     "tagline": "NOEINOI DESIGN"
+  },
+  "contactModal": {
+    "heading": "一起合作吧",
+    "description": "告訴我們您的專案，我們會在 24 小時內回覆。",
+    "name": "姓名",
+    "namePlaceholder": "您的姓名",
+    "email": "電子郵件",
+    "emailPlaceholder": "your@email.com",
+    "projectType": "專案類型",
+    "projectTypePlaceholder": "選擇專案類型...",
+    "projectTypes": {
+      "brand": "品牌識別",
+      "web": "網頁設計",
+      "uiux": "UI/UX 設計",
+      "dev": "程式開發",
+      "other": "其他"
+    },
+    "budget": "預算",
+    "budgetPlaceholder": "選擇預算範圍...",
+    "budgets": {
+      "unsure": "不確定",
+      "under20k": "< NT$ 20,000",
+      "20k-100k": "NT$ 20,000 - NT$ 100,000",
+      "100k-200k": "NT$ 100,000 - NT$ 200,000",
+      "200k+": "NT$ 200,000+"
+    },
+    "message": "訊息",
+    "messagePlaceholder": "告訴我們您的專案...",
+    "send": "送出訊息",
+    "cancel": "取消",
+    "success": "謝謝您！我們會盡快回覆。"
   }
 }

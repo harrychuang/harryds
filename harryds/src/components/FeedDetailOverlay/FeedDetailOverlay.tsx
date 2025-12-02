@@ -137,6 +137,8 @@ export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | '
   contentBlocks?: FeedContentBlock[];
   /** 專案資訊（客戶、角色、描述） */
   projectInfo?: ProjectInfo;
+  /** Email 連結點擊回調（若提供則不開啟 mailto，改為觸發此回調） */
+  onEmailClick?: (email: string) => void;
 }
 
 // hero 高度現在由 CSS 直接設定為 75vh
@@ -160,6 +162,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   primaryColor,
   contentBlocks,
   projectInfo,
+  onEmailClick,
 }, ref) => {
   // 滾動容器引用
   const scrollContentRef = useRef<HTMLDivElement | null>(null);
@@ -289,14 +292,19 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         const emailMatch = content.text.match(emailRegex);
         
         if (emailMatch) {
+          const emailAddress = emailMatch[2];
           return (
             <p key={key}>
               {emailMatch[1]}
               <a 
-                href={`mailto:${emailMatch[2]}`} 
+                href={onEmailClick ? '#' : `mailto:${emailAddress}`}
                 className="feed-detail-overlay__email-link"
+                onClick={onEmailClick ? (e) => {
+                  e.preventDefault();
+                  onEmailClick(emailAddress);
+                } : undefined}
               >
-                {emailMatch[2]}
+                {emailAddress}
               </a>
               {emailMatch[3]}
             </p>

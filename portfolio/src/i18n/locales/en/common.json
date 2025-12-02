@@ -17,6 +17,37 @@
   "brand": {
     "harry": "HARRY",
     "tagline": "NOEINOI DESIGN"
+  },
+  "contactModal": {
+    "heading": "Let's Work Together",
+    "description": "Tell us about your project and we'll get back to you within 24 hours.",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "your@email.com",
+    "projectType": "Project Type",
+    "projectTypePlaceholder": "Select project type...",
+    "projectTypes": {
+      "brand": "Brand Identity",
+      "web": "Web Design",
+      "uiux": "UI/UX Design",
+      "dev": "Development",
+      "other": "Other"
+    },
+    "budget": "Budget",
+    "budgetPlaceholder": "Select budget range...",
+    "budgets": {
+      "unsure": "Not Sure",
+      "under20k": "< $600 USD",
+      "20k-100k": "$600 - $3,000 USD",
+      "100k-200k": "$3,000 - $6,000 USD",
+      "200k+": "$6,000+ USD"
+    },
+    "message": "Message",
+    "messagePlaceholder": "Tell us about your project...",
+    "send": "Send Message",
+    "cancel": "Cancel",
+    "success": "Thank you! We'll get back to you soon."
   }
 }
 

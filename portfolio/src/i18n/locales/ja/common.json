@@ -17,5 +17,36 @@
   "brand": {
     "harry": "HARRY",
     "tagline": "NOEINOI DESIGN"
+  },
+  "contactModal": {
+    "heading": "一緒に仕事をしましょう",
+    "description": "プロジェクトについて教えてください。24時間以内にご連絡いたします。",
+    "name": "お名前",
+    "namePlaceholder": "お名前",
+    "email": "メールアドレス",
+    "emailPlaceholder": "your@email.com",
+    "projectType": "プロジェクトタイプ",
+    "projectTypePlaceholder": "プロジェクトタイプを選択...",
+    "projectTypes": {
+      "brand": "ブランドアイデンティティ",
+      "web": "ウェブデザイン",
+      "uiux": "UI/UXデザイン",
+      "dev": "開発",
+      "other": "その他"
+    },
+    "budget": "予算",
+    "budgetPlaceholder": "予算範囲を選択...",
+    "budgets": {
+      "unsure": "未定",
+      "under20k": "< ¥100,000",
+      "20k-100k": "¥100,000 - ¥500,000",
+      "100k-200k": "¥500,000 - ¥1,000,000",
+      "200k+": "¥1,000,000+"
+    },
+    "message": "メッセージ",
+    "messagePlaceholder": "プロジェクトについて教えてください...",
+    "send": "メッセージを送信",
+    "cancel": "キャンセル",
+    "success": "ありがとうございます！すぐにご連絡いたします。"
   }
 }
