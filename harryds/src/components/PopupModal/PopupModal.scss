@@ -13,7 +13,7 @@
   justify-content: center;
   padding: 24px;
   z-index: 1000;
-  animation: modalOverlayFadeIn 0.2s ease;
+  animation: modalOverlayFadeIn 0.3s steps(6) forwards;
 }
 
 .hds-modal {
@@ -22,7 +22,7 @@
   max-width: 480px;
   background-color: var(--hds-sys-color-light-100a);
   padding: 32px;
-  animation: modalSlideIn 0.25s ease;
+  animation: modalPixelReveal 0.4s steps(8) forwards;
 
   // 關閉按鈕
   &__close {
@@ -132,14 +132,36 @@
   }
 }
 
-@keyframes modalSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-16px);
-  }
-  to {
+// 8-bit 像素化展開動畫
+@keyframes modalPixelReveal {
+  0% {
+    clip-path: inset(50% 50% 50% 50%);
     opacity: 1;
-    transform: translateY(0);
+  }
+  12.5% {
+    clip-path: inset(43.75% 43.75% 43.75% 43.75%);
+  }
+  25% {
+    clip-path: inset(37.5% 37.5% 37.5% 37.5%);
+  }
+  37.5% {
+    clip-path: inset(31.25% 31.25% 31.25% 31.25%);
+  }
+  50% {
+    clip-path: inset(25% 25% 25% 25%);
+  }
+  62.5% {
+    clip-path: inset(18.75% 18.75% 18.75% 18.75%);
+  }
+  75% {
+    clip-path: inset(12.5% 12.5% 12.5% 12.5%);
+  }
+  87.5% {
+    clip-path: inset(6.25% 6.25% 6.25% 6.25%);
+  }
+  100% {
+    clip-path: inset(0% 0% 0% 0%);
+    opacity: 1;
   }
 }
 
