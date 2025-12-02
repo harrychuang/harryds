@@ -20,7 +20,11 @@ const meta: Meta<typeof PixelationImg> = {
     },
     hoverToOriginal: {
       control: 'boolean',
-      description: '滑鼠懸停時是否將像素大小緩動至 1',
+      description: '滑鼠懸停時是否將像素大小緩動至目標值',
+    },
+    hoverPixelSize: {
+      control: { type: 'range', min: 0, max: 20, step: 1 },
+      description: 'hover 時的目標像素大小（數值越小越清晰，0 為完全清晰）',
     },
     hoverDuration: {
       control: { type: 'range', min: 100, max: 2000, step: 50 },
@@ -63,6 +67,7 @@ export const Default: Story = {
     src: 'https://picsum.photos/800/600',
     pixelSize: 40,
     hoverToOriginal: true,
+    hoverPixelSize: 1,
     hoverDuration: 400,
     desaturateUntilHover: false,
     objectFit: 'cover',

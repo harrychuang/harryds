@@ -47,6 +47,8 @@ export interface PixelationImgProps {
   onError?: (error: unknown) => void;
   /** 由父元件控制的 hover 狀態 */
   hoverActive?: boolean;
+  /** hover 時的目標像素大小（預設 1，數值越小越清晰，0 為完全清晰） */
+  hoverPixelSize?: number;
   /** 是否禁用（不渲染像素化效果，顯示原圖） */
   disabled?: boolean;
 }
@@ -69,6 +71,7 @@ const PixelationImg = forwardRef<HTMLDivElement, PixelationImgProps>(
       onLoad,
       onError,
       hoverActive,
+      hoverPixelSize = 1,
       disabled = false,
     },
     ref
@@ -269,7 +272,7 @@ const PixelationImg = forwardRef<HTMLDivElement, PixelationImgProps>(
       });
 
       if (hoverActive) {
-        manager.startAnimation(instanceId.current, 1, hoverDuration);
+        manager.startAnimation(instanceId.current, hoverPixelSize, hoverDuration);
       } else {
         const effectivePixel = computeEffectivePixel(
           pixelSize,
@@ -284,6 +287,7 @@ const PixelationImg = forwardRef<HTMLDivElement, PixelationImgProps>(
       imageLoaded,
       pixelSize,
       hoverDuration,
+      hoverPixelSize,
       computeEffectivePixel,
       manager,
     ]);
@@ -298,8 +302,8 @@ const PixelationImg = forwardRef<HTMLDivElement, PixelationImgProps>(
       manager.updateInstance(instanceId.current, {
         isHovered: true,
       });
-      manager.startAnimation(instanceId.current, 1, hoverDuration);
-    }, [hoverActive, hoverToOriginal, imageLoaded, hoverDuration, manager]);
+      manager.startAnimation(instanceId.current, hoverPixelSize, hoverDuration);
+    }, [hoverActive, hoverToOriginal, imageLoaded, hoverDuration, hoverPixelSize, manager]);
 
     const handlePointerLeave = useCallback(() => {
       if (hoverActive !== undefined || !hoverToOriginal || !imageLoaded) return;

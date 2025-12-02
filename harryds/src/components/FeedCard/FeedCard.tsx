@@ -174,6 +174,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
             {...mergedBgProps}
             hoverActive={explicitHoverActive !== undefined ? explicitHoverActive : actualIsHovered} 
             pixelSize={mergedBgProps.pixelSize}
+            hoverPixelSize={0}
           />
       </div>
 
