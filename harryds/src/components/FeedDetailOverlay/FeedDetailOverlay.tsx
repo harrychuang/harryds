@@ -17,6 +17,7 @@ import startSoundUrl from '../../../assets/sound/8-Bit Retro Sound Effect-level-
 import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
 import { CTAButton } from '../CTAButton';
 import { DistortedPixels2D } from '../DistortedPixels/DistortedPixels2D';
+import iconClockUrl from '../../../assets/imgs/icon/icon-clock.svg';
 
 // 使用 Vite 的 glob import 來預載所有圖片（支援 harryds 和 portfolio）
 const imageModules = import.meta.glob<{ default: string }>('../../../assets/imgs/**/*.{jpg,jpeg,png,gif,webp,svg}', { eager: true });
@@ -139,6 +140,10 @@ export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | '
   projectInfo?: ProjectInfo;
   /** Email 連結點擊回調（若提供則不開啟 mailto，改為觸發此回調） */
   onEmailClick?: (email: string) => void;
+  /** 「開發中」CTA 點擊回調（當 websiteLabel 為開發中相關文字時觸發） */
+  onInDevelopmentClick?: () => void;
+  /** 「已歸檔」CTA 點擊回調（當 websiteLabel 為已歸檔相關文字時觸發） */
+  onArchivedClick?: () => void;
 }
 
 // hero 高度現在由 CSS 直接設定為 75vh
@@ -163,6 +168,8 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   contentBlocks,
   projectInfo,
   onEmailClick,
+  onInDevelopmentClick,
+  onArchivedClick,
 }, ref) => {
   // 滾動容器引用
   const scrollContentRef = useRef<HTMLDivElement | null>(null);
@@ -787,15 +794,37 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
                   )}
                 </div>
                 
-                {projectInfo.websiteUrl && (
-                  <CTAButton
-                    href={projectInfo.websiteUrl}
-                    label={projectInfo.websiteLabel || 'VISIT WEBSITE'}
-                    primaryColor={primaryColor}
-                    secondaryColor={secondaryColor}
-                    textColor={primaryColor}
-                  />
-                )}
+                {projectInfo.websiteUrl && (() => {
+                  // 判斷是否為「開發中」狀態
+                  const isInDevelopment = projectInfo.websiteLabel && 
+                    /開發中|IN DEVELOPMENT|開発中|內部專案|INTERNAL PROJECT|社内プロジェクト/i.test(projectInfo.websiteLabel);
+                  
+                  // 判斷是否為「已歸檔」狀態
+                  const isArchived = projectInfo.websiteLabel && 
+                    /已歸檔|ARCHIVED|アーカイブ/i.test(projectInfo.websiteLabel);
+                  
+                  // 決定是否需要特殊處理（開發中或已歸檔）
+                  const isSpecialStatus = isInDevelopment || isArchived;
+                  
+                  return (
+                    <CTAButton
+                      href={isSpecialStatus ? '#' : projectInfo.websiteUrl}
+                      label={projectInfo.websiteLabel || 'VISIT WEBSITE'}
+                      primaryColor={primaryColor}
+                      secondaryColor={secondaryColor}
+                      textColor={primaryColor}
+                      iconUrl={isSpecialStatus ? iconClockUrl : undefined}
+                      onClick={isSpecialStatus ? (e) => {
+                        e.preventDefault();
+                        if (isInDevelopment) {
+                          onInDevelopmentClick?.();
+                        } else if (isArchived) {
+                          onArchivedClick?.();
+                        }
+                      } : undefined}
+                    />
+                  );
+                })()}
               </aside>
               
               <div className="feed-detail-overlay__project-content">

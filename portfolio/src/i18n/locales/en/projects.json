@@ -82,7 +82,7 @@
     "brand": "awwrated",
     "projectInfo": {
       "project": "awwrated Platform",
-      "description": "Founded and built a movie rating aggregation platform from scratch. By consolidating data from IMDb, Rotten Tomatoes, and TMDB, awwrated solves the 'What to watch' dilemma, serving over 3 million users through organic SEO growth.",
+      "description": "Built a streaming guide product from 0 to 1 that aggregates multi-platform movie ratings. By consolidating data from IMDb, Rotten Tomatoes, and TMDB, awwrated solves the 'What to watch' dilemma, achieving over 3 million page views through organic SEO growth.",
       "websiteLabel": "VISIT PLATFORM",
       "sections": {
         "scope": {
@@ -94,7 +94,7 @@
         },
         "impact": {
           "title": "Growth & Engineering",
-          "paragraph1": "Through strategic Technical SEO and performance optimizations, the platform achieved 640% growth in page views. Today, awwrated sustains itself through ad monetization and affiliate partnerships, serving 3M+ monthly users.",
+          "paragraph1": "Through strategic Technical SEO and performance optimizations, the platform achieved 640% growth in page views. Today, awwrated sustains itself through ad monetization and affiliate partnerships, serving over 500K users annually.",
           "quote1": "3M+ Page Views: Achieved through organic growth and Technical SEO strategies.",
           "quote2": "Data Visualization: Transformed complex raw data into intuitive rating graphs.",
           "quote3": "Long-term Ops: 5+ years of product iteration, from MVP to a monetized platform.",
@@ -103,10 +103,10 @@
           "image2": "demo/awwrated/demo-awwrated-04.jpg"
         },
         "get in touch": {
-          "title": "WHAT I OFFER",
-          "paragraph1": "awwrated demonstrates how a well-executed product strategy—combining user research, technical architecture, and growth tactics—can solve real user problems at scale.",
-          "paragraph2": "From concept validation to technical execution and sustainable growth, this project showcases the full lifecycle of building a data-driven platform that users trust.",
-          "paragraph3": "Interested in building a similar platform? Let's discuss at harrychuang23@gmail.com."
+          "title": "HOW I CAN HELP YOUR PRODUCT",
+          "paragraph1": "awwrated's growth journey from 0 to 3 million users validates that a data-driven product strategy, scalable technical architecture, and task-oriented information design can effectively reduce decision costs and improve overall user experience.",
+          "paragraph2": "Whether building search-driven platforms, multi-source data decision interfaces, or driving long-term growth through technical SEO, I can help you establish a trusted and operationally flexible product—from problem definition, UX flow, technical planning to growth strategy.",
+          "paragraph3": "If you're planning data aggregation, content platforms, or want to build a complete 0→1 to scale methodology for your product, feel free to contact me at harrychuang23@gmail.com."
         }
       },
       "websiteUrl": "https://awwrated.com",
@@ -320,7 +320,7 @@
         "scope": {
           "title": "The Challenge & Solution",
           "paragraph1": "The Challenge: The legacy checkout process was split across three separate pages, causing high drop-off rates. Distractions like prominent discount code fields and complex member verification logic interrupted the user's purchase intent.",
-          "paragraph2": "The Solution: I engineered a Single-Page Checkout experience. By consolidating steps and implementing inline validation, users can now complete purchases without page reloads. We also hid distraction-heavy elements (like discount codes) behind interactions to keep the focus on payment.",
+          "paragraph2": "The Solution: Designed a Single-Page Checkout experience. By consolidating steps and implementing inline validation, users can now complete purchases without page reloads. Distraction-heavy elements (like discount codes) were hidden behind interactions to keep the focus on payment.",
           "paragraph3": "Bridging Design & Dev: This wasn't just a UI reskin. I worked on the frontend logic to ensure the 'Guest Checkout' and 'Member Login' flows merged seamlessly, proving that complex logic can coexist with a clean interface.",
           "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-02.jpg"
         },
@@ -330,14 +330,14 @@
           "quote1": "Single-Page Architecture: Consolidated 3 steps into 1 seamless view to reduce friction.",
           "quote2": "Smart Account Verification: Inline logic detects existing users without forcing page redirects.",
           "quote3": "Storybook Integration: Bridged design and dev by testing components in isolation.",
-          "blockquote": "Great job! It's inspiring to see how the original checkout process has been evolved. Clean and straightforward.",
+          "blockquote": "By simplifying steps and removing distractions, the checkout flow transformed into a clear and efficient experience, proving that structured design significantly enhances purchase intent and operational fluency.",
           "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-03.jpg"
         },
         "get in touch": {
           "title": "NEXT STEP",
-          "paragraph1": "This project highlights the impact of streamlining payment flows—reducing friction, improving conversion rates, and creating seamless checkout experiences that users trust.",
-          "paragraph2": "If your product needs a better checkout experience or you're looking to optimize payment flows, let's connect.",
-          "paragraph3": "Contact me at harrychuang23@gmail.com to discuss your product."
+          "paragraph1": "This project demonstrates how information architecture adjustments, streamlined interaction design, and frontend logic integration can effectively reduce friction and improve conversion rates in checkout flows. This data and user-flow-driven redesign is a key strategy for building healthy e-commerce revenue.",
+          "paragraph2": "If you're optimizing checkout paths, redesigning shopping flows, or aiming to create consistent cross-device purchase experiences, I can help you build checkout experiences that truly deliver results—from problem diagnosis, flow strategy, to UI and frontend validation.",
+          "paragraph3": "Feel free to contact me at harrychuang23@gmail.com to discuss how to make your e-commerce flow smoother and more efficient."
         }
       },
       "websiteUrl": "https://harrychuang23.medium.com/ui-ux-design-payment-process-interface-optimization-9ca88649dad1",
@@ -465,7 +465,7 @@
     "projectInfo": {
       "project": "Chinese Learning Portal",
       "description": "A comprehensive rebranding and UX overhaul for the world's leading Chinese learning platform targeting Western markets. This project modernized a legacy system into a responsive, multi-device ecosystem, bridging the gap between students, teachers, and support teams.",
-      "websiteLabel": "CASE STUDY",
+      "websiteLabel": "ARCHIVED PROJECT",
       "sections": {
         "scope": {
           "title": "The Challenge & Friction",
@@ -484,10 +484,10 @@
           "image1": "demo/tutorming/demo-tutorming-03.jpg"
         },
         "get in touch": {
-          "title": "SOLVING PAIN POINTS",
-          "paragraph1": "Good design doesn't just look good; it solves expensive business problems. This project demonstrates how strategic UX optimization can directly reduce operational costs and improve user satisfaction.",
-          "paragraph2": "If your product is facing friction points that drain resources or frustrate users, I'd be happy to help identify and solve them through thoughtful design and implementation.",
-          "paragraph3": "Contact me at harrychuang23@gmail.com to find the friction in your product and fix it."
+          "title": "ENHANCING LEARNING EXPERIENCES",
+          "paragraph1": "An effective educational platform hinges on seamless and trustworthy interactions between students, teachers, and support teams. This project demonstrates how clear UX architecture, reduced operational friction, and improved classroom entry flows can directly enhance learning experiences and reduce operational costs.",
+          "paragraph2": "If your educational platform suffers from information overload, confusing processes, difficult classroom access, or user churn as a result, I can help identify core issues and redesign learning paths and platform interfaces in implementable, measurable ways.",
+          "paragraph3": "If you're planning to optimize online learning experiences, feel free to contact me at harrychuang23@gmail.com to build a clearer, more efficient, learner-centered educational platform together."
         }
       },
       "websiteUrl": "#",
@@ -542,7 +542,7 @@
     "projectInfo": {
       "project": "Interactive Portfolio Site",
       "description": "An experimental showcase of creative coding and motion design. This project pushes the boundaries of web interaction with fluid page transitions, binary-themed aesthetics, and micro-interactions, earning recognition from Awwwards.",
-      "websiteLabel": "VIEW ARCHIVE",
+      "websiteLabel": "VISIT WEBSITE",
       "sections": {
         "scope": {
           "title": "The Concept & Challenge",
@@ -567,7 +567,7 @@
           "paragraph3": "Contact me at harrychuang23@gmail.com to create a memorable digital experience."
         }
       },
-      "websiteUrl": "https://www.awwwards.com/sites/noein",
+      "websiteUrl": "https://noeinoi.com/",
       "mainImage": "demo/noein/demo-noein-01.jpg",
       "specialHeadingImage": "demo/noein/demo-noein-hero-img.png",
       "meta": [

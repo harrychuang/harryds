@@ -18,6 +18,14 @@
     "harry": "HARRY",
     "tagline": "NOEINOI DESIGN"
   },
+  "inDevelopmentModal": {
+    "heading": "プロジェクト開発中",
+    "description": "このプロジェクトはまだ公開されていません。公開後にリンクを掲載します！"
+  },
+  "archivedModal": {
+    "heading": "アーカイブ済みプロジェクト",
+    "description": "会社の戦略変更により、このプロジェクトは運営終了となりました。このページでは、UXとプロダクト戦略の価値を保存・共有するため、完全なデザインの文脈と成果を記録しています。"
+  },
   "contactModal": {
     "heading": "一緒に仕事をしましょう",
     "description": "プロジェクトについて教えてください。24時間以内にご連絡いたします。",

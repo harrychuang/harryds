@@ -53,6 +53,11 @@
   // Header
   &__header {
     margin-bottom: 24px;
+    
+    // 當 header 是最後一個元素時（沒有 content 和 footer/buttons），移除 margin-bottom
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   &__heading {

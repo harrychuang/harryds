@@ -18,6 +18,14 @@
     "harry": "HARRY",
     "tagline": "NOEINOI DESIGN"
   },
+  "inDevelopmentModal": {
+    "heading": "PROJECT IN DEVELOPMENT",
+    "description": "This project isn't live yet. A link will be available once it launches!"
+  },
+  "archivedModal": {
+    "heading": "ARCHIVED PROJECT",
+    "description": "Due to company strategy changes, this project has been discontinued. This page documents the complete design context and outcomes to preserve and share its UX and product strategy value."
+  },
   "contactModal": {
     "heading": "Let's Work Together",
     "description": "Tell us about your project and we'll get back to you within 24 hours.",

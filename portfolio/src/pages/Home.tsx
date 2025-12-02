@@ -88,6 +88,12 @@ const Home: React.FC = () => {
 
   // Contact Modal state
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  
+  // In Development Modal state
+  const [isInDevModalOpen, setIsInDevModalOpen] = useState(false);
+  
+  // Archived Modal state
+  const [isArchivedModalOpen, setIsArchivedModalOpen] = useState(false);
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [contactProjectType, setContactProjectType] = useState('');
@@ -355,6 +361,24 @@ const Home: React.FC = () => {
 
   const handleContactModalClose = useCallback(() => {
     setIsContactModalOpen(false);
+  }, []);
+
+  // In Development Modal handlers
+  const handleInDevClick = useCallback(() => {
+    setIsInDevModalOpen(true);
+  }, []);
+
+  const handleInDevModalClose = useCallback(() => {
+    setIsInDevModalOpen(false);
+  }, []);
+
+  // Archived Modal handlers
+  const handleArchivedClick = useCallback(() => {
+    setIsArchivedModalOpen(true);
+  }, []);
+
+  const handleArchivedModalClose = useCallback(() => {
+    setIsArchivedModalOpen(false);
   }, []);
 
   const handleContactSubmit = useCallback(() => {
@@ -853,6 +877,8 @@ const Home: React.FC = () => {
                     contentBlocks={resolvedBlocks}
                     projectInfo={item.projectInfo}
                     onEmailClick={handleEmailClick}
+                    onInDevelopmentClick={handleInDevClick}
+                    onArchivedClick={handleArchivedClick}
                 />
               </div>
             );
@@ -906,6 +932,22 @@ const Home: React.FC = () => {
           onChange={(e) => setContactMessage(e.target.value)}
         />
       </PopupModal>
+
+      {/* In Development Modal */}
+      <PopupModal
+        isOpen={isInDevModalOpen}
+        onClose={handleInDevModalClose}
+        heading={t('inDevelopmentModal.heading', { ns: 'common' })}
+        description={t('inDevelopmentModal.description', { ns: 'common' })}
+      />
+
+      {/* Archived Modal */}
+      <PopupModal
+        isOpen={isArchivedModalOpen}
+        onClose={handleArchivedModalClose}
+        heading={t('archivedModal.heading', { ns: 'common' })}
+        description={t('archivedModal.description', { ns: 'common' })}
+      />
     </div>
   );
 };

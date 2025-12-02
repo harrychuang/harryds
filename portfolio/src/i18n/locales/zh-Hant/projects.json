@@ -82,19 +82,19 @@
     "brand": "awwrated",
     "projectInfo": {
       "project": "awwrated 平台",
-      "description": "從零開始創立並建立電影評分聚合平台。透過整合 IMDb、Rotten Tomatoes 和 TMDB 的資料，awwrated 解決了「看什麼」的困境，透過自然 SEO 成長服務超過 300 萬使用者。",
+      "description": "從 0 到 1 打造一個整合多平台電影評分的串流指南產品。透過整合 IMDb、Rotten Tomatoes 和 TMDB 的資料，awwrated 解決了「看什麼」的困境，透過自然 SEO 成長服務超過 300 萬次瀏覽。",
       "websiteLabel": "造訪平台",
       "sections": {
         "scope": {
           "title": "挑戰與策略",
           "paragraph1": "挑戰：Netflix 等串流服務經常隱藏客觀評分，導致「決策癱瘓」。使用者花在滑動上的時間比觀看還多。",
-          "paragraph2": "解決方案：awwrated 透過垂直搜尋引擎聚合跨平台評分。核心價值在於「awwrated 分數」——一個平衡影評人評論（Rotten Tomatoes）與觀眾偏好（IMDb）的加權演算法。",
+          "paragraph2": "解決方案：awwrated 透過垂直搜尋引擎聚合跨平台評分。核心價值在於「awwrated 分數」 一個平衡影評人評論（Rotten Tomatoes）與觀眾偏好（IMDb）的加權演算法。",
           "paragraph3": "產品開發：作為全端 React/Next.js 應用程式建構，平台整合多個第三方 API（IMDb、Rotten Tomatoes、TMDB）以確保即時資料同步和精確的評分計算。",
           "image1": "demo/awwrated/demo-awwrated-02.jpg"
         },
         "impact": {
           "title": "成長與工程",
-          "paragraph1": "透過策略性的技術 SEO 和效能優化，平台實現了頁面瀏覽量 640% 的成長。如今，awwrated 透過廣告變現和聯盟合作模式自我維持，每月服務超過 300 萬使用者。",
+          "paragraph1": "透過策略性的技術 SEO 和效能優化，平台實現了頁面瀏覽量 640% 的成長。如今，awwrated 透過廣告變現和聯盟合作模式自我維持，每年服務超過 50 萬名使用者。",
           "quote1": "300 萬以上頁面瀏覽量：透過自然成長和技術 SEO 策略達成。",
           "quote2": "資料視覺化：將複雜的原始資料轉化為直觀的評分圖表。",
           "quote3": "長期營運：超過 5 年的產品迭代，從 MVP 到變現平台。",
@@ -103,10 +103,10 @@
           "image2": "demo/awwrated/demo-awwrated-04.jpg"
         },
         "get in touch": {
-          "title": "我能提供的服務",
-          "paragraph1": "awwrated 展示了如何透過完善的產品策略——結合使用者研究、技術架構和成長策略——大規模解決真實的使用者問題。",
-          "paragraph2": "從概念驗證到技術執行與永續成長，此專案展現了建立使用者信任的數據驅動型平台的完整生命週期。",
-          "paragraph3": "有興趣建立類似的平台嗎？歡迎透過 harrychuang23@gmail.com 與我討論。"
+          "title": "如何協助您的產品",
+          "paragraph1": "awwrated 從 0 到 300 萬使用者的成長歷程，驗證了以資料為核心的產品策略、可擴展的技術架構，以及以使用者任務為導向的資訊設計，能有效改善決策成本並提升整體使用體驗。",
+          "paragraph2": "無論是打造搜尋導向的平台、整合多來源資料的決策介面，或是透過技術 SEO 推動長期成長，我能協助您從問題定義、UX 流程、技術規劃到成長策略，建立一個能被持續信任並具備營運彈性的產品。",
+          "paragraph3": "若您正在規劃資料聚合、內容平台，或希望為您的產品建立完整的從 0→1 到擴展期的方法論，歡迎透過 harrychuang23@gmail.com 聯繫我。"
         }
       },
       "websiteUrl": "https://awwrated.com",
@@ -320,7 +320,7 @@
         "scope": {
           "title": "挑戰與解決方案",
           "paragraph1": "挑戰：舊版結帳流程分佈在三個獨立頁面中，導致高流失率。顯眼的折扣碼欄位和複雜的會員驗證邏輯等干擾因素打斷了使用者的購買意圖。",
-          "paragraph2": "解決方案：我設計了一個單頁結帳體驗。透過整合步驟並實現即時驗證，使用者現在可以在不重新載入頁面的情況下完成購買。我們還將干擾性強的元素（如折扣碼）隱藏在互動操作後，讓使用者專注於付款。",
+          "paragraph2": "解決方案：設計了一個單頁結帳體驗。透過整合步驟並實現即時驗證，使用者現在可以在不重新載入頁面的情況下完成購買。我們還將干擾性強的元素（如折扣碼）隱藏在互動操作後，讓使用者專注於付款。",
           "paragraph3": "架接設計與開發：這不僅僅是 UI 的外觀改變。我參與了前端邏輯的開發，確保「訪客結帳」和「會員登入」流程無縫整合，證明複雜的邏輯可以與簡潔的介面共存。",
           "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-02.jpg"
         },
@@ -330,14 +330,14 @@
           "quote1": "單頁架構：將 3 個步驟整合為 1 個無縫視圖，以減少摩擦。",
           "quote2": "智慧帳戶驗證：即時邏輯偵測現有使用者，無需強制頁面重新導向。",
           "quote3": "Storybook 整合：透過獨立測試元件，架接設計與開發。",
-          "blockquote": "做得很好！看到原始結帳流程如何演進令人振奮。簡潔且直觀。",
+          "blockquote": "透過簡化步驟與移除干擾元素，結帳流程轉變為明確且高效率的體驗，證實結構化設計能大幅提升購買意圖與操作流暢度。",
           "image1": "demo/shopmaticcheckout/demo-shopmaticcheckout-03.jpg"
         },
         "get in touch": {
           "title": "下一步",
-          "paragraph1": "此專案突顯了優化支付流程帶來的影響——減少摩擦、提升轉換率，並創造使用者信任的無縫結帳體驗。",
-          "paragraph2": "如果您的產品需要更好的結帳體驗，或正考慮優化支付流程，歡迎與我聯繫。",
-          "paragraph3": "請透過 harrychuang23@gmail.com 與我聯繫，討論您的產品。"
+          "paragraph1": "此專案展示了如何透過資訊架構調整、互動設計精簡與前端邏輯整合，實際降低結帳流程中的摩擦並提升轉換率。這種以數據與動線為核心的重新設計，是建立健康電商營收的關鍵策略。",
+          "paragraph2": "如果您正在優化結帳路徑、重新設計購物流程，或希望打造跨裝置一致的購買體驗，我可以協助您從問題診斷、流程策略到 UI 及前端驗證，建立能真正帶來提升的結帳體驗。",
+          "paragraph3": "歡迎透過 harrychuang23@gmail.com 聯繫我，一起討論如何讓您的電商流程更順暢、更高效。"
         }
       },
       "websiteUrl": "https://harrychuang23.medium.com/ui-ux-design-payment-process-interface-optimization-9ca88649dad1",
@@ -455,7 +455,7 @@
     ],
     "category": "project",
     "primaryColor": "#FFC410",
-    "secondaryColor": "#10A4B1",
+    "secondaryColor": "#006C7F",
     "heroImage": "demo/kkday/demo-kkday-bg.jpg"
   },
   "7": {
@@ -465,7 +465,7 @@
     "projectInfo": {
       "project": "中文學習平台",
       "description": "針對西方市場的全球領先中文學習平台進行全面品牌重塑和 UX 改造。此專案將舊有系統現代化為響應式多裝置生態系統，在學生、教師和支援團隊之間搭起橋樑。",
-      "websiteLabel": "案例研究",
+      "websiteLabel": "已歸檔專案",
       "sections": {
         "scope": {
           "title": "挑戰與摩擦",
@@ -484,10 +484,10 @@
           "image1": "demo/tutorming/demo-tutorming-03.jpg"
         },
         "get in touch": {
-          "title": "解決痛點",
-          "paragraph1": "好的設計不只是好看；它能解決昂貴的商業問題。此專案展示了策略性的 UX 優化如何直接降低營運成本並提升使用者滿意度。",
-          "paragraph2": "如果您的產品面臨消耗資源或讓使用者感到挫折的摩擦點，我很樂意透過深思熟慮的設計和實作來幫助識別和解決這些問題。",
-          "paragraph3": "請透過 harrychuang23@gmail.com 與我聯繫，找出您產品中的摩擦並修復它。"
+          "title": "提升學習體驗",
+          "paragraph1": "一個高效的教學平台，關鍵在於讓學生、老師與支援團隊之間的互動順暢可信。此專案展示了如何透過明確的 UX 架構、降低操作摩擦與改善進入課堂流程，直接提升學習體驗並降低營運成本。",
+          "paragraph2": "如果您的教學平台存在資訊過載、流程混亂、進入課室困難或使用者因此流失，我可以協助找出核心問題，並以可實作、可量化的方式重新設計學習路徑與平台介面。",
+          "paragraph3": "若您正計劃優化線上學習體驗，歡迎透過 harrychuang23@gmail.com 與我聯繫，一起打造更清晰、高效、以學習者為中心的教育平台。"
         }
       },
       "websiteUrl": "#",
@@ -536,13 +536,13 @@
     "heroImage": "demo/tutorming/demo-tutorming-bg.jpg"
   },
   "8": {
-    "heading": "互動式\n網頁體驗",
+    "heading": "互動式網頁體驗",
     "date": "2017",
     "brand": "NOEIN",
     "projectInfo": {
       "project": "互動式作品集網站",
       "description": "創意編程和動態設計的實驗性展示。此專案透過流暢的頁面轉場、二進制主題美學和微互動，突破網頁互動的界限，並獲得 Awwwards 的認可。",
-      "websiteLabel": "查看存檔",
+      "websiteLabel": "造訪網站",
       "sections": {
         "scope": {
           "title": "概念與挑戰",
@@ -567,7 +567,7 @@
           "paragraph3": "請透過 harrychuang23@gmail.com 與我聯繫，創造難忘的數位體驗。"
         }
       },
-      "websiteUrl": "https://www.awwwards.com/sites/noein",
+      "websiteUrl": "https://noeinoi.com/",
       "mainImage": "demo/noein/demo-noein-01.jpg",
       "specialHeadingImage": "demo/noein/demo-noein-hero-img.png",
       "meta": [
