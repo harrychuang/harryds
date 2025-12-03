@@ -1187,5 +1187,27 @@
       "paragraph2": "Additionally, we can first design a complete article layout page—because articles typically use more different text levels. From the article, organize needed styles one by one: where's the page main heading, section headings, regular body text, card titles, descriptions, links or notes, etc., then categorize by usage and explain purposes.",
       "paragraph3": "So typography planning should avoid being overly complex—especially when using fonts, best to keep within 2-3 types. This helps engineers manage font resources, saves project costs, and reduces development confusion. From my past company experience, our implemented text styles were under 10 types—actually quite sufficient throughout 😁 While text style choices can enrich visuals, also consider project complexity and learning curve, helping product teams reduce mixing similar styles."
     }
+  },
+  "57": {
+    "heading": "Starting Early:\nDesign System Foundation",
+    "subtitle": "Should you plan a design system in the early stages of a product? This is a question many people ask, and my answer is 'yes.' Especially during the startup phase—establishing your core design system and component library first can make future product iterations smoother, reduce communication costs, and improve development efficiency. If you don't have time or resources to build your own design system and component library, you can also leverage open-source component libraries as a foundation, which can still lay the groundwork for future systematization.",
+    "date": "Dec 3, 2025",
+    "tags": [
+      "Design System",
+      "Storybook",
+      "Component",
+      "Product Design"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/55/topics-55.1.jpg",
+      "articles/55/topics-55.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "Many people are curious: do you need to plan a design system during the startup phase? My answer has always been 'yes.' The reason is simple: during the early stages, ideas and features change rapidly. To validate product direction, iterations are also very frequent. This rapid accumulation often unknowingly creates increasingly heavy technical debt.",
+      "paragraph2": "This doesn't just happen at startups—many mature enterprises face the same problem. In the early days, the rush for speed often leads to skipping proper architectural standards and shared language. Later on, collaboration between designers and engineers becomes increasingly difficult. The larger the project scale, the higher the labor and time costs. When you finally want to start building a design system, you often need to invest even more time reorganizing and adjusting.",
+      "paragraph3": "Therefore, even if you don't have time to build your own design system initially, you can choose a mature open-source component library as a foundation. These open-source component libraries are themselves complete design systems and can be branded and customized according to product needs, still laying a solid foundation for future systematization. This applies regardless of project size. Take my own example—when recently developing my studio's platform, I also started with the design system and component library, ensuring each component is tested and validated before being assembled into the product interface. When issues arise, I can immediately go back to the component library to make corrections. In this era, AI is perfect for helping produce 'parts' in component libraries, significantly improving development efficiency. Now is the best time to establish a systematic foundation :D"
+    }
   }
 }
