@@ -11,24 +11,48 @@ import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 
+const PAGE_NAME = 'article-detail';
+
 const ArticleDetail: React.FC = () => {
   const navigate = useNavigate();
   const params = useParams<{ id: string; slug: string }>();
   const { t, i18n } = useTranslation(['common', 'articles']);
   const { theme, toggleTheme } = useTheme();
   const { isSoundEnabled, toggleSound } = useSound();
-  const { items } = useArticles();
-  const { setLoading, setAnimationComplete, isPageLoaded } = usePageLoader();
+  const { items, loading: articlesLoading } = useArticles();
+  const { setLoading, setAnimationComplete, isPageLoaded, markPageAsLoaded } = usePageLoader();
   
-  // 文章詳情頁不需要 loading 動畫，直接顯示內容
-  useEffect(() => {
-    setLoading(false);
-    setAnimationComplete(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imagesPreloaded, setImagesPreloaded] = useState(false);
+  const preloadedImagesRef = useRef<Set<string>>(new Set());
+
+  // 整體載入狀態（資料 + 圖片）
+  const isFullyLoaded = !articlesLoading && imagesPreloaded;
+  
+  // 同步 loading 狀態到全域 PageLoader
+  useEffect(() => {
+    // 使用文章 ID 作為唯一頁面識別
+    const pageKey = params.id ? `${PAGE_NAME}-${params.id}` : PAGE_NAME;
+    const alreadyLoaded = isPageLoaded(pageKey);
+    
+    if (alreadyLoaded && isFullyLoaded) {
+      // 頁面已載入過且資料和圖片都準備好，直接跳過 loading
+      setLoading(false);
+      setAnimationComplete(true);
+    } else if (alreadyLoaded) {
+      // 頁面已載入過但資料或圖片還在載入中，跳過 loading 動畫
+      setAnimationComplete(true);
+    } else {
+      // 首次載入，顯示 loading
+      setLoading(!isFullyLoaded);
+      // 載入完成後標記頁面為已載入
+      if (isFullyLoaded) {
+        markPageAsLoaded(pageKey);
+      }
+    }
+  }, [isFullyLoaded, setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete, params.id]);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
@@ -70,6 +94,58 @@ const ArticleDetail: React.FC = () => {
     if (id === null || isNaN(id)) return null;
     return items.find(item => item.id === id);
   }, [params.id, items]);
+
+  // 預載文章圖片
+  useEffect(() => {
+    if (!article?.images || article.images.length === 0) {
+      setImagesPreloaded(true);
+      return;
+    }
+
+    const imagesToPreload = article.images.filter((src: string) => {
+      // 只預載圖片，不預載影片
+      const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(src);
+      return !isVideo && !preloadedImagesRef.current.has(src);
+    });
+
+    if (imagesToPreload.length === 0) {
+      // 所有圖片都已經預載過
+      setImagesPreloaded(true);
+      return;
+    }
+
+    let loadedCount = 0;
+    const totalImages = imagesToPreload.length;
+
+    const checkAllLoaded = () => {
+      loadedCount++;
+      if (loadedCount >= totalImages) {
+        setImagesPreloaded(true);
+      }
+    };
+
+    imagesToPreload.forEach((src: string) => {
+      const img = new Image();
+      img.onload = () => {
+        preloadedImagesRef.current.add(src);
+        checkAllLoaded();
+      };
+      img.onerror = () => {
+        // 即使載入失敗也繼續
+        checkAllLoaded();
+      };
+      img.src = src;
+    });
+
+    // 設定超時，避免圖片載入過久
+    const timeout = setTimeout(() => {
+      setImagesPreloaded(true);
+    }, 3000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [article?.images, article?.id]);
 
   // 預載音效
   useEffect(() => {
@@ -483,7 +559,12 @@ const ArticleDetail: React.FC = () => {
     }
   }, [isDragging, handleDragEnd]);
 
-  // 如果找不到文章，顯示錯誤
+  // 資料載入中或圖片預載中，不渲染任何內容（讓 PageLoader 處理）
+  if (!isFullyLoaded) {
+    return null;
+  }
+
+  // 資料載入完成但找不到文章，顯示錯誤
   if (!article) {
     return (
       <div className="article-detail">

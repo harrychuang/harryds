@@ -170,6 +170,11 @@
     .feed-card__overlay {
       padding: 40px 40px 40px 40px; // top right bottom left
     }
+    
+    // 禁用 hover 時的背景圖片效果
+    &:hover .feed-card__bg {
+      opacity: 0;
+    }
   }
 }
 
