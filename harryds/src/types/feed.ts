@@ -16,7 +16,9 @@ export interface FeedItem {
   primaryColor?: string;
   secondaryColor?: string;
   heroImage?: string; // 圖片 URL（可對應 PixelationImg 的 src）
-  content?: FeedContentBlock[] | string; // 文章內容：結構化方塊或純文字
+  images?: string[]; // 文章圖片陣列（用於文章類型的輪播）
+  url?: string; // 外部連結 URL（用於文章類型）
+  content?: FeedContentBlock[] | string | Record<string, any>; // 文章內容：結構化方塊、純文字或多語言物件
   projectInfo?: ProjectInfo; // 專案資訊（用於專案類型）
 }
 

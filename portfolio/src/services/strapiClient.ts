@@ -289,8 +289,54 @@ export async function getProjects(params?: {
   }
 }
 
+/**
+ * 取得 Articles 資料
+ */
+export async function getArticles(params?: {
+  populate?: string;
+  sort?: string;
+  filters?: Record<string, any>;
+}): Promise<{ data: any[] }> {
+  if (!STRAPI_URL) throw new Error('VITE_STRAPI_URL 未設定');
+  
+  const url = new URL(buildStrapiUrl('/api/articles'));
+  
+  if (params?.populate) {
+    url.searchParams.set('populate', params.populate);
+  }
+  if (params?.sort) {
+    url.searchParams.set('sort', params.sort);
+  }
+  if (params?.filters) {
+    Object.entries(params.filters).forEach(([key, value]) => {
+      url.searchParams.set(`filters[${key}]`, String(value));
+    });
+  }
+  
+  url.searchParams.set('pagination[pageSize]', '100');
+  url.searchParams.set('publicationState', 'live');
+
+  try {
+    const res = await fetch(url.toString(), { 
+      headers: { 'Cache-Control': 'no-cache' },
+      mode: 'cors'
+    });
+    
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Strapi 請求失敗: HTTP ${res.status} — ${text.slice(0, 200)}`);
+    }
+    
+    return await res.json();
+  } catch (e: any) {
+    console.error('[Strapi] getArticles error:', e?.message || e);
+    throw e;
+  }
+}
+
 export const strapiClient = {
   resolveMediaUrl,
-  getProjects
+  getProjects,
+  getArticles
 };
 

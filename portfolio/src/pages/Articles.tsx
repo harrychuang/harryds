@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
 import { useSound } from '../hooks/useSound';
-import { useI18nFeed } from '../hooks/useI18nFeed';
+import { useArticles } from '../hooks/useArticles';
 import { FeedCard } from 'hds';
 import type { FeedCardSize } from 'hds';
 import './Articles.scss';
@@ -21,10 +21,10 @@ const Articles: React.FC = () => {
   const { t, i18n } = useTranslation(['common', 'articles']);
   const { theme, toggleTheme } = useTheme();
   const { isSoundEnabled, toggleSound } = useSound();
-  const { items: rawItems } = useI18nFeed('articles');
+  const { items: rawItems, loading: articlesLoading } = useArticles();
   const { setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete } = usePageLoader();
   
-  // 頁面進入時檢查是否已載入過（只在組件掛載時執行一次）
+  // 頁面進入時檢查是否已載入過
   useEffect(() => {
     const alreadyLoaded = isPageLoaded(PAGE_NAME);
     
@@ -32,17 +32,12 @@ const Articles: React.FC = () => {
       // 頁面已載入過，直接跳過 loading
       setLoading(false);
       setAnimationComplete(true);
-    } else {
-      // 首次載入：loading 狀態應該已經由前一頁設置
-      // 這裡只需要在資料準備好後關閉 loading
-      const timer = setTimeout(() => {
-        setLoading(false);
-        markPageAsLoaded(PAGE_NAME);
-      }, 100);
-      return () => clearTimeout(timer);
+    } else if (!articlesLoading) {
+      // 首次載入且資料已準備好
+      setLoading(false);
+      markPageAsLoaded(PAGE_NAME);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // 只在組件掛載時執行一次
+  }, [articlesLoading, isPageLoaded, setLoading, setAnimationComplete, markPageAsLoaded]);
 
   // 按日期從新到舊排序
   const items = useMemo(() => {

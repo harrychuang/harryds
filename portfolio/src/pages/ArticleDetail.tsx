@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
 import { useSound } from '../hooks/useSound';
-import { useI18nFeed } from '../hooks/useI18nFeed';
+import { useArticles } from '../hooks/useArticles';
 import './ArticleDetail.scss';
 import Header from '../components/Header';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
@@ -17,7 +17,7 @@ const ArticleDetail: React.FC = () => {
   const { t, i18n } = useTranslation(['common', 'articles']);
   const { theme, toggleTheme } = useTheme();
   const { isSoundEnabled, toggleSound } = useSound();
-  const { items } = useI18nFeed('articles');
+  const { items } = useArticles();
   const { setLoading, setAnimationComplete, isPageLoaded } = usePageLoader();
   
   // 文章詳情頁不需要 loading 動畫，直接顯示內容
@@ -223,11 +223,10 @@ const ArticleDetail: React.FC = () => {
     navigate(-1);
   }, [navigate]);
 
-  // 獲取文章圖片
+  // 獲取文章圖片 - 從 useArticles hook 取得（支援 Strapi 或本地資料）
   const articleImages = useMemo(() => {
-    const articleData = t(`${article?.id}`, { returnObjects: true, ns: 'articles' }) as any;
-    return articleData?.images || [];
-  }, [article, t]);
+    return article?.images || [];
+  }, [article]);
 
   // 獲取文章內容
   const articleContent = useMemo(() => {
@@ -609,7 +608,7 @@ const ArticleDetail: React.FC = () => {
                       <video
                         key={index}
                         ref={(el) => { mediaRefs.current[index] = el; }}
-                        src={`/assets/imgs/${media}`}
+                        src={media}
                         className="article-detail__carousel-media article-detail__carousel-video"
                         draggable={false}
                         autoPlay
@@ -622,7 +621,7 @@ const ArticleDetail: React.FC = () => {
                       <img
                         key={index}
                         ref={(el) => { mediaRefs.current[index] = el; }}
-                        src={`/assets/imgs/${media}`}
+                        src={media}
                         alt={`${article.heading} - Image ${index + 1}`}
                         className="article-detail__carousel-media article-detail__carousel-image"
                         draggable={false}
