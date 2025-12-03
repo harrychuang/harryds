@@ -1,0 +1,63 @@
+{
+  "kind": "collectionType",
+  "collectionName": "articles",
+  "info": {
+    "singularName": "article",
+    "pluralName": "articles",
+    "displayName": "Article",
+    "description": "Blog articles with multilingual content"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "json",
+      "required": true,
+      "description": "Multilingual titles: { en, ja, zh-Hant }"
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "subtitle": {
+      "type": "json",
+      "description": "Multilingual subtitles: { en, ja, zh-Hant }"
+    },
+    "date": {
+      "type": "string",
+      "description": "Date string (e.g. '2024 年 11 月 11 日')"
+    },
+    "tags": {
+      "type": "json",
+      "description": "Array of tag strings"
+    },
+    "category": {
+      "type": "string",
+      "default": "article",
+      "description": "Article category"
+    },
+    "url": {
+      "type": "string",
+      "description": "External URL reference"
+    },
+    "content": {
+      "type": "json",
+      "description": "Multilingual content: { en, ja, zh-Hant } with paragraphs"
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images", "videos"]
+    }
+  }
+}
+

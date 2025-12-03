@@ -18,6 +18,15 @@ const httpsAgent = new https.Agent({
   rejectUnauthorized: false // 允許自簽憑證
 });
 
+// 根據 URL 協定返回 fetch options
+function getFetchOptions(options = {}) {
+  const isHttps = STRAPI_URL.startsWith('https://');
+  if (isHttps) {
+    return { ...options, agent: httpsAgent };
+  }
+  return options;
+}
+
 // 路徑配置
 const PORTFOLIO_PATH = path.join(__dirname, '../../portfolio');
 const LOCALES_PATH = path.join(PORTFOLIO_PATH, 'src/i18n/locales');
@@ -49,13 +58,12 @@ async function fetchExistingArticles() {
     while (hasMore) {
       const response = await fetch(
         `${STRAPI_URL}/api/articles?pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
-        {
+        getFetchOptions({
           method: 'GET',
           headers: {
             Authorization: `Bearer ${STRAPI_API_TOKEN}`
-          },
-          agent: httpsAgent
-        }
+          }
+        })
       );
 
       if (!response.ok) {
@@ -102,13 +110,12 @@ async function fetchExistingImages() {
     while (hasMore) {
       const response = await fetch(
         `${STRAPI_URL}/api/upload/files?pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
-        {
+        getFetchOptions({
           method: 'GET',
           headers: {
             Authorization: `Bearer ${STRAPI_API_TOKEN}`
-          },
-          agent: httpsAgent
-        }
+          }
+        })
       );
 
       if (!response.ok) {
@@ -231,14 +238,13 @@ async function uploadImage(imagePath) {
   formData.append('files', fs.createReadStream(fullPath));
 
   try {
-    const response = await fetch(`${STRAPI_URL}/api/upload`, {
+    const response = await fetch(`${STRAPI_URL}/api/upload`, getFetchOptions({
       method: 'POST',
       headers: {
         Authorization: `Bearer ${STRAPI_API_TOKEN}`
       },
-      body: formData,
-      agent: httpsAgent
-    });
+      body: formData
+    }));
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -295,27 +301,25 @@ async function upsertArticle(articleData, uploadedImages) {
       action = '更新';
       const documentId = existingArticle.documentId;
       
-      response = await fetch(`${STRAPI_URL}/api/articles/${documentId}`, {
+      response = await fetch(`${STRAPI_URL}/api/articles/${documentId}`, getFetchOptions({
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${STRAPI_API_TOKEN}`
         },
-        body: JSON.stringify({ data: strapiData }),
-        agent: httpsAgent
-      });
+        body: JSON.stringify({ data: strapiData })
+      }));
     } else {
       // 建立新文章
       action = '建立';
-      response = await fetch(`${STRAPI_URL}/api/articles`, {
+      response = await fetch(`${STRAPI_URL}/api/articles`, getFetchOptions({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${STRAPI_API_TOKEN}`
         },
-        body: JSON.stringify({ data: strapiData }),
-        agent: httpsAgent
-      });
+        body: JSON.stringify({ data: strapiData })
+      }));
     }
 
     if (!response.ok) {
