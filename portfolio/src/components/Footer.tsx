@@ -13,6 +13,7 @@ import { useTheme } from '../theme/useTheme';
 import ScrollIndicator from './ScrollIndicator';
 import { GIPHY_URLS } from '../constants/giphy';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
+import { getContactBudgetOptions, getContactProjectTypeOptions } from '../utils/contactModalOptions';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 
 const THANK_YOU_MESSAGES = [
@@ -135,32 +136,15 @@ const Footer: React.FC = () => {
   const [contactMessage, setContactMessage] = useState('');
 
   // Contact Modal options
-  const projectTypeOptions: DropdownOption[] = useMemo(() => [
-    { value: 'brand', label: t('contactModal.projectTypes.brand') },
-    { value: 'web', label: t('contactModal.projectTypes.web') },
-    { value: 'uiux', label: t('contactModal.projectTypes.uiux') },
-    { value: 'dev', label: t('contactModal.projectTypes.dev') },
-    { value: 'other', label: t('contactModal.projectTypes.other') },
-  ], [t]);
+  const projectTypeOptions: DropdownOption[] = useMemo(
+    () => getContactProjectTypeOptions(t),
+    [t]
+  );
 
-  const budgetOptions: DropdownOption[] = useMemo(() => [
-    { value: 'unsure', label: t('contactModal.budgets.unsure') },
-    { value: 'under20k', label: t('contactModal.budgets.under20k') },
-    { value: '20k-100k', label: t('contactModal.budgets.20k-100k') },
-    { value: '100k-200k', label: t('contactModal.budgets.100k-200k') },
-    { value: '200k+', label: t('contactModal.budgets.200k+') },
-  ], [t]);
-
-  const consultingBudgetOptions: DropdownOption[] = useMemo(() => [
-    { value: 'under5k', label: t('contactModal.consultingBudgets.under5k') },
-    { value: '5k-10k', label: t('contactModal.consultingBudgets.5k-10k') },
-    { value: '10k+', label: t('contactModal.consultingBudgets.10k+') },
-    { value: 'unsure', label: t('contactModal.consultingBudgets.unsure') },
-  ], [t]);
-
-  const budgetDropdownOptions = useMemo(() => (
-    contactProjectType === 'brand' ? consultingBudgetOptions : budgetOptions
-  ), [contactProjectType, consultingBudgetOptions, budgetOptions]);
+  const budgetOptions: DropdownOption[] = useMemo(
+    () => getContactBudgetOptions(t),
+    [t]
+  );
   
   // Hover 音效
   const hoverSoundHandleRef = useRef<PlaybackHandle | null>(null);
@@ -590,7 +574,7 @@ const Footer: React.FC = () => {
         <Dropdown
           key={`footer-budget-${contactProjectType || 'default'}`}
           label={t('contactModal.budget')}
-          options={budgetDropdownOptions}
+          options={budgetOptions}
           value={contactBudget}
           onChange={(val) => setContactBudget(val)}
           placeholder={t('contactModal.budgetPlaceholder')}

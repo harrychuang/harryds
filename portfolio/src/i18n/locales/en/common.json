@@ -36,26 +36,22 @@
     "projectType": "Project Type",
     "projectTypePlaceholder": "Select project type...",
     "projectTypes": {
-      "brand": "Design System / Coaching / Consulting",
-      "web": "Web Design",
-      "uiux": "UI/UX Design",
-      "dev": "Development",
-      "other": "Other"
+      "uiuxProduct": "Product UI/UX Design",
+      "webDesignDev": "Website Design & Development",
+      "frontendDev": "Frontend Development (React / Next.js)",
+      "designSystemBuild": "Design System Implementation",
+      "designSystemTraining": "Design System Training & Consulting",
+      "flexCollab": "Flexible Part-time / Long-term Collaboration",
+      "other": "Other (please describe)"
     },
-    "budget": "Budget",
+    "budget": "Budget / Engagement Model",
     "budgetPlaceholder": "Select budget range...",
     "budgets": {
-      "unsure": "Not Sure",
-      "under20k": "< $600 USD",
-      "20k-100k": "$600 - $3,000 USD",
-      "100k-200k": "$3,000 - $6,000 USD",
-      "200k+": "$6,000+ USD"
-    },
-    "consultingBudgets": {
-      "unsure": "Not Sure",
-      "under5k": "< $150 USD",
-      "5k-10k": "$150 - $300 USD",
-      "10k+": "$300+ USD"
+      "unsure": "Not sure yet",
+      "flexibleCollab": "Flexible part-time collaboration: approx. USD $45 – $95 / hour",
+      "oneTime": "One-off project (approx. USD $2,500 – $9,500+)",
+      "monthlyConsulting": "Monthly consulting (Design System / UX Strategy): approx. USD $1,600 – $4,700 / month",
+      "frontendDev": "Frontend development (React / Component): approx. USD $1,900 – $6,300+"
     },
     "message": "Message",
     "messagePlaceholder": "Tell us about your project...",

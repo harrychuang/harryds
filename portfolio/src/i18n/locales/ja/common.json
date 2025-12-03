@@ -36,26 +36,22 @@
     "projectType": "プロジェクトタイプ",
     "projectTypePlaceholder": "プロジェクトタイプを選択...",
     "projectTypes": {
-      "brand": "デザインシステム構築/教育/コンサルティング",
-      "web": "ウェブデザイン",
-      "uiux": "UI/UXデザイン",
-      "dev": "開発",
-      "other": "その他"
+      "uiuxProduct": "プロダクト UI/UX デザイン",
+      "webDesignDev": "ウェブデザイン & 開発",
+      "frontendDev": "フロントエンド開発（React / Next.js）",
+      "designSystemBuild": "デザインシステム構築",
+      "designSystemTraining": "デザインシステム研修・コンサルティング",
+      "flexCollab": "柔軟なパートタイム / 長期協業",
+      "other": "その他（ご記入ください）"
     },
-    "budget": "予算",
+    "budget": "予算と協業スタイル",
     "budgetPlaceholder": "予算範囲を選択...",
     "budgets": {
       "unsure": "未定",
-      "under20k": "< ¥100,000",
-      "20k-100k": "¥100,000 - ¥500,000",
-      "100k-200k": "¥500,000 - ¥1,000,000",
-      "200k+": "¥1,000,000+"
-    },
-    "consultingBudgets": {
-      "unsure": "未定",
-      "under5k": "< ¥25,000",
-      "5k-10k": "¥25,000 - ¥50,000",
-      "10k+": "¥50,000+"
+      "flexibleCollab": "柔軟なパートタイム協業：¥6,800 – 13,500 / 時間（目安）",
+      "oneTime": "スポット案件：¥360,000 – 1,350,000+（目安）",
+      "monthlyConsulting": "月額顧問（Design System / UX Strategy）：¥225,000 – 675,000 / 月（目安）",
+      "frontendDev": "フロントエンド開発（React / Component）：¥270,000 – 900,000+（目安）"
     },
     "message": "メッセージ",
     "messagePlaceholder": "プロジェクトについて教えてください...",

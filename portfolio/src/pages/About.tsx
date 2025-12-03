@@ -37,6 +37,7 @@ import '../pages/Home.scss';
 import Header from '../components/Header';
 import { GIPHY_URLS } from '../constants/giphy';
 import { usePageLoader } from '../contexts/PageLoaderContext';
+import { getContactBudgetOptions, getContactProjectTypeOptions } from '../utils/contactModalOptions';
 
 const PAGE_NAME = 'about';
 
@@ -125,32 +126,15 @@ const About: React.FC = () => {
   const [contactMessage, setContactMessage] = useState('');
 
   // Contact Modal options
-  const projectTypeOptions: DropdownOption[] = React.useMemo(() => [
-    { value: 'brand', label: t('contactModal.projectTypes.brand', { ns: 'common' }) },
-    { value: 'web', label: t('contactModal.projectTypes.web', { ns: 'common' }) },
-    { value: 'uiux', label: t('contactModal.projectTypes.uiux', { ns: 'common' }) },
-    { value: 'dev', label: t('contactModal.projectTypes.dev', { ns: 'common' }) },
-    { value: 'other', label: t('contactModal.projectTypes.other', { ns: 'common' }) },
-  ], [t]);
+  const projectTypeOptions: DropdownOption[] = React.useMemo(
+    () => getContactProjectTypeOptions(t, { ns: 'common' }),
+    [t]
+  );
 
-  const budgetOptions: DropdownOption[] = React.useMemo(() => [
-    { value: 'unsure', label: t('contactModal.budgets.unsure', { ns: 'common' }) },
-    { value: 'under20k', label: t('contactModal.budgets.under20k', { ns: 'common' }) },
-    { value: '20k-100k', label: t('contactModal.budgets.20k-100k', { ns: 'common' }) },
-    { value: '100k-200k', label: t('contactModal.budgets.100k-200k', { ns: 'common' }) },
-    { value: '200k+', label: t('contactModal.budgets.200k+', { ns: 'common' }) },
-  ], [t]);
-
-  const consultingBudgetOptions: DropdownOption[] = React.useMemo(() => [
-    { value: 'under5k', label: t('contactModal.consultingBudgets.under5k', { ns: 'common' }) },
-    { value: '5k-10k', label: t('contactModal.consultingBudgets.5k-10k', { ns: 'common' }) },
-    { value: '10k+', label: t('contactModal.consultingBudgets.10k+', { ns: 'common' }) },
-    { value: 'unsure', label: t('contactModal.consultingBudgets.unsure', { ns: 'common' }) },
-  ], [t]);
-
-  const budgetDropdownOptions = React.useMemo(() => (
-    contactProjectType === 'brand' ? consultingBudgetOptions : budgetOptions
-  ), [contactProjectType, consultingBudgetOptions, budgetOptions]);
+  const budgetOptions: DropdownOption[] = React.useMemo(
+    () => getContactBudgetOptions(t, { ns: 'common' }),
+    [t]
+  );
 
   // Referrer 資料 - 從 i18n 讀取
   const referrerImages = [
@@ -1445,7 +1429,7 @@ const About: React.FC = () => {
         <Dropdown
           key={`about-budget-${contactProjectType || 'default'}`}
           label={t('contactModal.budget', { ns: 'common' })}
-          options={budgetDropdownOptions}
+          options={budgetOptions}
           value={contactBudget}
           onChange={(val) => setContactBudget(val)}
           placeholder={t('contactModal.budgetPlaceholder', { ns: 'common' })}

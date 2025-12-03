@@ -16,6 +16,7 @@ import { useHover } from '../contexts/HoverContext';
 import { useSound } from '../hooks/useSound';
 import { useOverlay } from '../contexts/OverlayContext';
 import Header from '../components/Header';
+import { getContactBudgetOptions, getContactProjectTypeOptions } from '../utils/contactModalOptions';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 
 const slugify = (text: string) => text
@@ -101,29 +102,15 @@ const Home: React.FC = () => {
   const [contactMessage, setContactMessage] = useState('');
 
   // Contact Modal options
-  const projectTypeOptions: DropdownOption[] = useMemo(() => [
-    { value: 'brand', label: t('contactModal.projectTypes.brand', { ns: 'common' }) },
-    { value: 'web', label: t('contactModal.projectTypes.web', { ns: 'common' }) },
-    { value: 'uiux', label: t('contactModal.projectTypes.uiux', { ns: 'common' }) },
-    { value: 'dev', label: t('contactModal.projectTypes.dev', { ns: 'common' }) },
-    { value: 'other', label: t('contactModal.projectTypes.other', { ns: 'common' }) },
-  ], [t]);
+  const projectTypeOptions: DropdownOption[] = useMemo(
+    () => getContactProjectTypeOptions(t, { ns: 'common' }),
+    [t]
+  );
 
-  const budgetOptions: DropdownOption[] = useMemo(() => [
-    { value: 'unsure', label: t('contactModal.budgets.unsure', { ns: 'common' }) },
-    { value: 'under20k', label: t('contactModal.budgets.under20k', { ns: 'common' }) },
-    { value: '20k-100k', label: t('contactModal.budgets.20k-100k', { ns: 'common' }) },
-    { value: '100k-200k', label: t('contactModal.budgets.100k-200k', { ns: 'common' }) },
-    { value: '200k+', label: t('contactModal.budgets.200k+', { ns: 'common' }) },
-  ], [t]);
-
-  // 設計系統/顧問專用的預算選項
-  const consultingBudgetOptions: DropdownOption[] = useMemo(() => [
-    { value: 'under5k', label: t('contactModal.consultingBudgets.under5k', { ns: 'common' }) },
-    { value: '5k-10k', label: t('contactModal.consultingBudgets.5k-10k', { ns: 'common' }) },
-    { value: '10k+', label: t('contactModal.consultingBudgets.10k+', { ns: 'common' }) },
-    { value: 'unsure', label: t('contactModal.consultingBudgets.unsure', { ns: 'common' }) },
-  ], [t]);
+  const budgetOptions: DropdownOption[] = useMemo(
+    () => getContactBudgetOptions(t, { ns: 'common' }),
+    [t]
+  );
 
 
   // 導覽選單 hover 觸發一次動畫狀態
@@ -891,7 +878,7 @@ const Home: React.FC = () => {
         <Dropdown
           key={`budget-${contactProjectType}`}
           label={t('contactModal.budget', { ns: 'common' })}
-          options={contactProjectType === 'brand' ? consultingBudgetOptions : budgetOptions}
+          options={budgetOptions}
           value={contactBudget}
           onChange={(val) => setContactBudget(val)}
           placeholder={t('contactModal.budgetPlaceholder', { ns: 'common' })}
