@@ -844,7 +844,7 @@ const Home: React.FC = () => {
         isOpen={isContactModalOpen}
         onClose={handleContactModalClose}
         heading={t('contactModal.heading', { ns: 'common' })}
-        description={t('contactModal.description', { ns: 'common' })}
+        description={`${t('contactModal.description', { ns: 'common' })}\n\n${t('contactModal.alternativeContact', { ns: 'common' })}`}
         primaryButtonText={t('contactModal.send', { ns: 'common' })}
         secondaryButtonText={t('contactModal.cancel', { ns: 'common' })}
         onPrimaryClick={handleContactSubmit}
@@ -874,6 +874,7 @@ const Home: React.FC = () => {
             setContactBudget('');
           }}
           placeholder={t('contactModal.projectTypePlaceholder', { ns: 'common' })}
+          required
         />
         <Dropdown
           key={`budget-${contactProjectType}`}
@@ -882,6 +883,7 @@ const Home: React.FC = () => {
           value={contactBudget}
           onChange={(val) => setContactBudget(val)}
           placeholder={t('contactModal.budgetPlaceholder', { ns: 'common' })}
+          required
         />
         <Input
           label={t('contactModal.message', { ns: 'common' })}

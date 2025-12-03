@@ -1,7 +1,4 @@
 import type { DropdownOption } from 'hds';
-import type { TFunction } from 'i18next';
-
-type TranslationOptions = Parameters<TFunction>[1];
 
 const projectTypeOptionConfigs: Array<{ value: string; labelKey: string }> = [
   { value: 'flexCollab', labelKey: 'contactModal.projectTypes.flexCollab' },
@@ -22,8 +19,8 @@ const budgetOptionConfigs: Array<{ value: string; labelKey: string }> = [
 ];
 
 export const getContactProjectTypeOptions = (
-  t: TFunction,
-  options?: TranslationOptions
+  t: (key: string, options?: Record<string, unknown>) => string,
+  options?: Record<string, unknown>
 ): DropdownOption[] =>
   projectTypeOptionConfigs.map(({ value, labelKey }) => ({
     value,
@@ -31,8 +28,8 @@ export const getContactProjectTypeOptions = (
   }));
 
 export const getContactBudgetOptions = (
-  t: TFunction,
-  options?: TranslationOptions
+  t: (key: string, options?: Record<string, unknown>) => string,
+  options?: Record<string, unknown>
 ): DropdownOption[] =>
   budgetOptionConfigs.map(({ value, labelKey }) => ({
     value,

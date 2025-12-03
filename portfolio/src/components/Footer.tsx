@@ -541,7 +541,7 @@ const Footer: React.FC = () => {
         isOpen={isContactModalOpen}
         onClose={handleContactModalClose}
         heading={t('contactModal.heading')}
-        description={t('contactModal.description')}
+        description={`${t('contactModal.description')}\n\n${t('contactModal.alternativeContact')}`}
         primaryButtonText={t('contactModal.send')}
         secondaryButtonText={t('contactModal.cancel')}
         onPrimaryClick={handleContactSubmit}
@@ -570,6 +570,7 @@ const Footer: React.FC = () => {
             setContactBudget('');
           }}
           placeholder={t('contactModal.projectTypePlaceholder')}
+          required
         />
         <Dropdown
           key={`footer-budget-${contactProjectType || 'default'}`}
@@ -578,6 +579,7 @@ const Footer: React.FC = () => {
           value={contactBudget}
           onChange={(val) => setContactBudget(val)}
           placeholder={t('contactModal.budgetPlaceholder')}
+          required
         />
         <Input
           label={t('contactModal.message')}
