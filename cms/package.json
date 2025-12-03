@@ -8,7 +8,9 @@
     "build": "strapi build",
     "strapi": "strapi",
     "import-data": "node scripts/import-feed-data.js",
-    "import-projects": "node scripts/import-projects.mjs"
+    "import-projects": "node scripts/import-projects.mjs",
+    "import-articles": "node scripts/import-articles.mjs",
+    "import-all": "node scripts/import-projects.mjs && node scripts/import-articles.mjs"
   },
   "keywords": [],
   "author": "",
