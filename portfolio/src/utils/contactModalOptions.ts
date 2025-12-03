@@ -4,12 +4,12 @@ import type { TFunction } from 'i18next';
 type TranslationOptions = Parameters<TFunction>[1];
 
 const projectTypeOptionConfigs: Array<{ value: string; labelKey: string }> = [
+  { value: 'flexCollab', labelKey: 'contactModal.projectTypes.flexCollab' },
   { value: 'uiuxProduct', labelKey: 'contactModal.projectTypes.uiuxProduct' },
   { value: 'webDesignDev', labelKey: 'contactModal.projectTypes.webDesignDev' },
   { value: 'frontendDev', labelKey: 'contactModal.projectTypes.frontendDev' },
   { value: 'designSystemBuild', labelKey: 'contactModal.projectTypes.designSystemBuild' },
   { value: 'designSystemTraining', labelKey: 'contactModal.projectTypes.designSystemTraining' },
-  { value: 'flexCollab', labelKey: 'contactModal.projectTypes.flexCollab' },
   { value: 'other', labelKey: 'contactModal.projectTypes.other' },
 ];
 
