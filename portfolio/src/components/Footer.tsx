@@ -2,7 +2,7 @@ import React, { useMemo, useEffect, useState, useCallback, useRef } from 'react'
 import './Footer.scss';
 import { useParams, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useI18nFeed } from '../hooks/useI18nFeed';
+import { useProjects } from '../hooks/useProjects';
 import type { FeedItem } from 'hds/types/feed';
 import { PopupModal, Input, Dropdown } from 'hds';
 import type { DropdownOption } from 'hds';
@@ -106,7 +106,7 @@ const persistLikedPaths = (paths: Set<string>) => {
 const Footer: React.FC = () => {
   const params = useParams();
   const { t } = useTranslation('common');
-  const { items } = useI18nFeed();
+  const { items } = useProjects();
   const { hoveredCardId } = useHover();
   const { openCardId, animationPhase, overlayScrollRef } = useOverlay();
   const { theme } = useTheme();

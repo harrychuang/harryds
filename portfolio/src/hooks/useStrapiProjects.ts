@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { strapiClient } from '../services/strapiClient';
 import type { FeedItem, ProjectInfo, ProjectSection, ProjectSectionContent } from '../../../harryds/src/types/feed';
 
-// 預載本地資產，便於解析 i18n 匯入時保留的相對路徑圖片
+// 預載本地資產作為回退（當 Strapi 路徑是舊格式時使用）
 const imageModules = import.meta.glob<{ default: string }>(
-  '@assets/imgs/**/*.{jpg,jpeg,png,gif,webp,svg}',
+  '../../assets/imgs/**/*.{jpg,jpeg,png,gif,webp,svg,mp4,webm}',
   { eager: true }
 );
 
@@ -47,30 +47,54 @@ interface StrapiProject {
   };
 }
 
-const resolveImageUrl = (path?: string | null): string | undefined => {
-  if (!path) return undefined;
+/**
+ * 解析 Strapi 媒體 URL（支援圖片和影片）
+ * 
+ * 支援的格式：
+ * 1. Strapi 媒體關聯物件: { data: { attributes: { url: '...' } } } (v4)
+ * 2. Strapi 媒體物件: { url: '...', id: ..., documentId: '...' } (v5)
+ * 3. 直接的 URL 字串: '/uploads/xxx.jpg' 或 'https://...'
+ * 4. 舊的相對路徑字串: 'demo/noein/xxx.jpg' → 從本地資產載入
+ */
+const resolveMediaUrl = (media?: any): string | undefined => {
+  if (!media) return undefined;
 
-  // Strapi 上的完整 URL 或 uploads 相對路徑
-  if (/^https?:\/\//i.test(path) || path.startsWith('/uploads') || path.startsWith('/strapi/uploads')) {
-    return strapiClient.resolveMediaUrl(path);
-  }
-
-  // 嘗試對應到本地資產（與 i18n feed 相同的目錄結構）
-  const normalized = path.replace(/^@assets\/imgs\//, '').replace(/^\/+/, '');
-  const fullPath = `@assets/imgs/${normalized}`;
-
-  if (imageModules[fullPath]) {
-    return imageModules[fullPath].default;
-  }
-
-  for (const [key, module] of Object.entries(imageModules)) {
-    if (key.endsWith(normalized) || key.endsWith(`/${normalized}`)) {
-      return module.default;
+  // 如果是字串，檢查是否為舊的相對路徑格式
+  if (typeof media === 'string') {
+    // 完整 URL 直接返回
+    if (/^https?:\/\//i.test(media)) {
+      return media;
     }
+    
+    // Strapi /uploads/ 路徑，使用 strapiClient 處理
+    if (media.startsWith('/uploads') || media.startsWith('/strapi/uploads')) {
+      return strapiClient.resolveMediaUrl(media);
+    }
+    
+    // 舊的相對路徑格式（如 "demo/noein/xxx.jpg"）→ 從本地資產載入
+    const normalized = media.replace(/^@assets\/imgs\//, '').replace(/^\/+/, '');
+    const fullPath = `../../assets/imgs/${normalized}`;
+    
+    // 嘗試直接匹配
+    if (imageModules[fullPath]) {
+      return imageModules[fullPath].default;
+    }
+    
+    // 嘗試模糊匹配（處理路徑差異）
+    for (const [key, module] of Object.entries(imageModules)) {
+      if (key.endsWith(normalized) || key.endsWith(`/${normalized}`)) {
+        return module.default;
+      }
+    }
+    
+    // 如果本地找不到，嘗試用 Strapi URL 拼接（作為最後的回退）
+    console.warn(`[useStrapiProjects] 找不到本地圖片: ${media}`);
+    return strapiClient.resolveMediaUrl(media);
   }
 
-  // 最後回退用 Strapi baseURL 拼接
-  return strapiClient.resolveMediaUrl(path);
+  // 處理 Strapi 媒體關聯物件
+  const url = strapiClient.resolveMediaUrl(media);
+  return url || undefined;
 };
 
 const mapSections = (sectionsObj?: Record<string, any>): ProjectSection[] | undefined => {
@@ -108,14 +132,42 @@ const mapSections = (sectionsObj?: Record<string, any>): ProjectSection[] | unde
       });
     }
 
+    // 處理圖片
     let imageIdx = 1;
     while (section[`image${imageIdx}`]) {
       contents.push({
         type: 'image',
-        src: resolveImageUrl(section[`image${imageIdx}`]) || '',
+        src: resolveMediaUrl(section[`image${imageIdx}`]) || '',
         alt: `${section.title || key} Image ${imageIdx}`
       });
       imageIdx++;
+    }
+
+    // 處理影片
+    let videoIdx = 1;
+    while (section[`video${videoIdx}`]) {
+      const videoData = section[`video${videoIdx}`];
+      // 影片可以是字串 URL 或 Strapi 媒體物件
+      const videoSrc = typeof videoData === 'string' 
+        ? resolveMediaUrl(videoData) 
+        : resolveMediaUrl(videoData?.src || videoData);
+      const posterSrc = typeof videoData === 'object' && videoData?.poster 
+        ? resolveMediaUrl(videoData.poster) 
+        : undefined;
+      
+      if (videoSrc) {
+        contents.push({
+          type: 'video',
+          src: videoSrc,
+          poster: posterSrc,
+          alt: `${section.title || key} Video ${videoIdx}`,
+          autoplay: videoData?.autoplay ?? false,
+          loop: videoData?.loop ?? true,
+          muted: videoData?.muted ?? true,
+          controls: videoData?.controls ?? true
+        } as ProjectSectionContent);
+      }
+      videoIdx++;
     }
 
     sections.push({
@@ -144,8 +196,8 @@ const mapProjectInfo = (attrs: StrapiProject['attributes'], locale: string): Pro
     description: description || content.description,
     websiteUrl: content.websiteUrl,
     websiteLabel: content.websiteLabel,
-    mainImage: resolveImageUrl(content.mainImage),
-    specialHeadingImage: resolveImageUrl(content.specialHeadingImage),
+    mainImage: resolveMediaUrl(content.mainImage),
+    specialHeadingImage: resolveMediaUrl(content.specialHeadingImage),
     meta: Array.isArray(meta) ? meta : undefined,
     sections: mapSections(content.sections)
   };
@@ -165,14 +217,17 @@ function transformStrapiToFeedItem(project: StrapiProject, locale: string): Feed
     return multiLangObj?.[currentLocale] || multiLangObj?.[fallbackLocale] || '';
   };
 
-  // 取得 coverImage URL
-  const coverImageUrl = attrs.coverImage?.data?.attributes?.url || '';
-  const heroImage = resolveImageUrl(coverImageUrl);
+  // 取得 coverImage URL（支援 Strapi 媒體關聯）
+  const heroImage = resolveMediaUrl(attrs.coverImage);
   const projectInfo = mapProjectInfo(attrs, locale);
+
+  // 取得英文版本的 title 作為 originalHeading，用於生成一致的 URL slug
+  const originalHeading = attrs.title?.['en'] || getLocalizedValue(attrs.title);
 
   return {
     id: project.id,
     heading: getLocalizedValue(attrs.title),
+    originalHeading, // 保存英文 heading 用於生成 URL slug
     date: attrs.date,
     tags: attrs.tags || [],
     category: attrs.categories?.[0] || 'project',

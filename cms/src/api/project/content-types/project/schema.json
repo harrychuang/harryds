@@ -11,6 +11,13 @@
     "draftAndPublish": true
   },
   "attributes": {
+    "visibility": {
+      "type": "enumeration",
+      "enum": ["public", "private"],
+      "default": "public",
+      "required": true,
+      "description": "Project visibility: public (visible to all) or private (requires password)"
+    },
     "title": {
       "type": "json",
       "required": true,

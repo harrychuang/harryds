@@ -298,7 +298,7 @@ const Home: React.FC = () => {
 
   const toItemUrl = useCallback((item: FeedItem) => {
     // 使用原始英文 heading 生成 slug，確保所有語系的 URL 一致
-    const headingForSlug = (item as any).originalHeading || item.heading;
+    const headingForSlug = item.originalHeading || item.heading;
     const slug = slugify(headingForSlug);
     // Home 頁面只顯示 projects，所以固定使用 /project/ 路徑
     return `/project/${item.id}/${slug}`;
@@ -748,8 +748,9 @@ const Home: React.FC = () => {
                 })
               : undefined;
             
-            // 當 hover 或打開時顯示 brand，否則顯示 id
-            const displayId = ((hoveredCardId === item.id || openCardId === item.id) && item.brand) ? item.brand : item.id;
+            // 當 hover 或打開時顯示 brand，否則顯示順序編號（從 1 開始）
+            const sequentialId = index + 1;
+            const displayId = ((hoveredCardId === item.id || openCardId === item.id) && item.brand) ? item.brand : sequentialId;
             
             // 🚀 關鍵優化：使用預載狀態決定初始階段
             const initialPhase = (() => {

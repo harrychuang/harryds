@@ -32,7 +32,8 @@ export type ProjectSectionContent =
   | { type: 'paragraph'; text: string }
   | { type: 'quote'; text: string }
   | { type: 'blockquote'; text: string; enableTypewriter?: boolean }
-  | { type: 'image'; src: string; alt?: string };
+  | { type: 'image'; src: string; alt?: string }
+  | { type: 'video'; src: string; poster?: string; alt?: string; autoplay?: boolean; loop?: boolean; muted?: boolean; controls?: boolean };
 
 // Project Section（專案區塊，如 Scope, Impact, Get In Touch）
 export interface ProjectSection {

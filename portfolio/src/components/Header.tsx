@@ -34,12 +34,6 @@ export interface HeaderProps {
 	onToggleSound?: () => void;
 	onSoundHover?: () => void;
 
-	// Data source toggle
-	showDataSourceToggle?: boolean;
-	dataSource?: 'local' | 'strapi';
-	onToggleDataSource?: () => void;
-	onDataSourceHover?: () => void;
-
 	// Language dropdown
 	showLanguageToggle?: boolean;
 	currentLangDisplay?: string; // e.g. 'EN' | 'ZH' | 'JP'
@@ -84,11 +78,6 @@ const Header: React.FC<HeaderProps> = ({
 	isSoundEnabled = true,
 	onToggleSound,
 	onSoundHover,
-
-	showDataSourceToggle = false,
-	dataSource,
-	onToggleDataSource,
-	onDataSourceHover,
 
 	showLanguageToggle = true,
 	currentLangDisplay,
@@ -216,38 +205,6 @@ const Header: React.FC<HeaderProps> = ({
 											letterSpacing={0}
 											width={36}
 											height={36}
-											animated={false}
-											primaryColor={primaryColor}
-											onPrimaryColor={onPrimaryColor}
-										/>
-									</div>
-								</div>
-							)}
-							{showDataSourceToggle && (
-								<div className="home__nav-item">
-									<div
-										role="button"
-										tabIndex={0}
-										onClick={onToggleDataSource}
-										onKeyDown={(e) => {
-											if (e.key === 'Enter' || e.key === ' ') {
-												e.preventDefault();
-												onToggleDataSource && onToggleDataSource();
-											}
-										}}
-										onMouseEnter={onDataSourceHover}
-										aria-label="切換資料來源"
-										title={dataSource === 'local' ? '使用本地資料' : '使用 Strapi 資料'}
-										className="data-source-toggle"
-										style={{ borderColor: primaryColor || 'var(--hds-sys-color-theme-surface)' }}
-									>
-										<PixelText2D
-											text={dataSource === 'local' ? 'LOC' : 'API'}
-											textEnabled
-											pixelSize={2}
-											letterSpacing={0}
-											width={48}
-											height={24}
 											animated={false}
 											primaryColor={primaryColor}
 											onPrimaryColor={onPrimaryColor}

@@ -1,5 +1,6 @@
 {
   "1": {
+    "visibility": "private",
     "heading": "沉浸式\nAI 互動新聞",
     "date": "2025 - PRESENT",
     "brand": "NOWnews",
@@ -77,6 +78,7 @@
     "heroImage": "demo/nownews/demo-nownews-bg.jpg"
   },
   "2": {
+    "visibility": "public",
     "heading": "串流影劇指南",
     "date": "2019 - PRESENT",
     "brand": "awwrated",
@@ -154,6 +156,7 @@
     "heroImage": "demo/awwrated/demo-awwrated-bg.jpg"
   },
   "3": {
+    "visibility": "public",
     "heading": "設計系統建置",
     "date": "2019 - 2020",
     "brand": "Shopmatic",
@@ -232,6 +235,7 @@
     "heroImage": "demo/shopmaticds/demo-shopmaticds-bg.jpg"
   },
   "4": {
+    "visibility": "public",
     "heading": "品牌電商\n專屬 App",
     "date": "2020 - 2021",
     "brand": "Shopmatic",
@@ -309,6 +313,7 @@
     "heroImage": "demo/shopmaticbuyerapp/demo-shopmaticbuyerapp-bg.jpg"
   },
   "5": {
+    "visibility": "public",
     "heading": "結帳流程優化",
     "date": "2018 - 2019",
     "brand": "Shopmatic",
@@ -386,6 +391,7 @@
     "heroImage": "demo/shopmaticcheckout/demo-shopmaticcheckout-bg.jpg"
   },
   "6": {
+    "visibility": "public",
     "heading": "旅行怪獸\nAPP 孵化",
     "date": "2016 - 2017",
     "brand": "KKday",
@@ -459,6 +465,7 @@
     "heroImage": "demo/kkday/demo-kkday-bg.jpg"
   },
   "7": {
+    "visibility": "public",
     "heading": "國際中文學習平台",
     "date": "2015 - 2017",
     "brand": "TutorMing",
@@ -536,6 +543,7 @@
     "heroImage": "demo/tutorming/demo-tutorming-bg.jpg"
   },
   "8": {
+    "visibility": "public",
     "heading": "互動式網頁體驗",
     "date": "2017",
     "brand": "NOEIN",

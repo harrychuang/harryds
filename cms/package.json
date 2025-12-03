@@ -10,7 +10,9 @@
     "import-data": "node scripts/import-feed-data.js",
     "import-projects": "node scripts/import-projects.mjs",
     "import-articles": "node scripts/import-articles.mjs",
-    "import-all": "node scripts/import-projects.mjs && node scripts/import-articles.mjs"
+    "import-all": "node scripts/import-projects.mjs && node scripts/import-articles.mjs",
+    "update-image-paths": "node scripts/update-image-paths.mjs",
+    "update-image-paths:dry": "DRY_RUN=true node scripts/update-image-paths.mjs"
   },
   "keywords": [],
   "author": "",
