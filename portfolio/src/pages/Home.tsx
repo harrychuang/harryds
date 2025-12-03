@@ -2,7 +2,7 @@ import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react'
 import './Home.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Logo, FeedDetailOverlay, PixelText, PixelText2D, ParticlesBackground, PopupModal, Input, Dropdown } from 'hds';
+import { Logo, FeedDetailOverlay, PopupModal, Input, Dropdown } from 'hds';
 import type { FeedCardSize, DropdownOption } from 'hds';
 import type { FeedItem, FeedContentBlock } from '../../../harryds/src/types/feed';
 import { useProjects } from '../hooks/useProjects';
@@ -119,10 +119,10 @@ const Home: React.FC = () => {
 
   // 設計系統/顧問專用的預算選項
   const consultingBudgetOptions: DropdownOption[] = useMemo(() => [
-    { value: 'unsure', label: t('contactModal.consultingBudgets.unsure', { ns: 'common' }) },
     { value: 'under5k', label: t('contactModal.consultingBudgets.under5k', { ns: 'common' }) },
     { value: '5k-10k', label: t('contactModal.consultingBudgets.5k-10k', { ns: 'common' }) },
     { value: '10k+', label: t('contactModal.consultingBudgets.10k+', { ns: 'common' }) },
+    { value: 'unsure', label: t('contactModal.consultingBudgets.unsure', { ns: 'common' }) },
   ], [t]);
 
 

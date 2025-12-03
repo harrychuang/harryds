@@ -150,6 +150,17 @@ const Footer: React.FC = () => {
     { value: '100k-200k', label: t('contactModal.budgets.100k-200k') },
     { value: '200k+', label: t('contactModal.budgets.200k+') },
   ], [t]);
+
+  const consultingBudgetOptions: DropdownOption[] = useMemo(() => [
+    { value: 'under5k', label: t('contactModal.consultingBudgets.under5k') },
+    { value: '5k-10k', label: t('contactModal.consultingBudgets.5k-10k') },
+    { value: '10k+', label: t('contactModal.consultingBudgets.10k+') },
+    { value: 'unsure', label: t('contactModal.consultingBudgets.unsure') },
+  ], [t]);
+
+  const budgetDropdownOptions = useMemo(() => (
+    contactProjectType === 'brand' ? consultingBudgetOptions : budgetOptions
+  ), [contactProjectType, consultingBudgetOptions, budgetOptions]);
   
   // Hover 音效
   const hoverSoundHandleRef = useRef<PlaybackHandle | null>(null);
@@ -570,12 +581,16 @@ const Footer: React.FC = () => {
           label={t('contactModal.projectType')}
           options={projectTypeOptions}
           value={contactProjectType}
-          onChange={(val) => setContactProjectType(val)}
+          onChange={(val) => {
+            setContactProjectType(val);
+            setContactBudget('');
+          }}
           placeholder={t('contactModal.projectTypePlaceholder')}
         />
         <Dropdown
+          key={`footer-budget-${contactProjectType || 'default'}`}
           label={t('contactModal.budget')}
-          options={budgetOptions}
+          options={budgetDropdownOptions}
           value={contactBudget}
           onChange={(val) => setContactBudget(val)}
           placeholder={t('contactModal.budgetPlaceholder')}

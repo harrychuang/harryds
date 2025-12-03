@@ -141,6 +141,17 @@ const About: React.FC = () => {
     { value: '200k+', label: t('contactModal.budgets.200k+', { ns: 'common' }) },
   ], [t]);
 
+  const consultingBudgetOptions: DropdownOption[] = React.useMemo(() => [
+    { value: 'under5k', label: t('contactModal.consultingBudgets.under5k', { ns: 'common' }) },
+    { value: '5k-10k', label: t('contactModal.consultingBudgets.5k-10k', { ns: 'common' }) },
+    { value: '10k+', label: t('contactModal.consultingBudgets.10k+', { ns: 'common' }) },
+    { value: 'unsure', label: t('contactModal.consultingBudgets.unsure', { ns: 'common' }) },
+  ], [t]);
+
+  const budgetDropdownOptions = React.useMemo(() => (
+    contactProjectType === 'brand' ? consultingBudgetOptions : budgetOptions
+  ), [contactProjectType, consultingBudgetOptions, budgetOptions]);
+
   // Referrer 資料 - 從 i18n 讀取
   const referrerImages = [
     referrerKris,
@@ -1425,12 +1436,16 @@ const About: React.FC = () => {
           label={t('contactModal.projectType', { ns: 'common' })}
           options={projectTypeOptions}
           value={contactProjectType}
-          onChange={(val) => setContactProjectType(val)}
+          onChange={(val) => {
+            setContactProjectType(val);
+            setContactBudget('');
+          }}
           placeholder={t('contactModal.projectTypePlaceholder', { ns: 'common' })}
         />
         <Dropdown
+          key={`about-budget-${contactProjectType || 'default'}`}
           label={t('contactModal.budget', { ns: 'common' })}
-          options={budgetOptions}
+          options={budgetDropdownOptions}
           value={contactBudget}
           onChange={(val) => setContactBudget(val)}
           placeholder={t('contactModal.budgetPlaceholder', { ns: 'common' })}
