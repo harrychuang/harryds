@@ -36,6 +36,8 @@ export interface PocketConsoleProps {
   onButtonRelease?: (button: PocketConsoleButton) => void;
   /** 是否啟用鍵盤控制（預設為 true） */
   enableKeyboard?: boolean;
+  /** Konami Code 輸入成功時的回調 */
+  onSuccess?: () => void;
 }
 
 // 像素單位大小
@@ -82,6 +84,7 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
   onButtonPress,
   onButtonRelease,
   enableKeyboard = true,
+  onSuccess,
 }) => {
   // 追蹤按下的按鈕
   const [pressedButtons, setPressedButtons] = useState<Set<PocketConsoleButton>>(new Set());
@@ -132,6 +135,10 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
         const inputString = trimmedHistory.join('');
         if (inputString === KONAMI_CODE) {
           setIsSuccess(true);
+          // 延遲觸發 onSuccess，讓 SUCCESS 動畫有時間播放
+          setTimeout(() => {
+            onSuccess?.();
+          }, 1000);
         }
         
         return trimmedHistory;
@@ -139,7 +146,7 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
     }
     
     onButtonPress?.(button);
-  }, [onButtonPress, isSuccess]);
+  }, [onButtonPress, isSuccess, onSuccess]);
 
   // 放開按鈕
   const releaseButton = useCallback((button: PocketConsoleButton) => {

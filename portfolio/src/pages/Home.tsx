@@ -2,7 +2,7 @@ import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react'
 import './Home.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Logo, FeedDetailOverlay, PopupModal } from 'hds';
+import { Logo, FeedDetailOverlay, PopupModal, PocketConsole } from 'hds';
 import type { FeedCardSize } from 'hds';
 import type { FeedItem, FeedContentBlock } from '../../../harryds/src/types/feed';
 import { useProjects } from '../hooks/useProjects';
@@ -27,6 +27,45 @@ const slugify = (text: string) => text
   .replace(/-+/g, '-');
 
 const PAGE_NAME = 'home';
+
+// PocketConsole 螢幕內容組件（每 3 秒切換）
+const PocketConsoleScreenContent: React.FC = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowPassword(prev => !prev);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const baseStyle: React.CSSProperties = {
+    color: '#0f380f',
+    fontFamily: 'PublicPixel, monospace',
+    textAlign: 'center',
+    fontSize: '15px',
+    lineHeight: 1.6,
+  };
+
+  if (showPassword) {
+    return (
+      <div style={{ ...baseStyle, fontSize: '12px', lineHeight: 1.8 }}>
+        <div>PLEASE</div>
+        <div>ENTER THE</div>
+        <div>PASSWORD.</div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={baseStyle}>
+      <div>HARRY</div>
+      <div>DESIGN</div>
+      <div>STUDIO</div>
+    </div>
+  );
+};
 
 const Home: React.FC = () => {
   const params = useParams();
@@ -95,6 +134,11 @@ const Home: React.FC = () => {
   
   // Archived Modal state
   const [isArchivedModalOpen, setIsArchivedModalOpen] = useState(false);
+  
+  // Private Project Unlock Modal state
+  const [privateUnlockModalOpen, setPrivateUnlockModalOpen] = useState(false);
+  const [pendingPrivateCardId, setPendingPrivateCardId] = useState<number | null>(null);
+  const unlockedPrivateIdsRef = useRef<Set<number>>(new Set());
 
 
   // 導覽選單 hover 觸發一次動畫狀態
@@ -297,6 +341,14 @@ const Home: React.FC = () => {
     const item = items.find(i => i.id === cardId);
     if (!item) return;
     
+    // 檢查是否為 private 專案且尚未解鎖
+    if (item.isPrivate && !unlockedPrivateIdsRef.current.has(cardId)) {
+      // 顯示解鎖 modal
+      setPendingPrivateCardId(cardId);
+      setPrivateUnlockModalOpen(true);
+      return;
+    }
+    
     // 檢查是否已經載入過
     const hasLoaded = loadedCardIdsRef.current.has(cardId);
     
@@ -313,6 +365,39 @@ const Home: React.FC = () => {
       }, 100);
     }
   }, [openCardId, items, navigate, toItemUrl, setLoading]);
+  
+  // Private Project Unlock 成功處理
+  const handlePrivateUnlockSuccess = useCallback(() => {
+    if (pendingPrivateCardId !== null) {
+      // 標記為已解鎖
+      unlockedPrivateIdsRef.current.add(pendingPrivateCardId);
+      
+      // 關閉 modal
+      setPrivateUnlockModalOpen(false);
+      
+      // 延遲後開啟專案
+      const item = items.find(i => i.id === pendingPrivateCardId);
+      if (item) {
+        const hasLoaded = loadedCardIdsRef.current.has(pendingPrivateCardId);
+        if (hasLoaded) {
+          navigate(toItemUrl(item), { replace: false });
+        } else {
+          setLoading(true);
+          setTimeout(() => {
+            navigate(toItemUrl(item), { replace: false });
+          }, 100);
+        }
+      }
+      
+      setPendingPrivateCardId(null);
+    }
+  }, [pendingPrivateCardId, items, navigate, toItemUrl, setLoading]);
+  
+  // Private Project Unlock Modal 關閉處理
+  const handlePrivateUnlockClose = useCallback(() => {
+    setPrivateUnlockModalOpen(false);
+    setPendingPrivateCardId(null);
+  }, []);
 
   const handleCloseCard = useCallback(() => {
     setOpenCardId(null);
@@ -819,6 +904,21 @@ const Home: React.FC = () => {
         heading={t('archivedModal.heading', { ns: 'common' })}
         description={t('archivedModal.description', { ns: 'common' })}
       />
+      
+      {/* Private Project Unlock Modal */}
+      {privateUnlockModalOpen && (
+        <div className="private-unlock-overlay" onClick={handlePrivateUnlockClose}>
+          <div className="private-unlock-modal" onClick={(e) => e.stopPropagation()}>
+            <PocketConsole
+              width={400}
+              animated={true}
+              onSuccess={handlePrivateUnlockSuccess}
+              enableKeyboard={true}
+              screenContent={<PocketConsoleScreenContent />}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -811,3 +811,59 @@ body[data-theme="dark"] {
     transition: filter 0.3s ease;
   }
 }
+
+// =============================================================================
+// PRIVATE PROJECT UNLOCK MODAL
+// =============================================================================
+
+.private-unlock-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  animation: privateUnlockFadeIn 0.3s ease;
+}
+
+.private-unlock-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: privateUnlockScaleIn 0.3s ease;
+}
+
+@keyframes privateUnlockFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes privateUnlockScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Responsive: 在較小螢幕上縮小 PocketConsole
+@media (max-width: 480px) {
+  .private-unlock-modal {
+    .hds-pocket-console {
+      width: 280px !important;
+      height: auto !important;
+    }
+  }
+}
