@@ -1,19 +1,16 @@
 import React, { useMemo, useEffect, useState, useCallback, useRef } from 'react';
 import './Footer.scss';
 import { useParams, useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useProjects } from '../hooks/useProjects';
 import type { FeedItem } from 'hds/types/feed';
-import { PopupModal, Input, Dropdown } from 'hds';
-import type { DropdownOption } from 'hds';
 import { useHover } from '../contexts/HoverContext';
 import { useOverlay } from '../contexts/OverlayContext';
+import { useContactModal } from '../contexts/ContactModalContext';
 import { useScrollProgress } from '../hooks/useScrollProgress';
 import { useTheme } from '../theme/useTheme';
 import ScrollIndicator from './ScrollIndicator';
 import { GIPHY_URLS } from '../constants/giphy';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
-import { getContactBudgetOptions, getContactProjectTypeOptions } from '../utils/contactModalOptions';
 import { likePage, unlikePage, getPageLikeCount } from '../services/strapiClient';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 
@@ -129,10 +126,10 @@ const persistLikedPaths = (paths: Set<string>) => {
 
 const Footer: React.FC = () => {
   const params = useParams();
-  const { t } = useTranslation('common');
   const { items } = useProjects();
   const { hoveredCardId } = useHover();
   const { openCardId, animationPhase, overlayScrollRef } = useOverlay();
+  const { openContactModal } = useContactModal();
   const { theme } = useTheme();
   const location = useLocation();
   const rightText = "COPYRIGHT © HARRY.DS ALL RIGHTS RESERVED.";
@@ -151,29 +148,10 @@ const Footer: React.FC = () => {
   const hydratedPageKeyRef = useRef<string | null>(null);
   const pageStorageKey = useMemo(() => normalizePathKey(location.pathname), [location.pathname]);
 
-  // Contact Modal state
-  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const [contactName, setContactName] = useState('');
-  const [contactEmail, setContactEmail] = useState('');
-  const [contactProjectType, setContactProjectType] = useState('');
-  const [contactBudget, setContactBudget] = useState('');
-  const [contactMessage, setContactMessage] = useState('');
-
   // Like count state
   const [likeCount, setLikeCount] = useState(0);
   const [showLikeCount, setShowLikeCount] = useState(false); // true = 顯示數字, false = 顯示 icon
   const likeToggleTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Contact Modal options
-  const projectTypeOptions: DropdownOption[] = useMemo(
-    () => getContactProjectTypeOptions(t),
-    [t]
-  );
-
-  const budgetOptions: DropdownOption[] = useMemo(
-    () => getContactBudgetOptions(t),
-    [t]
-  );
   
   // Hover 音效
   const hoverSoundHandleRef = useRef<PlaybackHandle | null>(null);
@@ -248,32 +226,8 @@ const Footer: React.FC = () => {
 
   // Email 按鈕點擊處理 - 打開 Contact Modal
   const handleEmailClick = useCallback(() => {
-    setIsContactModalOpen(true);
-  }, []);
-
-  // Contact Modal 關閉處理
-  const handleContactModalClose = useCallback(() => {
-    setIsContactModalOpen(false);
-  }, []);
-
-  // Contact Modal 提交處理
-  const handleContactSubmit = useCallback(() => {
-    console.log({
-      name: contactName,
-      email: contactEmail,
-      projectType: contactProjectType,
-      budget: contactBudget,
-      message: contactMessage,
-    });
-    alert(t('contactModal.success'));
-    setIsContactModalOpen(false);
-    // Reset form
-    setContactName('');
-    setContactEmail('');
-    setContactProjectType('');
-    setContactBudget('');
-    setContactMessage('');
-  }, [contactName, contactEmail, contactProjectType, contactBudget, contactMessage, t]);
+    openContactModal();
+  }, [openContactModal]);
 
   const pickRandomGifUrl = useCallback((excludeUrl?: string) => {
     if (GIPHY_URLS.length === 0) {
@@ -640,59 +594,6 @@ const Footer: React.FC = () => {
           />
         </div>
       </div>
-
-      {/* Contact Modal */}
-      <PopupModal
-        isOpen={isContactModalOpen}
-        onClose={handleContactModalClose}
-        heading={t('contactModal.heading')}
-        description={`${t('contactModal.description')}\n\n${t('contactModal.alternativeContact')}`}
-        primaryButtonText={t('contactModal.send')}
-        secondaryButtonText={t('contactModal.cancel')}
-        onPrimaryClick={handleContactSubmit}
-      >
-        <Input
-          label={t('contactModal.name')}
-          placeholder={t('contactModal.namePlaceholder')}
-          value={contactName}
-          onChange={(e) => setContactName(e.target.value)}
-          required
-        />
-        <Input
-          label={t('contactModal.email')}
-          placeholder={t('contactModal.emailPlaceholder')}
-          type="email"
-          value={contactEmail}
-          onChange={(e) => setContactEmail(e.target.value)}
-          required
-        />
-        <Dropdown
-          label={t('contactModal.projectType')}
-          options={projectTypeOptions}
-          value={contactProjectType}
-          onChange={(val) => {
-            setContactProjectType(val);
-            setContactBudget('');
-          }}
-          placeholder={t('contactModal.projectTypePlaceholder')}
-          required
-        />
-        <Dropdown
-          key={`footer-budget-${contactProjectType || 'default'}`}
-          label={t('contactModal.budget')}
-          options={budgetOptions}
-          value={contactBudget}
-          onChange={(val) => setContactBudget(val)}
-          placeholder={t('contactModal.budgetPlaceholder')}
-          required
-        />
-        <Input
-          label={t('contactModal.message')}
-          placeholder={t('contactModal.messagePlaceholder')}
-          value={contactMessage}
-          onChange={(e) => setContactMessage(e.target.value)}
-        />
-      </PopupModal>
     </footer>
   );
 };

@@ -12,6 +12,7 @@ import { HoverProvider } from './contexts/HoverContext';
 import { OverlayProvider } from './contexts/OverlayContext';
 import { DataSourceProvider } from './contexts/DataSourceContext';
 import { PageLoaderProvider, usePageLoader } from './contexts/PageLoaderContext';
+import { ContactModalProvider } from './contexts/ContactModalContext';
 
 // 內部 App 元件，可以使用 PageLoader context
 const AppContent: React.FC = () => {
@@ -62,7 +63,9 @@ const App: React.FC = () => {
       <HoverProvider>
         <OverlayProvider>
           <PageLoaderProvider>
-            <AppContent />
+            <ContactModalProvider>
+              <AppContent />
+            </ContactModalProvider>
           </PageLoaderProvider>
         </OverlayProvider>
       </HoverProvider>

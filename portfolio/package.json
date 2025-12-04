@@ -9,6 +9,7 @@
     "preview": "vite preview --host"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@types/three": "^0.179.0",
     "gsap": "^3.13.0",
     "i18next": "^23.10.1",

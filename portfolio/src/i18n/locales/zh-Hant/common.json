@@ -58,7 +58,10 @@
     "message": "訊息",
     "messagePlaceholder": "告訴我們您的專案...",
     "send": "送出訊息",
+    "sending": "傳送中...",
     "cancel": "取消",
-    "success": "謝謝您！我們會盡快回覆。"
+    "success": "謝謝您！我們會盡快回覆。",
+    "error": "訊息發送失敗，請稍後再試。",
+    "validationError": "請填寫所有必填欄位。"
   }
 }

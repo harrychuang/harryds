@@ -2,8 +2,8 @@ import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react'
 import './Home.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Logo, FeedDetailOverlay, PopupModal, Input, Dropdown } from 'hds';
-import type { FeedCardSize, DropdownOption } from 'hds';
+import { Logo, FeedDetailOverlay, PopupModal } from 'hds';
+import type { FeedCardSize } from 'hds';
 import type { FeedItem, FeedContentBlock } from '../../../harryds/src/types/feed';
 import { useProjects } from '../hooks/useProjects';
 import { useDataSource } from '../contexts/DataSourceContext';
@@ -16,8 +16,8 @@ import { useHover } from '../contexts/HoverContext';
 import { useSound } from '../hooks/useSound';
 import { useOverlay } from '../contexts/OverlayContext';
 import Header from '../components/Header';
-import { getContactBudgetOptions, getContactProjectTypeOptions } from '../utils/contactModalOptions';
 import { usePageLoader } from '../contexts/PageLoaderContext';
+import { useContactModal } from '../contexts/ContactModalContext';
 
 const slugify = (text: string) => text
   .toLowerCase()
@@ -87,30 +87,14 @@ const Home: React.FC = () => {
   const loadedCardIdsRef = useRef<Set<number>>(new Set());
   const langDropdownRef = useRef<HTMLDivElement>(null);
 
-  // Contact Modal state
-  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  // Contact Modal - 使用共用的 Context
+  const { openContactModal } = useContactModal();
   
   // In Development Modal state
   const [isInDevModalOpen, setIsInDevModalOpen] = useState(false);
   
   // Archived Modal state
   const [isArchivedModalOpen, setIsArchivedModalOpen] = useState(false);
-  const [contactName, setContactName] = useState('');
-  const [contactEmail, setContactEmail] = useState('');
-  const [contactProjectType, setContactProjectType] = useState('');
-  const [contactBudget, setContactBudget] = useState('');
-  const [contactMessage, setContactMessage] = useState('');
-
-  // Contact Modal options
-  const projectTypeOptions: DropdownOption[] = useMemo(
-    () => getContactProjectTypeOptions(t, { ns: 'common' }),
-    [t]
-  );
-
-  const budgetOptions: DropdownOption[] = useMemo(
-    () => getContactBudgetOptions(t, { ns: 'common' }),
-    [t]
-  );
 
 
   // 導覽選單 hover 觸發一次動畫狀態
@@ -345,14 +329,10 @@ const Home: React.FC = () => {
     navigate('/', { replace: false });
   }, [navigate, setContextOpenCardId, setContextAnimationPhase]);
 
-  // Contact Modal handlers
+  // Contact Modal handler - 使用共用的 Context
   const handleEmailClick = useCallback((_email: string) => {
-    setIsContactModalOpen(true);
-  }, []);
-
-  const handleContactModalClose = useCallback(() => {
-    setIsContactModalOpen(false);
-  }, []);
+    openContactModal();
+  }, [openContactModal]);
 
   // In Development Modal handlers
   const handleInDevClick = useCallback(() => {
@@ -371,24 +351,6 @@ const Home: React.FC = () => {
   const handleArchivedModalClose = useCallback(() => {
     setIsArchivedModalOpen(false);
   }, []);
-
-  const handleContactSubmit = useCallback(() => {
-    console.log({
-      name: contactName,
-      email: contactEmail,
-      projectType: contactProjectType,
-      budget: contactBudget,
-      message: contactMessage,
-    });
-    alert(t('contactModal.success', { ns: 'common' }));
-    setIsContactModalOpen(false);
-    // Reset form
-    setContactName('');
-    setContactEmail('');
-    setContactProjectType('');
-    setContactBudget('');
-    setContactMessage('');
-  }, [contactName, contactEmail, contactProjectType, contactBudget, contactMessage, t]);
 
   const handleLogoClick = useCallback(() => {
     hasPlayedLogoClickSoundRef.current = false;
@@ -839,60 +801,6 @@ const Home: React.FC = () => {
           })}
         </div>
       </div>
-
-      {/* Contact Modal */}
-      <PopupModal
-        isOpen={isContactModalOpen}
-        onClose={handleContactModalClose}
-        heading={t('contactModal.heading', { ns: 'common' })}
-        description={`${t('contactModal.description', { ns: 'common' })}\n\n${t('contactModal.alternativeContact', { ns: 'common' })}`}
-        primaryButtonText={t('contactModal.send', { ns: 'common' })}
-        secondaryButtonText={t('contactModal.cancel', { ns: 'common' })}
-        onPrimaryClick={handleContactSubmit}
-      >
-        <Input
-          label={t('contactModal.name', { ns: 'common' })}
-          placeholder={t('contactModal.namePlaceholder', { ns: 'common' })}
-          value={contactName}
-          onChange={(e) => setContactName(e.target.value)}
-          required
-        />
-        <Input
-          label={t('contactModal.email', { ns: 'common' })}
-          placeholder={t('contactModal.emailPlaceholder', { ns: 'common' })}
-          type="email"
-          value={contactEmail}
-          onChange={(e) => setContactEmail(e.target.value)}
-          required
-        />
-        <Dropdown
-          label={t('contactModal.projectType', { ns: 'common' })}
-          options={projectTypeOptions}
-          value={contactProjectType}
-          onChange={(val) => {
-            setContactProjectType(val);
-            // 當專案類型改變時，重置預算選擇
-            setContactBudget('');
-          }}
-          placeholder={t('contactModal.projectTypePlaceholder', { ns: 'common' })}
-          required
-        />
-        <Dropdown
-          key={`budget-${contactProjectType}`}
-          label={t('contactModal.budget', { ns: 'common' })}
-          options={budgetOptions}
-          value={contactBudget}
-          onChange={(val) => setContactBudget(val)}
-          placeholder={t('contactModal.budgetPlaceholder', { ns: 'common' })}
-          required
-        />
-        <Input
-          label={t('contactModal.message', { ns: 'common' })}
-          placeholder={t('contactModal.messagePlaceholder', { ns: 'common' })}
-          value={contactMessage}
-          onChange={(e) => setContactMessage(e.target.value)}
-        />
-      </PopupModal>
 
       {/* In Development Modal */}
       <PopupModal

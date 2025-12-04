@@ -105,15 +105,20 @@
     cursor: pointer;
     transition: background-color 0.2s ease, opacity 0.2s ease;
 
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
     &--primary {
       background-color: var(--hds-sys-color-dark-100a);
       color: var(--hds-sys-color-light-100a);
 
-      &:hover {
+      &:hover:not(:disabled) {
         background-color: var(--hds-sys-color-dark-80a);
       }
 
-      &:active {
+      &:active:not(:disabled) {
         background-color: var(--hds-sys-color-dark-100a);
       }
     }
@@ -122,11 +127,11 @@
       background-color: var(--hds-sys-color-dark-10a);
       color: var(--hds-sys-color-dark-100a);
 
-      &:hover {
+      &:hover:not(:disabled) {
         background-color: var(--hds-sys-color-dark-20a);
       }
 
-      &:active {
+      &:active:not(:disabled) {
         background-color: var(--hds-sys-color-dark-10a);
       }
     }
@@ -214,7 +219,7 @@ body[theme='dark'] {
         background-color: var(--hds-sys-color-light-100a);
         color: var(--hds-sys-color-dark-100a);
 
-        &:hover {
+        &:hover:not(:disabled) {
           background-color: var(--hds-sys-color-light-80a);
         }
       }
@@ -223,7 +228,7 @@ body[theme='dark'] {
         background-color: var(--hds-sys-color-light-20a);
         color: var(--hds-sys-color-light-100a);
 
-        &:hover {
+        &:hover:not(:disabled) {
           background-color: var(--hds-sys-color-light-40a);
         }
       }

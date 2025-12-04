@@ -22,6 +22,8 @@ export interface PopupModalProps {
   primaryButtonText?: string;
   /** 主要按鈕點擊事件 */
   onPrimaryClick?: () => void;
+  /** 主要按鈕是否禁用 */
+  primaryButtonDisabled?: boolean;
   /** 次要按鈕文字（可選） */
   secondaryButtonText?: string;
   /** 次要按鈕點擊事件 */
@@ -45,6 +47,7 @@ export const PopupModal: React.FC<PopupModalProps> = ({
   description,
   primaryButtonText,
   onPrimaryClick,
+  primaryButtonDisabled = false,
   secondaryButtonText,
   onSecondaryClick,
   children,
@@ -139,6 +142,7 @@ export const PopupModal: React.FC<PopupModalProps> = ({
               <button
                 className="hds-modal__button hds-modal__button--primary"
                 onClick={onPrimaryClick}
+                disabled={primaryButtonDisabled}
               >
                 {primaryButtonText}
               </button>

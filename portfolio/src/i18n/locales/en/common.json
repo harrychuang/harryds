@@ -58,8 +58,11 @@
     "message": "Message",
     "messagePlaceholder": "Tell us about your project...",
     "send": "Send Message",
+    "sending": "Sending...",
     "cancel": "Cancel",
-    "success": "Thank you! We'll get back to you soon."
+    "success": "Thank you! We'll get back to you soon.",
+    "error": "Failed to send message. Please try again.",
+    "validationError": "Please fill in all required fields."
   }
 }
 
