@@ -60,8 +60,11 @@
     "send": "送出訊息",
     "sending": "傳送中...",
     "cancel": "取消",
+    "ok": "確定",
     "success": "謝謝您！我們會盡快回覆。",
+    "successHeading": "訊息已送出！",
     "error": "訊息發送失敗，請稍後再試。",
+    "errorHeading": "發生錯誤",
     "validationError": "請填寫所有必填欄位。"
   }
 }

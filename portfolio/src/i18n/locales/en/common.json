@@ -60,8 +60,11 @@
     "send": "Send Message",
     "sending": "Sending...",
     "cancel": "Cancel",
+    "ok": "OK",
     "success": "Thank you! We'll get back to you soon.",
+    "successHeading": "MESSAGE SENT!",
     "error": "Failed to send message. Please try again.",
+    "errorHeading": "OOPS!",
     "validationError": "Please fill in all required fields."
   }
 }

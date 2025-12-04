@@ -55,6 +55,11 @@ export const ContactModalProvider: React.FC<ContactModalProviderProps> = ({ chil
   const [contactBudget, setContactBudget] = useState('');
   const [contactMessage, setContactMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // 成功/錯誤 Modal 狀態
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Options
   const projectTypeOptions: DropdownOption[] = useMemo(
@@ -86,7 +91,8 @@ export const ContactModalProvider: React.FC<ContactModalProviderProps> = ({ chil
   const handleSubmit = useCallback(async () => {
     // 基本驗證
     if (!contactName.trim() || !contactEmail.trim()) {
-      alert(t('contactModal.validationError') || 'Please fill in all required fields');
+      setErrorMessage(t('contactModal.validationError') || 'Please fill in all required fields');
+      setIsErrorModalOpen(true);
       return;
     }
 
@@ -100,7 +106,8 @@ export const ContactModalProvider: React.FC<ContactModalProviderProps> = ({ chil
 
       if (!serviceId || !templateId || !publicKey) {
         console.error('[Contact] EmailJS 配置缺失');
-        alert(t('contactModal.error') || 'Configuration error. Please try again later.');
+        setErrorMessage(t('contactModal.error') || 'Configuration error. Please try again later.');
+        setIsErrorModalOpen(true);
         return;
       }
 
@@ -127,12 +134,13 @@ export const ContactModalProvider: React.FC<ContactModalProviderProps> = ({ chil
         publicKey
       );
 
-      alert(t('contactModal.success'));
       setIsOpen(false);
       resetForm();
+      setIsSuccessModalOpen(true);
     } catch (error) {
       console.error('[Contact] 發送郵件失敗:', error);
-      alert(t('contactModal.error') || 'Failed to send message. Please try again.');
+      setErrorMessage(t('contactModal.error') || 'Failed to send message. Please try again.');
+      setIsErrorModalOpen(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -206,6 +214,26 @@ export const ContactModalProvider: React.FC<ContactModalProviderProps> = ({ chil
           disabled={isSubmitting}
         />
       </PopupModal>
+
+      {/* 成功 Modal */}
+      <PopupModal
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+        heading={t('contactModal.successHeading') || 'MESSAGE SENT!'}
+        description={t('contactModal.success')}
+        primaryButtonText={t('contactModal.ok') || 'OK'}
+        onPrimaryClick={() => setIsSuccessModalOpen(false)}
+      />
+
+      {/* 錯誤 Modal */}
+      <PopupModal
+        isOpen={isErrorModalOpen}
+        onClose={() => setIsErrorModalOpen(false)}
+        heading={t('contactModal.errorHeading') || 'OOPS!'}
+        description={errorMessage}
+        primaryButtonText={t('contactModal.ok') || 'OK'}
+        onPrimaryClick={() => setIsErrorModalOpen(false)}
+      />
     </ContactModalContext.Provider>
   );
 };
