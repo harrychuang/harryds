@@ -137,24 +137,6 @@
     }
   }
 
-  @media (max-width: 768px) {
-    padding: 24px;
-    
-    &__header {
-      padding: 0 24px;
-      
-      .header-content { 
-        max-width: none;
-        flex-direction: column;
-        gap: 20px;
-      }
-    }
-    
-    &__nav {
-      gap: 20px; // 保持與桌面端一致的 20px 間距
-    }
-  }
-
   &__main {
     padding-top: 20vh;
     padding-bottom: 10vh;

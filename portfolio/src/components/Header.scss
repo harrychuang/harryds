@@ -49,3 +49,214 @@
 	}
 }
 
+// =============================================================================
+// 手機版 MENU 按鈕
+// =============================================================================
+
+.mobile-menu-button {
+	display: none;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 8px;
+	margin-left: auto;
+	
+	&:hover {
+		opacity: 0.8;
+	}
+}
+
+// 在小於 1000px 時顯示 MENU 按鈕，隱藏桌面版導航
+@media (max-width: 999px) {
+	.home__nav--desktop {
+		display: none !important;
+	}
+	
+	.mobile-menu-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+// =============================================================================
+// 手機版全螢幕選單 Overlay
+// =============================================================================
+
+.mobile-menu-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 10001; // 最高層級，在所有元素之上（包括 TransitionOverlay 10000）
+	background-color: var(--hds-sys-color-on-theme-surface);
+	display: flex;
+	flex-direction: column;
+	animation: mobileMenuFadeIn 0.3s ease-out forwards;
+	overflow: hidden;
+	isolation: isolate; // 建立新的 stacking context
+}
+
+@keyframes mobileMenuFadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.mobile-menu-content {
+	width: 100%;
+	height: 100%;
+	padding: 50px; // 改為 50px
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	background-color: inherit; // 繼承父層背景色
+	box-sizing: border-box;
+}
+
+// =============================================================================
+// Close 按鈕
+// =============================================================================
+
+.mobile-menu-close {
+	position: absolute;
+	top: 30px;
+	right: 30px;
+	background: transparent;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 10;
+	padding: 0;
+	box-sizing: border-box;
+	transition: transform 0.2s ease, opacity 0.2s ease;
+	
+	&:hover {
+		opacity: 0.7;
+	}
+	
+	&:focus {
+		outline: none;
+	}
+}
+
+// =============================================================================
+// 控制項（Theme, Sound, Language）
+// =============================================================================
+
+.mobile-menu-controls {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin-top: 100px; // 為 close 按鈕留空間
+	padding-bottom: 50px;
+}
+
+.mobile-menu-control-item {
+	background: transparent;
+	cursor: pointer;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	// Theme 和 Sound 按鈕樣式（和桌面版一樣）
+	&.mobile-menu-theme-toggle,
+	&.mobile-menu-sound-toggle {
+		width: 40px;
+		height: 40px;
+		border: 4px solid var(--hds-sys-color-theme-surface);
+		box-sizing: border-box;
+		transition: transform 0.2s ease;
+		
+		&:hover {
+			transform: scale(1.1);
+		}
+	}
+}
+
+.mobile-menu-lang-group {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-left: auto;
+}
+
+.mobile-menu-lang-item {
+	width: auto;
+	min-width: 40px;
+	height: 40px;
+	border: 4px solid var(--hds-sys-color-theme-surface);
+	box-sizing: border-box;
+	opacity: 0.5;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+	padding: 0 4px;
+	
+	&--active {
+		opacity: 1;
+	}
+	
+	&:hover {
+		opacity: 1;
+		transform: scale(1.1);
+	}
+}
+
+// =============================================================================
+// 主要導航項目
+// =============================================================================
+
+.mobile-menu-nav {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	margin-top: 48px;
+	flex: 1;
+}
+
+.mobile-menu-nav-item {
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 16px 0;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	text-align: left;
+	transition: opacity 0.2s ease;
+	
+	&:hover {
+		opacity: 0.7;
+	}
+	
+	&--active {
+		// active 狀態的樣式
+	}
+}
+
+.mobile-menu-nav-active-indicator {
+	font-family: 'PublicPixel', monospace;
+	font-size: 8px;
+	color: var(--hds-sys-color-theme-surface);
+	animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+	0%, 50% {
+		opacity: 1;
+	}
+	51%, 100% {
+		opacity: 0;
+	}
+}

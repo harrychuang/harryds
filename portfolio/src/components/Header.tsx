@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Logo, PixelText2D } from 'hds';
 import './Header.scss';
 
@@ -91,6 +91,41 @@ const Header: React.FC<HeaderProps> = ({
 	const primaryColor = navColors?.primaryColor;
 	const onPrimaryColor = navColors?.secondaryColor;
 
+	// 手機版選單狀態
+	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	const [isMobile, setIsMobile] = useState(false);
+
+	// 監聽視窗寬度
+	useEffect(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 1000);
+		};
+		checkMobile();
+		window.addEventListener('resize', checkMobile);
+		return () => window.removeEventListener('resize', checkMobile);
+	}, []);
+
+	// 當選單打開時，鎖定 body 滾動
+	useEffect(() => {
+		if (isMobileMenuOpen) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = '';
+		}
+		return () => {
+			document.body.style.overflow = '';
+		};
+	}, [isMobileMenuOpen]);
+
+	const handleMobileMenuToggle = () => {
+		setIsMobileMenuOpen(!isMobileMenuOpen);
+	};
+
+	const handleMobileMenuItemClick = (itemKey: string) => {
+		setIsMobileMenuOpen(false);
+		onMenuItemClick && onMenuItemClick(itemKey);
+	};
+
 	return (
 		<header className="home__header">
 			<div className="header-content">
@@ -107,7 +142,9 @@ const Header: React.FC<HeaderProps> = ({
 						{...(logoColors || {})}
 					/>
 				</div>
-				<nav className="home__nav">
+
+				{/* 桌面版導航 */}
+				<nav className="home__nav home__nav--desktop">
 					{!hideNav && (
 						<>
 							{menuItems.map((itemKey) => {
@@ -277,7 +314,161 @@ const Header: React.FC<HeaderProps> = ({
 						</div>
 					)}
 				</nav>
+
+				{/* 手機版 MENU 按鈕 */}
+				{isMobile && !hideNav && (
+					<button
+						className="mobile-menu-button"
+						onClick={handleMobileMenuToggle}
+						onMouseEnter={() => onMenuItemHover && onMenuItemHover('menu')}
+						aria-label="開啟選單"
+					>
+						<PixelText2D
+							text="[ MENU ]"
+							textEnabled
+							pixelSize={2}
+							width={calcPixelTextWidth('[ MENU ]')}
+							height={24}
+							animated={false}
+							primaryColor={primaryColor}
+							onPrimaryColor={onPrimaryColor}
+						/>
+					</button>
+				)}
 			</div>
+
+			{/* 手機版全螢幕選單 */}
+			{isMobile && isMobileMenuOpen && (
+				<div className="mobile-menu-overlay">
+					<div className="mobile-menu-content">
+						{/* Close 按鈕 - 右上角 */}
+						<button
+							className="mobile-menu-close"
+							onClick={handleMobileMenuToggle}
+							onMouseEnter={() => onMenuItemHover && onMenuItemHover('close')}
+							aria-label="關閉選單"
+						>
+							<PixelText2D
+								text="×"
+								textEnabled
+								pixelSize={3}
+								letterSpacing={0}
+								width={24}
+								height={24}
+								animated={false}
+								primaryColor="var(--hds-sys-color-theme-surface)"
+							/>
+						</button>
+
+						{/* 第一行：Theme, Sound, Language */}
+						<div className="mobile-menu-controls">
+							{showThemeToggle && (
+								<button
+									className="mobile-menu-control-item mobile-menu-theme-toggle"
+									onClick={() => {
+										onToggleTheme && onToggleTheme();
+									}}
+									onMouseEnter={onThemeHover}
+									aria-label="切換主題"
+								>
+									<PixelText2D
+										text={theme === 'dark' ? '☽' : '☀'}
+										textEnabled
+										pixelSize={2}
+										letterSpacing={0}
+										width={36}
+										height={36}
+										animated={false}
+										primaryColor="var(--hds-sys-color-theme-surface)"
+									/>
+								</button>
+							)}
+							{showSoundToggle && (
+								<button
+									className="mobile-menu-control-item mobile-menu-sound-toggle"
+									onClick={() => {
+										onToggleSound && onToggleSound();
+									}}
+									onMouseEnter={onSoundHover}
+									aria-label="切換音效"
+								>
+									<PixelText2D
+										text={isSoundEnabled ? '🔊' : '🔇'}
+										textEnabled
+										pixelSize={2}
+										letterSpacing={0}
+										width={36}
+										height={36}
+										animated={false}
+										primaryColor="var(--hds-sys-color-theme-surface)"
+									/>
+								</button>
+							)}
+							{showLanguageToggle && (
+								<div className="mobile-menu-lang-group">
+									{[{ code: 'en', label: 'EN' }, { code: 'zh-Hant', label: 'ZH' }, { code: 'ja', label: 'JP' }].map((lang) => {
+										const isCurrentLang = currentLangDisplay === lang.label;
+										return (
+											<button
+												key={lang.code}
+												className={`mobile-menu-control-item mobile-menu-lang-item ${isCurrentLang ? 'mobile-menu-lang-item--active' : ''}`}
+												onClick={() => {
+													onLanguageChange && onLanguageChange(lang.code);
+												}}
+												onMouseEnter={onLanguageHover}
+												aria-label={`切換到 ${lang.label}`}
+											>
+												<PixelText2D
+													text={lang.label}
+													textEnabled
+													pixelSize={2}
+													letterSpacing={0}
+													width={32}
+													height={24}
+													animated={false}
+													primaryColor="var(--hds-sys-color-theme-surface)"
+												/>
+											</button>
+										);
+									})}
+								</div>
+							)}
+						</div>
+
+						{/* 主要導航項目 */}
+						<nav className="mobile-menu-nav">
+							{menuItems.map((itemKey) => {
+								const label = t(`nav.${itemKey}`);
+								const isActive = activeMenuItem === itemKey;
+								// 計算較大的寬度（pixelSize=4）
+								const charCount = label.length;
+								const width = charCount * 32 + Math.max(0, charCount - 1) * 4; // pixelSize=4
+								return (
+									<button
+										key={itemKey}
+										className={`mobile-menu-nav-item ${isActive ? 'mobile-menu-nav-item--active' : ''}`}
+										onClick={() => handleMobileMenuItemClick(itemKey)}
+										onMouseEnter={() => onMenuItemHover && onMenuItemHover(itemKey)}
+									>
+										<PixelText2D
+											text={label}
+											textEnabled
+											pixelSize={4}
+											width={width}
+											height={48}
+											animated={false}
+											primaryColor="var(--hds-sys-color-theme-surface)"
+										/>
+										{isActive && (
+											<span className="mobile-menu-nav-active-indicator">●</span>
+										)}
+									</button>
+								);
+							})}
+						</nav>
+					</div>
+				</div>
+			)}
 		</header>
 	);
 };
