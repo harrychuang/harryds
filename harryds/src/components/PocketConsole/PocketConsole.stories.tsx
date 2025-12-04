@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { PocketConsole } from './PocketConsole';
+import { useState } from 'react';
+import { PocketConsole, PocketConsoleButton } from './PocketConsole';
 
 const meta: Meta<typeof PocketConsole> = {
   title: 'Components/PocketConsole',
@@ -178,5 +179,61 @@ export const ColorVariations: Story = {
       <PocketConsole width={120} shellColor="#1a1a1a" animated />
     </div>
   ),
+};
+
+// 鍵盤控制範例
+const KeyboardControlDemo = () => {
+  const [lastButton, setLastButton] = useState<PocketConsoleButton | null>(null);
+  const [pressedButtons, setPressedButtons] = useState<PocketConsoleButton[]>([]);
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+      <div style={{ color: '#9bbc0f', fontFamily: 'monospace', fontSize: '14px', textAlign: 'center' }}>
+        <div style={{ marginBottom: '8px' }}>🎮 點擊 Console 後使用鍵盤控制</div>
+        <div style={{ fontSize: '12px', opacity: 0.8 }}>
+          ↑↓←→ = 方向鍵 | A/B = 按鈕 | Enter = START | Option = SELECT
+        </div>
+      </div>
+      
+      <PocketConsole
+        width={200}
+        animated
+        onButtonPress={(btn) => {
+          setLastButton(btn);
+          setPressedButtons(prev => [...prev, btn]);
+        }}
+        onButtonRelease={() => {
+          setLastButton(null);
+        }}
+      />
+      
+      <div style={{ 
+        color: '#fff', 
+        fontFamily: 'monospace', 
+        fontSize: '12px',
+        background: '#0f380f',
+        padding: '12px 20px',
+        borderRadius: '4px',
+        minWidth: '200px',
+        textAlign: 'center'
+      }}>
+        <div>目前按下: <span style={{ color: '#9bbc0f' }}>{lastButton || '-'}</span></div>
+        <div style={{ marginTop: '8px', fontSize: '10px', opacity: 0.7 }}>
+          歷史: {pressedButtons.slice(-10).join(' → ') || '-'}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const KeyboardControl: Story = {
+  render: () => <KeyboardControlDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: '點擊 Console 後，可使用鍵盤控制：↑↓←→ 方向鍵、A/B 按鈕、Enter = START、Option = SELECT',
+      },
+    },
+  },
 };
 

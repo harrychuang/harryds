@@ -2,10 +2,14 @@
 // POCKET CONSOLE 元件
 // - GameBoy 風格 8-bit 像素插圖
 // - 純 SVG 渲染，支援自訂顏色與動畫
+// - 支援鍵盤控制
 // =============================================================================
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './PocketConsole.scss';
+
+/** 按鈕類型 */
+export type PocketConsoleButton = 'up' | 'down' | 'left' | 'right' | 'a' | 'b' | 'start' | 'select';
 
 export interface PocketConsoleProps {
   /** 主機外殼顏色 */
@@ -26,10 +30,28 @@ export interface PocketConsoleProps {
   className?: string;
   /** 螢幕上顯示的內容（可選的 React 節點） */
   screenContent?: React.ReactNode;
+  /** 按鈕按下時的回調 */
+  onButtonPress?: (button: PocketConsoleButton) => void;
+  /** 按鈕放開時的回調 */
+  onButtonRelease?: (button: PocketConsoleButton) => void;
+  /** 是否啟用鍵盤控制（預設為 true） */
+  enableKeyboard?: boolean;
 }
 
 // 像素單位大小
 const PX = 4;
+
+// 鍵盤對應
+const KEY_MAP: Record<string, PocketConsoleButton> = {
+  ArrowUp: 'up',
+  ArrowDown: 'down',
+  ArrowLeft: 'left',
+  ArrowRight: 'right',
+  KeyA: 'a',
+  KeyB: 'b',
+  Enter: 'start',
+  Alt: 'select',
+};
 
 export const PocketConsole: React.FC<PocketConsoleProps> = ({
   shellColor = '#c0c0c0',
@@ -41,22 +63,90 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
   animated = false,
   className = '',
   screenContent,
+  onButtonPress,
+  onButtonRelease,
+  enableKeyboard = true,
 }) => {
+  // 追蹤按下的按鈕
+  const [pressedButtons, setPressedButtons] = useState<Set<PocketConsoleButton>>(new Set());
+
   // 原始 SVG 尺寸 (40 x 64 像素單位，每單位 4px)
   const viewWidth = 40 * PX;
   const viewHeight = 64 * PX;
   const height = (width / viewWidth) * viewHeight;
   const scale = width / viewWidth;
 
+  // 按下按鈕
+  const pressButton = useCallback((button: PocketConsoleButton) => {
+    setPressedButtons(prev => {
+      const newSet = new Set(prev);
+      newSet.add(button);
+      return newSet;
+    });
+    onButtonPress?.(button);
+  }, [onButtonPress]);
+
+  // 放開按鈕
+  const releaseButton = useCallback((button: PocketConsoleButton) => {
+    setPressedButtons(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(button);
+      return newSet;
+    });
+    onButtonRelease?.(button);
+  }, [onButtonRelease]);
+
+  // 鍵盤事件處理
+  useEffect(() => {
+    if (!enableKeyboard) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const button = KEY_MAP[e.code] || KEY_MAP[e.key];
+      if (button) {
+        e.preventDefault();
+        pressButton(button);
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      const button = KEY_MAP[e.code] || KEY_MAP[e.key];
+      if (button) {
+        e.preventDefault();
+        releaseButton(button);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [enableKeyboard, pressButton, releaseButton]);
+
   // 輔助函數：繪製像素矩形
   const px = (x: number, y: number, w: number, h: number, fill: string) => (
     <rect x={x * PX} y={y * PX} width={w * PX} height={h * PX} fill={fill} />
   );
 
+  // 檢查按鈕是否被按下
+  const isPressed = (button: PocketConsoleButton) => pressedButtons.has(button);
+
+  // 滑鼠/觸控事件處理
+  const handleMouseDown = (button: PocketConsoleButton) => () => pressButton(button);
+  const handleMouseUp = (button: PocketConsoleButton) => () => releaseButton(button);
+  const handleMouseLeave = (button: PocketConsoleButton) => () => {
+    if (pressedButtons.has(button)) {
+      releaseButton(button);
+    }
+  };
+
   return (
     <div
       className={`hds-pocket-console ${animated ? 'hds-pocket-console--animated' : ''} ${className}`.trim()}
       style={{ width, height }}
+      tabIndex={enableKeyboard ? 0 : undefined}
     >
       <svg
         viewBox={`0 0 ${viewWidth} ${viewHeight}`}
@@ -135,23 +225,80 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
 
         {/* ===== D-PAD (十字鍵) ===== */}
         <g className="hds-pocket-console__dpad">
-          {/* 水平 */}
-          {px(6, 40, 10, 4, dpadColor)}
-          {/* 垂直 */}
-          {px(9, 37, 4, 10, dpadColor)}
+          {/* 上 */}
+          <g
+            className={`hds-pocket-console__dpad-up ${isPressed('up') ? 'hds-pocket-console__dpad-up--pressed' : ''}`}
+            onMouseDown={handleMouseDown('up')}
+            onMouseUp={handleMouseUp('up')}
+            onMouseLeave={handleMouseLeave('up')}
+            onTouchStart={handleMouseDown('up')}
+            onTouchEnd={handleMouseUp('up')}
+          >
+            {px(9, 37, 4, 3, dpadColor)}
+            {/* 方向指示箭頭 */}
+            {px(10, 38, 2, 1, '#1a1a1a')}
+          </g>
+          
+          {/* 下 */}
+          <g
+            className={`hds-pocket-console__dpad-down ${isPressed('down') ? 'hds-pocket-console__dpad-down--pressed' : ''}`}
+            onMouseDown={handleMouseDown('down')}
+            onMouseUp={handleMouseUp('down')}
+            onMouseLeave={handleMouseLeave('down')}
+            onTouchStart={handleMouseDown('down')}
+            onTouchEnd={handleMouseUp('down')}
+          >
+            {px(9, 44, 4, 3, dpadColor)}
+            {/* 方向指示箭頭 */}
+            {px(10, 45, 2, 1, '#1a1a1a')}
+          </g>
+          
+          {/* 左 */}
+          <g
+            className={`hds-pocket-console__dpad-left ${isPressed('left') ? 'hds-pocket-console__dpad-left--pressed' : ''}`}
+            onMouseDown={handleMouseDown('left')}
+            onMouseUp={handleMouseUp('left')}
+            onMouseLeave={handleMouseLeave('left')}
+            onTouchStart={handleMouseDown('left')}
+            onTouchEnd={handleMouseUp('left')}
+          >
+            {px(6, 40, 3, 4, dpadColor)}
+            {/* 方向指示箭頭 */}
+            {px(7, 41, 1, 2, '#1a1a1a')}
+          </g>
+          
+          {/* 右 */}
+          <g
+            className={`hds-pocket-console__dpad-right ${isPressed('right') ? 'hds-pocket-console__dpad-right--pressed' : ''}`}
+            onMouseDown={handleMouseDown('right')}
+            onMouseUp={handleMouseUp('right')}
+            onMouseLeave={handleMouseLeave('right')}
+            onTouchStart={handleMouseDown('right')}
+            onTouchEnd={handleMouseUp('right')}
+          >
+            {px(13, 40, 3, 4, dpadColor)}
+            {/* 方向指示箭頭 */}
+            {px(14, 41, 1, 2, '#1a1a1a')}
+          </g>
+          
           {/* 中心 */}
-          {px(10, 40, 2, 4, '#1a1a1a')}
-          {/* 方向指示 */}
-          {px(10, 38, 2, 1, '#1a1a1a')}
-          {px(10, 45, 2, 1, '#1a1a1a')}
-          {px(7, 41, 1, 2, '#1a1a1a')}
-          {px(14, 41, 1, 2, '#1a1a1a')}
+          <g className="hds-pocket-console__dpad-center">
+            {px(9, 40, 4, 4, dpadColor)}
+            {px(10, 41, 2, 2, '#1a1a1a')}
+          </g>
         </g>
 
         {/* ===== A/B 按鈕 ===== */}
         <g className="hds-pocket-console__buttons">
           {/* B 按鈕 */}
-          <g className="hds-pocket-console__btn-b">
+          <g
+            className={`hds-pocket-console__btn-b ${isPressed('b') ? 'hds-pocket-console__btn-b--pressed' : ''}`}
+            onMouseDown={handleMouseDown('b')}
+            onMouseUp={handleMouseUp('b')}
+            onMouseLeave={handleMouseLeave('b')}
+            onTouchStart={handleMouseDown('b')}
+            onTouchEnd={handleMouseUp('b')}
+          >
             {px(24, 41, 4, 4, buttonColor)}
           </g>
           {/* B 標籤 */}
@@ -165,7 +312,14 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
           </text>
           
           {/* A 按鈕 */}
-          <g className="hds-pocket-console__btn-a">
+          <g
+            className={`hds-pocket-console__btn-a ${isPressed('a') ? 'hds-pocket-console__btn-a--pressed' : ''}`}
+            onMouseDown={handleMouseDown('a')}
+            onMouseUp={handleMouseUp('a')}
+            onMouseLeave={handleMouseLeave('a')}
+            onTouchStart={handleMouseDown('a')}
+            onTouchEnd={handleMouseUp('a')}
+          >
             {px(30, 38, 4, 4, buttonColor)}
           </g>
           {/* A 標籤 */}
@@ -182,7 +336,16 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
         {/* ===== SELECT / START 按鈕 ===== */}
         <g className="hds-pocket-console__control-buttons">
           {/* SELECT */}
-          {px(13, 50, 5, 2, '#4a4a4a')}
+          <g
+            className={`hds-pocket-console__btn-select ${isPressed('select') ? 'hds-pocket-console__btn-select--pressed' : ''}`}
+            onMouseDown={handleMouseDown('select')}
+            onMouseUp={handleMouseUp('select')}
+            onMouseLeave={handleMouseLeave('select')}
+            onTouchStart={handleMouseDown('select')}
+            onTouchEnd={handleMouseUp('select')}
+          >
+            {px(13, 50, 5, 2, '#4a4a4a')}
+          </g>
           {/* SELECT 標籤 */}
           <text
             x={15.5 * PX}
@@ -194,7 +357,16 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
           </text>
           
           {/* START */}
-          {px(22, 50, 5, 2, '#4a4a4a')}
+          <g
+            className={`hds-pocket-console__btn-start ${isPressed('start') ? 'hds-pocket-console__btn-start--pressed' : ''}`}
+            onMouseDown={handleMouseDown('start')}
+            onMouseUp={handleMouseUp('start')}
+            onMouseLeave={handleMouseLeave('start')}
+            onTouchStart={handleMouseDown('start')}
+            onTouchEnd={handleMouseUp('start')}
+          >
+            {px(22, 50, 5, 2, '#4a4a4a')}
+          </g>
           {/* START 標籤 */}
           <text
             x={24.5 * PX}

@@ -17,6 +17,12 @@
   display: inline-block;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+  outline: none;
+
+  &:focus {
+    outline: 2px solid rgba(155, 188, 15, 0.5);
+    outline-offset: 2px;
+  }
 
   &__svg {
     display: block;
@@ -61,7 +67,7 @@
   }
 
   // ===== 互動狀態 =====
-  // 按鈕 hover 效果 - 使用 filter 而非 transform 避免偏移
+  // A/B 按鈕
   .hds-pocket-console__btn-a,
   .hds-pocket-console__btn-b {
     cursor: pointer;
@@ -71,21 +77,47 @@
       filter: brightness(1.2);
     }
 
-    &:active {
-      filter: brightness(0.8);
+    &:active,
+    &--pressed {
+      filter: brightness(0.7);
     }
   }
 
-  .hds-pocket-console__dpad {
+  // D-pad 各方向按鈕
+  .hds-pocket-console__dpad-up,
+  .hds-pocket-console__dpad-down,
+  .hds-pocket-console__dpad-left,
+  .hds-pocket-console__dpad-right {
     cursor: pointer;
     transition: filter 0.1s ease;
     
     &:hover {
-      filter: brightness(1.1);
+      filter: brightness(1.3);
     }
 
-    &:active {
-      filter: brightness(0.9);
+    &:active,
+    &--pressed {
+      filter: brightness(0.7);
+    }
+  }
+
+  .hds-pocket-console__dpad-center {
+    pointer-events: none;
+  }
+
+  // SELECT / START 按鈕
+  .hds-pocket-console__btn-select,
+  .hds-pocket-console__btn-start {
+    cursor: pointer;
+    transition: filter 0.1s ease;
+
+    &:hover {
+      filter: brightness(1.3);
+    }
+
+    &:active,
+    &--pressed {
+      filter: brightness(0.6);
     }
   }
 }

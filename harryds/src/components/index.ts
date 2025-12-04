@@ -77,6 +77,6 @@ export type { ButtonProps, ButtonVariant, ButtonSize } from './Button';
 export { PixelIcon } from './PixelIcon';
 export type { PixelIconProps } from './PixelIcon';
 
-// PocketConsole - GameBoy 風格 8-bit SVG 插圖元件
+// PocketConsole - GameBoy 風格 8-bit SVG 插圖元件（支援鍵盤控制）
 export { PocketConsole } from './PocketConsole';
-export type { PocketConsoleProps } from './PocketConsole';
+export type { PocketConsoleProps, PocketConsoleButton } from './PocketConsole';
