@@ -154,19 +154,56 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
           <g className="hds-pocket-console__btn-b">
             {px(24, 41, 4, 4, buttonColor)}
           </g>
+          {/* B 標籤 */}
+          <text
+            x={26 * PX}
+            y={47 * PX}
+            className="hds-pocket-console__btn-label"
+            textAnchor="middle"
+          >
+            B
+          </text>
           
           {/* A 按鈕 */}
           <g className="hds-pocket-console__btn-a">
             {px(30, 38, 4, 4, buttonColor)}
           </g>
+          {/* A 標籤 */}
+          <text
+            x={32 * PX}
+            y={44 * PX}
+            className="hds-pocket-console__btn-label"
+            textAnchor="middle"
+          >
+            A
+          </text>
         </g>
 
         {/* ===== SELECT / START 按鈕 ===== */}
         <g className="hds-pocket-console__control-buttons">
           {/* SELECT */}
           {px(13, 50, 5, 2, '#4a4a4a')}
+          {/* SELECT 標籤 */}
+          <text
+            x={15.5 * PX}
+            y={54 * PX}
+            className="hds-pocket-console__btn-label hds-pocket-console__btn-label--small"
+            textAnchor="middle"
+          >
+            SELECT
+          </text>
+          
           {/* START */}
           {px(22, 50, 5, 2, '#4a4a4a')}
+          {/* START 標籤 */}
+          <text
+            x={24.5 * PX}
+            y={54 * PX}
+            className="hds-pocket-console__btn-label hds-pocket-console__btn-label--small"
+            textAnchor="middle"
+          >
+            START
+          </text>
         </g>
 
         {/* ===== 喇叭孔 ===== */}

@@ -3,6 +3,15 @@
 // - GameBoy 風格 8-bit 像素插圖
 // =============================================================================
 
+/* PublicPixel font - 確保在元件中可用 */
+@font-face {
+  font-family: 'PublicPixel';
+  src: url('../../assets/fonts/PublicPixel.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 .hds-pocket-console {
   position: relative;
   display: inline-block;
@@ -21,6 +30,19 @@
     align-items: center;
     justify-content: center;
     image-rendering: pixelated;
+  }
+
+  // 按鈕標籤文字
+  &__btn-label {
+    font-family: 'PublicPixel', monospace;
+    font-size: 5px;
+    fill: #4a4a4a;
+    user-select: none;
+    pointer-events: none;
+
+    &--small {
+      font-size: 3px;
+    }
   }
 
   // ===== 動畫狀態 =====
