@@ -150,26 +150,14 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
 
         {/* ===== A/B 按鈕 ===== */}
         <g className="hds-pocket-console__buttons">
-          {/* B 按鈕 - 使用像素方塊 */}
+          {/* B 按鈕 */}
           <g className="hds-pocket-console__btn-b">
             {px(24, 41, 4, 4, buttonColor)}
-            {/* 高光 */}
-            {px(24, 41, 4, 1, 'rgba(255,255,255,0.3)')}
-            {/* B 字母 */}
-            {px(25, 42, 1, 2, '#fff')}
-            {px(26, 42, 1, 1, '#fff')}
-            {px(26, 43, 1, 1, '#fff')}
           </g>
           
           {/* A 按鈕 */}
           <g className="hds-pocket-console__btn-a">
             {px(30, 38, 4, 4, buttonColor)}
-            {/* 高光 */}
-            {px(30, 38, 4, 1, 'rgba(255,255,255,0.3)')}
-            {/* A 字母 */}
-            {px(31, 39, 1, 2, '#fff')}
-            {px(32, 39, 1, 1, '#fff')}
-            {px(32, 40, 1, 1, '#fff')}
           </g>
         </g>
 
@@ -179,19 +167,6 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
           {px(13, 50, 5, 2, '#4a4a4a')}
           {/* START */}
           {px(22, 50, 5, 2, '#4a4a4a')}
-        </g>
-        
-        {/* SELECT/START 標籤 */}
-        <g fill="#6a6a6a" fontSize="3" className="hds-pocket-console__btn-labels">
-          {/* 用像素點表示文字 */}
-          {/* SELECT - 簡化點陣 */}
-          {px(13, 49, 1, 1, '#5a5a5a')}
-          {px(15, 49, 1, 1, '#5a5a5a')}
-          {px(17, 49, 1, 1, '#5a5a5a')}
-          {/* START - 簡化點陣 */}
-          {px(22, 49, 1, 1, '#5a5a5a')}
-          {px(24, 49, 1, 1, '#5a5a5a')}
-          {px(26, 49, 1, 1, '#5a5a5a')}
         </g>
 
         {/* ===== 喇叭孔 ===== */}
