@@ -53,6 +53,19 @@ const KEY_MAP: Record<string, PocketConsoleButton> = {
   Alt: 'select',
 };
 
+// 按鈕符號對應
+const BUTTON_SYMBOLS: Partial<Record<PocketConsoleButton, string>> = {
+  up: '↑',
+  down: '↓',
+  left: '←',
+  right: '→',
+  a: 'A',
+  b: 'B',
+};
+
+// 最大輸入歷史長度
+const MAX_INPUT_HISTORY = 12;
+
 export const PocketConsole: React.FC<PocketConsoleProps> = ({
   shellColor = '#c0c0c0',
   screenBorderColor = '#5c5c5c',
@@ -69,6 +82,9 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
 }) => {
   // 追蹤按下的按鈕
   const [pressedButtons, setPressedButtons] = useState<Set<PocketConsoleButton>>(new Set());
+  
+  // 追蹤輸入歷史（用於螢幕顯示）
+  const [inputHistory, setInputHistory] = useState<string[]>([]);
 
   // 原始 SVG 尺寸 (40 x 64 像素單位，每單位 4px)
   const viewWidth = 40 * PX;
@@ -83,6 +99,22 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
       newSet.add(button);
       return newSet;
     });
+    
+    // SELECT (Option) 清空輸入歷史
+    if (button === 'select') {
+      setInputHistory([]);
+    } else {
+      // 如果是方向鍵或 A/B，添加到輸入歷史
+      const symbol = BUTTON_SYMBOLS[button];
+      if (symbol) {
+        setInputHistory(prev => {
+          const newHistory = [...prev, symbol];
+          // 只保留最後 MAX_INPUT_HISTORY 個
+          return newHistory.slice(-MAX_INPUT_HISTORY);
+        });
+      }
+    }
+    
     onButtonPress?.(button);
   }, [onButtonPress]);
 
@@ -390,19 +422,23 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
       </svg>
 
       {/* 螢幕自定義內容覆蓋層 */}
-      {screenContent && (
-        <div
-          className="hds-pocket-console__screen-content"
-          style={{
-            left: 8 * PX * scale,
-            top: 9 * PX * scale,
-            width: 24 * PX * scale,
-            height: 18 * PX * scale,
-          }}
-        >
-          {screenContent}
-        </div>
-      )}
+      <div
+        className="hds-pocket-console__screen-content"
+        style={{
+          left: 8 * PX * scale,
+          top: 9 * PX * scale,
+          width: 24 * PX * scale,
+          height: 18 * PX * scale,
+        }}
+      >
+        {inputHistory.length > 0 ? (
+          <div className="hds-pocket-console__input-display">
+            {inputHistory.join('')}
+          </div>
+        ) : (
+          screenContent
+        )}
+      </div>
     </div>
   );
 };

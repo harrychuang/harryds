@@ -38,6 +38,17 @@
     image-rendering: pixelated;
   }
 
+  // 輸入顯示
+  &__input-display {
+    font-family: 'PublicPixel', monospace;
+    font-size: 15px;
+    color: #0f380f;
+    text-align: center;
+    word-break: break-all;
+    line-height: 1.2;
+    letter-spacing: 1px;
+  }
+
   // 按鈕標籤文字
   &__btn-label {
     font-family: 'PublicPixel', monospace;
