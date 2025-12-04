@@ -20,6 +20,7 @@ export interface FeedItem {
   url?: string; // 外部連結 URL（用於文章類型）
   content?: FeedContentBlock[] | string | Record<string, any>; // 文章內容：結構化方塊、純文字或多語言物件
   projectInfo?: ProjectInfo; // 專案資訊（用於專案類型）
+  isPrivate?: boolean; // 是否為私密專案
 }
 
 export type FeedContentBlock =

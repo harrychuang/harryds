@@ -37,6 +37,32 @@
     }
   }
 
+  // Private 標籤（右上角）
+  .feed-card__private-badge {
+    position: absolute;
+    top: var(--feed-card-padding);
+    right: var(--feed-card-padding);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    // 顏色由 inline style 控制（和 heading 同邏輯）
+    pointer-events: none;
+  }
+
+  .feed-card__private-icon {
+    flex-shrink: 0;
+  }
+
+  .feed-card__private-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
   .feed-card__overlay {
     position: absolute;
     inset: 0;

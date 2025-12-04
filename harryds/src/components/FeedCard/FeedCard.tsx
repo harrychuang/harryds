@@ -52,6 +52,10 @@ export interface FeedCardProps {
   forceHovered?: boolean;
   /** 禁用滑鼠 hover 事件 */
   disableHover?: boolean;
+  /** 是否為私密專案（顯示右上角 Private 標籤） */
+  isPrivate?: boolean;
+  /** Private 標籤文字（預設 "Private"） */
+  privateLabel?: string;
 }
 
 const SIZE_TO_HEIGHT: Record<FeedCardSize, number> = {
@@ -65,6 +69,29 @@ type FeedCardStyle = CSSProperties & {
   ['--feed-card-padding']?: string;
   ['--feed-card-info-max-width']?: string;
 };
+
+// 8-bit 風格 Locked Icon（內聯 SVG）
+const LockedIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg 
+    className={className}
+    width="12" 
+    height="14" 
+    viewBox="0 0 12 14" 
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* 鎖頭上方的弧形部分（像素風格） */}
+    <rect x="2" y="0" width="2" height="2" />
+    <rect x="8" y="0" width="2" height="2" />
+    <rect x="0" y="2" width="2" height="4" />
+    <rect x="10" y="2" width="2" height="4" />
+    {/* 鎖身 */}
+    <rect x="0" y="6" width="12" height="8" />
+    {/* 鑰匙孔 */}
+    <rect x="5" y="8" width="2" height="2" fill="var(--hds-sys-color-bg-primary, #1a1a1a)" />
+    <rect x="5" y="10" width="2" height="2" fill="var(--hds-sys-color-bg-primary, #1a1a1a)" />
+  </svg>
+);
 
 export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   src,
@@ -83,6 +110,8 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   soundVolume = 0.3,
   forceHovered = false,
   disableHover = false,
+  isPrivate,
+  privateLabel = 'Private',
 }, ref) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hasPlayedSoundInCurrentHover, setHasPlayedSoundInCurrentHover] = useState(false);
@@ -135,6 +164,9 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
     tags: item.tags,
     category: item.category,
   } : undefined);
+  
+  // 判斷是否為 private（優先使用 prop，其次使用 item）
+  const showPrivate = isPrivate ?? item?.isPrivate ?? false;
 
   // 與 PixelationImg 一致的預設參數（允許 backgroundProps 覆寫）
   const mergedBgProps: Omit<PixelationImgProps, 'src'> = {
@@ -177,6 +209,22 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
             hoverPixelSize={0}
           />
       </div>
+
+      {/* Private 標籤（右上角） */}
+      {showPrivate && (
+        <div 
+          className="feed-card__private-badge"
+          style={{ 
+            color: actualIsHovered 
+              ? (item?.primaryColor ?? 'var(--hds-sys-color-theme-surface)') 
+              : 'var(--hds-sys-color-theme-surface)',
+            transition: 'color 300ms ease'
+          }}
+        >
+          <LockedIcon className="feed-card__private-icon" />
+          <span className="feed-card__private-text">{privateLabel}</span>
+        </div>
+      )}
 
       <div className="feed-card__overlay">
         <div className="feed-card__content">

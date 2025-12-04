@@ -20,7 +20,7 @@ const meta = {
       },
     },
     controls: {
-      include: ['src', 'size', 'height', 'padding', 'infoMaxWidth', 'className'],
+      include: ['src', 'size', 'height', 'padding', 'infoMaxWidth', 'isPrivate', 'privateLabel', 'className'],
       exclude: ['children'],
     },
   },
@@ -35,6 +35,8 @@ const meta = {
     height: { control: { type: 'number', min: 100, max: 1200, step: 10 }, description: 'Override height (px)' },
     padding: { control: { type: 'range', min: 0, max: 120, step: 2 }, description: 'Padding (px)' },
     infoMaxWidth: { control: { type: 'number', min: 200, max: 2000, step: 50 }, description: 'FeedCardInfo max width (px)' },
+    isPrivate: { control: 'boolean', description: 'Show private badge in top-right corner' },
+    privateLabel: { control: 'text', description: 'Private badge label text (default: "Private")' },
     className: { control: 'text' },
   },
 } satisfies Meta<typeof FeedCard>;
@@ -67,6 +69,32 @@ export const Default: Story = {
     secondaryColor: items[0].secondaryColor,
     padding: 40,
     infoMaxWidth: 1400,
+    children: (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <FeedCardInfo
+          data={{ id: items[0].id, heading: items[0].heading, date: items[0].date, tags: items[0].tags, category: items[0].category }}
+          primaryColor={items[0].primaryColor}
+          secondaryColor={items[0].secondaryColor}
+        />
+      </div>
+    ),
+  },
+};
+
+export const PrivateProject: Story = {
+  render: (args) => (
+    <div style={frameStyle}>
+      <FeedCard {...args} />
+    </div>
+  ),
+  args: {
+    src: new URL(`../../../assets/imgs/${items[0].heroImage}`, import.meta.url).href,
+    size: 'hero',
+    secondaryColor: items[0].secondaryColor,
+    padding: 40,
+    infoMaxWidth: 1400,
+    isPrivate: true,
+    privateLabel: 'Private',
     children: (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <FeedCardInfo
