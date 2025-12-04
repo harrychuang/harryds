@@ -9,7 +9,7 @@ import { ListCard } from './ListCard';
 import referrerKrisImg from '../../../assets/imgs/referrers/referrer-kris.jpg';
 
 const meta = {
-  title: 'Components/ListCard',
+  title: 'Components/Cards/ListCard',
   component: ListCard,
   parameters: {
     layout: 'padded',

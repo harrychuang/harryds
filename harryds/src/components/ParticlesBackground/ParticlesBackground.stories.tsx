@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ParticlesBackground } from './ParticlesBackground';
 
 const meta = {
-  title: 'Components/ParticlesBackground',
+  title: 'Components/Effects/ParticlesBackground',
   component: ParticlesBackground,
   parameters: {
     layout: 'fullscreen',

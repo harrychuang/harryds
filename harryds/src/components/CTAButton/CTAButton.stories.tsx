@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { CTAButton } from './CTAButton';
 
 const meta: Meta<typeof CTAButton> = {
-  title: 'Components/CTAButton',
+  title: 'Components/Composite/CTAButton',
   component: CTAButton,
   tags: ['autodocs'],
   parameters: {

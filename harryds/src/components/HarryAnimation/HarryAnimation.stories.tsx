@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { HarryAnimation } from './HarryAnimation';
 
 const meta: Meta<typeof HarryAnimation> = {
-  title: 'Components/HarryAnimation',
+  title: 'Components/Effects/HarryAnimation',
   component: HarryAnimation,
   tags: ['autodocs'],
   parameters: {

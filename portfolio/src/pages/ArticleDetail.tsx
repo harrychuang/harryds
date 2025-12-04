@@ -304,12 +304,27 @@ const ArticleDetail: React.FC = () => {
     return article?.images || [];
   }, [article]);
 
-  // 獲取文章內容
+  // 獲取文章內容 - 從 article 物件取得（支援 Strapi 或本地資料）
   const articleContent = useMemo(() => {
-    const articleData = t(`${article?.id}`, { returnObjects: true, ns: 'articles' }) as any;
-    const content = articleData?.content || {};
-    return Object.values(content).filter(Boolean) as string[];
-  }, [article, t]);
+    // article.content 可能是：
+    // 1. Strapi 格式: { paragraph1: "...", paragraph2: "...", ... }
+    // 2. 本地格式: { paragraph1: "...", paragraph2: "...", ... }
+    const content = article?.content;
+    
+    if (!content) return [];
+    
+    // 如果是物件，提取所有 paragraph 值
+    if (typeof content === 'object' && !Array.isArray(content)) {
+      return Object.values(content).filter(Boolean) as string[];
+    }
+    
+    // 如果已經是陣列，直接返回
+    if (Array.isArray(content)) {
+      return content.filter(Boolean) as string[];
+    }
+    
+    return [];
+  }, [article]);
 
   // Carousel 控制
   const handlePrevImage = useCallback(async () => {

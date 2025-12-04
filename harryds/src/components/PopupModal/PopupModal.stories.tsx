@@ -5,7 +5,7 @@ import { Input } from '../Input';
 import { Dropdown, DropdownOption } from '../Dropdown';
 
 const meta: Meta<typeof PopupModal> = {
-  title: 'Components/PopupModal',
+  title: 'Components/Feedback/PopupModal',
   component: PopupModal,
   parameters: {
     layout: 'centered',

@@ -1202,7 +1202,8 @@
     "url": "",
     "images": [
       "articles/55/topics-55.1.jpg",
-      "articles/55/topics-55.3.jpg"
+      "articles/55/topics-55.3.jpg",
+      "articles/55/topics-55.4.mp4"
     ],
     "content": {
       "paragraph1": "Many people are curious: do you need to plan a design system during the startup phase? My answer has always been 'yes.' The reason is simple: during the early stages, ideas and features change rapidly. To validate product direction, iterations are also very frequent. This rapid accumulation often unknowingly creates increasingly heavy technical debt.",

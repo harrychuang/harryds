@@ -10,7 +10,7 @@ import feed from '../../../../shared/data/feed.json';
 const items = (feed as any).items as Array<any>;
 
 const meta = {
-  title: 'Components/FeedCard',
+  title: 'Components/Cards/FeedCard',
   component: FeedCard,
   parameters: {
     layout: 'fullscreen',

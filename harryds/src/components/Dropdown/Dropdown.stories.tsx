@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Dropdown, DropdownOption } from './Dropdown';
 
 const meta: Meta<typeof Dropdown> = {
-  title: 'Components/Dropdown',
+  title: 'Components/Atoms/Dropdown',
   component: Dropdown,
   parameters: {
     layout: 'centered',

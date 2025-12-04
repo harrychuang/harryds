@@ -8,7 +8,7 @@ import PixelText2D from './PixelText2D';
 import './PixelText.scss';
 
 const meta = {
-  title: 'Components/PixelText',
+  title: 'Components/Typography/PixelText',
   component: PixelText,
   parameters: {
     layout: 'centered',

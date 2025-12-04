@@ -3,7 +3,7 @@ import { PixelationImg } from './PixelationImg';
 import { useState } from 'react';
 
 const meta: Meta<typeof PixelationImg> = {
-  title: 'Components/PixelationImg',
+  title: 'Components/Media/PixelationImg',
   component: PixelationImg,
   parameters: {
     layout: 'centered',

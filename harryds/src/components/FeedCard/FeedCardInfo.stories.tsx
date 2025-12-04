@@ -11,7 +11,7 @@ import feed from '../../../../shared/data/feed.json';
 const items = (feed as any).items as Array<any>;
 
 const meta = {
-  title: 'Components/FeedCard/FeedCardInfo',
+  title: 'Components/Cards/FeedCard/FeedCardInfo',
   component: FeedCardInfo,
   parameters: {
     layout: 'centered',

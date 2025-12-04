@@ -11,7 +11,7 @@ import './DistortedPixels.scss';
 const demoImg = new URL('../../../assets/imgs/project-demo.jpg', import.meta.url).href;
 
 const meta = {
-  title: 'Components/DistortedPixels',
+  title: 'Components/Effects/DistortedPixels',
   component: DistortedPixels,
   parameters: {
     layout: 'fullscreen',

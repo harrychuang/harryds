@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import PixelLoading from './PixelLoading';
 
 const meta: Meta<typeof PixelLoading> = {
-  title: 'Components/PixelLoading',
+  title: 'Components/Feedback/PixelLoading',
   component: PixelLoading,
   parameters: {
     layout: 'centered',

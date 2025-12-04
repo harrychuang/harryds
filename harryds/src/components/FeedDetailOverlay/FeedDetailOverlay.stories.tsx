@@ -10,7 +10,7 @@ const items = (feed as any).items as Array<any>;
 const demoSrc = new URL(`../../../assets/imgs/${items[0].heroImage}`, import.meta.url).href;
 
 const meta = {
-  title: 'Components/FeedDetailOverlay',
+  title: 'Components/Composite/FeedDetailOverlay',
   component: FeedDetailOverlay,
   parameters: {
     layout: 'fullscreen',

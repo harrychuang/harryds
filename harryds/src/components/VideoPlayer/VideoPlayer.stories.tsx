@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { VideoPlayer } from './VideoPlayer';
 
 const meta: Meta<typeof VideoPlayer> = {
-  title: 'Components/VideoPlayer',
+  title: 'Components/Media/VideoPlayer',
   component: VideoPlayer,
   parameters: {
     layout: 'centered',

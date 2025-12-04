@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { PixelIcon } from './PixelIcon';
 
 const meta: Meta<typeof PixelIcon> = {
-  title: 'Components/PixelIcon',
+  title: 'Components/Typography/PixelIcon',
   component: PixelIcon,
   parameters: {
     layout: 'centered',
