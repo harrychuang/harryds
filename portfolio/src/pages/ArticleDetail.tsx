@@ -96,25 +96,79 @@ const ArticleDetail: React.FC = () => {
     return items.find(item => item.id === id);
   }, [params.id, items]);
 
-  // 找出相關文章（根據 tags/topics 相似度）
+  // 找出相關文章（根據 tags/topics 相似度，加入多樣性演算法）
   const relatedArticles = useMemo(() => {
     if (!article || !article.tags || article.tags.length === 0) return [];
     
-    // 計算每篇文章與當前文章的 tag 相似度
+    // 計算每篇文章的相關性分數
     const scored = items
       .filter(item => item.id !== article.id) // 排除當前文章
       .map(item => {
         // 計算共同 tags 數量
         const commonTags = item.tags?.filter(tag => 
           article.tags.includes(tag)
-        ).length || 0;
-        return { item, score: commonTags };
+        ) || [];
+        const tagScore = commonTags.length;
+        
+        // 加入新鮮度分數（ID 越大代表越新，給予小幅加成）
+        const maxId = Math.max(...items.map(i => i.id));
+        const freshnessBonus = (item.id / maxId) * 0.3;
+        
+        return { 
+          item, 
+          tagScore, 
+          commonTags,
+          totalScore: tagScore + freshnessBonus 
+        };
       })
-      .filter(s => s.score > 0) // 只要有共同 tag 的
-      .sort((a, b) => b.score - a.score); // 相似度高的排前面
+      .filter(s => s.tagScore > 0); // 只要有共同 tag 的
     
-    // 取前 2 篇
-    return scored.slice(0, 2).map(s => s.item);
+    if (scored.length === 0) return [];
+    
+    // 分層取樣演算法：避免總是推薦相同的文章組合
+    // 1. 按分數分組
+    const maxTagScore = Math.max(...scored.map(s => s.tagScore));
+    const highTier = scored.filter(s => s.tagScore === maxTagScore);
+    const midTier = scored.filter(s => s.tagScore > 0 && s.tagScore < maxTagScore);
+    
+    // 2. 使用文章 ID 作為種子來產生一致但有變化的選擇
+    const seed = article.id;
+    const pseudoRandom = (index: number) => ((seed * 9301 + 49297) % 233280 + index * 7) % 233280 / 233280;
+    
+    // 3. 選擇邏輯：優先從高分層取 1 篇，再從中分層取 1 篇（增加多樣性）
+    const result: typeof scored = [];
+    
+    if (highTier.length > 0) {
+      // 從高分層隨機選 1 篇
+      const highIndex = Math.floor(pseudoRandom(0) * highTier.length);
+      result.push(highTier[highIndex]);
+    }
+    
+    if (midTier.length > 0 && result.length < 2) {
+      // 從中分層選 1 篇（增加探索性）
+      const midIndex = Math.floor(pseudoRandom(1) * midTier.length);
+      result.push(midTier[midIndex]);
+    }
+    
+    // 如果中分層不足，繼續從高分層補充
+    if (result.length < 2 && highTier.length > 1) {
+      const remaining = highTier.filter(h => !result.includes(h));
+      if (remaining.length > 0) {
+        const index = Math.floor(pseudoRandom(2) * remaining.length);
+        result.push(remaining[index]);
+      }
+    }
+    
+    // 如果還是不足，從所有符合條件的文章中補充
+    if (result.length < 2) {
+      const remaining = scored.filter(s => !result.includes(s));
+      remaining.sort((a, b) => b.totalScore - a.totalScore);
+      while (result.length < 2 && remaining.length > 0) {
+        result.push(remaining.shift()!);
+      }
+    }
+    
+    return result.slice(0, 2).map(s => s.item);
   }, [article, items]);
 
   // 預載文章圖片
