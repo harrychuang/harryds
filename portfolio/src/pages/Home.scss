@@ -76,7 +76,14 @@
     .pg-card {
       width: 100%;
       &--hero { grid-column: span 6; }
-      &--med { grid-column: span 3; }
+      &--med { 
+        grid-column: span 3;
+        
+        // 第一個卡片（原本是 hero）在響應式時仍保持佔滿整行
+        &:first-child {
+          grid-column: span 6;
+        }
+      }
       &--sm { 
         grid-column: span 2; // 預設 3 columns per row (6/2=3)
         
@@ -92,6 +99,40 @@
         &[data-columns="2"] {
           grid-column: span 3;
         }
+      }
+    }
+
+    // 當視窗寬度小於 1100px 時，sm 和 xs 卡片強制使用 2 columns (span 3)
+    @media (max-width: 1099px) {
+      .pg-card--sm,
+      .pg-card--xs {
+        grid-column: span 3; // 2 columns per row
+      }
+      
+      // 如果最後一個卡片單獨在一行，讓它佔滿整行
+      .pg-card[data-last-alone="true"] {
+        grid-column: span 6; // 1 column (full width)
+      }
+    }
+
+    // 當視窗寬度 <= 768px 時，所有卡片變成 1 column
+    // 注意：這個規則必須放在 1099px 之後，且使用足夠高的優先級來覆蓋所有變體
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      
+      // 覆蓋所有卡片類型和變體，包括帶有 data-columns 屬性的
+      .pg-card,
+      .pg-card--hero,
+      .pg-card--med,
+      .pg-card--med:first-child,
+      .pg-card--sm,
+      .pg-card--sm[data-columns="2"],
+      .pg-card--sm[data-columns="3"],
+      .pg-card--xs,
+      .pg-card--xs[data-columns="2"],
+      .pg-card--xs[data-columns="3"],
+      .pg-card[data-last-alone="true"] {
+        grid-column: 1 / -1 !important; // 全部佔滿整行
       }
     }
   }
@@ -111,11 +152,6 @@
     
     &__nav {
       gap: 20px; // 保持與桌面端一致的 20px 間距
-    }
-    
-    &__content {
-      grid-template-columns: 1fr;
-      .pg-card { grid-column: 1 / -1; }
     }
   }
 

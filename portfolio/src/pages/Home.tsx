@@ -141,7 +141,7 @@ const Home: React.FC = () => {
   const unlockedPrivateIdsRef = useRef<Set<number>>(new Set());
 
   // 追蹤視窗寬度，用於響應式尺寸調整
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1400);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -644,10 +644,16 @@ const Home: React.FC = () => {
   }, []);
 
   const getSizeByIndex = useCallback((index: number): FeedCardSize => {
-    if (index === 0) return 'hero';
+    if (index === 0) {
+      // 當視窗寬度小於 1200px 時，hero 改為 med
+      return windowWidth < 1200 ? 'med' : 'hero';
+    }
     if (index >= 1 && index <= 4) {
-      // 當視窗寬度小於 1200px 時，med 改為 sm
-      return windowWidth < 1400 ? 'sm' : 'med';
+      // 當視窗寬度小於 1100px 時，sm 改為 xs
+      if (windowWidth < 1100) return 'xs';
+      // 當視窗寬度小於 1400px 時，med 改為 sm
+      if (windowWidth < 1400) return 'sm';
+      return 'med';
     }
     return 'xs';
   }, [windowWidth]);
@@ -876,6 +882,13 @@ const Home: React.FC = () => {
                 data-columns={rowInfo.columns}
                 data-first-in-row={rowInfo.isFirstInRow ? 'true' : undefined}
                 data-last-in-row={rowInfo.isLastInRow ? 'true' : undefined}
+                data-last-alone={
+                  // 在 < 1100px 時，如果最後一個卡片單獨在一行，標記為 true
+                  // 邏輯：index 0 佔 span 6，其餘佔 span 3，所以剩餘數量若為奇數，最後一個會單獨一行
+                  windowWidth < 1100 && index === items.length - 1 && (items.length - 1) % 2 === 1 
+                    ? 'true' 
+                    : undefined
+                }
                 onClick={(e) => {
                   // 當有其他卡片開啟時，禁止點擊
                   if (openCardId && openCardId !== item.id) {
