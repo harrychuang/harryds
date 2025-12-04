@@ -10,6 +10,9 @@
     "articles": "Articles",
     "contact": "Contact"
   },
+  "project": {
+    "private": "非公開"
+  },
   "home": {
     "title": "作品",
     "subtitle": "プロジェクトと記事を紹介します"

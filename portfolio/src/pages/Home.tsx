@@ -795,6 +795,8 @@ const Home: React.FC = () => {
                     onEmailClick={handleEmailClick}
                     onInDevelopmentClick={handleInDevClick}
                     onArchivedClick={handleArchivedClick}
+                    isPrivate={item.isPrivate}
+                    privateLabel={t('project.private', { ns: 'common' })}
                 />
               </div>
             );

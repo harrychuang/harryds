@@ -30,6 +30,8 @@ export interface FeedCardProps {
   padding?: number;
   /** 傳遞給 PixelationImg 的額外參數（不含 src） */
   backgroundProps?: Partial<Omit<PixelationImgProps, 'src'>>;
+  /** 主色（hover 時的文字色、Private 標籤色等） */
+  primaryColor?: string;
   /** JSON 的 secondary color（hover 時套用至 PixelationImg maskColor） */
   secondaryColor?: string;
   /** 若提供，將自動從 item 取用 src/顏色，且在未提供 children 時自動渲染 FeedCardInfo */
@@ -99,6 +101,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   height,
   padding = 40,
   backgroundProps,
+  primaryColor,
   secondaryColor,
   item,
   infoData,
@@ -156,6 +159,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
 
   // 從 item 推導資料（不覆蓋使用者顯式傳入）
   const finalSrc = src || (item?.heroImage ?? '');
+  const finalPrimaryColor = primaryColor || item?.primaryColor;
   const finalSecondaryColor = secondaryColor || item?.secondaryColor;
   const derivedInfoData: FeedCardInfoData | undefined = infoData || (item ? {
     id: item.id,
@@ -216,7 +220,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
           className="feed-card__private-badge"
           style={{ 
             color: actualIsHovered 
-              ? (item?.primaryColor ?? 'var(--hds-sys-color-theme-surface)') 
+              ? (finalPrimaryColor ?? 'var(--hds-sys-color-theme-surface)') 
               : 'var(--hds-sys-color-theme-surface)',
             transition: 'color 300ms ease'
           }}
@@ -234,7 +238,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
                 derivedInfoData ? (
                   <FeedCardInfo
                     data={derivedInfoData}
-                    primaryColor={item?.primaryColor}
+                    primaryColor={finalPrimaryColor}
                     secondaryColor={finalSecondaryColor}
                     hovered={actualIsHovered}
                   />

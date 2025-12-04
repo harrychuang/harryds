@@ -10,6 +10,9 @@
     "articles": "Articles",
     "contact": "Contact"
   },
+  "project": {
+    "private": "Private"
+  },
   "home": {
     "title": "Works",
     "subtitle": "Showcasing projects and articles"

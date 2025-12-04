@@ -12,6 +12,7 @@ const imageModules = import.meta.glob<{ default: string }>(
 interface StrapiProject {
   id: number;
   attributes: {
+    visibility: 'public' | 'private';
     title: Record<string, string>;
     slug: string;
     description: Record<string, string>;
@@ -236,6 +237,7 @@ function transformStrapiToFeedItem(project: StrapiProject, locale: string): Feed
     secondaryColor: attrs.secondaryColor,
     heroImage: heroImage,
     projectInfo,
+    isPrivate: attrs.visibility === 'private', // 從 Strapi visibility 欄位轉換
     // 保存原始的多語言資料供需要時使用
     _rawData: {
       title: attrs.title,

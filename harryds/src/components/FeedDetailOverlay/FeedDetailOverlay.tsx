@@ -144,6 +144,10 @@ export interface FeedDetailOverlayProps extends Omit<FeedCardProps, 'height' | '
   onInDevelopmentClick?: () => void;
   /** 「已歸檔」CTA 點擊回調（當 websiteLabel 為已歸檔相關文字時觸發） */
   onArchivedClick?: () => void;
+  /** 是否為私密專案（顯示右上角 Private 標籤） */
+  isPrivate?: boolean;
+  /** Private 標籤文字（預設 "Private"） */
+  privateLabel?: string;
 }
 
 // hero 高度現在由 CSS 直接設定為 75vh
@@ -170,6 +174,8 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   onEmailClick,
   onInDevelopmentClick,
   onArchivedClick,
+  isPrivate,
+  privateLabel,
 }, ref) => {
   // 滾動容器引用
   const scrollContentRef = useRef<HTMLDivElement | null>(null);
@@ -664,11 +670,14 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
           size={sizeWhenClosed}
           padding={padding}
           backgroundProps={backgroundProps}
+          primaryColor={primaryColor}
           secondaryColor={secondaryColor}
           infoMaxWidth={infoMaxWidth}
           className="feed-detail-overlay__card"
           enableHoverSound={enableHoverSound}
           soundVolume={soundVolume}
+          isPrivate={isPrivate}
+          privateLabel={privateLabel}
         >
           {infoData && (
             <FeedCardInfo
