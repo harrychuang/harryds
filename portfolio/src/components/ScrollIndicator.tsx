@@ -4,6 +4,27 @@ import { useLocation } from 'react-router-dom';
 import { audioManager, PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import './ScrollIndicator.scss';
 
+// 格式化 like 數字（1000 -> 1k, 1100 -> 1.1k, 10000 -> 10k）
+const formatLikeCount = (count: number): string => {
+  if (count < 1000) {
+    return String(count);
+  }
+  
+  const thousands = count / 1000;
+  
+  // 10k 以上直接顯示整數 k
+  if (thousands >= 10) {
+    return `${Math.floor(thousands)}k`;
+  }
+  
+  // 1k ~ 9.9k 顯示一位小數（如果有）
+  const rounded = Math.floor(thousands * 10) / 10;
+  if (rounded === Math.floor(rounded)) {
+    return `${Math.floor(rounded)}k`;
+  }
+  return `${rounded}k`;
+};
+
 interface ScrollIndicatorProps {
   scrollProgress: number; // 0-100
   primaryColor?: string;
@@ -22,6 +43,8 @@ interface ScrollIndicatorProps {
   disableProgress?: boolean;
   forceShowIcon?: boolean;
   isLiked?: boolean;
+  likeCount?: number;
+  showLikeCount?: boolean;
 }
 
 const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({ 
@@ -42,6 +65,8 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
   disableProgress = false,
   forceShowIcon = false,
   isLiked = false,
+  likeCount = 0,
+  showLikeCount = false,
 }) => {
   const location = useLocation();
 
@@ -231,14 +256,24 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
         aria-label={ariaLabel}
         style={{ pointerEvents: showIcon ? 'auto' : 'none' }}
       >
-        <PixelText2D
-          text={icon}
-          textEnabled
-          pixelSize={2}
-          width={isLiked ? 50 : 40}
-          height={isLiked ? 50 : 40}
-          primaryColor={isLiked ? '#ffffff' : resolvedSecondaryColor}
-        />
+        {showLikeCount ? (
+          <div 
+            className="scroll-indicator__like-count"
+            style={{ color: isLiked ? '#ffffff' : resolvedSecondaryColor }}
+          >
+            <span className="scroll-indicator__like-count-number">{formatLikeCount(likeCount)}</span>
+            <span className="scroll-indicator__like-count-label">Likes</span>
+          </div>
+        ) : (
+          <PixelText2D
+            text={icon}
+            textEnabled
+            pixelSize={2}
+            width={isLiked ? 50 : 40}
+            height={isLiked ? 50 : 40}
+            primaryColor={isLiked ? '#ffffff' : resolvedSecondaryColor}
+          />
+        )}
       </div>
     </div>
   );

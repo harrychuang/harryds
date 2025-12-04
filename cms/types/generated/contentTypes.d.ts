@@ -828,6 +828,45 @@ export interface ApiArticleArticle extends Schema.CollectionType {
   };
 }
 
+export interface ApiPageLikePageLike extends Schema.CollectionType {
+  collectionName: 'page_likes';
+  info: {
+    singularName: 'page-like';
+    pluralName: 'page-likes';
+    displayName: 'Page Like';
+    description: 'Store like counts for different pages/URLs';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    path: Attribute.String & Attribute.Required & Attribute.Unique;
+    count: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Attribute.DefaultTo<0>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::page-like.page-like',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::page-like.page-like',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiProjectProject extends Schema.CollectionType {
   collectionName: 'projects';
   info: {
@@ -893,6 +932,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::article.article': ApiArticleArticle;
+      'api::page-like.page-like': ApiPageLikePageLike;
       'api::project.project': ApiProjectProject;
     }
   }

@@ -334,9 +334,153 @@ export async function getArticles(params?: {
   }
 }
 
+// ============ Page Like API ============
+
+export interface PageLikeResponse {
+  data: {
+    path: string;
+    count: number;
+  };
+}
+
+export interface PageLikeBatchResponse {
+  data: Array<{
+    path: string;
+    count: number;
+  }>;
+}
+
+/**
+ * 增加頁面的 like 計數
+ * @param path - 頁面路徑（例如 '/' 或 '/project/1/harry-design-studio'）
+ */
+export async function likePage(path: string): Promise<PageLikeResponse> {
+  if (!STRAPI_URL) throw new Error('VITE_STRAPI_URL 未設定');
+  
+  const url = buildStrapiUrl('/api/page-likes/like');
+  
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+      },
+      mode: 'cors',
+      body: JSON.stringify({ path }),
+    });
+    
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Like 請求失敗: HTTP ${res.status} — ${text.slice(0, 200)}`);
+    }
+    
+    return await res.json();
+  } catch (e: any) {
+    console.error('[Strapi] likePage error:', e?.message || e);
+    throw e;
+  }
+}
+
+/**
+ * 減少頁面的 like 計數
+ * @param path - 頁面路徑
+ */
+export async function unlikePage(path: string): Promise<PageLikeResponse> {
+  if (!STRAPI_URL) throw new Error('VITE_STRAPI_URL 未設定');
+  
+  const url = buildStrapiUrl('/api/page-likes/unlike');
+  
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+      },
+      mode: 'cors',
+      body: JSON.stringify({ path }),
+    });
+    
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Unlike 請求失敗: HTTP ${res.status} — ${text.slice(0, 200)}`);
+    }
+    
+    return await res.json();
+  } catch (e: any) {
+    console.error('[Strapi] unlikePage error:', e?.message || e);
+    throw e;
+  }
+}
+
+/**
+ * 取得單一頁面的 like 計數
+ * @param path - 頁面路徑
+ */
+export async function getPageLikeCount(path: string): Promise<PageLikeResponse> {
+  if (!STRAPI_URL) throw new Error('VITE_STRAPI_URL 未設定');
+  
+  const url = new URL(buildStrapiUrl('/api/page-likes/by-path'));
+  url.searchParams.set('path', path);
+  
+  try {
+    const res = await fetch(url.toString(), {
+      headers: { 'Cache-Control': 'no-cache' },
+      mode: 'cors',
+    });
+    
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`取得 like 計數失敗: HTTP ${res.status} — ${text.slice(0, 200)}`);
+    }
+    
+    return await res.json();
+  } catch (e: any) {
+    console.error('[Strapi] getPageLikeCount error:', e?.message || e);
+    throw e;
+  }
+}
+
+/**
+ * 批量取得多個頁面的 like 計數
+ * @param paths - 頁面路徑陣列
+ */
+export async function getPageLikeCounts(paths: string[]): Promise<PageLikeBatchResponse> {
+  if (!STRAPI_URL) throw new Error('VITE_STRAPI_URL 未設定');
+  
+  const url = buildStrapiUrl('/api/page-likes/batch');
+  
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+      },
+      mode: 'cors',
+      body: JSON.stringify({ paths }),
+    });
+    
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`批量取得 like 計數失敗: HTTP ${res.status} — ${text.slice(0, 200)}`);
+    }
+    
+    return await res.json();
+  } catch (e: any) {
+    console.error('[Strapi] getPageLikeCounts error:', e?.message || e);
+    throw e;
+  }
+}
+
 export const strapiClient = {
   resolveMediaUrl,
   getProjects,
-  getArticles
+  getArticles,
+  likePage,
+  unlikePage,
+  getPageLikeCount,
+  getPageLikeCounts,
 };
 

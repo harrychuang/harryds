@@ -14,7 +14,31 @@ import ScrollIndicator from './ScrollIndicator';
 import { GIPHY_URLS } from '../constants/giphy';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { getContactBudgetOptions, getContactProjectTypeOptions } from '../utils/contactModalOptions';
+import { likePage, unlikePage, getPageLikeCount } from '../services/strapiClient';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
+
+// 格式化 like 數字（1000 -> 1k, 1100 -> 1.1k, 10000 -> 10k）
+const formatLikeCount = (count: number): string => {
+  if (count < 1000) {
+    return String(count);
+  }
+  
+  const thousands = count / 1000;
+  
+  // 10k 以上直接顯示整數 k
+  if (thousands >= 10) {
+    return `${Math.floor(thousands)}k`;
+  }
+  
+  // 1k ~ 9.9k 顯示一位小數（如果有）
+  const rounded = Math.floor(thousands * 10) / 10;
+  if (rounded === Math.floor(rounded)) {
+    return `${Math.floor(rounded)}k`;
+  }
+  return `${rounded}k`;
+};
+
+const LIKE_TOGGLE_INTERVAL_MS = 2000; // 5 秒切換
 
 const THANK_YOU_MESSAGES = [
   'Thanks!',
@@ -135,6 +159,11 @@ const Footer: React.FC = () => {
   const [contactBudget, setContactBudget] = useState('');
   const [contactMessage, setContactMessage] = useState('');
 
+  // Like count state
+  const [likeCount, setLikeCount] = useState(0);
+  const [showLikeCount, setShowLikeCount] = useState(false); // true = 顯示數字, false = 顯示 icon
+  const likeToggleTimerRef = useRef<NodeJS.Timeout | null>(null);
+
   // Contact Modal options
   const projectTypeOptions: DropdownOption[] = useMemo(
     () => getContactProjectTypeOptions(t),
@@ -153,6 +182,59 @@ const Footer: React.FC = () => {
   useEffect(() => {
     audioManager.preload(hoverSoundUrl).catch(() => {});
   }, []);
+
+  // 從 Strapi 獲取當前頁面的 like 數
+  useEffect(() => {
+    let mounted = true;
+    
+    const fetchLikeCount = async () => {
+      try {
+        const response = await getPageLikeCount(pageStorageKey);
+        if (mounted) {
+          setLikeCount(response.data.count);
+        }
+      } catch (err) {
+        console.warn('[Footer] 獲取 like 數失敗:', err);
+        if (mounted) {
+          setLikeCount(0);
+        }
+      }
+    };
+
+    fetchLikeCount();
+
+    return () => {
+      mounted = false;
+    };
+  }, [pageStorageKey]);
+
+  // 當 likeCount >= 1 時，每 5 秒切換顯示 icon 和數字
+  useEffect(() => {
+    // 清除之前的計時器
+    if (likeToggleTimerRef.current) {
+      clearInterval(likeToggleTimerRef.current);
+      likeToggleTimerRef.current = null;
+    }
+
+    // 如果 likeCount < 1，始終顯示 icon
+    if (likeCount < 1) {
+      setShowLikeCount(false);
+      return;
+    }
+
+    // likeCount >= 1 時，啟動切換計時器
+    setShowLikeCount(false); // 初始顯示 icon
+    likeToggleTimerRef.current = setInterval(() => {
+      setShowLikeCount((prev) => !prev);
+    }, LIKE_TOGGLE_INTERVAL_MS);
+
+    return () => {
+      if (likeToggleTimerRef.current) {
+        clearInterval(likeToggleTimerRef.current);
+        likeToggleTimerRef.current = null;
+      }
+    };
+  }, [likeCount]);
   
   // 播放 hover 音效
   const playHoverSound = useCallback(async () => {
@@ -297,7 +379,7 @@ const Footer: React.FC = () => {
     preloadRandomGif();
   }, [pageStorageKey, preloadRandomGif]);
 
-  const handleHeartClick = useCallback(() => {
+  const handleHeartClick = useCallback(async () => {
     if (isHeartLiked) {
       setIsHeartLiked(false);
 
@@ -314,6 +396,15 @@ const Footer: React.FC = () => {
       setIsGifExiting(false);
       setCurrentGifUrl(null);
       setThankYouMessage(null);
+
+      // 呼叫 Strapi API 減少 like 計數（非同步，不阻塞 UI）
+      unlikePage(pageStorageKey)
+        .then((response) => {
+          setLikeCount(response.data.count);
+        })
+        .catch((err) => {
+          console.warn('[Footer] unlikePage 失敗:', err);
+        });
       return;
     }
 
@@ -324,6 +415,15 @@ const Footer: React.FC = () => {
     }
 
     setIsHeartLiked(true);
+
+    // 呼叫 Strapi API 增加 like 計數（非同步，不阻塞 UI）
+    likePage(pageStorageKey)
+      .then((response) => {
+        setLikeCount(response.data.count);
+      })
+      .catch((err) => {
+        console.warn('[Footer] likePage 失敗:', err);
+      });
 
     const messageIndex = Math.floor(Math.random() * THANK_YOU_MESSAGES.length);
     const selectedMessage = THANK_YOU_MESSAGES[messageIndex];
@@ -356,7 +456,7 @@ const Footer: React.FC = () => {
       setPreloadedGifUrl(null);
     }
     preloadRandomGif(gifToDisplay);
-  }, [isHeartLiked, pickRandomGifUrl, preloadedGifUrl, preloadRandomGif]);
+  }, [isHeartLiked, pickRandomGifUrl, preloadedGifUrl, preloadRandomGif, pageStorageKey]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -413,6 +513,9 @@ const Footer: React.FC = () => {
       preloadImageRef.current.onload = null;
       preloadImageRef.current.onerror = null;
       preloadImageRef.current = null;
+    }
+    if (likeToggleTimerRef.current) {
+      clearInterval(likeToggleTimerRef.current);
     }
   }, []);
 
@@ -522,6 +625,8 @@ const Footer: React.FC = () => {
             onIconHover={playHoverSound}
             disableProgress={isHeartLiked}
             isLiked={isHeartLiked}
+            likeCount={likeCount}
+            showLikeCount={showLikeCount && likeCount >= 1}
           />
           <ScrollIndicator 
             scrollProgress={scrollProgress}

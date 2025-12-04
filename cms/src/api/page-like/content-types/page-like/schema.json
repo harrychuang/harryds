@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "page_likes",
+  "info": {
+    "singularName": "page-like",
+    "pluralName": "page-likes",
+    "displayName": "Page Like",
+    "description": "Store like counts for different pages/URLs"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "path": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "description": "URL path (e.g. '/' or '/project/1/harry-design-studio')"
+    },
+    "count": {
+      "type": "integer",
+      "required": true,
+      "default": 0,
+      "min": 0,
+      "description": "Total like count for this path"
+    }
+  }
+}
+
