@@ -1,0 +1,146 @@
+// =============================================================================
+// POCKET CONSOLE 樣式
+// - GameBoy 風格 8-bit 像素插圖
+// =============================================================================
+
+.hds-pocket-console {
+  position: relative;
+  display: inline-block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+
+  &__svg {
+    display: block;
+  }
+
+  // 螢幕自定義內容
+  &__screen-content {
+    position: absolute;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    image-rendering: pixelated;
+  }
+
+  // ===== 動畫狀態 =====
+  &--animated {
+    .hds-pocket-console__screen {
+      animation: screenFlicker 0.1s infinite alternate;
+    }
+
+    .hds-pocket-console__power-led {
+      animation: ledBlink 1s infinite;
+    }
+
+    .hds-pocket-console__scanlines {
+      animation: scanlineMove 2s linear infinite;
+    }
+  }
+
+  // ===== 互動狀態 =====
+  // 按鈕 hover 效果 - 使用 filter 而非 transform 避免偏移
+  .hds-pocket-console__btn-a,
+  .hds-pocket-console__btn-b {
+    cursor: pointer;
+    transition: filter 0.1s ease;
+
+    &:hover {
+      filter: brightness(1.2);
+    }
+
+    &:active {
+      filter: brightness(0.8);
+    }
+  }
+
+  .hds-pocket-console__dpad {
+    cursor: pointer;
+    transition: filter 0.1s ease;
+    
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    &:active {
+      filter: brightness(0.9);
+    }
+  }
+}
+
+// ===== 動畫關鍵幀 =====
+
+@keyframes screenFlicker {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes ledBlink {
+  0%, 50% {
+    fill: #ff0044;
+    filter: drop-shadow(0 0 2px #ff0044);
+  }
+  51%, 100% {
+    fill: #cc0033;
+    filter: none;
+  }
+}
+
+@keyframes scanlineMove {
+  0% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 0.15;
+  }
+}
+
+// ===== 顏色主題變體 =====
+
+// 經典灰色 (預設)
+.hds-pocket-console--classic {
+  // 使用預設顏色
+}
+
+// 經典綠松石
+.hds-pocket-console--teal {
+  .hds-pocket-console__shell rect:first-child {
+    fill: #00979d;
+  }
+}
+
+// 透明紫
+.hds-pocket-console--atomic-purple {
+  .hds-pocket-console__shell rect:first-child {
+    fill: #9370db;
+    fill-opacity: 0.85;
+  }
+}
+
+// 黃色
+.hds-pocket-console--yellow {
+  .hds-pocket-console__shell rect:first-child {
+    fill: #ffcc00;
+  }
+}
+
+// 紅色
+.hds-pocket-console--red {
+  .hds-pocket-console__shell rect:first-child {
+    fill: #c62d5a;
+  }
+}
+
+// 暗黑模式
+.hds-pocket-console--dark {
+  .hds-pocket-console__shell rect:first-child {
+    fill: #1a1a1a;
+  }
+}
