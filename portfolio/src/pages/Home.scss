@@ -34,6 +34,10 @@
     row-gap: 50px;
     column-gap: 50px;
 
+    @media (max-width: 767px) {
+      row-gap: 40px;
+    }
+
     // 變數與轉場
     --pg-stagger-step: 30ms;
     --pg-fade-duration: 300ms;
