@@ -310,7 +310,7 @@ const ArticleDetail: React.FC = () => {
     setIsLogoHovered(false);
   }, []);
 
-  // 返回 Articles 列表（使用瀏覽器返回以保留 URL 參數如 topic）
+  // 返回 Articles 列表
   const handleBackToArticles = useCallback(async () => {
     try {
       menuClickHandleRef.current?.stop();
@@ -318,7 +318,7 @@ const ArticleDetail: React.FC = () => {
     } catch (err) {
       console.warn('Back button sound play failed:', err);
     }
-    navigate(-1);
+    navigate('/articles');
   }, [navigate]);
 
   // 點擊相關文章
@@ -329,11 +329,20 @@ const ArticleDetail: React.FC = () => {
     } catch (err) {
       console.warn('Related article click sound play failed:', err);
     }
-    // 重置圖片預載狀態
-    setImagesPreloaded(false);
-    setCurrentImageIndex(0);
-    navigate(`/articles/${articleId}`);
-  }, [navigate]);
+    
+    // 找到文章並生成 slug（與 Articles 頁面一致）
+    const targetArticle = items.find(item => item.id === articleId);
+    if (targetArticle) {
+      // 使用原始英文 heading 生成 slug，確保所有語系的 URL 一致
+      const headingForSlug = (targetArticle as any).originalHeading || targetArticle.heading;
+      const slug = headingForSlug.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
+      
+      // 重置圖片預載狀態
+      setImagesPreloaded(false);
+      setCurrentImageIndex(0);
+      navigate(`/article/${articleId}/${slug}`);
+    }
+  }, [items, navigate]);
 
   // 獲取文章圖片 - 從 useArticles hook 取得（支援 Strapi 或本地資料）
   const articleImages = useMemo(() => {
