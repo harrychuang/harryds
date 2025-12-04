@@ -140,6 +140,15 @@ const Home: React.FC = () => {
   const [pendingPrivateCardId, setPendingPrivateCardId] = useState<number | null>(null);
   const unlockedPrivateIdsRef = useRef<Set<number>>(new Set());
 
+  // 追蹤視窗寬度，用於響應式尺寸調整
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
 
   // 導覽選單 hover 觸發一次動畫狀態
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
@@ -636,9 +645,12 @@ const Home: React.FC = () => {
 
   const getSizeByIndex = useCallback((index: number): FeedCardSize => {
     if (index === 0) return 'hero';
-    if (index >= 1 && index <= 4) return 'med'; // Row 2 (index 1-2) 和 Row 3 (index 3-4) 都使用 med
+    if (index >= 1 && index <= 4) {
+      // 當視窗寬度小於 1200px 時，med 改為 sm
+      return windowWidth < 1400 ? 'sm' : 'med';
+    }
     return 'xs';
-  }, []);
+  }, [windowWidth]);
 
   const getRowInfoByIndex = useCallback((index: number, totalItems: number) => {
     const rows = getGridLayout(totalItems);

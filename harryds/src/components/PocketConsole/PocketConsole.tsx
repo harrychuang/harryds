@@ -5,8 +5,13 @@
 // - 支援鍵盤控制
 // =============================================================================
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './PocketConsole.scss';
+import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
+
+// 音效檔案路徑
+const BUTTON_SOUND_URL = new URL('../../../assets/sound/8-Bit Sound Effect Beep.mp3', import.meta.url).href;
+const SUCCESS_SOUND_URL = new URL('../../../assets/sound/8-Bit Powerup Sound Effect.mp3', import.meta.url).href;
 
 /** 按鈕類型 */
 export type PocketConsoleButton = 'up' | 'down' | 'left' | 'right' | 'a' | 'b' | 'start' | 'select';
@@ -94,6 +99,41 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
   
   // 追蹤是否輸入成功（Konami Code）
   const [isSuccess, setIsSuccess] = useState(false);
+  
+  // 音效 ref
+  const buttonSoundRef = useRef<PlaybackHandle | null>(null);
+  const successSoundRef = useRef<PlaybackHandle | null>(null);
+  
+  // 預載音效
+  useEffect(() => {
+    audioManager.preload(BUTTON_SOUND_URL).catch(() => {});
+    audioManager.preload(SUCCESS_SOUND_URL).catch(() => {});
+    
+    return () => {
+      buttonSoundRef.current?.stop();
+      successSoundRef.current?.stop();
+    };
+  }, []);
+  
+  // 播放按鈕音效
+  const playButtonSound = useCallback(async () => {
+    try {
+      buttonSoundRef.current?.stop();
+      buttonSoundRef.current = await audioManager.play(BUTTON_SOUND_URL, { volume: 0.4 });
+    } catch (err) {
+      // 忽略音效播放錯誤
+    }
+  }, []);
+  
+  // 播放成功音效
+  const playSuccessSound = useCallback(async () => {
+    try {
+      successSoundRef.current?.stop();
+      successSoundRef.current = await audioManager.play(SUCCESS_SOUND_URL, { volume: 0.5 });
+    } catch (err) {
+      // 忽略音效播放錯誤
+    }
+  }, []);
 
   // 原始 SVG 尺寸 (40 x 64 像素單位，每單位 4px)
   const viewWidth = 40 * PX;
@@ -108,6 +148,9 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
       newSet.add(button);
       return newSet;
     });
+    
+    // 播放按鈕音效
+    playButtonSound();
     
     // SELECT (Option) 清空輸入歷史並重置 success 狀態
     if (button === 'select') {
@@ -135,6 +178,8 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
         const inputString = trimmedHistory.join('');
         if (inputString === KONAMI_CODE) {
           setIsSuccess(true);
+          // 播放成功音效
+          playSuccessSound();
           // 延遲觸發 onSuccess，讓 SUCCESS 動畫有時間播放
           setTimeout(() => {
             onSuccess?.();
@@ -146,7 +191,7 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
     }
     
     onButtonPress?.(button);
-  }, [onButtonPress, isSuccess, onSuccess]);
+  }, [onButtonPress, isSuccess, onSuccess, playButtonSound, playSuccessSound]);
 
   // 放開按鈕
   const releaseButton = useCallback((button: PocketConsoleButton) => {
