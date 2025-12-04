@@ -106,31 +106,36 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
       return newSet;
     });
     
-    // 如果已經成功，忽略輸入
-    if (isSuccess) return;
-    
-    // SELECT (Option) 清空輸入歷史
+    // SELECT (Option) 清空輸入歷史並重置 success 狀態
     if (button === 'select') {
       setInputHistory([]);
       setIsSuccess(false);
-    } else {
-      // 如果是方向鍵或 A/B，添加到輸入歷史
-      const symbol = BUTTON_SYMBOLS[button];
-      if (symbol) {
-        setInputHistory(prev => {
-          const newHistory = [...prev, symbol];
-          // 只保留最後 MAX_INPUT_HISTORY 個
-          const trimmedHistory = newHistory.slice(-MAX_INPUT_HISTORY);
-          
-          // 檢查是否匹配 Konami Code
-          const inputString = trimmedHistory.join('');
-          if (inputString === KONAMI_CODE) {
-            setIsSuccess(true);
-          }
-          
-          return trimmedHistory;
-        });
-      }
+      onButtonPress?.(button);
+      return;
+    }
+    
+    // 如果已經成功，忽略其他輸入
+    if (isSuccess) {
+      onButtonPress?.(button);
+      return;
+    }
+    
+    // 如果是方向鍵或 A/B，添加到輸入歷史
+    const symbol = BUTTON_SYMBOLS[button];
+    if (symbol) {
+      setInputHistory(prev => {
+        const newHistory = [...prev, symbol];
+        // 只保留最後 MAX_INPUT_HISTORY 個
+        const trimmedHistory = newHistory.slice(-MAX_INPUT_HISTORY);
+        
+        // 檢查是否匹配 Konami Code
+        const inputString = trimmedHistory.join('');
+        if (inputString === KONAMI_CODE) {
+          setIsSuccess(true);
+        }
+        
+        return trimmedHistory;
+      });
     }
     
     onButtonPress?.(button);
