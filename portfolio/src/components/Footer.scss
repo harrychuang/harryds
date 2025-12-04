@@ -21,6 +21,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 480px) {
+      column-gap: 10px;
+    }
   }
   
   &__left {
@@ -37,8 +41,18 @@
   &__copyright {
     font-family: 'Pixel', monospace;
     font-size: 11px;
-    line-height: 1;
+    line-height: 1.2;
     white-space: nowrap;
+    padding-top: 5px;
+ 
+    @media (max-width: 768px) {
+      white-space: normal; // 允許斷行
+      max-width: 100%;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 10px;
+    }
   }
 
   &__giphy-popup {
@@ -179,27 +193,11 @@
     
     // 在小屏幕上，版權文字可能太長，調整寬度
     &__copyright {
+      display: inline-block;
       max-width: 200px;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .footer {
-    padding: 15px 20px;
-    
-    &__content {
-      flex-direction: column;
-      justify-content: center;
-      gap: 10px;
-      max-width: none;
-    }
-    
-    &__left,
-    &__right {
-      justify-content: center;
+      padding-right: 10px;
     }
   }
 }

@@ -14,7 +14,11 @@
   overflow: hidden; // 防止 2000px 寬的 HarryAnimation 造成水平溢出和滾動卡頓
 
   @media (max-width: 767px) {
-    padding: 50px 30px 100px 30px;
+    padding: 20px 30px 100px 30px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0px 20px 100px 20px;
   }
 
   &__container {

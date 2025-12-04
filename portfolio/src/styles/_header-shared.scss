@@ -19,7 +19,11 @@
   }
 
   @media (max-width: 767px) {
-    padding: 50px 20px;
+    padding: 30px 20px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 20px 15px;
   }
   
   .header-content {
@@ -56,6 +60,11 @@
   transition: transform 0.3s ease;
   position: relative;
   left: -0.4vw;
+  
+  @media (max-width: 640px) {
+    transform: scale(0.8);
+    transform-origin: left center;
+  }
 }
 
 // 主題切換按鈕

@@ -645,8 +645,11 @@ const Home: React.FC = () => {
 
   const getSizeByIndex = useCallback((index: number): FeedCardSize => {
     if (index === 0) {
+      // 當視窗寬度 <= 767px 時，hero 改為 sm
+      if (windowWidth <= 767) return 'sm';
       // 當視窗寬度小於 1200px 時，hero 改為 med
-      return windowWidth < 1200 ? 'med' : 'hero';
+      if (windowWidth < 1200) return 'med';
+      return 'hero';
     }
     if (index >= 1 && index <= 4) {
       // 當視窗寬度小於 1100px 時，sm 改為 xs
@@ -681,7 +684,21 @@ const Home: React.FC = () => {
   const headerLogoAnimated = shouldHideNav ? isLogoHovered : true;
   const headerLogoWrapperStyle: React.CSSProperties = {
     cursor: shouldHideNav ? 'pointer' : 'auto',
-    transform: shouldHideNav ? 'translateX(-10px)' : 'translateX(0px)'
+    transform: (() => {
+      const translateX = shouldHideNav ? 'translateX(-10px)' : 'translateX(0px)';
+      let scale = '';
+      if (windowWidth < 480) {
+        scale = 'scale(0.55)';
+      } else if (windowWidth < 540) {
+        scale = 'scale(0.65)';
+      } else if (windowWidth < 640) {
+        scale = 'scale(0.8)';
+      }
+      return scale ? `${translateX} ${scale}` : translateX;
+    })(),
+    transformOrigin: 'left center',
+    // 補償 scale 造成的佔位空間問題（負 margin 讓 menu 不會被推太遠）
+    marginRight: windowWidth < 540 ? '-35%' : windowWidth <= 640 ? '-20%' : 0
   };
   const navColors = {
     primaryColor: (logoColors as any).primaryColor,
@@ -912,7 +929,7 @@ const Home: React.FC = () => {
                     onAnimationPhaseChange={openCardId === item.id ? handleAnimationPhaseChange : undefined}
                     src={src}
                     sizeWhenClosed={size}
-                    padding={40}
+                    padding={windowWidth <= 767 ? 30 : 40}
                     backgroundProps={{ 
                       pixelSize: size === 'hero' ? 80 : size === 'med' ? 70 : size === 'sm' ? 60 : 50,
                       hoverToOriginal: true,
