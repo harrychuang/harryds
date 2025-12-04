@@ -375,6 +375,17 @@ const ArticleDetail: React.FC = () => {
     navigate('/articles');
   }, [navigate]);
 
+  // 點擊 Topic 標籤
+  const handleTopicClick = useCallback(async (topic: string) => {
+    try {
+      menuClickHandleRef.current?.stop();
+      menuClickHandleRef.current = await audioManager.play(clickSoundUrl, { volume: 0.3 });
+    } catch (err) {
+      console.warn('Topic click sound play failed:', err);
+    }
+    navigate(`/articles?topic=${encodeURIComponent(topic)}`);
+  }, [navigate]);
+
   // 點擊相關文章
   const handleRelatedArticleClick = useCallback(async (articleId: number) => {
     try {
@@ -762,7 +773,13 @@ const ArticleDetail: React.FC = () => {
               <div className="article-detail__info-value">
                 {article.tags.map((tag, index) => (
                   <React.Fragment key={index}>
-                    {tag}
+                    <span 
+                      className="article-detail__topic-link"
+                      onClick={() => handleTopicClick(tag)}
+                      onMouseEnter={handleMenuItemHover}
+                    >
+                      {tag}
+                    </span>
                     {index < article.tags.length - 1 && <br />}
                   </React.Fragment>
                 ))}
