@@ -48,6 +48,16 @@
     letter-spacing: 1px;
   }
 
+  // SUCCESS 動畫
+  &__success {
+    font-family: 'PublicPixel', monospace;
+    font-size: 14px;
+    color: #0f380f;
+    text-align: center;
+    animation: successPulse 0.3s ease-in-out infinite alternate,
+               successBlink 0.15s ease-in-out 6;
+  }
+
   // 按鈕標籤文字
   &__btn-label {
     font-family: 'PublicPixel', monospace;
@@ -163,6 +173,24 @@
   }
   100% {
     opacity: 0.15;
+  }
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes successBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
   }
 }
 

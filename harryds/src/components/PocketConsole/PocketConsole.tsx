@@ -64,7 +64,10 @@ const BUTTON_SYMBOLS: Partial<Record<PocketConsoleButton, string>> = {
 };
 
 // 最大輸入歷史長度
-const MAX_INPUT_HISTORY = 12;
+const MAX_INPUT_HISTORY = 10;
+
+// Konami Code 密碼序列
+const KONAMI_CODE = '↑↑↓↓←→←→BA';
 
 export const PocketConsole: React.FC<PocketConsoleProps> = ({
   shellColor = '#c0c0c0',
@@ -85,6 +88,9 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
   
   // 追蹤輸入歷史（用於螢幕顯示）
   const [inputHistory, setInputHistory] = useState<string[]>([]);
+  
+  // 追蹤是否輸入成功（Konami Code）
+  const [isSuccess, setIsSuccess] = useState(false);
 
   // 原始 SVG 尺寸 (40 x 64 像素單位，每單位 4px)
   const viewWidth = 40 * PX;
@@ -100,9 +106,13 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
       return newSet;
     });
     
+    // 如果已經成功，忽略輸入
+    if (isSuccess) return;
+    
     // SELECT (Option) 清空輸入歷史
     if (button === 'select') {
       setInputHistory([]);
+      setIsSuccess(false);
     } else {
       // 如果是方向鍵或 A/B，添加到輸入歷史
       const symbol = BUTTON_SYMBOLS[button];
@@ -110,13 +120,21 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
         setInputHistory(prev => {
           const newHistory = [...prev, symbol];
           // 只保留最後 MAX_INPUT_HISTORY 個
-          return newHistory.slice(-MAX_INPUT_HISTORY);
+          const trimmedHistory = newHistory.slice(-MAX_INPUT_HISTORY);
+          
+          // 檢查是否匹配 Konami Code
+          const inputString = trimmedHistory.join('');
+          if (inputString === KONAMI_CODE) {
+            setIsSuccess(true);
+          }
+          
+          return trimmedHistory;
         });
       }
     }
     
     onButtonPress?.(button);
-  }, [onButtonPress]);
+  }, [onButtonPress, isSuccess]);
 
   // 放開按鈕
   const releaseButton = useCallback((button: PocketConsoleButton) => {
@@ -431,7 +449,11 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
           height: 18 * PX * scale,
         }}
       >
-        {inputHistory.length > 0 ? (
+        {isSuccess ? (
+          <div className="hds-pocket-console__success">
+            SUCCESS!
+          </div>
+        ) : inputHistory.length > 0 ? (
           <div className="hds-pocket-console__input-display">
             {inputHistory.join('')}
           </div>
