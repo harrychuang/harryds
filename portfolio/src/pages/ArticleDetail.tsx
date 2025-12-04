@@ -5,6 +5,7 @@ import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/au
 import { useTheme } from '../theme/useTheme';
 import { useSound } from '../hooks/useSound';
 import { useArticles } from '../hooks/useArticles';
+import { FeedCard } from 'hds';
 import './ArticleDetail.scss';
 import Header from '../components/Header';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
@@ -94,6 +95,27 @@ const ArticleDetail: React.FC = () => {
     if (id === null || isNaN(id)) return null;
     return items.find(item => item.id === id);
   }, [params.id, items]);
+
+  // 找出相關文章（根據 tags/topics 相似度）
+  const relatedArticles = useMemo(() => {
+    if (!article || !article.tags || article.tags.length === 0) return [];
+    
+    // 計算每篇文章與當前文章的 tag 相似度
+    const scored = items
+      .filter(item => item.id !== article.id) // 排除當前文章
+      .map(item => {
+        // 計算共同 tags 數量
+        const commonTags = item.tags?.filter(tag => 
+          article.tags.includes(tag)
+        ).length || 0;
+        return { item, score: commonTags };
+      })
+      .filter(s => s.score > 0) // 只要有共同 tag 的
+      .sort((a, b) => b.score - a.score); // 相似度高的排前面
+    
+    // 取前 2 篇
+    return scored.slice(0, 2).map(s => s.item);
+  }, [article, items]);
 
   // 預載文章圖片
   useEffect(() => {
@@ -297,6 +319,20 @@ const ArticleDetail: React.FC = () => {
       console.warn('Back button sound play failed:', err);
     }
     navigate(-1);
+  }, [navigate]);
+
+  // 點擊相關文章
+  const handleRelatedArticleClick = useCallback(async (articleId: number) => {
+    try {
+      menuClickHandleRef.current?.stop();
+      menuClickHandleRef.current = await audioManager.play(clickSoundUrl, { volume: 0.3 });
+    } catch (err) {
+      console.warn('Related article click sound play failed:', err);
+    }
+    // 重置圖片預載狀態
+    setImagesPreloaded(false);
+    setCurrentImageIndex(0);
+    navigate(`/articles/${articleId}`);
   }, [navigate]);
 
   // 獲取文章圖片 - 從 useArticles hook 取得（支援 Strapi 或本地資料）
@@ -774,6 +810,48 @@ const ArticleDetail: React.FC = () => {
                   {renderParagraphWithLinks(paragraph)}
                 </p>
               ))}
+            </div>
+          )}
+
+          {/* Related Articles */}
+          {relatedArticles.length > 0 && (
+            <div className="article-detail__related">
+              <h2 className="article-detail__related-title">
+                {t('common:relatedArticles', 'Related Articles')}
+              </h2>
+              <div className="article-detail__related-grid">
+                {relatedArticles.map(relatedItem => (
+                  <div 
+                    key={relatedItem.id}
+                    className="article-detail__related-card"
+                    onClick={() => handleRelatedArticleClick(relatedItem.id)}
+                  >
+                    <FeedCard
+                      src={relatedItem.heroImage || ''}
+                      size="xs"
+                      height={250}
+                      padding={40}
+                      backgroundProps={{
+                        pixelSize: 60,
+                        hoverPixelToOne: true,
+                        hoverPixelDuration: 500,
+                        desaturateUntilHover: true,
+                        objectFit: 'cover'
+                      }}
+                      infoMaxWidth={1400}
+                      infoData={{
+                        id: '',
+                        heading: relatedItem.heading,
+                        date: relatedItem.date,
+                        tags: relatedItem.tags?.length > 1 
+                          ? [relatedItem.tags[1]] 
+                          : (relatedItem.tags?.length > 0 ? [relatedItem.tags[0]] : []),
+                        category: relatedItem.category
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>

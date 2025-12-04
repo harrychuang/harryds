@@ -262,5 +262,50 @@
       opacity: 0.6;
     }
   }
+
+  // Related Articles
+  &__related {
+    margin-top: 50px;
+    border-top: 1px solid var(--hds-sys-color-outline);
+  }
+
+  &__related-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--hds-sys-color-theme-surface);
+    margin: 0 0 40px 0;
+    
+    @media (max-width: 768px) {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+  }
+
+  &__related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 50px;
+    
+    @media (min-width: 769px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__related-card {
+    cursor: pointer;
+    transition: opacity var(--pg-fade-duration) ease, outline-color 0.3s ease;
+    outline: 10px solid var(--hds-sys-color-theme-surface);
+
+    &:hover {
+      outline: 10px solid var(--hds-sys-color-theme-surface);
+    }
+
+    // 禁用 hover 時的背景圖片效果（與 Articles 頁面一致）
+    &:hover .feed-card__bg {
+      opacity: 0;
+    }
+  }
 }
 
