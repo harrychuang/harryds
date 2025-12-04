@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PocketConsole, PocketConsoleButton } from './PocketConsole';
 
 const meta: Meta<typeof PocketConsole> = {
@@ -51,20 +51,44 @@ const meta: Meta<typeof PocketConsole> = {
 export default meta;
 type Story = StoryObj<typeof PocketConsole>;
 
-// 預設螢幕內容
-const DefaultScreenContent = () => (
-  <div style={{ 
-    color: '#0f380f', 
+// 預設螢幕內容（每 3 秒切換）
+const DefaultScreenContent = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowPassword(prev => !prev);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const baseStyle = {
+    color: '#0f380f',
     fontFamily: 'PublicPixel, monospace',
-    textAlign: 'center',
+    textAlign: 'center' as const,
     fontSize: '15px',
     lineHeight: 1.6,
-  }}>
-    <div>HARRY</div>
-    <div>DESIGN</div>
-    <div>STUDIO</div>
-  </div>
-);
+  };
+
+  if (showPassword) {
+    return (
+      <div style={{ ...baseStyle, fontSize: '12px', lineHeight: 1.8 }}>
+        <div>PLEASE</div>
+        <div>ENTER THE</div>
+        <div>PASSWORD.</div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={baseStyle}>
+      <div>HARRY</div>
+      <div>DESIGN</div>
+      <div>STUDIO</div>
+    </div>
+  );
+};
 
 // 預設狀態
 export const Default: Story = {
