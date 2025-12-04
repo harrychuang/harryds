@@ -51,11 +51,27 @@ const meta: Meta<typeof PocketConsole> = {
 export default meta;
 type Story = StoryObj<typeof PocketConsole>;
 
+// 預設螢幕內容
+const DefaultScreenContent = () => (
+  <div style={{ 
+    color: '#0f380f', 
+    fontFamily: 'PublicPixel, monospace',
+    textAlign: 'center',
+    fontSize: '15px',
+    lineHeight: 1.6,
+  }}>
+    <div>HARRY</div>
+    <div>DESIGN</div>
+    <div>STUDIO</div>
+  </div>
+);
+
 // 預設狀態
 export const Default: Story = {
   args: {
     width: 160,
     animated: false,
+    screenContent: <DefaultScreenContent />,
   },
 };
 
@@ -64,6 +80,7 @@ export const Animated: Story = {
   args: {
     width: 160,
     animated: true,
+    screenContent: <DefaultScreenContent />,
   },
 };
 
@@ -72,6 +89,7 @@ export const Large: Story = {
   args: {
     width: 320,
     animated: true,
+    screenContent: <DefaultScreenContent />,
   },
 };
 
@@ -139,19 +157,7 @@ export const WithScreenContent: Story = {
   args: {
     width: 200,
     animated: true,
-    screenContent: (
-      <div style={{ 
-        color: '#0f380f', 
-        fontSize: '8px', 
-        fontFamily: 'monospace',
-        textAlign: 'center',
-        padding: '4px'
-      }}>
-        <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>HARRY</div>
-        <div>DESIGN</div>
-        <div>STUDIO</div>
-      </div>
-    ),
+    screenContent: <DefaultScreenContent />,
   },
 };
 
@@ -198,6 +204,7 @@ const KeyboardControlDemo = () => {
       <PocketConsole
         width={200}
         animated
+        screenContent={<DefaultScreenContent />}
         onButtonPress={(btn) => {
           setLastButton(btn);
           setPressedButtons(prev => [...prev, btn]);
