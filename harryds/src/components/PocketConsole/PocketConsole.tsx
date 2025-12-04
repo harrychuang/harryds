@@ -414,7 +414,7 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
         <g className="hds-pocket-console__speaker">
           {Array.from({ length: 4 }).map((_, i) => (
             <React.Fragment key={i}>
-              {px(28 + i * 2, 55, 1, 4, '#5a5a5a')}
+              {px(28 + i * 2, 55, 1, 4, '#ABABAB')}
             </React.Fragment>
           ))}
         </g>
