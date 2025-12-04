@@ -375,29 +375,44 @@ const Home: React.FC = () => {
       // 關閉 modal
       setPrivateUnlockModalOpen(false);
       
-      // 延遲後開啟專案
       const item = items.find(i => i.id === pendingPrivateCardId);
       if (item) {
-        const hasLoaded = loadedCardIdsRef.current.has(pendingPrivateCardId);
-        if (hasLoaded) {
-          navigate(toItemUrl(item), { replace: false });
+        const currentUrl = toItemUrl(item);
+        const isAlreadyOnProjectUrl = params.id === String(pendingPrivateCardId);
+        
+        if (isAlreadyOnProjectUrl) {
+          // 如果已經在正確的 URL 上（從 URL 直接進入的情況），直接設置 openCardId
+          setOpenCardId(item.id);
+          setContextOpenCardId(item.id);
+          setLoading(false);
         } else {
-          setLoading(true);
-          setTimeout(() => {
-            navigate(toItemUrl(item), { replace: false });
-          }, 100);
+          // 從首頁點擊進入的情況，需要導航
+          const hasLoaded = loadedCardIdsRef.current.has(pendingPrivateCardId);
+          if (hasLoaded) {
+            navigate(currentUrl, { replace: false });
+          } else {
+            setLoading(true);
+            setTimeout(() => {
+              navigate(currentUrl, { replace: false });
+            }, 100);
+          }
         }
       }
       
       setPendingPrivateCardId(null);
     }
-  }, [pendingPrivateCardId, items, navigate, toItemUrl, setLoading]);
+  }, [pendingPrivateCardId, items, navigate, toItemUrl, setLoading, params.id, setContextOpenCardId]);
   
   // Private Project Unlock Modal 關閉處理
   const handlePrivateUnlockClose = useCallback(() => {
     setPrivateUnlockModalOpen(false);
     setPendingPrivateCardId(null);
-  }, []);
+    
+    // 如果當前 URL 是 private 專案的 URL，導航回首頁
+    if (params.id) {
+      navigate('/', { replace: true });
+    }
+  }, [params.id, navigate]);
 
   const handleCloseCard = useCallback(() => {
     setOpenCardId(null);
@@ -686,8 +701,17 @@ const Home: React.FC = () => {
     // Home 只顯示 projects，所以直接根據 id 查找
     const item = items.find(i => i.id === id);
     if (item) {
-      setOpenCardId(item.id);
-      setContextOpenCardId(item.id); // 同步更新 Context
+      // 檢查是否為 private 專案且尚未解鎖
+      if (item.isPrivate && !unlockedPrivateIdsRef.current.has(id)) {
+        // 顯示解鎖 modal，不設置 openCardId（避免顯示內容）
+        setPendingPrivateCardId(id);
+        setPrivateUnlockModalOpen(true);
+        setOpenCardId(null);
+        setContextOpenCardId(null);
+      } else {
+        setOpenCardId(item.id);
+        setContextOpenCardId(item.id); // 同步更新 Context
+      }
     } else {
       setOpenCardId(null);
       setContextOpenCardId(null); // 同步更新 Context
