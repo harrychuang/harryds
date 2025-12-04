@@ -440,27 +440,36 @@ const Header: React.FC<HeaderProps> = ({
 							{menuItems.map((itemKey) => {
 								const label = t(`nav.${itemKey}`);
 								const isActive = activeMenuItem === itemKey;
-								// 計算較大的寬度（pixelSize=4）
+								// 計算較大的寬度（pixelSize=3）
 								const charCount = label.length;
-								const width = charCount * 32 + Math.max(0, charCount - 1) * 4; // pixelSize=4
+								const width = charCount * 24 + Math.max(0, charCount - 1) * 3; // pixelSize=3
 								return (
 									<button
 										key={itemKey}
 										className={`mobile-menu-nav-item ${isActive ? 'mobile-menu-nav-item--active' : ''}`}
 										onClick={() => handleMobileMenuItemClick(itemKey)}
 										onMouseEnter={() => onMenuItemHover && onMenuItemHover(itemKey)}
+										style={{ position: 'relative' }}
 									>
 										<PixelText2D
 											text={label}
 											textEnabled
-											pixelSize={4}
+											pixelSize={3}
 											width={width}
-											height={48}
+											height={36}
 											animated={false}
 											primaryColor="var(--hds-sys-color-theme-surface)"
 										/>
 										{isActive && (
-											<span className="mobile-menu-nav-active-indicator">●</span>
+											<div className="marquee-container marquee-container--mobile">
+												<div className="marquee-pixels" style={{ color: 'var(--hds-sys-color-theme-surface)' }}>
+													<div className="marquee-pixel marquee-pixel--1" style={{ opacity: 0.2 }} />
+													<div className="marquee-pixel marquee-pixel--2" style={{ opacity: 0.4 }} />
+													<div className="marquee-pixel marquee-pixel--3" style={{ opacity: 0.6 }} />
+													<div className="marquee-pixel marquee-pixel--4" style={{ opacity: 0.8 }} />
+													<div className="marquee-pixel marquee-pixel--5" style={{ opacity: 1 }} />
+												</div>
+											</div>
 										)}
 									</button>
 								);

@@ -13,6 +13,10 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   overflow: hidden; // 防止 2000px 寬的 HarryAnimation 造成水平溢出和滾動卡頓
 
+  @media (max-width: 767px) {
+    padding: 50px 30px 100px 30px;
+  }
+
   &__container {
     max-width: 1600px;
     margin: 0 auto;

@@ -17,6 +17,10 @@
   @media (max-width: 1000px) {
     padding: 50px 40px;
   }
+
+  @media (max-width: 767px) {
+    padding: 50px 20px;
+  }
   
   .header-content {
     max-width: 1580px;
