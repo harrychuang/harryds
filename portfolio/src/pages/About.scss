@@ -56,6 +56,10 @@
       text-align: center;
     }
 
+    .home__intro {
+      margin-top: 0px !important;
+    }
+
     .home__intro-grid {
       grid-template-columns: 1fr !important;
       gap: 40px;
@@ -78,7 +82,11 @@
     }
 
     .home__intro-awards {
-      align-items: center;
+      align-items: flex-end;
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 80px 80px;
+      margin-top: 60px !important;
 
       li {
         align-items: center;
@@ -103,7 +111,7 @@
       width: 100%;
       opacity: 1 !important;
       pointer-events: auto;
-      margin: 40px 0;
+      margin: 0 0;
 
       .home__intro-rotation {
         width: 100% !important;
@@ -112,9 +120,27 @@
       }
     }
 
-    // Clients logos 置中
+    // Clients logos 置中，4 columns
     .home__clients-logos {
+      margin-top: 50px;
       justify-items: center;
+      grid-template-columns: repeat(3, minmax(150px, 1fr)) !important;
+      gap: 40px 100px;
+      
+      img {
+        transform: scale(1);
+      }
+    }
+    
+    // 只有在 <= 768px 且為直向畫面時，改為 2 columns
+    @media (max-width: 768px) {
+      .home__clients-logos {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        
+        img {
+          transform: scale(0.6);
+        }
+      }
     }
 
     // Services & Contact 區塊
@@ -164,7 +190,7 @@
       bottom: auto !important;
       right: auto !important;
       margin-top: 40px;
-      transform: none !important;
+      transform: scale(1.2) !important;
     }
 
     // Awards 區塊調整 margin
@@ -180,6 +206,7 @@
     // main 區塊調整 gap
     .home__main {
       gap: 150px;
+      padding-bottom: 5vh;
     }
   }
 }

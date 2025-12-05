@@ -1088,6 +1088,18 @@ const About: React.FC = () => {
           </div>
         )}
 
+        {/* Portrait: home__intro-visual 放在 hero 和 intro 之間，使用 relative positioning */}
+        {isPortrait && (
+          <div className="home__intro-visual" aria-hidden="true" ref={introVisualRef}>
+            <HarryAnimation
+              width="100%"
+              autoPlay={true}
+              className="home__intro-rotation"
+              enableParticles={true}
+            />
+          </div>
+        )}
+
         <section className="home__intro" aria-labelledby="about-intro-title" ref={introSectionRef}>
           <div className="home__intro-grid">
             <div
@@ -1112,18 +1124,6 @@ const About: React.FC = () => {
             <div className="home__intro-column home__intro-column--secondary" aria-hidden="true" />
           </div>
         </section>
-
-        {/* Portrait: home__intro-visual 放在 intro 和 awards 之間，使用 relative positioning */}
-        {isPortrait && (
-          <div className="home__intro-visual" aria-hidden="true" ref={introVisualRef}>
-            <HarryAnimation
-              width="100%"
-              autoPlay={true}
-              className="home__intro-rotation"
-              enableParticles={true}
-            />
-          </div>
-        )}
 
         <section className="home__awards" aria-labelledby="about-awards-title" ref={awardsSectionRef}>
           <div className="home__intro-grid">
