@@ -855,7 +855,7 @@ body[data-theme="dark"] {
   justify-content: center;
   background: rgba(0, 0, 0, 0.8);
   padding: 50px;
-  overflow-y: auto;
+  overflow: hidden;
   overscroll-behavior: contain;
   // 使用和 PopupModal 一樣的 steps(6) 動畫
   animation: privateUnlockOverlayFadeIn 0.3s steps(6) forwards;
@@ -915,15 +915,5 @@ body[data-theme="dark"] {
   100% {
     clip-path: inset(0% 0% 0% 0%);
     opacity: 1;
-  }
-}
-
-// Responsive: 在較小螢幕上縮小 PocketConsole
-@media (max-width: 480px) {
-  .private-unlock-modal {
-    .hds-pocket-console {
-      width: 280px !important;
-      height: auto !important;
-    }
   }
 }
