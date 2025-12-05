@@ -173,13 +173,13 @@
 
   &__carousel-wrapper {
     width: 100%;
-    // overflow: hidden;
     position: relative;
     min-height: 400px;
     
     @media (max-width: 767px) {
       min-height: auto;
       overflow: hidden;
+      outline: 10px solid rgba(0, 0, 0, 0.05);
     }
   }
 
