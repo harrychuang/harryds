@@ -11,6 +11,7 @@ import Header from '../components/Header';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import { usePageLoader } from '../contexts/PageLoaderContext';
+import { useContactModal } from '../contexts/ContactModalContext';
 
 const PAGE_NAME = 'article-detail';
 
@@ -22,6 +23,7 @@ const ArticleDetail: React.FC = () => {
   const { isSoundEnabled, toggleSound } = useSound();
   const { items, loading: articlesLoading } = useArticles();
   const { setLoading, setAnimationComplete, isPageLoaded, markPageAsLoaded } = usePageLoader();
+  const { openContactModal } = useContactModal();
   
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
@@ -758,7 +760,11 @@ const ArticleDetail: React.FC = () => {
           logoType="back"
           logoAnimated={isLogoHovered}
           logoWrapperStyle={logoWrapperStyle}
-          menuItems={[]}
+          menuItems={['work', 'articles', 'about']}
+          activeMenuItem="articles"
+          t={t}
+          onMenuItemHover={handleMenuItemHover}
+          onMenuItemClick={handleMenuItemClick}
           showThemeToggle={true}
           theme={theme}
           onToggleTheme={handleToggleTheme}
@@ -775,6 +781,7 @@ const ArticleDetail: React.FC = () => {
           languageOptions={languageOptions}
           onLanguageChange={handleLanguageChange}
           onLanguageHover={handleMenuItemHover}
+          onContactClick={() => { openContactModal(); }}
         />
         <main className="article-detail__content">
           <div className="article-detail__container">
@@ -795,7 +802,11 @@ const ArticleDetail: React.FC = () => {
         logoType="back"
         logoAnimated={isLogoHovered}
         logoWrapperStyle={logoWrapperStyle}
-        menuItems={[]}
+        menuItems={['work', 'articles', 'about']}
+        activeMenuItem="articles"
+        t={t}
+        onMenuItemHover={handleMenuItemHover}
+        onMenuItemClick={handleMenuItemClick}
         showThemeToggle={true}
         theme={theme}
         onToggleTheme={handleToggleTheme}
@@ -812,6 +823,7 @@ const ArticleDetail: React.FC = () => {
         languageOptions={languageOptions}
         onLanguageChange={handleLanguageChange}
         onLanguageHover={handleMenuItemHover}
+        onContactClick={() => { openContactModal(); }}
       />
 
       <main className="article-detail__content">
