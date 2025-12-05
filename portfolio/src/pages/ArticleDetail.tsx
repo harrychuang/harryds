@@ -63,7 +63,8 @@ const ArticleDetail: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartX, setDragStartX] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
-  const [carouselWrapperWidth, setCarouselWrapperWidth] = useState(1000); // 預設為 content max-width
+  // carousel wrapper 寬度（會即時從 DOM 獲取）
+  const [carouselWrapperWidth, setCarouselWrapperWidth] = useState(0);
   const [mediaWidths, setMediaWidths] = useState<number[]>([]);
   const carouselRef = useRef<HTMLDivElement>(null);
   const carouselWrapperRef = useRef<HTMLDivElement>(null);
@@ -486,31 +487,52 @@ const ArticleDetail: React.FC = () => {
     setCurrentImageIndex(index);
   }, []);
 
-  // 監聽 carousel wrapper 寬度變化
+  // 即時監聽 carousel wrapper 寬度變化
+  useEffect(() => {
+    const updateWidth = () => {
+      const wrapper = carouselWrapperRef.current;
+      if (wrapper) {
+        const width = wrapper.clientWidth;
+        if (width > 0) {
+          setCarouselWrapperWidth(width);
+        }
+      }
+    };
+
+    // 延遲執行確保 DOM 已渲染
+    const timeoutId = setTimeout(updateWidth, 50);
+    
+    // 監聽視窗 resize 事件
+    window.addEventListener('resize', updateWidth);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', updateWidth);
+    };
+  }, []);
+
+  // 使用 ResizeObserver 監聽 wrapper 寬度變化（當 carousel 存在時）
   useEffect(() => {
     const wrapper = carouselWrapperRef.current;
     if (!wrapper) return;
 
     const updateWidth = () => {
       const width = wrapper.clientWidth;
-      // 確保寬度大於 0 才更新
       if (width > 0) {
         setCarouselWrapperWidth(width);
       }
     };
 
-    // 延遲執行以確保 DOM 已完全渲染
-    setTimeout(updateWidth, 100);
+    // 立即獲取一次
+    updateWidth();
     
-    const resizeObserver = new ResizeObserver(() => {
-      setTimeout(updateWidth, 50);
-    });
+    const resizeObserver = new ResizeObserver(updateWidth);
     resizeObserver.observe(wrapper);
 
     return () => {
       resizeObserver.disconnect();
     };
-  }, []);
+  }, [articleImages.length]); // 當圖片數量變化時重新綁定
 
   // 當媒體載入完成時更新寬度
   const handleMediaLoad = useCallback((index: number) => {
@@ -531,6 +553,11 @@ const ArticleDetail: React.FC = () => {
 
   // 計算 transform，確保當前圖片完整顯示，最後一張圖片右邊對齊容器右邊
   const carouselTransform = useMemo(() => {
+    // 如果 wrapper 寬度尚未獲取，返回初始位置
+    if (carouselWrapperWidth === 0) {
+      return 'translateX(0px)';
+    }
+    
     // 小螢幕使用較小的 gap
     const gap = windowWidth <= 767 ? 20 : 50;
     const totalImages = articleImages.length;
