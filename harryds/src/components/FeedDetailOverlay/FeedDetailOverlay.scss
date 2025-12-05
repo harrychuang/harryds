@@ -277,11 +277,18 @@
     display: flex;
     justify-content: center;
     margin-top: 100px; // 與 hero 之間的間距
-    padding: 0 0px 200px; // 底部增加 200px 間距
+    padding: 0 40px 200px; // 左右 padding 40px，底部 200px
     color: var(--on-hds-sys-color-surface, #fff);
     animation: slide-up-body 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     // 使用 contain 優化重繪範圍
     contain: layout style paint;
+    // 確保 box-sizing 正確計算 padding
+    box-sizing: border-box;
+    
+    @media (max-width: 768px) {
+      padding: 0 20px 120px; // 小螢幕縮減 padding
+      margin-top: 60px;
+    }
   }
 
   &__project-container {
@@ -290,15 +297,23 @@
     display: flex;
     flex-direction: row-reverse; // 反轉左右欄位順序
     gap: 80px; // 左右欄之間的間距
+    // 允許 flex 子元素正確縮小，避免溢出
+    min-width: 0;
     
     @media (max-width: 1024px) {
       flex-direction: column;
       gap: 40px;
     }
+    
+    @media (max-width: 768px) {
+      gap: 32px;
+    }
   }
 
   &__project-meta {
     flex: 0 0 400px; // 固定寬度 400px
+    max-width: 100%; // 確保不超過父容器
+    min-width: 0; // 允許縮小
     display: flex;
     flex-direction: column;
     gap: 80px; // meta content 和 CTA 按鈕之間的間距
@@ -306,9 +321,17 @@
     top: 200px; // 離畫面上方 160px
     align-self: flex-start; // 確保 sticky 定位正確運作
     
+    @media (max-width: 1200px) {
+      flex: 0 0 320px; // 中等螢幕縮減寬度
+    }
+    
     @media (max-width: 1024px) {
       flex: 1;
       position: static; // 小螢幕取消 sticky
+    }
+    
+    @media (max-width: 768px) {
+      gap: 40px;
     }
   }
 
@@ -364,6 +387,7 @@
 
   &__project-content {
     flex: 1; // 佔據剩餘空間
+    min-width: 0; // 允許 flex 子元素縮小，避免溢出
     display: flex;
     flex-direction: column;
   }
@@ -377,6 +401,14 @@
     color: var(--on-hds-sys-color-surface, #fff);
     margin: 0;
     white-space: pre-line; // 支援 \n 換行符號
+    
+    @media (max-width: 768px) {
+      font-size: 24px;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 20px;
+    }
   }
 
   &__project-image {
