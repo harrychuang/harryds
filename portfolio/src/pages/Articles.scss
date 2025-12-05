@@ -47,8 +47,12 @@
     }
     
     @media (max-width: 768px) {
-      padding-top: 80px;
+      padding-top: 120px;
       gap: 10px 16px;
+    }
+
+    @media (max-width: 767px) {
+      padding-top: 90px;
     }
   }
 
@@ -66,10 +70,6 @@
     text-transform: uppercase;
     position: relative;
     flex-shrink: 0;
-
-    @media (max-width: 768px) {
-      font-size: 12px;
-    }
 
     // 在每個選項後加上 | 分隔符
     &::after {
@@ -122,7 +122,11 @@
       }
       
       @media (max-width: 768px) {
-        top: 80px; // 對齊小螢幕的 padding-top
+        top: 120px; // 對齊小螢幕的 padding-top
+      }
+
+      @media (max-width: 767px) {
+        top: 90px;
       }
       
       // 展開時改為正常 flow
@@ -230,9 +234,9 @@
     // 只調整 padding-bottom
     .feed-card__overlay {
       padding: 40px 40px 40px 40px; // top right bottom left
-      
+
       @media (max-width: 767px) {
-        padding: 30px;
+        padding: 30px 30px 30px 30px;
       }
     }
     

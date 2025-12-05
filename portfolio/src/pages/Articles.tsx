@@ -452,7 +452,9 @@ const Articles: React.FC = () => {
             // 當螢幕 < 1200px 時：左邊(index=0) 改為 sm，右邊(index=1) 改為 xs
             const size: FeedCardSize = (() => {
               if (index === 0) {
-                return windowWidth < 1200 ? 'sm' : 'med';
+                if (windowWidth <= 767) return 'xs';
+                if (windowWidth < 1200) return 'sm';
+                return 'med';
               }
               if (index === 1) {
                 return windowWidth < 1200 ? 'xs' : 'med';
@@ -460,7 +462,11 @@ const Articles: React.FC = () => {
               return 'xs';
             })();
             const height = (() => {
-              if (index === 0) return windowWidth < 1200 ? 400 : 500;
+              if (index === 0) {
+                if (windowWidth <= 767) return 250;
+                if (windowWidth < 1200) return 400;
+                return 500;
+              }
               if (index === 1) return windowWidth < 1200 ? 250 : 500;
               return 250;
             })();
