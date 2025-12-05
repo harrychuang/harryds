@@ -43,3 +43,143 @@
     transform: scale(0.85) !important;
   }
 }
+
+// =============================================================================
+// RWD: 直式螢幕 (Portrait Mode - width < height)
+// =============================================================================
+@media (orientation: portrait) {
+  .home[data-page="about"] {
+    // 所有 2 columns 變為 1 column，文字置中
+    .home__intro,
+    .home__awards,
+    .home__clients {
+      text-align: center;
+    }
+
+    .home__intro-grid {
+      grid-template-columns: 1fr !important;
+      gap: 40px;
+    }
+
+    // 隱藏 secondary column（空白佔位用）
+    .home__intro-column--secondary {
+      display: none !important;
+    }
+
+    // 文字內容置中
+    .home__intro-column--primary {
+      align-items: center;
+    }
+
+    .home__intro-title,
+    .home__intro-body,
+    .home__intro-awards {
+      text-align: center;
+    }
+
+    .home__intro-awards {
+      align-items: center;
+
+      li {
+        align-items: center;
+      }
+
+      .home__intro-award-image {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    // home__intro-visual 在 portrait 模式下的樣式
+    // 由 JS 控制是否顯示（在 intro 和 awards 之間）
+    .home__intro-visual {
+      position: relative !important;
+      left: auto !important;
+      top: auto !important;
+      transform: none !important;
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      opacity: 1 !important;
+      pointer-events: auto;
+      margin: 40px 0;
+
+      .home__intro-rotation {
+        width: 100% !important;
+        max-width: 600px !important;
+        margin-top: 0 !important;
+      }
+    }
+
+    // Clients logos 置中
+    .home__clients-logos {
+      justify-items: center;
+    }
+
+    // Services & Contact 區塊
+    .home__services-contact {
+      text-align: center;
+    }
+
+    .home__services-contact-grid {
+      grid-template-columns: 1fr !important;
+      gap: 80px;
+    }
+
+    .home__services-contact-column {
+      align-items: center;
+    }
+
+    .home__services-subtitle,
+    .home__contact-subtitle {
+      text-align: center;
+      align-items: center;
+    }
+
+    .home__services-list {
+      align-items: center;
+    }
+
+    .home__services-category {
+      align-items: center;
+      text-align: center;
+    }
+
+    .home__services-items {
+      align-items: center;
+    }
+
+    .home__contact-info {
+      align-items: center;
+    }
+
+    .home__contact-social {
+      align-items: center;
+    }
+
+    // Contact animation 在 portrait 模式下調整
+    .home__contact-animation {
+      position: relative !important;
+      bottom: auto !important;
+      right: auto !important;
+      margin-top: 40px;
+      transform: none !important;
+    }
+
+    // Awards 區塊調整 margin
+    .home__awards {
+      margin-top: 0 !important;
+    }
+
+    // Clients 區塊調整 margin
+    .home__clients {
+      margin-top: 0 !important;
+    }
+
+    // main 區塊調整 gap
+    .home__main {
+      gap: 150px;
+    }
+  }
+}

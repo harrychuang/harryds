@@ -320,9 +320,15 @@ const About: React.FC = () => {
 
   // 追蹤視窗寬度，用於響應式 logo 尺寸調整
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1400);
+  
+  // 追蹤是否為 portrait 模式 (width < height)
+  const [isPortrait, setIsPortrait] = useState(typeof window !== 'undefined' ? window.innerWidth < window.innerHeight : false);
 
   useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      setIsPortrait(window.innerWidth < window.innerHeight);
+    };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -423,8 +429,11 @@ const About: React.FC = () => {
   }, [canStartHeroAnimation]);
 
   // 立即設置 introVisualRef 的初始位置（在渲染前）
+  // 只在非 portrait 模式下執行
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return;
+    // Portrait 模式下不需要設置 absolute positioning
+    if (window.innerWidth < window.innerHeight) return;
     if (!introSectionRef.current || !introVisualRef.current) return;
     
     // 立即設置初始位置，避免閃爍
@@ -452,6 +461,10 @@ const About: React.FC = () => {
 
   useLayoutEffect(() => {
     if (typeof window === 'undefined' || !isPageReady) return;
+    
+    // Portrait 模式下跳過所有視差動畫
+    const isPortraitMode = window.innerWidth < window.innerHeight;
+    if (isPortraitMode) return;
     
     gsap.registerPlugin(ScrollTrigger);
 
@@ -635,7 +648,7 @@ const About: React.FC = () => {
       });
     }
 
-    // 監聽視窗大小變化並刷新（使用 debounce 優化性能）
+    // 監聯視窗大小變化並刷新（使用 debounce 優化性能）
     let resizeTimer: number | null = null;
     const handleResize = () => {
       // Debounce: 等待 resize 結束後再處理
@@ -644,6 +657,17 @@ const About: React.FC = () => {
       }
       
       resizeTimer = window.setTimeout(() => {
+        // 檢查是否切換到 portrait 模式
+        const newIsPortrait = window.innerWidth < window.innerHeight;
+        if (newIsPortrait) {
+          // Portrait 模式下，清除所有 ScrollTrigger 並重置
+          ScrollTrigger.getAll().forEach(st => st.kill());
+          if (introVisualRef.current) {
+            gsap.set(introVisualRef.current, { clearProps: 'all' });
+          }
+          return;
+        }
+        
         if (!introSectionRef.current || !introVisualRef.current) return;
         
         const visualElement = introVisualRef.current;
@@ -1051,15 +1075,18 @@ const About: React.FC = () => {
           </p>
         </section>
 
-        <div className="home__intro-visual" aria-hidden="true" ref={introVisualRef}>
-          <HarryAnimation
-            width={window.innerWidth <= 1100 ? '1100px' : window.innerWidth <= 1200 ? '1500px' : window.innerWidth <= 1400 ? '1800px' : '2000px'}
-            autoPlay={false}
-            className="home__intro-rotation"
-            frame={rotationFrame}
-            enableParticles={true}
-          />
-        </div>
+        {/* Desktop: home__intro-visual 使用 absolute positioning */}
+        {!isPortrait && (
+          <div className="home__intro-visual" aria-hidden="true" ref={introVisualRef}>
+            <HarryAnimation
+              width={window.innerWidth <= 1100 ? '1100px' : window.innerWidth <= 1200 ? '1500px' : window.innerWidth <= 1400 ? '1800px' : '2000px'}
+              autoPlay={false}
+              className="home__intro-rotation"
+              frame={rotationFrame}
+              enableParticles={true}
+            />
+          </div>
+        )}
 
         <section className="home__intro" aria-labelledby="about-intro-title" ref={introSectionRef}>
           <div className="home__intro-grid">
@@ -1085,6 +1112,18 @@ const About: React.FC = () => {
             <div className="home__intro-column home__intro-column--secondary" aria-hidden="true" />
           </div>
         </section>
+
+        {/* Portrait: home__intro-visual 放在 intro 和 awards 之間，使用 relative positioning */}
+        {isPortrait && (
+          <div className="home__intro-visual" aria-hidden="true" ref={introVisualRef}>
+            <HarryAnimation
+              width="100%"
+              autoPlay={true}
+              className="home__intro-rotation"
+              enableParticles={true}
+            />
+          </div>
+        )}
 
         <section className="home__awards" aria-labelledby="about-awards-title" ref={awardsSectionRef}>
           <div className="home__intro-grid">
