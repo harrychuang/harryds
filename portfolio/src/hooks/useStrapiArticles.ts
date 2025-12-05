@@ -156,22 +156,56 @@ function transformStrapiToFeedItem(article: StrapiArticle, locale: string): Feed
   } as FeedItem;
 }
 
+// ============================================================================
+// Cache 機制 - 避免每次組件 mount 時重新請求資料
+// ============================================================================
+interface ArticlesCache {
+  items: FeedItem[];
+  locale: string;
+  timestamp: number;
+}
+
+let articlesCache: ArticlesCache | null = null;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 分鐘快取有效期
+
 /**
  * Hook: 從 Strapi 取得文章資料
  * 自動處理多語言，根據當前語言返回對應的資料
+ * 包含 cache 機制，避免重複請求
  */
 export function useStrapiArticles() {
   const { i18n } = useTranslation();
-  const [items, setItems] = useState<FeedItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  
+  // 檢查是否有有效的 cache
+  const hasValidCache = articlesCache && 
+    articlesCache.locale === i18n.language &&
+    (Date.now() - articlesCache.timestamp) < CACHE_DURATION;
+  
+  // 如果有有效 cache，初始值使用 cache 的資料，且 loading 為 false
+  const [items, setItems] = useState<FeedItem[]>(hasValidCache ? articlesCache!.items : []);
+  const [loading, setLoading] = useState(!hasValidCache);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     let isMounted = true;
 
     async function fetchArticles() {
+      // 如果有有效的 cache，跳過請求
+      if (articlesCache && 
+          articlesCache.locale === i18n.language &&
+          (Date.now() - articlesCache.timestamp) < CACHE_DURATION) {
+        if (isMounted) {
+          setItems(articlesCache.items);
+          setLoading(false);
+        }
+        return;
+      }
+
       try {
-        setLoading(true);
+        // 只有在沒有 cache 資料時才設定 loading = true
+        if (items.length === 0) {
+          setLoading(true);
+        }
         setError(null);
 
         // 取得所有文章，並 populate 圖片
@@ -187,12 +221,22 @@ export function useStrapiArticles() {
           transformStrapiToFeedItem(article, i18n.language)
         );
 
+        // 更新 cache
+        articlesCache = {
+          items: feedItems,
+          locale: i18n.language,
+          timestamp: Date.now()
+        };
+
         setItems(feedItems);
       } catch (err) {
         if (!isMounted) return;
         console.error('[useStrapiArticles] 取得文章資料失敗:', err);
         setError(err as Error);
-        setItems([]);
+        // 如果有舊的 cache 資料，保留它而不是清空
+        if (!articlesCache) {
+          setItems([]);
+        }
       } finally {
         if (isMounted) {
           setLoading(false);

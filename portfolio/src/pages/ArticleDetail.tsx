@@ -365,10 +365,23 @@ const ArticleDetail: React.FC = () => {
     };
   }, []);
 
-  // Logo wrapper 樣式（參考 Home 的 project detail）
+  // Logo wrapper 樣式（參考 Home 的 RWD 設定）
   const logoWrapperStyle: React.CSSProperties = {
     cursor: 'pointer',
-    transform: 'translateX(-10px)'
+    transform: (() => {
+      const translateX = 'translateX(0px)';
+      let scale = '';
+      if (windowWidth < 480) {
+        scale = 'scale(0.55)';
+      } else if (windowWidth < 540) {
+        scale = 'scale(0.65)';
+      } else if (windowWidth < 640) {
+        scale = 'scale(0.8)';
+      }
+      return scale ? `${translateX} ${scale}` : translateX;
+    })(),
+    transformOrigin: 'left center',
+    marginRight: windowWidth < 540 ? '-35%' : windowWidth <= 640 ? '-20%' : 0
   };
 
   // Logo hover 處理

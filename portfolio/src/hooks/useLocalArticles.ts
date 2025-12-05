@@ -60,21 +60,55 @@ const transformLocalToFeedItem = (id: string, data: any, originalHeading?: strin
   };
 };
 
+// ============================================================================
+// Cache 機制 - 避免每次組件 mount 時重新載入資料
+// ============================================================================
+interface LocalArticlesCache {
+  items: FeedItem[];
+  locale: string;
+  timestamp: number;
+}
+
+let localArticlesCache: LocalArticlesCache | null = null;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 分鐘快取有效期
+
 /**
  * Hook: 從本地 i18n locales 取得文章資料
+ * 包含 cache 機制，避免重複載入
  */
 export function useLocalArticles() {
   const { i18n } = useTranslation();
-  const [items, setItems] = useState<FeedItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  
+  // 檢查是否有有效的 cache
+  const hasValidCache = localArticlesCache && 
+    localArticlesCache.locale === i18n.language &&
+    (Date.now() - localArticlesCache.timestamp) < CACHE_DURATION;
+  
+  // 如果有有效 cache，初始值使用 cache 的資料，且 loading 為 false
+  const [items, setItems] = useState<FeedItem[]>(hasValidCache ? localArticlesCache!.items : []);
+  const [loading, setLoading] = useState(!hasValidCache);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     let isMounted = true;
 
     async function loadLocalArticles() {
+      // 如果有有效的 cache，跳過載入
+      if (localArticlesCache && 
+          localArticlesCache.locale === i18n.language &&
+          (Date.now() - localArticlesCache.timestamp) < CACHE_DURATION) {
+        if (isMounted) {
+          setItems(localArticlesCache.items);
+          setLoading(false);
+        }
+        return;
+      }
+
       try {
-        setLoading(true);
+        // 只有在沒有 cache 資料時才設定 loading = true
+        if (items.length === 0) {
+          setLoading(true);
+        }
         setError(null);
         
         // 根據當前語言載入對應的 articles.json
@@ -109,12 +143,22 @@ export function useLocalArticles() {
           })
           .sort((a, b) => a.id - b.id);
 
+        // 更新 cache
+        localArticlesCache = {
+          items: feedItems,
+          locale: i18n.language,
+          timestamp: Date.now()
+        };
+
         setItems(feedItems);
       } catch (err) {
         if (!isMounted) return;
         console.error('[useLocalArticles] 載入本地文章資料失敗:', err);
         setError(err as Error);
-        setItems([]);
+        // 如果有舊的 cache 資料，保留它而不是清空
+        if (!localArticlesCache) {
+          setItems([]);
+        }
       } finally {
         if (isMounted) {
           setLoading(false);
