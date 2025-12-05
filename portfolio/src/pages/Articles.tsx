@@ -12,6 +12,7 @@ import Header from '../components/Header';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import { usePageLoader } from '../contexts/PageLoaderContext';
+import { useContactModal } from '../contexts/ContactModalContext';
 
 const PAGE_NAME = 'articles';
 
@@ -23,6 +24,7 @@ const Articles: React.FC = () => {
   const { isSoundEnabled, toggleSound } = useSound();
   const { items: rawItems, loading: articlesLoading } = useArticles();
   const { setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete } = usePageLoader();
+  const { openContactModal } = useContactModal();
   
   // 頁面進入時檢查是否已載入過
   useEffect(() => {
@@ -254,6 +256,16 @@ const Articles: React.FC = () => {
     }
   }, []);
 
+  // Click 音效
+  const playMenuClickSound = useCallback(async () => {
+    try {
+      menuClickHandleRef.current?.stop();
+      menuClickHandleRef.current = await audioManager.play(clickSoundUrl, { volume: 0.3 });
+    } catch (err) {
+      console.warn('Menu click sound play failed:', err);
+    }
+  }, []);
+
   // 主題切換
   const handleToggleTheme = useCallback(async () => {
     try {
@@ -376,6 +388,7 @@ const Articles: React.FC = () => {
         languageOptions={languageOptions}
         onLanguageChange={handleLanguageChange}
         onLanguageHover={() => { playMenuHoverSound(); }}
+        onContactClick={() => { playMenuClickSound(); openContactModal(); }}
       />
 
       {/* Topics Filter Bar */}

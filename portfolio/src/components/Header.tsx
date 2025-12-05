@@ -43,6 +43,9 @@ export interface HeaderProps {
 	languageOptions?: Array<{ code: string; label: string }>; // available options
 	onLanguageChange?: (code: string) => void;
 	onLanguageHover?: () => void;
+
+	// Contact (mobile menu only)
+	onContactClick?: () => void;
 }
 
 const calcPixelTextWidth = (text: string): number => {
@@ -87,6 +90,8 @@ const Header: React.FC<HeaderProps> = ({
 	languageOptions = [],
 	onLanguageChange,
 	onLanguageHover,
+
+	onContactClick,
 }) => {
 	const primaryColor = navColors?.primaryColor;
 	const onPrimaryColor = navColors?.secondaryColor;
@@ -105,14 +110,20 @@ const Header: React.FC<HeaderProps> = ({
 		return () => window.removeEventListener('resize', checkMobile);
 	}, []);
 
-	// 當選單打開時，鎖定 body 滾動
+	// 當選單打開時，鎖定 body 滾動並隱藏 footer
 	useEffect(() => {
 		if (isMobileMenuOpen) {
+			document.body.classList.add('mobile-menu-active');
+			document.documentElement.style.overflow = 'hidden';
 			document.body.style.overflow = 'hidden';
 		} else {
+			document.body.classList.remove('mobile-menu-active');
+			document.documentElement.style.overflow = '';
 			document.body.style.overflow = '';
 		}
 		return () => {
+			document.body.classList.remove('mobile-menu-active');
+			document.documentElement.style.overflow = '';
 			document.body.style.overflow = '';
 		};
 	}, [isMobileMenuOpen]);
@@ -124,6 +135,11 @@ const Header: React.FC<HeaderProps> = ({
 	const handleMobileMenuItemClick = (itemKey: string) => {
 		setIsMobileMenuOpen(false);
 		onMenuItemClick && onMenuItemClick(itemKey);
+	};
+
+	const handleMobileContactClick = () => {
+		setIsMobileMenuOpen(false);
+		onContactClick && onContactClick();
 	};
 
 	return (
@@ -356,7 +372,7 @@ const Header: React.FC<HeaderProps> = ({
 								width={24}
 								height={24}
 								animated={false}
-								primaryColor="var(--hds-sys-color-theme-surface)"
+								primaryColor="var(--hds-sys-color-light-100a)"
 							/>
 						</button>
 
@@ -379,7 +395,7 @@ const Header: React.FC<HeaderProps> = ({
 										width={36}
 										height={36}
 										animated={false}
-										primaryColor="var(--hds-sys-color-theme-surface)"
+										primaryColor="var(--hds-sys-color-light-100a)"
 									/>
 								</button>
 							)}
@@ -400,7 +416,7 @@ const Header: React.FC<HeaderProps> = ({
 										width={36}
 										height={36}
 										animated={false}
-										primaryColor="var(--hds-sys-color-theme-surface)"
+										primaryColor="var(--hds-sys-color-light-100a)"
 									/>
 								</button>
 							)}
@@ -426,7 +442,7 @@ const Header: React.FC<HeaderProps> = ({
 													width={32}
 													height={24}
 													animated={false}
-													primaryColor="var(--hds-sys-color-theme-surface)"
+													primaryColor="var(--hds-sys-color-light-100a)"
 												/>
 											</button>
 										);
@@ -458,11 +474,11 @@ const Header: React.FC<HeaderProps> = ({
 											width={width}
 											height={36}
 											animated={false}
-											primaryColor="var(--hds-sys-color-theme-surface)"
+											primaryColor="var(--hds-sys-color-light-100a)"
 										/>
 										{isActive && (
 											<div className="marquee-container marquee-container--mobile">
-												<div className="marquee-pixels" style={{ color: 'var(--hds-sys-color-theme-surface)' }}>
+												<div className="marquee-pixels" style={{ color: 'var(--hds-sys-color-light-100a)' }}>
 													<div className="marquee-pixel marquee-pixel--1" style={{ opacity: 0.2 }} />
 													<div className="marquee-pixel marquee-pixel--2" style={{ opacity: 0.4 }} />
 													<div className="marquee-pixel marquee-pixel--3" style={{ opacity: 0.6 }} />
@@ -474,6 +490,25 @@ const Header: React.FC<HeaderProps> = ({
 									</button>
 								);
 							})}
+							{/* Contact 選項 */}
+							{onContactClick && (
+								<button
+									className="mobile-menu-nav-item"
+									onClick={handleMobileContactClick}
+									onMouseEnter={() => onMenuItemHover && onMenuItemHover('contact')}
+									style={{ position: 'relative' }}
+								>
+									<PixelText2D
+										text={t('nav.contact')}
+										textEnabled
+										pixelSize={3}
+										width={t('nav.contact').length * 24 + Math.max(0, t('nav.contact').length - 1) * 3}
+										height={36}
+										animated={false}
+										primaryColor="var(--hds-sys-color-light-100a)"
+									/>
+								</button>
+							)}
 						</nav>
 					</div>
 				</div>

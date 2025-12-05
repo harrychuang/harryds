@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: center;
   padding: 50px;
-  z-index: 1000;
+  z-index: 10002; // 最高層級，在所有元素之上（包括 Header mobile-menu 10001）
   overflow-y: auto;
   overscroll-behavior: contain;
   animation: modalOverlayFadeIn 0.3s steps(6) forwards;

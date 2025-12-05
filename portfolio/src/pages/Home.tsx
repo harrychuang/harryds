@@ -819,6 +819,7 @@ const Home: React.FC = () => {
         languageOptions={languageOptions}
         onLanguageChange={handleLanguageChange}
         onLanguageHover={() => { playMenuHoverSound(); }}
+        onContactClick={() => { playMenuClickSound(); openContactModal(); }}
       />
       <div className="home__container">
         <div

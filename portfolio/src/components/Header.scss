@@ -98,15 +98,25 @@
 	width: 100vw;
 	height: 100vh;
 	z-index: 10001; // 最高層級，在所有元素之上（包括 TransitionOverlay 10000）
-	background-color: var(--hds-sys-color-on-theme-surface);
+	background-color: transparent;
 	display: flex;
 	flex-direction: column;
-	animation: mobileMenuFadeIn 0.3s ease-out forwards;
 	overflow: hidden;
 	isolation: isolate; // 建立新的 stacking context
+	
+	// 背景遮罩 - 立即顯示，覆蓋整個頁面（包括 footer）
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-color: var(--hds-sys-color-dark-100a);
+		z-index: -1;
+		animation: mobileMenuBackdropFadeIn 0.1s steps(1) forwards;
+	}
 }
 
-@keyframes mobileMenuFadeIn {
+// 背景遮罩淡入動畫（立即顯示）
+@keyframes mobileMenuBackdropFadeIn {
 	from {
 		opacity: 0;
 	}
@@ -122,11 +132,51 @@
 	display: flex;
 	flex-direction: column;
 	position: relative;
-	background-color: inherit; // 繼承父層背景色
+	background-color: var(--hds-sys-color-dark-100a); // 固定深色背景
 	box-sizing: border-box;
+	animation: mobileMenuPixelReveal 0.5s step-end forwards;
 	
 	@media (max-width: 768px) {
 		padding: 20px;
+	}
+}
+
+// 8-bit 像素化展開動畫 (ease-out 風格: 開始快，結束慢)
+@keyframes mobileMenuPixelReveal {
+	0% {
+		clip-path: inset(50% 50% 50% 50%);
+		opacity: 1;
+	}
+	5% {
+		clip-path: inset(45% 45% 45% 45%);
+	}
+	12% {
+		clip-path: inset(40% 40% 40% 40%);
+	}
+	20% {
+		clip-path: inset(35% 35% 35% 35%);
+	}
+	30% {
+		clip-path: inset(30% 30% 30% 30%);
+	}
+	42% {
+		clip-path: inset(25% 25% 25% 25%);
+	}
+	55% {
+		clip-path: inset(20% 20% 20% 20%);
+	}
+	68% {
+		clip-path: inset(15% 15% 15% 15%);
+	}
+	80% {
+		clip-path: inset(10% 10% 10% 10%);
+	}
+	90% {
+		clip-path: inset(5% 5% 5% 5%);
+	}
+	100% {
+		clip-path: inset(0% 0% 0% 0%);
+		opacity: 1;
 	}
 }
 
@@ -200,7 +250,7 @@
 	&.mobile-menu-sound-toggle {
 		width: 40px;
 		height: 40px;
-		border: 4px solid var(--hds-sys-color-theme-surface);
+		border: 4px solid var(--hds-sys-color-light-100a); // 固定白色邊框
 		box-sizing: border-box;
 		transition: transform 0.2s ease;
 		
@@ -221,7 +271,7 @@
 	width: auto;
 	min-width: 40px;
 	height: 40px;
-	border: 4px solid var(--hds-sys-color-theme-surface);
+	border: 4px solid var(--hds-sys-color-light-100a); // 固定白色邊框
 	box-sizing: border-box;
 	opacity: 0.5;
 	transition: opacity 0.2s ease, transform 0.2s ease;
@@ -287,4 +337,20 @@
 	51%, 100% {
 		opacity: 0;
 	}
+}
+
+// =============================================================================
+// 當 mobile menu 開啟時，隱藏 footer 並確保無 scroller
+// =============================================================================
+
+body.mobile-menu-active {
+	overflow: hidden !important;
+	
+	.footer {
+		display: none !important;
+	}
+}
+
+html:has(body.mobile-menu-active) {
+	overflow: hidden !important;
 }

@@ -986,6 +986,7 @@ const About: React.FC = () => {
         })}
         onLanguageChange={handleLanguageChange}
         onLanguageHover={() => { playMenuHoverSound(); }}
+        onContactClick={() => { playMenuClickSound(); openContactModal(); }}
       />
       
       <main className="home__main">
