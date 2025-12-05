@@ -196,11 +196,35 @@
         padding: 0 20px;
         font-size: 15px !important;
       }
+
+      .home__contact-phone {
+        font-size: 28px !important;
+      }
+
+      .home__contact-email {
+        font-size: 16px !important;
+      }
+
+      .home__services-category-title {
+        font-size: 24px !important;
+      }
+
+      .home__services-item {
+        font-size: 18px !important;
+      }
+
+      .home__contact-social-link {
+        font-size: 12px !important;
+      }
     }
 
     // Services & Contact 區塊
     .home__services-contact {
       text-align: center;
+      
+      @media (max-width: 640px) {
+        margin-top: 50px !important;
+      }
     }
 
     .home__services-contact-grid {
@@ -210,6 +234,14 @@
 
     .home__services-contact-column {
       align-items: center;
+      width: 100%;
+      max-width: calc(100vw - 40px);
+      box-sizing: border-box;
+    }
+
+    .home__services-contact-column {
+      width: 100%;
+      max-width: calc(100vw - 40px);
     }
 
     .home__services-subtitle,
@@ -225,11 +257,14 @@
     .home__services-category {
       align-items: center;
       text-align: center;
+      gap: 0px !important;
+      margin-top: 20px !important;
     }
 
     .home__services-items {
       align-items: center;
-      font-size: 30px !important;
+      font-size: 35px !important;
+      gap: 0px !important;
     }
 
     .home__contact-info {
@@ -247,6 +282,11 @@
       right: auto !important;
       margin-top: 40px;
       transform: scale(1.2) !important;
+
+      @media (max-width: 640px) {
+        margin-top: 0px !important;
+        transform: scale(0.8) !important;
+      }
     }
 
     // Awards 區塊調整 margin
@@ -274,6 +314,7 @@
 
       @media (max-width: 640px) {
         gap: 50px;
+        padding-bottom: 0vh;
       }
     }
   }
