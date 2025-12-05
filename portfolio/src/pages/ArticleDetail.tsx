@@ -63,7 +63,7 @@ const ArticleDetail: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartX, setDragStartX] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
-  const [carouselWrapperWidth, setCarouselWrapperWidth] = useState(1100);
+  const [carouselWrapperWidth, setCarouselWrapperWidth] = useState(1000); // 預設為 content max-width
   const [mediaWidths, setMediaWidths] = useState<number[]>([]);
   const carouselRef = useRef<HTMLDivElement>(null);
   const carouselWrapperRef = useRef<HTMLDivElement>(null);
@@ -72,11 +72,21 @@ const ArticleDetail: React.FC = () => {
   // 追蹤視窗寬度，用於響應式尺寸調整
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1400);
 
+  // 追蹤媒體元素的寬度
+  const updateMediaWidths = useCallback(() => {
+    const widths = mediaRefs.current.map(ref => ref?.offsetWidth || 600);
+    setMediaWidths(widths);
+  }, []);
+
   useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      // 視窗大小改變時也更新媒體寬度
+      setTimeout(() => updateMediaWidths(), 50);
+    };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [updateMediaWidths]);
 
   // 語言切換相關
   const languageMap = {
@@ -482,23 +492,24 @@ const ArticleDetail: React.FC = () => {
     if (!wrapper) return;
 
     const updateWidth = () => {
-      setCarouselWrapperWidth(wrapper.clientWidth);
+      const width = wrapper.clientWidth;
+      // 確保寬度大於 0 才更新
+      if (width > 0) {
+        setCarouselWrapperWidth(width);
+      }
     };
 
-    updateWidth();
+    // 延遲執行以確保 DOM 已完全渲染
+    setTimeout(updateWidth, 100);
     
-    const resizeObserver = new ResizeObserver(updateWidth);
+    const resizeObserver = new ResizeObserver(() => {
+      setTimeout(updateWidth, 50);
+    });
     resizeObserver.observe(wrapper);
 
     return () => {
       resizeObserver.disconnect();
     };
-  }, []);
-
-  // 追蹤媒體元素的寬度
-  const updateMediaWidths = useCallback(() => {
-    const widths = mediaRefs.current.map(ref => ref?.offsetWidth || 600);
-    setMediaWidths(widths);
   }, []);
 
   // 當媒體載入完成時更新寬度
@@ -520,7 +531,8 @@ const ArticleDetail: React.FC = () => {
 
   // 計算 transform，確保當前圖片完整顯示，最後一張圖片右邊對齊容器右邊
   const carouselTransform = useMemo(() => {
-    const gap = 50;
+    // 小螢幕使用較小的 gap
+    const gap = windowWidth <= 767 ? 20 : 50;
     const totalImages = articleImages.length;
     
     // 使用實際媒體寬度，如果還未載入則使用預設值
@@ -538,16 +550,20 @@ const ArticleDetail: React.FC = () => {
       currentImageStart += widths[i] + gap;
     }
     
-    // 基本偏移量：讓當前圖片左邊對齊 wrapper 左邊
-    let targetOffset = currentImageStart;
+    let targetOffset: number;
     
-    // 限制不超過最大偏移量（確保最後一張圖片右邊對齊容器右邊）
-    targetOffset = Math.min(targetOffset, maxOffset);
+    // 如果是最後一張圖片，強制讓它的右邊對齊容器右邊
+    if (currentImageIndex === totalImages - 1) {
+      targetOffset = maxOffset;
+    } else {
+      // 其他圖片：讓當前圖片左邊對齊容器左邊，但不超過 maxOffset
+      targetOffset = Math.min(currentImageStart, maxOffset);
+    }
     
     const offset = Math.max(0, targetOffset - dragOffset);
     
     return `translateX(-${offset}px)`;
-  }, [currentImageIndex, dragOffset, articleImages.length, carouselWrapperWidth, mediaWidths]);
+  }, [currentImageIndex, dragOffset, articleImages.length, carouselWrapperWidth, mediaWidths, windowWidth]);
 
   // 判斷媒體類型
   const isVideoFile = useCallback((filename: string) => {

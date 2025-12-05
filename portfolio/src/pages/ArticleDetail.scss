@@ -15,7 +15,7 @@
   background: var(--hds-sys-color-on-theme-surface);
   color: var(--hds-sys-color-theme-surface);
   padding: 50px 50px 200px 50px;
-  
+
   @media (max-width: 1200px) {
     padding: 50px 30px 200px 30px;
   }
@@ -30,7 +30,7 @@
 
   &__content {
     flex: 1;
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 0 auto;
     padding-top: 250px;
     width: 100%;
@@ -176,6 +176,11 @@
     // overflow: hidden;
     position: relative;
     min-height: 400px;
+    
+    @media (max-width: 767px) {
+      min-height: auto;
+      overflow: hidden;
+    }
   }
 
   &__carousel-images {
@@ -185,6 +190,10 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    
+    @media (max-width: 767px) {
+      gap: 20px;
+    }
   }
 
   &__carousel-media {
@@ -194,6 +203,12 @@
     display: block;
     object-fit: contain;
     outline: 10px solid rgba(0, 0, 0, 0.05);
+    
+    @media (max-width: 767px) {
+      width: 100%;
+      height: auto;
+      min-width: 100%; // 確保每張圖片佔滿容器寬度
+    }
   }
 
   &__carousel-image {
@@ -203,10 +218,18 @@
   &__carousel-video {
     pointer-events: auto;
     background: #000;
+    width: 600px; // 固定寬度 600px
+    height: auto; // 高度根據影片比例自動計算
+    max-height: 600px; // 最大高度 600px
+    object-fit: contain; // 確保影片不會變形
+    
+    @media (max-width: 767px) {
+      width: 100%;
+      min-width: 100%;
+      max-width: 100%;
+      max-height: none;
     height: auto;
-    min-height: 400px;
-    max-height: 600px;
-    width: auto;
+    }
     
     &::-webkit-media-controls {
       opacity: 0;
