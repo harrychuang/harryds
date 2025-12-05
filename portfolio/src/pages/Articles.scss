@@ -33,12 +33,17 @@
     margin: 0 auto;
     padding-top: 90px;
     padding-bottom: 20px;
+    padding-right: 160px; // 為 more topics 按鈕預留空間
     width: 100%;
     overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
     
     // 展開時允許換行
     &--expanded {
       flex-wrap: wrap;
+      overflow: visible;
+      padding-right: 0; // 展開時不需要預留空間
     }
     
     @media (max-width: 768px) {
@@ -84,7 +89,25 @@
 
     // ...more topics 按鈕樣式
     &--more {
-      opacity: 0.25;
+      opacity: 1;
+      position: absolute;
+      right: 0;
+      top: 90px; // 對齊 padding-top
+      background: var(--hds-sys-color-on-theme-surface);
+      padding-left: 30px;
+      z-index: 99;
+      
+      // 左側漸層遮罩，讓過渡更自然
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 30px;
+        background: linear-gradient(to right, transparent, var(--hds-sys-color-on-theme-surface));
+        pointer-events: none;
+      }
       
       &::after {
         content: none;
@@ -92,6 +115,22 @@
       
       &:hover {
         opacity: 1;
+      }
+      
+      @media (max-width: 768px) {
+        top: 120px; // 對齊小螢幕的 padding-top
+      }
+      
+      // 展開時改為正常 flow
+      .articles-page__topics-bar--expanded & {
+        position: relative;
+        right: auto;
+        top: auto;
+        padding-left: 0;
+        
+        &::before {
+          display: none;
+        }
       }
     }
 
