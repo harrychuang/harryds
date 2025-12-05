@@ -15,6 +15,11 @@ import { useContactModal } from '../contexts/ContactModalContext';
 
 const PAGE_NAME = 'article-detail';
 
+// ============================================================================
+// 模組級別的圖片預載 Cache - 避免重複預載已載入過的圖片
+// ============================================================================
+const preloadedImagesCache = new Set<string>();
+
 const ArticleDetail: React.FC = () => {
   const navigate = useNavigate();
   const params = useParams<{ id: string; slug: string }>();
@@ -29,10 +34,30 @@ const ArticleDetail: React.FC = () => {
   const [isLogoHovered, setIsLogoHovered] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imagesPreloaded, setImagesPreloaded] = useState(false);
-  const preloadedImagesRef = useRef<Set<string>>(new Set());
+
+  // 根據 URL 參數和 cache 中的資料，判斷當前文章的圖片是否已經預載過
+  // 這是在組件初始化時就執行的，用於快速判斷是否需要顯示 loading
+  const initialArticleImages = useMemo(() => {
+    const id = params.id ? parseInt(params.id, 10) : null;
+    if (id === null || isNaN(id)) return [];
+    const article = items.find(item => item.id === id);
+    return article?.images || [];
+  }, [params.id, items]);
+
+  // 檢查當前文章的圖片是否都已經在 cache 中
+  const allImagesInCache = useMemo(() => {
+    if (initialArticleImages.length === 0) return true;
+    const imagesToCheck = initialArticleImages.filter((src: string) => {
+      const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(src);
+      return !isVideo;
+    });
+    if (imagesToCheck.length === 0) return true;
+    return imagesToCheck.every((src: string) => preloadedImagesCache.has(src));
+  }, [initialArticleImages]);
 
   // 整體載入狀態（資料 + 圖片）
-  const isFullyLoaded = !articlesLoading && imagesPreloaded;
+  // 如果所有圖片都在 cache 中，視為已預載
+  const isFullyLoaded = !articlesLoading && (imagesPreloaded || allImagesInCache);
   
   // 同步 loading 狀態到全域 PageLoader
   useEffect(() => {
@@ -193,7 +218,7 @@ const ArticleDetail: React.FC = () => {
     return result.slice(0, 2).map(s => s.item);
   }, [article, items]);
 
-  // 預載文章圖片
+  // 預載文章圖片（使用模組級別的 cache）
   useEffect(() => {
     if (!article?.images || article.images.length === 0) {
       setImagesPreloaded(true);
@@ -203,11 +228,12 @@ const ArticleDetail: React.FC = () => {
     const imagesToPreload = article.images.filter((src: string) => {
       // 只預載圖片，不預載影片
       const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(src);
-      return !isVideo && !preloadedImagesRef.current.has(src);
+      // 使用模組級別的 cache 來檢查
+      return !isVideo && !preloadedImagesCache.has(src);
     });
 
     if (imagesToPreload.length === 0) {
-      // 所有圖片都已經預載過
+      // 所有圖片都已經在 cache 中
       setImagesPreloaded(true);
       return;
     }
@@ -225,11 +251,13 @@ const ArticleDetail: React.FC = () => {
     imagesToPreload.forEach((src: string) => {
       const img = new Image();
       img.onload = () => {
-        preloadedImagesRef.current.add(src);
+        // 將圖片加入模組級別的 cache
+        preloadedImagesCache.add(src);
         checkAllLoaded();
       };
       img.onerror = () => {
-        // 即使載入失敗也繼續
+        // 即使載入失敗也標記為已處理（避免重複嘗試）
+        preloadedImagesCache.add(src);
         checkAllLoaded();
       };
       img.src = src;
