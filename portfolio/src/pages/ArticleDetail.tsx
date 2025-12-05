@@ -69,6 +69,15 @@ const ArticleDetail: React.FC = () => {
   const carouselWrapperRef = useRef<HTMLDivElement>(null);
   const mediaRefs = useRef<(HTMLImageElement | HTMLVideoElement | null)[]>([]);
 
+  // 追蹤視窗寬度，用於響應式尺寸調整
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1400);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // 語言切換相關
   const languageMap = {
     'zh-Hant': 'ZH',
@@ -914,8 +923,8 @@ const ArticleDetail: React.FC = () => {
                   >
                     <FeedCard
                       src={relatedItem.heroImage || ''}
-                      size="xs"
-                      height={250}
+                      size={windowWidth <= 767 ? 'xs' : 'sm'}
+                      height={windowWidth <= 767 ? 250 : 400}
                       padding={40}
                       backgroundProps={{
                         pixelSize: 60,
