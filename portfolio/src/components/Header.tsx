@@ -351,6 +351,69 @@ const Header: React.FC<HeaderProps> = ({
 						/>
 					</button>
 				)}
+
+				{/* 手機版獨立 lang toggle（在 project detail 時顯示） */}
+				{isMobile && hideNav && showLanguageToggle && (
+					<div className="mobile-lang-toggle-standalone" ref={langDropdownRef}>
+						<div
+							role="button"
+							tabIndex={0}
+							onClick={onToggleLangDropdown}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter' || e.key === ' ') {
+									e.preventDefault();
+									onToggleLangDropdown && onToggleLangDropdown();
+								}
+							}}
+							onMouseEnter={onLanguageHover}
+							aria-label="切換語言"
+							title="切換語言"
+							className="lang-toggle"
+							style={{ borderColor: primaryColor || 'var(--hds-sys-color-theme-surface)' }}
+						>
+							<PixelText2D
+								text={currentLangDisplay || ''}
+								textEnabled
+								pixelSize={2}
+								letterSpacing={0}
+								width={32}
+								height={24}
+								animated={false}
+								primaryColor={primaryColor}
+								onPrimaryColor={onPrimaryColor}
+							/>
+						</div>
+
+						{isLangDropdownOpen && (
+							<div className="lang-dropdown">
+								{languageOptions.map((lang) => (
+									<div
+										key={lang.code}
+										className="lang-dropdown__item"
+										onClick={() => onLanguageChange && onLanguageChange(lang.code)}
+										onMouseEnter={onLanguageHover}
+										style={{
+											borderColor: primaryColor || 'var(--hds-sys-color-theme-surface)',
+											backgroundColor: 'transparent',
+										}}
+									>
+										<PixelText2D
+											text={lang.label}
+											textEnabled
+											pixelSize={1}
+											letterSpacing={0}
+											width={40}
+											height={24}
+											animated={false}
+											primaryColor={primaryColor || 'var(--hds-sys-color-theme-surface)'}
+											onPrimaryColor={onPrimaryColor}
+										/>
+									</div>
+								))}
+							</div>
+						)}
+					</div>
+				)}
 			</div>
 
 			{/* 手機版全螢幕選單 */}
