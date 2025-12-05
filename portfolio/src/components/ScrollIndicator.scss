@@ -17,6 +17,12 @@
   background: transparent;
   position: relative;
   
+  @media (max-width: 767px) {
+    width: 32px;
+    height: 32px;
+    border-width: 4px;
+  }
+  
   &--bounce {
     animation: bounceUp 0.6s ease-out;
   }
@@ -28,6 +34,11 @@
     background: var(--noeinoi-rainbow-gradient);
     background-size: 400% 400%;
     animation: footer-giphy-rainbow 1.6s linear infinite;
+    
+    @media (max-width: 767px) {
+      width: 40px;
+      height: 40px;
+    }
   }
   
   &__slider {
@@ -59,6 +70,11 @@
     justify-content: center;
     opacity: 0;
     transition: opacity 0.2s ease-out, top 0.2s ease;
+    
+    @media (max-width: 767px) {
+      width: 32px;
+      height: 32px;
+    }
     
     &--visible {
       opacity: 1;
@@ -97,6 +113,11 @@
       animation: footer-giphy-rainbow 4s linear infinite;
       transform: translate(-50%, -50%) scale(1);
       transition: opacity 0.2s ease-out, top 0.2s ease, transform 0.2s ease;
+      
+      @media (max-width: 767px) {
+        width: 40px;
+        height: 40px;
+      }
 
       &:hover,
       &:focus-visible {

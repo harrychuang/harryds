@@ -195,7 +195,18 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
   const lastPixelRef = useRef<number>(1);
   
   // 特殊主圖滾動效果狀態（只需要 Parallax top 位置）
-  const [specialHeadingImgTop, setSpecialHeadingImgTop] = useState<number>(-10); // vh 單位
+  // 根據螢幕寬度決定初始位置：<= 1000px 時為 0vh，<= 1200px 時為 -15vh，否則為 -10vh
+  const getSpecialHeadingBaseTop = useCallback(() => {
+    if (typeof window === 'undefined') return -10;
+    if (window.innerWidth <= 1024) {
+      // 直向（高 > 寬）：0vh，橫向（高 < 寬）：-15vh
+      return window.innerHeight > window.innerWidth ? -5 : -15;
+    }
+    if (window.innerWidth <= 1200) return -15;
+    return -10;
+  }, []);
+  const specialHeadingBaseTopRef = useRef<number>(getSpecialHeadingBaseTop()); // 用 ref 追蹤即時 baseTop
+  const [specialHeadingImgTop, setSpecialHeadingImgTop] = useState<number>(getSpecialHeadingBaseTop); // vh 單位
   const specialHeadingImgRef = useRef<HTMLDivElement | null>(null);
   
   const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -492,7 +503,7 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
     if (!open || !scrollContentRef.current) return;
     const el = scrollContentRef.current;
     let rafId: number | null = null;
-    let lastTop = -10;
+    let lastTop = specialHeadingBaseTopRef.current;
 
     const updateScrollEffects = (scrollTop: number) => {
       // 更新背景 pixelSize（僅在有效整數變化時更新以降低 re-render）
@@ -500,9 +511,10 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
       const pixelSize = 1 + clamped * 79; // 1 → 80
       const effectivePixel = Math.max(1, Math.round(pixelSize));
       
-      // 更新 parallax 位置
+      // 更新 parallax 位置（使用 ref 中的即時 baseTop 值）
+      const baseTop = specialHeadingBaseTopRef.current;
       const parallaxOffset = scrollTop * 0.7; // 視差速度為 50%
-      const topPosition = -10 - (parallaxOffset / window.innerHeight * 100); // 轉換為 vh
+      const topPosition = baseTop - (parallaxOffset / window.innerHeight * 100); // 轉換為 vh
       
       // 僅在 pixel 整數變化時更新，避免頻繁 re-render
       if (effectivePixel !== lastPixelRef.current) {
@@ -526,17 +538,30 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
       });
     };
 
+    // 監聽視窗大小變化，即時更新 baseTop
+    const onResize = () => {
+      const newBaseTop = getSpecialHeadingBaseTop();
+      if (newBaseTop !== specialHeadingBaseTopRef.current) {
+        specialHeadingBaseTopRef.current = newBaseTop;
+        // 立即更新位置以反映新的 baseTop
+        updateScrollEffects(el.scrollTop);
+      }
+    };
+
     // 初始化
+    specialHeadingBaseTopRef.current = getSpecialHeadingBaseTop();
     updateScrollEffects(el.scrollTop);
     el.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize, { passive: true });
 
     return () => {
       el.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
       if (rafId !== null) {
         cancelAnimationFrame(rafId);
       }
     };
-  }, [open]);
+  }, [open, getSpecialHeadingBaseTop]);
 
   // 預載開場音效（Web Audio）
   useEffect(() => {
@@ -559,8 +584,8 @@ const FeedDetailOverlayComponent = forwardRef<HTMLDivElement, FeedDetailOverlayP
         cancelAnimationFrame(typewriterTimerRef.current);
         typewriterTimerRef.current = null;
       }
-      // 重置特殊主圖狀態
-      setSpecialHeadingImgTop(-10);
+      // 重置特殊主圖狀態（根據螢幕寬度決定初始位置）
+      setSpecialHeadingImgTop(getSpecialHeadingBaseTop());
       return;
     }
 

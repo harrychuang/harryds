@@ -108,6 +108,14 @@
       padding-top: 40vh;
       flex: none; // 不被 flex 擠壓
       transition: padding-top 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+      @media (max-width: 1000px) {
+        padding-top: 30vh;
+      }
+
+      @media (max-width: 600px) {
+        padding-top: 20vh;
+      }
     }
     
     // 只在 expanding 階段使用 will-change
@@ -146,6 +154,10 @@
       width: 100%;
       max-width: var(--feed-card-info-max-width, 1400px);
       margin: 0 auto; // 確保置中
+
+      @media (max-width: 767px) {
+        gap: 0px;
+      }
       
       // 在 FeedDetailOverlay 中取消 heading 行數限制
       .feed-card-info__heading {
@@ -162,12 +174,30 @@
           font-size: 100px !important;
         }
         
-        @media (max-width: 768px) {
-          font-size: 72px !important;
+        @media (max-width: 1000px) {
+          font-size: 80px !important;
+        }
+        
+        @media (max-width: 720px) {
+          font-size: 60px !important;
+        }
+
+        @media (max-width: 600px) {
+          font-size: 40px !important;
+        }
+      }
+      
+      // RWD：小螢幕時縮小 PixelText 元素（id、date、tags）
+      .feed-card-info__id,
+      .feed-card-info__date,
+      .feed-card-info__tags {
+        @media (max-width: 767px) {
+          transform: scale(0.6);
+          transform-origin: left center;
         }
         
         @media (max-width: 480px) {
-          font-size: 48px !important;
+          transform: scale(0.5);
         }
       }
     }
@@ -258,7 +288,12 @@
     }
 
     @media (max-width: 1200px) {
+      width: 80vw;
+    }
+
+    @media (max-width: 768px) {
       width: 90vw;
+      transform: translateX(5vw) !important;
     }
   }
   
@@ -290,7 +325,7 @@
     display: flex;
     justify-content: center;
     margin-top: 100px; // 與 hero 之間的間距
-    padding: 0 40px 100px; // 左右 padding 40px，底部 200px
+    padding: 0 40px 150px; // 左右 padding 40px，底部 200px
     color: var(--on-hds-sys-color-surface, #fff);
     animation: slide-up-body 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     // 使用 contain 優化重繪範圍
@@ -298,11 +333,17 @@
     // 確保 box-sizing 正確計算 padding
     box-sizing: border-box;
     
-
-    
     @media (max-width: 768px) {
-      padding: 0 20px 120px; // 小螢幕縮減 padding
       margin-top: 60px;
+    }
+
+    @media (max-width: 767px) {
+      padding: 0 30px 120px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 600px) {
+      margin-top: 20px;
     }
   }
 
@@ -339,6 +380,7 @@
     @media (max-width: 1200px) {
       flex: 0 0 320px; // 中等螢幕縮減寬度
       gap: 60px;
+      top: 120px; // sticky 位置調整
     }
     
     @media (max-width: 1024px) {
@@ -349,14 +391,18 @@
     }
     
     @media (max-width: 768px) {
-      gap: 32px;
+      gap: 40px;
     }
     
     // CTA 按鈕在小螢幕時獨立一行
     .cta-button {
       @media (max-width: 1024px) {
         width: 100%;
-        max-width: 400px;
+        max-width: 50%;
+      }
+      @media (max-width: 600px) {
+        width: 100%;
+        max-width: 100%;
       }
     }
   }
@@ -436,6 +482,10 @@
     @media (max-width: 1024px) {
       margin-top: 80px;
     }
+
+    @media (max-width: 600px) {
+      margin-top: 40px;
+    }
   }
 
   &__project-description {
@@ -460,11 +510,19 @@
   &__project-image {
     width: 100%;
     margin-top: 60px;
+
+    @media (max-width: 767px) {
+      margin-top: 40px;
+    }
   }
 
   &__project-section {
     width: 100%;
     margin-top: 80px;
+
+    @media (max-width: 767px) {
+      margin-top: 60px;
+    }
   }
 
   &__section-title {
@@ -477,6 +535,15 @@
     color: var(--feed-detail-primary-color, var(--on-hds-sys-color-surface, #fff));
     margin: 0 0 20px 0;
     white-space: pre-line; // 支援 \n 換行符號
+    
+    @media (max-width: 767px) {
+      font-size: 28px;
+      margin: 0 0 16px 0;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 24px;
+    }
   }
 
   &__cursor {
@@ -487,6 +554,10 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    
+    @media (max-width: 767px) {
+      gap: 16px;
+    }
 
     p {
       font-family: 'Inter', sans-serif;
@@ -497,6 +568,14 @@
       color: var(--on-hds-sys-color-surface, #fff);
       margin: 0;
       white-space: pre-line; // 支援 \n 換行符號
+      
+      @media (max-width: 767px) {
+        font-size: 16px;
+      }
+      
+      @media (max-width: 480px) {
+        font-size: 14px;
+      }
     }
   }
 
@@ -558,6 +637,16 @@
     color: var(--feed-detail-primary-color, var(--on-hds-sys-color-surface, #fff));
     margin: 40px 0 0 0;
     
+    @media (max-width: 767px) {
+      font-size: 28px;
+      margin: 32px 0 0 0;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 24px;
+      margin: 24px 0 0 0;
+    }
+    
     // 打字機游標在 blockquote 中也使用相同的閃爍動畫
     .feed-detail-overlay__cursor {
       color: var(--feed-detail-primary-color, var(--on-hds-sys-color-surface, #fff));
@@ -603,6 +692,14 @@
     font-size: 40px;
     line-height: 130%;
     color: var(--feed-detail-primary-color, var(--on-hds-sys-color-surface, #fff));
+    
+    @media (max-width: 767px) {
+      font-size: 28px;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 24px;
+    }
   }
 }
 
