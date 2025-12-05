@@ -15,6 +15,14 @@
   background: var(--hds-sys-color-on-theme-surface);
   color: var(--hds-sys-color-theme-surface);
   padding: 50px 50px 200px 50px;
+  
+  @media (max-width: 1200px) {
+    padding: 50px 30px 200px 30px;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 20px 20px 150px 20px;
+  }
 
   &__content {
     flex: 1;

@@ -509,7 +509,7 @@ const ArticleDetail: React.FC = () => {
     }, 100);
   }, [articleImages.length, updateMediaWidths]);
 
-  // 計算 transform，最後一張圖片對齊右側
+  // 計算 transform，確保當前圖片完整顯示，最後一張圖片右邊對齊容器右邊
   const carouselTransform = useMemo(() => {
     const gap = 50;
     const totalImages = articleImages.length;
@@ -517,19 +517,25 @@ const ArticleDetail: React.FC = () => {
     // 使用實際媒體寬度，如果還未載入則使用預設值
     const widths = mediaWidths.length === totalImages ? mediaWidths : Array(totalImages).fill(600);
     
-    // 計算總寬度和最大偏移量
+    // 計算總寬度
     const totalWidth = widths.reduce((sum, w) => sum + w, 0) + (totalImages - 1) * gap;
+    
+    // 最大偏移量：讓 carousel 最右邊對齊 wrapper 最右邊
     const maxOffset = Math.max(0, totalWidth - carouselWrapperWidth);
     
-    // 計算當前偏移量（累加前面所有媒體的寬度）
-    let baseOffset = 0;
+    // 計算當前圖片的起始位置
+    let currentImageStart = 0;
     for (let i = 0; i < currentImageIndex; i++) {
-      baseOffset += widths[i] + gap;
+      currentImageStart += widths[i] + gap;
     }
     
-    // 限制偏移量不超過最大值（讓最後一張圖片對齊右側）
-    const clampedOffset = Math.min(baseOffset, maxOffset);
-    const offset = clampedOffset - dragOffset;
+    // 基本偏移量：讓當前圖片左邊對齊 wrapper 左邊
+    let targetOffset = currentImageStart;
+    
+    // 限制不超過最大偏移量（確保最後一張圖片右邊對齊容器右邊）
+    targetOffset = Math.min(targetOffset, maxOffset);
+    
+    const offset = Math.max(0, targetOffset - dragOffset);
     
     return `translateX(-${offset}px)`;
   }, [currentImageIndex, dragOffset, articleImages.length, carouselWrapperWidth, mediaWidths]);
