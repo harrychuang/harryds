@@ -156,6 +156,19 @@
         // 以單字為單位斷行，避免字母單獨斷行
         word-break: normal;
         overflow-wrap: break-word;
+        
+        // RWD：小螢幕時縮小標題字體（需用 !important 覆蓋 inline style）
+        @media (max-width: 1200px) {
+          font-size: 100px !important;
+        }
+        
+        @media (max-width: 768px) {
+          font-size: 72px !important;
+        }
+        
+        @media (max-width: 480px) {
+          font-size: 48px !important;
+        }
       }
     }
   }
@@ -277,13 +290,15 @@
     display: flex;
     justify-content: center;
     margin-top: 100px; // 與 hero 之間的間距
-    padding: 0 40px 200px; // 左右 padding 40px，底部 200px
+    padding: 0 40px 100px; // 左右 padding 40px，底部 200px
     color: var(--on-hds-sys-color-surface, #fff);
     animation: slide-up-body 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     // 使用 contain 優化重繪範圍
     contain: layout style paint;
     // 確保 box-sizing 正確計算 padding
     box-sizing: border-box;
+    
+
     
     @media (max-width: 768px) {
       padding: 0 20px 120px; // 小螢幕縮減 padding
@@ -323,15 +338,26 @@
     
     @media (max-width: 1200px) {
       flex: 0 0 320px; // 中等螢幕縮減寬度
+      gap: 60px;
     }
     
     @media (max-width: 1024px) {
       flex: 1;
+      width: 100%; // 填滿 project-main 的寬度
       position: static; // 小螢幕取消 sticky
+      gap: 40px;
     }
     
     @media (max-width: 768px) {
-      gap: 40px;
+      gap: 32px;
+    }
+    
+    // CTA 按鈕在小螢幕時獨立一行
+    .cta-button {
+      @media (max-width: 1024px) {
+        width: 100%;
+        max-width: 400px;
+      }
     }
   }
 
@@ -339,6 +365,22 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
+    
+    @media (max-width: 1024px) {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); // 4 columns
+      gap: 24px 40px; // row-gap column-gap
+    }
+    
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr); // 2 columns
+      gap: 24px 32px;
+    }
+    
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr; // 極小螢幕改回單欄
+      gap: 24px;
+    }
   }
 
   &__meta-item {
@@ -390,6 +432,10 @@
     min-width: 0; // 允許 flex 子元素縮小，避免溢出
     display: flex;
     flex-direction: column;
+    
+    @media (max-width: 1024px) {
+      margin-top: 80px;
+    }
   }
 
   &__project-description {
