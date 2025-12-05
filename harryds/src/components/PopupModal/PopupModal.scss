@@ -16,6 +16,14 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   animation: modalOverlayFadeIn 0.3s steps(6) forwards;
+
+  @media (max-width: 640px) {
+    padding: 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0px;
+  }
 }
 
 .hds-modal {
@@ -24,9 +32,15 @@
   max-width: 480px;
   margin: auto; // 配合 overlay 的 align-items: flex-start 實現垂直置中，同時避免 overflow 裁切問題
   background-color: var(--hds-sys-color-light-100a);
-  padding: 32px;
+  padding: 30px;
   overflow: visible;
   animation: modalPixelReveal 0.5s step-end forwards;
+
+  @media (max-width: 480px) {
+    min-height: calc(100vh - 120px) ;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
 
   // 關閉按鈕
   &__close {
@@ -94,6 +108,12 @@
     display: flex;
     gap: 12px;
     justify-content: flex-end;
+
+    @media (max-width: 480px) {
+      .hds-modal__button {
+        width: 100%;
+      }
+    }
   }
 
   &__button {
