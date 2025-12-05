@@ -73,6 +73,11 @@
     &--exit {
       animation: footer-giphy-slide-out 0.6s cubic-bezier(0.83, 0, 0.17, 1) forwards;
     }
+
+    @media (max-width: 640px) {
+      width: 300px;
+      height: 200px;
+    }
   }
 
   &__giphy-inner {
