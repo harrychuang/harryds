@@ -5,8 +5,15 @@ import fs from 'fs';
 
 const STRAPI_PROXY_TARGET = process.env.STRAPI_PROXY_TARGET || 'http://172.104.73.171:1337';
 
+// 檢查是否有 HTTPS 證書（開發環境用）
+const hasHttpsCert = fs.existsSync('./.cert/key.pem') && fs.existsSync('./.cert/cert.pem');
+
 export default defineConfig({
   plugins: [react()],
+  
+  // 生產環境的 base path（如果部署到子目錄，例如 '/portfolio/'）
+  // base: '/',
+  
   resolve: {
     alias: {
       hds: resolve(__dirname, '../harryds/src'),
@@ -15,11 +22,33 @@ export default defineConfig({
       shared: resolve(__dirname, '../shared')
     }
   },
-  server: {
-    https: {
-      key: fs.readFileSync('./.cert/key.pem'),
-      cert: fs.readFileSync('./.cert/cert.pem'),
+  
+  // 打包配置
+  build: {
+    outDir: 'dist',
+    sourcemap: false, // 生產環境關閉 sourcemap
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        // 分割 chunks 以優化載入
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          i18n: ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
+          animation: ['gsap'],
+          three: ['three'],
+        },
+      },
     },
+  },
+  
+  server: {
+    // 只在開發環境且有證書時啟用 HTTPS
+    ...(hasHttpsCert ? {
+      https: {
+        key: fs.readFileSync('./.cert/key.pem'),
+        cert: fs.readFileSync('./.cert/cert.pem'),
+      },
+    } : {}),
     proxy: {
       '/strapi': {
         target: STRAPI_PROXY_TARGET,
