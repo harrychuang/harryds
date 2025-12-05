@@ -725,6 +725,10 @@ const Home: React.FC = () => {
     if (!idParam) {
       setOpenCardId(null);
       setContextOpenCardId(null); // 同步更新 Context
+      // 清除 hover 狀態，避免瀏覽器返回時殘留 hover 效果
+      setHoveredCardId(null);
+      setOpenCardAnimationPhase('closed');
+      setContextAnimationPhase('closed');
       return;
     }
     const id = Number(idParam);
