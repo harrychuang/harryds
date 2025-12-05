@@ -448,9 +448,22 @@ const Articles: React.FC = () => {
       <main className="articles-page__content">
         <div className="articles-page__grid">
           {filteredItems.map((article, index) => {
-            // 前兩個為 medium size，其餘為 xs
-            const size: FeedCardSize = index < 2 ? 'med' : 'xs';
-            const height = index < 2 ? 500 : 250;
+            // 前兩個為 featured，其餘為 xs
+            // 當螢幕 < 1200px 時：左邊(index=0) 改為 sm，右邊(index=1) 改為 xs
+            const size: FeedCardSize = (() => {
+              if (index === 0) {
+                return windowWidth < 1200 ? 'sm' : 'med';
+              }
+              if (index === 1) {
+                return windowWidth < 1200 ? 'xs' : 'med';
+              }
+              return 'xs';
+            })();
+            const height = (() => {
+              if (index === 0) return windowWidth < 1200 ? 400 : 500;
+              if (index === 1) return windowWidth < 1200 ? 250 : 500;
+              return 250;
+            })();
             const src = article.heroImage || '';
             
             // 決定 className 和 grid-column span
@@ -458,9 +471,10 @@ const Articles: React.FC = () => {
             let gridSpan = 2; // 預設 span 2
             
             if (index < 2) {
-              // 前兩個 featured 卡片固定 span 3
+              // 前兩個 featured 卡片
               cardClass += ' article-card--featured';
-              gridSpan = 3;
+              // 當螢幕 < 1024px 時，改為單欄（span 6）
+              gridSpan = windowWidth < 1024 ? 6 : 3;
             } else {
               // 其他卡片根據隨機分配的 span
               gridSpan = cardSpanMap[article.id] || 2;

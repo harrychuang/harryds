@@ -150,13 +150,23 @@
     outline: 10px solid var(--hds-sys-color-theme-surface);
   }
   
-  // RWD: 平板以下改為單欄
+  // RWD: 平板以下改為單欄（非 featured 卡片）
   @media (max-width: 1200px) {
-    grid-column: span 1 !important;
+    &:not(&--featured) {
+      grid-column: span 1 !important;
+    }
   }
   
   // Featured 卡片的標題限制
   &--featured {
+    // < 1024px 時 featured 卡片佔滿整行（2 columns grid 中 span 2）
+    @media (max-width: 1024px) {
+      grid-column: span 2 !important;
+    }
+    // < 768px 時 grid 變成 1 column，span 1 即可
+    @media (max-width: 768px) {
+      grid-column: span 1 !important;
+    }
     // Medium size FeedCard 的標題限制為 3 行
     .feed-card-info__heading {
       display: -webkit-box;
