@@ -131,15 +131,70 @@
         transform: scale(1);
       }
     }
+
+    .home__hero {
+      gap: 50px;
+    }
+
+    .feed-detail-overlay__section-title {
+      font-size: 32px !important;
+    }
+
+    // <= 640px 時縮小 hero 文字
+    @media (max-width: 640px) {
+      .home__hero {
+        gap: 30px;
+      }
+      
+      .home__hero-title {
+        font-size: 36px !important;
+      }
+
+      .home__hero-subtitle {
+        font-size: 32px !important;
+        margin-bottom: -20px !important;
+      }
+
+      .home__hero-description {
+        font-size: 22px !important;
+      }
+
+      .home__intro-body {
+        font-size: 16px !important;
+        gap: 18px !important;
+      }
+
+      .home__intro-awards {
+        grid-template-columns: 1fr !important;
+        gap: 50px !important;
+      }
+    }
     
     // 只有在 <= 768px 且為直向畫面時，改為 2 columns
     @media (max-width: 768px) {
       .home__clients-logos {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
         
         img {
-          transform: scale(0.6);
+          transform: scale(1);
         }
+      }
+    }
+
+    @media (max-width: 640px) {
+      .home__clients-logos {
+        grid-template-columns: repeat(2, minmax(100px, 2fr)) !important;
+        gap: 20px 50px;
+
+        img {
+          transform: scale(0.8);
+          transform-origin: center center;
+        }
+      }
+
+      .home__background-description {
+        padding: 0 20px;
+        font-size: 15px !important;
       }
     }
 
@@ -174,6 +229,7 @@
 
     .home__services-items {
       align-items: center;
+      font-size: 30px !important;
     }
 
     .home__contact-info {
@@ -196,17 +252,29 @@
     // Awards 區塊調整 margin
     .home__awards {
       margin-top: 0 !important;
+
+      @media (max-width: 640px) {
+        margin-top: 50px !important;
+      }
     }
 
     // Clients 區塊調整 margin
     .home__clients {
       margin-top: 0 !important;
+
+      @media (max-width: 640px) {
+        margin-top: 50px !important;
+      }
     }
 
     // main 區塊調整 gap
     .home__main {
       gap: 150px;
       padding-bottom: 5vh;
+
+      @media (max-width: 640px) {
+        gap: 50px;
+      }
     }
   }
 }

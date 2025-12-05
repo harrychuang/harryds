@@ -31,14 +31,16 @@ export const ListCard: React.FC<ListCardProps> = ({
 }) => {
   return (
     <div className={`list-card ${className}`.trim()} style={style}>
-      <div className="list-card__image">
-        <img src={imageSrc} alt={name} />
+      <div className="list-card__header">
+        <div className="list-card__image">
+          <img src={imageSrc} alt={name} />
+        </div>
+        <div className="list-card__info">
+          <div className="list-card__title">{title}</div>
+          <div className="list-card__name">{name}</div>
+        </div>
       </div>
-      <div className="list-card__content">
-        <div className="list-card__title">{title}</div>
-        <div className="list-card__name">{name}</div>
-        <div className="list-card__testimonial">{testimonial}</div>
-      </div>
+      <div className="list-card__testimonial">{testimonial}</div>
     </div>
   );
 };

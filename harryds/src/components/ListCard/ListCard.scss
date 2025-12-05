@@ -7,10 +7,17 @@
 
 .list-card {
   display: flex;
-  gap: 25px;
+  flex-direction: column;
+  gap: 8px;
   padding: 25px;
   outline: 5px solid var(--hds-sys-color-theme-surface);
   box-sizing: border-box;
+
+  .list-card__header {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+  }
 
   .list-card__image {
     flex-shrink: 0;
@@ -26,7 +33,7 @@
     }
   }
 
-  .list-card__content {
+  .list-card__info {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -57,6 +64,29 @@
     font-size: 15px;
     line-height: 1.6;
     color: var(--hds-sys-color-theme-surface);
+  }
+
+  // <= 640px 且為直向畫面時的排版調整
+  @media (max-width: 640px) and (orientation: portrait) {
+    gap: 15px;
+    padding: 20px;
+
+    .list-card__header {
+      gap: 15px;
+    }
+
+    .list-card__image {
+      width: 70px;
+      height: 70px;
+    }
+
+    .list-card__name {
+      font-size: 22px;
+    }
+
+    .list-card__testimonial {
+      font-size: 14px;
+    }
   }
 }
 

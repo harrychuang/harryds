@@ -144,6 +144,8 @@ const About: React.FC = () => {
 
   // HarryAnimation frame state
   const [rotationFrame, setRotationFrame] = useState(1);
+  // Portrait 模式下的 frame state（scroll-based, 0-9 loop）
+  const [portraitFrame, setPortraitFrame] = useState(0);
   const [isPageReady, setIsPageReady] = useState(false);
   
   // Email copy tooltip state
@@ -332,6 +334,39 @@ const About: React.FC = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Portrait 模式下：根據滾動位置控制 HarryAnimation frame (0-9 loop)
+  useEffect(() => {
+    if (!isPortrait) return;
+    
+    let lastScrollY = window.scrollY;
+    const scrollThreshold = 150; // 每滾動 50px 切換一幀
+    let accumulatedScroll = 0;
+    
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const scrollDelta = currentScrollY - lastScrollY;
+      accumulatedScroll += scrollDelta;
+      
+      // 當累積滾動超過閾值時，切換 frame
+      if (Math.abs(accumulatedScroll) >= scrollThreshold) {
+        const frameChange = Math.floor(accumulatedScroll / scrollThreshold);
+        setPortraitFrame(prev => {
+          // 計算新的 frame，確保在 0-9 之間循環
+          let newFrame = prev + frameChange;
+          // 處理循環：0-9 範圍
+          newFrame = ((newFrame % 10) + 10) % 10;
+          return newFrame;
+        });
+        accumulatedScroll = accumulatedScroll % scrollThreshold;
+      }
+      
+      lastScrollY = currentScrollY;
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isPortrait]);
 
   const triggerMenuHoverOnce = useCallback((key: string) => {
     if (menuAnimStates[key]) return;
@@ -1093,7 +1128,8 @@ const About: React.FC = () => {
           <div className="home__intro-visual" aria-hidden="true" ref={introVisualRef}>
             <HarryAnimation
               width="100%"
-              autoPlay={true}
+              autoPlay={false}
+              frame={portraitFrame}
               className="home__intro-rotation"
               enableParticles={true}
             />
