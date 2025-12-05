@@ -483,7 +483,7 @@ const About: React.FC = () => {
     const rotationElement = visualElement.querySelector('.home__intro-rotation') as HTMLElement;
     
     gsap.to(visualElement, {
-      x: window.innerWidth <= 1200 ? '-48vw' : window.innerWidth <= 1400 ? '-50vw' : '-48vw',
+      x: window.innerWidth <= 1100 ? '-44vw' : window.innerWidth <= 1200 ? '-48vw' : window.innerWidth <= 1400 ? '-50vw' : '-48vw',
       y: '-=0',  // 向上移動 200px
       scrollTrigger: {
         trigger: introSectionRef.current,
@@ -501,7 +501,7 @@ const About: React.FC = () => {
     // 同時改變 HarryAnimation 的寬度
     if (rotationElement) {
       gsap.to(rotationElement, {
-        width: window.innerWidth <= 1200 ? '1400px' : window.innerWidth <= 1400 ? '1700px' : '1900px',
+        width: window.innerWidth <= 1100 ? '1000px' : window.innerWidth <= 1200 ? '1400px' : window.innerWidth <= 1400 ? '1700px' : '1900px',
         scrollTrigger: {
           trigger: introSectionRef.current,
           start: 'bottom 50%',
@@ -1053,7 +1053,7 @@ const About: React.FC = () => {
 
         <div className="home__intro-visual" aria-hidden="true" ref={introVisualRef}>
           <HarryAnimation
-            width={window.innerWidth <= 1200 ? '1500px' : window.innerWidth <= 1400 ? '1800px' : '2000px'}
+            width={window.innerWidth <= 1100 ? '1100px' : window.innerWidth <= 1200 ? '1500px' : window.innerWidth <= 1400 ? '1800px' : '2000px'}
             autoPlay={false}
             className="home__intro-rotation"
             frame={rotationFrame}

@@ -247,6 +247,10 @@
       left: 5vw;
     }
 
+    @media (max-width: 1100px) {
+      left: 15vw;
+    }
+
     .home__intro-rotation {
       margin-top: -100px;
     }
@@ -273,6 +277,10 @@
 
     @media (max-width: 1200px) {
       gap: 20px;
+    }
+
+    @media (max-width: 1100px) {
+      gap: 10px;
     }
   }
 
@@ -322,6 +330,10 @@
     line-height: 1.2;
     color: inherit;
     text-transform: uppercase;
+
+    @media (max-width: 1100px) {
+      margin-top: 20px !important;
+    }
 
     li {
       display: flex;
@@ -374,10 +386,18 @@
     @media (max-width: 1200px) {
       margin-top: 20vh;
     }
+
+    @media (max-width: 1100px) {
+      margin-top: 0vh !important;
+    }
   }
 
   &__clients {
     margin-top: -200px;
+
+    @media (max-width: 1100px) {
+      margin-top: -170px !important;
+    }
 
     &-logos {
       margin-top: 60px;
@@ -387,6 +407,15 @@
       gap: 20px 50px;
       align-items: center;
       justify-items: start;
+
+      @media (max-width: 1100px) {
+        grid-auto-rows: minmax(70px, auto);
+
+        img {
+          transform: scale(0.75);
+          transform-origin: left center;
+        }
+      }
     }
 
     &-logo {
@@ -814,10 +843,10 @@
         font-size: 20px;  // 原本 25px
       }
 
-      .home__intro-award-image--01 { width: 160px; }  // 原本 200px
+      .home__intro-award-image--01 { width: 120px; }  // 原本 200px
       .home__intro-award-image--02 { width: 64px; }   // 原本 80px
-      .home__intro-award-image--03 { width: 320px; }  // 原本 400px
-      .home__intro-award-image--04 { width: 240px; }  // 原本 300px
+      .home__intro-award-image--03 { width: 240px; }  // 原本 400px
+      .home__intro-award-image--04 { width: 180px; }  // 原本 300px
     }
 
     &__background-description {
@@ -862,6 +891,11 @@
       .home__clients-logo--qnap { width: 160px; }
       .home__clients-logo--uxy { width: 144px; }
       .home__clients-logo--shopmatic { width: 160px; }
+
+      @media (max-width: 1100px) {
+        margin-top: 20px;
+        gap: 0px 30px;
+      }
     }
   }
 
@@ -872,16 +906,7 @@
       gap: 250px;
     }
 
-    &__intro-visual {
-      display: none;  // iPad 上隱藏複雜的視差動畫元素
-    }
-
-    &__intro-column--secondary {
-      display: none;  // 隱藏佔位 column
-    }
-
     &__intro-grid {
-      grid-template-columns: 1fr;
       gap: 48px;
     }
 
