@@ -164,6 +164,10 @@
     gap: 400px;
     position: relative;
     overflow: visible;
+
+    @media (max-height: 1100px) {
+      padding-bottom: 5vh;
+    }
   }
 
   &__hero {
@@ -239,6 +243,10 @@
     // 初始隱藏，避免在 JS 設置位置前出現在錯誤位置
     opacity: 0;
 
+    @media (max-width: 1200px) {
+      left: 5vw;
+    }
+
     .home__intro-rotation {
       margin-top: -100px;
     }
@@ -262,6 +270,10 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
+
+    @media (max-width: 1200px) {
+      gap: 20px;
+    }
   }
 
   &__intro-column--secondary {
@@ -270,6 +282,15 @@
 
   &__intro-title {
     margin: 0;
+
+    @media (max-height: 1000px) {
+      font-size: 32px !important;
+      margin-bottom: 10px !important;
+    }
+
+    @media (max-height: 900px) {
+      font-size: 28px !important;
+    }
   }
 
   &__intro-body {
@@ -345,6 +366,14 @@
 
   &__awards {
     margin-top: 70vh;
+
+    @media (max-width: 1400px) {
+      margin-top: 40vh;
+    }
+
+    @media (max-width: 1200px) {
+      margin-top: 20vh;
+    }
   }
 
   &__clients {
@@ -393,6 +422,19 @@
     flex-direction: column;
     align-items: center;
     gap: 32px;
+
+    @media (max-height: 1400px) {
+      gap: 0px;
+    }
+
+    @media (max-height: 1000px) {
+      margin-top: 20px;
+
+      .home__background-title {
+        font-size: 32px !important;
+        margin-bottom: 10px !important;
+      }
+    }
   }
 
   &__background-title {
@@ -433,6 +475,10 @@
     will-change: transform;
     backface-visibility: hidden;
     transform: translateZ(0);
+
+    @media (max-height: 1000px) {
+      height: 200px;
+    }
   }
 
   &__background-rotation {
@@ -443,6 +489,19 @@
     align-items: center;
     width: 250px;
     pointer-events: auto;
+
+    @media (max-height: 1100px) {
+      width: 200px;
+    }
+
+    @media (max-height: 1000px) {
+      width: 160px;
+    }
+    
+    @media (max-height: 900px) {
+      width: 140px;
+    }
+    
   }
 
   &__background-description {
@@ -540,6 +599,10 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
+
+    @media (max-height: 1000px) {
+      gap: 10px;
+    }
   }
 
   &__services-subtitle,
@@ -552,6 +615,10 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+
+    @media (max-height: 1000px) {
+      font-size: 18px !important;
+    }
 
     :lang(zh-Hant), :lang(zh), :lang(ja) {
       line-height: 1.3;
@@ -580,12 +647,20 @@
     flex-direction: column;
     gap: 48px;
     margin-top: 16px;
+
+    @media (max-height: 1000px) {
+      gap: 32px;
+    }
   }
 
   &__services-category {
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    @media (max-height: 900px) {
+      gap: 10px;
+    }
 
     .lineParent {
       display: block;
@@ -606,6 +681,14 @@
     color: var(--hds-sys-color-theme-surface);
     text-transform: uppercase;
     letter-spacing: 0.02em;
+
+    @media (max-height: 1000px) {
+      font-size: 28px !important;
+    }
+
+    @media (max-height: 900px) {
+      font-size: 24px !important;
+    }
   }
 
   &__services-items {
@@ -680,6 +763,147 @@
 
     &:hover {
       opacity: 0.7;
+    }
+  }
+
+  @media (max-height: 1400px) {
+
+    &__hero-title {
+      font-size: 80px;  // 原本 56px
+    }
+
+    &__hero-subtitle {
+      font-size: 60px;  // 原本 80px
+    }
+
+    &__hero-description {
+      font-size: 40px;  // 原本 50px
+    }
+  }
+
+  // About 頁面 - 中等螢幕斷點 (<= 1200px) 字體縮小約 80%
+  @media (max-width: 1200px) {
+    &__hero-title {
+      font-size: 50px;
+      margin-top: 40px;
+    }
+
+    &__hero-subtitle {
+      font-size: 42px;  // 原本 80px
+      margin-bottom: -40px;
+    }
+
+    &__hero-description {
+      font-size: 32px;  // 原本 50px
+    }
+
+    &__intro-body {
+      font-size: 20px;  // 原本 25px
+      gap: 24px;
+    }
+
+    &__intro-awards {
+      font-size: 20px;  // 原本 25px
+      gap: 40px;
+
+      &-label {
+        font-size: 20px;  // 原本 25px
+      }
+
+      &-detail {
+        font-size: 20px;  // 原本 25px
+      }
+
+      .home__intro-award-image--01 { width: 160px; }  // 原本 200px
+      .home__intro-award-image--02 { width: 64px; }   // 原本 80px
+      .home__intro-award-image--03 { width: 320px; }  // 原本 400px
+      .home__intro-award-image--04 { width: 240px; }  // 原本 300px
+    }
+
+    &__background-description {
+      font-size: 18px;  // 原本 20px
+    }
+
+    &__services-subtitle,
+    &__contact-subtitle {
+      font-size: 20px;  // 原本 25px
+    }
+
+    &__services-category-title {
+      font-size: 32px;  // 原本 40px
+    }
+
+    &__services-item {
+      font-size: 18px;  // 原本 20px
+    }
+
+    &__contact-email {
+      font-size: 20px;  // 原本 25px
+    }
+
+    &__contact-phone {
+      font-size: 40px;  // 原本 50px
+    }
+
+    &__referrer-list {
+      width: 100%;
+      max-width: 700px;
+    }
+
+    &__clients-logos {
+      gap: 16px 40px;
+
+      .home__clients-logo--awwrated { width: 100px; }
+      .home__clients-logo--kkday { width: 120px; }
+      .home__clients-logo--nownews { width: 160px; }
+      .home__clients-logo--walkerland { width: 144px; }
+      .home__clients-logo--ixda { width: 128px; }
+      .home__clients-logo--aapd { width: 128px; }
+      .home__clients-logo--qnap { width: 160px; }
+      .home__clients-logo--uxy { width: 144px; }
+      .home__clients-logo--shopmatic { width: 160px; }
+    }
+  }
+
+  // iPad 及平板斷點 (768px - 1024px)
+  @media (min-width: 769px) and (max-width: 1024px) {
+    &__main {
+      padding-top: 15vh;
+      gap: 250px;
+    }
+
+    &__intro-visual {
+      display: none;  // iPad 上隱藏複雜的視差動畫元素
+    }
+
+    &__intro-column--secondary {
+      display: none;  // 隱藏佔位 column
+    }
+
+    &__intro-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    &__awards {
+      margin-top: 30vh;  // 減少 margin 因為沒有視差元素
+    }
+
+    &__referrer-list {
+      width: 100%;
+      max-width: 700px;
+      // 停用 3D 透視效果以提升滾動性能
+      perspective: none;
+    }
+
+    &__referrer-card {
+      // 簡化動畫以提升觸控設備性能
+      transform-style: flat;
+      will-change: auto;
+    }
+
+    &__services-contact-grid {
+      gap: 20px;
     }
   }
 
