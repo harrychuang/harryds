@@ -142,6 +142,15 @@ const Articles: React.FC = () => {
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
   const langDropdownRef = useRef<HTMLDivElement>(null);
+
+  // 追蹤視窗寬度，用於響應式 logo 尺寸調整
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1400);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
   const menuHoverTimersRef = useRef<Record<string, number>>({});
@@ -366,6 +375,21 @@ const Articles: React.FC = () => {
         onLogoClick={handleLogoClick}
         logoType="default"
         logoAnimated={true}
+        logoWrapperStyle={{
+          transform: (() => {
+            let scale = '';
+            if (windowWidth < 480) {
+              scale = 'scale(0.55)';
+            } else if (windowWidth < 540) {
+              scale = 'scale(0.65)';
+            } else if (windowWidth < 640) {
+              scale = 'scale(0.8)';
+            }
+            return scale || undefined;
+          })(),
+          transformOrigin: 'left center',
+          marginRight: windowWidth < 540 ? '-35%' : windowWidth <= 640 ? '-20%' : 0
+        }}
         menuItems={['work', 'articles', 'about']}
         activeMenuItem="articles"
         t={t}

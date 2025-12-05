@@ -318,6 +318,15 @@ const About: React.FC = () => {
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
   const menuHoverTimersRef = useRef<Record<string, number>>({});
 
+  // 追蹤視窗寬度，用於響應式 logo 尺寸調整
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1400);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const triggerMenuHoverOnce = useCallback((key: string) => {
     if (menuAnimStates[key]) return;
     setMenuAnimStates((prev) => ({ ...prev, [key]: true }));
@@ -935,6 +944,21 @@ const About: React.FC = () => {
         }}
         logoType="default"
         logoAnimated={true}
+        logoWrapperStyle={{
+          transform: (() => {
+            let scale = '';
+            if (windowWidth < 480) {
+              scale = 'scale(0.55)';
+            } else if (windowWidth < 540) {
+              scale = 'scale(0.65)';
+            } else if (windowWidth < 640) {
+              scale = 'scale(0.8)';
+            }
+            return scale || undefined;
+          })(),
+          transformOrigin: 'left center',
+          marginRight: windowWidth < 540 ? '-35%' : windowWidth <= 640 ? '-20%' : 0
+        }}
         hideNav={false}
         menuItems={['work', 'articles', 'about']}
         activeMenuItem="about"

@@ -16,6 +16,14 @@
   color: var(--hds-sys-color-theme-surface);
   padding: 50px 50px 100px 50px;
 
+  @media (max-width: 767px) {
+    padding: 20px 30px 100px 30px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0px 20px 100px 20px;
+  }
+
   // Topics Filter Bar
   &__topics-bar {
     display: flex;
