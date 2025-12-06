@@ -1,11 +1,11 @@
 # robots.txt for Harry Design Studio
-# https://yourdomain.com/harryds/
+# https://noeinoi.com/
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://yourdomain.com/harryds/sitemap.xml
+Sitemap: https://noeinoi.com/sitemap.xml
 
 # Disallow admin or private areas (if any)
 # Disallow: /admin/

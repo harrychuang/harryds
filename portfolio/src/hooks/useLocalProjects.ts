@@ -53,6 +53,7 @@ const transformLocalToFeedItem = (id: string, data: any, originalHeading?: strin
     primaryColor: data.primaryColor,
     secondaryColor: data.secondaryColor,
     heroImage: resolveLocalImageUrl(data.heroImage),
+    isPrivate: data.visibility === 'private', // 從 visibility 欄位轉換為 isPrivate
     projectInfo: data.projectInfo ? {
       client: data.projectInfo.client,
       project: data.projectInfo.project,

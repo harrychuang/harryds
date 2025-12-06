@@ -4,11 +4,11 @@
   
   <!-- 首頁 / Home -->
   <url>
-    <loc>https://yourdomain.com/harryds/</loc>
-    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://yourdomain.com/harryds/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/harryds/?lng=en"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://yourdomain.com/harryds/?lng=ja"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://yourdomain.com/harryds/"/>
+    <loc>https://noeinoi.com/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://noeinoi.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://noeinoi.com/?lng=en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://noeinoi.com/?lng=ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://noeinoi.com/"/>
     <lastmod>2025-12-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -16,11 +16,11 @@
   
   <!-- 關於我 / About -->
   <url>
-    <loc>https://yourdomain.com/harryds/about</loc>
-    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://yourdomain.com/harryds/about"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/harryds/about?lng=en"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://yourdomain.com/harryds/about?lng=ja"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://yourdomain.com/harryds/about"/>
+    <loc>https://noeinoi.com/about</loc>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://noeinoi.com/about"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://noeinoi.com/about?lng=en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://noeinoi.com/about?lng=ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://noeinoi.com/about"/>
     <lastmod>2025-12-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -28,11 +28,11 @@
   
   <!-- 文章列表 / Articles -->
   <url>
-    <loc>https://yourdomain.com/harryds/articles</loc>
-    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://yourdomain.com/harryds/articles"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/harryds/articles?lng=en"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://yourdomain.com/harryds/articles?lng=ja"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://yourdomain.com/harryds/articles"/>
+    <loc>https://noeinoi.com/articles</loc>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://noeinoi.com/articles"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://noeinoi.com/articles?lng=en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://noeinoi.com/articles?lng=ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://noeinoi.com/articles"/>
     <lastmod>2025-12-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -43,7 +43,7 @@
     當你有新專案時，可以在這裡新增：
     
     <url>
-      <loc>https://yourdomain.com/harryds/project/1/project-slug</loc>
+      <loc>https://noeinoi.com/project/1/project-slug</loc>
       <lastmod>2025-12-06</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.7</priority>
@@ -55,7 +55,7 @@
     當你有新文章時，可以在這裡新增：
     
     <url>
-      <loc>https://yourdomain.com/harryds/article/1/article-slug</loc>
+      <loc>https://noeinoi.com/article/1/article-slug</loc>
       <lastmod>2025-12-06</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.7</priority>

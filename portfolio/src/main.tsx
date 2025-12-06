@@ -15,15 +15,15 @@ const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
 root.render(
   <React.StrictMode>
     <HelmetProvider>
-      <BrowserRouter
-        basename={basename}
-        future={{
-          v7_startTransition: true,
-          v7_relativeSplatPath: true,
-        }}
-      >
-        <App />
-      </BrowserRouter>
+    <BrowserRouter
+      basename={basename}
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
+      <App />
+    </BrowserRouter>
     </HelmetProvider>
   </React.StrictMode>
 );

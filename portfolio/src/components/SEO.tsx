@@ -2,9 +2,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
-// 請替換為你的正式網址
-const SITE_URL = 'https://yourdomain.com/harryds';
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image-default.jpg`;
+// 正式網址
+const SITE_URL = 'https://noeinoi.com';
+const DEFAULT_OG_IMAGE = `${SITE_URL}/social-share-img-1200x630.jpg`;
 
 export interface SEOProps {
   /** 頁面標題（會自動加上網站名稱後綴） */
