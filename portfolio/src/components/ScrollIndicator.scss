@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'PublicPixel';
-  src: url('/assets/fonts/PublicPixel.ttf') format('truetype');
+  src: url('../../assets/fonts/PublicPixel.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -138,14 +138,16 @@
 
   &__like-count-number {
     font-family: 'PublicPixel', monospace;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
     line-height: 1;
+    display: inline-block;
+    margin-bottom: -5px;
   }
 
   &__like-count-label {
     font-family: 'PublicPixel', monospace;
-    font-size: 6px;
+    font-size: 10px;
     font-weight: bold;
     line-height: 1;
     text-transform: uppercase;

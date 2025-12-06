@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'PublicPixel';
+  src: url('../../assets/fonts/PublicPixel.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 .footer {
   position: fixed;
   bottom: 0;
@@ -131,8 +139,8 @@
   }
 
   &__giphy-message {
-    font-family: 'Pixel', monospace;
-    font-size: 30px;
+    font-family: 'PublicPixel', monospace !important;
+    font-size: 25px;
     line-height: 1.2;
     text-transform: uppercase;
     background: var(--noeinoi-rainbow-gradient);
@@ -141,6 +149,7 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    padding-bottom: 10px;
   }
 }
 
