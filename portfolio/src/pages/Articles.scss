@@ -24,7 +24,7 @@
     padding: 0px 20px 100px 20px;
   }
 
-  // Topics Filter Bar
+  // Topics Filter Bar - 使用 PublicPixel 像素字型，不受語言設定影響
   &__topics-bar {
     display: flex;
     flex-wrap: nowrap;
@@ -38,6 +38,11 @@
     overflow: hidden;
     position: relative;
     box-sizing: border-box;
+    font-family: 'PublicPixel', monospace !important;
+    
+    * {
+      font-family: inherit !important;
+    }
     
     // 展開時允許換行
     &--expanded {
@@ -57,7 +62,7 @@
   }
 
   &__topic-item {
-    font-family: 'PublicPixel', monospace;
+    font-family: 'PublicPixel', monospace !important;
     font-size: 15px;
     background: none;
     border: none;
@@ -70,6 +75,11 @@
     text-transform: uppercase;
     position: relative;
     flex-shrink: 0;
+
+    @media (max-width: 640px) {
+      font-size: 12px;
+      line-height: 1.2;
+    }
 
     // 在每個選項後加上 | 分隔符
     &::after {
