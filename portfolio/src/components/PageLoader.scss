@@ -2,37 +2,41 @@
 
 .page-loader {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  // iOS Safari 高度修正：使用多個 fallback
-  height: 100vh; // fallback
-  height: 100dvh; // dynamic viewport height (iOS 15.4+)
-  height: -webkit-fill-available; // iOS Safari fallback
+  // 使用 inset: 0 確保四邊都貼齊
+  inset: 0;
+  // 寬度使用 100% 而非 100vw（避免捲軸造成的寬度問題）
+  width: 100%;
+  height: 100%;
+  // 多層 fallback 確保跨瀏覽器相容
+  // 順序：基礎 → svh → dvh → webkit（後面的會覆蓋前面的，如果支援的話）
   min-height: 100vh;
-  min-height: 100dvh;
-  min-height: -webkit-fill-available;
+  min-height: 100svh; // small viewport height (不含動態 UI)
+  min-height: 100dvh; // dynamic viewport height (iOS 15.4+)
+  min-height: -webkit-fill-available; // iOS Safari fallback
   z-index: 9999;
   pointer-events: all;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden; // 防止內容溢出
 
   // Mask 背景
+  // 使用 position: fixed 並給予額外空間，確保在所有瀏覽器上都能完全覆蓋
   &__mask {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    // 確保 mask 完全覆蓋，包含 safe area
-    min-height: 100vh;
-    min-height: 100dvh;
-    min-height: -webkit-fill-available;
+    position: fixed;
+    // 給予負值的 inset，讓 mask 超出邊界以確保完全覆蓋
+    // 這可以解決某些瀏覽器的 viewport 計算差異
+    top: -50px;
+    left: -50px;
+    right: -50px;
+    bottom: -50px;
+    // 使用超大的 width/height 作為 fallback
+    width: calc(100% + 100px);
+    height: calc(100% + 100px);
+    // 多層 min-height fallback
+    min-height: calc(100vh + 100px);
+    min-height: calc(100svh + 100px);
+    min-height: calc(100dvh + 100px);
     background-color: var(--loader-bg, #111111);
     transform-origin: center bottom;
   }
