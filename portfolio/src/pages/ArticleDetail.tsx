@@ -119,7 +119,6 @@ const ArticleDetail: React.FC = () => {
   // 語言切換相關
   const languageMap = {
     'zh-Hant': 'ZH',
-    'zh': 'ZH',
     'en': 'EN',
     'ja': 'JP'
   };

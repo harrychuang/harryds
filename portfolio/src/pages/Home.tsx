@@ -296,7 +296,6 @@ const Home: React.FC = () => {
   // 語言切換相關
   const languageMap = useMemo(() => ({
     'zh-Hant': 'ZH',
-    'zh': 'ZH',
     'en': 'EN',
     'ja': 'JP'
   }), []);

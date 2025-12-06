@@ -2,17 +2,14 @@ import { useEffect, useState, useCallback } from 'react';
 
 type Theme = 'light' | 'dark';
 
-const getPreferredTheme = (): Theme => {
-  if (typeof window === 'undefined') return 'light';
-  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
-};
+// 預設主題為 light
+const DEFAULT_THEME: Theme = 'light';
 
 export const useTheme = () => {
   const [theme, setTheme] = useState<Theme>(() => {
+    // 只有當 localStorage 有明確儲存的值時才使用，否則預設為 light
     const saved = typeof localStorage !== 'undefined' ? localStorage.getItem('theme') as Theme | null : null;
-    return saved || getPreferredTheme();
+    return saved || DEFAULT_THEME;
   });
 
   useEffect(() => {
@@ -22,17 +19,8 @@ export const useTheme = () => {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  useEffect(() => {
-    const media = window.matchMedia('(prefers-color-scheme: dark)');
-    const listener = () => {
-      const saved = localStorage.getItem('theme');
-      if (!saved) {
-        setTheme(media.matches ? 'dark' : 'light');
-      }
-    };
-    media.addEventListener('change', listener);
-    return () => media.removeEventListener('change', listener);
-  }, []);
+  // 移除系統偏好監聽，不再根據系統設定自動切換
+  // 使用者手動切換後會儲存到 localStorage
 
   const toggleTheme = useCallback(() => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
