@@ -7,7 +7,10 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import './CTAButton.scss';
-import iconLinkUrl from '../../../assets/imgs/icon/icon-link.svg';
+
+// 內嵌 SVG 作為 Data URL，確保在所有環境都能正確顯示
+// 原始 SVG: harryds/assets/imgs/icon/icon-link.svg
+const iconLinkUrl = 'data:image/svg+xml,%3Csvg%20width%3D%2222%22%20height%3D%2222%22%20viewBox%3D%220%200%2022%2022%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M15%209H16V16H15V17H14V18H13V19H12V20H11V21H10V22H4V21H3V20H2V19H1V18H0V13H1V12H2V11H3V10H4V14H3V17H4V18H5V19H8V18H9V17H10V16H11V15H12V14H13V11H12V10H11V9H12V8H13V7H14V8H15V9Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M22%204V9H21V10H20V11H19V12H18V8H19V5H18V4H17V3H14V4H13V5H12V6H11V7H10V8H9V11H10V12H11V13H10V14H9V15H8V14H7V13H6V6H7V5H8V4H9V3H10V2H11V1H12V0H18V1H19V2H20V3H21V4H22Z%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E';
 
 // 檢測設備是否支援 hover（非觸控設備）
 const getHasHoverCapability = (): boolean => {

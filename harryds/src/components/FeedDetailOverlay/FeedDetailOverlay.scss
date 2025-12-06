@@ -439,6 +439,9 @@
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 700;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
     font-size: 16px;
     line-height: 130%; /* 20.8px */
     text-transform: uppercase;
@@ -526,9 +529,12 @@
   }
 
   &__section-title {
-    font-family: 'Pixel', monospace;
+    font-family: 'Pixel', 'Inter', sans-serif;
     font-style: normal;
     font-weight: 400;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
     font-size: 40px;
     line-height: 130%; /* 52px */
     text-transform: uppercase;
@@ -676,6 +682,9 @@
     top: 0;
     left: 0;
     right: 0;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
     // 繼承父元素的文字樣式
     font-family: inherit;
     font-style: inherit;
