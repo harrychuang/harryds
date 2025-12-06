@@ -13,6 +13,7 @@ import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 import { useContactModal } from '../contexts/ContactModalContext';
+import { trackArticleView, trackRelatedArticleClick, trackTopicClick, trackCarouselInteraction, trackLanguageChange, trackThemeChange, trackContactOpen } from '../utils/analytics';
 
 const PAGE_NAME = 'article-detail';
 
@@ -142,6 +143,13 @@ const ArticleDetail: React.FC = () => {
     if (id === null || isNaN(id)) return null;
     return items.find(item => item.id === id);
   }, [params.id, items]);
+
+  // GA 追蹤：文章瀏覽（當文章載入完成時）
+  useEffect(() => {
+    if (article && isFullyLoaded) {
+      trackArticleView(article.id, article.heading, article.tags);
+    }
+  }, [article?.id, isFullyLoaded]);
 
   // 找出相關文章（根據 tags/topics 相似度，加入多樣性演算法）
   const relatedArticles = useMemo(() => {
@@ -359,7 +367,9 @@ const ArticleDetail: React.FC = () => {
       console.warn('Theme toggle sound play failed:', err);
     }
     toggleTheme();
-  }, [toggleTheme]);
+    // GA 追蹤：主題切換
+    trackThemeChange(theme === 'light' ? 'dark' : 'light');
+  }, [toggleTheme, theme]);
 
   // 語言切換
   const handleToggleLangDropdown = useCallback(async () => {
@@ -379,8 +389,11 @@ const ArticleDetail: React.FC = () => {
     } catch (err) {
       console.warn('Language change sound play failed:', err);
     }
+    const fromLang = i18n.language;
     i18n.changeLanguage(code);
     setIsLangDropdownOpen(false);
+    // GA 追蹤：語言切換
+    trackLanguageChange(fromLang, code);
   }, [i18n]);
 
   // 點擊外部關閉語言下拉選單
@@ -457,6 +470,8 @@ const ArticleDetail: React.FC = () => {
     } catch (err) {
       console.warn('Topic click sound play failed:', err);
     }
+    // GA 追蹤：Topic 點擊
+    trackTopicClick(topic, 'article_detail');
     navigate(`/articles?topic=${encodeURIComponent(topic)}`);
   }, [navigate]);
 
@@ -472,6 +487,11 @@ const ArticleDetail: React.FC = () => {
     // 找到文章並生成 slug（與 Articles 頁面一致）
     const targetArticle = items.find(item => item.id === articleId);
     if (targetArticle) {
+      // GA 追蹤：相關文章點擊
+      if (article) {
+        trackRelatedArticleClick(article.id, articleId, targetArticle.heading);
+      }
+      
       // 使用原始英文 heading 生成 slug，確保所有語系的 URL 一致
       const headingForSlug = (targetArticle as any).originalHeading || targetArticle.heading;
       const slug = headingForSlug.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
@@ -481,7 +501,7 @@ const ArticleDetail: React.FC = () => {
       setCurrentImageIndex(0);
       navigate(`/article/${articleId}/${slug}`);
     }
-  }, [items, navigate]);
+  }, [items, navigate, article]);
 
   // 獲取文章圖片 - 從 useArticles hook 取得（支援 Strapi 或本地資料）
   const articleImages = useMemo(() => {
@@ -518,8 +538,13 @@ const ArticleDetail: React.FC = () => {
     } catch (err) {
       console.warn('Prev button sound play failed:', err);
     }
-    setCurrentImageIndex((prev) => (prev === 0 ? articleImages.length - 1 : prev - 1));
-  }, [articleImages.length]);
+    const newIndex = currentImageIndex === 0 ? articleImages.length - 1 : currentImageIndex - 1;
+    setCurrentImageIndex(newIndex);
+    // GA 追蹤：輪播操作
+    if (article) {
+      trackCarouselInteraction(article.id, 'prev', newIndex, articleImages.length);
+    }
+  }, [articleImages.length, currentImageIndex, article]);
 
   const handleNextImage = useCallback(async () => {
     try {
@@ -528,8 +553,13 @@ const ArticleDetail: React.FC = () => {
     } catch (err) {
       console.warn('Next button sound play failed:', err);
     }
-    setCurrentImageIndex((prev) => (prev === articleImages.length - 1 ? 0 : prev + 1));
-  }, [articleImages.length]);
+    const newIndex = currentImageIndex === articleImages.length - 1 ? 0 : currentImageIndex + 1;
+    setCurrentImageIndex(newIndex);
+    // GA 追蹤：輪播操作
+    if (article) {
+      trackCarouselInteraction(article.id, 'next', newIndex, articleImages.length);
+    }
+  }, [articleImages.length, currentImageIndex, article]);
 
   const handlePageClick = useCallback(async (index: number) => {
     try {
@@ -539,7 +569,11 @@ const ArticleDetail: React.FC = () => {
       console.warn('Page click sound play failed:', err);
     }
     setCurrentImageIndex(index);
-  }, []);
+    // GA 追蹤：輪播操作
+    if (article) {
+      trackCarouselInteraction(article.id, 'dot_click', index, articleImages.length);
+    }
+  }, [article, articleImages.length]);
 
   // 即時監聽 carousel wrapper 寬度變化
   useEffect(() => {
@@ -833,7 +867,10 @@ const ArticleDetail: React.FC = () => {
           languageOptions={languageOptions}
           onLanguageChange={handleLanguageChange}
           onLanguageHover={handleMenuItemHover}
-          onContactClick={() => { openContactModal(); }}
+          onContactClick={() => { 
+          openContactModal(); 
+          trackContactOpen('header');
+        }}
         />
         <main className="article-detail__content">
           <div className="article-detail__container">
@@ -886,7 +923,10 @@ const ArticleDetail: React.FC = () => {
         languageOptions={languageOptions}
         onLanguageChange={handleLanguageChange}
         onLanguageHover={handleMenuItemHover}
-        onContactClick={() => { openContactModal(); }}
+        onContactClick={() => { 
+          openContactModal(); 
+          trackContactOpen('header');
+        }}
       />
 
       <main className="article-detail__content">
@@ -1041,8 +1081,8 @@ const ArticleDetail: React.FC = () => {
                   >
                     <FeedCard
                       src={relatedItem.heroImage || ''}
-                      size={windowWidth <= 767 ? 'xs' : 'sm'}
-                      height={windowWidth <= 767 ? 250 : 400}
+                      size={windowWidth <= 900 ? 'xs' : 'sm'}
+                      height={windowWidth <= 900 ? 250 : 400}
                       padding={40}
                       backgroundProps={{
                         pixelSize: 60,

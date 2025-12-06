@@ -20,6 +20,7 @@ import SEO, { SEOPresets } from '../components/SEO';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 import { useContactModal } from '../contexts/ContactModalContext';
 import { useHoverCapability } from '../hooks/useHoverCapability';
+import { trackProjectView, trackPrivateProjectUnlock, trackLanguageChange, trackThemeChange, trackSoundToggle, trackContactOpen } from '../utils/analytics';
 
 const slugify = (text: string) => text
   .toLowerCase()
@@ -310,9 +311,12 @@ const Home: React.FC = () => {
   }, [i18n.language, languageMap]);
 
   const handleLanguageChange = useCallback((lang: string) => {
+    const fromLang = i18n.language;
     i18n.changeLanguage(lang);
     setIsLangDropdownOpen(false);
     playMenuClickSound();
+    // GA 追蹤：語言切換
+    trackLanguageChange(fromLang, lang);
   }, [i18n, playMenuClickSound]);
 
   const toggleLangDropdown = useCallback(() => {
@@ -362,6 +366,9 @@ const Home: React.FC = () => {
       return;
     }
     
+    // GA 追蹤：專案瀏覽
+    trackProjectView(cardId, item.heading, item.category);
+    
     // 檢查是否已經載入過
     const hasLoaded = loadedCardIdsRef.current.has(cardId);
     
@@ -389,6 +396,12 @@ const Home: React.FC = () => {
       setPrivateUnlockModalOpen(false);
       
       const item = items.find(i => i.id === pendingPrivateCardId);
+      
+      // GA 追蹤：私人專案解鎖
+      if (item) {
+        trackPrivateProjectUnlock(pendingPrivateCardId, item.heading);
+        trackProjectView(pendingPrivateCardId, item.heading, item.category);
+      }
       if (item) {
         const currentUrl = toItemUrl(item);
         const isAlreadyOnProjectUrl = params.id === String(pendingPrivateCardId);
@@ -857,11 +870,21 @@ const Home: React.FC = () => {
         navColors={navColors as any}
         showThemeToggle={true}
         theme={theme}
-        onToggleTheme={() => { playMenuClickSound(); toggleTheme(); }}
+        onToggleTheme={() => { 
+          playMenuClickSound(); 
+          toggleTheme(); 
+          // GA 追蹤：主題切換
+          trackThemeChange(theme === 'light' ? 'dark' : 'light');
+        }}
         onThemeHover={() => { playMenuHoverSound(); }}
         showSoundToggle={true}
         isSoundEnabled={isSoundEnabled}
-        onToggleSound={() => { playMenuClickSound(); toggleSound(); }}
+        onToggleSound={() => { 
+          playMenuClickSound(); 
+          toggleSound(); 
+          // GA 追蹤：音效切換
+          trackSoundToggle(!isSoundEnabled);
+        }}
         onSoundHover={() => { playMenuHoverSound(); }}
         showDataSourceToggle={true}
         dataSource={dataSource}
@@ -875,7 +898,12 @@ const Home: React.FC = () => {
         languageOptions={languageOptions}
         onLanguageChange={handleLanguageChange}
         onLanguageHover={() => { playMenuHoverSound(); }}
-        onContactClick={() => { playMenuClickSound(); openContactModal(); }}
+        onContactClick={() => { 
+          playMenuClickSound(); 
+          openContactModal(); 
+          // GA 追蹤：聯絡 Modal 打開
+          trackContactOpen('header');
+        }}
       />
       <div className="home__container">
         <div

@@ -13,6 +13,7 @@ import { GIPHY_URLS } from '../constants/giphy';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { likePage, unlikePage, getPageLikeCount } from '../services/strapiClient';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
+import { trackLike, trackContactOpen } from '../utils/analytics';
 
 // 格式化 like 數字（1000 -> 1k, 1100 -> 1.1k, 10000 -> 10k）
 const formatLikeCount = (count: number): string => {
@@ -227,6 +228,8 @@ const Footer: React.FC = () => {
   // Email 按鈕點擊處理 - 打開 Contact Modal
   const handleEmailClick = useCallback(() => {
     openContactModal();
+    // GA 追蹤：聯絡 Modal 打開
+    trackContactOpen('footer');
   }, [openContactModal]);
 
   const pickRandomGifUrl = useCallback((excludeUrl?: string) => {
@@ -336,6 +339,9 @@ const Footer: React.FC = () => {
   const handleHeartClick = useCallback(async () => {
     if (isHeartLiked) {
       setIsHeartLiked(false);
+      
+      // GA 追蹤：Unlike
+      trackLike(pageStorageKey, 'unlike');
 
       if (hideTimerRef.current) {
         clearTimeout(hideTimerRef.current);
@@ -369,6 +375,9 @@ const Footer: React.FC = () => {
     }
 
     setIsHeartLiked(true);
+    
+    // GA 追蹤：Like
+    trackLike(pageStorageKey, 'like');
 
     // 呼叫 Strapi API 增加 like 計數（非同步，不阻塞 UI）
     likePage(pageStorageKey)

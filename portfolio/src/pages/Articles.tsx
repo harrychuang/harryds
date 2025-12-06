@@ -14,6 +14,7 @@ import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 import { useContactModal } from '../contexts/ContactModalContext';
+import { trackArticleView, trackTopicClick, trackLanguageChange, trackThemeChange, trackContactOpen } from '../utils/analytics';
 
 const PAGE_NAME = 'articles';
 
@@ -284,7 +285,9 @@ const Articles: React.FC = () => {
       console.warn('Theme toggle sound play failed:', err);
     }
     toggleTheme();
-  }, [toggleTheme]);
+    // GA 追蹤：主題切換
+    trackThemeChange(theme === 'light' ? 'dark' : 'light');
+  }, [toggleTheme, theme]);
 
   // 語言切換
   const handleToggleLangDropdown = useCallback(async () => {
@@ -304,8 +307,11 @@ const Articles: React.FC = () => {
     } catch (err) {
       console.warn('Language change sound play failed:', err);
     }
+    const fromLang = i18n.language;
     i18n.changeLanguage(code);
     setIsLangDropdownOpen(false);
+    // GA 追蹤：語言切換
+    trackLanguageChange(fromLang, code);
   }, [i18n]);
 
   // 卡片點擊處理
@@ -319,6 +325,9 @@ const Articles: React.FC = () => {
     
     const article = items.find(item => item.id === articleId);
     if (article) {
+      // GA 追蹤：文章瀏覽
+      trackArticleView(articleId, article.heading, article.tags);
+      
       // 使用原始英文 heading 生成 slug，確保所有語系的 URL 一致
       const headingForSlug = (article as any).originalHeading || article.heading;
       const slug = headingForSlug.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
@@ -334,6 +343,12 @@ const Articles: React.FC = () => {
     } catch (err) {
       console.warn('Topic click sound play failed:', err);
     }
+    
+    // GA 追蹤：Topic 點擊
+    if (topic !== 'all') {
+      trackTopicClick(topic, 'articles_page');
+    }
+    
     setSelectedTopic(topic);
     // 更新 URL 參數
     if (topic === 'all') {
@@ -419,7 +434,12 @@ const Articles: React.FC = () => {
         languageOptions={languageOptions}
         onLanguageChange={handleLanguageChange}
         onLanguageHover={() => { playMenuHoverSound(); }}
-        onContactClick={() => { playMenuClickSound(); openContactModal(); }}
+        onContactClick={() => { 
+          playMenuClickSound(); 
+          openContactModal(); 
+          // GA 追蹤：聯絡 Modal 打開
+          trackContactOpen('header');
+        }}
       />
 
       {/* Topics Filter Bar */}

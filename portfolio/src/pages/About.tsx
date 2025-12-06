@@ -39,6 +39,7 @@ import Header from '../components/Header';
 import { GIPHY_URLS } from '../constants/giphy';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 import { useContactModal } from '../contexts/ContactModalContext';
+import { trackLanguageChange, trackThemeChange, trackSoundToggle, trackContactOpen } from '../utils/analytics';
 
 const PAGE_NAME = 'about';
 
@@ -420,6 +421,8 @@ const About: React.FC = () => {
     e.preventDefault(); // 防止打開 mailto
     playMenuClickSound();
     openContactModal();
+    // GA 追蹤：聯絡 Modal 打開
+    trackContactOpen('about');
   }, [playMenuClickSound, openContactModal]);
 
   // Hero 進場動畫：Title 打字效果 + 0.3s 後內文行動效
@@ -956,9 +959,12 @@ const About: React.FC = () => {
   const currentLangDisplay = languageMap[i18n.language as keyof typeof languageMap] || 'EN';
 
   const handleLanguageChange = useCallback((lang: string) => {
+    const fromLang = i18n.language;
     i18n.changeLanguage(lang);
     setIsLangDropdownOpen(false);
     playMenuClickSound();
+    // GA 追蹤：語言切換
+    trackLanguageChange(fromLang, lang);
   }, [i18n, playMenuClickSound]);
 
   const toggleLangDropdown = useCallback(() => {
@@ -1053,11 +1059,21 @@ const About: React.FC = () => {
         }}
         showThemeToggle={true}
         theme={theme}
-        onToggleTheme={() => { playMenuClickSound(); toggleTheme(); }}
+        onToggleTheme={() => { 
+          playMenuClickSound(); 
+          toggleTheme(); 
+          // GA 追蹤：主題切換
+          trackThemeChange(theme === 'light' ? 'dark' : 'light');
+        }}
         onThemeHover={() => { playMenuHoverSound(); }}
         showSoundToggle={true}
         isSoundEnabled={isSoundEnabled}
-        onToggleSound={() => { playMenuClickSound(); toggleSound(); }}
+        onToggleSound={() => { 
+          playMenuClickSound(); 
+          toggleSound(); 
+          // GA 追蹤：音效切換
+          trackSoundToggle(!isSoundEnabled);
+        }}
         onSoundHover={() => { playMenuHoverSound(); }}
         showLanguageToggle={true}
         currentLangDisplay={currentLangDisplay}
@@ -1074,7 +1090,12 @@ const About: React.FC = () => {
         })}
         onLanguageChange={handleLanguageChange}
         onLanguageHover={() => { playMenuHoverSound(); }}
-        onContactClick={() => { playMenuClickSound(); openContactModal(); }}
+        onContactClick={() => { 
+          playMenuClickSound(); 
+          openContactModal(); 
+          // GA 追蹤：聯絡 Modal 打開
+          trackContactOpen('header');
+        }}
       />
       
       <main className="home__main">

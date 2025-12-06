@@ -13,11 +13,15 @@ import { OverlayProvider } from './contexts/OverlayContext';
 import { DataSourceProvider } from './contexts/DataSourceContext';
 import { PageLoaderProvider, usePageLoader } from './contexts/PageLoaderContext';
 import { ContactModalProvider } from './contexts/ContactModalContext';
+import { usePageTracking } from './hooks/useAnalytics';
 
 // 內部 App 元件，可以使用 PageLoader context
 const AppContent: React.FC = () => {
   const { i18n } = useTranslation();
   const { isLoading } = usePageLoader();
+  
+  // Google Analytics 路由追蹤
+  usePageTracking();
 
   // 監聽語言變化，動態設置 html lang 屬性
   useEffect(() => {
