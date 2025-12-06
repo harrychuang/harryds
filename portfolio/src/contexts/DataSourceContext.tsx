@@ -11,8 +11,13 @@ interface DataSourceContextValue {
 const DataSourceContext = createContext<DataSourceContextValue | undefined>(undefined);
 
 export const DataSourceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // 從 localStorage 讀取儲存的設定，預設為 strapi
+  // 生產環境強制使用 strapi，開發環境可從 localStorage 讀取
   const [dataSource, setDataSourceState] = useState<DataSource>(() => {
+    // 生產環境（noeinoi.com）強制使用 strapi
+    if (typeof window !== 'undefined' && window.location.hostname === 'noeinoi.com') {
+      return 'strapi';
+    }
+    // 開發環境從 localStorage 讀取，預設為 strapi
     const saved = localStorage.getItem('portfolio-data-source');
     return (saved === 'local' || saved === 'strapi') ? saved : 'strapi';
   });
