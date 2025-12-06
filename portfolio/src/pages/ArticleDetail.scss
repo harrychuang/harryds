@@ -8,6 +8,14 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'PublicPixel';
+  src: url('../../assets/fonts/PublicPixel.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 .article-detail {
   min-height: 100vh;
   display: flex;
@@ -296,8 +304,8 @@
     position: relative;
     top: 5px;
     transition: all 0.2s ease;
-    font-family: 'Pixel', monospace;
-    font-size: 30px;
+    font-family: 'Pixel', monospace !important;
+    font-size: 24px;
     line-height: 1;
     color: var(--hds-sys-color-theme-surface);
 

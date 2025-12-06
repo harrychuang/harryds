@@ -40,18 +40,20 @@ const resolveLocalImageUrl = (path?: string): string | undefined => {
 
 /**
  * 將本地 i18n 資料轉換為 FeedItem 格式
+ * @param enData - 英文版本的資料，用於提取 tags 和 date（保持英文不變）
  */
-const transformLocalToFeedItem = (id: string, data: any, originalHeading?: string): FeedItem => {
+const transformLocalToFeedItem = (id: string, data: any, enData?: any): FeedItem => {
   // 解析 images 陣列中的圖片路徑
   const images = (data.images || []).map((img: string) => resolveLocalImageUrl(img));
   
   return {
     id: parseInt(id),
     heading: data.heading || '',
-    originalHeading: originalHeading || data.heading || '',
+    originalHeading: enData?.heading || data.heading || '',
     subtitle: data.subtitle || '',
-    date: data.date || '',
-    tags: data.tags || [],
+    // 日期和 tags 始終使用英文版本，不隨語系變化
+    date: enData?.date || data.date || '',
+    tags: enData?.tags || data.tags || [],
     category: data.category || 'article',
     url: data.url,
     heroImage: images[0] || resolveLocalImageUrl(data.heroImage),
@@ -137,9 +139,8 @@ export function useLocalArticles() {
         const enData = enArticlesData?.default || enArticlesData || {};
         const feedItems: FeedItem[] = Object.entries(articlesData.default || articlesData)
           .map(([id, data]) => {
-            // 從英文版本取得 originalHeading
-            const originalHeading = enData[id]?.heading;
-            return transformLocalToFeedItem(id, data, originalHeading);
+            // 傳入英文版本資料，用於 originalHeading、tags 和 date
+            return transformLocalToFeedItem(id, data, enData[id]);
           })
           .sort((a, b) => a.id - b.id);
 
