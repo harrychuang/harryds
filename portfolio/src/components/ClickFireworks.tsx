@@ -119,50 +119,26 @@ const ClickFireworks: React.FC = () => {
       stopContinuousFireworks();
     };
 
-    const handleTouch = (e: TouchEvent) => {
+    // 手機端：只觸發一次，不連續觸發
+    const handleTouchStart = (e: TouchEvent) => {
       if (e.touches.length > 0) {
         const touch = e.touches[0];
         spawnParticles(touch.clientX, touch.clientY);
       }
     };
 
-    const handleTouchStart = (e: TouchEvent) => {
-      if (e.touches.length > 0) {
-        const touch = e.touches[0];
-        isMouseDownRef.current = true;
-        startContinuousFireworks(touch.clientX, touch.clientY);
-      }
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (isMouseDownRef.current && e.touches.length > 0) {
-        const touch = e.touches[0];
-        currentPositionRef.current = { x: touch.clientX, y: touch.clientY };
-      }
-    };
-
-    const handleTouchEnd = () => {
-      stopContinuousFireworks();
-    };
-
     window.addEventListener('click', handleClick);
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
-    window.addEventListener('touchstart', handleTouch);
-    window.addEventListener('touchstart', handleTouchStart);
-    window.addEventListener('touchmove', handleTouchMove);
-    window.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
 
     return () => {
       window.removeEventListener('click', handleClick);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
-      window.removeEventListener('touchstart', handleTouch);
       window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
       
       // 清理
       stopContinuousFireworks();
