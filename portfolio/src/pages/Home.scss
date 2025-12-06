@@ -26,6 +26,10 @@
     margin: 0 auto;
     padding-top: 100px;
     padding-bottom: 10px;
+
+    @media (max-width: 480px) {
+      padding-top: 90px;
+    }
   }
 
   &__content {
