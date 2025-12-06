@@ -13,9 +13,17 @@
   font-style: normal;
 }
 
-// Contact social links
+// Contact social links - 使用 PublicPixel 像素字型，不受語言設定影響
+.home__contact-social {
+  font-family: 'PublicPixel', monospace !important;
+  
+  * {
+    font-family: inherit !important;
+  }
+}
+
 .home__contact-social-link {
-  font-family: 'PublicPixel', monospace;
+  font-family: 'PublicPixel', monospace !important;
   font-size: 15px;
   line-height: 1.5;
   color: var(--hds-sys-color-theme-surface);
