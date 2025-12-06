@@ -315,12 +315,16 @@ const ArticleDetail: React.FC = () => {
         }
         break;
       case 'articles':
+        // 從 sessionStorage 讀取之前選擇的 topic
+        const savedTopic = sessionStorage.getItem('articles-selected-topic');
+        const articlesUrl = savedTopic ? `/articles?topic=${encodeURIComponent(savedTopic)}` : '/articles';
+        
         // 如果頁面已載入過，直接導航；否則先觸發 loading
         if (isPageLoaded('articles')) {
-          navigate('/articles');
+          navigate(articlesUrl);
         } else {
           setLoading(true);
-          setTimeout(() => navigate('/articles'), 50);
+          setTimeout(() => navigate(articlesUrl), 50);
         }
         break;
       case 'about':
@@ -426,7 +430,7 @@ const ArticleDetail: React.FC = () => {
     setIsLogoHovered(false);
   }, []);
 
-  // 返回 Articles 列表
+  // 返回 Articles 列表（帶上之前選擇的 topic）
   const handleBackToArticles = useCallback(async () => {
     try {
       menuClickHandleRef.current?.stop();
@@ -434,7 +438,14 @@ const ArticleDetail: React.FC = () => {
     } catch (err) {
       console.warn('Back button sound play failed:', err);
     }
-    navigate('/articles');
+    
+    // 從 sessionStorage 讀取之前選擇的 topic
+    const savedTopic = sessionStorage.getItem('articles-selected-topic');
+    if (savedTopic) {
+      navigate(`/articles?topic=${encodeURIComponent(savedTopic)}`);
+    } else {
+      navigate('/articles');
+    }
   }, [navigate]);
 
   // 點擊 Topic 標籤

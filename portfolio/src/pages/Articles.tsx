@@ -337,8 +337,12 @@ const Articles: React.FC = () => {
     // 更新 URL 參數
     if (topic === 'all') {
       searchParams.delete('topic');
+      // 清除 sessionStorage 中的 topic
+      sessionStorage.removeItem('articles-selected-topic');
     } else {
       searchParams.set('topic', topic);
+      // 保存選擇的 topic 到 sessionStorage，讓 ArticleDetail 返回時可以使用
+      sessionStorage.setItem('articles-selected-topic', topic);
     }
     setSearchParams(searchParams, { replace: true });
   }, [searchParams, setSearchParams]);

@@ -23,8 +23,15 @@
     min-width: 300px;
   }
 
-  // Hover 時加速動畫（從 12s 變成 1.5s，8 倍速，delay 也相應縮減為 1/8）
-  &:hover {
+  // 觸控設備：禁用文字選取，避免長按觸發選取干擾操作
+  @media (hover: none) {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  // Hover 加速動畫的共用 mixin
+  @mixin hover-animation-speedup {
     .cta-button__stripe {
       &::before {
         animation-duration: 1.5s;
@@ -83,6 +90,18 @@
         &::after { animation-delay: 0s; }
       }
     }
+  }
+
+  // 桌面設備：使用 CSS :hover（從 12s 變成 1.5s，8 倍速）
+  @media (hover: hover) {
+    &:hover {
+      @include hover-animation-speedup;
+    }
+  }
+
+  // JS 控制的 hover 狀態（觸控設備使用 data-hovered attribute）
+  &[data-hovered="true"] {
+    @include hover-animation-speedup;
   }
 
   &:active {

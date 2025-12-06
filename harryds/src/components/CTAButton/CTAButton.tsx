@@ -5,9 +5,15 @@
 // - Hover 時加速動畫效果
 // =============================================================================
 
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import './CTAButton.scss';
 import iconLinkUrl from '../../../assets/imgs/icon/icon-link.svg';
+
+// 檢測設備是否支援 hover（非觸控設備）
+const getHasHoverCapability = (): boolean => {
+  if (typeof window === 'undefined') return true;
+  return window.matchMedia('(hover: hover)').matches;
+};
 
 export interface CTAButtonProps {
   /** 按鈕文字 */
@@ -41,6 +47,38 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
   className = '',
   onClick,
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [hasHover, setHasHover] = useState(getHasHoverCapability);
+
+  // 監聽 hover 能力變化
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(hover: hover)');
+    const handleChange = (e: MediaQueryListEvent) => setHasHover(e.matches);
+    
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleChange);
+    } else {
+      mediaQuery.addListener(handleChange);
+    }
+    
+    return () => {
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', handleChange);
+      } else {
+        mediaQuery.removeListener(handleChange);
+      }
+    };
+  }, []);
+
+  // Touch 事件處理（觸控設備模擬 hover 效果）
+  const handleTouchStart = useCallback(() => {
+    setIsHovered(true);
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    setIsHovered(false);
+  }, []);
+
   return (
     <a 
       href={href}
@@ -48,6 +86,11 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
       rel={target === '_blank' ? 'noopener noreferrer' : undefined}
       className={`cta-button ${className}`.trim()}
       onClick={onClick}
+      data-hovered={isHovered ? 'true' : undefined}
+      // 觸控設備：使用 touch 事件模擬 hover
+      onTouchStart={!hasHover ? handleTouchStart : undefined}
+      onTouchEnd={!hasHover ? handleTouchEnd : undefined}
+      onTouchCancel={!hasHover ? handleTouchEnd : undefined}
       style={{
         '--cta-text-color': textColor,
         '--cta-primary': primaryColor,
