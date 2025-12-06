@@ -18,6 +18,9 @@
 
 html, body {
   min-height: 100%;
+  // iOS Safari 高度修正
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
 }
 
 #root {

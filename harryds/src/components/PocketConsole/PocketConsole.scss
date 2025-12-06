@@ -18,6 +18,12 @@
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   outline: none;
+  // 固定使用 PublicPixel 字體，不受語言設定影響
+  font-family: 'PublicPixel', monospace !important;
+  
+  * {
+    font-family: inherit !important;
+  }
 
   &:focus {
     outline: none;
@@ -35,11 +41,12 @@
     align-items: center;
     justify-content: center;
     image-rendering: pixelated;
+    font-family: 'PublicPixel', monospace !important;
   }
 
   // 輸入顯示
   &__input-display {
-    font-family: 'PublicPixel', monospace;
+    font-family: 'PublicPixel', monospace !important;
     font-size: 15px;
     color: #0f380f;
     text-align: center;
@@ -50,7 +57,7 @@
 
   // SUCCESS 動畫
   &__success {
-    font-family: 'PublicPixel', monospace;
+    font-family: 'PublicPixel', monospace !important;
     font-size: 14px;
     color: #0f380f;
     text-align: center;
@@ -60,7 +67,7 @@
 
   // 按鈕標籤文字
   &__btn-label {
-    font-family: 'PublicPixel', monospace;
+    font-family: 'PublicPixel', monospace !important;
     font-size: 5px;
     fill: #4a4a4a;
     user-select: none;

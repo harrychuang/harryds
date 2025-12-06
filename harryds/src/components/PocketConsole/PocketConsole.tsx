@@ -240,13 +240,23 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
   // 檢查按鈕是否被按下
   const isPressed = (button: PocketConsoleButton) => pressedButtons.has(button);
 
-  // 滑鼠/觸控事件處理
+  // 滑鼠事件處理
   const handleMouseDown = (button: PocketConsoleButton) => () => pressButton(button);
   const handleMouseUp = (button: PocketConsoleButton) => () => releaseButton(button);
   const handleMouseLeave = (button: PocketConsoleButton) => () => {
     if (pressedButtons.has(button)) {
       releaseButton(button);
     }
+  };
+  
+  // 觸控事件處理（阻止後續的模擬 mouse 事件，避免觸發兩次）
+  const handleTouchStart = (button: PocketConsoleButton) => (e: React.TouchEvent) => {
+    e.preventDefault(); // 阻止模擬的 mousedown 事件
+    pressButton(button);
+  };
+  const handleTouchEnd = (button: PocketConsoleButton) => (e: React.TouchEvent) => {
+    e.preventDefault(); // 阻止模擬的 mouseup 事件
+    releaseButton(button);
   };
 
   return (
@@ -338,8 +348,8 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
             onMouseDown={handleMouseDown('up')}
             onMouseUp={handleMouseUp('up')}
             onMouseLeave={handleMouseLeave('up')}
-            onTouchStart={handleMouseDown('up')}
-            onTouchEnd={handleMouseUp('up')}
+            onTouchStart={handleTouchStart('up')}
+            onTouchEnd={handleTouchEnd('up')}
           >
             {px(9, 37, 4, 3, dpadColor)}
             {/* 方向指示箭頭 */}
@@ -352,8 +362,8 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
             onMouseDown={handleMouseDown('down')}
             onMouseUp={handleMouseUp('down')}
             onMouseLeave={handleMouseLeave('down')}
-            onTouchStart={handleMouseDown('down')}
-            onTouchEnd={handleMouseUp('down')}
+            onTouchStart={handleTouchStart('down')}
+            onTouchEnd={handleTouchEnd('down')}
           >
             {px(9, 44, 4, 3, dpadColor)}
             {/* 方向指示箭頭 */}
@@ -366,8 +376,8 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
             onMouseDown={handleMouseDown('left')}
             onMouseUp={handleMouseUp('left')}
             onMouseLeave={handleMouseLeave('left')}
-            onTouchStart={handleMouseDown('left')}
-            onTouchEnd={handleMouseUp('left')}
+            onTouchStart={handleTouchStart('left')}
+            onTouchEnd={handleTouchEnd('left')}
           >
             {px(6, 40, 3, 4, dpadColor)}
             {/* 方向指示箭頭 */}
@@ -380,8 +390,8 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
             onMouseDown={handleMouseDown('right')}
             onMouseUp={handleMouseUp('right')}
             onMouseLeave={handleMouseLeave('right')}
-            onTouchStart={handleMouseDown('right')}
-            onTouchEnd={handleMouseUp('right')}
+            onTouchStart={handleTouchStart('right')}
+            onTouchEnd={handleTouchEnd('right')}
           >
             {px(13, 40, 3, 4, dpadColor)}
             {/* 方向指示箭頭 */}
@@ -403,8 +413,8 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
             onMouseDown={handleMouseDown('b')}
             onMouseUp={handleMouseUp('b')}
             onMouseLeave={handleMouseLeave('b')}
-            onTouchStart={handleMouseDown('b')}
-            onTouchEnd={handleMouseUp('b')}
+            onTouchStart={handleTouchStart('b')}
+            onTouchEnd={handleTouchEnd('b')}
           >
             {px(24, 41, 4, 4, buttonColor)}
           </g>
@@ -424,8 +434,8 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
             onMouseDown={handleMouseDown('a')}
             onMouseUp={handleMouseUp('a')}
             onMouseLeave={handleMouseLeave('a')}
-            onTouchStart={handleMouseDown('a')}
-            onTouchEnd={handleMouseUp('a')}
+            onTouchStart={handleTouchStart('a')}
+            onTouchEnd={handleTouchEnd('a')}
           >
             {px(30, 38, 4, 4, buttonColor)}
           </g>
@@ -448,8 +458,8 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
             onMouseDown={handleMouseDown('select')}
             onMouseUp={handleMouseUp('select')}
             onMouseLeave={handleMouseLeave('select')}
-            onTouchStart={handleMouseDown('select')}
-            onTouchEnd={handleMouseUp('select')}
+            onTouchStart={handleTouchStart('select')}
+            onTouchEnd={handleTouchEnd('select')}
           >
             {px(13, 50, 5, 2, '#4a4a4a')}
           </g>
@@ -469,8 +479,8 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
             onMouseDown={handleMouseDown('start')}
             onMouseUp={handleMouseUp('start')}
             onMouseLeave={handleMouseLeave('start')}
-            onTouchStart={handleMouseDown('start')}
-            onTouchEnd={handleMouseUp('start')}
+            onTouchStart={handleTouchStart('start')}
+            onTouchEnd={handleTouchEnd('start')}
           >
             {px(22, 50, 5, 2, '#4a4a4a')}
           </g>
