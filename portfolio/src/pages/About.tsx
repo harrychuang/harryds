@@ -192,7 +192,7 @@ const About: React.FC = () => {
 
     // 計算初始需要的圖片數量（基於視窗寬度）
     const itemWidth = 300; // 圖片寬度
-    const gap = 100; // 間距
+    const gap = window.innerWidth <= 768 ? 50 : 100; // 小螢幕間距縮小
     const totalItemWidth = itemWidth + gap;
     const initialCount = Math.ceil(window.innerWidth / totalItemWidth) + 2; // 多加2個確保無縫
 
@@ -219,7 +219,7 @@ const About: React.FC = () => {
     if (giphyItems.length === 0) return;
 
     const itemWidth = 300;
-    const gap = 100;
+    const gap = window.innerWidth <= 768 ? 50 : 100; // 小螢幕間距縮小
     const totalItemWidth = itemWidth + gap;
     const speed = 1; // 每幀移動的像素數
 
