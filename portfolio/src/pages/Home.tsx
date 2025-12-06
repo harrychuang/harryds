@@ -709,7 +709,7 @@ const Home: React.FC = () => {
     { code: 'zh-Hant', label: 'ZH' },
     { code: 'ja', label: 'JP' }
   ].filter((lang) => {
-    const currentLang = i18n.language === 'zh' ? 'zh-Hant' : i18n.language;
+    const currentLang = i18n.language.startsWith('zh') ? 'zh-Hant' : i18n.language;
     return lang.code !== currentLang;
   })), [i18n.language]);
   // strapiClient.ts 中的 resolveMediaUrl 已經處理了所有圖片 URL

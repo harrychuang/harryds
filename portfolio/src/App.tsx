@@ -22,7 +22,7 @@ const AppContent: React.FC = () => {
   // 監聽語言變化，動態設置 html lang 屬性
   useEffect(() => {
     const updateLangAttr = () => {
-      const lang = i18n.language === 'zh' ? 'zh-Hant' : i18n.language;
+      const lang = i18n.language.startsWith('zh') ? 'zh-Hant' : i18n.language;
       document.documentElement.lang = lang;
     };
 

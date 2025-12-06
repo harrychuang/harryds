@@ -133,7 +133,8 @@ export function useLocalProjects() {
         setError(null);
         
         // 根據當前語言載入對應的 projects.json
-        const locale = i18n.language === 'zh' ? 'zh-Hant' : i18n.language;
+        // 處理 zh, zh-TW, zh-Hant 等各種中文語言代碼
+        const locale = i18n.language.startsWith('zh') ? 'zh-Hant' : i18n.language;
         
         // 首先載入英文版本以取得 originalHeading
         let enProjectsData: any;

@@ -181,7 +181,7 @@ const mapSections = (sectionsObj?: Record<string, any>): ProjectSection[] | unde
 };
 
 const mapProjectInfo = (attrs: StrapiProject['attributes'], locale: string): ProjectInfo | undefined => {
-  const currentLocale = locale === 'zh' ? 'zh-Hant' : locale;
+  const currentLocale = locale.startsWith('zh') ? 'zh-Hant' : locale;
   const fallbackLocale = 'en';
   const getLocalizedValue = (multiLangObj: Record<string, any>) => {
     return multiLangObj?.[currentLocale] || multiLangObj?.[fallbackLocale] || '';
@@ -211,7 +211,7 @@ function transformStrapiToFeedItem(project: StrapiProject, locale: string): Feed
   const attrs = project.attributes;
   
   // 取得當前語言的資料，如果不存在則回退到英文
-  const currentLocale = locale === 'zh' ? 'zh-Hant' : locale;
+  const currentLocale = locale.startsWith('zh') ? 'zh-Hant' : locale;
   const fallbackLocale = 'en';
   
   const getLocalizedValue = (multiLangObj: Record<string, any>) => {

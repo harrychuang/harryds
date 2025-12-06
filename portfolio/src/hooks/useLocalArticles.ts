@@ -112,7 +112,7 @@ export function useLocalArticles() {
         setError(null);
         
         // 根據當前語言載入對應的 articles.json
-        const locale = i18n.language === 'zh' ? 'zh-Hant' : i18n.language;
+        const locale = i18n.language.startsWith('zh') ? 'zh-Hant' : i18n.language;
         
         // 首先載入英文版本以取得 originalHeading
         let enArticlesData: any;

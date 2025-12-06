@@ -11,8 +11,8 @@ const hasHttpsCert = fs.existsSync('./.cert/key.pem') && fs.existsSync('./.cert/
 export default defineConfig({
   plugins: [react()],
   
-  // 生產環境的 base path（如果部署到子目錄，例如 '/portfolio/'）
-  // base: '/',
+  // 生產環境的 base path（部署到 /harryds/ 子目錄）
+  base: '/harryds/',
   
   resolve: {
     alias: {
