@@ -14,6 +14,13 @@
   // 使用 CSS 變數控制 padding
   --feed-card-padding: 40px;
 
+  // 觸控設備：禁用文字選取，避免長按觸發選取干擾操作
+  @media (hover: none) {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none; // 禁用 iOS 長按彈出選單
+  }
+
   .feed-card__bg {
     position: absolute;
     inset: 0;
