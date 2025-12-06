@@ -14,6 +14,12 @@ import './FeedCard.scss';
 import hoverSoundUrl from '../../../assets/sound/Coin Collect Retro 8-bit Sound Effect.mp3';
 import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
 
+// 檢測設備是否支援 hover（非觸控設備）
+const getHasHoverCapability = (): boolean => {
+  if (typeof window === 'undefined') return true;
+  return window.matchMedia('(hover: hover)').matches;
+};
+
 export type FeedCardSize = 'hero' | 'med' | 'sm' | 'xs';
 export const FeedCardHoverContext = createContext<boolean>(false);
 export const FeedCardSizeContext = createContext<FeedCardSize>('hero');
@@ -121,6 +127,31 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   const hoverSoundHandleRef = useRef<PlaybackHandle | null>(null);
   const computedHeight = Math.max(1, Math.floor(height ?? SIZE_TO_HEIGHT[size]));
   
+  // 檢測設備是否支援 hover（觸控設備上禁用 hover 事件）
+  const [hasHover, setHasHover] = useState(getHasHoverCapability);
+  
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(hover: hover)');
+    const handleChange = (e: MediaQueryListEvent) => setHasHover(e.matches);
+    
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleChange);
+    } else {
+      mediaQuery.addListener(handleChange);
+    }
+    
+    return () => {
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', handleChange);
+      } else {
+        mediaQuery.removeListener(handleChange);
+      }
+    };
+  }, []);
+  
+  // 實際是否啟用 hover：需要設備支援 hover 且未被禁用
+  const isHoverEnabled = hasHover && !disableHover;
+  
   // 計算實際的 hover 狀態：forceHovered 優先，否則使用 isHovered
   const actualIsHovered = forceHovered || isHovered;
   // 允許父層以 backgroundProps.hoverActive 覆寫 hover 狀態（例如 Overlay 固定啟用）
@@ -190,19 +221,39 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   
   //
 
+  // Touch 事件處理（觸控設備模擬 hover 效果）
+  const handleTouchStart = useCallback(() => {
+    if (disableHover) return;
+    setIsHovered(true);
+    playHoverSound();
+  }, [disableHover, playHoverSound]);
+
+  const handleTouchEnd = useCallback(() => {
+    if (disableHover) return;
+    setIsHovered(false);
+    setHasPlayedSoundInCurrentHover(false);
+  }, [disableHover]);
+
   return (
     <div
       ref={ref}
       className={`feed-card size-${size} ${className}`.trim()}
       style={rootStyle}
-      onMouseEnter={disableHover ? undefined : () => {
+      // 使用 data-hovered 讓 CSS 也能感知 JS 控制的 hover 狀態
+      data-hovered={actualIsHovered ? 'true' : undefined}
+      // 桌面設備：使用 mouse 事件
+      onMouseEnter={isHoverEnabled ? () => {
         setIsHovered(true);
         playHoverSound();
-      }}
-      onMouseLeave={disableHover ? undefined : () => {
+      } : undefined}
+      onMouseLeave={isHoverEnabled ? () => {
         setIsHovered(false);
-        setHasPlayedSoundInCurrentHover(false); // 重置音效播放狀態，允許下次 hover 播放
-      }}
+        setHasPlayedSoundInCurrentHover(false);
+      } : undefined}
+      // 觸控設備：使用 touch 事件模擬 hover
+      onTouchStart={!hasHover && !disableHover ? handleTouchStart : undefined}
+      onTouchEnd={!hasHover && !disableHover ? handleTouchEnd : undefined}
+      onTouchCancel={!hasHover && !disableHover ? handleTouchEnd : undefined}
     >
       <div className="feed-card__bg">
         <PixelationImg

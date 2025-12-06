@@ -28,8 +28,19 @@
     }
   }
 
-  // Hover 時顯示背景
-  &:hover .feed-card__bg {
+  // Hover 時顯示背景 - 桌面設備使用 CSS :hover
+  @media (hover: hover) {
+    &:hover .feed-card__bg {
+      opacity: 1;
+      
+      > .pixelation-img {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  // JS 控制的 hover 狀態（觸控設備使用 data-hovered attribute）
+  &[data-hovered="true"] .feed-card__bg {
     opacity: 1;
     
     > .pixelation-img {

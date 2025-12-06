@@ -18,6 +18,7 @@ import { useOverlay } from '../contexts/OverlayContext';
 import Header from '../components/Header';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 import { useContactModal } from '../contexts/ContactModalContext';
+import { useHoverCapability } from '../hooks/useHoverCapability';
 
 const slugify = (text: string) => text
   .toLowerCase()
@@ -97,6 +98,9 @@ const Home: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { hoveredCardId, setHoveredCardId } = useHover();
   const { isSoundEnabled, toggleSound } = useSound();
+  
+  // 檢測設備是否支援 hover（觸控設備上禁用 hover 效果）
+  const hasHover = useHoverCapability();
   const { 
     setOpenCardId: setContextOpenCardId, 
     setAnimationPhase: setContextAnimationPhase, 
@@ -562,6 +566,51 @@ const Home: React.FC = () => {
     root.querySelectorAll<HTMLElement>('.pg-card.dimmed').forEach((el) => el.classList.remove('dimmed'));
   }, [hoveredCardId, onHoverEnd, log]);
 
+  // 觸控設備的 touch 事件處理（模擬 hover 效果）
+  const handleCardTouchStart = useCallback((cardId: number) => {
+    if (openCardId) return;
+    
+    // 開始智能預載
+    onHoverStart(cardId);
+    log(`[Touch] 開始預載卡片 ${cardId}`);
+    
+    // 觸發 hover 效果
+    setHoveredCardId(cardId);
+    const root = contentRef.current;
+    if (!root) return;
+    staggerTimeoutsRef.current.forEach((id) => clearTimeout(id));
+    staggerTimeoutsRef.current = [];
+    root.classList.remove('js-stagger-loading');
+    root.classList.add('js-stagger-mode');
+    root.querySelectorAll<HTMLElement>('.pg-card.dimmed').forEach((el) => el.classList.remove('dimmed'));
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('.pg-card'));
+    const others = cards.filter((el) => Number(el.dataset.id) !== cardId && el.dataset.open !== 'true');
+    const stepMs = 25;
+    others.forEach((el, i) => {
+      const t = window.setTimeout(() => {
+        el.classList.add('dimmed');
+      }, i * stepMs);
+      staggerTimeoutsRef.current.push(t);
+    });
+  }, [openCardId, onHoverStart, log]);
+
+  const handleCardTouchEnd = useCallback(() => {
+    // 取消預載
+    if (hoveredCardId) {
+      onHoverEnd(hoveredCardId);
+      log(`[Touch] 取消預載卡片 ${hoveredCardId}`);
+    }
+    
+    // 清除 hover 效果
+    setHoveredCardId(null);
+    const root = contentRef.current;
+    if (!root) return;
+    staggerTimeoutsRef.current.forEach((id) => clearTimeout(id));
+    staggerTimeoutsRef.current = [];
+    root.classList.remove('js-stagger-mode');
+    root.querySelectorAll<HTMLElement>('.pg-card.dimmed').forEach((el) => el.classList.remove('dimmed'));
+  }, [hoveredCardId, onHoverEnd, log]);
+
   const logoColors = useMemo(() => {
     const activeCardId = openCardId || hoveredCardId;
     if (activeCardId) {
@@ -898,6 +947,7 @@ const Home: React.FC = () => {
                 className={`pg-card pg-card--${size}`.trim()}
                 data-id={item.id}
                 data-open={openCardId === item.id ? 'true' : undefined}
+                data-hovered={hoveredCardId === item.id ? 'true' : undefined}
                 data-preloaded={isPreloaded(item.id) ? 'true' : undefined}
                 data-row={rowInfo.rowIndex}
                 data-columns={rowInfo.columns}
@@ -918,8 +968,13 @@ const Home: React.FC = () => {
                   }
                   handleOpenCard(item.id, e);
                 }}
-                onMouseEnter={() => handleCardHover(item.id)}
-                onMouseLeave={handleCardLeave}
+                // 桌面設備：使用 mouse 事件
+                onMouseEnter={hasHover ? () => handleCardHover(item.id) : undefined}
+                onMouseLeave={hasHover ? handleCardLeave : undefined}
+                // 觸控設備：使用 touch 事件模擬 hover 效果
+                onTouchStart={!hasHover ? () => handleCardTouchStart(item.id) : undefined}
+                onTouchEnd={!hasHover ? handleCardTouchEnd : undefined}
+                onTouchCancel={!hasHover ? handleCardTouchEnd : undefined}
                 style={{ 
                   cursor: openCardId === item.id ? 'auto' : (openCardId ? 'default' : 'pointer'),
                   pointerEvents: openCardId && openCardId !== item.id ? 'none' : 'auto',

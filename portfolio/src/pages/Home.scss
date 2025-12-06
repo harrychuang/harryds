@@ -53,32 +53,60 @@
       outline: 10px solid var(--hds-sys-color-theme-surface);
       // outline-offset: -10px;
 
-      &:hover {
+      // Hover outline 效果 - 桌面設備使用 CSS :hover
+      @media (hover: hover) {
+        &:hover {
+          outline: 10px solid var(--card-primary-color, var(--hds-sys-color-theme-surface));
+        }
+      }
+      
+      // JS 控制的 hover 狀態（觸控設備使用 data-hovered attribute）
+      &[data-hovered="true"] {
         outline: 10px solid var(--card-primary-color, var(--hds-sys-color-theme-surface));
       }
     }
 
+    // JS 控制的 Stagger mode 效果 - 所有設備都支援（透過 JS 類別控制）
     &.js-stagger-mode {
       .pg-card { opacity: var(--pg-dim-opacity); }
-      .pg-card:hover { opacity: 1; }
+      // 桌面：CSS hover 恢復 opacity
+      @media (hover: hover) {
+        .pg-card:hover { opacity: 1; }
+      }
+      // 觸控設備的 hover 效果透過 JS 的 hoveredCardId 控制，這裡用 :not(.dimmed) 來識別
+      .pg-card:not(.dimmed) { opacity: 1; }
       .pg-card.dimmed { opacity: var(--pg-dim-opacity); }
     }
+    
     &.js-stagger-loading {
       .pg-card { opacity: var(--pg-dim-opacity); }
       .pg-card[data-open="true"] { opacity: 1; }
       .pg-card.dimmed { opacity: var(--pg-dim-opacity); }
     }
 
-    &:not(.js-stagger-mode):not(.js-stagger-loading) {
-      &:has(.pg-card:hover):not(:has(.pg-card[data-open="true"])) {
-        .pg-card { opacity: var(--pg-dim-opacity); }
-        .pg-card:hover { opacity: 1; }
-        .pg-card { transition-delay: calc(var(--stagger-index, 0) * var(--pg-stagger-step)); }
-      }
+    // CSS-only hover 效果 - 只在支援 hover 的設備上啟用
+    @media (hover: hover) {
+      &:not(.js-stagger-mode):not(.js-stagger-loading) {
+        &:has(.pg-card:hover):not(:has(.pg-card[data-open="true"])) {
+          .pg-card { opacity: var(--pg-dim-opacity); }
+          .pg-card:hover { opacity: 1; }
+          .pg-card { transition-delay: calc(var(--stagger-index, 0) * var(--pg-stagger-step)); }
+        }
 
-      &[data-phase="loading"][data-open-id] {
-        .pg-card { opacity: var(--pg-dim-opacity); transition-delay: calc(var(--stagger-index, 0) * var(--pg-stagger-step)); }
-        .pg-card[data-open="true"] { opacity: 1; transition-delay: 0ms; }
+        &[data-phase="loading"][data-open-id] {
+          .pg-card { opacity: var(--pg-dim-opacity); transition-delay: calc(var(--stagger-index, 0) * var(--pg-stagger-step)); }
+          .pg-card[data-open="true"] { opacity: 1; transition-delay: 0ms; }
+        }
+      }
+    }
+    
+    // 觸控設備：loading 階段的樣式
+    @media (hover: none) {
+      &:not(.js-stagger-mode):not(.js-stagger-loading) {
+        &[data-phase="loading"][data-open-id] {
+          .pg-card { opacity: var(--pg-dim-opacity); transition-delay: calc(var(--stagger-index, 0) * var(--pg-stagger-step)); }
+          .pg-card[data-open="true"] { opacity: 1; transition-delay: 0ms; }
+        }
       }
     }
 
