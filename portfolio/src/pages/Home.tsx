@@ -16,6 +16,7 @@ import { useHover } from '../contexts/HoverContext';
 import { useSound } from '../hooks/useSound';
 import { useOverlay } from '../contexts/OverlayContext';
 import Header from '../components/Header';
+import SEO, { SEOPresets } from '../components/SEO';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 import { useContactModal } from '../contexts/ContactModalContext';
 import { useHoverCapability } from '../hooks/useHoverCapability';
@@ -814,6 +815,9 @@ const Home: React.FC = () => {
       data-page="home"
       data-detail-open={openCardId !== null ? 'true' : undefined}
     >
+      {/* SEO Meta Tags */}
+      <SEO {...SEOPresets.home} />
+      
       {/* 預載統計面板與切換按鈕已移除 */}
 
       <Header

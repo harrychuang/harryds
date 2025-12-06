@@ -9,6 +9,7 @@ import { FeedCard } from 'hds';
 import type { FeedCardSize } from 'hds';
 import './Articles.scss';
 import Header from '../components/Header';
+import SEO, { SEOPresets } from '../components/SEO';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import { usePageLoader } from '../contexts/PageLoaderContext';
@@ -374,6 +375,9 @@ const Articles: React.FC = () => {
 
   return (
     <div className="articles-page">
+      {/* SEO Meta Tags */}
+      <SEO {...SEOPresets.articles} />
+      
       <Header
         onLogoClick={handleLogoClick}
         logoType="default"

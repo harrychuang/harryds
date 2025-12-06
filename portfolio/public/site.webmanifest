@@ -1,0 +1,28 @@
+{
+  "name": "Harry Design Studio",
+  "short_name": "Harry DS",
+  "description": "15年產品設計與前端開發經驗，專注於 UI/UX 設計、設計系統建置與培訓顧問服務",
+  "start_url": "/harryds/",
+  "scope": "/harryds/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/harryds/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/harryds/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "design", "development"],
+  "lang": "zh-Hant",
+  "dir": "ltr"
+}

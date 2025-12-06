@@ -1,0 +1,15 @@
+# robots.txt for Harry Design Studio
+# https://yourdomain.com/harryds/
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://yourdomain.com/harryds/sitemap.xml
+
+# Disallow admin or private areas (if any)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Crawl-delay (optional, for polite crawling)
+# Crawl-delay: 1

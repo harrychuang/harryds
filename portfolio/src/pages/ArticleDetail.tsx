@@ -8,6 +8,7 @@ import { useArticles } from '../hooks/useArticles';
 import { FeedCard } from 'hds';
 import './ArticleDetail.scss';
 import Header from '../components/Header';
+import SEO from '../components/SEO';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import { usePageLoader } from '../contexts/PageLoaderContext';
@@ -846,6 +847,17 @@ const ArticleDetail: React.FC = () => {
 
   return (
     <div className="article-detail">
+      {/* SEO Meta Tags - 動態根據文章內容設定 */}
+      <SEO
+        title={article?.title}
+        description={article?.description || article?.subtitle}
+        image={article?.images?.[0]}
+        path={`article/${article?.id}/${params.slug}`}
+        type="article"
+        publishedTime={article?.date}
+        keywords={article?.tags}
+      />
+      
       <Header
         onLogoClick={handleBackToArticles}
         onLogoMouseEnter={handleLogoHover}
