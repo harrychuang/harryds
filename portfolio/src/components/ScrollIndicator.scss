@@ -137,12 +137,12 @@
   }
 
   &__like-count-number {
-    font-family: 'PublicPixel', monospace;
-    font-size: 14px;
+    font-family: 'PublicPixel', monospace !important;
+    font-size: 12px;
     font-weight: bold;
     line-height: 1;
     display: inline-block;
-    margin-bottom: -2px;
+    margin-bottom: 0px;
     
     @media (max-width: 767px) {
       font-size: 11px !important;
@@ -150,11 +150,12 @@
   }
 
   &__like-count-label {
-    font-family: 'PublicPixel', monospace;
-    font-size: 10px;
+    font-family: 'PublicPixel', monospace !important;
+    font-size: 12px !important;
     font-weight: bold;
     line-height: 1;
     text-transform: uppercase;
+    transform: scale(0.55);
     
     @media (max-width: 767px) {
       font-size: 8px;

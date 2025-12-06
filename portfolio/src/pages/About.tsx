@@ -10,7 +10,7 @@ import { TextPlugin } from 'gsap/TextPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
-import SEO, { SEOPresets } from '../components/SEO';
+import SEO, { useSEOPresets } from '../components/SEO';
 import award01 from '../../assets/imgs/awards/award-01.png';
 import award02 from '../../assets/imgs/awards/award-02.png';
 import award03 from '../../assets/imgs/awards/award-03.png';
@@ -121,6 +121,9 @@ const About: React.FC = () => {
 
   // Contact Modal - 使用共用的 Context
   const { openContactModal } = useContactModal();
+  
+  // SEO Presets (i18n)
+  const seoPresets = useSEOPresets();
 
   // Referrer 資料 - 從 i18n 讀取
   const referrerImages = [
@@ -992,7 +995,7 @@ const About: React.FC = () => {
   return (
     <div className="home" data-lang={i18n.language} data-page="about">
       {/* SEO Meta Tags */}
-      <SEO {...SEOPresets.about} />
+      <SEO {...seoPresets.about} />
       
       {/* Canvas Particles 背景 - 小螢幕時減少粒子數量以提升效能 */}
       <ParticlesBackground

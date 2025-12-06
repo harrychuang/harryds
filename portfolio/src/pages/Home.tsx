@@ -16,7 +16,7 @@ import { useHover } from '../contexts/HoverContext';
 import { useSound } from '../hooks/useSound';
 import { useOverlay } from '../contexts/OverlayContext';
 import Header from '../components/Header';
-import SEO, { SEOPresets } from '../components/SEO';
+import SEO, { useSEOPresets } from '../components/SEO';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 import { useContactModal } from '../contexts/ContactModalContext';
 import { useHoverCapability } from '../hooks/useHoverCapability';
@@ -134,6 +134,9 @@ const Home: React.FC = () => {
 
   // Contact Modal - 使用共用的 Context
   const { openContactModal } = useContactModal();
+  
+  // SEO Presets (i18n)
+  const seoPresets = useSEOPresets();
   
   // In Development Modal state
   const [isInDevModalOpen, setIsInDevModalOpen] = useState(false);
@@ -829,7 +832,7 @@ const Home: React.FC = () => {
       data-detail-open={openCardId !== null ? 'true' : undefined}
     >
       {/* SEO Meta Tags */}
-      <SEO {...SEOPresets.home} />
+      <SEO {...seoPresets.home} />
       
       {/* 預載統計面板與切換按鈕已移除 */}
 

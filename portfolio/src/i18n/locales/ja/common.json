@@ -1,4 +1,17 @@
 {
+  "seo": {
+    "siteName": "Harry Design Studio",
+    "homeTitle": "Harry Design Studio | プロダクトデザイン · フロントエンド · デザインシステム",
+    "homeDescription": "15年のプロダクトデザインとフロントエンド開発経験。UI/UXデザイン、デザインシステム構築、コンサルティングサービスを専門としています。チームの開発スピードと一貫性向上をサポートします。",
+    "aboutTitle": "プロフィール",
+    "aboutDescription": "Harry Chuang - 15年のプロダクトデザインとフロントエンド開発経験。AAPDデザインシステム講座講師、awwrated創設者。UI/UXデザイン、デザインシステム構築、コンサルティングを専門としています。",
+    "articlesTitle": "記事",
+    "articlesDescription": "プロダクトデザイン、UI/UX、デザインシステム、フロントエンド開発に関する知見と経験を共有しています。",
+    "projectsTitle": "ポートフォリオ",
+    "projectsDescription": "UI/UXデザイン、ウェブ開発、デザインシステム構築を含む、厳選されたプロダクトデザインとフロントエンド開発プロジェクト。",
+    "keywords": "UI/UXデザイン, プロダクトデザイン, フロントエンド開発, デザインシステム, React, Design System, Harry Chuang",
+    "imageAlt": "Harry Design Studio - プロダクトデザイン＆フロントエンド開発"
+  },
   "nav": {
     "home": "Home",
     "about": "About",

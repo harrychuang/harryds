@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
@@ -41,19 +41,37 @@ const SEO: React.FC<SEOProps> = ({
   keywords = [],
   noIndex = false,
 }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   
-  // 預設 SEO 內容
-  const defaultTitle = 'Harry Design Studio';
-  const defaultDescription = '15年產品設計與前端開發經驗，專注於 UI/UX 設計、設計系統建置與培訓顧問服務。協助團隊加快交付速度並提升一致性。';
-  const defaultKeywords = ['UI/UX設計', '產品設計', '前端開發', '設計系統', 'React', 'Design System', 'Harry Chuang'];
+  // 根據當前語言取得 HTML lang 屬性值
+  const getHtmlLang = () => {
+    switch (i18n.language) {
+      case 'en':
+        return 'en';
+      case 'ja':
+        return 'ja';
+      default:
+        return 'zh-Hant';
+    }
+  };
+  
+  // 動態更新 HTML lang 屬性
+  useEffect(() => {
+    document.documentElement.lang = getHtmlLang();
+  }, [i18n.language]);
+  
+  // 預設 SEO 內容（從 i18n 取得）
+  const siteName = t('seo.siteName');
+  const defaultDescription = t('seo.homeDescription');
+  const defaultKeywords = t('seo.keywords').split(', ');
+  const imageAlt = t('seo.imageAlt');
   
   // 組合最終的標題
   const finalTitle = isHomePage 
-    ? `${defaultTitle} | 產品設計 · 前端開發 · 設計系統`
+    ? t('seo.homeTitle')
     : title 
-      ? `${title} | ${defaultTitle}` 
-      : defaultTitle;
+      ? `${title} | ${siteName}` 
+      : siteName;
   
   const finalDescription = description || defaultDescription;
   const finalImage = image || DEFAULT_OG_IMAGE;
@@ -102,14 +120,14 @@ const SEO: React.FC<SEOProps> = ({
       
       {/* Open Graph */}
       <meta property="og:type" content={type} />
-      <meta property="og:site_name" content="Harry Design Studio" />
+      <meta property="og:site_name" content={siteName} />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:title" content={finalTitle} />
       <meta property="og:description" content={finalDescription} />
       <meta property="og:image" content={finalImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:image:alt" content={finalTitle} />
+      <meta property="og:image:alt" content={imageAlt} />
       <meta property="og:locale" content={getLocale()} />
       
       {/* Twitter Card */}
@@ -118,7 +136,7 @@ const SEO: React.FC<SEOProps> = ({
       <meta name="twitter:title" content={finalTitle} />
       <meta name="twitter:description" content={finalDescription} />
       <meta name="twitter:image" content={finalImage} />
-      <meta name="twitter:image:alt" content={finalTitle} />
+      <meta name="twitter:image:alt" content={imageAlt} />
       
       {/* 文章特定 Meta (如果是文章類型) */}
       {type === 'article' && publishedTime && (
@@ -141,25 +159,46 @@ const SEO: React.FC<SEOProps> = ({
 
 export default SEO;
 
-// 預設 SEO 配置（可用於快速設定常見頁面）
+// 預設 SEO 配置 Hook（使用 i18n 翻譯）
+export const useSEOPresets = () => {
+  const { t } = useTranslation();
+  
+  return {
+    home: {
+      isHomePage: true,
+    },
+    about: {
+      title: t('seo.aboutTitle'),
+      description: t('seo.aboutDescription'),
+      path: 'about',
+      type: 'profile' as const,
+    },
+    articles: {
+      title: t('seo.articlesTitle'),
+      description: t('seo.articlesDescription'),
+      path: 'articles',
+    },
+    projects: {
+      title: t('seo.projectsTitle'),
+      description: t('seo.projectsDescription'),
+      path: '',
+    },
+  };
+};
+
+// 保留舊的 SEOPresets 用於向後兼容（但推薦使用 useSEOPresets）
 export const SEOPresets = {
   home: {
     isHomePage: true,
   },
   about: {
-    title: '關於我',
-    description: 'Harry Chuang - 15年產品設計與前端開發經驗，AAPD 設計系統課程講師，awwrated 創辦人。專注於 UI/UX 設計、設計系統建置與培訓顧問服務。',
     path: 'about',
     type: 'profile' as const,
   },
   articles: {
-    title: '文章',
-    description: '分享產品設計、UI/UX、設計系統與前端開發的經驗與見解。',
     path: 'articles',
   },
   projects: {
-    title: '作品集',
-    description: '精選產品設計與前端開發專案，包含 UI/UX 設計、網站開發、設計系統建置等。',
     path: '',
   },
 };
