@@ -22,6 +22,7 @@
     padding: 30px 20px;
   }
   
+  // Home、Articles、About 頁面的 480px padding
   @media (max-width: 480px) {
     padding: 20px 10px;
 
@@ -36,6 +37,29 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+}
+
+// =============================================================================
+// Detail 頁面專用 header padding（Project detail、Article detail）
+// =============================================================================
+// Project detail（Home 頁面開啟 detail 時）
+[data-detail-open="true"] .home__header {
+  @media (max-width: 480px) {
+    padding: 20px 20px;
+  }
+  .logo {
+    margin-left: 5px;
+  }
+}
+
+// Article detail 頁面
+.article-detail .home__header {
+  @media (max-width: 480px) {
+    padding: 20px 20px;
+  }
+  .logo {
+    margin-left: -5px;
   }
 }
 
