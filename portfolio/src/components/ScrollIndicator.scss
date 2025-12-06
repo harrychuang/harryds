@@ -142,11 +142,10 @@
     font-weight: bold;
     line-height: 1;
     display: inline-block;
-    margin-bottom: -5px;
+    margin-bottom: -2px;
     
     @media (max-width: 767px) {
-      font-size: 11px;
-      margin-bottom: -4px;
+      font-size: 11px !important;
     }
   }
 
