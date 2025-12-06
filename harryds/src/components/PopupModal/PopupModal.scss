@@ -38,6 +38,7 @@
 
   @media (max-width: 480px) {
     min-height: calc(100vh - 120px) ;
+    max-width: calc(100vw - 40px);
     padding-top: 60px;
     padding-bottom: 60px;
   }
@@ -64,6 +65,11 @@
 
     &:hover {
       background-color: var(--hds-sys-color-dark-10a);
+    }
+
+    @media (max-width: 480px) {
+      top: 10px;
+      right: 10px;
     }
   }
 
