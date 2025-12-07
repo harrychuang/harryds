@@ -144,18 +144,18 @@ export const DinoGame: React.FC<DinoGameProps> = ({
         startGame();
       } else if (gameState === 'playing') {
         jump();
-      } else if (gameState === 'gameover') {
-        startGame();
       }
+      // gameover 時 A 不做任何事，避免誤觸
     }
 
-    if (pressedButton === 'b' || pressedButton === 'select') {
+    if (pressedButton === 'b') {
       if (gameState === 'idle' || gameState === 'gameover') {
         onBack?.();
       }
     }
 
-    if (pressedButton === 'start') {
+    // SELECT (Option) 重試遊戲
+    if (pressedButton === 'select' || pressedButton === 'start') {
       if (gameState === 'gameover') {
         startGame();
       }
@@ -361,7 +361,7 @@ export const DinoGame: React.FC<DinoGameProps> = ({
             <div className="dino-game__gameover-high">
               HIGH: {highScore}
             </div>
-            <div className="dino-game__gameover-hint">A:RETRY B:BACK</div>
+            <div className="dino-game__gameover-hint">SEL:RETRY B:BACK</div>
           </div>
         )}
       </div>
