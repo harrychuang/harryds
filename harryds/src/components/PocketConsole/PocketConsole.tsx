@@ -9,6 +9,8 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './PocketConsole.scss';
 import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
 import { DinoGame } from './DinoGame';
+import { GameMenu, type GameType } from './GameMenu';
+import { PongGame } from './PongGame';
 
 // 音效檔案路徑
 const BUTTON_SOUND_URL = new URL('../../../assets/sound/8-Bit Sound Effect Beep.mp3', import.meta.url).href;
@@ -105,8 +107,9 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
   // 追蹤是否輸入錯誤
   const [isError, setIsError] = useState(false);
   
-  // 追蹤遊戲是否啟動
-  const [isGameActive, setIsGameActive] = useState(false);
+  // 追蹤遊戲畫面狀態
+  type GameScreen = 'none' | 'menu' | GameType;
+  const [gameScreen, setGameScreen] = useState<GameScreen>('none');
   
   // 追蹤當前按下的按鈕（用於傳遞給遊戲）
   const [currentPressedButton, setCurrentPressedButton] = useState<PocketConsoleButton | null>(null);
@@ -179,15 +182,15 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
     // 設定當前按下的按鈕（用於遊戲）
     setCurrentPressedButton(button);
     
-    // 如果遊戲正在進行，將輸入傳遞給遊戲處理
-    if (isGameActive) {
+    // 如果遊戲選單或遊戲正在進行，將輸入傳遞給對應組件處理
+    if (gameScreen !== 'none') {
       onButtonPress?.(button);
       return;
     }
     
-    // START 按鈕啟動遊戲
+    // START 按鈕開啟遊戲選單
     if (button === 'start') {
-      setIsGameActive(true);
+      setGameScreen('menu');
       setInputHistory([]);
       setIsSuccess(false);
       setIsError(false);
@@ -245,7 +248,7 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
     }
     
     onButtonPress?.(button);
-  }, [onButtonPress, isSuccess, isError, isGameActive, onSuccess, playButtonSound, playSuccessSound, playErrorSound]);
+  }, [onButtonPress, isSuccess, isError, gameScreen, onSuccess, playButtonSound, playSuccessSound, playErrorSound]);
 
   // 放開按鈕
   const releaseButton = useCallback((button: PocketConsoleButton) => {
@@ -259,9 +262,19 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
     onButtonRelease?.(button);
   }, [onButtonRelease]);
   
-  // 遊戲返回回調
-  const handleGameBack = useCallback(() => {
-    setIsGameActive(false);
+  // 遊戲選單選擇回調
+  const handleSelectGame = useCallback((game: GameType) => {
+    setGameScreen(game);
+  }, []);
+
+  // 遊戲返回選單回調
+  const handleGameBackToMenu = useCallback(() => {
+    setGameScreen('menu');
+  }, []);
+
+  // 選單返回主畫面回調
+  const handleMenuBack = useCallback(() => {
+    setGameScreen('none');
   }, []);
 
   // 鍵盤事件處理
@@ -269,6 +282,9 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
     if (!enableKeyboard) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      // 忽略鍵盤 repeat，避免按住按鍵時重複觸發
+      if (e.repeat) return;
+      
       const button = KEY_MAP[e.code] || KEY_MAP[e.key];
       if (button) {
         e.preventDefault();
@@ -577,11 +593,28 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
           height: 18 * PX * scale,
         }}
       >
-        {isGameActive ? (
-          <DinoGame
-            isActive={isGameActive}
+        {gameScreen === 'menu' ? (
+          <GameMenu
+            isActive={gameScreen === 'menu'}
             pressedButton={currentPressedButton}
-            onBack={handleGameBack}
+            onSelectGame={handleSelectGame}
+            onBack={handleMenuBack}
+            screenWidth={24 * PX * scale}
+            screenHeight={18 * PX * scale}
+          />
+        ) : gameScreen === 'harry-run' ? (
+          <DinoGame
+            isActive={gameScreen === 'harry-run'}
+            pressedButton={currentPressedButton}
+            onBack={handleGameBackToMenu}
+            screenWidth={24 * PX * scale}
+            screenHeight={18 * PX * scale}
+          />
+        ) : gameScreen === 'harry-pong' ? (
+          <PongGame
+            isActive={gameScreen === 'harry-pong'}
+            pressedButton={currentPressedButton}
+            onBack={handleGameBackToMenu}
             screenWidth={24 * PX * scale}
             screenHeight={18 * PX * scale}
           />

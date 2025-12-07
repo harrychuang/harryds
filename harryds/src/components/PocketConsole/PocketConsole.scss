@@ -394,6 +394,215 @@
   }
 }
 
+// =============================================================================
+// GAME MENU 樣式
+// =============================================================================
+
+.game-menu {
+  position: relative;
+  overflow: hidden;
+  background: #9bbc0f;
+  font-family: 'PublicPixel', monospace !important;
+
+  &__scale-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #9bbc0f;
+  }
+
+  &__content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  &__title {
+    font-size: 7px;
+    color: #0f380f;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    font-size: 5px;
+    color: #306230;
+    transition: color 0.1s;
+
+    &--selected {
+      color: #0f380f;
+    }
+  }
+
+  &__cursor {
+    width: 6px;
+    font-size: 5px;
+  }
+
+  &__name {
+    font-size: 5px;
+  }
+
+  &__hint {
+    font-size: 4px;
+    color: #306230;
+    text-align: center;
+    margin-top: 6px;
+    animation: blinkHint 0.8s infinite;
+  }
+}
+
+// =============================================================================
+// PONG GAME 樣式
+// =============================================================================
+
+.pong-game {
+  position: relative;
+  overflow: hidden;
+  background: #9bbc0f;
+  font-family: 'PublicPixel', monospace !important;
+  image-rendering: pixelated;
+
+  &__scale-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #9bbc0f;
+  }
+
+  // 閒置畫面
+  &__idle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 3px;
+  }
+
+  &__title {
+    font-size: 8px;
+    color: #0f380f;
+    text-align: center;
+  }
+
+  &__hint {
+    font-size: 5px;
+    color: #306230;
+    text-align: center;
+    animation: blinkHint 0.8s infinite;
+  }
+
+  &__controls {
+    font-size: 4px;
+    color: #306230;
+    text-align: center;
+    margin-top: 4px;
+  }
+
+  // 遊戲畫面
+  &__screen {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__scores {
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    color: #0f380f;
+    z-index: 10;
+    display: flex;
+    gap: 4px;
+  }
+
+  &__score-divider {
+    opacity: 0.5;
+  }
+
+  &__center-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: repeating-linear-gradient(
+      to bottom,
+      #306230 0px,
+      #306230 4px,
+      transparent 4px,
+      transparent 8px
+    );
+    opacity: 0.5;
+  }
+
+  &__paddle-player {
+    position: absolute;
+    object-fit: cover;
+    image-rendering: pixelated;
+    z-index: 5;
+  }
+
+  &__paddle-ai {
+    position: absolute;
+    background: #0f380f;
+    z-index: 5;
+  }
+
+  &__ball {
+    position: absolute;
+    background: #0f380f;
+    z-index: 6;
+  }
+
+  // 遊戲結束畫面
+  &__gameover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 4px;
+  }
+
+  &__gameover-title {
+    font-size: 8px;
+    color: #0f380f;
+    text-align: center;
+    animation: gameoverFlash 0.3s ease-in-out 3;
+  }
+
+  &__gameover-score {
+    font-size: 10px;
+    color: #0f380f;
+    text-align: center;
+  }
+
+  &__gameover-hint {
+    font-size: 4px;
+    color: #306230;
+    text-align: center;
+    margin-top: 4px;
+    animation: blinkHint 0.8s infinite;
+  }
+}
+
 // ===== 顏色主題變體 =====
 
 // 經典灰色 (預設)
