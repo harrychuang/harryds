@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Articles from './pages/Articles';
 import ArticleDetail from './pages/ArticleDetail';
+import ErrorPage from './pages/ErrorPage';
 import Footer from './components/Footer';
 import ClickFireworks from './components/ClickFireworks';
 import PageLoader from './components/PageLoader';
@@ -54,6 +55,8 @@ const AppContent: React.FC = () => {
         <Route path="/article/:id/:slug" element={<ArticleDetail />} />
         {/* project detail with SEO-friendly slug */}
         <Route path="/project/:id/:slug" element={<Home />} />
+        {/* 404 catch-all route */}
+        <Route path="*" element={<ErrorPage errorType="404" />} />
       </Routes>
       <Footer />
       <ClickFireworks />

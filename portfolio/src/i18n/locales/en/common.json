@@ -43,6 +43,33 @@
     "description": "Due to company strategy changes, this project has been discontinued. This page documents the complete design context and outcomes to preserve and share its UX and product strategy value."
   },
   "relatedArticles": "Related Articles",
+  "error": {
+    "404": {
+      "code": "404",
+      "title": "PAGE NOT FOUND",
+      "description": "The page you're looking for doesn't exist or has been removed.",
+      "backHome": "Back to Home"
+    },
+    "500": {
+      "code": "500",
+      "title": "SERVER ERROR",
+      "description": "Sorry, something went wrong on our end. Please try again later.",
+      "reload": "Reload"
+    },
+    "network": {
+      "code": "ERR",
+      "title": "NETWORK ERROR",
+      "description": "Unable to connect to the server. Please check your internet connection.",
+      "reload": "Reload"
+    },
+    "generic": {
+      "code": "ERR",
+      "title": "SOMETHING WENT WRONG",
+      "description": "Sorry, an unexpected error occurred.",
+      "backHome": "Back to Home",
+      "reload": "Reload"
+    }
+  },
   "contactModal": {
     "heading": "LET'S BUILD BETTER PRODUCTS TOGETHER",
     "description": "Whether you're planning a new experience, restructuring an existing product, or looking to improve outcomes through better design systems and UX processes, I can help you find a clear direction. Share your needs, and I'll respond within 24 hours with initial guidance.",

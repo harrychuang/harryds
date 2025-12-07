@@ -36,16 +36,34 @@ const PageLoader: React.FC<PageLoaderProps> = ({
   // 使用 ref 追蹤載入完成狀態，避免閉包問題
   const loadingFinishedRef = useRef(false);
   const minTimeElapsedRef = useRef(false);
+  
+  // 使用 ref 追蹤最新的 isLoading 狀態（用於在 setTimeout/rAF 中讀取）
+  const isLoadingRef = useRef(isLoading);
+  useEffect(() => {
+    isLoadingRef.current = isLoading;
+  }, [isLoading]);
 
   // 當 isLoading 變為 true 時開始進入動畫
+  // 但會延遲一幀，讓頁面組件（如 ErrorPage）有機會先設定 loading = false
   useEffect(() => {
     if (isLoading && phase === 'hidden') {
-      setPhase('entering');
-      setLoadStartTime(Date.now());
-      loadingFinishedRef.current = false;
-      minTimeElapsedRef.current = false;
-      setSimulatedProgress(0);
-      setAnimationComplete(false); // 重置動畫完成狀態
+      // 使用 requestAnimationFrame 延遲，讓 useLayoutEffect 先執行
+      const raf = requestAnimationFrame(() => {
+        // 再次檢查：如果在這一幀後 isLoading 已經變成 false，就不要開始動畫
+        if (!isLoadingRef.current) {
+          setAnimationComplete(true);
+          return;
+        }
+        
+        setPhase('entering');
+        setLoadStartTime(Date.now());
+        loadingFinishedRef.current = false;
+        minTimeElapsedRef.current = false;
+        setSimulatedProgress(0);
+        setAnimationComplete(false); // 重置動畫完成狀態
+      });
+      
+      return () => cancelAnimationFrame(raf);
     }
   }, [isLoading, phase, setAnimationComplete]);
 
