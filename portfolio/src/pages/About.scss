@@ -400,53 +400,35 @@
   }
 }
 
-.game-modal-overlay {
+// =============================================================================
+// PRIVATE PROJECT UNLOCK MODAL (和 Home.scss 一樣的動畫)
+// =============================================================================
+
+.private-unlock-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.85);
+  inset: 0;
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  animation: fadeIn 0.3s ease;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 50px;
+  overflow: hidden;
+  overscroll-behavior: contain;
+  // 使用和 PopupModal 一樣的 steps(6) 動畫
+  animation: privateUnlockOverlayFadeIn 0.3s steps(6) forwards;
 }
 
-.game-modal-content {
-  position: relative;
+.private-unlock-modal {
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: scaleIn 0.3s ease;
+  // 使用和 PopupModal 一樣的像素展開動畫
+  animation: privateUnlockPixelReveal 0.5s step-end forwards;
 }
 
-.game-modal-close {
-  position: absolute;
-  top: -40px;
-  right: -10px;
-  width: 32px;
-  height: 32px;
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 28px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.7;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  font-family: 'PublicPixel', monospace;
-
-  &:hover {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-}
-
-@keyframes fadeIn {
+// Overlay 淡入動畫（和 PopupModal 一樣）
+@keyframes privateUnlockOverlayFadeIn {
   from {
     opacity: 0;
   }
@@ -455,13 +437,41 @@
   }
 }
 
-@keyframes scaleIn {
-  from {
-    transform: scale(0.9);
-    opacity: 0;
+// 8-bit 像素化展開動畫（和 PopupModal 一樣，ease-out 風格）
+@keyframes privateUnlockPixelReveal {
+  0% {
+    clip-path: inset(50% 50% 50% 50%);
+    opacity: 1;
   }
-  to {
-    transform: scale(1);
+  5% {
+    clip-path: inset(45% 45% 45% 45%);
+  }
+  12% {
+    clip-path: inset(40% 40% 40% 40%);
+  }
+  20% {
+    clip-path: inset(35% 35% 35% 35%);
+  }
+  30% {
+    clip-path: inset(30% 30% 30% 30%);
+  }
+  42% {
+    clip-path: inset(25% 25% 25% 25%);
+  }
+  55% {
+    clip-path: inset(20% 20% 20% 20%);
+  }
+  68% {
+    clip-path: inset(15% 15% 15% 15%);
+  }
+  80% {
+    clip-path: inset(10% 10% 10% 10%);
+  }
+  90% {
+    clip-path: inset(5% 5% 5% 5%);
+  }
+  100% {
+    clip-path: inset(0% 0% 0% 0%);
     opacity: 1;
   }
 }

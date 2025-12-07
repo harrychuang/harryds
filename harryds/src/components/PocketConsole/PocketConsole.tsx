@@ -288,7 +288,7 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
         e.preventDefault();
         // 但只在非 repeat 時觸發按鈕事件
         if (!e.repeat) {
-          pressButton(button);
+        pressButton(button);
         }
       }
     };

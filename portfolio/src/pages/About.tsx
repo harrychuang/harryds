@@ -43,6 +43,43 @@ import { trackLanguageChange, trackThemeChange, trackSoundToggle, trackContactOp
 
 const PAGE_NAME = 'about';
 
+// PocketConsole 遊戲螢幕提示組件
+const GameScreenContent: React.FC = () => {
+  const [showArrow, setShowArrow] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowArrow(prev => !prev);
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const baseStyle: React.CSSProperties = {
+    color: '#0f380f',
+    fontFamily: 'PublicPixel, monospace',
+    textAlign: 'center',
+    fontSize: '12px',
+    lineHeight: 1.8,
+  };
+
+  return (
+    <div style={baseStyle}>
+      <div>PRESS</div>
+      <div style={{ fontSize: '16px', margin: '8px 0' }}>START</div>
+      <div>TO PLAY</div>
+      <div style={{ 
+        marginTop: '12px', 
+        fontSize: '10px',
+        opacity: showArrow ? 1 : 0,
+        transition: 'opacity 0.1s'
+      }}>
+        ▼
+      </div>
+    </div>
+  );
+};
+
 const About: React.FC = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation(['common', 'about']);
@@ -1492,26 +1529,13 @@ const About: React.FC = () => {
 
       {/* Game Modal */}
       {showGameModal && (
-        <div 
-          className="game-modal-overlay"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setShowGameModal(false);
-            }
-          }}
-        >
-          <div className="game-modal-content">
-            <button 
-              className="game-modal-close"
-              onClick={() => setShowGameModal(false)}
-              aria-label="Close game"
-            >
-              ×
-            </button>
+        <div className="private-unlock-overlay" onClick={() => setShowGameModal(false)}>
+          <div className="private-unlock-modal" onClick={(e) => e.stopPropagation()}>
             <PocketConsole 
-              width={320}
+              width={400}
               animated={true}
               enableKeyboard={true}
+              screenContent={<GameScreenContent />}
             />
           </div>
         </div>
