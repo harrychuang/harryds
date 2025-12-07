@@ -599,7 +599,7 @@ const ArticleDetail: React.FC = () => {
     };
   }, []);
 
-  // 使用 ResizeObserver 監聽 wrapper 寬度變化（當 carousel 存在時）
+  // 使用 ResizeObserver 監聯 wrapper 寬度變化（當 carousel 存在時）
   useEffect(() => {
     const wrapper = carouselWrapperRef.current;
     if (!wrapper) return;
@@ -614,6 +614,28 @@ const ArticleDetail: React.FC = () => {
     // 立即獲取一次
     updateWidth();
     
+    // 如果寬度還是 0，使用 requestAnimationFrame 重試
+    // 這對於快速渲染（圖片已緩存）的情況很重要
+    if (wrapper.clientWidth === 0) {
+      const retryUpdate = () => {
+        requestAnimationFrame(() => {
+          const width = wrapper.clientWidth;
+          if (width > 0) {
+            setCarouselWrapperWidth(width);
+          } else {
+            // 再重試一次（最多 100ms 後）
+            setTimeout(() => {
+              const finalWidth = wrapper.clientWidth;
+              if (finalWidth > 0) {
+                setCarouselWrapperWidth(finalWidth);
+              }
+            }, 100);
+          }
+        });
+      };
+      retryUpdate();
+    }
+    
     const resizeObserver = new ResizeObserver(updateWidth);
     resizeObserver.observe(wrapper);
 
@@ -627,8 +649,33 @@ const ArticleDetail: React.FC = () => {
     // 延遲一點確保 DOM 已更新
     setTimeout(() => {
       updateMediaWidths();
+      // 同時也更新 wrapper 寬度（防止首次載入時寬度為 0）
+      const wrapper = carouselWrapperRef.current;
+      if (wrapper && carouselWrapperWidth === 0) {
+        const width = wrapper.clientWidth;
+        if (width > 0) {
+          setCarouselWrapperWidth(width);
+        }
+      }
     }, 50);
-  }, [updateMediaWidths]);
+  }, [updateMediaWidths, carouselWrapperWidth]);
+  
+  // 當 currentImageIndex 改變時，確保 carouselWrapperWidth 有值
+  // 這是解決「點擊 prev/next 按鈕但圖片不動」問題的關鍵
+  useEffect(() => {
+    if (carouselWrapperWidth === 0 && articleImages.length > 0) {
+      const wrapper = carouselWrapperRef.current;
+      if (wrapper) {
+        // 使用 requestAnimationFrame 確保 DOM 已更新
+        requestAnimationFrame(() => {
+          const width = wrapper.clientWidth;
+          if (width > 0) {
+            setCarouselWrapperWidth(width);
+          }
+        });
+      }
+    }
+  }, [currentImageIndex, carouselWrapperWidth, articleImages.length]);
 
   // 監聽 articleImages 變化時重置 mediaRefs
   useEffect(() => {
@@ -641,17 +688,27 @@ const ArticleDetail: React.FC = () => {
 
   // 計算 transform，確保當前圖片完整顯示，最後一張圖片右邊對齊容器右邊
   const carouselTransform = useMemo(() => {
-    // 如果 wrapper 寬度尚未獲取，返回初始位置
-    if (carouselWrapperWidth === 0) {
-      return 'translateX(0px)';
-    }
+    const totalImages = articleImages.length;
     
     // 小螢幕使用較小的 gap
     const gap = windowWidth <= 767 ? 20 : 50;
-    const totalImages = articleImages.length;
+    const isMobile = windowWidth <= 767;
+    
+    // 如果 wrapper 寬度尚未獲取
+    if (carouselWrapperWidth === 0) {
+      // Mobile 端使用百分比計算作為 fallback（每張圖片 100% 寬度）
+      if (isMobile && currentImageIndex > 0) {
+        // 每張圖片佔 100% + gap
+        const offset = currentImageIndex * (100 + (gap / windowWidth * 100));
+        return `translateX(-${offset}%)`;
+      }
+      return 'translateX(0px)';
+    }
     
     // 使用實際媒體寬度，如果還未載入則使用預設值
-    const widths = mediaWidths.length === totalImages ? mediaWidths : Array(totalImages).fill(600);
+    // Mobile 端預設使用容器寬度，桌面端使用 600
+    const defaultWidth = isMobile ? carouselWrapperWidth : 600;
+    const widths = mediaWidths.length === totalImages ? mediaWidths : Array(totalImages).fill(defaultWidth);
     
     // 計算總寬度
     const totalWidth = widths.reduce((sum, w) => sum + w, 0) + (totalImages - 1) * gap;
