@@ -232,6 +232,168 @@
   }
 }
 
+// =============================================================================
+// DINO GAME 樣式
+// =============================================================================
+
+.dino-game {
+  position: relative;
+  overflow: hidden;
+  background: #9bbc0f;
+  font-family: 'PublicPixel', monospace !important;
+  image-rendering: pixelated;
+
+  // 縮放容器
+  &__scale-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #9bbc0f;
+  }
+
+  // 閒置畫面
+  &__idle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 2px;
+  }
+
+  &__title {
+    font-size: 8px;
+    color: #0f380f;
+    text-align: center;
+    margin-bottom: 2px;
+  }
+
+  &__hint {
+    font-size: 5px;
+    color: #306230;
+    text-align: center;
+    animation: blinkHint 0.8s infinite;
+  }
+
+  &__preview {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    margin-top: 4px;
+  }
+
+  // 遊戲畫面
+  &__screen {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__score {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 6px;
+    color: #0f380f;
+    z-index: 10;
+  }
+
+  &__player {
+    position: absolute;
+    object-fit: contain;
+    image-rendering: pixelated;
+    z-index: 5;
+  }
+
+  &__obstacle {
+    position: absolute;
+    background: #0f380f;
+    z-index: 4;
+  }
+
+  &__ground {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #0f380f;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 0;
+      right: 0;
+      height: 14px;
+      background: repeating-linear-gradient(
+        90deg,
+        #306230 0px,
+        #306230 2px,
+        transparent 2px,
+        transparent 6px
+      );
+      opacity: 0.5;
+    }
+  }
+
+  // 遊戲結束畫面
+  &__gameover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 3px;
+  }
+
+  &__gameover-title {
+    font-size: 7px;
+    color: #0f380f;
+    text-align: center;
+    animation: gameoverFlash 0.3s ease-in-out 3;
+  }
+
+  &__gameover-score {
+    font-size: 5px;
+    color: #0f380f;
+    text-align: center;
+  }
+
+  &__gameover-high {
+    font-size: 4px;
+    color: #306230;
+    text-align: center;
+  }
+
+  &__gameover-hint {
+    font-size: 4px;
+    color: #306230;
+    text-align: center;
+    margin-top: 4px;
+    animation: blinkHint 0.8s infinite;
+  }
+}
+
+@keyframes blinkHint {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes gameoverFlash {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
 // ===== 顏色主題變體 =====
 
 // 經典灰色 (預設)

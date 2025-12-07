@@ -8,6 +8,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './PocketConsole.scss';
 import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
+import { DinoGame } from './DinoGame';
 
 // 音效檔案路徑
 const BUTTON_SOUND_URL = new URL('../../../assets/sound/8-Bit Sound Effect Beep.mp3', import.meta.url).href;
@@ -104,6 +105,12 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
   // 追蹤是否輸入錯誤
   const [isError, setIsError] = useState(false);
   
+  // 追蹤遊戲是否啟動
+  const [isGameActive, setIsGameActive] = useState(false);
+  
+  // 追蹤當前按下的按鈕（用於傳遞給遊戲）
+  const [currentPressedButton, setCurrentPressedButton] = useState<PocketConsoleButton | null>(null);
+  
   // 音效 ref
   const buttonSoundRef = useRef<PlaybackHandle | null>(null);
   const successSoundRef = useRef<PlaybackHandle | null>(null);
@@ -169,6 +176,25 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
     // 播放按鈕音效
     playButtonSound();
     
+    // 設定當前按下的按鈕（用於遊戲）
+    setCurrentPressedButton(button);
+    
+    // 如果遊戲正在進行，將輸入傳遞給遊戲處理
+    if (isGameActive) {
+      onButtonPress?.(button);
+      return;
+    }
+    
+    // START 按鈕啟動遊戲
+    if (button === 'start') {
+      setIsGameActive(true);
+      setInputHistory([]);
+      setIsSuccess(false);
+      setIsError(false);
+      onButtonPress?.(button);
+      return;
+    }
+    
     // SELECT (Option) 清空輸入歷史並重置狀態
     if (button === 'select') {
       setInputHistory([]);
@@ -219,7 +245,7 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
     }
     
     onButtonPress?.(button);
-  }, [onButtonPress, isSuccess, isError, onSuccess, playButtonSound, playSuccessSound, playErrorSound]);
+  }, [onButtonPress, isSuccess, isError, isGameActive, onSuccess, playButtonSound, playSuccessSound, playErrorSound]);
 
   // 放開按鈕
   const releaseButton = useCallback((button: PocketConsoleButton) => {
@@ -228,8 +254,15 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
       newSet.delete(button);
       return newSet;
     });
+    // 清除當前按下的按鈕
+    setCurrentPressedButton(null);
     onButtonRelease?.(button);
   }, [onButtonRelease]);
+  
+  // 遊戲返回回調
+  const handleGameBack = useCallback(() => {
+    setIsGameActive(false);
+  }, []);
 
   // 鍵盤事件處理
   useEffect(() => {
@@ -544,7 +577,15 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
           height: 18 * PX * scale,
         }}
       >
-        {isSuccess ? (
+        {isGameActive ? (
+          <DinoGame
+            isActive={isGameActive}
+            pressedButton={currentPressedButton}
+            onBack={handleGameBack}
+            screenWidth={24 * PX * scale}
+            screenHeight={18 * PX * scale}
+          />
+        ) : isSuccess ? (
           <div className="hds-pocket-console__success">
             SUCCESS!
           </div>
