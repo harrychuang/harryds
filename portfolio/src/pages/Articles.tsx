@@ -533,9 +533,9 @@ const Articles: React.FC = () => {
                   padding={40}
                   backgroundProps={{
                     pixelSize: 60,
-                    hoverPixelToOne: true,
-                    hoverPixelDuration: 500,
-                    desaturateUntilHover: true,
+                    hoverToOriginal: false, // Articles 頁面不顯示背景圖 hover 效果
+                    hoverActive: false,     // 強制禁用背景圖 hover 狀態
+                    desaturateUntilHover: false, // 禁用灰階效果（因為不會有 hover）
                     objectFit: 'cover'
                   }}
                   infoMaxWidth={1400}
@@ -546,7 +546,6 @@ const Articles: React.FC = () => {
                     tags: article.tags.length > 1 ? [article.tags[1]] : (article.tags.length > 0 ? [article.tags[0]] : []),
                     category: article.category
                   }}
-                  use2D={true}
                 />
               </div>
             );
