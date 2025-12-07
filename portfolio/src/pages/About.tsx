@@ -1001,7 +1001,7 @@ const About: React.FC = () => {
       <ParticlesBackground
         particleCount={windowWidth <= 640 ? 18 : 30}
         colors={['#111111', '#1a1a1a', '#333333', '#4d4d4d', '#666666', '#808080', '#999999']}
-        sizeRange={[2, 10]}
+        sizeRange={windowWidth <= 640 ? [1, 5] : [2, 10]}
         fixed={true}
         zIndex={0}
       />

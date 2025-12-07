@@ -214,7 +214,7 @@
 
   &__hero-title {
     margin: 0;
-    font-family: 'Pixel', 'Courier New', Courier, monospace;
+    font-family: 'Pixel', 'Courier New', Courier, monospace !important;
     font-size: clamp(56px, 8vw, 100px);
     line-height: 1;
     letter-spacing: 0.04em;

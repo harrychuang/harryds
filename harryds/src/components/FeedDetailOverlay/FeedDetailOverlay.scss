@@ -613,7 +613,7 @@
   }
 
   &__quote-mark {
-    font-family: 'Pixel', monospace;
+    font-family: 'Pixel', monospace !important;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -626,10 +626,13 @@
   }
 
   &__quote-text {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'Noto Sans TC', 'Noto Sans JP', sans-serif !important;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 800 !important;
     font-size: 20px;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
     line-height: 130%; /* 26px */
     color: var(--on-hds-sys-color-surface, #fff);
   }
@@ -822,7 +825,7 @@
 // 標題樣式
 .feed-detail-overlay__heading {
   margin: 2em 0 0.75em;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.3;
   color: var(--feed-detail-primary-color, #ffffff);
   white-space: pre-line; // 支援 \n 換行符號

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 // 正式網址
 const SITE_URL = 'https://noeinoi.com';
-const DEFAULT_OG_IMAGE = `${SITE_URL}/social-share-img-1200x630.jpg`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}/social-share-v2-1200x630.jpg`;
 
 export interface SEOProps {
   /** 頁面標題（會自動加上網站名稱後綴） */
