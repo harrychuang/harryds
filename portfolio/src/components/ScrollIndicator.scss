@@ -128,6 +128,8 @@
 
   &__like-count {
     display: flex;
+    font-family: 'PublicPixel', monospace !important;
+    font-size: 12px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -137,28 +139,32 @@
   }
 
   &__like-count-number {
+    display: flex;
     font-family: 'PublicPixel', monospace !important;
     font-size: 12px;
+    line-height: 12px;
+    height: 12px;
     font-weight: bold;
     line-height: 1;
-    display: inline-block;
     margin-bottom: 0px;
-    
+    transform: scale(0.9);
+
     @media (max-width: 767px) {
-      font-size: 11px !important;
+      transform: scale(0.75) !important;
     }
   }
 
   &__like-count-label {
+    display: flex;
     font-family: 'PublicPixel', monospace !important;
     font-size: 12px !important;
     font-weight: bold;
     line-height: 1;
     text-transform: uppercase;
     transform: scale(0.55);
-    
+
     @media (max-width: 767px) {
-      font-size: 8px;
+      transform: scale(0.45) !important;
     }
   }
 
