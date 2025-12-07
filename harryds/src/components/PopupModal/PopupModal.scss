@@ -84,20 +84,26 @@
   }
 
   &__heading {
-    font-family: 'PublicPixel', 'Inter', monospace;
+    font-family: 'PublicPixel', 'Inter', 'Noto Sans TC', 'Noto Sans JP', sans-serif !important;
     font-size: 20px;
     font-weight: 400;
     color: var(--hds-sys-color-dark-100a);
     margin: 0 0 8px;
     line-height: 1.5;
     text-transform: uppercase;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
   }
 
   &__description {
+    font-family: 'Inter', 'Noto Sans TC', 'Noto Sans JP', sans-serif !important;
     font-size: 15px;
     color: var(--hds-sys-color-dark-60a);
     margin: 0;
     line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
   }
 
   // Content

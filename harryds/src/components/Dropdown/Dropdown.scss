@@ -13,12 +13,15 @@
 
   // Label 樣式
   &__label {
-    font-family: 'PublicPixel', monospace;
+    font-family: 'PublicPixel', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     font-size: 12px;
     text-transform: uppercase;
     color: var(--hds-sys-color-theme-surface);
-    font-weight: 400;
+    font-weight: 500 !important;
     line-height: 1.4;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
   }
 
   &__required {
