@@ -282,13 +282,14 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
     if (!enableKeyboard) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      // 忽略鍵盤 repeat，避免按住按鍵時重複觸發
-      if (e.repeat) return;
-      
       const button = KEY_MAP[e.code] || KEY_MAP[e.key];
       if (button) {
+        // 總是阻止默認行為（如滾動頁面），避免性能問題
         e.preventDefault();
-        pressButton(button);
+        // 但只在非 repeat 時觸發按鈕事件
+        if (!e.repeat) {
+          pressButton(button);
+        }
       }
     };
 

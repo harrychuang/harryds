@@ -172,12 +172,13 @@ export const PongGame: React.FC<PongGameProps> = ({
       }
     }
 
-    // 移動方向
+    // 移動方向（只有 up/down 時才設置，其他情況都清除）
     if (pressedButton === 'up') {
       moveDirectionRef.current = 'up';
     } else if (pressedButton === 'down') {
       moveDirectionRef.current = 'down';
-    } else if (pressedButton === null) {
+    } else {
+      // null 或其他按鍵都停止移動
       moveDirectionRef.current = null;
     }
   }, [pressedButton, isActive, gameState, startGame, onBack]);

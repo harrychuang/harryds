@@ -2,7 +2,7 @@
 // GAME MENU - 遊戲選擇選單
 // =============================================================================
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { PocketConsoleButton } from './PocketConsole';
 
 export type GameType = 'harry-run' | 'harry-pong';
@@ -46,9 +46,15 @@ export const GameMenu: React.FC<GameMenuProps> = ({
   screenHeight = MENU_HEIGHT,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const selectedIndexRef = useRef(0);
   
   // 計算縮放比例
   const scale = Math.min(screenWidth / MENU_WIDTH, screenHeight / MENU_HEIGHT);
+
+  // 同步 ref 與 state
+  useEffect(() => {
+    selectedIndexRef.current = selectedIndex;
+  }, [selectedIndex]);
 
   // 處理按鈕輸入
   useEffect(() => {
@@ -64,13 +70,13 @@ export const GameMenu: React.FC<GameMenuProps> = ({
 
     // 只用 A 鍵選擇遊戲，避免 START 開啟選單時的雙重觸發
     if (pressedButton === 'a') {
-      onSelectGame(GAMES[selectedIndex].id);
+      onSelectGame(GAMES[selectedIndexRef.current].id);
     }
 
     if (pressedButton === 'b') {
       onBack();
     }
-  }, [pressedButton, isActive, selectedIndex, onSelectGame, onBack]);
+  }, [pressedButton, isActive, onSelectGame, onBack]);
 
   // 重置選擇當選單關閉時
   useEffect(() => {
