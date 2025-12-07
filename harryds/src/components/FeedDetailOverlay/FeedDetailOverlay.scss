@@ -420,12 +420,11 @@
     
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr); // 2 columns
-      gap: 24px 32px;
+      gap: 25px 30px;
     }
     
     @media (max-width: 480px) {
-      grid-template-columns: 1fr; // 極小螢幕改回單欄
-      gap: 24px;
+      gap: 25px;
     }
   }
 
@@ -459,6 +458,9 @@
     color: var(--on-hds-sys-color-surface, #fff);
     margin: 0;
     white-space: pre-line; // 支援 \n 換行符號
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
     
     p {
       margin: 0;
