@@ -93,14 +93,21 @@ export const DinoGame: React.FC<DinoGameProps> = ({
   const playerYRef = useRef<number>(GROUND_Y - PLAYER_SIZE);
   const isJumpingRef = useRef<boolean>(false);
   const scoreRef = useRef<number>(0);
+  const currentFrameRef = useRef<number>(0);
+  const scoreUpdateTimerRef = useRef<number>(0);
+  const obstaclesRef = useRef<Obstacle[]>([]);
+  const lastObstacleCountRef = useRef<number>(0);
 
   // 跳躍
   const jump = useCallback(() => {
     if (!isJumpingRef.current && gameState === 'playing') {
       velocityRef.current = JUMP_FORCE;
       isJumpingRef.current = true;
+      currentFrameRef.current = 0;
+      frameTimerRef.current = 0;
+      // 立即更新 UI
       setIsJumping(true);
-      setCurrentFrame(0); // 重置 frame 開始動畫
+      setCurrentFrame(0);
     }
   }, [gameState]);
 
@@ -109,13 +116,17 @@ export const DinoGame: React.FC<DinoGameProps> = ({
     setGameState('playing');
     setScore(0);
     scoreRef.current = 0;
+    scoreUpdateTimerRef.current = 0;
     setPlayerY(GROUND_Y - PLAYER_SIZE);
     playerYRef.current = GROUND_Y - PLAYER_SIZE;
     velocityRef.current = 0;
     isJumpingRef.current = false;
+    currentFrameRef.current = 0;
     setIsJumping(false);
     setCurrentFrame(0);
     setObstacles([]);
+    obstaclesRef.current = [];
+    lastObstacleCountRef.current = 0;
     obstacleTimerRef.current = 0;
     obstacleIdRef.current = 0;
     frameTimerRef.current = 0;
@@ -126,13 +137,17 @@ export const DinoGame: React.FC<DinoGameProps> = ({
     setGameState('idle');
     setScore(0);
     scoreRef.current = 0;
+    scoreUpdateTimerRef.current = 0;
     setPlayerY(GROUND_Y - PLAYER_SIZE);
     playerYRef.current = GROUND_Y - PLAYER_SIZE;
     velocityRef.current = 0;
     isJumpingRef.current = false;
+    currentFrameRef.current = 0;
     setIsJumping(false);
     setCurrentFrame(0);
     setObstacles([]);
+    obstaclesRef.current = [];
+    lastObstacleCountRef.current = 0;
   }, []);
 
   // 處理按鈕輸入
@@ -166,60 +181,67 @@ export const DinoGame: React.FC<DinoGameProps> = ({
   useEffect(() => {
     if (!isActive || gameState !== 'playing') return;
 
-    let obstaclesLocal: Obstacle[] = [];
+    obstaclesRef.current = [];
+    lastObstacleCountRef.current = 0;
 
     const gameLoop = (timestamp: number) => {
       const deltaTime = timestamp - lastTimeRef.current;
       lastTimeRef.current = timestamp;
 
-      // 更新分數
+      // 更新分數（每幀增加，但每 100ms 才更新 UI）
       scoreRef.current += 1;
-      setScore(scoreRef.current);
+      scoreUpdateTimerRef.current += deltaTime;
+      if (scoreUpdateTimerRef.current >= 100) {
+        scoreUpdateTimerRef.current = 0;
+        setScore(scoreRef.current);
+      }
 
       // 更新角色位置（重力）
       velocityRef.current += GRAVITY;
       playerYRef.current += velocityRef.current;
+      
+      let needUpdateUI = false;
       
       if (playerYRef.current >= GROUND_Y - PLAYER_SIZE) {
         playerYRef.current = GROUND_Y - PLAYER_SIZE;
         velocityRef.current = 0;
         if (isJumpingRef.current) {
           isJumpingRef.current = false;
-          setIsJumping(false);
-          setCurrentFrame(0);
+          currentFrameRef.current = 0;
           frameTimerRef.current = 0;
+          needUpdateUI = true;
         }
       }
-      setPlayerY(playerYRef.current);
 
       // 更新跳躍動畫 frame
       if (isJumpingRef.current) {
         frameTimerRef.current += deltaTime;
         if (frameTimerRef.current >= FRAME_DURATION) {
           frameTimerRef.current = 0;
-          setCurrentFrame(prev => {
-            const next = prev + 1;
-            // loop 一次後停在最後一幀直到落地
-            return next < rotationFrames.length ? next : rotationFrames.length - 1;
-          });
+          const nextFrame = currentFrameRef.current + 1;
+          currentFrameRef.current = nextFrame < rotationFrames.length ? nextFrame : rotationFrames.length - 1;
+          needUpdateUI = true;
         }
       }
 
       // 生成障礙物
       obstacleTimerRef.current += deltaTime;
-      const spawnInterval = Math.max(800, 1500 - scoreRef.current * 0.5); // 隨分數加快
+      const spawnInterval = Math.max(800, 1500 - scoreRef.current * 0.5);
       if (obstacleTimerRef.current >= spawnInterval) {
         obstacleTimerRef.current = 0;
         const height = OBSTACLE_HEIGHT + Math.random() * 8;
-        obstaclesLocal.push({ id: obstacleIdRef.current++, x: GAME_WIDTH, height });
+        obstaclesRef.current.push({ id: obstacleIdRef.current++, x: GAME_WIDTH, height });
       }
 
       // 更新障礙物位置
-      const speed = OBSTACLE_SPEED + scoreRef.current * 0.002; // 隨分數加快
-      obstaclesLocal = obstaclesLocal
+      const speed = OBSTACLE_SPEED + scoreRef.current * 0.002;
+      obstaclesRef.current = obstaclesRef.current
         .map(obs => ({ ...obs, x: obs.x - speed }))
         .filter(obs => obs.x > -OBSTACLE_WIDTH);
-      setObstacles([...obstaclesLocal]);
+
+      // 只在障礙物數量變化時更新 state，或者定期更新位置
+      const obstacleCountChanged = obstaclesRef.current.length !== lastObstacleCountRef.current;
+      lastObstacleCountRef.current = obstaclesRef.current.length;
 
       // 碰撞檢測
       const playerLeft = 10;
@@ -227,25 +249,36 @@ export const DinoGame: React.FC<DinoGameProps> = ({
       const playerTop = playerYRef.current;
       const playerBottom = playerYRef.current + PLAYER_SIZE;
 
-      for (const obs of obstaclesLocal) {
+      for (const obs of obstaclesRef.current) {
         const obsLeft = obs.x;
         const obsRight = obs.x + OBSTACLE_WIDTH;
         const obsTop = GROUND_Y - obs.height;
         const obsBottom = GROUND_Y;
 
-        // AABB 碰撞檢測
         if (
           playerRight > obsLeft &&
           playerLeft < obsRight &&
           playerBottom > obsTop &&
           playerTop < obsBottom
         ) {
-          // 碰撞！遊戲結束
           setGameState('gameover');
           setHighScore(prev => Math.max(prev, scoreRef.current));
+          setScore(scoreRef.current);
           onGameOver?.(scoreRef.current);
           return;
         }
+      }
+
+      // 批次更新 UI（減少重繪次數）
+      if (needUpdateUI || obstacleCountChanged) {
+        setPlayerY(playerYRef.current);
+        setCurrentFrame(currentFrameRef.current);
+        setIsJumping(isJumpingRef.current);
+        setObstacles([...obstaclesRef.current]);
+      } else {
+        // 最少每 2 幀更新一次位置，保持流暢
+        setPlayerY(playerYRef.current);
+        setObstacles([...obstaclesRef.current]);
       }
 
       gameLoopRef.current = requestAnimationFrame(gameLoop);
