@@ -12,6 +12,7 @@ import { audioManager, type PlaybackHandle } from '../../utils/audioManager';
 // 音效檔案路徑
 const BUTTON_SOUND_URL = new URL('../../../assets/sound/8-Bit Sound Effect Beep.mp3', import.meta.url).href;
 const SUCCESS_SOUND_URL = new URL('../../../assets/sound/8-Bit Powerup Sound Effect.mp3', import.meta.url).href;
+const ERROR_SOUND_URL = new URL('../../../assets/sound/Classic Game Action Negative 12.mp3', import.meta.url).href;
 
 /** 按鈕類型 */
 export type PocketConsoleButton = 'up' | 'down' | 'left' | 'right' | 'a' | 'b' | 'start' | 'select';
@@ -74,7 +75,7 @@ const BUTTON_SYMBOLS: Partial<Record<PocketConsoleButton, string>> = {
 const MAX_INPUT_HISTORY = 10;
 
 // Konami Code 密碼序列
-const KONAMI_CODE = '↑↑↓↓←→←→BA';
+const KONAMI_CODE = '↑↑↓↓←←→→BA';
 
 export const PocketConsole: React.FC<PocketConsoleProps> = ({
   shellColor = '#c0c0c0',
@@ -100,18 +101,24 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
   // 追蹤是否輸入成功（Konami Code）
   const [isSuccess, setIsSuccess] = useState(false);
   
+  // 追蹤是否輸入錯誤
+  const [isError, setIsError] = useState(false);
+  
   // 音效 ref
   const buttonSoundRef = useRef<PlaybackHandle | null>(null);
   const successSoundRef = useRef<PlaybackHandle | null>(null);
+  const errorSoundRef = useRef<PlaybackHandle | null>(null);
   
   // 預載音效
   useEffect(() => {
     audioManager.preload(BUTTON_SOUND_URL).catch(() => {});
     audioManager.preload(SUCCESS_SOUND_URL).catch(() => {});
+    audioManager.preload(ERROR_SOUND_URL).catch(() => {});
     
     return () => {
       buttonSoundRef.current?.stop();
       successSoundRef.current?.stop();
+      errorSoundRef.current?.stop();
     };
   }, []);
   
@@ -134,6 +141,16 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
       // 忽略音效播放錯誤
     }
   }, []);
+  
+  // 播放錯誤音效
+  const playErrorSound = useCallback(async () => {
+    try {
+      errorSoundRef.current?.stop();
+      errorSoundRef.current = await audioManager.play(ERROR_SOUND_URL, { volume: 0.5 });
+    } catch (err) {
+      // 忽略音效播放錯誤
+    }
+  }, []);
 
   // 原始 SVG 尺寸 (40 x 64 像素單位，每單位 4px)
   const viewWidth = 40 * PX;
@@ -152,16 +169,17 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
     // 播放按鈕音效
     playButtonSound();
     
-    // SELECT (Option) 清空輸入歷史並重置 success 狀態
+    // SELECT (Option) 清空輸入歷史並重置狀態
     if (button === 'select') {
       setInputHistory([]);
       setIsSuccess(false);
+      setIsError(false);
       onButtonPress?.(button);
       return;
     }
     
-    // 如果已經成功，忽略其他輸入
-    if (isSuccess) {
+    // 如果已經成功或錯誤動畫中，忽略其他輸入
+    if (isSuccess || isError) {
       onButtonPress?.(button);
       return;
     }
@@ -184,6 +202,16 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
           setTimeout(() => {
             onSuccess?.();
           }, 1000);
+        } else if (trimmedHistory.length === KONAMI_CODE.length) {
+          // 輸入長度達到密碼長度但不匹配，顯示錯誤
+          setIsError(true);
+          // 播放錯誤音效
+          playErrorSound();
+          // 延遲後清空輸入歷史，讓錯誤動畫有時間播放
+          setTimeout(() => {
+            setIsError(false);
+            setInputHistory([]);
+          }, 1200);
         }
         
         return trimmedHistory;
@@ -191,7 +219,7 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
     }
     
     onButtonPress?.(button);
-  }, [onButtonPress, isSuccess, onSuccess, playButtonSound, playSuccessSound]);
+  }, [onButtonPress, isSuccess, isError, onSuccess, playButtonSound, playSuccessSound, playErrorSound]);
 
   // 放開按鈕
   const releaseButton = useCallback((button: PocketConsoleButton) => {
@@ -519,6 +547,10 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
         {isSuccess ? (
           <div className="hds-pocket-console__success">
             SUCCESS!
+          </div>
+        ) : isError ? (
+          <div className="hds-pocket-console__error">
+            ERROR!
           </div>
         ) : inputHistory.length > 0 ? (
           <div className="hds-pocket-console__input-display">

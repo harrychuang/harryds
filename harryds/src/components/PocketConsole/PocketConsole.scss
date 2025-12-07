@@ -65,6 +65,16 @@
                successBlink 0.15s ease-in-out 6;
   }
 
+  // ERROR 動畫
+  &__error {
+    font-family: 'PublicPixel', monospace !important;
+    font-size: 14px;
+    color: #0f380f;
+    text-align: center;
+    animation: errorShake 0.1s ease-in-out 6,
+               errorBlink 0.15s ease-in-out 8;
+  }
+
   // 按鈕標籤文字
   &__btn-label {
     font-family: 'PublicPixel', monospace !important;
@@ -193,6 +203,27 @@
 }
 
 @keyframes successBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes errorBlink {
   0%, 100% {
     opacity: 1;
   }
