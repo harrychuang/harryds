@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Logo, PixelText2D, HarryAnimation, ListCard, ParticlesBackground } from 'hds';
+import { Logo, PixelText2D, HarryAnimation, ListCard, ParticlesBackground, PocketConsole } from 'hds';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
 import { useSound } from '../hooks/useSound';
@@ -158,6 +158,9 @@ const About: React.FC = () => {
   // Email copy tooltip state
   const [showEmailTooltip, setShowEmailTooltip] = useState(false);
   const emailRef = useRef<HTMLAnchorElement>(null);
+
+  // Game modal state
+  const [showGameModal, setShowGameModal] = useState(false);
 
   // Giphy marquee state
   interface GiphyItem {
@@ -1374,7 +1377,15 @@ const About: React.FC = () => {
               </h2>
               <div className="home__contact-subtitle">
                 <span className="lineParent">
-                  <span className="lineChild">{t('contact.subtitle', { ns: 'about' })}</span>
+                  <span className="lineChild">
+                    {t('contact.subtitle', { ns: 'about' })}
+                    <button 
+                      className="home__play-game-button"
+                      onClick={() => setShowGameModal(true)}
+                    >
+                      {t('contact.playGame', { ns: 'about' })}
+                    </button>
+                  </span>
                 </span>
               </div>
               <div className="home__contact-info" style={{ position: 'relative' }}>
@@ -1478,6 +1489,33 @@ const About: React.FC = () => {
           </div>
         </section>
       </main>
+
+      {/* Game Modal */}
+      {showGameModal && (
+        <div 
+          className="game-modal-overlay"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowGameModal(false);
+            }
+          }}
+        >
+          <div className="game-modal-content">
+            <button 
+              className="game-modal-close"
+              onClick={() => setShowGameModal(false)}
+              aria-label="Close game"
+            >
+              ×
+            </button>
+            <PocketConsole 
+              width={320}
+              animated={true}
+              enableKeyboard={true}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

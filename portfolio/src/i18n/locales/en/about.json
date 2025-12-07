@@ -133,8 +133,9 @@
   },
   "contact": {
     "title": "CONTACT",
-    "subtitle": "Have a design or development need? If you're looking for a partner with 15 years in product design, development, and operations, drop me a line — or challenge me to an 8-bit game :D",
-    "emailCopied": "Email copied!"
+    "subtitle": "Have a design or development need? If you're looking for a partner with 15 years in product design, development, and operations, drop me a line — or challenge me to an 8-bit game!  ",
+    "emailCopied": "Email copied!",
+    "playGame": "Play Game >"
   }
 }
 
