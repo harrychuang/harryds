@@ -33,6 +33,7 @@ import referrerSimon from '../../assets/imgs/referrers/referrer-simon.jpg';
 import referrerSherry from '../../assets/imgs/referrers/referrer-sherry.jpg';
 import referrerRyan from '../../assets/imgs/referrers/referrer-ryan.jpg';
 import referrerAstrid from '../../assets/imgs/referrers/referrer-astrid.jpg';
+import referrerYvon from '../../assets/imgs/referrers/referrer-yvon.jpg';
 import './About.scss';
 import '../pages/Home.scss';
 import Header from '../components/Header';
@@ -170,6 +171,7 @@ const About: React.FC = () => {
     referrerThenn,
     referrerKen,
     referrerSimon,
+    referrerYvon,
     referrerSherry,
     referrerRyan,
     referrerAstrid

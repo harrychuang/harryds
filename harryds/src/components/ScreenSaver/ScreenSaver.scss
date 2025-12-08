@@ -204,17 +204,12 @@
 
   // 時鐘標題
   &__clock-title {
-    font-family: 'PublicPixel', monospace;
+    font-family: 'PublicPixel', monospace !important;
     font-size: 20px;
     color: rgba(255, 255, 255, 1);
     letter-spacing: 4px;
     text-transform: uppercase;
     white-space: nowrap;
-    
-    // 文字陰影增加可讀性
-    text-shadow: 
-      0 2px 8px rgba(0, 0, 0, 0.8),
-      0 0 20px rgba(0, 0, 0, 0.5);
   }
 
   // 提示文字
