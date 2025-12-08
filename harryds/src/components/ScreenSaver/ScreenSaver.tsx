@@ -7,8 +7,9 @@
 // - 智慧位置計算，避免照片重疊
 // =============================================================================
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import './ScreenSaver.scss';
+import PixelText from '../PixelText/PixelText';
 
 export interface FallingPhoto {
   id: number;
@@ -44,6 +45,12 @@ export interface ScreenSaverProps {
   randomCount?: number;
   /** 最大同時顯示的照片數量，預設 12 */
   maxPhotos?: number;
+  /** 是否顯示時鐘，預設 true */
+  showClock?: boolean;
+  /** 時鐘像素大小，預設 6 */
+  clockPixelSize?: number;
+  /** 時鐘顏色，預設 rgba(255, 255, 255, 0.8) */
+  clockColor?: string;
 }
 
 // 工具函數：產生隨機範圍內的數值
@@ -144,9 +151,56 @@ export const ScreenSaver: React.FC<ScreenSaverProps> = ({
   showCloseButton = true,
   randomCount = 100,
   maxPhotos = 12,
+  showClock = true,
+  clockPixelSize = 4,
+  clockColor = 'rgba(255, 255, 255, 1)',
 }) => {
   const [photos, setPhotos] = useState<FallingPhoto[]>([]);
+  const [currentTime, setCurrentTime] = useState<string>('');
   
+  // 格式化時間為 12:00 PM 格式
+  const formatTime = (date: Date, showColon: boolean): string => {
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // 0 點顯示為 12
+    const minutesStr = minutes < 10 ? `0${minutes}` : minutes.toString();
+    // 使用隱形冒號字符 '·' 來保持寬度一致（在 pixelFont.ts 中定義為空白 8x8）
+    const colon = showColon ? ':' : '·';
+    return `${hours}${colon}${minutesStr} ${ampm}`;
+  };
+
+  // 計算時鐘的寬度和高度
+  const clockDimensions = useMemo(() => {
+    // "12:00 PM" = 8 字符
+    // 每個字符寬度 = 8 pixels * pixelSize
+    // 字間距 = 1 * pixelSize
+    const charWidth = 8 * clockPixelSize;
+    const letterSpacing = 1 * clockPixelSize;
+    const textLength = 8; // "12:00 PM"
+    const width = textLength * charWidth + (textLength - 1) * letterSpacing + 30;
+    const height = 8 * clockPixelSize + 20;
+    return { width, height };
+  }, [clockPixelSize]);
+
+  // 時鐘更新 + 冒號閃爍
+  useEffect(() => {
+    if (!active || !showClock) return;
+
+    // 立即設置時間
+    setCurrentTime(formatTime(new Date(), true));
+
+    // 每 500ms 切換冒號顯示狀態（每秒閃一次 = 亮 0.5s + 滅 0.5s）
+    let isColonOn = true;
+    const clockTimer = setInterval(() => {
+      isColonOn = !isColonOn;
+      setCurrentTime(formatTime(new Date(), isColonOn));
+    }, 500);
+
+    return () => clearInterval(clockTimer);
+  }, [active, showClock]);
+
   // 使用 ref 存儲不需要觸發 re-render 的數據
   const imageIndexRef = useRef(0);
   const photoIdRef = useRef(0);
@@ -341,6 +395,25 @@ export const ScreenSaver: React.FC<ScreenSaverProps> = ({
           />
         </div>
       ))}
+
+      {/* 時鐘 - 畫面正中央 */}
+      {showClock && currentTime && (
+        <div 
+          className="screen-saver__clock"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <PixelText
+            text={currentTime}
+            pixelSize={clockPixelSize}
+            pixelGap={1}
+            primaryColor={clockColor}
+            letterSpacing={1}
+            width={clockDimensions.width}
+            height={clockDimensions.height}
+            antialias={false}
+          />
+        </div>
+      )}
 
       {/* 提示文字 */}
       <div className="screen-saver__hint">

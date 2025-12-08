@@ -118,6 +118,30 @@ const meta: Meta<typeof ScreenSaver> = {
         defaultValue: { summary: 'true' },
       },
     },
+    showClock: {
+      description: '是否顯示時鐘',
+      control: { type: 'boolean' },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
+    },
+    clockPixelSize: {
+      description: '時鐘像素大小',
+      control: { type: 'number', min: 2, max: 20, step: 1 },
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '6' },
+      },
+    },
+    clockColor: {
+      description: '時鐘顏色',
+      control: { type: 'color' },
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'rgba(255, 255, 255, 1)' },
+      },
+    },
     onClose: {
       description: '關閉時的回呼函數',
       action: 'closed',
@@ -145,7 +169,7 @@ const meta: Meta<typeof ScreenSaver> = {
 export default meta;
 type Story = StoryObj<typeof ScreenSaver>;
 
-// 預設 - 使用 mylife 圖片（隨機 100 張）
+// 預設 - 使用 mylife 圖片（隨機 100 張）+ 時鐘
 export const Default: Story = {
   args: {
     images: mylifeImages,
@@ -158,6 +182,9 @@ export const Default: Story = {
     showCloseButton: false,
     backgroundColor: '#000000',
     zIndex: 9999,
+    showClock: true,
+    clockPixelSize: 4,
+    clockColor: 'rgba(255, 255, 255, 1)',
   },
 };
 
