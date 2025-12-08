@@ -40,7 +40,7 @@ export interface ScreenSaverProps {
   onClose?: () => void;
   /** 是否顯示關閉按鈕，預設 true */
   showCloseButton?: boolean;
-  /** 從中隨機挑選的照片數量，預設使用全部 */
+  /** 從中隨機挑選的照片數量，預設 100 張（避免流量過大） */
   randomCount?: number;
   /** 最大同時顯示的照片數量，預設 12 */
   maxPhotos?: number;
@@ -142,7 +142,7 @@ export const ScreenSaver: React.FC<ScreenSaverProps> = ({
   backgroundColor = '#000000',
   onClose,
   showCloseButton = true,
-  randomCount,
+  randomCount = 100,
   maxPhotos = 12,
 }) => {
   const [photos, setPhotos] = useState<FallingPhoto[]>([]);
@@ -191,7 +191,7 @@ export const ScreenSaver: React.FC<ScreenSaverProps> = ({
 
     // 打亂並選擇圖片（只執行一次）
     const shuffled = [...images].sort(() => Math.random() - 0.5);
-    const count = randomCount ?? images.length;
+    const count = Math.min(randomCount, images.length);
     shuffledImagesRef.current = shuffled.slice(0, Math.min(count, images.length));
     imageIndexRef.current = 0;
 
