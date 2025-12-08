@@ -397,11 +397,13 @@ export const ScreenSaver: React.FC<ScreenSaverProps> = ({
       ))}
 
       {/* 時鐘 - 畫面正中央 */}
+      {/* 時鐘區域 - 標題 + 時間 */}
       {showClock && currentTime && (
         <div 
           className="screen-saver__clock"
           onClick={(e) => e.stopPropagation()}
         >
+          <div className="screen-saver__clock-title">MY LIFE</div>
           <PixelText
             text={currentTime}
             pixelSize={clockPixelSize}
