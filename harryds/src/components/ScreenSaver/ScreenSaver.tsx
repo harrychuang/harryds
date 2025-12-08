@@ -154,6 +154,7 @@ export const ScreenSaver: React.FC<ScreenSaverProps> = ({
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const isInitializedRef = useRef(false);
   const photosRef = useRef<FallingPhoto[]>([]); // 用於計算位置的 ref
+  const lastSpawnTimeRef = useRef(0); // 追蹤上次生成時間，防止背景標籤累積執行
 
   // 同步 photos 到 ref
   useEffect(() => {
@@ -227,8 +228,19 @@ export const ScreenSaver: React.FC<ScreenSaverProps> = ({
       };
     };
 
-    // 產生新照片
+    // 產生新照片（帶有時間間隔保護）
     const spawnPhoto = () => {
+      const now = Date.now();
+      const timeSinceLastSpawn = now - lastSpawnTimeRef.current;
+      const minInterval = spawnInterval * 1000 * 0.8; // 允許 20% 的誤差
+      
+      // 防止背景標籤累積執行：如果距離上次生成時間太短，跳過
+      if (lastSpawnTimeRef.current > 0 && timeSinceLastSpawn < minInterval) {
+        return;
+      }
+      
+      lastSpawnTimeRef.current = now;
+      
       const newPhoto = createPhoto();
       if (!newPhoto) return;
 
@@ -239,8 +251,12 @@ export const ScreenSaver: React.FC<ScreenSaverProps> = ({
       });
     };
 
-    // 立即產生第一張
-    spawnPhoto();
+    // 立即產生第一張（不走時間間隔保護）
+    const firstPhoto = createPhoto();
+    if (firstPhoto) {
+      setPhotos([firstPhoto]);
+      lastSpawnTimeRef.current = Date.now();
+    }
 
     // 設定定時器
     timerRef.current = setInterval(spawnPhoto, spawnInterval * 1000);
@@ -248,6 +264,22 @@ export const ScreenSaver: React.FC<ScreenSaverProps> = ({
     return cleanup;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active, images.length]); // 只依賴 active 和 images.length
+
+  // 處理頁面可見性變化（防止背景標籤問題）
+  useEffect(() => {
+    if (!active) return;
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        // 頁面回到前景時，更新最後生成時間
+        // 這樣下一次 interval 觸發時不會因為累積而連續生成
+        lastSpawnTimeRef.current = Date.now();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [active]);
 
   // 處理鍵盤 ESC 關閉
   useEffect(() => {
