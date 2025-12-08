@@ -80,6 +80,9 @@ const MAX_INPUT_HISTORY = 10;
 // Konami Code 密碼序列
 const KONAMI_CODE = '↑↑↓↓←←→→BA';
 
+// 螢幕保護程式彩蛋序列（傳統 Konami Code）
+const SCREENSAVER_CODE = '↑↑↓↓←→←→BA';
+
 export const PocketConsole: React.FC<PocketConsoleProps> = ({
   shellColor = '#c0c0c0',
   screenBorderColor = '#5c5c5c',
@@ -231,6 +234,20 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
           setTimeout(() => {
             onSuccess?.();
           }, 1000);
+        } else if (inputString === SCREENSAVER_CODE) {
+          // 螢幕保護程式彩蛋：先顯示錯誤，然後觸發螢幕保護程式
+          setIsError(true);
+          // 播放錯誤音效
+          playErrorSound();
+          // 延遲後觸發螢幕保護程式
+          setTimeout(() => {
+            setIsError(false);
+            setInputHistory([]);
+            // 觸發螢幕保護程式（透過全域函數）
+            if (typeof (window as any).__screenSaverKonamiTrigger === 'function') {
+              (window as any).__screenSaverKonamiTrigger();
+            }
+          }, 1200);
         } else if (trimmedHistory.length === KONAMI_CODE.length) {
           // 輸入長度達到密碼長度但不匹配，顯示錯誤
           setIsError(true);

@@ -51,6 +51,8 @@ export interface ScreenSaverProps {
   clockPixelSize?: number;
   /** 時鐘顏色，預設 rgba(255, 255, 255, 0.8) */
   clockColor?: string;
+  /** 提示文字，預設 "按 ESC 或點擊任意處關閉" */
+  hintText?: string;
 }
 
 // 工具函數：產生隨機範圍內的數值
@@ -154,6 +156,7 @@ export const ScreenSaver: React.FC<ScreenSaverProps> = ({
   showClock = true,
   clockPixelSize = 4,
   clockColor = 'rgba(255, 255, 255, 1)',
+  hintText = '按 ESC 或點擊任意處關閉',
 }) => {
   const [photos, setPhotos] = useState<FallingPhoto[]>([]);
   const [currentTime, setCurrentTime] = useState<string>('');
@@ -419,7 +422,7 @@ export const ScreenSaver: React.FC<ScreenSaverProps> = ({
 
       {/* 提示文字 */}
       <div className="screen-saver__hint">
-        按 ESC 或點擊任意處關閉
+        {hintText}
       </div>
     </div>
   );

@@ -14,12 +14,15 @@ import { OverlayProvider } from './contexts/OverlayContext';
 import { DataSourceProvider } from './contexts/DataSourceContext';
 import { PageLoaderProvider, usePageLoader } from './contexts/PageLoaderContext';
 import { ContactModalProvider } from './contexts/ContactModalContext';
+import { ScreenSaverProvider, useScreenSaver } from './contexts/ScreenSaverContext';
 import { usePageTracking } from './hooks/useAnalytics';
+import { ScreenSaver, mylifeImages } from 'hds/components';
 
 // 內部 App 元件，可以使用 PageLoader context
 const AppContent: React.FC = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isLoading } = usePageLoader();
+  const { isActive: isScreenSaverActive, deactivate: closeScreenSaver } = useScreenSaver();
   
   // Google Analytics 路由追蹤
   usePageTracking();
@@ -60,6 +63,19 @@ const AppContent: React.FC = () => {
       </Routes>
       <Footer />
       <ClickFireworks />
+      
+      {/* 螢幕保護程式 - 閒置 1 分鐘或 Konami Code 觸發 */}
+      <ScreenSaver
+        images={mylifeImages}
+        active={isScreenSaverActive}
+        onClose={closeScreenSaver}
+        showCloseButton={false}
+        randomCount={100}
+        spawnInterval={3}
+        showClock={true}
+        clockPixelSize={4}
+        hintText={t('screenSaver.hint')}
+      />
     </div>
   );
 };
@@ -71,7 +87,9 @@ const App: React.FC = () => {
         <OverlayProvider>
           <PageLoaderProvider>
             <ContactModalProvider>
-              <AppContent />
+              <ScreenSaverProvider>
+                <AppContent />
+              </ScreenSaverProvider>
             </ContactModalProvider>
           </PageLoaderProvider>
         </OverlayProvider>
