@@ -80,3 +80,8 @@ export type { PixelIconProps } from './PixelIcon';
 // PocketConsole - GameBoy 風格 8-bit SVG 插圖元件（支援鍵盤控制）
 export { PocketConsole } from './PocketConsole';
 export type { PocketConsoleProps, PocketConsoleButton } from './PocketConsole';
+
+// ScreenSaver - 照片飄落螢幕保護程式效果
+export { ScreenSaver } from './ScreenSaver';
+export type { ScreenSaverProps, FallingPhoto } from './ScreenSaver';
+export { mylifeImages, getRandomImages, totalImageCount } from './ScreenSaver';
