@@ -24,7 +24,7 @@ const ScreenSaverContext = createContext<ScreenSaverContextType | undefined>(und
 const KONAMI_CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
 
 // 閒置時間（毫秒）
-const IDLE_TIMEOUT = 45 * 1000; // 45 秒
+const IDLE_TIMEOUT = 60 * 1000; // 1 分鐘
 
 interface ScreenSaverProviderProps {
   children: React.ReactNode;

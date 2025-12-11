@@ -4,6 +4,10 @@ import { useLocation } from 'react-router-dom';
 import { audioManager, PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import './ScrollIndicator.scss';
 
+// Click 音效 - 使用 import 確保 Vite 構建時會正確處理
+import clickLikeSoundUrl from '../../assets/sound/Win Sound Effect 1.mp3';
+import clickUnlikeSoundUrl from '../../assets/sound/8-Bit Powerup Sound Effect.mp3';
+
 // 格式化 like 數字（1000 -> 1k, 1100 -> 1.1k, 10000 -> 10k）
 const formatLikeCount = (count: number): string => {
   if (count < 1000) {
@@ -163,11 +167,11 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
     if (onIconClick) {
       // Like/Unlike 按鈕模式
       soundFile = isLiked 
-        ? '/assets/sound/8-Bit Powerup Sound Effect.mp3'  // 已 liked，點擊後 unlike
-        : '/assets/sound/Win Sound Effect 1.mp3';    // 未 liked，點擊後 like
+        ? clickUnlikeSoundUrl  // 已 liked，點擊後 unlike
+        : clickLikeSoundUrl;    // 未 liked，點擊後 like
     } else {
       // Go to top 按鈕模式
-      soundFile = '/assets/sound/8-Bit Powerup Sound Effect.mp3';
+      soundFile = clickUnlikeSoundUrl;
     }
     
     // 播放音效並儲存 handle
