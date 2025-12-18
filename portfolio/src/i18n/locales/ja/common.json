@@ -8,6 +8,8 @@
     "aboutDescription": "Harry Chuang - 15年のプロダクトデザインとフロントエンド開発経験。AAPDデザインシステム講座講師、awwrated創設者。UI/UXデザイン、デザインシステム構築、コンサルティングを専門としています。",
     "articlesTitle": "記事",
     "articlesDescription": "プロダクトデザイン、UI/UX、デザインシステム、フロントエンド開発に関する知見と経験を共有しています。",
+    "coursesTitle": "コース",
+    "coursesDescription": "デザインシステム、Vibe Coding、デザイナー向けフルスタック開発のワークショップとコース。",
     "projectsTitle": "ポートフォリオ",
     "projectsDescription": "UI/UXデザイン、ウェブ開発、デザインシステム構築を含む、厳選されたプロダクトデザインとフロントエンド開発プロジェクト。",
     "keywords": "UI/UXデザイン, プロダクトデザイン, フロントエンド開発, デザインシステム, React, Design System, Harry Chuang",
@@ -22,6 +24,8 @@
     "works": "Works",
     "article": "Article",
     "articles": "Articles",
+    "course": "Course",
+    "courses": "Courses",
     "contact": "Contact"
   },
   "project": {
@@ -44,6 +48,23 @@
     "description": "会社の戦略変更により、このプロジェクトは運営終了となりました。このページでは、UXとプロダクト戦略の価値を保存・共有するため、完全なデザインの文脈と成果を記録しています。"
   },
   "relatedArticles": "関連記事",
+  "instructor": "講師",
+  "date": "日程",
+  "format": "形式",
+  "targetAudience": "対象者",
+  "courseHighlights": "コースのポイント",
+  "syllabus": "カリキュラム",
+  "outcome": "成果",
+  "projects": "プロジェクト",
+  "sharedProject": "共通プロジェクト",
+  "personalProject": "個人プロジェクト",
+  "pricing": "料金・スケジュール",
+  "schedule": "日程",
+  "location": "場所",
+  "originalPrice": "通常価格",
+  "earlyBird": "早期割引",
+  "faq": "よくある質問",
+  "contactForCourse": "お申し込み",
   "error": {
     "404": {
       "code": "404",

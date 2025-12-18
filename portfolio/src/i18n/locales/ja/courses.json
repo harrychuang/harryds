@@ -1,0 +1,94 @@
+{
+  "1": {
+    "heading": "<プロダクトデザイナー />\nVibe Coding ワークショップ",
+    "subtitle": "FigmaデザインシステムからStrapiデータベースまで、2日間でサイドプロジェクトを完成させましょう。",
+    "instructor": "Harry",
+    "date": "2025年1月",
+    "tags": [
+      "Vibe Coding",
+      "ワークショップ"
+    ],
+    "category": "course",
+    "level": "中上級コース",
+    "primaryColor": "#667FFF",
+    "secondaryColor": "#111",
+    "heroImage": "courses/ds-vibecoding-2016/ds-vibecoding-course-header.jpg",
+    "images": [
+      "courses/ds-vibecoding-2016/ds-vibecoding-course.jpg",
+      "courses/ds-vibecoding-2016/ec-cover.jpg"
+    ],
+    "highlights": [
+      "4-6人の少人数制",
+      "Design System構築",
+      "Vibe CodingでWebプロダクト制作",
+      "週末2日間スプリント"
+    ],
+    "valueProposition": {
+      "title": "FigmaデザインシステムからStrapiデータベースまで、2日間でサイドプロジェクトを完成させましょう。",
+      "format": "4-6人の少人数オフラインクラス（台北）。"
+    },
+    "usp": [
+      {
+        "title": "デザインシステムから始める、Design Token構築",
+        "description": "Figma VariablesをCSS Design Tokensに変換し、完全なデザインシステムアーキテクチャを構築して、デザインと開発をシームレスに繋げる方法を学びます。"
+      },
+      {
+        "title": "フロントエンドとバックエンドの統合開発",
+        "description": "静的なウェブサイトだけでなく、Strapi（Headless CMS）でデータベースを構築し、Zeaburクラウドホスティングにデプロイする方法を教えます。"
+      },
+      {
+        "title": "AI活用（Vibe Coding）",
+        "description": "Cursor + AI Agentを全行程で使用。あなたはロジックを指示し、AIがコードを書きます。"
+      }
+    ],
+    "syllabus": [
+      {
+        "day": "Day 1",
+        "title": "デザインシステムとコンポーネントのデジタル化",
+        "sessions": [
+          {
+            "time": "午前",
+            "content": "Figma VariablesとDesign Tokensの変換（JSON to CSS Variables）。"
+          },
+          {
+            "time": "午後",
+            "content": "Vibe Coding実践、AIでStorybookコンポーネントライブラリを生成。"
+          }
+        ],
+        "outcome": "「ミニマリスト記事リーダー」のフロントエンドインターフェースと動的ルーティングを完成。"
+      },
+      {
+        "day": "Day 2",
+        "title": "魂を注入＆プロダクトローンチ",
+        "sessions": [
+          {
+            "time": "午前",
+            "content": "プロダクトの頭脳（Strapi CMS）構築とデータ連携（CRUD）。"
+          },
+          {
+            "time": "午後",
+            "content": "デプロイ（GitHub + Zeabur）＆個人サイドプロジェクトのコア機能スプリント。"
+          }
+        ],
+        "outcome": "実際に稼働するURLを取得し、選んだテーマのコア機能（いいね、コメント、予約など）を完成。"
+      }
+    ],
+    "pricing": {
+      "schedule": "1月中旬または下旬予定（週末2日間 09:30-17:00）",
+      "location": "台北市内（詳細は追ってお知らせ）",
+      "earlyBird": "NT$ 5,000",
+      "original": "NT$ 8,800",
+      "note": "早期割引は4-6名限定。"
+    },
+    "faq": [
+      {
+        "question": "プログラミング経験がなくても参加できますか？",
+        "answer": "もちろん！このコースの核心はAI（Cursor）を使ってプログラムを書くことを教えることです。デザインロジックを理解していれば大丈夫です。"
+      },
+      {
+        "question": "何を準備すればいいですか？",
+        "answer": "ノートパソコン、そしてGitHub、Zeabur、Cursorのアカウントを事前に登録してください（セットアップガイドを提供します）。"
+      }
+    ]
+  }
+}

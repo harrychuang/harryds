@@ -8,6 +8,8 @@
     "aboutDescription": "Harry Chuang - 15 years of product design and frontend development experience. AAPD Design System course instructor, awwrated founder. Specializing in UI/UX design, design system implementation, and consulting.",
     "articlesTitle": "Articles",
     "articlesDescription": "Sharing insights and experiences on product design, UI/UX, design systems, and frontend development.",
+    "coursesTitle": "Courses",
+    "coursesDescription": "Workshops and courses on design systems, Vibe Coding, and full-stack development for designers.",
     "projectsTitle": "Portfolio",
     "projectsDescription": "Selected product design and frontend development projects, including UI/UX design, web development, and design system implementation.",
     "keywords": "UI/UX Design, Product Design, Frontend Development, Design Systems, React, Design System, Harry Chuang",
@@ -22,6 +24,8 @@
     "works": "Works",
     "article": "Article",
     "articles": "Articles",
+    "course": "Course",
+    "courses": "Courses",
     "contact": "Contact"
   },
   "project": {
@@ -44,6 +48,23 @@
     "description": "Due to company strategy changes, this project has been discontinued. This page documents the complete design context and outcomes to preserve and share its UX and product strategy value."
   },
   "relatedArticles": "Related Articles",
+  "instructor": "Instructor",
+  "date": "Date",
+  "format": "Format",
+  "targetAudience": "Who is this for?",
+  "courseHighlights": "Course Highlights",
+  "syllabus": "Syllabus",
+  "outcome": "Outcome",
+  "projects": "Projects",
+  "sharedProject": "Shared Project",
+  "personalProject": "Personal Project",
+  "pricing": "Pricing & Schedule",
+  "schedule": "Schedule",
+  "location": "Location",
+  "originalPrice": "Original",
+  "earlyBird": "Early Bird",
+  "faq": "FAQ",
+  "contactForCourse": "Contact to Register",
   "error": {
     "404": {
       "code": "404",

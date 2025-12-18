@@ -5,6 +5,8 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Articles from './pages/Articles';
 import ArticleDetail from './pages/ArticleDetail';
+import Courses from './pages/Courses';
+import CourseDetail from './pages/CourseDetail';
 import ErrorPage from './pages/ErrorPage';
 import Footer from './components/Footer';
 import ClickFireworks from './components/ClickFireworks';
@@ -49,7 +51,7 @@ const AppContent: React.FC = () => {
     // 只在非動態頁面（如 About）觸發
     // 動態頁面會在各自組件中觸發
     const pathname = window.location.pathname;
-    const isDynamicPage = pathname.startsWith('/article/') || pathname.startsWith('/project/');
+    const isDynamicPage = pathname.startsWith('/article/') || pathname.startsWith('/project/') || pathname.startsWith('/course/');
     
     if (!isLoading && !isDynamicPage) {
       // 延遲一小段時間確保 react-helmet-async 已更新 meta tags
@@ -74,6 +76,8 @@ const AppContent: React.FC = () => {
         <Route path="/about" element={<About />} />
         <Route path="/articles" element={<Articles />} />
         <Route path="/article/:id/:slug" element={<ArticleDetail />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/course/:id/:slug" element={<CourseDetail />} />
         {/* project detail with SEO-friendly slug */}
         <Route path="/project/:id/:slug" element={<Home />} />
         {/* 404 catch-all route */}

@@ -191,6 +191,11 @@ export const useSEOPresets = () => {
       description: t('seo.articlesDescription'),
       path: 'articles',
     },
+    courses: {
+      title: t('seo.coursesTitle'),
+      description: t('seo.coursesDescription'),
+      path: 'courses',
+    },
     projects: {
       title: t('seo.projectsTitle'),
       description: t('seo.projectsDescription'),
@@ -210,6 +215,9 @@ export const SEOPresets = {
   },
   articles: {
     path: 'articles',
+  },
+  courses: {
+    path: 'courses',
   },
   projects: {
     path: '',

@@ -1,0 +1,94 @@
+{
+  "1": {
+    "heading": "<產品設計師 />\nVibe Coding 工作坊",
+    "subtitle": "從 Figma 設計系統到 Strapi 資料庫，2天完成你的 Side Project。",
+    "instructor": "Harry",
+    "date": "2025 年 1 月",
+    "tags": [
+      "Vibe Coding",
+      "工作坊"
+    ],
+    "category": "course",
+    "level": "中高階課程",
+    "primaryColor": "#667FFF",
+    "secondaryColor": "#111",
+    "heroImage": "courses/ds-vibecoding-2016/ds-vibecoding-course-header.jpg",
+    "images": [
+      "courses/ds-vibecoding-2016/ds-vibecoding-course.jpg",
+      "courses/ds-vibecoding-2016/ec-cover.jpg"
+    ],
+    "highlights": [
+      "4-6 人小班制",
+      "建立 Design System",
+      "Vibe Coding 實作網站產品",
+      "週末2日衝刺"
+    ],
+    "valueProposition": {
+      "title": "從 Figma 設計系統到 Strapi 資料庫，2天完成你的 Side Project。",
+      "format": "4-6 人極致線下小班 (台北)。"
+    },
+    "usp": [
+      {
+        "title": "從設計系統出發，建立 Design Token",
+        "description": "學習如何將 Figma Variables 轉換為 CSS Design Tokens，建立完整的設計系統架構，讓設計與開發無縫銜接。"
+      },
+      {
+        "title": "整合前端與後端開發",
+        "description": "不只做靜態網頁，我會教你用 Strapi (Headless CMS) 建立資料庫，並部署到 Zeabur 雲端主機。"
+      },
+      {
+        "title": "AI 賦能 (Vibe Coding)",
+        "description": "全程使用 Cursor + AI Agent，你負責指揮邏輯，AI 負責寫程式。"
+      }
+    ],
+    "syllabus": [
+      {
+        "day": "Day 1",
+        "title": "設計系統與元件數位化",
+        "sessions": [
+          {
+            "time": "上午",
+            "content": "Figma Variables 與 Design Tokens 轉換 (JSON to CSS Variables)。"
+          },
+          {
+            "time": "下午",
+            "content": "Vibe Coding 實戰，用 AI 生成 Storybook 元件庫。"
+          }
+        ],
+        "outcome": "完成「極簡文章閱讀器」的前端介面與動態路由。"
+      },
+      {
+        "day": "Day 2",
+        "title": "注入靈魂與產品上線",
+        "sessions": [
+          {
+            "time": "上午",
+            "content": "建立產品大腦 (Strapi CMS) 與資料串接 (CRUD)。"
+          },
+          {
+            "time": "下午",
+            "content": "部署上線 (GitHub + Zeabur) 與個人 Side Project 核心功能衝刺。"
+          }
+        ],
+        "outcome": "獲得一個真實運行的網址，並完成一個自選題目的核心功能 (如：按讚、留言、預約)。"
+      }
+    ],
+    "pricing": {
+      "schedule": "預計 1月中旬或 1月底 (週末兩日 09:30-17:00)",
+      "location": "台北市區 (詳細地點待通知)",
+      "earlyBird": "NT$ 5,000",
+      "original": "NT$ 8,800",
+      "note": "早鳥首發僅限 4-6 人。"
+    },
+    "faq": [
+      {
+        "question": "我完全不會寫程式可以嗎？",
+        "answer": "可以！這堂課的核心就是教你用 AI (Cursor) 來寫程式，你只需要懂設計邏輯。"
+      },
+      {
+        "question": "需要準備什麼？",
+        "answer": "一台筆電，並預先註冊好 GitHub, Zeabur, Cursor 帳號 (會有課前懶人包)。"
+      }
+    ]
+  }
+}

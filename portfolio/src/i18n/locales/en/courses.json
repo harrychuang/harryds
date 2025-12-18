@@ -1,0 +1,94 @@
+{
+  "1": {
+    "heading": "<Product Designer />\nVibe Coding Workshop",
+    "subtitle": "From Figma Design System to Strapi Database, complete your Side Project in 2 days.",
+    "instructor": "Harry",
+    "date": "January 2025",
+    "tags": [
+      "Vibe Coding",
+      "Workshop"
+    ],
+    "category": "course",
+    "level": "Intermediate to Advanced",
+    "primaryColor": "#667FFF",
+    "secondaryColor": "#111",
+    "heroImage": "courses/ds-vibecoding-2016/ds-vibecoding-course-header.jpg",
+    "images": [
+      "courses/ds-vibecoding-2016/ds-vibecoding-course.jpg",
+      "courses/ds-vibecoding-2016/ec-cover.jpg"
+    ],
+    "highlights": [
+      "4-6 person small class",
+      "Build Design System",
+      "Vibe Coding to create web products",
+      "2-day weekend sprint"
+    ],
+    "valueProposition": {
+      "title": "From Figma Design System to Strapi Database, complete your Side Project in 2 days.",
+      "format": "4-6 person intensive offline workshop (Taipei)."
+    },
+    "usp": [
+      {
+        "title": "Start from Design System, Build Design Tokens",
+        "description": "Learn how to convert Figma Variables into CSS Design Tokens, build a complete design system architecture, and seamlessly bridge design and development."
+      },
+      {
+        "title": "Integrate Frontend & Backend Development",
+        "description": "Not just static websites - I'll teach you to build databases with Strapi (Headless CMS) and deploy to Zeabur cloud hosting."
+      },
+      {
+        "title": "AI-Powered (Vibe Coding)",
+        "description": "Use Cursor + AI Agent throughout the course. You handle the logic, AI writes the code."
+      }
+    ],
+    "syllabus": [
+      {
+        "day": "Day 1",
+        "title": "Design System & Component Digitization",
+        "sessions": [
+          {
+            "time": "Morning",
+            "content": "Figma Variables & Design Tokens Conversion (JSON to CSS Variables)."
+          },
+          {
+            "time": "Afternoon",
+            "content": "Vibe Coding Practice - Generate Storybook component library with AI."
+          }
+        ],
+        "outcome": "Complete the frontend interface and dynamic routing for a \"Minimalist Article Reader\"."
+      },
+      {
+        "day": "Day 2",
+        "title": "Inject Soul & Product Launch",
+        "sessions": [
+          {
+            "time": "Morning",
+            "content": "Build the Product Brain (Strapi CMS) & Data Integration (CRUD)."
+          },
+          {
+            "time": "Afternoon",
+            "content": "Deployment (GitHub + Zeabur) & Personal Side Project Core Feature Sprint."
+          }
+        ],
+        "outcome": "Get a real running URL and complete a core feature of your chosen topic (e.g., likes, comments, bookings)."
+      }
+    ],
+    "pricing": {
+      "schedule": "Mid-January or late January (Weekend, 09:30-17:00)",
+      "location": "Taipei City (Detailed location TBA)",
+      "earlyBird": "NT$ 5,000",
+      "original": "NT$ 8,800",
+      "note": "Early bird launch limited to 4-6 people."
+    },
+    "faq": [
+      {
+        "question": "Can I join if I have no coding experience?",
+        "answer": "Absolutely! The core of this course is teaching you to use AI (Cursor) to write code. You only need to understand design logic."
+      },
+      {
+        "question": "What should I prepare?",
+        "answer": "A laptop, and pre-register for GitHub, Zeabur, and Cursor accounts (we'll provide a setup guide)."
+      }
+    ]
+  }
+}

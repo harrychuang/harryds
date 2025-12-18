@@ -8,6 +8,8 @@
     "aboutDescription": "Harry Chuang - 15年產品設計與前端開發經驗，AAPD 設計系統課程講師，awwrated 創辦人。專注於 UI/UX 設計、設計系統建置與培訓顧問服務。",
     "articlesTitle": "文章",
     "articlesDescription": "分享產品設計、UI/UX、設計系統與前端開發的經驗與見解。",
+    "coursesTitle": "課程",
+    "coursesDescription": "設計系統、Vibe Coding 和設計師全端開發工作坊與課程。",
     "projectsTitle": "作品集",
     "projectsDescription": "精選產品設計與前端開發專案，包含 UI/UX 設計、網站開發、設計系統建置等。",
     "keywords": "UI/UX設計, 產品設計, 前端開發, 設計系統, React, Design System, Harry Chuang, 莊哲安",
@@ -22,6 +24,8 @@
     "works": "Works",
     "article": "Article",
     "articles": "Articles",
+    "course": "Course",
+    "courses": "Courses",
     "contact": "Contact"
   },
   "project": {
@@ -44,6 +48,23 @@
     "description": "由於公司策略調整，此專案已停止營運。本頁整理了完整的設計脈絡與成果，以保存並分享其中的 UX 與產品策略價值。"
   },
   "relatedArticles": "相關文章",
+  "instructor": "講師",
+  "date": "日期",
+  "format": "形式",
+  "targetAudience": "適合對象",
+  "courseHighlights": "課程重點",
+  "syllabus": "課程大綱",
+  "outcome": "成果",
+  "projects": "專案實作",
+  "sharedProject": "共同專案",
+  "personalProject": "個人專案",
+  "pricing": "價格與時間",
+  "schedule": "時間",
+  "location": "地點",
+  "originalPrice": "原價",
+  "earlyBird": "早鳥價",
+  "faq": "常見問題",
+  "contactForCourse": "聯繫報名",
   "error": {
     "404": {
       "code": "404",

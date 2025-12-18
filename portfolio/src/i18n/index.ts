@@ -7,18 +7,21 @@ import enCommon from './locales/en/common.json';
 import enAbout from './locales/en/about.json';
 import enProjects from './locales/en/projects.json';
 import enArticles from './locales/en/articles.json';
+import enCourses from './locales/en/courses.json';
 
 // 繁體中文資源
 import zhHantCommon from './locales/zh-Hant/common.json';
 import zhHantAbout from './locales/zh-Hant/about.json';
 import zhHantProjects from './locales/zh-Hant/projects.json';
 import zhHantArticles from './locales/zh-Hant/articles.json';
+import zhHantCourses from './locales/zh-Hant/courses.json';
 
 // 日文資源
 import jaCommon from './locales/ja/common.json';
 import jaAbout from './locales/ja/about.json';
 import jaProjects from './locales/ja/projects.json';
 import jaArticles from './locales/ja/articles.json';
+import jaCourses from './locales/ja/courses.json';
 
 // 自訂語言偵測器，處理各種中文變體
 const customLanguageDetector = {
@@ -64,26 +67,29 @@ i18n
     fallbackLng: 'en',
     supportedLngs: ['zh-Hant', 'en', 'ja'],
     // 使用 namespace 來組織資源
-    ns: ['common', 'about', 'projects', 'articles'],
+    ns: ['common', 'about', 'projects', 'articles', 'courses'],
     defaultNS: 'common',
     resources: {
       'zh-Hant': { 
         common: zhHantCommon,
         about: zhHantAbout,
         projects: zhHantProjects,
-        articles: zhHantArticles
+        articles: zhHantArticles,
+        courses: zhHantCourses
       },
       en: { 
         common: enCommon,
         about: enAbout,
         projects: enProjects,
-        articles: enArticles
+        articles: enArticles,
+        courses: enCourses
       },
       ja: { 
         common: jaCommon,
         about: jaAbout,
         projects: jaProjects,
-        articles: jaArticles
+        articles: jaArticles,
+        courses: jaCourses
       }
     },
     detection: {

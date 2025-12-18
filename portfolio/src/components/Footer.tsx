@@ -128,7 +128,7 @@ const persistLikedPaths = (paths: Set<string>) => {
 const Footer: React.FC = () => {
   const params = useParams();
   const { items } = useProjects();
-  const { hoveredCardId } = useHover();
+  const { hoveredCardId, customColors } = useHover();
   const { openCardId, animationPhase, overlayScrollRef } = useOverlay();
   const { openContactModal } = useContactModal();
   const { theme } = useTheme();
@@ -484,6 +484,14 @@ const Footer: React.FC = () => {
 
   // 獲取當前活動卡片的顏色（與 Home 組件相同的邏輯）
   const footerColors = useMemo(() => {
+    // 如果有自定義顏色（來自 Courses 頁面等），優先使用
+    if (customColors && customColors.primaryColor && customColors.secondaryColor) {
+      return {
+        primaryColor: customColors.primaryColor,
+        secondaryColor: customColors.secondaryColor,
+      };
+    }
+    
     // 如果在 /articles, /article/*, 或 /about 路由，不使用顏色
     const currentPath = location.pathname;
     if (currentPath === '/articles' || currentPath.startsWith('/article') || currentPath === '/about') {
@@ -518,7 +526,7 @@ const Footer: React.FC = () => {
     }
     
     return {};
-  }, [params.id, params.category, hoveredCardId, openCardId, items, location.pathname]);
+  }, [params.id, params.category, hoveredCardId, openCardId, items, location.pathname, customColors]);
 
   // 決定 ScrollIndicator 和 Copyright 的顏色：有 primaryColor 時使用，沒有時使用 CSS 變數
   const displayColor = footerColors.primaryColor || 'var(--hds-sys-color-theme-surface)';

@@ -1,0 +1,767 @@
+// =============================================================================
+// COURSE DETAIL 樣式
+// 參考 FeedDetailOverlay 的兩欄排版結構
+// =============================================================================
+
+@import '../styles/globals.scss';
+@import '../styles/header-shared';
+
+// PublicPixel font registration
+@font-face {
+  font-family: 'PublicPixel';
+  src: url('../../assets/fonts/PublicPixel.ttf') format('truetype');
+}
+
+.course-detail {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--course-secondary-color, var(--hds-sys-color-on-theme-surface));
+  color: var(--course-content-color, var(--hds-sys-color-theme-surface));
+
+  // =============================================================================
+  // Content 區域
+  // =============================================================================
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  // =============================================================================
+  // Hero Section
+  // =============================================================================
+  &__hero {
+    position: relative;
+    width: 100%;
+    padding: 180px 40px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    @media (max-width: 767px) {
+      padding: 140px 30px 40px;
+    }
+
+    @media (max-width: 480px) {
+      padding: 120px 20px 32px;
+    }
+  }
+
+  &__hero-info {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  &__hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  &__tag {
+    font-family: 'PublicPixel', monospace;
+    font-size: 11px;
+    padding: 8px 16px;
+    border: 1px solid currentColor;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+
+    @media (max-width: 767px) {
+      font-size: 9px;
+      padding: 6px 12px;
+    }
+  }
+
+  &__heading {
+    font-size: clamp(40px, 8vw, 120px);
+    font-weight: 700;
+    line-height: 1.2 !important;
+    margin: 0 0 24px 0;
+    white-space: pre-line;
+    letter-spacing: -0.02em;
+    color: var(--course-primary-color, var(--hds-sys-color-theme-surface));
+
+    @media (max-width: 767px) {
+      font-size: clamp(32px, 10vw, 60px);
+    }
+  }
+
+  &__subtitle {
+    font-size: clamp(18px, 2.5vw, 30px);
+    font-weight: 800;
+    line-height: 1.3;
+    opacity: 0.9;
+    margin: 0;
+    max-width: 900px;
+
+    @media (max-width: 767px) {
+      font-size: 18px;
+    }
+  }
+
+  // =============================================================================
+  // Main Section - 兩欄布局
+  // =============================================================================
+  &__main {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 40px 150px;
+    animation: slide-up-body 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+    @media (max-width: 767px) {
+      padding: 0 30px 100px;
+    }
+
+    @media (max-width: 480px) {
+      padding: 0 20px 80px;
+    }
+  }
+
+  &__container {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    flex-direction: row-reverse; // Meta 在右邊（視覺上在左邊因為 row-reverse）
+    gap: 80px;
+
+    @media (max-width: 1024px) {
+      flex-direction: column;
+      gap: 60px;
+    }
+
+    @media (max-width: 767px) {
+      gap: 40px;
+    }
+  }
+
+  // =============================================================================
+  // Meta 欄（左欄 - sticky）
+  // =============================================================================
+  &__meta {
+    flex: 0 0 360px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    position: sticky;
+    top: 120px;
+    align-self: flex-start;
+
+    @media (max-width: 1200px) {
+      flex: 0 0 300px;
+      top: 100px;
+    }
+
+    @media (max-width: 1024px) {
+      flex: 1;
+      width: 100%;
+      position: static;
+      gap: 32px;
+    }
+  }
+
+  &__meta-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    @media (max-width: 1024px) {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px 32px;
+    }
+
+    @media (max-width: 767px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px 24px;
+    }
+  }
+
+  &__meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__meta-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 130%;
+    text-transform: uppercase;
+    color: var(--course-content-color, var(--hds-sys-color-theme-surface));
+    opacity: 0.6;
+    margin: 0;
+  }
+
+  &__meta-value {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 130%;
+    text-transform: uppercase;
+    margin: 0;
+    white-space: pre-line;
+  }
+
+  // =============================================================================
+  // Pricing
+  // =============================================================================
+  &__pricing {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    background: rgba(128, 128, 128, 0.1);
+    border-left: 3px solid var(--course-primary-color, var(--hds-sys-color-theme-surface));
+
+    @media (max-width: 1024px) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+  }
+
+  &__price-original,
+  &__price-earlybird {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__price-label {
+    font-family: 'PublicPixel', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    letter-spacing: 0.1em;
+  }
+
+  &__price-value {
+    font-family: 'PublicPixel', monospace !important;
+    font-size: 20px;
+
+    &--strikethrough {
+      text-decoration: line-through;
+      opacity: 0.4;
+      font-size: 16px;
+    }
+
+    &--highlight {
+      font-size: 24px;
+    }
+  }
+
+  &__pricing-note {
+    font-size: 14px;
+    opacity: 0.7;
+    margin: 8px 0 0 0;
+    font-style: italic;
+    width: 100%;
+  }
+
+  // =============================================================================
+  // CTA Button
+  // =============================================================================
+  &__cta-button {
+    font-family: 'PublicPixel', monospace;
+    font-size: 12px;
+    padding: 18px 32px;
+    background: var(--course-primary-color, var(--hds-sys-color-theme-surface));
+    color: var(--course-secondary-color, var(--hds-sys-color-on-theme-surface));
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    width: 100%;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    @media (max-width: 1024px) {
+      max-width: 300px;
+    }
+
+    @media (max-width: 480px) {
+      max-width: 100%;
+    }
+  }
+
+  // =============================================================================
+  // Body（右欄）
+  // =============================================================================
+  &__body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: 1024px) {
+      margin-top: 40px;
+    }
+  }
+
+  &__description {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 130%;
+    margin: 0 0 20px 0;
+    white-space: pre-line;
+
+    @media (max-width: 767px) {
+      font-size: 22px;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 18px;
+    }
+  }
+
+  &__audience {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin: 0 0 60px 0;
+    font-size: 18px;
+    line-height: 1.6;
+
+    @media (max-width: 767px) {
+      font-size: 16px;
+      margin-bottom: 40px;
+    }
+  }
+
+  &__audience-label {
+    font-family: 'PublicPixel', monospace;
+    font-size: 14px;
+    opacity: 0.6;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  // =============================================================================
+  // Image
+  // =============================================================================
+  &__image {
+    width: 100%;
+
+    @media (max-width: 767px) {
+      margin: 40px 0;
+    }
+  }
+
+  &__img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  // =============================================================================
+  // Section
+  // =============================================================================
+  &__section {
+    width: 100%;
+    margin-top: 60px;
+
+    @media (max-width: 767px) {
+      margin-top: 48px;
+    }
+  }
+
+  &__section-title {
+    font-family: 'PublicPixel', monospace;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 130%;
+    text-transform: uppercase;
+    margin: 0 0 24px 0;
+    white-space: pre-line;
+    color: var(--course-primary-color, var(--hds-sys-color-theme-surface));
+
+    @media (max-width: 767px) {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 18px;
+    }
+  }
+
+  &__cursor {
+    animation: cursor-blink 1s steps(2, start) infinite;
+  }
+
+  &__section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    @media (max-width: 767px) {
+      gap: 20px;
+    }
+  }
+
+  // =============================================================================
+  // USP
+  // =============================================================================
+  &__usp-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  &__usp-number {
+    font-family: 'PublicPixel', monospace !important;
+    font-size: 14px;
+    opacity: 0.3;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  &__usp-content {
+    flex: 1;
+  }
+
+  &__usp-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 130%;
+    margin: 0 0 8px 0;
+
+    @media (max-width: 767px) {
+      font-size: 18px;
+    }
+  }
+
+  &__usp-description {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    opacity: 0.85;
+    margin: 0;
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
+  }
+
+  // =============================================================================
+  // Syllabus
+  // =============================================================================
+  &__day {
+    padding: 24px;
+    background: rgba(128, 128, 128, 0.05);
+    border-left: 3px solid var(--course-primary-color, var(--hds-sys-color-theme-surface));
+
+    @media (max-width: 767px) {
+      padding: 20px;
+    }
+  }
+
+  &__day-header {
+    margin-bottom: 20px;
+  }
+
+  &__day-label {
+    font-family: 'PublicPixel', monospace !important;
+    font-size: 15px;
+    display: block;
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--course-primary-color, var(--hds-sys-color-theme-surface));
+  }
+
+  &__day-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    line-height: 130%;
+    margin: 0;
+
+    @media (max-width: 767px) {
+      font-size: 18px;
+    }
+  }
+
+  &__sessions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  &__session {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+
+  &__session-time {
+    font-family: 'PublicPixel', monospace;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--course-primary-color, var(--hds-sys-color-theme-surface));
+    min-width: 50px;
+    padding-top: 4px;
+  }
+
+  &__session-content {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    margin: 0;
+    flex: 1;
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
+  }
+
+  &__outcome {
+    padding-top: 16px;
+    border-top: 1px solid rgba(128, 128, 128, 0.2);
+  }
+
+  &__outcome-label {
+    font-family: 'PublicPixel', monospace !important;
+    font-size: 15px;
+    display: block;
+    font-weight: 600;
+    color: var(--course-primary-color, var(--hds-sys-color-theme-surface));
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  &__outcome-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 150%;
+    margin: 0;
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
+  }
+
+  // =============================================================================
+  // Projects
+  // =============================================================================
+  &__projects {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  &__project {
+    padding: 24px;
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    transition: border-color 0.3s ease;
+
+    &:hover {
+      border-color: rgba(128, 128, 128, 0.4);
+    }
+
+    @media (max-width: 767px) {
+      padding: 20px;
+    }
+  }
+
+  &__project-label {
+    font-family: 'PublicPixel', monospace;
+    font-size: 10px;
+    display: block;
+    opacity: 0.5;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  &__project-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 130%;
+    margin: 0 0 8px 0;
+
+    @media (max-width: 767px) {
+      font-size: 16px;
+    }
+  }
+
+  &__project-description {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+    opacity: 0.8;
+    margin: 0;
+  }
+
+  // =============================================================================
+  // FAQ
+  // =============================================================================
+  &__faq {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__faq-item {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+
+    &--expanded {
+      .course-detail__faq-answer {
+        max-height: 500px;
+        opacity: 1;
+        padding: 0 0 20px 36px;
+      }
+    }
+  }
+
+  &__faq-question {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 20px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    color: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+      padding: 16px 0;
+    }
+  }
+
+  &__faq-q,
+  &__faq-a {
+    font-family: 'PublicPixel', monospace !important;
+    font-size: 15px;
+    text-transform: uppercase;
+    color: var(--course-primary-color, var(--hds-sys-color-theme-surface));
+    min-width: 24px;
+  }
+
+  &__faq-text {
+    flex: 1;
+    line-height: 1.5;
+  }
+
+  &__faq-icon {
+    font-family: 'PublicPixel', monospace;
+    font-size: 14px;
+    opacity: 0.5;
+  }
+
+  &__faq-answer {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    padding: 0 0 0 36px;
+    display: flex;
+    gap: 12px;
+  }
+
+  &__faq-answer-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 160%;
+    opacity: 0.85;
+    margin: 0;
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
+  }
+}
+
+// =============================================================================
+// Animations
+// =============================================================================
+@keyframes slide-up-body {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cursor-blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+// =============================================================================
+// Dark Theme
+// =============================================================================
+[data-theme="dark"] {
+  .course-detail {
+    &__tag {
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    &__project {
+      border-color: rgba(255, 255, 255, 0.15);
+
+      &:hover {
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+    }
+
+    &__day {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    &__pricing {
+      background: rgba(255, 255, 255, 0.05);
+    }
+  }
+}
