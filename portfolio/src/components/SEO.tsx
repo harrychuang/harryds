@@ -62,19 +62,32 @@ const SEO: React.FC<SEOProps> = ({
   
   // 預設 SEO 內容（從 i18n 取得）
   const siteName = t('seo.siteName');
+  const titleSuffix = t('seo.titleSuffix'); // 完整的標題後綴（包含中文名稱）
   const defaultDescription = t('seo.homeDescription');
   const defaultKeywords = t('seo.keywords').split(', ');
   const imageAlt = t('seo.imageAlt');
   
-  // 組合最終的標題
+  // 組合最終的標題（使用 titleSuffix 而非 siteName）
   const finalTitle = isHomePage 
     ? t('seo.homeTitle')
     : title 
-      ? `${title} | ${siteName}` 
-      : siteName;
+      ? `${title} | ${titleSuffix}` 
+      : titleSuffix;
   
   const finalDescription = description || defaultDescription;
-  const finalImage = image || DEFAULT_OG_IMAGE;
+  
+  // 處理圖片 URL：確保是絕對路徑
+  const resolveImageUrl = (imageUrl?: string): string => {
+    if (!imageUrl) return DEFAULT_OG_IMAGE;
+    // 如果已經是絕對 URL，直接返回
+    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+      return imageUrl;
+    }
+    // 如果是相對路徑，加上 SITE_URL 前綴
+    return `${SITE_URL}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
+  };
+  
+  const finalImage = resolveImageUrl(image);
   const finalKeywords = [...defaultKeywords, ...keywords].join(', ');
   
   // 完整的 canonical URL

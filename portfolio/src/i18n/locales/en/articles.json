@@ -1210,5 +1210,30 @@
       "paragraph2": "This doesn't just happen at startups—many mature enterprises face the same problem. In the early days, the rush for speed often leads to skipping proper architectural standards and shared language. Later on, collaboration between designers and engineers becomes increasingly difficult. The larger the project scale, the higher the labor and time costs. When you finally want to start building a design system, you often need to invest even more time reorganizing and adjusting.",
       "paragraph3": "Therefore, even if you don't have time to build your own design system initially, you can choose a mature open-source component library as a foundation. These open-source component libraries are themselves complete design systems and can be branded and customized according to product needs, still laying a solid foundation for future systematization. This applies regardless of project size. Take my own example—when recently developing my studio's platform, I also started with the design system and component library, ensuring each component is tested and validated before being assembled into the product interface. When issues arise, I can immediately go back to the component library to make corrections. In this era, AI is perfect for helping produce 'parts' in component libraries, significantly improving development efficiency. Now is the best time to establish a systematic foundation :D"
     }
+  },
+  "58": {
+    "heading": "Design Tokens + AI:\nTaming Vibe Coding",
+    "subtitle": "I recently picked up some high-value insights at WebConf 2025 regarding Vue.js and AI collaboration—specifically about applying Design Tokens (Variables). We all dread that moment when AI hallucinates 'close enough' colors or weird spacing during development, right? Here's how we can train the AI to behave!",
+    "date": "Dec 17, 2025",
+    "tags": [
+      "Design System",
+      "Design Token",
+      "Vibe Coding"
+    ],
+    "category": "article",
+    "url": "https://kurohsu.dev/misc/webconf-2025-vue-sdd-ai-development.html",
+    "images": [
+      "articles/56/topics-56.1.jpg",
+      "articles/56/topics-56.2.jpg",
+      "articles/56/topics-56.3.jpg",
+      "articles/56/topics-56.4.jpg",
+      "articles/56/topics-56.5.jpg"
+    ],
+    "content": {
+      "paragraph1": "I recently picked up some high-value insights at WebConf 2025 regarding Vue.js and AI collaboration—specifically about applying Design Tokens (Variables). We all dread that moment when AI hallucinates 'close enough' colors like #FEFEFE or weird spacing like 17px during development, right? 😅 So how do we train the AI to behave?",
+      "paragraph2": "🎨 On the Design side: Once we define Variables in Figma, we use a plugin (like Variables Export) to generate a Tokens.css file. 🤖 On the Communication side: We feed this file to the AI (Cursor/VS Code) and set a strict Rule: 'Always prioritize checking these Tokens for development! If you can't find a matching style, ask me first. Never invent your own hex codes or raw numbers!'",
+      "paragraph3": "By doing this, we embed our design context directly into the AI's 'brain.' Now, when we're in the flow of Vibe Coding, the resulting UI and components will adhere to our Design System as much as possible (let's say 90%—we still have to account for that 10% AI randomness XD). Say goodbye to those messy, 'wild' styles! 🫡",
+      "paragraph4": "📎 STYLE_RULES.md Example（https://www.dropbox.com/scl/fi/u6386p6sjy09wd9p0ph3h/STYLE_RULES.md?rlkey=9d8dujqzz5rbold6wpu7uc291&dl=0）\n\n📖 WebConf 2025 Further Reading（https://kurohsu.dev/misc/webconf-2025-vue-sdd-ai-development.html）"
+    }
   }
 }

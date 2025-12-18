@@ -831,8 +831,24 @@ const Home: React.FC = () => {
       data-page="home"
       data-detail-open={openCardId !== null ? 'true' : undefined}
     >
-      {/* SEO Meta Tags */}
-      <SEO {...seoPresets.home} />
+      {/* SEO Meta Tags - 動態根據開啟的專案更新 */}
+      {openCardId && items.find(i => i.id === openCardId) ? (() => {
+        const openedItem = items.find(i => i.id === openCardId)!;
+        const headingForSlug = openedItem.originalHeading || openedItem.heading;
+        const projectSlug = slugify(headingForSlug);
+        return (
+          <SEO
+            title={openedItem.heading}
+            description={openedItem.projectInfo?.description || openedItem.subtitle}
+            image={openedItem.heroImage}
+            path={`project/${openedItem.id}/${projectSlug}`}
+            type="website"
+            keywords={openedItem.tags}
+          />
+        );
+      })() : (
+        <SEO {...seoPresets.home} />
+      )}
       
       {/* 預載統計面板與切換按鈕已移除 */}
 

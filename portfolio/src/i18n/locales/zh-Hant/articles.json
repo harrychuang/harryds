@@ -1210,5 +1210,30 @@
       "paragraph2": "這不僅只發生在新創，許多成熟企業同樣面臨這個問題。初期為了追求速度，省略了應有的架構規範與共同語言，到了後期設計師與工程師的協作反而越來越困難。專案規模愈大，人力與時間成本就愈高；等到真的想開始打造設計系統時，往往需要投入更多時間重新整理與調整。",
       "paragraph3": "因此，即使初期沒有時間打造自家的設計系統，也可以先選擇一套成熟的開源元件庫作為基礎。這些開源元件庫本身就是完整的設計系統，也能依產品需求進行品牌化與客製化，依然能為未來的系統化打下良好的基礎。這不分專案大小。以我自己為例，最近在開發工作室的平台時，也是從設計系統與元件庫開始著手，確保每個元件都先被測試、驗證，再組裝到產品界面中。遇到問題時，也能立即回到元件庫進行修正。而在這個時代，AI 非常適合用來協助產出元件庫中的「零件」，能大幅提升開發效率～ 現在正是建立系統化基礎的最好時機 :D"
     }
+  },
+  "58": {
+    "heading": "Design Token + AI：\n駕馭 Vibe Coding",
+    "subtitle": "最近在 WebConf 2025 收穫了一個關於 Vue.js 與 AI 協作的高價值心得——特別是關於 Design Token（Variables）的應用。大家在開發時一定都怕 AI 亂生成「差不多」的顏色或奇怪的間距吧？這裡分享如何訓練 AI 乖乖聽話！",
+    "date": "2025 年 12 月 17 日",
+    "tags": [
+      "設計系統",
+      "Design Token",
+      "Vibe Coding"
+    ],
+    "category": "article",
+    "url": "https://kurohsu.dev/misc/webconf-2025-vue-sdd-ai-development.html",
+    "images": [
+      "articles/56/topics-56.1.jpg",
+      "articles/56/topics-56.2.jpg",
+      "articles/56/topics-56.3.jpg",
+      "articles/56/topics-56.4.jpg",
+      "articles/56/topics-56.5.jpg"
+    ],
+    "content": {
+      "paragraph1": "最近在 WebConf 2025 收穫了一個關於 Vue.js 與 AI 協作的高價值心得——特別是關於 Design Token（Variables）的應用。大家在開發時一定都怕 AI 幻覺出「差不多」的顏色像 #FEFEFE，或是奇怪的間距像 17px 吧？😅 那要怎麼訓練 AI 乖乖聽話呢？",
+      "paragraph2": "🎨 設計端：當我們在 Figma 定義好 Variables 後，使用外掛（如 Variables Export）產出一份 Tokens.css 檔案。🤖 溝通端：將這份檔案餵給 AI（Cursor/VS Code），並設定嚴格的規則：「開發時請優先查閱這些 Tokens！如果找不到對應的樣式，請先問我。絕對不要自己發明 hex 色碼或數字！」",
+      "paragraph3": "這樣做，我們就把設計脈絡直接植入 AI 的「大腦」中。現在，當我們在 Vibe Coding 的心流中時，產出的 UI 和元件會盡可能遵循我們的設計系統（大概 90% 吧——剩下 10% 還是要考慮 AI 的隨機性 XD）。跟那些混亂的「狂野」樣式說再見吧！🫡",
+      "paragraph4": "📎 STYLE_RULES.md 範例（https://www.dropbox.com/scl/fi/u6386p6sjy09wd9p0ph3h/STYLE_RULES.md?rlkey=9d8dujqzz5rbold6wpu7uc291&dl=0）\n\n📖 WebConf 2025 延伸閱讀（https://kurohsu.dev/misc/webconf-2025-vue-sdd-ai-development.html）"
+    }
   }
 }

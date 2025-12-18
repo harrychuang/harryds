@@ -943,13 +943,13 @@ const ArticleDetail: React.FC = () => {
     <div className="article-detail">
       {/* SEO Meta Tags - 動態根據文章內容設定 */}
       <SEO
-        title={article?.title}
-        description={article?.description || article?.subtitle}
-        image={article?.images?.[0]}
-        path={`article/${article?.id}/${params.slug}`}
+        title={article.heading}
+        description={article.subtitle}
+        image={article.images?.[0]}
+        path={`article/${article.id}/${params.slug}`}
         type="article"
-        publishedTime={article?.date}
-        keywords={article?.tags}
+        publishedTime={article.date}
+        keywords={article.tags}
       />
       
       <Header
