@@ -151,6 +151,18 @@ const ArticleDetail: React.FC = () => {
     }
   }, [article?.id, isFullyLoaded]);
 
+  // 預渲染就緒事件 - 當文章資料載入完成後觸發
+  // 這讓 @prerenderer/rollup-plugin 知道何時可以擷取 HTML
+  useEffect(() => {
+    if (article && isFullyLoaded) {
+      // 延遲一小段時間確保 react-helmet-async 已更新 meta tags
+      const timer = setTimeout(() => {
+        document.dispatchEvent(new Event('prerender-ready'));
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [article, isFullyLoaded]);
+
   // 找出相關文章（根據 tags/topics 相似度，加入多樣性演算法）
   const relatedArticles = useMemo(() => {
     if (!article || !article.tags || article.tags.length === 0) return [];

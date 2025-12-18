@@ -822,6 +822,26 @@ const Home: React.FC = () => {
     }
   }, [params.id, items, setContextOpenCardId]);
 
+  // 預渲染就緒事件 - 當專案頁面資料載入完成後觸發
+  // 這讓 @prerenderer/rollup-plugin 知道何時可以擷取 HTML
+  useEffect(() => {
+    // 只在專案詳情頁面觸發（有 params.id）
+    if (params.id && !loading) {
+      const id = Number(params.id);
+      const item = items.find(i => i.id === id);
+      
+      // 確保專案資料已載入且不是 private 專案
+      if (item && !item.isPrivate) {
+        // 延遲一小段時間確保 react-helmet-async 已更新 meta tags
+        const timer = setTimeout(() => {
+          document.dispatchEvent(new Event('prerender-ready'));
+        }, 500);
+        return () => clearTimeout(timer);
+      }
+    }
+    // 首頁（無 params.id）的 prerender-ready 由 App.tsx 處理
+  }, [params.id, items, loading]);
+
   // 調試面板已移除
 
   return (

@@ -2,14 +2,22 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import fs from 'fs';
+import prerender from '@prerenderer/rollup-plugin';
+import { prerenderRoutes } from './prerender.routes';
 
 const STRAPI_PROXY_TARGET = process.env.STRAPI_PROXY_TARGET || 'http://172.104.73.171:1337';
 
 // 檢查是否有 HTTPS 證書（開發環境用）
 const hasHttpsCert = fs.existsSync('./.cert/key.pem') && fs.existsSync('./.cert/cert.pem');
 
+// 是否為生產環境 build
+const isProduction = process.env.NODE_ENV === 'production';
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // 預渲染插件已移除，改用 postbuild 腳本生成 SEO 頁面
+  ].filter(Boolean),
   
   // 生產環境的 base path（部署到根目錄）
   base: '/',

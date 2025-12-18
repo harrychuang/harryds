@@ -2,6 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
+  <!-- ============================================ -->
+  <!-- 主要頁面 / Main Pages -->
+  <!-- ============================================ -->
+  
   <!-- 首頁 / Home -->
   <url>
     <loc>https://noeinoi.com/</loc>
@@ -9,7 +13,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://noeinoi.com/?lng=en"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://noeinoi.com/?lng=ja"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://noeinoi.com/"/>
-    <lastmod>2025-12-06</lastmod>
+    <lastmod>2025-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -21,7 +25,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://noeinoi.com/about?lng=en"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://noeinoi.com/about?lng=ja"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://noeinoi.com/about"/>
-    <lastmod>2025-12-06</lastmod>
+    <lastmod>2025-12-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -33,33 +37,539 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://noeinoi.com/articles?lng=en"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://noeinoi.com/articles?lng=ja"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://noeinoi.com/articles"/>
-    <lastmod>2025-12-06</lastmod>
+    <lastmod>2025-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
-  <!-- 
-    專案頁面 (動態生成)
-    當你有新專案時，可以在這裡新增：
-    
-    <url>
-      <loc>https://noeinoi.com/project/1/project-slug</loc>
-      <lastmod>2025-12-06</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.7</priority>
-    </url>
-  -->
+  <!-- ============================================ -->
+  <!-- 專案頁面 / Project Pages (8 projects) -->
+  <!-- ============================================ -->
   
-  <!-- 
-    文章頁面 (動態生成)
-    當你有新文章時，可以在這裡新增：
-    
-    <url>
-      <loc>https://noeinoi.com/article/1/article-slug</loc>
-      <lastmod>2025-12-06</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.7</priority>
-    </url>
-  -->
+  <!-- Project 1: Immersive AI News Experience (Private - excluded from sitemap) -->
+  
+  <!-- Project 2: Streaming Guide -->
+  <url>
+    <loc>https://noeinoi.com/project/2/streaming-guide</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Project 3: Design System Architecture -->
+  <url>
+    <loc>https://noeinoi.com/project/3/design-system-architecture</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Project 4: Brand E-commerce APP -->
+  <url>
+    <loc>https://noeinoi.com/project/4/brand-e-commerce-app</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Project 5: Payment Flow Optimization -->
+  <url>
+    <loc>https://noeinoi.com/project/5/payment-flow-optimization</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Project 6: Travel Monster Brand Incubation -->
+  <url>
+    <loc>https://noeinoi.com/project/6/travel-monster-brand-incubation</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Project 7: Global Chinese Learning Ecosystem -->
+  <url>
+    <loc>https://noeinoi.com/project/7/global-chinese-learning-ecosystem</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Project 8: Interactive Web Experience -->
+  <url>
+    <loc>https://noeinoi.com/project/8/interactive-web-experience</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- ============================================ -->
+  <!-- 文章頁面 / Article Pages (58 articles) -->
+  <!-- ============================================ -->
+  
+  <!-- Article 1 -->
+  <url>
+    <loc>https://noeinoi.com/article/1/design-systems-the-solution-to-product-collaboration</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 2 -->
+  <url>
+    <loc>https://noeinoi.com/article/2/bridging-the-gap-between-design-and-development</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 3 -->
+  <url>
+    <loc>https://noeinoi.com/article/3/the-art-of-design-decluttering</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 4 -->
+  <url>
+    <loc>https://noeinoi.com/article/4/implementing-design-systems-a-mountain-worth-climbing</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 5 -->
+  <url>
+    <loc>https://noeinoi.com/article/5/work-hard--smart</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 6 -->
+  <url>
+    <loc>https://noeinoi.com/article/6/design-token-the-shared-language-of-design-and-development</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 7 -->
+  <url>
+    <loc>https://noeinoi.com/article/7/design-token-naming-the-art-of-three-layer-structure</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 8 -->
+  <url>
+    <loc>https://noeinoi.com/article/8/token-inheritance-the-chefs-special-wisdom</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 9 -->
+  <url>
+    <loc>https://noeinoi.com/article/9/token-semantics-unified-naming-system</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 10 -->
+  <url>
+    <loc>https://noeinoi.com/article/10/cross-team-design-systems-the-value-of-storybook</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 11 -->
+  <url>
+    <loc>https://noeinoi.com/article/11/color-planning-less-is-more</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 12 -->
+  <url>
+    <loc>https://noeinoi.com/article/12/theme-inversion-colors-neutral-semantic-naming</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 13 -->
+  <url>
+    <loc>https://noeinoi.com/article/13/tool-share-color-contrast-checker</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 14 -->
+  <url>
+    <loc>https://noeinoi.com/article/14/icon-design-unified-size-and-alignment</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 15 -->
+  <url>
+    <loc>https://noeinoi.com/article/15/component-deconstruction-extracting-design-elements</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 16 -->
+  <url>
+    <loc>https://noeinoi.com/article/16/component-composition-flexible-building-block-thinking</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 17 -->
+  <url>
+    <loc>https://noeinoi.com/article/17/clay-vs-blocks-two-design-mindsets</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 18 -->
+  <url>
+    <loc>https://noeinoi.com/article/18/ai-and-design-systems-future-collaboration</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 19 -->
+  <url>
+    <loc>https://noeinoi.com/article/19/variables-and-styles-an-inseparable-relationship</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 20 -->
+  <url>
+    <loc>https://noeinoi.com/article/20/mcp-tool-share-cursor-talk-to-figma</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 21 -->
+  <url>
+    <loc>https://noeinoi.com/article/21/design-principles-guiding-design-decisions</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 22 -->
+  <url>
+    <loc>https://noeinoi.com/article/22/the-role-of-secondary-colors-resolving-color-conflicts</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 23 -->
+  <url>
+    <loc>https://noeinoi.com/article/23/starting-with-new-features-design-system-adoption-strategy</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 24 -->
+  <url>
+    <loc>https://noeinoi.com/article/24/design-token-the-meaning-of-multi-layer-inheritance</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 25 -->
+  <url>
+    <loc>https://noeinoi.com/article/25/design-token-the-cross-platform-bridge</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 26 -->
+  <url>
+    <loc>https://noeinoi.com/article/26/design-token-the-clothing-size-analogy</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 27 -->
+  <url>
+    <loc>https://noeinoi.com/article/27/design-system-scale-contextual-planning</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 28 -->
+  <url>
+    <loc>https://noeinoi.com/article/28/ai-accelerated-design-foundation-first</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 29 -->
+  <url>
+    <loc>https://noeinoi.com/article/29/vibe-coding-ai-as-engineer</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 30 -->
+  <url>
+    <loc>https://noeinoi.com/article/30/color-hierarchy-the-meaning-of-numbers</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 31 -->
+  <url>
+    <loc>https://noeinoi.com/article/31/simplification--convergence-lessons-from-raptor-3</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 32 -->
+  <url>
+    <loc>https://noeinoi.com/article/32/neutral-vs-lightdark-colors-functional-differences</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 33 -->
+  <url>
+    <loc>https://noeinoi.com/article/33/design-token-its-just-variables</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 34 -->
+  <url>
+    <loc>https://noeinoi.com/article/34/token-naming-structure-team-collaboration-planning</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 35 -->
+  <url>
+    <loc>https://noeinoi.com/article/35/figma-variables-ai-accelerated-workflow</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 36 -->
+  <url>
+    <loc>https://noeinoi.com/article/36/color-overlay-strategy-simplifying-token-management</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 37 -->
+  <url>
+    <loc>https://noeinoi.com/article/37/number-management-design-system-convergence</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 38 -->
+  <url>
+    <loc>https://noeinoi.com/article/38/experiment-sandbox-flexible-design-system-process</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 39 -->
+  <url>
+    <loc>https://noeinoi.com/article/39/token-roles-the-meaning-of-three-layer-definition</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 40 -->
+  <url>
+    <loc>https://noeinoi.com/article/40/document-sync-notion-and-storybook</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 41 -->
+  <url>
+    <loc>https://noeinoi.com/article/41/goal-setting-choosing-okr-vs-kpi</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 42 -->
+  <url>
+    <loc>https://noeinoi.com/article/42/building-blocks-design-system-collaboration-flow</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 43 -->
+  <url>
+    <loc>https://noeinoi.com/article/43/ai-assisted-building-design-system-component-libraries</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 44 -->
+  <url>
+    <loc>https://noeinoi.com/article/44/figma-tools-color-guide-generator</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 45 -->
+  <url>
+    <loc>https://noeinoi.com/article/45/token-layers-two-layer-vs-three-layer-models</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 46 -->
+  <url>
+    <loc>https://noeinoi.com/article/46/multi-brand-management-shared-token-strategy</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 47 -->
+  <url>
+    <loc>https://noeinoi.com/article/47/elevation-interface-z-axis-design</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 48 -->
+  <url>
+    <loc>https://noeinoi.com/article/48/composability-component-assembly-thinking</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 49 -->
+  <url>
+    <loc>https://noeinoi.com/article/49/design-systems-surf-design-system-database</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 50 -->
+  <url>
+    <loc>https://noeinoi.com/article/50/on-naming-color-token-pairing-strategy</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 51 -->
+  <url>
+    <loc>https://noeinoi.com/article/51/token-naming-tool-building-consistent-structure</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 52 -->
+  <url>
+    <loc>https://noeinoi.com/article/52/token-structure-understanding-each-levels-purpose</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 53 -->
+  <url>
+    <loc>https://noeinoi.com/article/53/semantic-tokens-focusing-on-essential-settings</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 54 -->
+  <url>
+    <loc>https://noeinoi.com/article/54/slot-composition-component-extension-method</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 55 -->
+  <url>
+    <loc>https://noeinoi.com/article/55/token-inheritance-practice-fill-in-the-blank-table-method</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 56 -->
+  <url>
+    <loc>https://noeinoi.com/article/56/typography-styles-planning-and-convergence</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 57 -->
+  <url>
+    <loc>https://noeinoi.com/article/57/starting-early-design-system-foundation</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Article 58 -->
+  <url>
+    <loc>https://noeinoi.com/article/58/design-tokens--ai-taming-vibe-coding</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
 </urlset>

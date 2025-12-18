@@ -42,6 +42,24 @@ const AppContent: React.FC = () => {
     };
   }, [i18n]);
 
+  // 預渲染就緒事件 - 當頁面載入完成後觸發
+  // 注意：對於需要動態資料的頁面（如 ArticleDetail、Home），
+  // 事件會在各自的組件中觸發，確保資料已載入
+  useEffect(() => {
+    // 只在非動態頁面（如 About）觸發
+    // 動態頁面會在各自組件中觸發
+    const pathname = window.location.pathname;
+    const isDynamicPage = pathname.startsWith('/article/') || pathname.startsWith('/project/');
+    
+    if (!isLoading && !isDynamicPage) {
+      // 延遲一小段時間確保 react-helmet-async 已更新 meta tags
+      const timer = setTimeout(() => {
+        document.dispatchEvent(new Event('prerender-ready'));
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
+
   return (
     <div className="app">
       {/* 全域 PageLoader */}
