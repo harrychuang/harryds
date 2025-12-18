@@ -1,7 +1,7 @@
 {
   "1": {
     "heading": "<プロダクトデザイナー />\nVibe Coding ワークショップ",
-    "subtitle": "FigmaデザインシステムからStrapiデータベースまで、2日間でサイドプロジェクトを完成させましょう。",
+    "subtitle": "FigmaデザインシステムからStrapiデータベースまで、2日間でサイドプロジェクトを完成",
     "instructor": "Harry",
     "date": "2025年1月",
     "tags": [
@@ -24,8 +24,8 @@
       "週末2日間スプリント"
     ],
     "valueProposition": {
-      "title": "FigmaデザインシステムからStrapiデータベースまで、2日間でサイドプロジェクトを完成させましょう。",
-      "format": "4-6人の少人数オフラインクラス（台北）。"
+      "title": "FigmaデザインシステムからStrapiデータベースまで、2日間でサイドプロジェクトを完成",
+      "format": "4-6人対面少人数クラス（台北）"
     },
     "usp": [
       {
@@ -48,14 +48,14 @@
         "sessions": [
           {
             "time": "午前",
-            "content": "Figma VariablesとDesign Tokensの変換（JSON to CSS Variables）。"
+            "content": "Figma VariablesとDesign Tokensの変換（JSON to CSS Variables）"
           },
           {
             "time": "午後",
-            "content": "Vibe Coding実践、AIでStorybookコンポーネントライブラリを生成。"
+            "content": "Vibe Coding実践、AIでStorybookコンポーネントライブラリを生成"
           }
         ],
-        "outcome": "「ミニマリスト記事リーダー」のフロントエンドインターフェースと動的ルーティングを完成。"
+        "outcome": "Storybookコンポーネントライブラリ構築"
       },
       {
         "day": "Day 2",
@@ -63,19 +63,19 @@
         "sessions": [
           {
             "time": "午前",
-            "content": "プロダクトの頭脳（Strapi CMS）構築とデータ連携（CRUD）。"
+            "content": "プロダクトの頭脳（Strapi CMS）構築とデータ連携（CRUD）"
           },
           {
             "time": "午後",
-            "content": "デプロイ（GitHub + Zeabur）＆個人サイドプロジェクトのコア機能スプリント。"
+            "content": "デプロイ（GitHub + Zeabur）＆個人サイドプロジェクトのコア機能スプリント"
           }
         ],
-        "outcome": "実際に稼働するURLを取得し、選んだテーマのコア機能（いいね、コメント、予約など）を完成。"
+        "outcome": "サイドプロジェクトのフロントエンド・バックエンド連携とコア機能完成"
       }
     ],
     "pricing": {
-      "schedule": "1月中旬または下旬予定（週末2日間 09:30-17:00）",
-      "location": "台北市内（詳細は追ってお知らせ）",
+      "schedule": "1月中旬または下旬予定（週末2日間 10:00-17:00）",
+      "location": "台北駅近くのスペース（詳細は追ってお知らせ）",
       "earlyBird": "NT$ 5,000",
       "original": "NT$ 8,800",
       "note": "早期割引は4-6名限定。"

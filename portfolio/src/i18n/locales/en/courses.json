@@ -1,7 +1,7 @@
 {
   "1": {
     "heading": "<Product Designer />\nVibe Coding Workshop",
-    "subtitle": "From Figma Design System to Strapi Database, complete your Side Project in 2 days.",
+    "subtitle": "From Figma Design System to Strapi Database, complete your Side Project in 2 days",
     "instructor": "Harry",
     "date": "January 2025",
     "tags": [
@@ -24,8 +24,8 @@
       "2-day weekend sprint"
     ],
     "valueProposition": {
-      "title": "From Figma Design System to Strapi Database, complete your Side Project in 2 days.",
-      "format": "4-6 person intensive offline workshop (Taipei)."
+      "title": "From Figma Design System to Strapi Database, complete your Side Project in 2 days",
+      "format": "4-6 person in-person small class (Taipei)"
     },
     "usp": [
       {
@@ -48,14 +48,14 @@
         "sessions": [
           {
             "time": "Morning",
-            "content": "Figma Variables & Design Tokens Conversion (JSON to CSS Variables)."
+            "content": "Figma Variables & Design Tokens Conversion (JSON to CSS Variables)"
           },
           {
             "time": "Afternoon",
-            "content": "Vibe Coding Practice - Generate Storybook component library with AI."
+            "content": "Vibe Coding Practice - Generate Storybook component library with AI"
           }
         ],
-        "outcome": "Complete the frontend interface and dynamic routing for a \"Minimalist Article Reader\"."
+        "outcome": "Build Storybook Component Library"
       },
       {
         "day": "Day 2",
@@ -63,19 +63,19 @@
         "sessions": [
           {
             "time": "Morning",
-            "content": "Build the Product Brain (Strapi CMS) & Data Integration (CRUD)."
+            "content": "Build the Product Brain (Strapi CMS) & Data Integration (CRUD)"
           },
           {
             "time": "Afternoon",
-            "content": "Deployment (GitHub + Zeabur) & Personal Side Project Core Feature Sprint."
+            "content": "Deployment (GitHub + Zeabur) & Personal Side Project Core Feature Sprint"
           }
         ],
-        "outcome": "Get a real running URL and complete a core feature of your chosen topic (e.g., likes, comments, bookings)."
+        "outcome": "Complete Side Project Frontend-Backend Integration & Core Features"
       }
     ],
     "pricing": {
-      "schedule": "Mid-January or late January (Weekend, 09:30-17:00)",
-      "location": "Taipei City (Detailed location TBA)",
+      "schedule": "Mid-January or late January (Weekend, 10:00-17:00)",
+      "location": "Near Taipei Main Station (Detailed location TBA)",
       "earlyBird": "NT$ 5,000",
       "original": "NT$ 8,800",
       "note": "Early bird launch limited to 4-6 people."

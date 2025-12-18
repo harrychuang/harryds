@@ -1,7 +1,7 @@
 {
   "1": {
     "heading": "<產品設計師 />\nVibe Coding 工作坊",
-    "subtitle": "從 Figma 設計系統到 Strapi 資料庫，2天完成你的 Side Project。",
+    "subtitle": "從 Figma 設計系統到 Strapi 資料庫，2天完成你的 Side Project",
     "instructor": "Harry",
     "date": "2025 年 1 月",
     "tags": [
@@ -24,8 +24,8 @@
       "週末2日衝刺"
     ],
     "valueProposition": {
-      "title": "從 Figma 設計系統到 Strapi 資料庫，2天完成你的 Side Project。",
-      "format": "4-6 人極致線下小班 (台北)。"
+      "title": "從 Figma 設計系統到 Strapi 資料庫，2天完成你的 Side Project",
+      "format": "4-6 人實體小班制 (台北)"
     },
     "usp": [
       {
@@ -48,14 +48,14 @@
         "sessions": [
           {
             "time": "上午",
-            "content": "Figma Variables 與 Design Tokens 轉換 (JSON to CSS Variables)。"
+            "content": "Figma Variables 與 Design Tokens 轉換 (JSON to CSS Variables)"
           },
           {
             "time": "下午",
-            "content": "Vibe Coding 實戰，用 AI 生成 Storybook 元件庫。"
+            "content": "Vibe Coding 實戰，用 AI 生成 Storybook 元件庫"
           }
         ],
-        "outcome": "完成「極簡文章閱讀器」的前端介面與動態路由。"
+        "outcome": "建立「Storybook 元件庫」"
       },
       {
         "day": "Day 2",
@@ -63,19 +63,19 @@
         "sessions": [
           {
             "time": "上午",
-            "content": "建立產品大腦 (Strapi CMS) 與資料串接 (CRUD)。"
+            "content": "建立產品大腦 (Strapi CMS) 與資料串接 (CRUD)"
           },
           {
             "time": "下午",
-            "content": "部署上線 (GitHub + Zeabur) 與個人 Side Project 核心功能衝刺。"
+            "content": "部署上線 (GitHub + Zeabur) 與個人 Side Project 核心功能衝刺"
           }
         ],
-        "outcome": "獲得一個真實運行的網址，並完成一個自選題目的核心功能 (如：按讚、留言、預約)。"
+        "outcome": "完成 Side Project 前後端串接與核心功能"
       }
     ],
     "pricing": {
-      "schedule": "預計 1月中旬或 1月底 (週末兩日 09:30-17:00)",
-      "location": "台北市區 (詳細地點待通知)",
+      "schedule": "預計 1月中旬或 1月底 (週末兩日 10:00-17:00)",
+      "location": "台北車站附近空間 (詳細地點待通知)",
       "earlyBird": "NT$ 5,000",
       "original": "NT$ 8,800",
       "note": "早鳥首發僅限 4-6 人。"

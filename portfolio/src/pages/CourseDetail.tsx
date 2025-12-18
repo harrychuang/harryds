@@ -1,17 +1,47 @@
-import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useMemo, memo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
 import { useTheme } from '../theme/useTheme';
 import { useSound } from '../hooks/useSound';
 import { useCourses } from '../hooks/useCourses';
+import { useHover } from '../contexts/HoverContext';
 import './CourseDetail.scss';
 import Header from '../components/Header';
 import SEO from '../components/SEO';
+import { PixelText2D, CHAR_WIDTH, CHAR_HEIGHT } from '../../../harryds/src/components/PixelText';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 import { useContactModal } from '../contexts/ContactModalContext';
+
+// 避免重繪昂貴的 PixelText 畫布
+const StablePixelText2D = memo(PixelText2D);
+
+// 計算 text-box canvas 尺寸（與 FeedCardInfo 一致）
+const computeTextBoxCanvasSize = (
+  boxCharCount: number,
+  pixelSize: number,
+  pixelGap: number,
+  letterSpacing: number,
+  textBoxPadding: number,
+) => {
+  const pixelWithGap = pixelSize + pixelGap;
+  const contentWidth = boxCharCount * CHAR_WIDTH * pixelWithGap - boxCharCount * pixelGap;
+  const contentSpacing = Math.max(0, boxCharCount - 1) * letterSpacing * pixelSize;
+  const totalContentWidth = contentWidth + contentSpacing;
+
+  const leftPadding = textBoxPadding * pixelSize;
+  const rightPadding = Math.max(0, textBoxPadding * pixelSize - pixelSize);
+  const width = totalContentWidth + leftPadding + rightPadding;
+
+  const topPadding = textBoxPadding * pixelSize;
+  const bottomPadding = Math.max(0, textBoxPadding * pixelSize - pixelSize);
+  const textPixelHeight = CHAR_HEIGHT * pixelWithGap - pixelGap;
+  const height = textPixelHeight + topPadding + bottomPadding;
+
+  return { width: Math.max(1, Math.round(width)), height: Math.max(1, Math.round(height)) };
+};
 
 const PAGE_NAME = 'course-detail';
 
@@ -24,6 +54,7 @@ const CourseDetail: React.FC = () => {
   const { items, loading: coursesLoading } = useCourses();
   const { setLoading, setAnimationComplete, isPageLoaded, markPageAsLoaded } = usePageLoader();
   const { openContactModal } = useContactModal();
+  const { setCustomColors } = useHover();
   
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
@@ -336,6 +367,44 @@ const CourseDetail: React.FC = () => {
     secondaryColor: backgroundColor,
   };
 
+  // Tags 顯示文字（與 FeedCardInfo 一致的格式）
+  const TAG_SYMBOL = '◼';
+  const tagsDisplayText = useMemo(() => {
+    const list = Array.isArray(course.tags) ? course.tags : [];
+    return list
+      .map((original) => `${TAG_SYMBOL} ${original}`)
+      .join('  ');
+  }, [course.tags]);
+
+  // Tags canvas 尺寸計算
+  const tagsPx = windowWidth <= 767 ? 2 : 2;
+  const pixelGap = 0;
+  const tagsTextBoxPadding = 5;
+  const letterSpacing = 1;
+  const textBoxWidth = Math.max(6, tagsDisplayText.length);
+  const tagCanvas = useMemo(() => (
+    computeTextBoxCanvasSize(
+      textBoxWidth,
+      tagsPx,
+      pixelGap,
+      letterSpacing,
+      tagsTextBoxPadding,
+    )
+  ), [textBoxWidth, tagsPx]);
+
+  // 設定 Footer 顏色為課程的 primaryColor 和 secondaryColor
+  useEffect(() => {
+    setCustomColors({
+      primaryColor,
+      secondaryColor: backgroundColor,
+    });
+    
+    // 離開頁面時清除自定義顏色
+    return () => {
+      setCustomColors(null);
+    };
+  }, [primaryColor, backgroundColor, setCustomColors]);
+
   return (
     <div 
       className="course-detail"
@@ -387,14 +456,29 @@ const CourseDetail: React.FC = () => {
       <main ref={scrollContainerRef} className="course-detail__content">
         {/* Hero Section - 類似 FeedDetailOverlay 的 hero */}
         <section className="course-detail__hero">
-          <div className="course-detail__hero-info">
+          <div className="course-detail__hero-container">
             <div className="course-detail__hero-tags">
-              {course.tags.map((tag, index) => (
-                <span key={index} className="course-detail__tag">{tag}</span>
-              ))}
+              <StablePixelText2D
+                text=""
+                textEnabled={false}
+                textBoxEnabled
+                textBox={tagsDisplayText}
+                textBoxWidth={textBoxWidth}
+                textBoxPadding={tagsTextBoxPadding}
+                pixelSize={tagsPx}
+                pixelGap={pixelGap}
+                letterSpacing={letterSpacing}
+                primaryColor={primaryColor}
+                onPrimaryColor={backgroundColor}
+                width={tagCanvas.width}
+                height={tagCanvas.height}
+                spaceWidth={3}
+              />
             </div>
-            <h1 className="course-detail__heading">{course.heading}</h1>
-            <p className="course-detail__subtitle">{course.valueProposition.title}</p>
+            <div className="course-detail__hero-info">
+              <h1 className="course-detail__heading">{course.heading}</h1>
+              <p className="course-detail__subtitle">{course.valueProposition.title}</p>
+            </div>
           </div>
         </section>
 
