@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect, useMemo, memo } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useLayoutEffect, useMemo, memo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
@@ -105,22 +105,27 @@ const CourseDetail: React.FC = () => {
   const isFullyLoaded = !coursesLoading;
   
   // 同步 loading 狀態到全域 PageLoader
-  useEffect(() => {
+  // 使用 useLayoutEffect 確保在 DOM 更新前就設定 loading 狀態
+  useLayoutEffect(() => {
     const pageKey = params.id ? `${PAGE_NAME}-${params.id}` : PAGE_NAME;
     const alreadyLoaded = isPageLoaded(pageKey);
     
     if (alreadyLoaded && isFullyLoaded) {
+      // 頁面已載入過且資料已準備好，直接跳過 loading
       setLoading(false);
       setAnimationComplete(true);
     } else if (alreadyLoaded) {
+      // 頁面已載入過但資料還在載入中，跳過 loading 動畫
       setAnimationComplete(true);
     } else {
+      // 首次載入，顯示 loading
       setLoading(!isFullyLoaded);
+      // 載入完成後標記頁面為已載入
       if (isFullyLoaded) {
         markPageAsLoaded(pageKey);
       }
     }
-  }, [isFullyLoaded, setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete, params.id]);
+  }, [isFullyLoaded, coursesLoading, setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete, params.id]);
 
   // 預載音效
   useEffect(() => {
@@ -302,9 +307,66 @@ const CourseDetail: React.FC = () => {
     setExpandedFaqIndex(prev => prev === index ? null : index);
   }, []);
 
-  // 資料載入中，不渲染任何內容
+  // 課程顏色（需要在所有 hooks 之前計算，即使 course 可能為 null）
+  const primaryColor = course?.primaryColor || '#667FFF';
+  const secondaryColor = course?.secondaryColor || '#111';
+
+  // 根據 theme 決定背景色和文字顏色
+  const isLightTheme = theme === 'light';
+  const backgroundColor = isLightTheme ? '#fff' : secondaryColor;
+  // Light theme: 白色背景 → 深色文字; Dark theme: 深色背景 → 淺色文字
+  const contentColor = isLightTheme ? '#111' : '#fff';
+
+  // Header 和 Logo 顏色
+  const headerColors = {
+    primaryColor,
+    secondaryColor: backgroundColor,
+  };
+
+  // Tags 顯示文字（與 FeedCardInfo 一致的格式）
+  const TAG_SYMBOL = '◼';
+  const tagsDisplayText = useMemo(() => {
+    if (!course) return '';
+    const list = Array.isArray(course.tags) ? course.tags : [];
+    return list
+      .map((original) => `${TAG_SYMBOL} ${original}`)
+      .join('  ');
+  }, [course?.tags]);
+
+  // Tags canvas 尺寸計算
+  const tagsPx = windowWidth <= 767 ? 2 : 2;
+  const pixelGap = 0;
+  const tagsTextBoxPadding = 5;
+  const letterSpacing = 1;
+  const textBoxWidth = Math.max(6, tagsDisplayText.length);
+  const tagCanvas = useMemo(() => (
+    computeTextBoxCanvasSize(
+      textBoxWidth,
+      tagsPx,
+      pixelGap,
+      letterSpacing,
+      tagsTextBoxPadding,
+    )
+  ), [textBoxWidth, tagsPx]);
+
+  // 設定 Footer 顏色為課程的 primaryColor 和 secondaryColor
+  useEffect(() => {
+    if (course) {
+      setCustomColors({
+        primaryColor,
+        secondaryColor: backgroundColor,
+      });
+    }
+    
+    // 離開頁面時清除自定義顏色
+    return () => {
+      setCustomColors(null);
+    };
+  }, [course, primaryColor, backgroundColor, setCustomColors]);
+
+  // 資料載入中，顯示空的佔位符（讓 PageLoader 處理 loading 狀態）
   if (!isFullyLoaded) {
-    return null;
+    return <div className="course-detail course-detail--loading" />;
   }
 
   // 資料載入完成但找不到課程，顯示錯誤
@@ -350,60 +412,6 @@ const CourseDetail: React.FC = () => {
       </div>
     );
   }
-
-  // 課程顏色
-  const primaryColor = course.primaryColor || '#667FFF';
-  const secondaryColor = course.secondaryColor || '#111';
-
-  // 根據 theme 決定背景色和文字顏色
-  const isLightTheme = theme === 'light';
-  const backgroundColor = isLightTheme ? '#fff' : secondaryColor;
-  // Light theme: 白色背景 → 深色文字; Dark theme: 深色背景 → 淺色文字
-  const contentColor = isLightTheme ? '#111' : '#fff';
-
-  // Header 和 Logo 顏色
-  const headerColors = {
-    primaryColor,
-    secondaryColor: backgroundColor,
-  };
-
-  // Tags 顯示文字（與 FeedCardInfo 一致的格式）
-  const TAG_SYMBOL = '◼';
-  const tagsDisplayText = useMemo(() => {
-    const list = Array.isArray(course.tags) ? course.tags : [];
-    return list
-      .map((original) => `${TAG_SYMBOL} ${original}`)
-      .join('  ');
-  }, [course.tags]);
-
-  // Tags canvas 尺寸計算
-  const tagsPx = windowWidth <= 767 ? 2 : 2;
-  const pixelGap = 0;
-  const tagsTextBoxPadding = 5;
-  const letterSpacing = 1;
-  const textBoxWidth = Math.max(6, tagsDisplayText.length);
-  const tagCanvas = useMemo(() => (
-    computeTextBoxCanvasSize(
-      textBoxWidth,
-      tagsPx,
-      pixelGap,
-      letterSpacing,
-      tagsTextBoxPadding,
-    )
-  ), [textBoxWidth, tagsPx]);
-
-  // 設定 Footer 顏色為課程的 primaryColor 和 secondaryColor
-  useEffect(() => {
-    setCustomColors({
-      primaryColor,
-      secondaryColor: backgroundColor,
-    });
-    
-    // 離開頁面時清除自定義顏色
-    return () => {
-      setCustomColors(null);
-    };
-  }, [primaryColor, backgroundColor, setCustomColors]);
 
   return (
     <div 

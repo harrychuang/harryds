@@ -19,6 +19,11 @@
   background: var(--course-secondary-color, var(--hds-sys-color-on-theme-surface));
   color: var(--course-content-color, var(--hds-sys-color-theme-surface));
 
+  // Loading 狀態：使用深色背景配合 PageLoader
+  &--loading {
+    background: #111111;
+  }
+
   // =============================================================================
   // Content 區域
   // =============================================================================
@@ -36,13 +41,17 @@
   &__hero {
     position: relative;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1480px;
     padding: 0 40px;
     margin: 250px auto 100px auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     box-sizing: border-box;
+
+    @media (max-width: 1420px) {
+      padding: 0 40px;
+    }
 
     @media (max-width: 767px) {
       margin: 150px auto 50px auto;
@@ -119,7 +128,7 @@
 
   &__container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     padding: 0 40px;
     display: flex;
     flex-direction: row-reverse; // Meta 在右邊（視覺上在左邊因為 row-reverse）
@@ -688,8 +697,8 @@
   }
 
   &__faq-icon {
-    font-family: 'PublicPixel', monospace;
-    font-size: 14px;
+    font-family: 'PublicPixel', monospace !important;
+    font-size: 20px !important;
     opacity: 0.5;
   }
 
