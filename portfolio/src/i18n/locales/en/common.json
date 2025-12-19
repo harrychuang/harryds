@@ -61,8 +61,8 @@
   "pricing": "Pricing & Schedule",
   "schedule": "Schedule",
   "location": "Location",
-  "originalPrice": "Original",
-  "earlyBird": "Early Bird",
+  "originalPrice": "Price",
+  "earlyBird": "Seed Launch Exclusive",
   "faq": "FAQ",
   "contactForCourse": "Register Now",
   "error": {

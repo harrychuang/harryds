@@ -61,8 +61,8 @@
   "pricing": "料金・スケジュール",
   "schedule": "日程",
   "location": "場所",
-  "originalPrice": "通常価格",
-  "earlyBird": "早期割引",
+  "originalPrice": "定価",
+  "earlyBird": "シード限定",
   "faq": "よくある質問",
   "contactForCourse": "お申し込み",
   "error": {

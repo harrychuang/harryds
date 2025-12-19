@@ -61,10 +61,10 @@
   "pricing": "價格與時間",
   "schedule": "時間",
   "location": "地點",
-  "originalPrice": "原價",
-  "earlyBird": "早鳥價",
+  "originalPrice": "定價",
+  "earlyBird": "首發種子限定",
   "faq": "常見問題",
-  "contactForCourse": "聯繫報名",
+  "contactForCourse": "立即報名",
   "error": {
     "404": {
       "code": "404",

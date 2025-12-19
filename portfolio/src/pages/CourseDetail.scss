@@ -245,16 +245,18 @@
   }
 
   &__price-label {
-    font-family: 'PublicPixel', monospace;
-    font-size: 10px;
+    font-family: 'PublicPixel', monospace !important;
+    font-size: 12px !important;
     text-transform: uppercase;
-    opacity: 0.5;
+    opacity: 0.7;
     letter-spacing: 0.1em;
+    margin-bottom: 5px;
   }
 
   &__price-value {
     font-family: 'PublicPixel', monospace !important;
     font-size: 20px;
+    margin-bottom: 10px;
 
     &--strikethrough {
       text-decoration: line-through;
