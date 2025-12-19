@@ -68,7 +68,9 @@ export interface CourseItem {
     title: string;
     sessions: Array<{
       time: string;
-      content: string;
+      title?: string;
+      content?: string;
+      description?: string;
     }>;
     outcome: string;
   }>;

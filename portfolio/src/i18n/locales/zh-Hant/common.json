@@ -12,7 +12,7 @@
     "coursesDescription": "設計系統、Vibe Coding 和設計師全端開發工作坊與課程。",
     "projectsTitle": "作品集",
     "projectsDescription": "精選產品設計與前端開發專案，包含 UI/UX 設計、網站開發、設計系統建置等。",
-    "keywords": "UI/UX設計, 產品設計, 前端開發, 設計系統, React, Design System, Harry Chuang, 莊哲安",
+    "keywords": "UI/UX設計, 產品設計, 前端開發, 設計系統, React, Design System, Harry Chuang, 哈利莊",
     "imageAlt": "Harry Design Studio - 產品設計與前端開發"
   },
   "nav": {
@@ -64,7 +64,7 @@
   "originalPrice": "定價",
   "earlyBird": "首發種子限定",
   "faq": "常見問題",
-  "contactForCourse": "立即報名",
+  "contactForCourse": "報名頁面準備中",
   "error": {
     "404": {
       "code": "404",

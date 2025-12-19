@@ -47,30 +47,34 @@
         "title": "Design System & Component Digitization",
         "sessions": [
           {
-            "time": "Morning",
-            "content": "Figma Variables & Design Tokens Conversion (JSON to CSS Variables)"
+            "time": "Morning 09:30 - 12:30",
+            "title": "Figma Variables & Design Tokens Conversion",
+            "description": "Understand what Design Tokens (Variables) are, learn how to export Figma Variables as JSON and standard CSS Variables. Establish a \"Design Token specification\" between design and code, ensuring colors, fonts, and spacing are synchronized on the development side."
           },
           {
-            "time": "Afternoon",
-            "content": "Vibe Coding Practice - Generate Storybook component library with AI"
+            "time": "Afternoon 13:30 - 17:00",
+            "title": "Vibe Coding Practice: AI-Generated Storybook Component Library",
+            "description": "Using the Tokens defined in the morning, guide AI through prompts to build core components like Card and Button. Automatically generate Storybook documentation and variants, creating a \"functional\" UI component library and building a design system component library."
           }
         ],
-        "outcome": "Build Storybook Component Library"
+        "outcome": "Deliverable: Develop your own Storybook design system component library and Design Tokens architecture"
       },
       {
         "day": "Day 2",
         "title": "Inject Soul & Product Launch",
         "sessions": [
           {
-            "time": "Morning",
-            "content": "Build the Product Brain (Strapi CMS) & Data Integration (CRUD)"
+            "time": "Morning 09:30 - 12:30",
+            "title": "Build Product Brain (Strapi) & Data Integration",
+            "description": "Launch Strapi (Headless CMS) as the product brain. Learn to define data fields (Schema), direct AI to write API integration logic, replace hardcoded dummy data with real data, enabling the interface to add and read content."
           },
           {
-            "time": "Afternoon",
-            "content": "Deployment (GitHub + Zeabur) & Personal Side Project Core Feature Sprint"
+            "time": "Afternoon 13:30 - 17:00",
+            "title": "Cloud Deployment & Personal Feature Sprint",
+            "description": "Unlock the final mile of full-stack development: Deploy GitHub code to Zeabur cloud hosting. Finally, sprint on Side Project core features (e.g., implement like or comment functionality), and with mentor assistance, graduate with your own product URL."
           }
         ],
-        "outcome": "Complete Side Project Frontend-Backend Integration & Core Features"
+        "outcome": "Deliverable: Build a real product (MVP) with backend, interactivity, and live deployment"
       }
     ],
     "pricing": {

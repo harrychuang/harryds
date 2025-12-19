@@ -364,16 +364,54 @@ const CourseDetail: React.FC = () => {
     };
   }, [course, primaryColor, backgroundColor, setCustomColors]);
 
+  // SEO Meta Tags - 必須在所有 return 之前渲染，確保 Facebook Debugger 能抓取到
+  // 即使 course 還在載入，也提供 path 資訊，確保 URL 正確
+  const seoTitle = course?.heading?.replace(/\n/g, ' ') || '';
+  const seoDescription = course?.valueProposition?.title || course?.subtitle || '';
+  const seoImage = course?.images?.[0] || course?.heroImage;
+  const seoPath = course 
+    ? `course/${course.id}/${params.slug || ''}` 
+    : (params.id && params.slug ? `course/${params.id}/${params.slug}` : '');
+  const seoPublishedTime = course?.date;
+  const seoKeywords = course?.tags || [];
+
   // 資料載入中，顯示空的佔位符（讓 PageLoader 處理 loading 狀態）
   if (!isFullyLoaded) {
-    return <div className="course-detail course-detail--loading" />;
+    return (
+      <>
+        {/* SEO Meta Tags - 即使在 loading 狀態也要渲染 */}
+        <SEO
+          key={`course-seo-${params.id || 'loading'}`}
+          title={seoTitle}
+          description={seoDescription}
+          image={seoImage}
+          path={seoPath}
+          type="article"
+          publishedTime={seoPublishedTime}
+          keywords={seoKeywords}
+        />
+        <div className="course-detail course-detail--loading" />
+      </>
+    );
   }
 
   // 資料載入完成但找不到課程，顯示錯誤
   if (!course) {
     return (
-      <div className="course-detail">
-        <Header
+      <>
+        {/* SEO Meta Tags - 即使找不到課程也要渲染 */}
+        <SEO
+          key={`course-seo-${params.id || 'not-found'}`}
+          title={seoTitle}
+          description={seoDescription}
+          image={seoImage}
+          path={seoPath}
+          type="article"
+          publishedTime={seoPublishedTime}
+          keywords={seoKeywords}
+        />
+        <div className="course-detail">
+          <Header
           onLogoClick={handleBackToCourses}
           onLogoMouseEnter={handleLogoHover}
           onLogoMouseLeave={handleLogoLeave}
@@ -409,7 +447,8 @@ const CourseDetail: React.FC = () => {
             <p>The course you are looking for does not exist.</p>
           </div>
         </main>
-      </div>
+        </div>
+      </>
     );
   }
 
@@ -422,14 +461,16 @@ const CourseDetail: React.FC = () => {
         ['--course-content-color' as any]: contentColor,
       }}
     >
-      {/* SEO Meta Tags */}
+      {/* SEO Meta Tags - 動態根據課程內容設定 */}
       <SEO
-        title={course.heading.replace(/\n/g, ' ')}
-        description={course.valueProposition.title}
-        image={course.heroImage}
-        path={`course/${course.id}/${params.slug}`}
+        key={`course-seo-${course.id}`}
+        title={seoTitle}
+        description={seoDescription}
+        image={seoImage}
+        path={seoPath}
         type="article"
-        keywords={course.tags}
+        publishedTime={seoPublishedTime}
+        keywords={seoKeywords}
       />
       
       <Header
@@ -585,8 +626,15 @@ const CourseDetail: React.FC = () => {
                       <div className="course-detail__sessions">
                         {day.sessions.map((session, sessionIndex) => (
                           <div key={sessionIndex} className="course-detail__session">
-                            <span className="course-detail__session-time">{session.time}</span>
-                            <p className="course-detail__session-content">{session.content}</p>
+                            <div className="course-detail__session-header">
+                              <span className="course-detail__session-time">{session.time}</span>
+                              {session.title && (
+                                <h4 className="course-detail__session-title">{session.title}</h4>
+                              )}
+                            </div>
+                            {(session.description || session.content) && (
+                              <p className="course-detail__session-content">{session.description || session.content}</p>
+                            )}
                           </div>
                         ))}
                       </div>

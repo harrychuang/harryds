@@ -47,30 +47,34 @@
         "title": "デザインシステムとコンポーネントのデジタル化",
         "sessions": [
           {
-            "time": "午前",
-            "content": "Figma VariablesとDesign Tokensの変換（JSON to CSS Variables）"
+            "time": "午前 09:30 - 12:30",
+            "title": "Figma VariablesとDesign Tokensの変換",
+            "description": "Design Token（Variables）とは何かを理解し、Figma VariablesをJSONや標準CSS Variablesにエクスポートする方法を学びます。デザインとコードの間の「Design Token規範」を確立し、色、フォント、間隔が開発側で同期されるようにします。"
           },
           {
-            "time": "午後",
-            "content": "Vibe Coding実践、AIでStorybookコンポーネントライブラリを生成"
+            "time": "午後 13:30 - 17:00",
+            "title": "Vibe Coding実践：AI生成Storybookコンポーネントライブラリ",
+            "description": "午前に定義したTokensを使用し、Promptを通じてAIを導き、Card、Buttonなどのコアコンポーネントを構築します。Storybookドキュメントとバリアント（Variants）を自動生成し、「動作する」UIコンポーネントライブラリを作成し、デザインシステムコンポーネントライブラリを構築します。"
           }
         ],
-        "outcome": "Storybookコンポーネントライブラリ構築"
+        "outcome": "成果物：あなた専用のStorybookデザインシステムコンポーネントライブラリとDesign Tokensアーキテクチャを開発"
       },
       {
         "day": "Day 2",
         "title": "魂を注入＆プロダクトローンチ",
         "sessions": [
           {
-            "time": "午前",
-            "content": "プロダクトの頭脳（Strapi CMS）構築とデータ連携（CRUD）"
+            "time": "午前 09:30 - 12:30",
+            "title": "プロダクトの頭脳（Strapi）構築とデータ連携",
+            "description": "Strapi（Headless CMS）をプロダクトの頭脳として起動します。データフィールド（Schema）を定義する方法を学び、AIに指示してAPI連携ロジックを記述させ、ハードコードされたダミーデータを実際のデータに置き換え、インターフェースにコンテンツの追加と読み取り機能を持たせます。"
           },
           {
-            "time": "午後",
-            "content": "デプロイ（GitHub + Zeabur）＆個人サイドプロジェクトのコア機能スプリント"
+            "time": "午後 13:30 - 17:00",
+            "title": "クラウドデプロイ＆個人機能スプリント",
+            "description": "フルスタック開発の最後の一歩を解き放つ：GitHubコードをZeaburクラウドホスティングにデプロイします。最後にSide Projectのコア機能をスプリント（例：いいねやコメント機能の実装）し、メンターのサポートの下、あなた専用のプロダクトURLを持って卒業します。"
           }
         ],
-        "outcome": "サイドプロジェクトのフロントエンド・バックエンド連携とコア機能完成"
+        "outcome": "成果物：バックエンド、インタラクティブ性、ライブデプロイメントを備えた実際のプロダクト（MVP）を構築"
       }
     ],
     "pricing": {
