@@ -100,7 +100,7 @@ i18n.changeLanguage('en');
 ## 部署建議
 
 若以 SPA 靜態部署：
-- 產出：`npm run build` → `dist/`
+- `npm run build` → `dist/`
 - Nginx 範例（SPA fallback）：
 ```nginx
 location / { try_files $uri $uri/ /index.html; }

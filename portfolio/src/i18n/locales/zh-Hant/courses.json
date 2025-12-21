@@ -44,37 +44,62 @@
     "syllabus": [
       {
         "day": "Day 1",
-        "title": "設計系統與元件數位化",
+        "title": "設計系統與元件數位化 (The Foundation)",
         "sessions": [
           {
-            "time": "上午 09:30 - 12:30",
-            "title": "Figma Variables 與 Design Tokens 轉換",
-            "description": "了解什麼是 Design Token (Varialbes)，學習如何將 Figma Variables 匯出為 JSON 及標準 CSS Variables。建立設計與程式碼的「Design Token 規範」，確保顏色、字體與間距在開發端同步。"
+            "time": "09:30 - 10:30",
+            "title": "【開場】AI 時代的產品設計師",
+            "description": "了解設計師為何要學開發。掌握 Vibe Coding 核心心法：用邏輯指揮 AI 寫出好程式，並熟悉 Cursor 工具操作。"
           },
           {
-            "time": "下午 13:30 - 17:00",
-            "title": "Vibe Coding 實戰：AI 生成 Storybook 元件庫",
-            "description": "運用上午定義的 Tokens，透過 Prompt 引導 AI 構建 Card、Button 等核心元件。自動生成 Storybook 文件與變體 (Variants)，打造一個「可運行的」UI 元件庫，建構設計系統元件庫。"
+            "time": "10:30 - 12:30",
+            "title": "【規範】Design Tokens 轉換實戰",
+            "description": "實作 Figma 變數與程式碼的同步。學習如何將設計規範轉換成 AI 能理解的 Design Tokens，建立專案的視覺基石。"
+          },
+          {
+            "time": "13:30 - 15:30",
+            "title": "【元件】Storybook 元件庫開發",
+            "description": "指揮 AI 快速建立 UI 元件庫。從基礎元件到 Storybook 文件，親手打造可重複使用的數位設計資產。"
+          },
+          {
+            "time": "15:30 - 17:00",
+            "title": "【組裝】產品介面與本地資料測試",
+            "description": "將元件組裝成完整的產品頁面。練習使用模擬資料測試畫面，並學習用 Git 進行基本的程式版本管理。"
           }
         ],
-        "outcome": "產出：開發專屬於你的 Storybook 設計系統元件庫與 Design Tokens 架構"
+        "outcome": "一個完全對應設計系統的 Storybook 元件庫。"
       },
       {
         "day": "Day 2",
-        "title": "注入靈魂與產品上線",
+        "title": "注入靈魂與產品上線 (The Soul & MVP)",
         "sessions": [
           {
-            "time": "上午 09:30 - 12:30",
-            "title": "建立產品大腦 (Strapi) 與資料串接",
-            "description": "啟動 Strapi (Headless CMS) 作為產品大腦。學習定義資料欄位 (Schema)，指揮 AI 撰寫 API 串接邏輯，將寫死的假資料替換為真實數據，讓介面具備新增、讀取內容的能力。"
+            "time": "09:30 - 11:00",
+            "title": "【大腦】Strapi CMS 建置與 AI 建模",
+            "description": "快速架設後台管理系統。理解資料結構，學習如何讓 AI 幫你建立資料庫，並將靜態內容轉為動態管理。"
           },
           {
-            "time": "下午 13:30 - 17:00",
-            "title": "雲端部署 & 個人功能衝刺",
-            "description": "解鎖全端最後一哩路：將 GitHub 程式碼部署至 Zeabur 雲端主機。最後進行 Side Project 核心功能衝刺（如：實作按讚或留言功能），在導師協助下，帶著專屬你的產品網址結業。"
+            "time": "11:00 - 12:30",
+            "title": "【串接】從靜態到動態的靈魂注入",
+            "description": "打通前端與後台的資料串接。實作如「點讚」等互動功能，讓你的網站不再只是死板的靜態頁面。"
+          },
+          {
+            "time": "13:30 - 15:00",
+            "title": "【部署】產品上線儀式",
+            "description": "一鍵將作品部署到雲端。掌握自動化上線流程，讓全世界都能透過網址訪問你的產品。"
+          },
+          {
+            "time": "15:00 - 16:30",
+            "title": "【衝刺】Side Project 核心功能開發",
+            "description": "實戰個人 Side Project。在導師指導下，運用精準的 AI 指令完成你最想要的核心功能。"
+          },
+          {
+            "time": "16:30 - 17:00",
+            "title": "【發表】Demo Day 與結業",
+            "description": "成果展示與結業。親自 Demo 你親手打造、具備完整後台且已上線的產品。"
           }
         ],
-        "outcome": "產出：實作一個有後台、可互動、已上線的真實產品 (MVP)"
+        "outcome": "一個真實運行、有資料庫支援、可以訪問的個人 MVP 產品。"
       }
     ],
     "pricing": {
@@ -84,6 +109,7 @@
       "original": "NT$ 8,800",
       "note": "首發種子限定 2班，每班 4-6 人"
     },
+    "slidesEmbed": "<iframe src=\"https://docs.google.com/presentation/d/e/2PACX-1vQshRWYI-mc5Jq-L6L2kvMWYXMqhwtFTnHkHRVhrPmG-5d4itIQIQZE_LfSirMBsVvljCxmrzQOLbuX/pubembed?start=false&loop=false&delayms=3000\" frameborder=\"0\" width=\"1280\" height=\"749\" allowfullscreen=\"true\" mozallowfullscreen=\"true\" webkitallowfullscreen=\"true\"></iframe>",
     "faq": [
       {
         "question": "我完全不會寫程式可以嗎？",

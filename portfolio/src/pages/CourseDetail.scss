@@ -590,7 +590,7 @@
 
   &__outcome-label {
     font-family: 'PublicPixel', monospace !important;
-    font-size: 15px;
+    font-size: 18px;
     display: block;
     font-weight: 600;
     color: var(--course-primary-color, var(--hds-sys-color-theme-surface));
@@ -668,6 +668,33 @@
     line-height: 150%;
     opacity: 0.8;
     margin: 0;
+  }
+
+  // =============================================================================
+  // Slides Embed
+  // =============================================================================
+  &__slides-embed {
+    width: 100%;
+    margin: 24px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(128, 128, 128, 0.05);
+
+    iframe {
+      width: 100%;
+      height: auto;
+      min-height: 600px;
+      border: none;
+      display: block;
+    }
+
+    @media (max-width: 767px) {
+      margin: 16px 0;
+
+      iframe {
+        min-height: 400px;
+      }
+    }
   }
 
   // =============================================================================

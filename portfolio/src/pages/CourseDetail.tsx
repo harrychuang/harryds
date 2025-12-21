@@ -647,6 +647,22 @@ const CourseDetail: React.FC = () => {
                 </div>
               </div>
 
+              {/* Slides Embed Section */}
+              {course.slidesEmbed && (
+                <div className="course-detail__section">
+                  <h2 className="course-detail__section-title">
+                    {t('common:presentation', 'Presentation')}
+                    <span className="course-detail__cursor">_</span>
+                  </h2>
+                  <div className="course-detail__section-content">
+                    <div 
+                      className="course-detail__slides-embed"
+                      dangerouslySetInnerHTML={{ __html: course.slidesEmbed }}
+                    />
+                  </div>
+                </div>
+              )}
+
               {/* FAQ Section */}
               <div className="course-detail__section">
                 <h2 className="course-detail__section-title">

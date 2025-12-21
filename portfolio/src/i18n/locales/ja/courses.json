@@ -44,37 +44,62 @@
     "syllabus": [
       {
         "day": "Day 1",
-        "title": "デザインシステムとコンポーネントのデジタル化",
+        "title": "デザインシステムとコンポーネントのデジタル化 (The Foundation)",
         "sessions": [
           {
-            "time": "午前 09:30 - 12:30",
-            "title": "Figma VariablesとDesign Tokensの変換",
-            "description": "Design Token（Variables）とは何かを理解し、Figma VariablesをJSONや標準CSS Variablesにエクスポートする方法を学びます。デザインとコードの間の「Design Token規範」を確立し、色、フォント、間隔が開発側で同期されるようにします。"
+            "time": "09:30 - 10:30",
+            "title": "【イントロダクション】AI時代のプロダクトデザイナー",
+            "description": "なぜデザイナーが開発を学ぶべきかを知る。Vibe Codingの核心：ロジックでAIに良いコードを書かせる方法をマスターし、Cursorの操作に慣れる。"
           },
           {
-            "time": "午後 13:30 - 17:00",
-            "title": "Vibe Coding実践：AI生成Storybookコンポーネントライブラリ",
-            "description": "午前に定義したTokensを使用し、Promptを通じてAIを導き、Card、Buttonなどのコアコンポーネントを構築します。Storybookドキュメントとバリアント（Variants）を自動生成し、「動作する」UIコンポーネントライブラリを作成し、デザインシステムコンポーネントライブラリを構築します。"
+            "time": "10:30 - 12:30",
+            "title": "【規約】Design Tokens 変換実践",
+            "description": "Figmaの変数とコードの同期を実践。デザイン仕様をAIが理解できるDesign Tokensに変換し、プロジェクトの視覚的基盤を構築する。"
+          },
+          {
+            "time": "13:30 - 15:30",
+            "title": "【コンポーネント】Storybook コンポーネントライブラリ開発",
+            "description": "AIを指揮してUIコンポーネントライブラリを素早く構築。基礎コンポーネントからStorybookドキュメントまで、再利用可能なデジタルデザイン資産を自作する。"
+          },
+          {
+            "time": "15:30 - 17:00",
+            "title": "【組み立て】プロダクトUIとローカルデータテスト",
+            "description": "コンポーネントを組み合わせて完全なプロダクトページを作成。模擬データで画面をテストし、Gitによる基本的なバージョン管理を学ぶ。"
           }
         ],
-        "outcome": "成果物：あなた専用のStorybookデザインシステムコンポーネントライブラリとDesign Tokensアーキテクチャを開発"
+        "outcome": "デザインシステムに完全対応したStorybookコンポーネントライブラリ。"
       },
       {
         "day": "Day 2",
-        "title": "魂を注入＆プロダクトローンチ",
+        "title": "魂の注入とプロダクトローンチ (The Soul & MVP)",
         "sessions": [
           {
-            "time": "午前 09:30 - 12:30",
-            "title": "プロダクトの頭脳（Strapi）構築とデータ連携",
-            "description": "Strapi（Headless CMS）をプロダクトの頭脳として起動します。データフィールド（Schema）を定義する方法を学び、AIに指示してAPI連携ロジックを記述させ、ハードコードされたダミーデータを実際のデータに置き換え、インターフェースにコンテンツの追加と読み取り機能を持たせます。"
+            "time": "09:30 - 11:00",
+            "title": "【頭脳】Strapi CMS 構築と AI モデリング",
+            "description": "バックエンド管理システムを素早く構築。データ構造を理解し、AIにデータベース作成をサポートさせ、静的コンテンツを動的に管理する方法を学ぶ。"
           },
           {
-            "time": "午後 13:30 - 17:00",
-            "title": "クラウドデプロイ＆個人機能スプリント",
-            "description": "フルスタック開発の最後の一歩を解き放つ：GitHubコードをZeaburクラウドホスティングにデプロイします。最後にSide Projectのコア機能をスプリント（例：いいねやコメント機能の実装）し、メンターのサポートの下、あなた専用のプロダクトURLを持って卒業します。"
+            "time": "11:00 - 12:30",
+            "title": "【連携】静的から動的への魂の注入",
+            "description": "フロントエンドとバックエンドのデータ連携を実現。「いいね」ボタンなどのインタラクティブ機能を実装し、ウェブサイトを動的なものにする。"
+          },
+          {
+            "time": "13:30 - 15:00",
+            "title": "【デプロイ】プロダクト上線儀式",
+            "description": "作品をワンクリックでクラウドにデプロイ。自動化された公開プロセスをマスターし、世界中からURLであなたのプロダクトにアクセスできるようにする。"
+          },
+          {
+            "time": "15:00 - 16:30",
+            "title": "【スプリント】サイドプロジェクト・コア機能開発",
+            "description": "個人のサイドプロジェクトを実践。メンターの指導のもと、的確なAI指示で最も作りたいコア機能を完成させる。"
+          },
+          {
+            "time": "16:30 - 17:00",
+            "title": "【発表】Demo Day と修了",
+            "description": "成果展示と修了。バックエンドを備え、公開された自分だけのプロダクトをデモする。"
           }
         ],
-        "outcome": "成果物：バックエンド、インタラクティブ性、ライブデプロイメントを備えた実際のプロダクト（MVP）を構築"
+        "outcome": "実際に動作し、データベースを備えた、公開可能な個人MVPプロダクト。"
       }
     ],
     "pricing": {
@@ -84,6 +109,7 @@
       "original": "NT$ 8,800",
       "note": "シード限定 2クラス、各クラス 4-6名"
     },
+    "slidesEmbed": "<iframe src=\"https://docs.google.com/presentation/d/e/2PACX-1vQshRWYI-mc5Jq-L6L2kvMWYXMqhwtFTnHkHRVhrPmG-5d4itIQIQZE_LfSirMBsVvljCxmrzQOLbuX/pubembed?start=false&loop=false&delayms=3000\" frameborder=\"0\" width=\"1280\" height=\"749\" allowfullscreen=\"true\" mozallowfullscreen=\"true\" webkitallowfullscreen=\"true\"></iframe>",
     "faq": [
       {
         "question": "プログラミング経験がなくても参加できますか？",

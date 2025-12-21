@@ -72,7 +72,7 @@ export interface CourseItem {
       content?: string;
       description?: string;
     }>;
-    outcome: string;
+    string;
   }>;
   projects: {
     shared: {
@@ -91,6 +91,7 @@ export interface CourseItem {
     original: string;
     note: string;
   };
+  slidesEmbed?: string;
   faq: Array<{
     question: string;
     answer: string;
@@ -126,6 +127,7 @@ const transformLocalToCourseItem = (id: string, data: any, enData?: any): Course
     syllabus: data.syllabus || [],
     projects: data.projects || {},
     pricing: data.pricing || {},
+    slidesEmbed: data.slidesEmbed || '',
     faq: data.faq || []
   };
 };

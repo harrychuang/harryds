@@ -44,37 +44,62 @@
     "syllabus": [
       {
         "day": "Day 1",
-        "title": "Design System & Component Digitization",
+        "title": "Design System & Component Digitization (The Foundation)",
         "sessions": [
           {
-            "time": "Morning 09:30 - 12:30",
-            "title": "Figma Variables & Design Tokens Conversion",
-            "description": "Understand what Design Tokens (Variables) are, learn how to export Figma Variables as JSON and standard CSS Variables. Establish a \"Design Token specification\" between design and code, ensuring colors, fonts, and spacing are synchronized on the development side."
+            "time": "09:30 - 10:30",
+            "title": "[Opening] Product Designers in the AI Era",
+            "description": "Understand why designers should learn development. Master the core of Vibe Coding: using logic to direct AI to write good code, and get familiar with Cursor."
           },
           {
-            "time": "Afternoon 13:30 - 17:00",
-            "title": "Vibe Coding Practice: AI-Generated Storybook Component Library",
-            "description": "Using the Tokens defined in the morning, guide AI through prompts to build core components like Card and Button. Automatically generate Storybook documentation and variants, creating a \"functional\" UI component library and building a design system component library."
+            "time": "10:30 - 12:30",
+            "title": "[Specification] Design Tokens Conversion Practice",
+            "description": "Sync Figma variables with code. Learn to convert design specs into AI-readable Design Tokens, building the visual foundation of your project."
+          },
+          {
+            "time": "13:30 - 15:30",
+            "title": "[Component] Storybook Component Library Development",
+            "description": "Direct AI to quickly build a UI component library. From base components to Storybook docs, create your own reusable digital design assets."
+          },
+          {
+            "time": "15:30 - 17:00",
+            "title": "[Assembly] Product Interface & Local Data Testing",
+            "description": "Assemble components into a complete product page. Practice testing the UI with mock data and learn basic version control with Git."
           }
         ],
-        "outcome": "Deliverable: Develop your own Storybook design system component library and Design Tokens architecture"
+        "outcome": "A Storybook component library that perfectly matches your design system."
       },
       {
         "day": "Day 2",
-        "title": "Inject Soul & Product Launch",
+        "title": "Inject Soul & Product Launch (The Soul & MVP)",
         "sessions": [
           {
-            "time": "Morning 09:30 - 12:30",
-            "title": "Build Product Brain (Strapi) & Data Integration",
-            "description": "Launch Strapi (Headless CMS) as the product brain. Learn to define data fields (Schema), direct AI to write API integration logic, replace hardcoded dummy data with real data, enabling the interface to add and read content."
+            "time": "09:30 - 11:00",
+            "title": "[Brain] Strapi CMS Setup & AI Modeling",
+            "description": "Quickly set up a backend management system. Understand data structures, learn how AI can help you build a database, and turn static content into dynamic management."
           },
           {
-            "time": "Afternoon 13:30 - 17:00",
-            "title": "Cloud Deployment & Personal Feature Sprint",
-            "description": "Unlock the final mile of full-stack development: Deploy GitHub code to Zeabur cloud hosting. Finally, sprint on Side Project core features (e.g., implement like or comment functionality), and with mentor assistance, graduate with your own product URL."
+            "time": "11:00 - 12:30",
+            "title": "[Integration] Injecting Soul from Static to Dynamic",
+            "description": "Bridge the data gap between frontend and backend. Implement interactive features like \"Like\" buttons to make your site more than just a static page."
+          },
+          {
+            "time": "13:30 - 15:00",
+            "title": "[Deployment] Product Launch Ceremony",
+            "description": "Deploy your work to the cloud with one click. Master the automated launch process so anyone in the world can access your product via a URL."
+          },
+          {
+            "time": "15:00 - 16:30",
+            "title": "[Sprint] Side Project Core Feature Development",
+            "description": "Hands-on work on your Side Project. With mentor guidance, use precise AI prompts to complete the core feature you want most."
+          },
+          {
+            "time": "16:30 - 17:00",
+            "title": "[Presentation] Demo Day & Graduation",
+            "description": "Showcase your results. Demo the live product you built, complete with a backend, and graduate."
           }
         ],
-        "outcome": "Deliverable: Build a real product (MVP) with backend, interactivity, and live deployment"
+        "outcome": "A live, database-backed, accessible personal MVP product."
       }
     ],
     "pricing": {
@@ -84,6 +109,7 @@
       "original": "NT$ 8,800",
       "note": "Seed Launch Exclusive: 2 classes, 4-6 people per class"
     },
+    "slidesEmbed": "<iframe src=\"https://docs.google.com/presentation/d/e/2PACX-1vQshRWYI-mc5Jq-L6L2kvMWYXMqhwtFTnHkHRVhrPmG-5d4itIQIQZE_LfSirMBsVvljCxmrzQOLbuX/pubembed?start=false&loop=false&delayms=3000\" frameborder=\"0\" width=\"1280\" height=\"749\" allowfullscreen=\"true\" mozallowfullscreen=\"true\" webkitallowfullscreen=\"true\"></iframe>",
     "faq": [
       {
         "question": "Can I join if I have no coding experience?",
