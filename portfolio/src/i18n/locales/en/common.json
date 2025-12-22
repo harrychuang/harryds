@@ -119,10 +119,10 @@
     "budgetPlaceholder": "Select budget range...",
     "budgets": {
       "unsure": "Not sure yet",
-      "flexibleCollab": "Flexible part-time collaboration: approx. USD $45 – $95 / hour",
-      "oneTime": "One-off project (approx. USD $2,500 – $9,500+)",
-      "monthlyConsulting": "Monthly consulting (Design System / UX Strategy): approx. USD $1,600 – $4,700 / month",
-      "frontendDev": "Frontend development (React / Component): approx. USD $1,900 – $6,300+"
+      "flexibleCollab": "Flexible part-time collaboration: approx. USD $30 – $50 / hour",
+      "oneTime": "One-off project: approx. USD $1,500 – $4,700+",
+      "monthlyConsulting": "Monthly consulting (Design System / UX Strategy): approx. USD $1,500 – $3,800 / month",
+      "frontendDev": "Frontend development (React / Component): approx. USD $1,500 – $3,800+"
     },
     "message": "Message",
     "messagePlaceholder": "Tell us about your project...",

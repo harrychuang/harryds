@@ -30,7 +30,7 @@
     "usp": [
       {
         "title": "從設計系統出發，建立 Design Token",
-        "description": "學習如何將 Figma Variables 轉換為 CSS Design Tokens，建立完整的設計系統架構，讓設計與開發無縫銜接。"
+        "description": "學習如何將 Figma Variables 轉換為 CSS Design Tokens，建立設計系統基礎架構，讓設計與開發無縫銜接。"
       },
       {
         "title": "整合前端與後端開發",
@@ -102,6 +102,10 @@
         "outcome": "一個真實運行、有資料庫支援、可以訪問的個人 MVP 產品。"
       }
     ],
+    "mentorship": {
+      "title": "專屬課後輔導計畫",
+      "description": "學習不應在課程結束後就停止。課程會建立專屬 Discord 社群，並在課程結束後的四週內，每週安排一個晚上的線上 Office Hour (30-60 分鐘)，協助排除開發障礙，確保你的 Side Project 核心功能順利上線。"
+    },
     "pricing": {
       "schedule": "預計 1月中旬或 1月底 (週末兩日 10:00-17:00)",
       "location": "台北車站附近空間 (詳細地點待通知)",

@@ -96,6 +96,10 @@ export interface CourseItem {
     question: string;
     answer: string;
   }>;
+  mentorship?: {
+    title: string;
+    description: string;
+  };
 }
 
 /**
@@ -128,7 +132,8 @@ const transformLocalToCourseItem = (id: string, data: any, enData?: any): Course
     projects: data.projects || {},
     pricing: data.pricing || {},
     slidesEmbed: data.slidesEmbed || '',
-    faq: data.faq || []
+    faq: data.faq || [],
+    mentorship: data.mentorship
   };
 };
 

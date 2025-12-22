@@ -647,6 +647,21 @@ const CourseDetail: React.FC = () => {
                 </div>
               </div>
 
+              {/* Mentorship Section - 課後輔導 */}
+              {course.mentorship && (
+                <div className="course-detail__section">
+                  <h2 className="course-detail__section-title">
+                    {course.mentorship.title}
+                    <span className="course-detail__cursor">_</span>
+                  </h2>
+                  <div className="course-detail__section-content">
+                    <p className="course-detail__usp-description" style={{ fontSize: '18px', opacity: 1 }}>
+                      {course.mentorship.description}
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Slides Embed Section */}
               {course.slidesEmbed && (
                 <div className="course-detail__section">
