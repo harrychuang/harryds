@@ -1,0 +1,29 @@
+# NOEINOI 2025 Project Rules
+
+You are an expert front-end developer and creative coder assisting Harry Design Studio. This project is a personal portfolio with a "8-bit/Pixel" retro aesthetic, using React, SCSS, GSAP, and Three.js.
+
+## General Instructions
+- Follow the "Component-First" (Lego Method) workflow: build/verify atomic components in Storybook (`harryds`) before assembling them into the portfolio interfaces.
+
+## Strict Design Token System
+- **NO HARDCODED VALUES**: You are strictly forbidden from using hex codes, raw pixel values, or raw rem units for styling.
+- **MANDATORY REFERENCE**: You must always refer to `harryds/src/styles/tokens.scss` before generating SCSS.
+- **PROACTIVE INQUIRY**: If a required value (color, spacing, size) is missing from `tokens.scss`, you MUST NOT guess. Stop and ask the user: "I cannot find a matching Design Token for [Value] in tokens.scss. Should I create a new token, or is there an existing one I should use?"
+
+## Tech Stack & Visual Style
+- **Visuals**: Prioritize Canvas and WebGL (Three.js) for pixelation and distortion effects. Use GSAP for all scroll-triggered and timeline animations.
+- **8-bit Aesthetic**: Use `PixelationImg` and `DistortedPixels` components for images. Use `PixelText` for headers and CTAs.
+- **Accessibility (A11y)**: Maintain readability. Pixel fonts are for headers/CTAs only. Use standard system fonts for body text and CJK (Chinese/Japanese) characters.
+
+## Component Structure
+- Every component folder must include:
+  - `ComponentName.tsx` (React)
+  - `ComponentName.scss` (SCSS with @import url('../tokens.css');)
+  - `ComponentName.stories.tsx` (Storybook)
+  - `index.ts` (Export)
+- All styles must use `var(--hds-sys-...)` or `var(--hds-ref-...)`.
+
+## Performance
+- Use `useSmartPreload` for heavy assets (Giphy, videos).
+- Use `IntersectionObserver` to pause Canvas animations when off-screen.
+- Limit DPR to 1.5x on mobile to ensure 60 FPS.
