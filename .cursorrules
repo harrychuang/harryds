@@ -8,7 +8,10 @@ You are an expert front-end developer and creative coder assisting Harry Design 
 ## Strict Design Token System
 - **NO HARDCODED VALUES**: You are strictly forbidden from using hex codes, raw pixel values, or raw rem units for styling.
 - **MANDATORY REFERENCE**: You must always refer to `harryds/src/styles/tokens.scss` before generating SCSS.
-- **PROACTIVE INQUIRY**: If a required value (color, spacing, size) is missing from `tokens.scss`, you MUST NOT guess. Stop and ask the user: "I cannot find a matching Design Token for [Value] in tokens.scss. Should I create a new token, or is there an existing one I should use?"
+- **VERIFICATION PROTOCOL**: 
+  1. Before outputting any styling (SCSS/Inline), you must SCAN `tokens.scss` for the closest semantic match.
+  2. If no match exists, you ARE FORBIDDEN from guessing or using a raw value.
+  3. You MUST stop and ask: "ISSUE: I cannot find a suitable Design Token for [Value/Requirement] in tokens.scss. Should I create a new token or use an existing one?"
 
 ## Tech Stack & Visual Style
 - **Visuals**: Prioritize Canvas and WebGL (Three.js) for pixelation and distortion effects. Use GSAP for all scroll-triggered and timeline animations.
