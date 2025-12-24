@@ -127,6 +127,18 @@ const CourseDetail: React.FC = () => {
     }
   }, [isFullyLoaded, coursesLoading, setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete, params.id]);
 
+  // 預渲染就緒事件 - 當課程資料載入完成後觸發
+  // 這讓 @prerenderer/rollup-plugin 或其他工具知道何時可以擷取 HTML
+  useEffect(() => {
+    if (course && isFullyLoaded) {
+      // 延遲一小段時間確保 react-helmet-async 已更新 meta tags
+      const timer = setTimeout(() => {
+        document.dispatchEvent(new Event('prerender-ready'));
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [course, isFullyLoaded]);
+
   // 預載音效
   useEffect(() => {
     audioManager.preload(hoverSoundUrl).catch(() => {});
@@ -378,20 +390,7 @@ const CourseDetail: React.FC = () => {
   // 資料載入中，顯示空的佔位符（讓 PageLoader 處理 loading 狀態）
   if (!isFullyLoaded) {
     return (
-      <>
-        {/* SEO Meta Tags - 即使在 loading 狀態也要渲染 */}
-        <SEO
-          key={`course-seo-${params.id || 'loading'}`}
-          title={seoTitle}
-          description={seoDescription}
-          image={seoImage}
-          path={seoPath}
-          type="article"
-          publishedTime={seoPublishedTime}
-          keywords={seoKeywords}
-        />
-        <div className="course-detail course-detail--loading" />
-      </>
+      <div className="course-detail course-detail--loading" />
     );
   }
 
@@ -399,7 +398,7 @@ const CourseDetail: React.FC = () => {
   if (!course) {
     return (
       <>
-        {/* SEO Meta Tags - 即使找不到課程也要渲染 */}
+        {/* SEO Meta Tags - 即使找不到課程也要渲染基本資訊 */}
         <SEO
           key={`course-seo-${params.id || 'not-found'}`}
           title={seoTitle}
@@ -412,41 +411,41 @@ const CourseDetail: React.FC = () => {
         />
         <div className="course-detail">
           <Header
-          onLogoClick={handleBackToCourses}
-          onLogoMouseEnter={handleLogoHover}
-          onLogoMouseLeave={handleLogoLeave}
-          logoType="back"
-          logoAnimated={isLogoHovered}
-          logoWrapperStyle={logoWrapperStyle}
-          menuItems={['work', 'articles', 'courses', 'about']}
-          activeMenuItem="courses"
-          t={t}
-          onMenuItemHover={handleMenuItemHover}
-          onMenuItemClick={handleMenuItemClick}
-          showThemeToggle={true}
-          theme={theme}
-          onToggleTheme={handleToggleTheme}
-          onThemeHover={handleMenuItemHover}
-          showSoundToggle={true}
-          isSoundEnabled={isSoundEnabled}
-          onToggleSound={toggleSound}
-          onSoundHover={handleMenuItemHover}
-          showLanguageToggle={true}
-          currentLangDisplay={currentLangDisplay}
-          isLangDropdownOpen={isLangDropdownOpen}
-          onToggleLangDropdown={handleToggleLangDropdown}
-          langDropdownRef={langDropdownRef}
-          languageOptions={languageOptions}
-          onLanguageChange={handleLanguageChange}
-          onLanguageHover={handleMenuItemHover}
-          onContactClick={() => { openContactModal(); }}
-        />
-        <main className="course-detail__content">
-          <div className="course-detail__container">
-            <h1>Course not found</h1>
-            <p>The course you are looking for does not exist.</p>
-          </div>
-        </main>
+            onLogoClick={handleBackToCourses}
+            onLogoMouseEnter={handleLogoHover}
+            onLogoMouseLeave={handleLogoLeave}
+            logoType="back"
+            logoAnimated={isLogoHovered}
+            logoWrapperStyle={logoWrapperStyle}
+            menuItems={['work', 'articles', 'courses', 'about']}
+            activeMenuItem="courses"
+            t={t}
+            onMenuItemHover={handleMenuItemHover}
+            onMenuItemClick={handleMenuItemClick}
+            showThemeToggle={true}
+            theme={theme}
+            onToggleTheme={handleToggleTheme}
+            onThemeHover={handleMenuItemHover}
+            showSoundToggle={true}
+            isSoundEnabled={isSoundEnabled}
+            onToggleSound={toggleSound}
+            onSoundHover={handleMenuItemHover}
+            showLanguageToggle={true}
+            currentLangDisplay={currentLangDisplay}
+            isLangDropdownOpen={isLangDropdownOpen}
+            onToggleLangDropdown={handleToggleLangDropdown}
+            langDropdownRef={langDropdownRef}
+            languageOptions={languageOptions}
+            onLanguageChange={handleLanguageChange}
+            onLanguageHover={handleMenuItemHover}
+            onContactClick={() => { openContactModal(); }}
+          />
+          <main className="course-detail__content">
+            <div className="course-detail__container">
+              <h1>Course not found</h1>
+              <p>The course you are looking for does not exist.</p>
+            </div>
+          </main>
         </div>
       </>
     );
