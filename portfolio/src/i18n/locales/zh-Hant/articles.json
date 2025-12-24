@@ -1235,5 +1235,27 @@
       "paragraph3": "這樣做，我們就把設計脈絡直接植入 AI 的「大腦」中。現在，當我們在 Vibe Coding 的心流中時，產出的 UI 和元件會盡可能遵循我們的設計系統（大概 90% 吧——剩下 10% 還是要考慮 AI 的隨機性 XD）。跟那些混亂的「狂野」樣式說再見吧！🫡",
       "paragraph4": "📎 STYLE_RULES.md 範例（https://www.dropbox.com/scl/fi/u6386p6sjy09wd9p0ph3h/STYLE_RULES.md?rlkey=9d8dujqzz5rbold6wpu7uc291&dl=0）\n\n📖 WebConf 2025 延伸閱讀（https://kurohsu.dev/misc/webconf-2025-vue-sdd-ai-development.html）"
     }
+  },
+  "59": {
+    "heading": "Vibe Coding：\nAI 開發的基礎架構",
+    "subtitle": "在開始 Vibe Coding 的第一步，可以先了解一個適合 AI 專案的大概架構。透過將前端、後端、Storybook（元件庫）以及 Shared（存放共用素材、邏輯與規範）整合在同一個專案空間，我們能為 AI 提供完整的上下文~",
+    "date": "2025 年 12 月 24 日",
+    "tags": [
+      "Vibe Coding",
+      "AI",
+      "專案架構"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/57/topics-57.1.jpg",
+      "articles/57/topics-57.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "初學 Vibe Coding 的第一步，可以先了解一個適合 AI 開發的基礎架構。一個簡單完整的專案包含像是前端、後端、Storybook（元件庫），以及 Shared（共享資料夾），可以用來存放共用的素材、邏輯與相關規範…等",
+      "paragraph2": "為什麼結構這麼重要？將前後端程式碼整合在同一個地方，可以讓 AI 更精確地理解專案的全貌，避免因架構過於零碎而導致功能和邏輯整合困難~ 當我們在 Shared 資料夾中明確定義設計規範與資料邏輯時，AI 也能在開發前先自動確認這些規範，減少亂七八糟多餘的程式碼，讓元件在專案中重覆使用~",
+      "paragraph3": "雖然對於新手來說，初期理解這些架構可能有點挑戰(我自已也是 😅)，但如果目標是開發出一個前後端串接完整的「可行產品」，會是核心知識。當可以掌握專案的結構，就可以更精準地指揮 AI，比如\"請調用 Storybook 中的 OO 元件，放置在主產品首頁 Header 的右側~\"",
+      "paragraph4": "雖然 Vibe Coding 非常高效，但如果過度依賴而忽略了基本的結構步驟，專案後期可能會變得愈來愈難以維護或指揮。所以透過學習基礎的程式結構，我們可以更簡單地和 AI 協作，對產品的掌控也會與日俱增~"
+    }
   }
 }

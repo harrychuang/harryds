@@ -1235,5 +1235,27 @@
       "paragraph3": "By doing this, we embed our design context directly into the AI's 'brain.' Now, when we're in the flow of Vibe Coding, the resulting UI and components will adhere to our Design System as much as possible (let's say 90%—we still have to account for that 10% AI randomness XD). Say goodbye to those messy, 'wild' styles! 🫡",
       "paragraph4": "📎 STYLE_RULES.md Example（https://www.dropbox.com/scl/fi/u6386p6sjy09wd9p0ph3h/STYLE_RULES.md?rlkey=9d8dujqzz5rbold6wpu7uc291&dl=0）\n\n📖 WebConf 2025 Further Reading（https://kurohsu.dev/misc/webconf-2025-vue-sdd-ai-development.html）"
     }
+  },
+  "59": {
+    "heading": "Vibe Coding:\nFoundational Project Architecture",
+    "subtitle": "The first step in starting Vibe Coding is understanding a suitable architecture for AI projects. By integrating frontend, backend, Storybook (component library), and Shared (common assets, logic, and standards) within the same workspace, we provide the AI with complete context~",
+    "date": "Dec 24, 2025",
+    "tags": [
+      "Vibe Coding",
+      "AI",
+      "Project Architecture"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/57/topics-57.1.jpg",
+      "articles/57/topics-57.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "The first step for Vibe Coding beginners is understanding a basic architecture suitable for AI development. A simple and complete project includes frontend, backend, Storybook (component library), and a Shared folder for common assets, logic, and standards, etc.",
+      "paragraph2": "Why is structure so important? Integrating both frontend and backend code in one place allows the AI to more accurately understand the project's full scope, avoiding functional and logic integration difficulties caused by fragmented architectures. When we clearly define design standards and data logic in the Shared folder, the AI can automatically verify these standards before development, reducing messy redundant code and allowing components to be reused across the project.",
+      "paragraph3": "While understanding these architectures might be challenging for beginners (it was for me too 😅), it's core knowledge if the goal is to develop a complete, 'viable product' with integrated frontend and backend. Once you master the project structure, you can direct the AI more precisely, for example: 'Please use the XX component from Storybook and place it on the right side of the main product's Header~'",
+      "paragraph4": "Although Vibe Coding is highly efficient, if basic structural steps are skipped, the project may become increasingly difficult to maintain or direct in the later stages. By learning the fundamental program structure, we can collaborate with AI more simply, and our control over the product will grow day by day~"
+    }
   }
 }

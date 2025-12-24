@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import https from 'https';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
+import 'dotenv/config';
 
 // ES Module 中取得 __dirname
 const __filename = fileURLToPath(import.meta.url);
