@@ -568,13 +568,15 @@ const CourseDetail: React.FC = () => {
               </div>
 
               {/* CTA 按鈕 */}
-              <button 
+              <a 
                 className="course-detail__cta-button"
-                onClick={() => { openContactModal(); }}
+                href="https://harrychuang.cashier.ecpay.com.tw"
+                target="_blank"
+                rel="noopener noreferrer"
                 onMouseEnter={handleMenuItemHover}
               >
-                {t('common:contactForCourse', 'Contact to Register')}
-              </button>
+                {t('common:buyCourse', '購買課程')}
+              </a>
             </aside>
 
             {/* 右欄 - 主要內容 */}

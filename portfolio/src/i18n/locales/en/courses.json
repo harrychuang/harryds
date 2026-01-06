@@ -47,24 +47,19 @@
         "title": "Design System & Component Digitization (The Foundation)",
         "sessions": [
           {
-            "time": "09:30 - 10:30",
+            "time": "10:00 - 11:00",
             "title": "[Opening] Product Designers in the AI Era",
             "description": "Understand why designers should learn development. Master the core of Vibe Coding: using logic to direct AI to write good code, and get familiar with Cursor."
           },
           {
-            "time": "10:30 - 12:30",
+            "time": "11:00 - 12:30",
             "title": "[Specification] Design Tokens Conversion Practice",
             "description": "Sync Figma variables with code. Learn to convert design specs into AI-readable Design Tokens, building the visual foundation of your project."
           },
           {
-            "time": "13:30 - 15:30",
+            "time": "13:30 - 16:00",
             "title": "[Component] Storybook Component Library Development",
             "description": "Direct AI to quickly build a UI component library. From base components to Storybook docs, create your own reusable digital design assets."
-          },
-          {
-            "time": "15:30 - 17:00",
-            "title": "[Assembly] Product Interface & Local Data Testing",
-            "description": "Assemble components into a complete product page. Practice testing the UI with mock data and learn basic version control with Git."
           }
         ],
         "outcome": "A Storybook component library that perfectly matches your design system."
@@ -74,27 +69,27 @@
         "title": "Inject Soul & Product Launch (The Soul & MVP)",
         "sessions": [
           {
-            "time": "09:30 - 11:00",
+            "time": "10:00 - 11:00",
+            "title": "[Assembly] Product Interface & Local Data Testing",
+            "description": "Assemble components into a complete product page. Practice testing the UI with mock data and learn basic version control with Git."
+          },
+          {
+            "time": "11:00 - 12:30",
             "title": "[Brain] Strapi CMS Setup & AI Modeling",
             "description": "Quickly set up a backend management system. Understand data structures, learn how AI can help you build a database, and turn static content into dynamic management."
           },
           {
-            "time": "11:00 - 12:30",
+            "time": "13:30 - 14:30",
             "title": "[Integration] Injecting Soul from Static to Dynamic",
             "description": "Bridge the data gap between frontend and backend. Implement interactive features like \"Like\" buttons to make your site more than just a static page."
           },
           {
-            "time": "13:30 - 15:00",
-            "title": "[Deployment] Product Launch Ceremony",
-            "description": "Deploy your work to the cloud with one click. Master the automated launch process so anyone in the world can access your product via a URL."
+            "time": "14:30 - 15:30",
+            "title": "[Deployment] GitHub × Zeabur Launch Ceremony",
+            "description": "Push your code to GitHub and connect your repository to Zeabur with one click. Once set up, every Push will auto-deploy, allowing anyone in the world to access your product via a dedicated URL."
           },
           {
-            "time": "15:00 - 16:30",
-            "title": "[Sprint] Side Project Core Feature Development",
-            "description": "Hands-on work on your Side Project. With mentor guidance, use precise AI prompts to complete the core feature you want most."
-          },
-          {
-            "time": "16:30 - 17:00",
+            "time": "15:30 - 16:00",
             "title": "[Presentation] Demo Day & Graduation",
             "description": "Showcase your results. Demo the live product you built, complete with a backend, and graduate."
           }
@@ -107,7 +102,7 @@
       "description": "Learning shouldn't stop when the class ends. I'll set up a dedicated Discord community and host weekly online Office Hours (30-60 mins) for four weeks after the workshop. I'll personally help you overcome technical hurdles and ensure your Side Project's core features are successfully launched."
     },
     "pricing": {
-      "schedule": "Mid-January or late January (Weekend, 10:00-17:00)",
+      "schedule": "Mid-January or late January (Weekend, 10:00-16:00)",
       "location": "Near Taipei Main Station (Detailed location TBA)",
       "earlyBird": "NT$ 5,000",
       "original": "NT$ 8,800",

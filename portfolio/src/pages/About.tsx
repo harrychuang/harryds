@@ -8,6 +8,12 @@ import { useSound } from '../hooks/useSound';
 import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// 🔧 關鍵修復：在模組層級註冊 GSAP plugins
+// 這確保 plugins 在 production build 中不會被 tree-shaking 移除
+// 並且在任何 effect 執行前就已經註冊完成
+gsap.registerPlugin(TextPlugin, ScrollTrigger);
+
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import SEO, { useSEOPresets } from '../components/SEO';
@@ -90,10 +96,8 @@ const About: React.FC = () => {
   
   // 追蹤 Hero 動畫是否可以開始
   const [canStartHeroAnimation, setCanStartHeroAnimation] = useState(false);
-  // 追蹤是否正在等待 loading 動畫完成（初始為 false，避免競爭條件）
-  const [isWaitingForAnimation, setIsWaitingForAnimation] = useState(false);
-  // 追蹤初始化是否完成
-  const isInitializedRef = useRef(false);
+  // 追蹤是否為首次載入（需要等待 loading 動畫）
+  const isFirstLoadRef = useRef(true);
   
   // 頁面進入時檢查是否已載入過（只在組件掛載時執行一次）
   useEffect(() => {
@@ -101,22 +105,18 @@ const About: React.FC = () => {
     
     if (alreadyLoaded) {
       // 頁面已載入過，直接跳過 loading，立即開始動畫
+      isFirstLoadRef.current = false;
       setLoading(false);
       setAnimationComplete(true);
       setCanStartHeroAnimation(true);
-      isInitializedRef.current = true;
     } else {
-      // 首次載入，重置本地動畫狀態
+      // 首次載入
+      isFirstLoadRef.current = true;
       setCanStartHeroAnimation(false);
-      // 顯示 loading（PageLoader 會自動重置 animationComplete）
+      // 顯示 loading
       setLoading(true);
       
-      // 延遲設置 isWaitingForAnimation，確保 PageLoader 有時間重置 isAnimationComplete
-      requestAnimationFrame(() => {
-        setIsWaitingForAnimation(true);
-        isInitializedRef.current = true;
-      });
-      
+      // 100ms 後結束 loading（讓 PageLoader 接手顯示最小時間）
       const timer = setTimeout(() => {
         setLoading(false);
         markPageAsLoaded(PAGE_NAME);
@@ -126,16 +126,32 @@ const About: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // 只在組件掛載時執行一次
   
-  // 當 loading 動畫完成後，允許開始 Hero 動畫
+  // 簡化：直接監聽 isAnimationComplete 的變化
+  // 當 PageLoader 動畫完成時，開始 Hero 動畫
   useEffect(() => {
-    // 只有在初始化完成後才處理
-    if (!isInitializedRef.current) return;
+    // 如果不是首次載入，跳過（已在上面的 effect 處理）
+    if (!isFirstLoadRef.current) return;
     
-    if (isWaitingForAnimation && isAnimationComplete && !canStartHeroAnimation) {
+    if (isAnimationComplete && !canStartHeroAnimation) {
+      import.meta.env.DEV && console.log('[About] PageLoader animation complete, starting hero animation');
       setCanStartHeroAnimation(true);
-      setIsWaitingForAnimation(false);
     }
-  }, [isWaitingForAnimation, isAnimationComplete, canStartHeroAnimation]);
+  }, [isAnimationComplete, canStartHeroAnimation]);
+  
+  // Fallback: 如果 4 秒後 canStartHeroAnimation 仍為 false，強制設為 true
+  // PageLoader 完整動畫約 2800ms，給足夠緩衝
+  useEffect(() => {
+    if (canStartHeroAnimation) return;
+    
+    const fallbackTimer = setTimeout(() => {
+      if (!canStartHeroAnimation) {
+        import.meta.env.DEV && console.warn('[About] Fallback: forcing canStartHeroAnimation to true after 4s');
+        setCanStartHeroAnimation(true);
+      }
+    }, 4000);
+    
+    return () => clearTimeout(fallbackTimer);
+  }, [canStartHeroAnimation]);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
@@ -365,6 +381,34 @@ const About: React.FC = () => {
     };
   }, []);
 
+  // 當 loading 動畫完成後，延遲刷新 ScrollTrigger 確保位置計算正確
+  // 這是修復正式環境中 ScrollTrigger 不 work 的關鍵
+  useEffect(() => {
+    if (!canStartHeroAnimation) return;
+
+    // 給 DOM 一些時間完成渲染後再 refresh
+    // 使用多次延遲刷新確保在不同環境下都能正確計算位置
+    const refreshTimer1 = setTimeout(() => {
+      // 使用 true 參數強制安全刷新（重新計算滾動位置）
+      ScrollTrigger.refresh(true);
+    }, 100);
+    
+    const refreshTimer2 = setTimeout(() => {
+      ScrollTrigger.refresh(true);
+    }, 500);
+    
+    // 額外的延遲刷新，確保所有圖片和資源都載入完成
+    const refreshTimer3 = setTimeout(() => {
+      ScrollTrigger.refresh(true);
+    }, 1500);
+
+    return () => {
+      clearTimeout(refreshTimer1);
+      clearTimeout(refreshTimer2);
+      clearTimeout(refreshTimer3);
+    };
+  }, [canStartHeroAnimation]);
+
   // 導覽選單 hover 觸發一次動畫狀態
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
   const menuHoverTimersRef = useRef<Record<string, number>>({});
@@ -477,8 +521,6 @@ const About: React.FC = () => {
     if (!canStartHeroAnimation) return;
     if (!heroSectionRef.current || !heroTitleRef.current) return;
     
-    gsap.registerPlugin(TextPlugin);
-    
     const titleEl = heroTitleRef.current;
     const fullText = 'HI..I\'M HARRY!'; // 固定文字，避免從 DOM 讀取
     const lineChildren = heroSectionRef.current.querySelectorAll<HTMLElement>('.lineChild');
@@ -531,31 +573,52 @@ const About: React.FC = () => {
   }, []); // 空依賴陣列，只在首次掛載時執行
 
   // STEP 1 & 2: 視差效果與 pin 動畫
+  // 設置 isPageReady - 確保頁面 DOM 已經準備好
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    if (document.readyState === 'complete') {
+    const checkAndSetReady = () => {
+      import.meta.env.DEV && console.log('[About] checkAndSetReady called, readyState:', document.readyState);
       setIsPageReady(true);
-      return;
+    };
+
+    // 如果頁面已經載入完成或正在互動，直接設為 ready
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      import.meta.env.DEV && console.log('[About] Page already ready, setting isPageReady=true');
+      // 使用 setTimeout 確保在下一個 tick 執行，避免 React 批處理問題
+      setTimeout(checkAndSetReady, 0);
+    } else {
+      // 否則監聯 load 事件
+      import.meta.env.DEV && console.log('[About] Waiting for load event...');
+      window.addEventListener('load', checkAndSetReady);
+      return () => window.removeEventListener('load', checkAndSetReady);
     }
-
-    const handleLoad = () => setIsPageReady(true);
-    window.addEventListener('load', handleLoad);
-
-    return () => window.removeEventListener('load', handleLoad);
   }, []);
 
   useLayoutEffect(() => {
-    if (typeof window === 'undefined' || !isPageReady) return;
+    // 必須等待頁面載入完成 AND loading 動畫完成，才能初始化 ScrollTrigger
+    // 否則在正式環境中，loading overlay 還存在時 ScrollTrigger 就初始化，位置計算會錯誤
+    import.meta.env.DEV && console.log('[About] ScrollTrigger effect check:', { isPageReady, canStartHeroAnimation, isPortrait: typeof window !== 'undefined' ? window.innerWidth < window.innerHeight : 'N/A' });
+    
+    if (typeof window === 'undefined' || !isPageReady || !canStartHeroAnimation) {
+      import.meta.env.DEV && console.log('[About] ScrollTrigger effect skipped - conditions not met');
+      return;
+    }
     
     // Portrait 模式下跳過所有視差動畫
     const isPortraitMode = window.innerWidth < window.innerHeight;
-    if (isPortraitMode) return;
-    
-    gsap.registerPlugin(ScrollTrigger);
+    if (isPortraitMode) {
+      import.meta.env.DEV && console.log('[About] ScrollTrigger effect skipped - portrait mode');
+      return;
+    }
 
     // 初始化視覺元素位置（頁面載入完成後重新計算）
-    if (!introSectionRef.current || !introVisualRef.current) return;
+    if (!introSectionRef.current || !introVisualRef.current) {
+      import.meta.env.DEV && console.log('[About] ScrollTrigger effect skipped - refs not ready');
+      return;
+    }
+    
+    import.meta.env.DEV && console.log('[About] ScrollTrigger initializing...');
     
     // 重新設置 top 位置（確保圖片載入後位置正確）
     const initialTop = introSectionRef.current.offsetTop;
@@ -786,7 +849,17 @@ const About: React.FC = () => {
     
     window.addEventListener('resize', handleResize);
     
+    // Debug: 確認 ScrollTrigger 創建成功
+    if (import.meta.env.DEV) {
+      const allTriggers = ScrollTrigger.getAll();
+      console.log('[About] ScrollTrigger initialized! Total triggers:', allTriggers.length);
+      allTriggers.forEach((st, i) => {
+        console.log(`[About] Trigger ${i}:`, { id: st.vars.id, trigger: st.trigger, start: st.start, end: st.end });
+      });
+    }
+    
     return () => {
+      import.meta.env.DEV && console.log('[About] ScrollTrigger cleanup - killing all triggers');
       window.removeEventListener('resize', handleResize);
       if (resizeTimer) {
         clearTimeout(resizeTimer);
@@ -794,14 +867,13 @@ const About: React.FC = () => {
       ScrollTrigger.getAll().forEach(st => st.kill());
       setRotationFrame(1); // 重置為初始幀
     };
-  }, [i18n.language, isPageReady]);
+  }, [i18n.language, isPageReady, canStartHeroAnimation]);
 
   // Services & Contact 進場動畫：當區塊頂部到達 30% 時觸發
   useLayoutEffect(() => {
-    if (typeof window === 'undefined' || !isPageReady) return;
+    // 必須等待頁面載入完成 AND loading 動畫完成
+    if (typeof window === 'undefined' || !isPageReady || !canStartHeroAnimation) return;
     if (!servicesContactSectionRef.current || !servicesTitleRef.current || !contactTitleRef.current) return;
-    
-    gsap.registerPlugin(TextPlugin, ScrollTrigger);
 
     const ctx = gsap.context(() => {
       const sectionEl = servicesContactSectionRef.current!;
@@ -906,7 +978,7 @@ const About: React.FC = () => {
     }
 
     return () => ctx.revert();
-  }, [i18n.language, isPageReady]);
+  }, [i18n.language, isPageReady, canStartHeroAnimation]);
 
   // Contact 連結 hover 亂數文字效果（使用 GSAP）
   useEffect(() => {
