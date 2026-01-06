@@ -268,3 +268,89 @@ export const KeyboardControl: Story = {
   },
 };
 
+// 電源開關範例
+const PowerSwitchDemo = () => {
+  const [isVisible, setIsVisible] = useState(true);
+  const [closeCount, setCloseCount] = useState(0);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    setCloseCount(prev => prev + 1);
+  };
+
+  const handleReset = () => {
+    setIsVisible(true);
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+      <div style={{ color: '#9bbc0f', fontFamily: 'monospace', fontSize: '14px', textAlign: 'center' }}>
+        <div style={{ marginBottom: '8px' }}>🔌 點擊右上角的電源開關來關機</div>
+        <div style={{ fontSize: '12px', opacity: 0.8 }}>
+          開關往左是開，往右是關
+        </div>
+      </div>
+      
+      <div style={{ minHeight: '320px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {isVisible ? (
+          <PocketConsole
+            width={200}
+            animated
+            screenContent={<DefaultScreenContent />}
+            onClose={handleClose}
+            showPowerSwitch={true}
+          />
+        ) : (
+          <div style={{ 
+            color: '#666', 
+            fontFamily: 'monospace', 
+            fontSize: '14px',
+            textAlign: 'center',
+            padding: '40px'
+          }}>
+            <div style={{ fontSize: '48px', marginBottom: '16px' }}>📴</div>
+            <div>Console 已關機</div>
+          </div>
+        )}
+      </div>
+      
+      <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+        <button
+          onClick={handleReset}
+          disabled={isVisible}
+          style={{
+            padding: '8px 16px',
+            fontFamily: 'monospace',
+            fontSize: '12px',
+            background: isVisible ? '#333' : '#9bbc0f',
+            color: isVisible ? '#666' : '#0f380f',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: isVisible ? 'not-allowed' : 'pointer',
+          }}
+        >
+          重新開機
+        </button>
+        <div style={{ 
+          color: '#666', 
+          fontFamily: 'monospace', 
+          fontSize: '12px' 
+        }}>
+          關機次數: {closeCount}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const PowerSwitch: Story = {
+  render: () => <PowerSwitchDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: '點擊右上角的電源開關來關閉 Console。開關會滑動到右側，螢幕會閃爍變暗並顯示 "Good Bye!"，然後整個元件會被移除。',
+      },
+    },
+  },
+};
+

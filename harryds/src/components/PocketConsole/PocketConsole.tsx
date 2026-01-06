@@ -47,6 +47,10 @@ export interface PocketConsoleProps {
   enableKeyboard?: boolean;
   /** Konami Code 輸入成功時的回調 */
   onSuccess?: () => void;
+  /** 關機按鈕點擊時的回調（用於關閉/移除元件） */
+  onClose?: () => void;
+  /** 是否顯示電源開關（預設為 true） */
+  showPowerSwitch?: boolean;
 }
 
 // 像素單位大小
@@ -97,6 +101,8 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
   onButtonRelease,
   enableKeyboard = true,
   onSuccess,
+  onClose,
+  showPowerSwitch = true,
 }) => {
   // 追蹤按下的按鈕
   const [pressedButtons, setPressedButtons] = useState<Set<PocketConsoleButton>>(new Set());
@@ -116,6 +122,9 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
   
   // 追蹤當前按下的按鈕（用於傳遞給遊戲）
   const [currentPressedButton, setCurrentPressedButton] = useState<PocketConsoleButton | null>(null);
+  
+  // 追蹤關機狀態
+  const [isShuttingDown, setIsShuttingDown] = useState(false);
   
   // 音效 ref
   const buttonSoundRef = useRef<PlaybackHandle | null>(null);
@@ -294,6 +303,22 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
     setGameScreen('none');
   }, []);
 
+  // 處理關機開關
+  const handlePowerOff = useCallback(() => {
+    if (isShuttingDown) return;
+    
+    // 播放按鈕音效
+    playButtonSound();
+    
+    // 開始關機動畫
+    setIsShuttingDown(true);
+    
+    // 動畫結束後觸發 onClose
+    setTimeout(() => {
+      onClose?.();
+    }, 1800); // 開關滑動 300ms + 螢幕閃爍 500ms + Good Bye 顯示 1000ms
+  }, [isShuttingDown, onClose, playButtonSound]);
+
   // 鍵盤事件處理
   useEffect(() => {
     if (!enableKeyboard) return;
@@ -393,6 +418,44 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
           {px(4, 4, 32, 1, 'rgba(255,255,255,0.3)')}
           {px(4, 5, 1, 26, 'rgba(255,255,255,0.2)')}
         </g>
+
+        {/* ===== 電源開關 ===== */}
+        {showPowerSwitch && (
+          <g 
+            className={`hds-pocket-console__power-switch ${isShuttingDown ? 'hds-pocket-console__power-switch--off' : ''}`}
+          >
+            {/* 開關軌道 */}
+            {px(30, 3, 6, 2, '#3a3a3a')}
+            {/* 開關滑塊 */}
+            <rect
+              x={30 * PX}
+              y={3 * PX}
+              width={3 * PX}
+              height={2 * PX}
+              fill="#666666"
+              className="hds-pocket-console__power-switch-knob"
+            />
+            {/* ON 標籤 */}
+            <text
+              x={28 * PX}
+              y={4.5 * PX}
+              className="hds-pocket-console__power-switch-label"
+              textAnchor="end"
+            >
+              POWER
+            </text>
+            {/* 透明點擊區域 */}
+            <rect
+              x={26 * PX}
+              y={2 * PX}
+              width={12 * PX}
+              height={4 * PX}
+              fill="transparent"
+              style={{ cursor: 'pointer' }}
+              onClick={handlePowerOff}
+            />
+          </g>
+        )}
 
         {/* ===== 螢幕區域 ===== */}
         <g className="hds-pocket-console__screen-area">
@@ -611,7 +674,16 @@ export const PocketConsole: React.FC<PocketConsoleProps> = ({
           height: 18 * PX * scale,
         }}
       >
-        {gameScreen === 'menu' ? (
+        {isShuttingDown ? (
+          <div className="hds-pocket-console__shutdown">
+            <div 
+              className="hds-pocket-console__shutdown-text"
+              style={{ fontSize: `${8 * scale}px` }}
+            >
+              Good Bye!
+            </div>
+          </div>
+        ) : gameScreen === 'menu' ? (
           <GameMenu
             isActive={gameScreen === 'menu'}
             pressedButton={currentPressedButton}

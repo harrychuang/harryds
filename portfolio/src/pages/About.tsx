@@ -1537,6 +1537,7 @@ const About: React.FC = () => {
               width={400}
               animated={true}
               enableKeyboard={true}
+              onClose={() => setShowGameModal(false)}
               screenContent={<GameScreenContent />}
             />
           </div>

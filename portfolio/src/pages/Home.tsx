@@ -1109,6 +1109,7 @@ const Home: React.FC = () => {
               width={400}
               animated={true}
               onSuccess={handlePrivateUnlockSuccess}
+              onClose={handlePrivateUnlockClose}
               enableKeyboard={true}
               screenContent={<PocketConsoleScreenContent />}
             />

@@ -75,6 +75,58 @@
                errorBlink 0.15s ease-in-out 8;
   }
 
+  // 關機畫面
+  &__shutdown {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #9bbc0f;
+    animation: shutdownFlicker 0.1s ease-in-out 5,
+               shutdownDarken 0.5s ease-out 0.5s forwards;
+  }
+
+  &__shutdown-text {
+    font-family: 'PublicPixel', monospace !important;
+    // font-size 由 inline style 根據 scale 動態設定
+    color: #0f380f;
+    text-align: center;
+    opacity: 0;
+    animation: shutdownTextAppear 0.3s ease-out 0.8s forwards;
+  }
+
+  // 電源開關
+  &__power-switch {
+    cursor: pointer;
+    transition: filter 0.1s ease;
+
+    &:hover {
+      filter: brightness(1.2);
+    }
+
+    &-knob {
+      transition: transform 0.3s ease-out;
+    }
+
+    &-label {
+      font-family: 'PublicPixel', monospace !important;
+      font-size: 3px;
+      fill: #4a4a4a;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    // 關機狀態 - 滑塊往右
+    &--off {
+      pointer-events: none;
+      
+      .hds-pocket-console__power-switch-knob {
+        transform: translateX(12px); // 3 * PX = 12px
+      }
+    }
+  }
+
   // 按鈕標籤文字
   &__btn-label {
     font-family: 'PublicPixel', monospace !important;
@@ -229,6 +281,39 @@
   }
   50% {
     opacity: 0;
+  }
+}
+
+// 關機螢幕閃爍
+@keyframes shutdownFlicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// 關機螢幕變暗
+@keyframes shutdownDarken {
+  0% {
+    background: #9bbc0f;
+  }
+  100% {
+    background: #2a3a02;
+  }
+}
+
+// 關機文字出現
+@keyframes shutdownTextAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    color: #6a8a0a;
   }
 }
 
