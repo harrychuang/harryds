@@ -4,7 +4,7 @@
 // FeedCardInfo 預設 max-width 1600px
 // =============================================================================
 
-import React, { CSSProperties, createContext, forwardRef, useState, useRef, useEffect, useCallback } from 'react';
+import React, { CSSProperties, createContext, forwardRef, useState, useRef, useEffect, useCallback, TouchEvent as ReactTouchEvent } from 'react';
 import { PixelationImg } from '../PixelationImg';
 import type { PixelationImgProps } from '../PixelationImg';
 import FeedCardInfo from './FeedCardInfo';
@@ -222,21 +222,84 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
   //
 
   // Touch 事件處理（觸控設備模擬 hover 效果）
-  const handleTouchStart = useCallback(() => {
+  // 使用 ref 追蹤元素，用於檢測手指是否移出元素範圍
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  const isTouchActiveRef = useRef(false);
+
+  // 清除 hover 狀態的函數
+  const clearHoverState = useCallback(() => {
+    if (!isTouchActiveRef.current) return;
+    isTouchActiveRef.current = false;
+    setIsHovered(false);
+    setHasPlayedSoundInCurrentHover(false);
+  }, []);
+
+  // Touch 結束處理（document 級別）
+  useEffect(() => {
+    const handleDocumentTouchEnd = () => {
+      clearHoverState();
+    };
+
+    // 只在觸控設備上添加 document 監聽器
+    if (!hasHover && !disableHover) {
+      document.addEventListener('touchend', handleDocumentTouchEnd, { passive: true });
+      document.addEventListener('touchcancel', handleDocumentTouchEnd, { passive: true });
+    }
+
+    return () => {
+      document.removeEventListener('touchend', handleDocumentTouchEnd);
+      document.removeEventListener('touchcancel', handleDocumentTouchEnd);
+    };
+  }, [hasHover, disableHover, clearHoverState]);
+
+  const handleTouchStart = useCallback((e: ReactTouchEvent<HTMLDivElement>) => {
     if (disableHover) return;
+    isTouchActiveRef.current = true;
     setIsHovered(true);
     playHoverSound();
   }, [disableHover, playHoverSound]);
 
+  // 檢測手指是否移出元素範圍
+  const handleTouchMove = useCallback((e: ReactTouchEvent<HTMLDivElement>) => {
+    if (disableHover || !isTouchActiveRef.current || !cardRef.current) return;
+    
+    const touch = e.touches[0];
+    if (!touch) {
+      clearHoverState();
+      return;
+    }
+
+    const rect = cardRef.current.getBoundingClientRect();
+    const isInsideElement = 
+      touch.clientX >= rect.left &&
+      touch.clientX <= rect.right &&
+      touch.clientY >= rect.top &&
+      touch.clientY <= rect.bottom;
+
+    if (!isInsideElement) {
+      clearHoverState();
+    }
+  }, [disableHover, clearHoverState]);
+
   const handleTouchEnd = useCallback(() => {
-    if (disableHover) return;
-    setIsHovered(false);
-    setHasPlayedSoundInCurrentHover(false);
-  }, [disableHover]);
+    // 實際清除由 document 級別監聽器處理
+    // 這裡保留作為備用
+    clearHoverState();
+  }, [clearHoverState]);
+
+  // 合併外部 ref 和內部 cardRef
+  const setRefs = useCallback((node: HTMLDivElement | null) => {
+    cardRef.current = node;
+    if (typeof ref === 'function') {
+      ref(node);
+    } else if (ref) {
+      (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    }
+  }, [ref]);
 
   return (
     <div
-      ref={ref}
+      ref={setRefs}
       className={`feed-card size-${size} ${className}`.trim()}
       style={rootStyle}
       // 使用 data-hovered 讓 CSS 也能感知 JS 控制的 hover 狀態
@@ -252,6 +315,7 @@ export const FeedCard = forwardRef<HTMLDivElement, FeedCardProps>(({
       } : undefined}
       // 觸控設備：使用 touch 事件模擬 hover
       onTouchStart={!hasHover && !disableHover ? handleTouchStart : undefined}
+      onTouchMove={!hasHover && !disableHover ? handleTouchMove : undefined}
       onTouchEnd={!hasHover && !disableHover ? handleTouchEnd : undefined}
       onTouchCancel={!hasHover && !disableHover ? handleTouchEnd : undefined}
     >
