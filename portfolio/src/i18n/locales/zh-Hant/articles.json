@@ -1257,5 +1257,29 @@
       "paragraph3": "雖然對於新手來說，初期理解這些架構可能有點挑戰(我自已也是 😅)，但如果目標是開發出一個前後端串接完整的「可行產品」，會是核心知識。當可以掌握專案的結構，就可以更精準地指揮 AI，比如\"請調用 Storybook 中的 OO 元件，放置在主產品首頁 Header 的右側~\"",
       "paragraph4": "雖然 Vibe Coding 非常高效，但如果過度依賴而忽略了基本的結構步驟，專案後期可能會變得愈來愈難以維護或指揮。所以透過學習基礎的程式結構，我們可以更簡單地和 AI 協作，對產品的掌控也會與日俱增~"
     }
+  },
+  "60": {
+    "heading": "Token Linker：\n設計稿的 Token 偵測",
+    "subtitle": "Figma Plugin: Token Linker 可以協助偵測設計稿中的固定數值（Hard-coded values），並協助將其自動對應至已設定的 Figma Variable，有效維護設計系統的一致性~",
+    "date": "2025 年 1 月 7 日",
+    "tags": [
+      "設計系統",
+      "Design Token",
+      "Figma",
+      "設計工具",
+      "AI"
+    ],
+    "category": "article",
+    "url": "https://www.figma.com/community/plugin/1589120729239345070/token-linker",
+    "images": [
+      "articles/59/topics-58.1.jpg",
+      "articles/59/topics-58.2.jpg",
+      "articles/59/topics-58.3.mp4"
+    ],
+    "content": {
+      "paragraph1": "上週末提到的 Figma Plugin: Token Linker 終於審核通過 😃 這是上週利用 AI 輔助開發的小工具，可以稍微正式介紹一下這個工具和功能，希望可以幫助大家解決整理 Design Token 時的麻煩工作~ Token Linker 👉 https://www.figma.com/community/plugin/1589120729239345070/token-linker",
+      "paragraph2": "設計稿裡常常藏著沒有正確綁定 Variable 的色碼、間距、圓角…等，Token Linker 可以協助自動掃描設計稿並比對裡面的設定，快速替換回正確的 Design Tokens。",
+      "paragraph3": "另外當我們在使用 Figma Make 快速產出介面，但複製貼回 Figma 後，原本的 Token 會轉換為色碼或數值，所以也可以協助我們把這些數值再轉換回設定好的 Design Tokens。推薦給正在維護 Design System，或是有點強迫症尤其需要正確「整理圖層」的苦主設計師們 😄"
+    }
   }
 }

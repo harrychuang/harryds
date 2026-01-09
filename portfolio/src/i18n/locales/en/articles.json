@@ -1257,5 +1257,29 @@
       "paragraph3": "While understanding these architectures might be challenging for beginners (it was for me too 😅), it's core knowledge if the goal is to develop a complete, 'viable product' with integrated frontend and backend. Once you master the project structure, you can direct the AI more precisely, for example: 'Please use the XX component from Storybook and place it on the right side of the main product's Header~'",
       "paragraph4": "Although Vibe Coding is highly efficient, if basic structural steps are skipped, the project may become increasingly difficult to maintain or direct in the later stages. By learning the fundamental program structure, we can collaborate with AI more simply, and our control over the product will grow day by day~"
     }
+  },
+  "60": {
+    "heading": "Token Linker:\nDesign File Token Detection",
+    "subtitle": "Figma Plugin: Token Linker helps detect hard-coded values in design files and automatically maps them to configured Figma Variables, effectively maintaining design system consistency~",
+    "date": "Jan 7, 2025",
+    "tags": [
+      "Design System",
+      "Design Token",
+      "Figma",
+      "Design Tools",
+      "AI"
+    ],
+    "category": "article",
+    "url": "https://www.figma.com/community/plugin/1589120729239345070/token-linker",
+    "images": [
+      "articles/59/topics-58.1.jpg",
+      "articles/59/topics-58.2.jpg",
+      "articles/59/topics-58.3.mp4"
+    ],
+    "content": {
+      "paragraph1": "The Figma Plugin: Token Linker mentioned last weekend has finally been approved 😃 This is a small tool developed with AI assistance last week. Let me formally introduce this tool and its features, hoping to help everyone solve the tedious work of organizing Design Tokens~ Token Linker 👉 https://www.figma.com/community/plugin/1589120729239345070/token-linker",
+      "paragraph2": "Design files often contain color codes, spacing, border radius, etc. that aren't properly bound to Variables. Token Linker can automatically scan design files and compare the settings inside, quickly replacing them with the correct Design Tokens.",
+      "paragraph3": "Additionally, when we use Figma Make to quickly generate interfaces, the original Tokens convert to color codes or values when copied back to Figma. This tool can help us convert these values back to the configured Design Tokens. Recommended for designers maintaining Design Systems, or those with a bit of OCD who especially need to properly 'organize layers' 😄"
+    }
   }
 }

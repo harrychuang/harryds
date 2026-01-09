@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
+    <title>專案報價單 | 哈利設計事務所 Harry Design Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eeeeff',
+                            100: '#dcdcff',
+                            200: '#b8b6ff',
+                            300: '#918eff',
+                            400: '#6b67ff',
+                            500: '#4945FF',
+                            600: '#3a37cc',
+                            700: '#2c2999',
+                            800: '#1d1b66',
+                            900: '#0f0e33',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        h1, h2, h3, .serif { font-family: 'Noto Sans TC', sans-serif; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        .fade-in { animation: fadeIn 0.8s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .slide-in-left { animation: slideInLeft 0.6s ease-out forwards; }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        
+        /* Custom Scrollbar for a cleaner look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f5f4; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+        
+        .tab-active { border-bottom: 2px solid #4945FF; color: #2c2999; font-weight: 600; }
+        .tab-inactive { color: #78716c; }
+        .tab-inactive:hover { color: #44403c; }
+    </style>
+    <!-- Chosen Palette: Warm Minimalist Luxury (Stone, Amber, Charcoal) -->
+    <!-- Application Structure Plan: The app is designed as an interactive "Digital Proposal Dashboard". 
+         1. Hero Section: Sets the emotional tone (Vision/Goal).
+         2. Scope Explorer: A card-based system to explore the 3 main service pillars (Design, Frontend, Backend) without overwhelming text.
+         3. Timeline Visualizer: An interactive stepper to visualize the 12-week process.
+         4. Investment Breakdown: A Chart.js visualization of the budget allocation to show transparency.
+         5. Terms & Conditions: An accordion style for legal/process details to keep the interface clean.
+         This structure transforms a static document into a guided tour of the value proposition. -->
+    <!-- Visualization & Content Choices: 
+         1. Hero: Text & CSS Animation -> Goal: Impact -> Sets the "High-End" tone immediately.
+         2. Scope: Interactive Cards -> Goal: Organize -> distinct service areas.
+         3. Timeline: Stepper UI -> Goal: Change -> Shows progression over time.
+         4. Cost: Donut Chart -> Goal: Compare -> Visualizes cost distribution ($280k total).
+         5. Payment: Progress Bar -> Goal: Inform -> Visualizes the 40-40-20 split.
+         -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-stone-50 text-stone-800 antialiased selection:bg-primary-100 selection:text-primary-900">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-stone-50/95 backdrop-blur-sm border-b border-stone-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <img src="../assets/logo-harry-studio-dark.png" alt="哈利設計事務所" class="h-8">
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <button onclick="scrollToSection('vision')" class="text-stone-600 hover:text-primary-600 transition-colors text-sm uppercase tracking-wider">專案願景</button>
+                    <button onclick="scrollToSection('scope')" class="text-stone-600 hover:text-primary-600 transition-colors text-sm uppercase tracking-wider">服務範圍</button>
+                    <button onclick="scrollToSection('timeline')" class="text-stone-600 hover:text-primary-600 transition-colors text-sm uppercase tracking-wider">時程規劃</button>
+                    <button onclick="scrollToSection('pricing')" class="text-stone-600 hover:text-primary-600 transition-colors text-sm uppercase tracking-wider">費用與條款</button>
+                </div>
+                <div class="flex items-center">
+                    <span class="bg-stone-900 text-white px-4 py-2 text-xs font-bold tracking-widest uppercase rounded-sm">2026.01.09</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="vision" class="relative pt-24 pb-16 md:pt-32 md:pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in">
+        <p class="text-primary-500 font-bold tracking-[0.2em] uppercase mb-4">Brand E-Commerce Project</p>
+        <h1 class="text-5xl md:text-7xl font-bold text-stone-900 mb-8 leading-tight">
+            藥局產品線上銷售電商網站
+        </h1>
+        <p class="max-w-2xl mx-auto text-lg md:text-xl text-stone-600 leading-relaxed mb-10">
+            專案為藥局建立線上銷售平台。透過高階前端動效 (Scroll Interaction) 與極簡美學排版，優化購物流程。
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <div class="px-6 py-4 bg-stone-100 border border-primary-500 shadow-sm rounded-lg">
+                <div class="text-3xl font-bold text-primary-500 serif">$350,000</div>
+                <div class="text-xs text-stone-500 uppercase tracking-wide mt-1">專案總預算 (TWD)</div>
+            </div>
+            <div class="px-6 py-4 bg-stone-100 border border-primary-500 shadow-sm rounded-lg">
+                <div class="text-3xl font-bold text-primary-500 serif">10-12 週</div>
+                <div class="text-xs text-stone-500 uppercase tracking-wide mt-1">預估工期</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Service Scope Section -->
+    <section id="scope" class="py-16 bg-white border-t border-stone-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-stone-900 mb-4">服務範圍 Scope of Work</h2>
+                <p class="text-stone-600">
+                    我們將專案拆解為三大核心支柱：視覺設計、動態開發與系統整合。
+                    點擊下方卡片查看每個階段的具體交付項目。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1: Design -->
+                <div class="group relative bg-stone-50 hover:bg-white border border-stone-200 hover:border-primary-200 p-8 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer h-full flex flex-col" onclick="toggleScope('design')">
+                    <div class="text-4xl mb-4 text-primary-500">✦</div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-2">UI/UX 視覺設計</h3>
+                    <p class="text-sm text-stone-500 mb-6 uppercase tracking-wide">Visual Identity & Design</p>
+                    <p class="text-stone-600 mb-4 flex-grow">提供核心視覺風格提案，涵蓋 Landing Page 敘事感設計與完整電商購物流程。</p>
+                    <div class="mt-auto pt-4 border-t border-stone-200">
+                        <span class="text-primary-500 text-sm font-medium group-hover:underline">查看細節 &rarr;</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Frontend -->
+                <div class="group relative bg-stone-50 hover:bg-white border border-stone-200 hover:border-primary-200 p-8 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer h-full flex flex-col" onclick="toggleScope('frontend')">
+                    <div class="text-4xl mb-4 text-primary-500">⚡</div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-2">前端互動開發</h3>
+                    <p class="text-sm text-stone-500 mb-6 uppercase tracking-wide">Interactive Development</p>
+                    <p class="text-stone-600 mb-4 flex-grow">打造精品級動態效果，包含滾動視差、流暢轉場與細膩的 Hover 反饋。</p>
+                    <div class="mt-auto pt-4 border-t border-stone-200">
+                        <span class="text-primary-500 text-sm font-medium group-hover:underline">查看細節 &rarr;</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: Backend -->
+                <div class="group relative bg-stone-50 hover:bg-white border border-stone-200 hover:border-primary-200 p-8 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer h-full flex flex-col" onclick="toggleScope('backend')">
+                    <div class="text-4xl mb-4 text-primary-500">❖</div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-2">WordPress + WooCommerce</h3>
+                    <p class="text-sm text-stone-500 mb-6 uppercase tracking-wide">E-Commerce Platform</p>
+                    <p class="text-stone-600 mb-4 flex-grow">基於 WordPress 架構，搭配 WooCommerce 電商外掛，整合台灣主流金流與物流服務。</p>
+                    <div class="mt-auto pt-4 border-t border-stone-200">
+                        <span class="text-primary-500 text-sm font-medium group-hover:underline">查看細節 &rarr;</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Content Area (Dynamic) -->
+            <div id="scope-details" class="mt-12 p-8 bg-white border border-stone-200 rounded-xl shadow-inner hidden fade-in">
+                <h4 id="detail-title" class="text-2xl font-bold text-stone-900 mb-6 serif"></h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h5 class="text-sm font-bold text-stone-400 uppercase tracking-wider mb-4">核心項目</h5>
+                        <ul id="detail-list-main" class="space-y-3 text-stone-700"></ul>
+                    </div>
+                    <div>
+                        <h5 class="text-sm font-bold text-stone-400 uppercase tracking-wider mb-4">技術亮點</h5>
+                        <ul id="detail-list-tech" class="space-y-3 text-stone-700"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" class="py-16 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 md:flex md:justify-between md:items-end">
+                <div class="max-w-2xl">
+                    <h2 class="text-3xl font-bold text-stone-900 mb-4">執行時程 Timeline</h2>
+                    <p class="text-stone-600">
+                        預計總工期為 10-12 週。點擊下方時間軸的各個階段，了解每個時期的工作重點與交付項目。
+                    </p>
+                </div>
+                <div class="mt-4 md:mt-0 text-right">
+                     <span class="text-5xl font-bold text-stone-200 serif">12</span>
+                     <span class="text-stone-400 font-medium">Weeks Total</span>
+                </div>
+            </div>
+
+            <!-- Interactive Stepper -->
+            <div class="relative">
+                <!-- Connecting Line -->
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-stone-200 -translate-y-1/2 z-0"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-10">
+                    <!-- Step 1 -->
+                    <button onclick="updateTimeline(0)" class="timeline-step group text-left md:text-center focus:outline-none">
+                        <div class="flex items-center md:justify-center mb-4">
+                            <div id="step-circle-0" class="w-10 h-10 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold shadow-lg transition-all ring-4 ring-stone-50">1</div>
+                            <div class="md:hidden ml-4 font-bold text-stone-900">需求與風格</div>
+                        </div>
+                        <div class="pl-14 md:pl-0">
+                            <h4 class="text-lg font-bold text-stone-900 hidden md:block group-hover:text-primary-600 transition-colors">需求與風格</h4>
+                            <p class="text-sm text-stone-500 mt-1">週 1-2</p>
+                        </div>
+                    </button>
+
+                    <!-- Step 2 -->
+                    <button onclick="updateTimeline(1)" class="timeline-step group text-left md:text-center focus:outline-none">
+                        <div class="flex items-center md:justify-center mb-4">
+                            <div id="step-circle-1" class="w-10 h-10 rounded-full bg-stone-200 text-stone-600 flex items-center justify-center font-bold transition-all ring-4 ring-stone-50 group-hover:bg-stone-300">2</div>
+                            <div class="md:hidden ml-4 font-bold text-stone-900">UI 設計製作</div>
+                        </div>
+                        <div class="pl-14 md:pl-0">
+                            <h4 class="text-lg font-bold text-stone-900 hidden md:block group-hover:text-primary-600 transition-colors">UI 設計製作</h4>
+                            <p class="text-sm text-stone-500 mt-1">週 3-5</p>
+                        </div>
+                    </button>
+
+                    <!-- Step 3 -->
+                    <button onclick="updateTimeline(2)" class="timeline-step group text-left md:text-center focus:outline-none">
+                        <div class="flex items-center md:justify-center mb-4">
+                            <div id="step-circle-2" class="w-10 h-10 rounded-full bg-stone-200 text-stone-600 flex items-center justify-center font-bold transition-all ring-4 ring-stone-50 group-hover:bg-stone-300">3</div>
+                            <div class="md:hidden ml-4 font-bold text-stone-900">開發與整合</div>
+                        </div>
+                        <div class="pl-14 md:pl-0">
+                            <h4 class="text-lg font-bold text-stone-900 hidden md:block group-hover:text-primary-600 transition-colors">開發與整合</h4>
+                            <p class="text-sm text-stone-500 mt-1">週 6-10</p>
+                        </div>
+                    </button>
+
+                    <!-- Step 4 -->
+                    <button onclick="updateTimeline(3)" class="timeline-step group text-left md:text-center focus:outline-none">
+                        <div class="flex items-center md:justify-center mb-4">
+                            <div id="step-circle-3" class="w-10 h-10 rounded-full bg-stone-200 text-stone-600 flex items-center justify-center font-bold transition-all ring-4 ring-stone-50 group-hover:bg-stone-300">4</div>
+                            <div class="md:hidden ml-4 font-bold text-stone-900">測試與上線</div>
+                        </div>
+                        <div class="pl-14 md:pl-0">
+                            <h4 class="text-lg font-bold text-stone-900 hidden md:block group-hover:text-primary-600 transition-colors">測試與上線</h4>
+                            <p class="text-sm text-stone-500 mt-1">週 11-12</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic Timeline Content -->
+            <div class="mt-12 bg-white p-8 rounded-xl shadow-sm border border-stone-200 flex flex-col md:flex-row gap-8 items-start fade-in" id="timeline-content-container">
+                <div class="flex-1">
+                    <h3 id="timeline-title" class="text-2xl font-bold text-stone-900 mb-4 serif">需求確認 & 風格提案</h3>
+                    <p id="timeline-desc" class="text-stone-600 mb-6 leading-relaxed">
+                        專案啟動初期，我們將深度訪談以確認功能需求，並製作 Moodboard 確立品牌視覺調性，確保設計方向與品牌精神一致。
+                    </p>
+                    <ul id="timeline-tasks" class="space-y-2">
+                        <!-- Tasks injected by JS -->
+                    </ul>
+                </div>
+                <div class="w-full md:w-1/3 bg-stone-50 p-6 rounded-lg border border-stone-100">
+                    <h4 class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-3">關鍵交付物</h4>
+                    <ul id="timeline-deliverables" class="text-sm text-stone-700 space-y-2">
+                        <!-- Deliverables injected by JS -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-16 bg-white border-t border-stone-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900 mb-4">專案費用 Investment</h2>
+                <p class="text-stone-600">透明的預算結構，確保每一分投資都轉化為品牌價值。</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Chart Container -->
+                <div class="bg-stone-50 p-6 rounded-2xl border border-stone-100 shadow-sm flex flex-col items-center">
+                    <h3 class="text-lg font-bold text-stone-700 mb-6">預算配置比例</h3>
+                    <div class="chart-container">
+                        <canvas id="pricingChart"></canvas>
+                    </div>
+                    <div class="mt-6 text-center">
+                        <span class="text-3xl font-bold text-stone-900 serif">$350,000</span>
+                        <span class="text-stone-500 text-sm ml-2">(未稅)</span>
+                    </div>
+                </div>
+
+                <!-- Pricing Details Table -->
+                <div>
+                    <div class="overflow-hidden border border-stone-200 rounded-lg">
+                        <table class="min-w-full divide-y divide-stone-200">
+                            <thead class="bg-stone-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">項目說明</th>
+                                    <th scope="col" class="px-6 py-4 text-right text-xs font-medium text-stone-500 uppercase tracking-wider">費用 (TWD)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-stone-200">
+                                <tr class="hover:bg-primary-50/30 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm font-medium text-stone-900">UI/UX 品牌視覺與介面設計</div>
+                                        <div class="text-xs text-stone-500 mt-1">風格提案、全站頁面設計、RWD 響應式</div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right text-sm font-bold text-stone-700">$120,000</td>
+                                </tr>
+                                <tr class="hover:bg-primary-50/30 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm font-medium text-stone-900">前端動態特效開發</div>
+                                        <div class="text-xs text-stone-500 mt-1">滾動動畫、頁面轉場、互動反饋、效能優化</div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right text-sm font-bold text-stone-700">$130,000</td>
+                                </tr>
+                                <tr class="hover:bg-primary-50/30 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm font-medium text-stone-900">WordPress + WooCommerce 建置</div>
+                                        <div class="text-xs text-stone-500 mt-1">客製化佈景主題、金物流串接、會員系統</div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right text-sm font-bold text-stone-700">$100,000</td>
+                                </tr>
+                                <tr class="bg-stone-50">
+                                    <td class="px-6 py-4 text-right font-bold text-stone-900">總計</td>
+                                    <td class="px-6 py-4 text-right font-bold text-primary-500 text-lg">$350,000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Payment Terms Visual -->
+                    <div class="mt-8">
+                        <h4 class="text-sm font-bold text-stone-900 mb-4 uppercase tracking-wide">付款進度</h4>
+                        <div class="h-4 bg-stone-200 rounded-full overflow-hidden flex">
+                            <div class="h-full bg-stone-400 w-[30%] border-r border-white" title="訂金 30%"></div>
+                            <div class="h-full bg-stone-300 w-[40%] border-r border-white" title="期中款 40%"></div>
+                            <div class="h-full bg-primary-500 w-[30%]" title="尾款 30%"></div>
+                        </div>
+                        <div class="flex justify-between mt-2 text-xs text-stone-500">
+                            <span>訂金 30% <br>(簽約後)</span>
+                            <span class="text-center">期中款 40% <br>(UI 確認後)</span>
+                            <span class="text-right">尾款 30% <br>(驗收後)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terms Section -->
+    <section class="py-16 bg-stone-900 text-stone-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-pink-500 mb-8">重要條款與備註</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+                <div class="bg-stone-800 p-6 rounded-lg">
+                    <h3 class="text-pink-500 font-bold mb-3">⊛ 素材提供</h3>
+                    <p class="leading-relaxed">本報價不包含產品攝影、形象短片及文案。客戶需提供高品質素材以達預期視覺效果。</p>
+                </div>
+                <div class="bg-stone-800 p-6 rounded-lg">
+                    <h3 class="text-pink-500 font-bold mb-3">⊛ 修改規範</h3>
+                    <p class="leading-relaxed">UI 設計階段提供 2 次大型修正。進入開發後，若有架構性變動需另計工時。</p>
+                </div>
+                <div class="bg-stone-800 p-6 rounded-lg">
+                    <h3 class="text-pink-500 font-bold mb-3">⊛ 第三方費用</h3>
+                    <p class="leading-relaxed">網域、主機、SSL、金流手續費等皆由客戶自行支付予供應商。</p>
+                </div>
+                <div class="bg-stone-800 p-6 rounded-lg">
+                    <h3 class="text-pink-500 font-bold mb-3">⊛ 保固服務</h3>
+                    <p class="leading-relaxed">結案後提供 6 個月系統保固（Bug 修復），不含新功能開發。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-950 text-stone-400 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex flex-col items-center md:items-start gap-2">
+                    <img src="../assets/logo-harry-studio.png" alt="哈利設計事務所" class="h-10 brightness-0 invert opacity-70">
+                    <p class="text-xs text-stone-500">UI/UX Design & Web Development</p>
+                </div>
+                <div class="text-center md:text-right text-sm">
+                    <p class="mb-1">harrychuang23@gmail.com</p>
+                    <p class="text-xs text-stone-500">&copy; 2026 哈利設計事務所 Harry Design Studio. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Data Store
+        const scopeData = {
+            design: {
+                title: "UI/UX 視覺設計 (Design)",
+                main: [
+                    "品牌視覺提案：1 組核心風格提案（配色、字體、排版）",
+                    "Landing Page：敘事感首頁 + 產品系列頁",
+                    "電商標準頁：商品列表、詳情頁、購物車、結帳流程",
+                    "會員中心：訂單查詢、會員資料管理"
+                ],
+                tech: [
+                    "RWD 響應式優化 (Desktop / Mobile)",
+                    "UI Flow 規劃",
+                    "視覺層次引導 (Visual Hierarchy)"
+                ]
+            },
+            frontend: {
+                title: "前端互動開發 (Front-end)",
+                main: [
+                    "滾動觸發動畫 (Scroll Trigger)：視差移動、淡入淡出",
+                    "流暢頁面轉場 (Page Transitions)",
+                    "細膩互動反饋 (Hover, Focus effects)"
+                ],
+                tech: [
+                    "HTML5 / CSS3 / ES6+",
+                    "Lazy Loading 圖片延遲加載",
+                    "效能優化 (Lighthouse Score focus)"
+                ]
+            },
+            backend: {
+                title: "WordPress + WooCommerce 電商系統",
+                main: [
+                    "WordPress 網站建置與客製化佈景主題開發",
+                    "WooCommerce 電商功能設定與商品管理",
+                    "金流串接：綠界 ECPay / 藍新 NewebPay",
+                    "物流串接：超商取貨 (7-11/全家)、宅配整合",
+                    "會員系統與訂單管理功能"
+                ],
+                tech: [
+                    "WordPress 客製化佈景主題 (Custom Theme)",
+                    "WooCommerce 外掛整合與設定",
+                    "SEO 外掛設定 (Yoast / RankMath)",
+                    "網站效能優化與快取設定"
+                ]
+            }
+        };
+
+        const timelineData = [
+            {
+                title: "需求確認 & 風格提案",
+                desc: "專案啟動初期，我們將深度訪談以確認功能需求，並製作 Moodboard 確立品牌視覺調性，確保設計方向與品牌精神一致。",
+                tasks: ["需求訪談 (Kick-off meeting)", "競品分析", "Moodboard 製作與提案"],
+                deliverables: ["需求規格書", "視覺風格提案簡報"]
+            },
+            {
+                title: "全站 UI 設計製作",
+                desc: "確認風格後，進入大量生產階段。設計師將繪製所有關鍵頁面與狀態，包含手機版與電腦版介面。",
+                tasks: ["首頁與系列頁設計", "購物車與結帳流程設計", "RWD 手機版面適配"],
+                deliverables: ["全站 UI 設計稿 (Figma/Adobe XD)"]
+            },
+            {
+                title: "WordPress 開發 & WooCommerce 整合",
+                desc: "工程師進場。建置 WordPress 網站架構，開發客製化佈景主題，並設定 WooCommerce 電商功能與金物流串接。",
+                tasks: ["WordPress 環境建置與主題開發", "WooCommerce 設定與金物流串接", "前端互動特效整合"],
+                deliverables: ["測試站連結 (Staging Site)"]
+            },
+            {
+                title: "測試驗收 & 正式上線",
+                desc: "進行最後的壓力測試與 Bug 修復，確保消費者購物流程無斷點，並協助設定網域正式上線。",
+                tasks: ["跨瀏覽器測試", "金流實際刷卡測試", "DNS 設定與正式佈署"],
+                deliverables: ["正式上線網站", "WordPress 後台操作手冊", "佈景主題原始碼"]
+            }
+        ];
+
+        // Functions
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function toggleScope(key) {
+            const detailsDiv = document.getElementById('scope-details');
+            const title = document.getElementById('detail-title');
+            const listMain = document.getElementById('detail-list-main');
+            const listTech = document.getElementById('detail-list-tech');
+
+            // Populate Data
+            title.textContent = scopeData[key].title;
+            
+            listMain.innerHTML = scopeData[key].main.map(item => 
+                `<li class="flex items-start"><span class="text-primary-500 mr-2">✓</span>${item}</li>`
+            ).join('');
+            
+            listTech.innerHTML = scopeData[key].tech.map(item => 
+                `<li class="flex items-start"><span class="text-stone-400 mr-2">➜</span>${item}</li>`
+            ).join('');
+
+            // Show animation
+            detailsDiv.classList.remove('hidden');
+            detailsDiv.classList.remove('fade-in');
+            void detailsDiv.offsetWidth; // trigger reflow
+            detailsDiv.classList.add('fade-in');
+
+            // Scroll to details slightly
+            detailsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        let currentStep = 0;
+        function updateTimeline(index) {
+            currentStep = index;
+            
+            // Update Circles
+            for (let i = 0; i < 4; i++) {
+                const circle = document.getElementById(`step-circle-${i}`);
+                if (i === index) {
+                    circle.className = "w-10 h-10 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold shadow-lg transition-all ring-4 ring-stone-50 transform scale-110";
+                } else {
+                    circle.className = "w-10 h-10 rounded-full bg-stone-200 text-stone-600 flex items-center justify-center font-bold transition-all ring-4 ring-stone-50 cursor-pointer hover:bg-stone-300";
+                }
+            }
+
+            // Update Content
+            const container = document.getElementById('timeline-content-container');
+            const title = document.getElementById('timeline-title');
+            const desc = document.getElementById('timeline-desc');
+            const tasks = document.getElementById('timeline-tasks');
+            const deliverables = document.getElementById('timeline-deliverables');
+
+            // Fade out
+            container.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                const data = timelineData[index];
+                title.textContent = data.title;
+                desc.textContent = data.desc;
+                
+                tasks.innerHTML = data.tasks.map(t => 
+                    `<li class="flex items-center text-stone-700"><span class="w-1.5 h-1.5 bg-primary-500 rounded-full mr-3"></span>${t}</li>`
+                ).join('');
+                
+                deliverables.innerHTML = data.deliverables.map(d => 
+                    `<li class="flex items-center"><span class="text-stone-400 mr-2">▪</span>${d}</li>`
+                ).join('');
+
+                // Fade in
+                container.style.opacity = '1';
+                container.classList.remove('fade-in');
+                void container.offsetWidth;
+                container.classList.add('fade-in');
+            }, 200);
+        }
+
+        // Initialize Chart
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initial Timeline
+            updateTimeline(0);
+
+            // Chart
+            const ctx = document.getElementById('pricingChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['UI/UX 設計', '前端開發', 'WooCommerce'],
+                    datasets: [{
+                        data: [120000, 130000, 100000],
+                        backgroundColor: [
+                            '#d6d3d1', // Stone 300
+                            '#a8a29e', // Stone 400
+                            '#4945FF'  // Primary 500 (Accent)
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { family: "'Noto Sans TC', sans-serif" },
+                                color: '#44403c',
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 }).format(context.parsed);
+                                    }
+                                    return label;
+                                }
+                            },
+                            backgroundColor: '#292524',
+                            titleFont: { family: "'Noto Sans TC', sans-serif" },
+                            bodyFont: { family: "'Noto Sans TC', sans-serif" }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
