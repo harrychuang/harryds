@@ -187,7 +187,7 @@
     }
 
     @media (max-width: 767px) {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(1, 1fr);
       gap: 20px 24px;
     }
   }
@@ -377,7 +377,7 @@
     @media (max-width: 1024px) {
       flex-direction: row;
       flex-wrap: wrap;
-      gap: 24px;
+      gap: 10px;
     }
   }
 
