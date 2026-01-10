@@ -3,6 +3,21 @@
     "heading": "<プロダクトデザイナー />\nVibe Coding ワークショップ",
     "subtitle": "FigmaデザインシステムからStrapiデータベースまで、2日間でサイドプロジェクトを完成",
     "instructor": "Harry",
+    "instructorBio": {
+      "name": "Harry Chuang",
+      "title": "18年以上の UI/UX デザイン＆フロントエンド開発経験",
+      "experience": [
+        "TutorMing、Shopmatic 勤務経験あり。KKDay の初アプリ設計をデザイン顧問として主導",
+        "Shopmatic のシンガポール × インド跨国チーム向けに Storybook 共有コンポーネントライブラリを構築"
+      ],
+      "teaching": [
+        "AAPD オンライン講師｜Design Tokens とデザインシステム実践",
+        "QNAP、UXY、IxDA 企業研修・ワークショップ講師",
+        "Codrops 寄稿｜AI × デザインシステム開発実践"
+      ],
+      "codropsArticle": "https://tympanus.net/codrops/2025/12/23/building-a-nostalgic-8-bit-universe-with-modern-tech-a-vibe-coding-journey/",
+      "codropsArticleText": "Codrops 記事を読む：AI × デザインシステム × プロダクト開発実践"
+    },
     "date": "2025年1月",
     "tags": [
       "Vibe Coding",
@@ -57,9 +72,14 @@
             "description": "Figmaの変数とコードの同期を実践。デザイン仕様をAIが理解できるDesign Tokensに変換し、プロジェクトの視覚的基盤を構築する。"
           },
           {
-            "time": "13:30 - 16:00",
+            "time": "13:30 - 15:00",
             "title": "【コンポーネント】Storybook コンポーネントライブラリ開発",
             "description": "AIを指揮してUIコンポーネントライブラリを素早く構築。基礎コンポーネントからStorybookドキュメントまで、再利用可能なデジタルデザイン資産を自作する。"
+          },
+          {
+            "time": "15:00 - 16:00",
+            "title": "【上級】Figma MCP 連携実践",
+            "description": "Figma MCPを設定して、Cursorがデザインファイルに直接接続できるようにする。AIはもうスクリーンショットから推測する必要がなく、コンポーネント構造、間隔、カラー変数を正確に読み取り、開発の再現精度を大幅に向上させる。"
           }
         ],
         "outcome": "デザインシステムに完全対応したStorybookコンポーネントライブラリ。"
@@ -102,7 +122,7 @@
       "description": "学習はコース終了で終わりではありません。専用の Discord コミュニティを立ち上げ、ワークショップ終了後の4週間、週に一度オンライン Office Hour（30〜60分）を開催します。開発上の課題を直接サポートし、あなたのサイドプロジェクトのコア機能が確実に公開できるようお手伝いします。"
     },
     "pricing": {
-      "schedule": "1月中旬または下旬予定（週末2日間 10:00-16:00）",
+      "schedule": "【第1回】1/24(土) - 1/25(日)\n【第2回】1/31(土) - 2/1(日)\n午前10:00 - 午後4:00、2日間合計10時間",
       "location": "台北駅近くのスペース（詳細は追ってお知らせ）",
       "earlyBird": "NT$ 5,000",
       "original": "NT$ 8,800",
@@ -117,6 +137,10 @@
       {
         "question": "何を準備すればいいですか？",
         "answer": "ノートパソコンにSourceTreeをインストールし、GitHub、Zeabur、Cursorなどのアカウントを事前に登録してください（セットアップガイドを提供します）。"
+      },
+      {
+        "question": "このコースは誰に向いていますか？必要な前提知識は？",
+        "answer": "これは「開発領域に踏み込みたいプロダクトデザイナー」のために設計された中上級コースです。参加前に必要なこと：(1) Figma操作能力：ComponentsやVariablesなどのコア機能に精通していること (2) プロダクトデザイン経験：アイデアから納品までのプロダクト開発プロセスの基本を理解していること。自分のデザインを「動かしたい」UI/UXデザイナーの方に最適なコースです！"
       }
     ]
   }

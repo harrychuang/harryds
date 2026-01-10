@@ -12,6 +12,7 @@ import SEO from '../components/SEO';
 import { PixelText2D, CHAR_WIDTH, CHAR_HEIGHT } from '../../../harryds/src/components/PixelText';
 import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
+import instructorHarryImg from '../../assets/imgs/common/label-teacher-harry.png';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 import { useContactModal } from '../contexts/ContactModalContext';
 
@@ -675,6 +676,65 @@ const CourseDetail: React.FC = () => {
                       className="course-detail__slides-embed"
                       dangerouslySetInnerHTML={{ __html: course.slidesEmbed }}
                     />
+                  </div>
+                </div>
+              )}
+
+              {/* Instructor Bio Section */}
+              {course.instructorBio && (
+                <div className="course-detail__section">
+                  <h2 className="course-detail__section-title">
+                    {t('common:aboutInstructor', 'About Instructor')}
+                    <span className="course-detail__cursor">_</span>
+                  </h2>
+                  <div className="course-detail__section-content">
+                    <div className="course-detail__instructor">
+                      <div className="course-detail__instructor-header">
+                        <img 
+                          src={instructorHarryImg} 
+                          alt={course.instructorBio.name}
+                          className="course-detail__instructor-photo"
+                        />
+                        <div className="course-detail__instructor-info">
+                          <h3 className="course-detail__instructor-name">{course.instructorBio.name}</h3>
+                          <p className="course-detail__instructor-title">{course.instructorBio.title}</p>
+                        </div>
+                      </div>
+                      
+                      {course.instructorBio.experience && course.instructorBio.experience.length > 0 && (
+                        <div className="course-detail__instructor-section">
+                          <h4 className="course-detail__instructor-section-title">{t('common:experience', 'Experience')}</h4>
+                          <ul className="course-detail__instructor-list">
+                            {course.instructorBio.experience.map((item, idx) => (
+                              <li key={`exp-${idx}`}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      
+                      {course.instructorBio.teaching && course.instructorBio.teaching.length > 0 && (
+                        <div className="course-detail__instructor-section">
+                          <h4 className="course-detail__instructor-section-title">{t('common:teachingExperience', 'Teaching')}</h4>
+                          <ul className="course-detail__instructor-list">
+                            {course.instructorBio.teaching.map((item, idx) => (
+                              <li key={`teach-${idx}`}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      
+                      {course.instructorBio.codropsArticle && (
+                        <a 
+                          href={course.instructorBio.codropsArticle}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="course-detail__instructor-link"
+                          onMouseEnter={handleMenuItemHover}
+                        >
+                          {course.instructorBio.codropsArticleText || t('common:readCodropsArticle', 'Read Codrops Article')}
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}

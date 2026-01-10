@@ -3,6 +3,21 @@
     "heading": "<產品設計師 />\nVibe Coding 工作坊",
     "subtitle": "從 Figma 設計系統到 Strapi 資料庫，2天完成你的 Side Project",
     "instructor": "Harry",
+    "instructorBio": {
+      "name": "Harry Chuang",
+      "title": "18+ 年 UI/UX 設計與前端開發經驗",
+      "experience": [
+        "曾任職 TutorMing、Shopmatic，並擔任 KKDay 設計顧問主導首款 App 設計",
+        "為 Shopmatic 新加坡 × 印度跨國團隊打造 Storybook 共用元件庫"
+      ],
+      "teaching": [
+        "AAPD 線上課程講師｜Design Tokens 與設計系統實戰",
+        "QNAP、UXY、IxDA 企業內訓與工作坊講師",
+        "Codrops 特邀撰稿｜AI × 設計系統開發實戰"
+      ],
+      "codropsArticle": "https://tympanus.net/codrops/2025/12/23/building-a-nostalgic-8-bit-universe-with-modern-tech-a-vibe-coding-journey/",
+      "codropsArticleText": "閱讀 Codrops 文章：AI × 設計系統 × 產品開發實戰"
+    },
     "date": "2025 年 1 月",
     "tags": [
       "Vibe Coding",
@@ -57,9 +72,14 @@
             "description": "實作 Figma 變數與程式碼的同步。學習如何將設計規範轉換成 AI 能理解的 Design Tokens，建立專案的視覺基石。"
           },
           {
-            "time": "13:30 - 16:00",
+            "time": "13:30 - 15:00",
             "title": "【元件】Storybook 元件庫開發",
             "description": "指揮 AI 快速建立 UI 元件庫。從基礎元件到 Storybook 文件，親手打造可重複使用的數位設計資產。"
+          },
+          {
+            "time": "15:00 - 16:00",
+            "title": "【進階】Figma MCP 串接實戰",
+            "description": "設定 Figma MCP 讓 Cursor 直接連接你的設計檔。AI 不再靠截圖猜測，而是能精準讀取元件結構、間距與色彩變數，大幅提升開發還原度。"
           }
         ],
         "outcome": "一個完全對應設計系統的 Storybook 元件庫。"
@@ -102,7 +122,7 @@
       "description": "學習不應在課程結束後就停止。課程會建立專屬 Discord 社群，並在課程結束後的四週內，每週安排一個晚上的線上 Office Hour (30-60 分鐘)，協助排除開發障礙，確保你的 Side Project 核心功能順利上線。"
     },
     "pricing": {
-      "schedule": "預計 1月中旬或 1月底 (週末兩日 10:00-16:00)",
+      "schedule": "【第一場】1/24(六) - 1/25(日)\n【第二場】1/31(六) - 2/1(日)\n上午 10:00 - 下午 4:00，2天共 10 小時",
       "location": "台北車站附近空間 (詳細地點待通知)",
       "earlyBird": "NT$ 5,000",
       "original": "NT$ 8,800",
@@ -117,6 +137,10 @@
       {
         "question": "需要準備什麼？",
         "answer": "一台筆電，並預先安裝好 SourceTree 軟體，並且註冊好 GitHub, Zeabur, Cursor 等帳號 (會有課前懶人包)。"
+      },
+      {
+        "question": "這堂課適合誰？需要什麼先備知識？",
+        "answer": "這是一堂為「想跨足開發領域的產品設計師」量身打造的中高階課程。報名前，你需要具備：(1) Figma 操作能力：熟悉 Components、Variables 等核心功能 (2) 產品設計經驗：對從需求發想到設計交付的產品流程有基本掌握。如果你是想讓自己的設計能直接「動起來」的 UI/UX 設計師，這堂課非常適合你！"
       }
     ]
   }

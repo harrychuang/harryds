@@ -100,6 +100,14 @@ export interface CourseItem {
     title: string;
     description: string;
   };
+  instructorBio?: {
+    name: string;
+    title: string;
+    experience?: string[];
+    teaching?: string[];
+    codropsArticle?: string;
+    codropsArticleText?: string;
+  };
 }
 
 /**
@@ -133,7 +141,8 @@ const transformLocalToCourseItem = (id: string, data: any, enData?: any): Course
     pricing: data.pricing || {},
     slidesEmbed: data.slidesEmbed || '',
     faq: data.faq || [],
-    mentorship: data.mentorship
+    mentorship: data.mentorship,
+    instructorBio: data.instructorBio
   };
 };
 
