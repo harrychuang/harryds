@@ -18,6 +18,7 @@ import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import SEO, { useSEOPresets } from '../components/SEO';
 import award01 from '../../assets/imgs/awards/award-01.png';
+import award01_2 from '../../assets/imgs/awards/award-01-2.jpg';
 import award02 from '../../assets/imgs/awards/award-02.png';
 import award03 from '../../assets/imgs/awards/award-03.png';
 import award04 from '../../assets/imgs/awards/award-04.png';
@@ -99,6 +100,9 @@ const About: React.FC = () => {
   // 追蹤是否為首次載入（需要等待 loading 動畫）
   const isFirstLoadRef = useRef(true);
   
+  // 用於在頁面載入和初始化之間共享的初始 URLs
+  const initialGiphyUrlsRef = useRef<string[]>([]);
+  
   // 頁面進入時檢查是否已載入過（只在組件掛載時執行一次）
   useEffect(() => {
     const alreadyLoaded = isPageLoaded(PAGE_NAME);
@@ -116,12 +120,54 @@ const About: React.FC = () => {
       // 顯示 loading
       setLoading(true);
       
-      // 100ms 後結束 loading（讓 PageLoader 接手顯示最小時間）
-      const timer = setTimeout(() => {
+      // 計算初始需要的 Giphy 圖片 URL
+      const itemWidth = 300;
+      const gap = window.innerWidth <= 768 ? 50 : 100;
+      const totalItemWidth = itemWidth + gap;
+      const initialCount = Math.ceil(window.innerWidth / totalItemWidth) + 2;
+      
+      // 取得初始 Giphy URLs 並存到 ref 供初始化 effect 使用
+      const initialUrls: string[] = [];
+      const tempUsedUrls = new Set<string>();
+      for (let i = 0; i < initialCount; i++) {
+        const availableUrls = GIPHY_URLS.filter(url => !tempUsedUrls.has(url));
+        const randomIndex = Math.floor(Math.random() * availableUrls.length);
+        const selectedUrl = availableUrls[randomIndex];
+        tempUsedUrls.add(selectedUrl);
+        initialUrls.push(selectedUrl);
+      }
+      
+      // 儲存到 ref 供初始化 effect 使用
+      initialGiphyUrlsRef.current = initialUrls;
+      
+      // 預載 Giphy 圖片（帶有超時機制，最多等 3 秒）
+      const preloadWithTimeout = (url: string, timeoutMs: number = 3000): Promise<void> => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          const timeout = setTimeout(() => {
+            import.meta.env.DEV && console.log('[About] Giphy preload timeout:', url.slice(-20));
+            resolve();
+          }, timeoutMs);
+          
+          img.onload = () => {
+            clearTimeout(timeout);
+            preloadedGiphyUrlsRef.current.add(url);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.src = url;
+        });
+      };
+      
+      // 並行預載所有初始 Giphy 圖片
+      Promise.all(initialUrls.map(url => preloadWithTimeout(url, 3000))).then(() => {
+        import.meta.env.DEV && console.log('[About] Giphy images preloaded, ending loading');
         setLoading(false);
         markPageAsLoaded(PAGE_NAME);
-      }, 100);
-      return () => clearTimeout(timer);
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // 只在組件掛載時執行一次
@@ -221,6 +267,7 @@ const About: React.FC = () => {
   interface GiphyItem {
     id: string;
     url: string;
+    loaded: boolean;
   }
   const [giphyItems, setGiphyItems] = useState<GiphyItem[]>([]);
   const marqueeRef = useRef<HTMLDivElement>(null);
@@ -229,6 +276,30 @@ const About: React.FC = () => {
   
   // 追蹤已使用的 Giphy URL（不重複隨機選擇）
   const usedGiphyUrlsRef = useRef<Set<string>>(new Set());
+  
+  // 追蹤已預載完成的 Giphy URL
+  const preloadedGiphyUrlsRef = useRef<Set<string>>(new Set());
+
+  // 預載單張 Giphy 圖片
+  const preloadGiphyImage = useCallback((url: string): Promise<void> => {
+    // 如果已經預載過，直接 resolve
+    if (preloadedGiphyUrlsRef.current.has(url)) {
+      return Promise.resolve();
+    }
+    
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        preloadedGiphyUrlsRef.current.add(url);
+        resolve();
+      };
+      img.onerror = () => {
+        // 即使載入失敗也繼續，避免阻塞
+        resolve();
+      };
+      img.src = url;
+    });
+  }, []);
 
   // 獲取不重複的隨機 Giphy URL
   const getRandomGiphyUrl = useCallback(() => {
@@ -252,22 +323,39 @@ const About: React.FC = () => {
     return selectedUrl;
   }, []);
 
-  // 初始化 giphy 項目
+  // 初始化 giphy 項目（使用已預載的 URLs 或新生成）
   useEffect(() => {
-
     // 計算初始需要的圖片數量（基於視窗寬度）
     const itemWidth = 300; // 圖片寬度
     const gap = window.innerWidth <= 768 ? 50 : 100; // 小螢幕間距縮小
     const totalItemWidth = itemWidth + gap;
     const initialCount = Math.ceil(window.innerWidth / totalItemWidth) + 2; // 多加2個確保無縫
 
+    // 優先使用已預載的 URLs（從 ref 取得）
+    const preloadedUrls = initialGiphyUrlsRef.current;
+    const hasPreloadedUrls = preloadedUrls.length > 0;
+    
     const initialItems: GiphyItem[] = [];
     for (let i = 0; i < initialCount; i++) {
+      // 如果有預載的 URL，使用它；否則生成新的
+      const url = hasPreloadedUrls && preloadedUrls[i] 
+        ? preloadedUrls[i] 
+        : getRandomGiphyUrl();
+      
+      // 標記已使用（避免重複）
+      if (hasPreloadedUrls && preloadedUrls[i]) {
+        usedGiphyUrlsRef.current.add(url);
+      }
+      
       initialItems.push({
         id: `giphy-${Date.now()}-${i}`,
-        url: getRandomGiphyUrl(),
+        url,
+        loaded: preloadedGiphyUrlsRef.current.has(url),
       });
     }
+
+    import.meta.env.DEV && console.log('[About] Giphy items initialized, preloaded count:', 
+      initialItems.filter(item => item.loaded).length, '/', initialItems.length);
 
     setGiphyItems(initialItems);
 
@@ -318,13 +406,18 @@ const About: React.FC = () => {
 
         // 為每個移除的項目添加一個新項目
         itemsToRemove.forEach(() => {
+          const newUrl = getRandomGiphyUrl();
           const newItem: GiphyItem = {
             id: `giphy-${Date.now()}-${Math.random()}`,
-            url: getRandomGiphyUrl(),
+            url: newUrl,
+            loaded: preloadedGiphyUrlsRef.current.has(newUrl),
           };
           newItems.push(newItem);
           positions.set(newItem.id, maxPos + totalItemWidth);
           maxPos += totalItemWidth;
+          
+          // 背景預載新圖片
+          preloadGiphyImage(newUrl);
         });
 
         // 移除舊項目的位置記錄
@@ -362,7 +455,7 @@ const About: React.FC = () => {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [giphyItems, getRandomGiphyUrl]);
+  }, [giphyItems, getRandomGiphyUrl, preloadGiphyImage]);
 
   // 頁面 / 圖片載入完成後刷新 ScrollTrigger，避免重新整理時位置錯亂
   useEffect(() => {
@@ -1318,7 +1411,10 @@ const About: React.FC = () => {
               </div>
               <ul className="home__intro-awards">
                 <li>
-                  <img src={award01} alt="Awwwards Logo" className="home__intro-award-image home__intro-award-image--01" />
+                  <div className="home__intro-award-images-row">
+                    <img src={award01_2} alt="Awwwards Certificate 2025" className="home__intro-award-image home__intro-award-image--01-2" />
+                    <img src={award01} alt="Awwwards Logo" className="home__intro-award-image home__intro-award-image--01" />
+                  </div>
                   <span className="home__intro-awards-label">{t('awards.items.awwwards.label', { ns: 'about' })}</span>
                   <span className="home__intro-awards-detail">{t('awards.items.awwwards.detail', { ns: 'about' })}</span>
                 </li>

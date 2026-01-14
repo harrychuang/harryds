@@ -1261,7 +1261,7 @@
   "60": {
     "heading": "Token Linker：\n設計稿的 Token 偵測",
     "subtitle": "Figma Plugin: Token Linker 可以協助偵測設計稿中的固定數值（Hard-coded values），並協助將其自動對應至已設定的 Figma Variable，有效維護設計系統的一致性~",
-    "date": "2025 年 1 月 7 日",
+    "date": "2026 年 1 月 7 日",
     "tags": [
       "設計系統",
       "Design Token",
@@ -1280,6 +1280,32 @@
       "paragraph1": "上週末提到的 Figma Plugin: Token Linker 終於審核通過 😃 這是上週利用 AI 輔助開發的小工具，可以稍微正式介紹一下這個工具和功能，希望可以幫助大家解決整理 Design Token 時的麻煩工作~ Token Linker 👉 https://www.figma.com/community/plugin/1589120729239345070/token-linker",
       "paragraph2": "設計稿裡常常藏著沒有正確綁定 Variable 的色碼、間距、圓角…等，Token Linker 可以協助自動掃描設計稿並比對裡面的設定，快速替換回正確的 Design Tokens。",
       "paragraph3": "另外當我們在使用 Figma Make 快速產出介面，但複製貼回 Figma 後，原本的 Token 會轉換為色碼或數值，所以也可以協助我們把這些數值再轉換回設定好的 Design Tokens。推薦給正在維護 Design System，或是有點強迫症尤其需要正確「整理圖層」的苦主設計師們 😄"
+    }
+  },
+  "61": {
+    "heading": "Figma Plugin: Token Naming：\n結構化的 Token 命名",
+    "subtitle": "Token Naming 提供結構化的 Token 命名介面，讓設計師可依據 Type、Role、Component、Variant 等層級快速組合出規範的 Token 名稱，並直接產生 Figma Variable，有效維護設計系統命名的一致性～",
+    "date": "2026 年 1 月 14 日",
+    "tags": [
+      "設計系統",
+      "Design Token",
+      "Figma",
+      "設計工具",
+      "AI"
+    ],
+    "category": "article",
+    "url": "https://www.figma.com/community/plugin/1590936082098828602/token-naming",
+    "images": [
+      "articles/61/topics-61.1.jpg",
+      "articles/61/topics-61.2.jpg",
+      "articles/61/topics-61.3.mp4"
+    ],
+    "content": {
+      "paragraph1": "延續上週分享的 Token Linker，這週把之前開發的 Design Token 命名工具搬移到 Figma Plugin 中，可以更快速地透過結構化的方式來建立產品設計中的 Token ~ 🔗 Token Naming 連結: https://www.figma.com/community/plugin/1590936082098828602/token-naming",
+      "paragraph2": "對於初學者或團隊協作來說，好處在於：能夠在統一的規範下進行 Token 命名，避免團隊中每個人因命名方式或結構不同而產生混亂。",
+      "paragraph3": "Token Naming 除了提供結構化的介面來建立 Design Token 之外，也支援輸出設定檔，方便匯入到其他專案中使用，讓跨專案的設計規範也能保持一致。",
+      "paragraph4": "在使用這類工具之前，還是建議先對 Design Token 有基本的了解，這樣在建立 Token 時會更有方向，命名也更具一致性。",
+      "paragraph5": "因為剛上架不久，可能還存在一些 Bug 或使用上不順手的地方。歡迎有需要的產品設計師或工程師下載試用，如果遇到任何問題、有想改進的地方，或是希望新增的功能，都歡迎隨時回饋給我 🙌"
     }
   }
 }

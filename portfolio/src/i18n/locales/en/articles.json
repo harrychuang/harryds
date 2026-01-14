@@ -1261,7 +1261,7 @@
   "60": {
     "heading": "Token Linker:\nDesign File Token Detection",
     "subtitle": "Figma Plugin: Token Linker helps detect hard-coded values in design files and automatically maps them to configured Figma Variables, effectively maintaining design system consistency~",
-    "date": "Jan 7, 2025",
+    "date": "Jan 7, 2026",
     "tags": [
       "Design System",
       "Design Token",
@@ -1280,6 +1280,32 @@
       "paragraph1": "The Figma Plugin: Token Linker mentioned last weekend has finally been approved 😃 This is a small tool developed with AI assistance last week. Let me formally introduce this tool and its features, hoping to help everyone solve the tedious work of organizing Design Tokens~ Token Linker 👉 https://www.figma.com/community/plugin/1589120729239345070/token-linker",
       "paragraph2": "Design files often contain color codes, spacing, border radius, etc. that aren't properly bound to Variables. Token Linker can automatically scan design files and compare the settings inside, quickly replacing them with the correct Design Tokens.",
       "paragraph3": "Additionally, when we use Figma Make to quickly generate interfaces, the original Tokens convert to color codes or values when copied back to Figma. This tool can help us convert these values back to the configured Design Tokens. Recommended for designers maintaining Design Systems, or those with a bit of OCD who especially need to properly 'organize layers' 😄"
+    }
+  },
+  "61": {
+    "heading": "Figma Plugin: Token Naming:\nStructured Token Naming",
+    "subtitle": "Token Naming provides a structured Token naming interface, allowing designers to quickly compose standardized Token names based on Type, Role, Component, Variant hierarchies, and directly generate Figma Variables, effectively maintaining design system naming consistency~",
+    "date": "Jan 14, 2026",
+    "tags": [
+      "Design System",
+      "Design Token",
+      "Figma",
+      "Design Tools",
+      "AI"
+    ],
+    "category": "article",
+    "url": "https://www.figma.com/community/plugin/1590936082098828602/token-naming",
+    "images": [
+      "articles/61/topics-61.1.jpg",
+      "articles/61/topics-61.2.jpg",
+      "articles/61/topics-61.3.mp4"
+    ],
+    "content": {
+      "paragraph1": "Continuing from last week's Token Linker, this week I migrated the previously developed Design Token naming tool to a Figma Plugin, enabling faster creation of product design Tokens through a structured approach~ 🔗 Token Naming link: https://www.figma.com/community/plugin/1590936082098828602/token-naming",
+      "paragraph2": "For beginners or team collaboration, the benefit is: being able to perform Token naming under unified standards, avoiding confusion caused by different naming methods or structures among team members.",
+      "paragraph3": "Besides providing a structured interface for creating Design Tokens, Token Naming also supports exporting configuration files, making it convenient to import into other projects, keeping design standards consistent across projects.",
+      "paragraph4": "Before using such tools, it's still recommended to have a basic understanding of Design Tokens first, so you'll have better direction when creating Tokens, and naming will be more consistent.",
+      "paragraph5": "Since it was just launched, there might still be some bugs or inconveniences in use. Product designers or engineers who need it are welcome to download and try it out. If you encounter any issues, have suggestions for improvement, or features you'd like added, feel free to give me feedback anytime 🙌"
     }
   }
 }

@@ -373,13 +373,21 @@
       gap: 12px;
     }
 
+    .home__intro-award-images-row {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      gap: 50px;
+    }
+
     .home__intro-award-image {
       display: block;
       height: auto;
       margin: 0 0 16px;
     }
 
-    .home__intro-award-image--01 { width: 200px; }
+    .home__intro-award-image--01-2 { width: auto !important; height: 300px; }
+    .home__intro-award-image--01 { width: auto !important; height: 300px; }
     .home__intro-award-image--02 { width: 80px; }
     .home__intro-award-image--03 { width: 400px; }
     .home__intro-award-image--04 { width: 300px; }
@@ -533,9 +541,12 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    will-change: transform;
+    will-change: transform, opacity;
     backface-visibility: hidden;
     transform: translateZ(0);
+    // 淡入效果：確保圖片載入時平滑顯示
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
 
     @media (max-height: 1000px) {
       height: 200px;
@@ -878,7 +889,12 @@
         font-size: 20px;  // 原本 25px
       }
 
-      .home__intro-award-image--01 { width: 120px; }  // 原本 200px
+      .home__intro-award-images-row {
+        gap: 30px;  // 原本 50px
+      }
+
+      .home__intro-award-image--01-2 { height: 180px; }  // 原本 200px
+      .home__intro-award-image--01 { height: 180px; }  // 原本 200px
       .home__intro-award-image--02 { width: 64px; }   // 原本 80px
       .home__intro-award-image--03 { width: 240px; }  // 原本 400px
       .home__intro-award-image--04 { width: 180px; }  // 原本 300px

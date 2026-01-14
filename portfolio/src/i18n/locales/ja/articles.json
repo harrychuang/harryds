@@ -856,7 +856,7 @@
   "60": {
     "heading": "Token Linker：\nデザインファイルの Token 検出",
     "subtitle": "Figma Plugin: Token Linker は、デザインファイル内のハードコードされた値（Hard-coded values）を検出し、設定済みの Figma Variable に自動的にマッピングして、デザインシステムの一貫性を効果的に維持します~",
-    "date": "2025年1月7日",
+    "date": "2026年1月7日",
     "tags": [
       "デザインシステム",
       "Design Token",
@@ -875,6 +875,32 @@
       "paragraph1": "先週末に紹介した Figma Plugin: Token Linker がついに審査を通過しました 😃 これは先週 AI を活用して開発した小さなツールです。このツールと機能を正式に紹介させていただきます。Design Token を整理する面倒な作業を解決するお手伝いができれば幸いです~ Token Linker 👉 https://www.figma.com/community/plugin/1589120729239345070/token-linker",
       "paragraph2": "デザインファイルには、Variable に正しくバインドされていないカラーコード、スペーシング、角丸などが隠れていることがよくあります。Token Linker はデザインファイルを自動的にスキャンし、内部の設定を比較して、正しい Design Tokens に素早く置き換えることができます。",
       "paragraph3": "また、Figma Make を使用してインターフェースを素早く生成する際、Figma にコピーして戻すと元の Token がカラーコードや数値に変換されてしまいます。このツールを使えば、これらの値を設定済みの Design Tokens に再変換することができます。Design System をメンテナンスしている方や、「レイヤー整理」を正しく行う必要がある几帳面なデザイナーの方におすすめです 😄"
+    }
+  },
+  "61": {
+    "heading": "Figma Plugin: Token Naming：\n構造化された Token 命名",
+    "subtitle": "Token Naming は構造化された Token 命名インターフェースを提供し、デザイナーが Type、Role、Component、Variant などの階層に基づいて規範に沿った Token 名を素早く組み合わせ、Figma Variable を直接生成できます。デザインシステムの命名の一貫性を効果的に維持します~",
+    "date": "2026年1月14日",
+    "tags": [
+      "デザインシステム",
+      "Design Token",
+      "Figma",
+      "デザインツール",
+      "AI"
+    ],
+    "category": "article",
+    "url": "https://www.figma.com/community/plugin/1590936082098828602/token-naming",
+    "images": [
+      "articles/61/topics-61.1.jpg",
+      "articles/61/topics-61.2.jpg",
+      "articles/61/topics-61.3.mp4"
+    ],
+    "content": {
+      "paragraph1": "先週シェアした Token Linker に続いて、今週は以前開発した Design Token 命名ツールを Figma Plugin に移行しました。構造化された方法でプロダクトデザインの Token をより速く作成できるようになりました~ 🔗 Token Naming リンク: https://www.figma.com/community/plugin/1590936082098828602/token-naming",
+      "paragraph2": "初心者やチームコラボレーションにとってのメリットは、統一された規範のもとで Token 命名を行えることで、チームメンバー間で命名方法や構造が異なることによる混乱を避けることができます。",
+      "paragraph3": "Token Naming は Design Token を作成するための構造化されたインターフェースを提供するだけでなく、設定ファイルのエクスポートもサポートしており、他のプロジェクトへのインポートも簡単で、プロジェクト間のデザイン規範の一貫性を保つことができます。",
+      "paragraph4": "このようなツールを使用する前に、まず Design Token の基本的な理解を持っておくことをお勧めします。そうすれば Token を作成する際により方向性が明確になり、命名もより一貫性のあるものになります。",
+      "paragraph5": "リリースしたばかりなので、まだいくつかのバグや使いにくい部分があるかもしれません。必要なプロダクトデザイナーやエンジニアの方は、ぜひダウンロードしてお試しください。問題が発生した場合、改善したい点、または追加してほしい機能があれば、いつでもフィードバックをお待ちしています 🙌"
     }
   }
 }

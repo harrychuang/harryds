@@ -244,6 +244,46 @@ const Footer: React.FC = () => {
     return pool[index] ?? null;
   }, []);
 
+  // 預載多張 Giphy 圖片到快取
+  const preloadMultipleGifs = useCallback(
+    (count: number = 3, excludeUrl?: string) => {
+      if (typeof window === 'undefined') {
+        return;
+      }
+
+      const cache = preloadedGifCacheRef.current;
+      const urlsToPreload: string[] = [];
+      const tempExclude = new Set<string>(excludeUrl ? [excludeUrl] : []);
+      
+      // 選取多個不重複的 URL
+      for (let i = 0; i < count; i++) {
+        const filtered = GIPHY_URLS.filter(url => !tempExclude.has(url) && !cache.has(url));
+        if (filtered.length === 0) break;
+        
+        const index = Math.floor(Math.random() * filtered.length);
+        const selected = filtered[index];
+        urlsToPreload.push(selected);
+        tempExclude.add(selected);
+      }
+      
+      // 並行預載所有選中的圖片
+      urlsToPreload.forEach(url => {
+        const image = new Image();
+        image.onload = () => {
+          cache.add(url);
+          import.meta.env.DEV && console.log('[Footer] Giphy preloaded:', url.slice(-25));
+        };
+        image.onerror = () => {
+          // 預載失敗不做處理
+        };
+        image.src = url;
+      });
+      
+      return urlsToPreload[0]; // 返回第一個 URL 作為下一個顯示的候選
+    },
+    []
+  );
+
   const preloadRandomGif = useCallback(
     (excludeUrl?: string) => {
       if (typeof window === 'undefined') {
@@ -325,6 +365,7 @@ const Footer: React.FC = () => {
   
   const scrollProgress = useScrollProgress({ scrollContainer });
 
+  // 頁面載入時預載多張 Giphy 圖片
   useEffect(() => {
     if (preloadImageRef.current) {
       preloadImageRef.current.onload = null;
@@ -333,8 +374,13 @@ const Footer: React.FC = () => {
     }
 
     setPreloadedGifUrl(null);
+    
+    // 預載 3 張 Giphy 圖片到快取
+    preloadMultipleGifs(3);
+    
+    // 同時設置下一張要顯示的圖片
     preloadRandomGif();
-  }, [pageStorageKey, preloadRandomGif]);
+  }, [pageStorageKey, preloadRandomGif, preloadMultipleGifs]);
 
   const handleHeartClick = useCallback(async () => {
     if (isHeartLiked) {
@@ -368,7 +414,19 @@ const Footer: React.FC = () => {
       return;
     }
 
-    const gifToDisplay = preloadedGifUrl ?? pickRandomGifUrl();
+    // 優先使用已預載的 URL，或從快取中選一個，最後才隨機選取
+    const cache = preloadedGifCacheRef.current;
+    let gifToDisplay = preloadedGifUrl;
+    
+    if (!gifToDisplay && cache.size > 0) {
+      // 從快取中隨機選一個
+      const cachedUrls = Array.from(cache);
+      gifToDisplay = cachedUrls[Math.floor(Math.random() * cachedUrls.length)];
+    }
+    
+    if (!gifToDisplay) {
+      gifToDisplay = pickRandomGifUrl();
+    }
 
     if (!gifToDisplay) {
       return;
@@ -418,8 +476,11 @@ const Footer: React.FC = () => {
     if (preloadedGifUrl) {
       setPreloadedGifUrl(null);
     }
+    
+    // 預載更多圖片供下次使用
+    preloadMultipleGifs(2, gifToDisplay);
     preloadRandomGif(gifToDisplay);
-  }, [isHeartLiked, pickRandomGifUrl, preloadedGifUrl, preloadRandomGif, pageStorageKey]);
+  }, [isHeartLiked, pickRandomGifUrl, preloadedGifUrl, preloadRandomGif, preloadMultipleGifs, pageStorageKey]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
