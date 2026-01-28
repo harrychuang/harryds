@@ -19,9 +19,9 @@ const PROJECT_TYPE_ZH: Record<string, string> = {
 const BUDGET_ZH: Record<string, string> = {
   unsure: '不確定',
   flexibleCollab: '彈性兼職合作：NT$ 1,500 – 3,000 / 小時',
-  oneTime: '一次性專案：NT$ 80,000 – 300,000+',
-  monthlyConsulting: '月顧問（Design System / UX Strategy）：NT$ 50,000 – 150,000 / 月',
-  frontendDev: '前端開發（React / Component）：NT$ 60,000 – 200,000+',
+  oneTime: '一次性專案：NT$ 80,000 – 200,000+',
+  monthlyConsulting: '月顧問（Design System / UX Strategy）：NT$ 80,000 – 180,000 / 月',
+  frontendDev: '前端開發（React / Component）：NT$ 80,000 – 180,000+',
 };
 
 interface ContactModalContextValue {

@@ -124,10 +124,10 @@
     "budgetPlaceholder": "予算範囲を選択...",
     "budgets": {
       "unsure": "未定",
-      "flexibleCollab": "柔軟なパートタイム協業：¥4,500 – 7,000 / 時間（目安）",
-      "oneTime": "スポット案件：¥230,000 – 700,000+（目安）",
-      "monthlyConsulting": "月額顧問（Design System / UX Strategy）：¥230,000 – 550,000 / 月（目安）",
-      "frontendDev": "フロントエンド開発（React / Component）：¥230,000 – 550,000+（目安）"
+      "flexibleCollab": "柔軟なパートタイム協業：¥7,500 – 15,000 / 時間（目安）",
+      "oneTime": "スポット案件：¥400,000 – 1,000,000+（目安）",
+      "monthlyConsulting": "月額顧問（Design System / UX Strategy）：¥400,000 – 900,000 / 月（目安）",
+      "frontendDev": "フロントエンド開発（React / Component）：¥400,000 – 900,000+（目安）"
     },
     "message": "メッセージ",
     "messagePlaceholder": "プロジェクトについて教えてください...",
