@@ -1307,5 +1307,27 @@
       "paragraph4": "Before using such tools, it's still recommended to have a basic understanding of Design Tokens first, so you'll have better direction when creating Tokens, and naming will be more consistent.",
       "paragraph5": "Since it was just launched, there might still be some bugs or inconveniences in use. Product designers or engineers who need it are welcome to download and try it out. If you encounter any issues, have suggestions for improvement, or features you'd like added, feel free to give me feedback anytime 🙌"
     }
+  },
+  "62": {
+    "heading": "Design System:\nThe Moat in the Vibe Coding Era",
+    "subtitle": "As Vibe Coding becomes widespread, design systems are more important than ever~ To avoid visual homogenization from AI-generated products, we can build our own design taste from visual elements to component assembly, creating products with unique identity in this era of 'fast output'!",
+    "date": "Jan 22, 2026",
+    "tags": [
+      "Design System",
+      "Vibe Coding",
+      "AI",
+      "Product Design",
+      "Brand"
+    ],
+    "category": "article",
+    "images": [
+      "articles/62/topics-62.1.jpg",
+      "articles/62/topics-62.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "As Vibe Coding becomes widespread, the barrier to product development has significantly lowered. However, due to similar prompts, product visuals are heading toward 'homogenization.' At this point, Design Systems are no longer just tools—they become the key moat for establishing differentiation.",
+      "paragraph2": "To avoid products becoming AI-generated 'twins,' we can start from foundational design principles, derive unique visual elements and components, and then assemble them into products. Even though this takes a bit more time than directly generating styles, it can inject unique identity and taste into products.",
+      "paragraph3": "I'm also an efficiency-focused product designer, but AI's value shouldn't be to skip design—it should help us accelerate building this system. In an era of quick results, standing out among many similar products ultimately depends on our understanding of product personality, not merely relying on similar style prompts. This is also one of the topics modern product designers need to think about: the conflict and balance between 'development speed' and 'brand value'~"
+    }
   }
 }
