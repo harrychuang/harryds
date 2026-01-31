@@ -71,6 +71,7 @@
   "presentation": "Development Environment Setup Guide",
   "contactForCourse": "Registration page coming soon",
   "buyCourse": "Buy Course",
+  "courseEnded": "Course Ended",
   "error": {
     "404": {
       "code": "404",

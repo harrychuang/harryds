@@ -569,15 +569,23 @@ const CourseDetail: React.FC = () => {
               </div>
 
               {/* CTA 按鈕 */}
-              <a 
-                className="course-detail__cta-button"
-                href="https://harrychuang.cashier.ecpay.com.tw"
-                target="_blank"
-                rel="noopener noreferrer"
-                onMouseEnter={handleMenuItemHover}
-              >
-                {t('common:buyCourse', '購買課程')}
-              </a>
+              {course.status === 'ended' ? (
+                <span 
+                  className="course-detail__cta-button course-detail__cta-button--disabled"
+                >
+                  {t('common:courseEnded', '課程已結束')}
+                </span>
+              ) : (
+                <a 
+                  className="course-detail__cta-button"
+                  href="https://harrychuang.cashier.ecpay.com.tw"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onMouseEnter={handleMenuItemHover}
+                >
+                  {t('common:buyCourse', '購買課程')}
+                </a>
+              )}
             </aside>
 
             {/* 右欄 - 主要內容 */}

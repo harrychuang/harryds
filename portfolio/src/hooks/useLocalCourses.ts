@@ -40,6 +40,7 @@ const resolveLocalImageUrl = (path?: string): string | undefined => {
 // 課程項目類型定義
 export interface CourseItem {
   id: number;
+  status?: 'active' | 'ended' | 'upcoming';
   heading: string;
   originalHeading: string;
   subtitle: string;
@@ -119,6 +120,7 @@ const transformLocalToCourseItem = (id: string, data: any, enData?: any): Course
   
   return {
     id: parseInt(id),
+    status: data.status || enData?.status,
     heading: data.heading || '',
     originalHeading: enData?.heading || data.heading || '',
     subtitle: data.subtitle || '',

@@ -1,6 +1,7 @@
 {
   "1": {
-    "heading": "<Product Designer />\nVibe Coding Workshop",
+    "status": "ended",
+    "heading": "<Product Designer />\nVibe Coding Workshop | First Class",
     "subtitle": "From Figma Design System to Strapi Database, complete your Side Project in 2 days",
     "instructor": "Harry",
     "instructorBio": {
@@ -126,7 +127,7 @@
       "location": "Near Taipei Main Station (Detailed location TBA)",
       "earlyBird": "NT$ 5,000",
       "original": "NT$ 8,800",
-      "note": "Seed Launch Exclusive: 2 classes, 4-6 people per class"
+      "note": "Limited Offer, 6-10 people per class"
     },
     "slidesEmbed": "<iframe src=\"https://docs.google.com/presentation/d/e/2PACX-1vQshRWYI-mc5Jq-L6L2kvMWYXMqhwtFTnHkHRVhrPmG-5d4itIQIQZE_LfSirMBsVvljCxmrzQOLbuX/pubembed?start=false&loop=false&delayms=3000\" frameborder=\"0\" width=\"1280\" height=\"749\" allowfullscreen=\"true\" mozallowfullscreen=\"true\" webkitallowfullscreen=\"true\"></iframe>",
     "faq": [
@@ -136,7 +137,152 @@
       },
       {
         "question": "What should I prepare?",
-        "answer": "A laptop with SourceTree installed, and pre-register for GitHub, Zeabur, and Cursor accounts (we'll provide a setup guide)."
+        "answer": "A laptop, a paid Figma account (for Variables and Dev Mode features), SourceTree installed, and pre-registered accounts for GitHub, Zeabur, and Cursor (we'll provide a setup guide)."
+      },
+      {
+        "question": "Who is this course for? What prerequisites are required?",
+        "answer": "This is an intermediate to advanced course designed for product designers who want to expand into development. Before registering, you should have: (1) Figma proficiency: Familiar with core features like Components and Variables (2) Product design experience: A basic understanding of the product development process from ideation to delivery. If you're a UI/UX designer who wants to bring your designs to life, this course is perfect for you!"
+      }
+    ]
+  },
+  "2": {
+    "heading": "<Product Designer />\nVibe Coding Workshop",
+    "subtitle": "From Figma Design System to Strapi Database, complete your Side Project in 2 days",
+    "instructor": "Harry",
+    "instructorBio": {
+      "name": "Harry Chuang",
+      "title": "18+ Years of UI/UX Design & Front-end Development",
+      "experience": [
+        "Former designer at TutorMing & Shopmatic; Design Consultant for KKDay's first App",
+        "Built a shared Storybook component library for Shopmatic's Singapore × India cross-border team"
+      ],
+      "teaching": [
+        "AAPD Online Course Instructor | Design Tokens & Design System",
+        "Corporate Trainer for QNAP, UXY, IxDA Workshops",
+        "Featured Writer at Codrops | AI × Design System Development"
+      ],
+      "codropsArticle": "https://tympanus.net/codrops/2025/12/23/building-a-nostalgic-8-bit-universe-with-modern-tech-a-vibe-coding-journey/",
+      "codropsArticleText": "Read Codrops Article: AI × Design System × Product Development"
+    },
+    "date": "February 2025",
+    "tags": [
+      "Vibe Coding",
+      "Workshop"
+    ],
+    "category": "course",
+    "level": "Intermediate to Advanced",
+    "primaryColor": "#667FFF",
+    "secondaryColor": "#111",
+    "heroImage": "courses/ds-vibecoding-2016/ds-vibecoding-course-header.jpg",
+    "images": [
+      "courses/ds-vibecoding-2016/ds-vibecoding-course-alpha.jpg",
+      "courses/ds-vibecoding-2016/ec-cover.jpg"
+    ],
+    "highlights": [
+      "6-10 person small class",
+      "Build Design System",
+      "Vibe Coding to create web products",
+      "2-day weekend sprint"
+    ],
+    "valueProposition": {
+      "title": "From Figma Design System to Strapi Database, complete your Side Project in 2 days",
+      "format": "6-10 person in-person small class (Taipei)"
+    },
+    "usp": [
+      {
+        "title": "Start from Design System, Build Design Tokens",
+        "description": "Learn how to convert Figma Variables into CSS Design Tokens, build a complete design system architecture, and seamlessly bridge design and development."
+      },
+      {
+        "title": "Integrate Frontend & Backend Development",
+        "description": "Not just static websites - I'll teach you to build databases with Strapi (Headless CMS) and deploy to Zeabur cloud hosting."
+      },
+      {
+        "title": "AI-Powered (Vibe Coding)",
+        "description": "Use Cursor + AI Agent throughout the course. You handle the logic, AI writes the code."
+      }
+    ],
+    "syllabus": [
+      {
+        "day": "Day 1",
+        "title": "Design System & Component Digitization (The Foundation)",
+        "sessions": [
+          {
+            "time": "10:00 - 11:00",
+            "title": "[Opening] Product Designers in the AI Era",
+            "description": "Understand why designers should learn development. Master the core of Vibe Coding: using logic to direct AI to write good code, and get familiar with Cursor."
+          },
+          {
+            "time": "11:00 - 12:30",
+            "title": "[Specification] Design Tokens Conversion Practice",
+            "description": "Sync Figma variables with code. Learn to convert design specs into AI-readable Design Tokens, building the visual foundation of your project."
+          },
+          {
+            "time": "13:30 - 15:00",
+            "title": "[Component] Storybook Component Library Development",
+            "description": "Direct AI to quickly build a UI component library. From base components to Storybook docs, create your own reusable digital design assets."
+          },
+          {
+            "time": "15:00 - 16:00",
+            "title": "[Advanced] Figma MCP Integration",
+            "description": "Set up Figma MCP to let Cursor directly connect to your design file. AI no longer guesses from screenshots—it can precisely read component structures, spacing, and color variables, dramatically improving development accuracy."
+          }
+        ],
+        "outcome": "A Storybook component library that perfectly matches your design system."
+      },
+      {
+        "day": "Day 2",
+        "title": "Inject Soul & Product Launch (The Soul & MVP)",
+        "sessions": [
+          {
+            "time": "10:00 - 11:00",
+            "title": "[Assembly] Product Interface & Local Data Testing",
+            "description": "Assemble components into a complete product page. Practice testing the UI with mock data and learn basic version control with Git."
+          },
+          {
+            "time": "11:00 - 12:30",
+            "title": "[Brain] Strapi CMS Setup & AI Modeling",
+            "description": "Quickly set up a backend management system. Understand data structures, learn how AI can help you build a database, and turn static content into dynamic management."
+          },
+          {
+            "time": "13:30 - 14:30",
+            "title": "[Integration] Injecting Soul from Static to Dynamic",
+            "description": "Bridge the data gap between frontend and backend. Implement interactive features like \"Like\" buttons to make your site more than just a static page."
+          },
+          {
+            "time": "14:30 - 15:30",
+            "title": "[Deployment] GitHub × Zeabur Launch Ceremony",
+            "description": "Push your code to GitHub and connect your repository to Zeabur with one click. Once set up, every Push will auto-deploy, allowing anyone in the world to access your product via a dedicated URL."
+          },
+          {
+            "time": "15:30 - 16:00",
+            "title": "[Presentation] Demo Day & Graduation",
+            "description": "Showcase your results. Demo the live product you built, complete with a backend, and graduate."
+          }
+        ],
+        "outcome": "A live, database-backed, accessible personal MVP product."
+      }
+    ],
+    "mentorship": {
+      "title": "Exclusive Post-Course Support",
+      "description": "Learning shouldn't stop when the class ends. I'll set up a dedicated Discord community and host weekly online Office Hours (30-60 mins) for four weeks after the workshop. I'll personally help you overcome technical hurdles and ensure your Side Project's core features are successfully launched."
+    },
+    "pricing": {
+      "schedule": "2/28(Sat) - 3/1(Sun)\n10:00 AM - 4:00 PM, 10 hours total over 2 days",
+      "location": "Near Taipei Main Station (Detailed location TBA)",
+      "earlyBird": "NT$ 6,800",
+      "original": "NT$ 8,800",
+      "note": "Limited Offer, 6-10 people per class"
+    },
+    "slidesEmbed": "<iframe src=\"https://docs.google.com/presentation/d/e/2PACX-1vQshRWYI-mc5Jq-L6L2kvMWYXMqhwtFTnHkHRVhrPmG-5d4itIQIQZE_LfSirMBsVvljCxmrzQOLbuX/pubembed?start=false&loop=false&delayms=3000\" frameborder=\"0\" width=\"1280\" height=\"749\" allowfullscreen=\"true\" mozallowfullscreen=\"true\" webkitallowfullscreen=\"true\"></iframe>",
+    "faq": [
+      {
+        "question": "Can I join if I have no coding experience?",
+        "answer": "Absolutely! The core of this course is teaching you to use AI (Cursor) to write code. You only need to understand design logic."
+      },
+      {
+        "question": "What should I prepare?",
+        "answer": "A laptop, a paid Figma account (for Variables and Dev Mode features), SourceTree installed, and pre-registered accounts for GitHub, Zeabur, and Cursor (we'll provide a setup guide)."
       },
       {
         "question": "Who is this course for? What prerequisites are required?",

@@ -71,6 +71,7 @@
   "presentation": "開発環境準備と設定ガイド",
   "contactForCourse": "お申し込みページ準備中",
   "buyCourse": "コースを購入",
+  "courseEnded": "コース終了",
   "error": {
     "404": {
       "code": "404",
