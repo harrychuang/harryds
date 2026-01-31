@@ -1,7 +1,7 @@
 {
   "1": {
     "status": "ended",
-    "heading": "<Product Designer />\nVibe Coding Workshop | First Class",
+    "heading": "/ First Class /\n<Product Designer />\nVibe Coding Workshop",
     "subtitle": "From Figma Design System to Strapi Database, complete your Side Project in 2 days",
     "instructor": "Harry",
     "instructorBio": {
@@ -55,6 +55,10 @@
       {
         "title": "AI-Powered (Vibe Coding)",
         "description": "Use Cursor + AI Agent throughout the course. You handle the logic, AI writes the code."
+      },
+      {
+        "title": "Architecture-First Vibe Coding",
+        "description": "With Design Tokens, component-based architecture, and clear data structures, AI develops within defined guidelines. Your project stays maintainable and scalable."
       }
     ],
     "syllabus": [
@@ -146,7 +150,8 @@
     ]
   },
   "2": {
-    "heading": "<Product Designer />\nVibe Coding Workshop | Session 1",
+    "purchaseLink": "https://harrychuang.cashier.ecpay.com.tw/product/000000000908155",
+    "heading": "/ February Class /\n<Product Designer />\nVibe Coding Workshop",
     "subtitle": "From Figma Design System to Strapi Database, complete your Side Project in 2 days",
     "instructor": "Harry",
     "instructorBio": {
@@ -200,6 +205,10 @@
       {
         "title": "AI-Powered (Vibe Coding)",
         "description": "Use Cursor + AI Agent throughout the course. You handle the logic, AI writes the code."
+      },
+      {
+        "title": "Architecture-First Vibe Coding",
+        "description": "With Design Tokens, component-based architecture, and clear data structures, AI develops within defined guidelines. Your project stays maintainable and scalable."
       }
     ],
     "syllabus": [

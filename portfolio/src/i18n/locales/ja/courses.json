@@ -1,7 +1,7 @@
 {
   "1": {
     "status": "ended",
-    "heading": "<プロダクトデザイナー />\nVibe Coding ワークショップ | 初回クラス",
+    "heading": "/ 初回クラス /\n<プロダクトデザイナー />\nVibe Coding ワークショップ",
     "subtitle": "FigmaデザインシステムからStrapiデータベースまで、2日間でサイドプロジェクトを完成",
     "instructor": "Harry",
     "instructorBio": {
@@ -55,6 +55,10 @@
       {
         "title": "AI活用（Vibe Coding）",
         "description": "Cursor + AI Agentを全行程で使用。あなたはロジックを指示し、AIがコードを書きます。"
+      },
+      {
+        "title": "アーキテクチャ優先の Vibe Coding",
+        "description": "Design Tokens、コンポーネント化されたアーキテクチャ、明確なデータ構造を通じて、AIを規範内で開発させます。プロジェクトは継続的にメンテナンス・拡張できます。"
       }
     ],
     "syllabus": [
@@ -146,7 +150,8 @@
     ]
   },
   "2": {
-    "heading": "<プロダクトデザイナー />\nVibe Coding ワークショップ | 正式1期",
+    "purchaseLink": "https://harrychuang.cashier.ecpay.com.tw/product/000000000908155",
+    "heading": "/ 2月クラス /\n<プロダクトデザイナー />\nVibe Coding ワークショップ",
     "subtitle": "FigmaデザインシステムからStrapiデータベースまで、2日間でサイドプロジェクトを完成",
     "instructor": "Harry",
     "instructorBio": {
@@ -200,6 +205,10 @@
       {
         "title": "AI活用（Vibe Coding）",
         "description": "Cursor + AI Agentを全行程で使用。あなたはロジックを指示し、AIがコードを書きます。"
+      },
+      {
+        "title": "アーキテクチャ優先の Vibe Coding",
+        "description": "Design Tokens、コンポーネント化されたアーキテクチャ、明確なデータ構造を通じて、AIを規範内で開発させます。プロジェクトは継続的にメンテナンス・拡張できます。"
       }
     ],
     "syllabus": [

@@ -41,6 +41,7 @@ const resolveLocalImageUrl = (path?: string): string | undefined => {
 export interface CourseItem {
   id: number;
   status?: 'active' | 'ended' | 'upcoming';
+  purchaseLink?: string;
   heading: string;
   originalHeading: string;
   subtitle: string;
@@ -121,6 +122,7 @@ const transformLocalToCourseItem = (id: string, data: any, enData?: any): Course
   return {
     id: parseInt(id),
     status: data.status || enData?.status,
+    purchaseLink: data.purchaseLink || enData?.purchaseLink,
     heading: data.heading || '',
     originalHeading: enData?.heading || data.heading || '',
     subtitle: data.subtitle || '',

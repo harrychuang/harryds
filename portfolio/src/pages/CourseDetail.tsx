@@ -578,7 +578,7 @@ const CourseDetail: React.FC = () => {
               ) : (
                 <a 
                   className="course-detail__cta-button"
-                  href="https://harrychuang.cashier.ecpay.com.tw"
+                  href={course.purchaseLink || "https://harrychuang.cashier.ecpay.com.tw"}
                   target="_blank"
                   rel="noopener noreferrer"
                   onMouseEnter={handleMenuItemHover}

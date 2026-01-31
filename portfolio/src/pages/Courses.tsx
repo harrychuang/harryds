@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { audioManager, type PlaybackHandle } from '../../../harryds/src/utils/audioManager';
@@ -14,7 +14,6 @@ import hoverSoundUrl from '../../assets/sound/8-Bit Sound Effect Beep.mp3';
 import clickSoundUrl from '../../assets/sound/8-Bit Sound Effect 28-1.mp3';
 import { usePageLoader } from '../contexts/PageLoaderContext';
 import { useContactModal } from '../contexts/ContactModalContext';
-import { useHover } from '../contexts/HoverContext';
 
 const PAGE_NAME = 'courses';
 
@@ -30,14 +29,10 @@ const Courses: React.FC = () => {
   const { items, loading: coursesLoading } = useCourses();
   const { setLoading, isPageLoaded, markPageAsLoaded, setAnimationComplete } = usePageLoader();
   const { openContactModal } = useContactModal();
-  const { setCustomColors } = useHover();
   
   // SEO Presets (i18n)
   const seoPresets = useSEOPresets();
   
-  // Hover 狀態追蹤
-  const [hoveredCardId, setHoveredCardId] = useState<number | null>(null);
-  const pageRef = useRef<HTMLDivElement | null>(null);
   
   // 頁面進入時檢查是否已載入過
   useEffect(() => {
@@ -54,12 +49,6 @@ const Courses: React.FC = () => {
     }
   }, [coursesLoading, isPageLoaded, setLoading, setAnimationComplete, markPageAsLoaded]);
 
-  // 組件卸載時清除自定義顏色
-  useEffect(() => {
-    return () => {
-      setCustomColors(null);
-    };
-  }, [setCustomColors]);
 
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [menuAnimStates, setMenuAnimStates] = useState<Record<string, boolean>>({});
@@ -76,71 +65,6 @@ const Courses: React.FC = () => {
   const menuHoverHandleRef = useRef<PlaybackHandle | null>(null);
   const menuClickHandleRef = useRef<PlaybackHandle | null>(null);
   const menuHoverTimersRef = useRef<Record<string, number>>({});
-
-  // 獲取當前 hover 課程的顏色
-  const hoveredCourse = useMemo(() => {
-    if (!hoveredCardId) return null;
-    return items.find(item => item.id === hoveredCardId) || null;
-  }, [hoveredCardId, items]);
-
-  const currentPrimaryColor = hoveredCourse?.primaryColor || DEFAULT_PRIMARY_COLOR;
-  const currentSecondaryColor = hoveredCourse?.secondaryColor || DEFAULT_SECONDARY_COLOR;
-
-  // Hover 時更新背景色和 Footer 顏色
-  useEffect(() => {
-    if (!pageRef.current) return;
-    
-    if (hoveredCardId && hoveredCourse) {
-      const secondaryColor = hoveredCourse.secondaryColor || DEFAULT_SECONDARY_COLOR;
-      const primaryColor = hoveredCourse.primaryColor || DEFAULT_PRIMARY_COLOR;
-
-      // 更新 .courses-page 元素背景色
-      pageRef.current.style.backgroundColor = secondaryColor;
-      pageRef.current.style.transition = 'background-color 0.3s ease';
-
-      // 同時更新 html 和 body 背景色
-      document.documentElement.style.backgroundColor = secondaryColor;
-      document.documentElement.style.transition = 'background-color 0.3s ease';
-      document.body.style.backgroundColor = secondaryColor;
-      document.body.style.transition = 'background-color 0.3s ease';
-
-      // 更新 Footer 顏色（通過 HoverContext）
-      setCustomColors({
-        primaryColor,
-        secondaryColor,
-      });
-    } else {
-      // 恢復原始背景色
-      pageRef.current.style.backgroundColor = '';
-      pageRef.current.style.transition = 'background-color 0.3s ease';
-
-      // 清除 html 和 body 的背景色
-      document.documentElement.style.backgroundColor = '';
-      document.documentElement.style.transition = 'background-color 0.3s ease';
-      document.body.style.backgroundColor = '';
-      document.body.style.transition = 'background-color 0.3s ease';
-
-      // 清除 Footer 顏色
-      setCustomColors(null);
-    }
-
-    // 清理函數：組件卸載時恢復原始背景色
-    return () => {
-      document.documentElement.style.backgroundColor = '';
-      document.body.style.backgroundColor = '';
-    };
-  }, [hoveredCardId, hoveredCourse, setCustomColors]);
-
-  // 計算 Header 和 Logo 的顏色
-  const headerColors = useMemo(() => {
-    if (hoveredCardId && hoveredCourse) {
-      return {
-        primaryColor: currentPrimaryColor,
-        secondaryColor: currentSecondaryColor,
-      };
-    }
-    return {};
-  }, [hoveredCardId, hoveredCourse, currentPrimaryColor, currentSecondaryColor]);
 
   // 語言切換相關
   const languageMap = {
@@ -304,14 +228,9 @@ const Courses: React.FC = () => {
   }, [i18n]);
 
   // 卡片 Hover 處理
-  const handleCardHover = useCallback((courseId: number) => {
-    setHoveredCardId(courseId);
+  const handleCardHover = useCallback(() => {
     playMenuHoverSound();
   }, [playMenuHoverSound]);
-
-  const handleCardLeave = useCallback(() => {
-    setHoveredCardId(null);
-  }, []);
 
   // 卡片點擊處理
   const handleCardClick = useCallback(async (courseId: number) => {
@@ -346,7 +265,7 @@ const Courses: React.FC = () => {
   }, []);
 
   return (
-    <div ref={pageRef} className="courses-page">
+    <div className="courses-page">
       {/* SEO Meta Tags */}
       <SEO {...seoPresets.courses} />
       
@@ -354,7 +273,6 @@ const Courses: React.FC = () => {
         onLogoClick={handleLogoClick}
         logoType="default"
         logoAnimated={true}
-        logoColors={headerColors as any}
         logoWrapperStyle={{
           transform: (() => {
             let scale = '';
@@ -370,7 +288,6 @@ const Courses: React.FC = () => {
           transformOrigin: 'left center',
           marginRight: windowWidth < 540 ? '-35%' : windowWidth <= 640 ? '-20%' : 0
         }}
-        navColors={headerColors as any}
         menuItems={['articles', 'courses']}
         activeMenuItem="courses"
         t={t}
@@ -401,7 +318,7 @@ const Courses: React.FC = () => {
 
       <main className="courses-page__content">
         <div className="courses-page__grid">
-          {items.map((course, index) => {
+          {[...items].sort((a, b) => b.id - a.id).map((course, index) => {
             // 課程卡片使用 sm 尺寸
             const size: FeedCardSize = 'sm';
             const height = windowWidth <= 767 ? 300 : 400;
@@ -414,8 +331,7 @@ const Courses: React.FC = () => {
                 key={course.id}
                 className="course-card"
                 onClick={() => handleCardClick(course.id)}
-                onMouseEnter={() => handleCardHover(course.id)}
-                onMouseLeave={handleCardLeave}
+                onMouseEnter={handleCardHover}
                 style={{
                   ['--stagger-index' as any]: index,
                   ['--card-primary-color' as any]: course.primaryColor || DEFAULT_PRIMARY_COLOR,

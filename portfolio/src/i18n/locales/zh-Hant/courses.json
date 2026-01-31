@@ -1,7 +1,7 @@
 {
   "1": {
     "status": "ended",
-    "heading": "<產品設計師 />\nVibe Coding 工作坊 | 首發班",
+    "heading": "/ 首發班 /\n<產品設計師 />\nVibe Coding 工作坊",
     "subtitle": "從 Figma 設計系統到 Strapi 資料庫，2天完成你的 Side Project",
     "instructor": "Harry",
     "instructorBio": {
@@ -55,6 +55,10 @@
       {
         "title": "AI 賦能 (Vibe Coding)",
         "description": "全程使用 Cursor + AI Agent，你負責指揮邏輯，AI 負責寫程式。"
+      },
+      {
+        "title": "架構優先的 Vibe Coding",
+        "description": "透過 Design Tokens、元件化架構與清晰的資料結構，讓 AI 在規範內開發。專案能持續維護與擴展。"
       }
     ],
     "syllabus": [
@@ -146,7 +150,8 @@
     ]
   },
   "2": {
-    "heading": "<產品設計師 />\nVibe Coding 工作坊 | 正式1班",
+    "purchaseLink": "https://harrychuang.cashier.ecpay.com.tw/product/000000000908155",
+    "heading": "/ 二月班 /\n<產品設計師 />\nVibe Coding 工作坊",
     "subtitle": "從 Figma 設計系統到 Strapi 資料庫，2天完成你的 Side Project",
     "instructor": "Harry",
     "instructorBio": {
@@ -200,6 +205,10 @@
       {
         "title": "AI 賦能 (Vibe Coding)",
         "description": "全程使用 Cursor + AI Agent，你負責指揮邏輯，AI 負責寫程式。"
+      },
+      {
+        "title": "架構優先的 Vibe Coding",
+        "description": "透過 Design Tokens、元件化架構與清晰的資料結構，讓 AI 在規範內開發。專案能持續維護與擴展。"
       }
     ],
     "syllabus": [
