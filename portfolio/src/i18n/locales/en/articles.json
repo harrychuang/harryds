@@ -1329,5 +1329,29 @@
       "paragraph2": "To avoid products becoming AI-generated 'twins,' we can start from foundational design principles, derive unique visual elements and components, and then assemble them into products. Even though this takes a bit more time than directly generating styles, it can inject unique identity and taste into products.",
       "paragraph3": "I'm also an efficiency-focused product designer, but AI's value shouldn't be to skip design—it should help us accelerate building this system. In an era of quick results, standing out among many similar products ultimately depends on our understanding of product personality, not merely relying on similar style prompts. This is also one of the topics modern product designers need to think about: the conflict and balance between 'development speed' and 'brand value'~"
     }
+  },
+  "63": {
+    "heading": "Help AI Think Through Context",
+    "subtitle": "In the wave of Vibe Coding, we need to deconstruct products more meticulously: breaking down interfaces into components, then further extracting Design Tokens~ The more precisely these foundational elements and components are defined, and the clearer the structure, the better AI can grasp the logic of these 'building blocks' and more efficiently assemble complete products~",
+    "date": "Jan 29, 2026",
+    "tags": [
+      "Design System",
+      "Design Tokens",
+      "Vibe Coding",
+      "AI",
+      "Product Design"
+    ],
+    "category": "article",
+    "images": [
+      "articles/63/topics-63.1.jpg",
+      "articles/63/topics-63.2.jpg",
+      "articles/63/topics-63.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "Vibe Coding without proper architecture leads to endless code bloat as features expand. As projects grow larger, later-stage management and maintenance become extremely difficult. This is very similar to teams that lacked 'design systems' in the past—without good standards and architectural constraints, product maintenance costs grow exponentially over time.",
+      "paragraph2": "So in the early stages of design and development, we can deeply deconstruct products:\n\nInterface Componentization: Break down interfaces into independent Components\n\nElement Standardization: Extract element settings from components as Design Tokens (colors, spacing, etc.)\n\nClear Definitions: Add clear purposes and naming logic to components and Tokens",
+      "paragraph3": "Structured context allows AI to more precisely grasp how to use these 'building blocks' during development, reducing 'thinking and reasoning' time. AI won't blindly produce from scratch, but develops components through defined Tokens, then assembles components into complete products.",
+      "paragraph4": "Although the initial investment is higher, it brings significant management advantages in the mid-to-late stages of product development. Building from small to large, having AI develop within standards effectively reduces duplicate code and chaotic component references, decreases AI's ineffective output, and accelerates overall development efficiency. This keeps the product in a controllable structure, rather than letting AI produce redundant, unnecessary, and messy code~"
+    }
   }
 }
