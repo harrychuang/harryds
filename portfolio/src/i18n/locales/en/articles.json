@@ -1203,7 +1203,7 @@
     "images": [
       "articles/55/topics-55.1.jpg",
       "articles/55/topics-55.3.jpg",
-      "articles/55/topics-55.4.mp4"
+      "articles/55/topics-55.4-compressed.mp4"
     ],
     "content": {
       "paragraph1": "Many people are curious: do you need to plan a design system during the startup phase? My answer has always been 'yes.' The reason is simple: during the early stages, ideas and features change rapidly. To validate product direction, iterations are also very frequent. This rapid accumulation often unknowingly creates increasingly heavy technical debt.",
@@ -1274,7 +1274,7 @@
     "images": [
       "articles/59/topics-58.1.jpg",
       "articles/59/topics-58.2.jpg",
-      "articles/59/topics-58.3.mp4"
+      "articles/59/topics-58.3-compressed.mp4"
     ],
     "content": {
       "paragraph1": "The Figma Plugin: Token Linker mentioned last weekend has finally been approved 😃 This is a small tool developed with AI assistance last week. Let me formally introduce this tool and its features, hoping to help everyone solve the tedious work of organizing Design Tokens~ Token Linker 👉 https://www.figma.com/community/plugin/1589120729239345070/token-linker",
@@ -1298,7 +1298,7 @@
     "images": [
       "articles/61/topics-61.1.jpg",
       "articles/61/topics-61.2.jpg",
-      "articles/61/topics-61.3.mp4"
+      "articles/61/topics-61.3-compressed.mp4"
     ],
     "content": {
       "paragraph1": "Continuing from last week's Token Linker, this week I migrated the previously developed Design Token naming tool to a Figma Plugin, enabling faster creation of product design Tokens through a structured approach~ 🔗 Token Naming link: https://www.figma.com/community/plugin/1590936082098828602/token-naming",
@@ -1352,6 +1352,52 @@
       "paragraph2": "So in the early stages of design and development, we can deeply deconstruct products:\n\nInterface Componentization: Break down interfaces into independent Components\n\nElement Standardization: Extract element settings from components as Design Tokens (colors, spacing, etc.)\n\nClear Definitions: Add clear purposes and naming logic to components and Tokens",
       "paragraph3": "Structured context allows AI to more precisely grasp how to use these 'building blocks' during development, reducing 'thinking and reasoning' time. AI won't blindly produce from scratch, but develops components through defined Tokens, then assembles components into complete products.",
       "paragraph4": "Although the initial investment is higher, it brings significant management advantages in the mid-to-late stages of product development. Building from small to large, having AI develop within standards effectively reduces duplicate code and chaotic component references, decreases AI's ineffective output, and accelerates overall development efficiency. This keeps the product in a controllable structure, rather than letting AI produce redundant, unnecessary, and messy code~"
+    }
+  },
+  "64": {
+    "heading": "Storybook:\nThe Core Tool for Design System Implementation",
+    "subtitle": "Storybook is an essential core tool for implementing design systems~ Especially in the era of Vibe Coding, while development speed has increased, it often leaves behind hard-to-maintain code. By managing Design Tokens and shared components through Storybook, we can establish a 'Single Source of Truth' to effectively suppress chaos~ Preventing components from evolving into digital debt that cannot be refactored!",
+    "date": "Feb 5, 2026",
+    "tags": [
+      "Design System",
+      "Storybook",
+      "Vibe Coding",
+      "Design Token",
+      "Product Design"
+    ],
+    "category": "article",
+    "images": [
+      "articles/64/topics-64.1.jpg",
+      "articles/64/topics-64.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "Looking back to late 2017 when I first encountered Storybook, as a product designer, I deeply felt the communication gap between design and engineering — endless QC documents, repetitive style alignment meetings, yet still unable to achieve consistent UI. To thoroughly solve this problem, I began researching how to truly 'implement' design systems, and Storybook became the core of that solution. It allows shared components to be uniformly managed and documented, providing code that engineers can directly use, enabling them to assemble products like LEGO blocks, effectively solving the team friction of repeatedly adjusting details.",
+      "paragraph2": "In the AI era where Vibe Coding prevails, the same challenge reappears in the form of 'AI hallucinations.' Although AI can quickly conjure up seemingly normal products, skipping architecture and proper processes causes unregulated code to bloat over time, eventually evolving again into an unmaintainable or hard-to-maintain disaster scene 😅 This is why design systems and Storybook have become even more critical in modern times~ We need an understandable architecture to allow Vibe Coding to achieve balance between efficiency and maintainability.",
+      "paragraph3": "Times are progressing fast, but we still need to slow down a bit and get the foundational project management in place first. This will also make the development and maintenance in the later stages of the product go more smoothly~"
+    }
+  },
+  "65": {
+    "heading": "Token Linker Update:\nAI Auto-Binding for Design Tokens",
+    "subtitle": "Token Linker version update! New AI auto-binding feature added~ After setting up your Gemini API Key, AI will analyze layer naming and structure, automatically suggesting the most suitable Design Token bindings, turning tedious manual settings into one-click completion~",
+    "date": "Feb 12, 2026",
+    "tags": [
+      "Design System",
+      "Design Token",
+      "Figma",
+      "AI",
+      "Design Tools"
+    ],
+    "category": "article",
+    "url": "https://www.figma.com/community/plugin/1589120729239345070/token-linker-ai-autotoken",
+    "images": [
+      "articles/65/topics-65.1.jpg",
+      "articles/65/topics-65.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "Recently, I made a feature update to the Figma Plugin — Token Linker. This time it integrates Gemini AI, adding an 'AI Suggest' feature that can automatically complete over 90% of Design Token bindings with one click.",
+      "paragraph2": "The operation is simple: as long as Design Tokens (Variables) have been created in the project, select any layer and open Token Linker, click 'AI Suggest,' and the AI will match Variables in the project based on layer naming, automatically binding corresponding colors, font sizes, border radius, spacing, and other style settings, saving the time of setting each one manually.",
+      "paragraph3": "For example, when a layer is named 'button,' AI will automatically search for Tokens related to button in the project and complete all corresponding property bindings.",
+      "paragraph4": "Additionally, if designers accidentally miss setting some Design Tokens, they can use this Plugin to let AI help fill in the corresponding bindings, avoiding omissions 😆"
     }
   }
 }

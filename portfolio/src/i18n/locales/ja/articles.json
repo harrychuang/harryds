@@ -798,7 +798,7 @@
     "images": [
       "articles/55/topics-55.1.jpg",
       "articles/55/topics-55.3.jpg",
-      "articles/55/topics-55.4.mp4"
+      "articles/55/topics-55.4-compressed.mp4"
     ],
     "content": {
       "paragraph1": "実際、多くの人が気になっています：スタートアップ段階でデザインシステムを計画する必要があるか？私の答えは常に「必要」です。理由は簡単です：創業期には、アイデアと機能が急速に変化します。プロダクトの方向性を検証するため、イテレーションも非常に頻繁になります。このような急速な蓄積は、知らず知らずのうちにますます重い技術的負債を形成することがよくあります。",
@@ -869,7 +869,7 @@
     "images": [
       "articles/59/topics-58.1.jpg",
       "articles/59/topics-58.2.jpg",
-      "articles/59/topics-58.3.mp4"
+      "articles/59/topics-58.3-compressed.mp4"
     ],
     "content": {
       "paragraph1": "先週末に紹介した Figma Plugin: Token Linker がついに審査を通過しました 😃 これは先週 AI を活用して開発した小さなツールです。このツールと機能を正式に紹介させていただきます。Design Token を整理する面倒な作業を解決するお手伝いができれば幸いです~ Token Linker 👉 https://www.figma.com/community/plugin/1589120729239345070/token-linker",
@@ -893,7 +893,7 @@
     "images": [
       "articles/61/topics-61.1.jpg",
       "articles/61/topics-61.2.jpg",
-      "articles/61/topics-61.3.mp4"
+      "articles/61/topics-61.3-compressed.mp4"
     ],
     "content": {
       "paragraph1": "先週シェアした Token Linker に続いて、今週は以前開発した Design Token 命名ツールを Figma Plugin に移行しました。構造化された方法でプロダクトデザインの Token をより速く作成できるようになりました~ 🔗 Token Naming リンク: https://www.figma.com/community/plugin/1590936082098828602/token-naming",
@@ -948,8 +948,52 @@
       "paragraph3": "構造化されたコンテキストにより、AI は開発時にこれらの「ビルディングブロック」の使用方法をより正確に把握でき、「思考と推論」の時間を短縮できます。AI はゼロから盲目的に生成するのではなく、定義された Tokens を通じてコンポーネントを開発し、コンポーネントから完全なプロダクトを組み立てます。",
       "paragraph4": "初期投資は高くなりますが、プロダクト開発の中後期には大きな管理上のメリットをもたらします。小から大へと構築するプロセスで、AI を規範内で開発させることで、重複コードや混乱したコンポーネント参照を効果的に削減し、AI の無効な出力を減らし、全体的な開発効率を加速できます。プロダクトを制御可能な構造内に維持し、AI に冗長で不要かつ混乱したコードを生成させないようにします~"
     }
+  },
+  "64": {
+    "heading": "Storybook：\nデザインシステム実装の核心ツール",
+    "subtitle": "Storybook はデザインシステムを実装する上で欠かせない核心ツールです~ 特に Vibe Coding が盛んな時代、開発速度は向上しましたが、メンテナンスしにくいコードが残りがちです。Storybook で Design Token と共通コンポーネントを管理することで、『単一の信頼できる情報源（Single Source of Truth）』を構築し、混乱を効果的に抑制できます~ コンポーネントがリファクタリング不可能なデジタル負債に発展するのを防ぎましょう！",
+    "date": "2026年2月5日",
+    "tags": [
+      "デザインシステム",
+      "Storybook",
+      "Vibe Coding",
+      "Design Token",
+      "プロダクトデザイン"
+    ],
+    "category": "article",
+    "images": [
+      "articles/64/topics-64.1.jpg",
+      "articles/64/topics-64.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "2017年末に初めて Storybook に出会った時を思い出します。当時プロダクトデザイナーとして、デザインとエンジニアリングの間のコミュニケーションギャップを深く感じていました — 終わりのない QC ドキュメント、繰り返されるスタイル調整会議、それでも一貫した UI を実現できませんでした。この問題を根本的に解決するために、デザインシステムを本当に『実装』する方法を研究し始め、Storybook がその核心となりました。共通コンポーネントを統一管理・文書化し、エンジニアが直接使用できるコードを提供することで、エンジニアが LEGO のように製品に組み立てられるようになり、細部を繰り返し調整するチームの内部摩擦を効果的に解決しました。",
+      "paragraph2": "Vibe Coding が盛んな AI 時代になり、同じ課題が『AI 幻覚』という形で再び現れました。AI は一見正常に見えるプロダクトを素早く生成できますが、アーキテクチャと正しいプロセスをスキップすると、規範のないコードが時間とともに膨張し、最終的にはメンテナンス不可能または困難な惨事になってしまいます 😅 これが現代においてデザインシステムと Storybook がさらに重要になっている理由です~ 理解可能なアーキテクチャがあってこそ、Vibe Coding で効率とメンテナンス性のバランスを取ることができます。",
+      "paragraph3": "時代は急速に進歩していますが、同時に少しペースを落として、基本的なプロジェクト管理をまず整えることが大切です。これにより、プロダクト開発の後半段階での開発とメンテナンスがよりスムーズに進みます~"
+    }
+  },
+  "65": {
+    "heading": "Token Linker アップデート：\nAI 自動バインディング機能",
+    "subtitle": "Token Linker バージョンアップデート！AI 自動バインディング機能を追加~ Gemini API Key を設定すると、AI がレイヤー名と構造を分析し、最適な Design Token バインディングを自動的に提案します。面倒な手動設定がワンクリックで完了~",
+    "date": "2026年2月12日",
+    "tags": [
+      "デザインシステム",
+      "Design Token",
+      "Figma",
+      "AI",
+      "デザインツール"
+    ],
+    "category": "article",
+    "url": "https://www.figma.com/community/plugin/1589120729239345070/token-linker-ai-autotoken",
+    "images": [
+      "articles/65/topics-65.1.jpg",
+      "articles/65/topics-65.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "最近、Figma Plugin — Token Linker の機能アップデートを行いました。今回は Gemini AI を統合し、「AI 提案」機能を追加しました。ワンクリックで 90% 以上の Design Token バインディングを自動的に完了できます。",
+      "paragraph2": "操作方法は簡単です：プロジェクトに Design Tokens（Variables）が作成されていれば、任意のレイヤーを選択して Token Linker を開き、「AI 提案」をクリックするだけで、AI がレイヤー名に基づいてプロジェクト内の Variables を照合し、対応する色、フォントサイズ、角丸、スペーシングなどのスタイル設定を自動的にバインドします。一つ一つ手動で設定する時間を省けます。",
+      "paragraph3": "例えば、レイヤー名が「button」の場合、AI はプロジェクト内の button に関連する Token を自動的に検索し、対応するすべてのプロパティのバインディングを完了します。",
+      "paragraph4": "また、デザイナーがうっかり一部の Design Token を設定し忘れた場合も、この Plugin を使って AI に対応するバインディングを補完してもらい、漏れを防ぐことができます 😆"
+    }
   }
 }
-
-
 

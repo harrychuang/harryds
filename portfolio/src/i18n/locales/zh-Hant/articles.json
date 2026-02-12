@@ -1203,7 +1203,7 @@
     "images": [
       "articles/55/topics-55.1.jpg",
       "articles/55/topics-55.3.jpg",
-      "articles/55/topics-55.4.mp4"
+      "articles/55/topics-55.4-compressed.mp4"
     ],
     "content": {
       "paragraph1": "其實有不少人會好奇：在新創階段是否需要規劃設計系統？我的答案始終是「需要」。原因很簡單：在草創時期，想法與功能會快速變動，為了驗證產品方向，迭代也會非常頻繁。而這樣的快速累積，往往會在不知不覺間形成越來越沉重的技術債。",
@@ -1274,7 +1274,7 @@
     "images": [
       "articles/59/topics-58.1.jpg",
       "articles/59/topics-58.2.jpg",
-      "articles/59/topics-58.3.mp4"
+      "articles/59/topics-58.3-compressed.mp4"
     ],
     "content": {
       "paragraph1": "上週末提到的 Figma Plugin: Token Linker 終於審核通過 😃 這是上週利用 AI 輔助開發的小工具，可以稍微正式介紹一下這個工具和功能，希望可以幫助大家解決整理 Design Token 時的麻煩工作~ Token Linker 👉 https://www.figma.com/community/plugin/1589120729239345070/token-linker",
@@ -1298,7 +1298,7 @@
     "images": [
       "articles/61/topics-61.1.jpg",
       "articles/61/topics-61.2.jpg",
-      "articles/61/topics-61.3.mp4"
+      "articles/61/topics-61.3-compressed.mp4"
     ],
     "content": {
       "paragraph1": "延續上週分享的 Token Linker，這週把之前開發的 Design Token 命名工具搬移到 Figma Plugin 中，可以更快速地透過結構化的方式來建立產品設計中的 Token ~ 🔗 Token Naming 連結: https://www.figma.com/community/plugin/1590936082098828602/token-naming",
@@ -1352,6 +1352,52 @@
       "paragraph2": "所以在設計與開發初期，我們可以將產品進行深度解構：\n\n介面組件化：從介面中拆解出獨立元件（Components）\n\n元素標準化：拆解元件中的元素設定，Design Tokens（顏色、間距…等）\n\n定義明確：將元件與 Tokens 加上清晰的用途和命名邏輯",
       "paragraph3": "結構化的語境可以讓 AI 在開發時，更精準掌握這些「建築方塊」的使用方法，縮短「思考與推論」的時間。AI 不會從零開始盲目產出，而是透過定義好的 Tokens 開發元件，再由元件組裝成完整的產品。",
       "paragraph4": "雖然初期要投入的心力較高，但在產品開發的中後期，會帶來顯著的管理優勢。由小到大的建構過程，讓 AI 在規範內進行開發，能有效減少重複代碼和混亂的組件引用，降低 AI 的無效輸出，加速整體的開發效率。讓產品維持在可控的結構中，而不是任由 AI 產出冗餘且不必要又混亂的程式碼~"
+    }
+  },
+  "64": {
+    "heading": "Storybook：\n設計系統落地的核心工具",
+    "subtitle": "Storybook 是實作設計系統不可或缺的核心工具~ 尤其在 Vibe Coding 盛行的時代，開發速度雖然提升，卻常留下難以維護的代碼。透過 Storybook 管理 Design Token 與共用元件，我們能建立一套『單一事實來源 (Single Source of Truth) 』，有效抑制混亂~ 避免元件演變成無法重構的數位債務!",
+    "date": "2026 年 2 月 5 日",
+    "tags": [
+      "設計系統",
+      "Storybook",
+      "Vibe Coding",
+      "Design Token",
+      "產品設計"
+    ],
+    "category": "article",
+    "images": [
+      "articles/64/topics-64.1.jpg",
+      "articles/64/topics-64.2.jpg"
+    ],
+    "content": {
+      "paragraph1": "回想起 2017 年末第一次接觸 Storybook，當時我身為產品設計師，深深覺得設計與工程間的溝通斷層 — 無止盡的 QC 文件、重複的樣式對齊會議，還是無法換回一致的 UI。為了徹底解決這個問題，才開始研究如何讓設計系統真正『落地』，而 Storybook 就是其中的核心。它可以讓共用元件能被統一管理、文件化，並提供可以給工程師直接使用的程式碼，讓工程師能像樂高一樣直接組裝到產品上，有效解決了反覆調整細節的團隊內耗。",
+      "paragraph2": "到了 Vibe Coding 盛行的 AI 時代，同樣的挑戰再次以『AI 幻覺』的形式出現。雖然 AI 能快速召喚出看似正常的產品，但跳過架構和正確的流程，會讓缺乏規範的程式碼隨時間膨脹，最後又再次演變成無法維護或是難以維護的車禍現場 😅 這也是為什麼設計系統與 Storybook 在現代又更加突顯關鍵的原因~ 我們需要一套可理解的架構，才能讓 Vibe Coding 在效率與可維護性之間取得平衡。",
+      "paragraph3": "時代進步很快，但同時我們還是得放慢一點腳步，把基礎的專案管理先做到位，這也會讓產品後半段的開發和維護進行的更加順利~"
+    }
+  },
+  "65": {
+    "heading": "Token Linker 更新：\nAI 自動綁定 Design Token",
+    "subtitle": "Token Linker 版本更新！新增 AI 自動綁定功能~ 設定你的 Gemini API Key 後，AI 會分析圖層命名與結構，自動建議最合適的 Design Token 綁定，讓繁瑣的手動設定變得一鍵完成~",
+    "date": "2026 年 2 月 12 日",
+    "tags": [
+      "設計系統",
+      "Design Token",
+      "Figma",
+      "AI",
+      "設計工具"
+    ],
+    "category": "article",
+    "url": "https://www.figma.com/community/plugin/1589120729239345070/token-linker-ai-autotoken",
+    "images": [
+      "articles/65/topics-65.1.jpg",
+      "articles/65/topics-65.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "近期對 Figma Plugin — Token Linker 進行了一次功能更新，這次整合了 Gemini AI，新增「AI 建議」功能，可以一鍵自動完成 90% 以上的 Design Token 綁定。",
+      "paragraph2": "運作方式很簡單：只要專案中已建立 Design Tokens（Variables），選取任一圖層後開啟 Token Linker，點擊「AI 建議」，AI 就會根據圖層命名去比對專案中的 Variables，自動綁定對應的顏色、文字大小、圓角、間距等樣式設定，省去逐一手動設定的時間。",
+      "paragraph3": "舉例來說，當圖層命名為「button」，AI 會自動搜尋專案中與 button 相關的 Token，並完成所有對應屬性的綁定。",
+      "paragraph4": "另外，如果設計師不小心漏設了某些 Design Token，也可以透過這個 Plugin 讓 AI 協助補上對應的綁定，避免遺漏 😆"
     }
   }
 }
