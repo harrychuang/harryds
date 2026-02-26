@@ -992,7 +992,34 @@
       "paragraph1": "最近、Figma Plugin — Token Linker の機能アップデートを行いました。今回は Gemini AI を統合し、「AI 提案」機能を追加しました。ワンクリックで 90% 以上の Design Token バインディングを自動的に完了できます。",
       "paragraph2": "操作方法は簡単です：プロジェクトに Design Tokens（Variables）が作成されていれば、任意のレイヤーを選択して Token Linker を開き、「AI 提案」をクリックするだけで、AI がレイヤー名に基づいてプロジェクト内の Variables を照合し、対応する色、フォントサイズ、角丸、スペーシングなどのスタイル設定を自動的にバインドします。一つ一つ手動で設定する時間を省けます。",
       "paragraph3": "例えば、レイヤー名が「button」の場合、AI はプロジェクト内の button に関連する Token を自動的に検索し、対応するすべてのプロパティのバインディングを完了します。",
-      "paragraph4": "また、デザイナーがうっかり一部の Design Token を設定し忘れた場合も、この Plugin を使って AI に対応するバインディングを補完してもらい、漏れを防ぐことができます 😆"
+      "paragraph4": "また、デザイナーがうっかり一部の Design Token を設定し忘れた場合も、この Plugin を使って AI に対応するバインディングを補完してもらい、漏れを防ぐことができます 😆",
+      "paragraph5": "Token Linker ツールリンク:\nhttps://www.figma.com/community/plugin/1589120729239345070/token-linker-ai-autotoken"
+    }
+  },
+  "66": {
+    "heading": "Token Naming アップデート：\nAI で MD3 Token アーキテクチャを自動作成",
+    "subtitle": "Token Naming バージョンアップデート！Google Material Design 3（MD3）の三層 Token アーキテクチャを AI が自動作成する機能を追加。ワンクリックで命名とスタイルバインディングが完了！Gemini API Key を設定すると、AI がレイヤー構造と命名を分析し、対応する Design Tokens を自動生成してコンポーネントスタイルにバインドします。面倒な手動設定が不要に。",
+    "date": "2026年2月26日",
+    "tags": [
+      "デザインシステム",
+      "Design Token",
+      "Figma",
+      "AI",
+      "MD3"
+    ],
+    "category": "article",
+    "url": "https://www.figma.com/community/plugin/1590936082098828602/token-naming-ai-autovariants",
+    "images": [
+      "articles/66/topics-66.1.jpg",
+      "articles/66/topics-66.2.jpg",
+      "articles/66/topics-66.3.mp4"
+    ],
+    "content": {
+      "paragraph1": "以前開発した Token Naming ツールをアップグレードしました~ AI がコンポーネントスタイルを自動分析し、ワンクリックで「Design Token」の作成と「スタイルバインディング」を完了できるようになりました。",
+      "paragraph2": "Design Token の命名構造は、デザイナーと開発チームにとって最も悩ましい部分でした。今回のアップグレードで AI に「推論能力」を持たせ、コンポーネントの要件を自動的に識別し、適切な Token 構造にマッピングできるようになりました。Google Material Design の三層継承アーキテクチャ（Reference, System, Component）を採用しています。",
+      "paragraph3": "第三層（コンポーネント Tokens）を自動作成することで、Vibe Coding を最適化できます：明確なコンポーネント層の Token が AI の「設定ガイド」として機能し、コード生成時に正確に連携。AI 幻覚を効果的に減らし、生成されるコンポーネントコードをより正確にします！",
+      "paragraph4": "最近、Figma Plugin を活用してデザインシステムの「ショートカット」を実現する方法をずっと研究しています 😂 皆さん、ぜひテストしてフィードバックをお願いします！",
+      "paragraph5": "Token Naming ツールリンク:\nhttps://www.figma.com/community/plugin/1590936082098828602/token-naming-ai-autovariants"
     }
   }
 }

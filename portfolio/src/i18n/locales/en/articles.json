@@ -1397,7 +1397,34 @@
       "paragraph1": "Recently, I made a feature update to the Figma Plugin — Token Linker. This time it integrates Gemini AI, adding an 'AI Suggest' feature that can automatically complete over 90% of Design Token bindings with one click.",
       "paragraph2": "The operation is simple: as long as Design Tokens (Variables) have been created in the project, select any layer and open Token Linker, click 'AI Suggest,' and the AI will match Variables in the project based on layer naming, automatically binding corresponding colors, font sizes, border radius, spacing, and other style settings, saving the time of setting each one manually.",
       "paragraph3": "For example, when a layer is named 'button,' AI will automatically search for Tokens related to button in the project and complete all corresponding property bindings.",
-      "paragraph4": "Additionally, if designers accidentally miss setting some Design Tokens, they can use this Plugin to let AI help fill in the corresponding bindings, avoiding omissions 😆"
+      "paragraph4": "Additionally, if designers accidentally miss setting some Design Tokens, they can use this Plugin to let AI help fill in the corresponding bindings, avoiding omissions 😆",
+      "paragraph5": "Token Linker tool link:\nhttps://www.figma.com/community/plugin/1589120729239345070/token-linker-ai-autotoken"
+    }
+  },
+  "66": {
+    "heading": "Token Naming Update:\nAI Auto-Creates MD3 Token Architecture",
+    "subtitle": "Token Naming version update! New AI auto-creation of Google Material Design 3 (MD3) three-layer Token architecture, completing naming and style binding with one click! After setting up your Gemini API Key, AI will analyze layer structure and naming, automatically generating corresponding Design Tokens and binding them to component styles, eliminating tedious manual setup.",
+    "date": "Feb 26, 2026",
+    "tags": [
+      "Design System",
+      "Design Token",
+      "Figma",
+      "AI",
+      "MD3"
+    ],
+    "category": "article",
+    "url": "https://www.figma.com/community/plugin/1590936082098828602/token-naming-ai-autovariants",
+    "images": [
+      "articles/66/topics-66.1.jpg",
+      "articles/66/topics-66.2.jpg",
+      "articles/66/topics-66.3.mp4"
+    ],
+    "content": {
+      "paragraph1": "Recently upgraded the Token Naming tool I previously developed~ Now you can use AI to automatically analyze component styles and complete Design Token creation and style binding with one click.",
+      "paragraph2": "The naming structure of Design Tokens has always been the most headache-inducing part for designers and development teams. This upgrade gives AI 'reasoning capabilities,' enabling it to automatically identify component requirements and map them to appropriate Token structures. It adopts Google Material Design's three-layer inheritance architecture (Reference, System, Component).",
+      "paragraph3": "By automatically creating the third layer (Component Tokens), it optimizes Vibe Coding: clear component-level Tokens serve as AI's 'configuration guide,' enabling precise connections when generating code, effectively reducing AI hallucinations and making generated component code more accurate!",
+      "paragraph4": "I've been researching how to use Figma Plugins to achieve design system 'shortcuts' 😂 Everyone is welcome to test and give suggestions!",
+      "paragraph5": "Token Naming tool link:\nhttps://www.figma.com/community/plugin/1590936082098828602/token-naming-ai-autovariants"
     }
   }
 }

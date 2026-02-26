@@ -1397,7 +1397,34 @@
       "paragraph1": "近期對 Figma Plugin — Token Linker 進行了一次功能更新，這次整合了 Gemini AI，新增「AI 建議」功能，可以一鍵自動完成 90% 以上的 Design Token 綁定。",
       "paragraph2": "運作方式很簡單：只要專案中已建立 Design Tokens（Variables），選取任一圖層後開啟 Token Linker，點擊「AI 建議」，AI 就會根據圖層命名去比對專案中的 Variables，自動綁定對應的顏色、文字大小、圓角、間距等樣式設定，省去逐一手動設定的時間。",
       "paragraph3": "舉例來說，當圖層命名為「button」，AI 會自動搜尋專案中與 button 相關的 Token，並完成所有對應屬性的綁定。",
-      "paragraph4": "另外，如果設計師不小心漏設了某些 Design Token，也可以透過這個 Plugin 讓 AI 協助補上對應的綁定，避免遺漏 😆"
+      "paragraph4": "另外，如果設計師不小心漏設了某些 Design Token，也可以透過這個 Plugin 讓 AI 協助補上對應的綁定，避免遺漏 😆",
+      "paragraph5": "Token Linker 工具連結:\nhttps://www.figma.com/community/plugin/1589120729239345070/token-linker-ai-autotoken"
+    }
+  },
+  "66": {
+    "heading": "Token Naming 更新：\nAI 自動建立 MD3 Token 架構",
+    "subtitle": "Token Naming 版本更新！新增 AI 自動建立 Google Material Design 3 (MD3) 三層 Token 架構，一鍵完成命名與樣式綁定! 設定你的 Gemini API Key 後，AI 會分析圖層結構與命名，自動產出對應的 Design Tokens 並綁定到元件樣式中，省去繁瑣的手動設定。",
+    "date": "2026 年 2 月 26 日",
+    "tags": [
+      "設計系統",
+      "Design Token",
+      "Figma",
+      "AI",
+      "MD3"
+    ],
+    "category": "article",
+    "url": "https://www.figma.com/community/plugin/1590936082098828602/token-naming-ai-autovariants",
+    "images": [
+      "articles/66/topics-66.1.jpg",
+      "articles/66/topics-66.2.jpg",
+      "articles/66/topics-66.3.mp4"
+    ],
+    "content": {
+      "paragraph1": "最近幫之前開發的 Token Naming 工具進行升級~ 現在可以透過 AI 自動分析元件樣式，一鍵完成「Design Token」建立與「樣式綁定」",
+      "paragraph2": "Design Token 的命名結構一直是設計師與開發團隊最頭痛的環節。這次升級讓 AI 具備「推理能力」，能自動識別元件需求並對應合適的 Token 結構。採用了 Google Material Design 的三層繼承架構（Reference, System, Component）",
+      "paragraph3": "透過自動建立第三層（元件 Tokens）可以優化 Vibe Coding：清楚的元件層 Token 能作為 AI 的「設定指南」，在生成程式碼時精準串接，有效減少 AI 幻覺，讓生成的元件程式碼更精準!",
+      "paragraph4": "最近一直在研究如何利用 Figma Plugin 來實現設計系統的「逃課」😂 歡迎大家進行測試並給建議！",
+      "paragraph5": "Token Naming 工具連結:\nhttps://www.figma.com/community/plugin/1590936082098828602/token-naming-ai-autovariants"
     }
   }
 }

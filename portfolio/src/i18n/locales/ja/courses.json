@@ -298,5 +298,155 @@
         "answer": "これは「開発領域に踏み込みたいプロダクトデザイナー」のために設計された中上級コースです。参加前に必要なこと：(1) Figma操作能力：ComponentsやVariablesなどのコア機能に精通していること (2) プロダクトデザイン経験：アイデアから納品までのプロダクト開発プロセスの基本を理解していること。自分のデザインを「動かしたい」UI/UXデザイナーの方に最適なコースです！"
       }
     ]
+  },
+  "3": {
+    "purchaseLink": "https://harrychuang.cashier.ecpay.com.tw/product/000000000917090",
+    "heading": "/ 3月クラス /\n<プロダクトデザイナー />\nVibe Coding ワークショップ",
+    "subtitle": "デザインキャリアの進化：Product Designer から Product Builder へ",
+    "instructor": "Harry",
+    "instructorBio": {
+      "name": "Harry Chuang",
+      "title": "18年以上の UI/UX デザイン＆フロントエンド開発経験",
+      "experience": [
+        "TutorMing、Shopmatic 勤務経験あり。KKDay の初アプリ設計をデザイン顧問として主導",
+        "Shopmatic のシンガポール × インド跨国チーム向けに Storybook 共有コンポーネントライブラリを構築"
+      ],
+      "teaching": [
+        "AAPD オンライン講師｜Design Tokens とデザインシステム実践",
+        "QNAP、UXY、IxDA 企業研修・ワークショップ講師",
+        "Codrops 寄稿｜AI × デザインシステム開発実践"
+      ],
+      "codropsArticle": "https://tympanus.net/codrops/2025/12/23/building-a-nostalgic-8-bit-universe-with-modern-tech-a-vibe-coding-journey/",
+      "codropsArticleText": "Codrops 記事を読む：AI × デザインシステム × プロダクト開発実践"
+    },
+    "date": "2025年3月",
+    "tags": [
+      "Vibe Coding",
+      "ワークショップ"
+    ],
+    "category": "course",
+    "level": "中上級コース",
+    "primaryColor": "#667FFF",
+    "secondaryColor": "#111",
+    "heroImage": "courses/ds-vibecoding-2016/ds-vibecoding-course-header.jpg",
+    "images": [
+      "courses/ds-vibecoding-2016/ds-vibecoding-course-beta.jpg",
+      "courses/ds-vibecoding-2016/ec-cover.jpg"
+    ],
+    "highlights": [
+      "6-10人の少人数制",
+      "Design System構築",
+      "Vibe CodingでWebプロダクト制作",
+      "週末2日間スプリント"
+    ],
+    "valueProposition": {
+      "title": "デザインキャリアの進化：Product Designer から Product Builder へ",
+      "format": "6-10人対面少人数クラス（台北）"
+    },
+    "usp": [
+      {
+        "title": "デザインシステムから始める、Design Token構築",
+        "description": "Figma VariablesをCSS Design Tokensに変換し、完全なデザインシステムアーキテクチャを構築して、デザインと開発をシームレスに繋げる方法を学びます。"
+      },
+      {
+        "title": "フロントエンドとバックエンドの統合開発",
+        "description": "静的なウェブサイトだけでなく、Strapi（Headless CMS）でデータベースを構築し、Zeaburクラウドホスティングにデプロイする方法を教えます。"
+      },
+      {
+        "title": "AI活用（Vibe Coding）",
+        "description": "Cursor + AI Agentを全行程で使用。あなたはロジックを指示し、AIがコードを書きます。"
+      },
+      {
+        "title": "アーキテクチャ優先の Vibe Coding",
+        "description": "Design Tokens、コンポーネント化されたアーキテクチャ、明確なデータ構造を通じて、AIを規範内で開発させます。プロジェクトは継続的にメンテナンス・拡張できます。"
+      }
+    ],
+    "syllabus": [
+      {
+        "day": "Day 1",
+        "title": "デザインシステムとコンポーネントのデジタル化 (The Foundation)",
+        "sessions": [
+          {
+            "time": "10:00 - 11:00",
+            "title": "【イントロダクション】AI時代のプロダクトデザイナー",
+            "description": "なぜデザイナーが開発を学ぶべきかを知る。Vibe Codingの核心：ロジックでAIに良いコードを書かせる方法をマスターし、Cursorの操作に慣れる。"
+          },
+          {
+            "time": "11:00 - 12:30",
+            "title": "【規約】Design Tokens 変換実践",
+            "description": "Figmaの変数とコードの同期を実践。デザイン仕様をAIが理解できるDesign Tokensに変換し、プロジェクトの視覚的基盤を構築する。"
+          },
+          {
+            "time": "13:30 - 15:00",
+            "title": "【コンポーネント】Storybook コンポーネントライブラリ開発",
+            "description": "AIを指揮してUIコンポーネントライブラリを素早く構築。基礎コンポーネントからStorybookドキュメントまで、再利用可能なデジタルデザイン資産を自作する。"
+          },
+          {
+            "time": "15:00 - 16:00",
+            "title": "【上級】Figma MCP 連携実践",
+            "description": "Figma MCPを設定して、Cursorがデザインファイルに直接接続できるようにする。AIはもうスクリーンショットから推測する必要がなく、コンポーネント構造、間隔、カラー変数を正確に読み取り、開発の再現精度を大幅に向上させる。"
+          }
+        ],
+        "outcome": "デザインシステムに完全対応したStorybookコンポーネントライブラリ。"
+      },
+      {
+        "day": "Day 2",
+        "title": "魂の注入とプロダクトローンチ (The Soul & MVP)",
+        "sessions": [
+          {
+            "time": "10:00 - 11:00",
+            "title": "【組み立て】プロダクトUIとローカルデータテスト",
+            "description": "コンポーネントを組み合わせて完全なプロダクトページを作成。模擬データで画面をテストし、Gitによる基本的なバージョン管理を学ぶ。"
+          },
+          {
+            "time": "11:00 - 12:30",
+            "title": "【頭脳】Strapi CMS 構築と AI モデリング",
+            "description": "バックエンド管理システムを素早く構築。データ構造を理解し、AIにデータベース作成をサポートさせ、静的コンテンツを動的に管理する方法を学ぶ。"
+          },
+          {
+            "time": "13:30 - 14:30",
+            "title": "【連携】静的から動的への魂の注入",
+            "description": "フロントエンドとバックエンドのデータ連携を実現。「いいね」ボタンなどのインタラクティブ機能を実装し、ウェブサイトを動的なものにする。"
+          },
+          {
+            "time": "14:30 - 15:30",
+            "title": "【デプロイ】GitHub × Zeabur 上線儀式",
+            "description": "コードをGitHubにプッシュし、Zeaburでワンクリックでリポジトリを接続。設定完了後、Pushするたびに自動デプロイされ、世界中から専用URLでプロダクトにアクセスできるようになる。"
+          },
+          {
+            "time": "15:30 - 16:00",
+            "title": "【発表】Demo Day と修了",
+            "description": "成果展示と修了。バックエンドを備え、公開された自分だけのプロダクトをデモする。"
+          }
+        ],
+        "outcome": "実際に動作し、データベースを備えた、公開可能な個人MVPプロダクト。"
+      }
+    ],
+    "mentorship": {
+      "title": "専用アフターサポート・プログラム",
+      "description": "学習はコース終了で終わりではありません。専用の Discord コミュニティを立ち上げ、ワークショップ終了後の4週間、週に一度オンライン Office Hour（30〜60分）を開催します。開発上の課題を直接サポートし、あなたのサイドプロジェクトのコア機能が確実に公開できるようお手伝いします。"
+    },
+    "pricing": {
+      "schedule": "3/28(土) - 3/29(日)\n午前10:00 - 午後4:00、2日間合計10時間",
+      "location": "台北駅近くのスペース（詳細は追ってお知らせ）",
+      "earlyBird": "NT$ 6,800",
+      "original": "NT$ 8,800",
+      "note": "限定オファー、各クラス 6-10名"
+    },
+    "slidesEmbed": "<iframe src=\"https://docs.google.com/presentation/d/e/2PACX-1vQshRWYI-mc5Jq-L6L2kvMWYXMqhwtFTnHkHRVhrPmG-5d4itIQIQZE_LfSirMBsVvljCxmrzQOLbuX/pubembed?start=false&loop=false&delayms=3000\" frameborder=\"0\" width=\"1280\" height=\"749\" allowfullscreen=\"true\" mozallowfullscreen=\"true\" webkitallowfullscreen=\"true\"></iframe>",
+    "faq": [
+      {
+        "question": "プログラミング経験がなくても参加できますか？",
+        "answer": "もちろん！このコースの核心はAI（Cursor）を使ってプログラムを書くことを教えることです。デザインロジックを理解していれば大丈夫です。"
+      },
+      {
+        "question": "何を準備すればいいですか？",
+        "answer": "ノートパソコン、有料版Figmaアカウント（VariablesとDev Mode機能のため）、SourceTreeをインストールし、GitHub、Zeabur、Cursorなどのアカウントを事前に登録してください（セットアップガイドを提供します）。"
+      },
+      {
+        "question": "このコースは誰に向いていますか？必要な前提知識は？",
+        "answer": "これは「開発領域に踏み込みたいプロダクトデザイナー」のために設計された中上級コースです。参加前に必要なこと：(1) Figma操作能力：ComponentsやVariablesなどのコア機能に精通していること (2) プロダクトデザイン経験：アイデアから納品までのプロダクト開発プロセスの基本を理解していること。自分のデザインを「動かしたい」UI/UXデザイナーの方に最適なコースです！"
+      }
+    ]
   }
 }
