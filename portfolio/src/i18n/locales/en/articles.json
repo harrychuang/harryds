@@ -1401,6 +1401,59 @@
       "paragraph5": "Token Linker tool link:\nhttps://www.figma.com/community/plugin/1589120729239345070/token-linker-ai-autotoken"
     }
   },
+  "67": {
+    "heading": "Vibe Coding Era:\nComponent Library as the Core of Modern Development",
+    "subtitle": "In the Vibe Coding era, a design system component library will be the key core for product teams~ When PMs, designers, and engineers all share the same component library, everyone can become a product builder and translate that into real productivity. No more chaotic, unusable code — with shared components, different roles can each assemble their own functional outputs into high-quality, tangible results.",
+    "date": "Mar 4, 2026",
+    "tags": [
+      "Design System",
+      "Vibe Coding",
+      "AI",
+      "Component Library",
+      "Storybook"
+    ],
+    "category": "article",
+    "url": "https://hds-ds-storybook.zeabur.app",
+    "images": [
+      "articles/67/topics-67.1.jpg",
+      "articles/67/topics-67.2.jpg",
+      "articles/67/topics-67.3.mp4",
+      "articles/67/topics-67.4.mp4"
+    ],
+    "content": {
+      "paragraph1": "Vibe Coding Era: Component Library as the Core of Modern Development\nRecently, both the Cursor and Claude teams mentioned that AI speed is outpacing product teams, and in the future everyone will be a Product Builder. However, the main challenge with Vibe Coding today is that AI-generated code often lacks the architectural standards required by each company's internal product. But if we anchor development around a design system component library, that can actually change~",
+      "paragraph2": "PM: Use AI combined with the component library to quickly produce architecture-compliant Prototypes.",
+      "paragraph3": "Designer: Work with AI to refine components and product details, optimizing component and UI based on Prototypes — improving experience and visual consistency~",
+      "paragraph4": "Engineer: Focus on the most critical data integration, using the assembled product UI code provided by designers.",
+      "paragraph5": "Results from testing with Storybook component library over these two days: After building the component library, I had AI understand all the components and assemble an 'E-commerce Platform' and a 'Dashboard.' The role of a product designer can shift from 'manual drawing' to 'polishing component and layout details of the product.'\n\n🔗 Demo: https://hds-ds-storybook.zeabur.app"
+    }
+  },
+  "68": {
+    "heading": "Design System × AI:\nFrom Sketch to Real Product",
+    "subtitle": "When a design system component library combines with AI: closing the gap between hand-drawn sketches and real products. The turning point after establishing a Design System is: once the component library matures, AI becomes the ultimate 'assembly master.' For example, a PM can feed a hand-drawn sketch to AI, and it will reason based on the company's existing component library to assemble the product~ This isn't randomly generated 'junk code' — it's production-ready implementation code that fully complies with company standards.",
+    "date": "Mar 11, 2026",
+    "tags": [
+      "Design System",
+      "Vibe Coding",
+      "AI",
+      "Component Library",
+      "CDD"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/68/topics-68.1.jpg",
+      "articles/68/topics-68.2.jpg",
+      "articles/68/topics-68.3.mp4"
+    ],
+    "content": {
+      "paragraph1": "Continuing from last week's topic on 'Component-Driven Development (CDD).' Once a product team has a complete design system component library, the role of PMs can also shift from 'requirement transmitters' to 'product assemblers.'",
+      "paragraph2": "1. Visual Reasoning from Sketch to Implementation\nNow PMs can draw a Mockup by hand or digitally and feed it to AI. AI uses visual reasoning to understand the sketch's intent and automatically maps it to the company's existing Storybook component library. This is different from the old 'Vibe Coding' — because AI isn't generating random code from scratch, but precisely calling existing components for 'assembly' -> just like the video demo below shows.",
+      "paragraph3": "2. Production-Grade Code Quality\nThe output from this approach isn't unmaintainable 'junk code' — it's implementation code that fully complies with company standards and can be directly deployed to production.",
+      "paragraph4": "3. Prototype First or System First?\nRecently while sharing and exchanging ideas with various people, I've noticed many worry: 'If we don't have a design system yet, and we've already built a Prototype for client testing, can we still recover?'\n\nThe answer is absolutely yes~ Because this is fundamentally an iterative and refactoring process. With AI assistance now available, 'reassembling' an existing Prototype using a built component library is much easier than manually rewriting it in the past~",
+      "paragraph5": "Although AI greatly simplifies the development process, there's one thing that cannot be avoided — manual review and testing. The painful repetitive labor of the past has disappeared; the focus of work shifts to 'maintaining final quality.' Because~ AI handles acceleration, while humans define excellence and taste 😅"
+    }
+  },
   "66": {
     "heading": "Token Naming Update:\nAI Auto-Creates MD3 Token Architecture",
     "subtitle": "Token Naming version update! New AI auto-creation of Google Material Design 3 (MD3) three-layer Token architecture, completing naming and style binding with one click! After setting up your Gemini API Key, AI will analyze layer structure and naming, automatically generating corresponding Design Tokens and binding them to component styles, eliminating tedious manual setup.",

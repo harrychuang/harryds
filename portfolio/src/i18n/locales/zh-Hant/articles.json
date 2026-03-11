@@ -1401,6 +1401,59 @@
       "paragraph5": "Token Linker 工具連結:\nhttps://www.figma.com/community/plugin/1589120729239345070/token-linker-ai-autotoken"
     }
   },
+  "67": {
+    "heading": "Vibe Coding 時代：\n元件庫為核心的開發新流程",
+    "subtitle": "在 Vibe Coding 時代，設計系統元件庫會是產品團隊的重點核心~ 當 PM、設計師與工程師都共用同一套元件庫，每個人都能成為產品建造者，並轉化為實質的生產力。因為不再有無法使用的混亂程式碼，使用共用元件、不同角色都能組裝出不同職能對於產品的輸出，並轉化為高品質的實質生產力",
+    "date": "2026 年 3 月 4 日",
+    "tags": [
+      "設計系統",
+      "Vibe Coding",
+      "AI",
+      "元件庫",
+      "Storybook"
+    ],
+    "category": "article",
+    "url": "https://hds-ds-storybook.zeabur.app",
+    "images": [
+      "articles/67/topics-67.1.jpg",
+      "articles/67/topics-67.2.jpg",
+      "articles/67/topics-67.3.mp4",
+      "articles/67/topics-67.4.mp4"
+    ],
+    "content": {
+      "paragraph1": "Vibe Coding 時代：以元件庫為核心的開發新流程\n最近 Cursor 與 Claude 團隊相繼提到，AI 速度超越產品團隊，未來所有成員都是 Product Builder，但目前的 Vibe Coding 難以的主因在於 AI 代碼缺乏符合公司內部產品的架構規範，但如果以設計系統元件庫為核心，情況其實是可以改變的~",
+      "paragraph2": "PM：利用 AI 結合元件庫，快速產出符合架構的 Prototype",
+      "paragraph3": "設計師：和 AI 一起打磨元件和產品細節，根據 Prototype 進行元件和產品界面上的優化，提升體驗與視覺一致~",
+      "paragraph4": "工程師：透過設計師提供組裝好的產品界面程式碼，專注於最核心的資料串接",
+      "paragraph5": "這兩天使用 Storybook 元件庫測試的成果：建立好元件庫後，讓 AI 理解所有元件，並組裝出「電商平台」與「Dashboard」，產品設計師的角色可以從「手動繪圖」轉向「產品的元件與排版細節打磨」\n\n🔗 Demo: https://hds-ds-storybook.zeabur.app"
+    }
+  },
+  "68": {
+    "heading": "設計系統 × AI：\n從草稿到真實產品",
+    "subtitle": "當設計系統元件庫結合 AI：縮短從手繪草稿到真實產品的距離。建立 Design System 後的轉捩點在於：當元件庫成熟後，AI 就能成為最強的「組裝大師」，比如~ PM 可以把手繪圖餵給 AI，它就能根據公司現有的元件庫進行推理，把產品組裝起來~ 這不是隨機生成的「垃圾程式碼」，而是完全符合公司規範、可直接投入正式環境的實作程式碼",
+    "date": "2026 年 3 月 11 日",
+    "tags": [
+      "設計系統",
+      "Vibe Coding",
+      "AI",
+      "元件庫",
+      "CDD"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/68/topics-68.1.jpg",
+      "articles/68/topics-68.2.jpg",
+      "articles/68/topics-68.3.mp4"
+    ],
+    "content": {
+      "paragraph1": "延續上週聊到的「元件驅動開發（CDD）」。當產品團隊擁有一套完整的設計系統元件庫後，PM 的角色也可以從「需求傳遞者」轉化為「產品組裝者」。",
+      "paragraph2": "1. 從草稿到實作的視覺推理\n現在 PM 可以透過手繪或電繪出一張 Mockup 餵給 AI，AI 透過視覺推理，理解草圖意圖並自動對應公司現有的 Storybook 元件庫。這跟過去的「Vibe Coding」不同 — 因為 AI 不是憑空生成隨機程式碼，而是精準地調用現有元件進行「組裝」-> 就像下面影片範例展示的",
+      "paragraph3": "2. 生產等級的程式碼品質\n這種方式產出的並非無法維護的「垃圾程式碼」，會是完全符合公司規範、可直接投入生產環境的實作程式碼。",
+      "paragraph4": "3. 先有原型還是先有系統？\n這陣子和不同的人分享和交流，有發現蠻多人擔心：「如果我們還沒有設計系統，而是先做了 Prototype 讓客戶測試，事後還能補救嗎？」\n\n答案是肯定的~ 因為這件事本質上就是一種迭代與重構的過程。現在有 AI 的輔助，把現有的 Prototype 使用建立好的元件庫進行「重組」，比起過去人工改寫要輕鬆太多了~",
+      "paragraph5": "雖然 AI 大幅簡化了開發流程，但有一件事是無法逃避，那就是人工 Review 與測試。過去痛苦的重複勞力消失了，工作重心轉移到「最終品質的把關」上~ 因為~ AI 負責加速，而人類負責定義卓越還有品味 😅"
+    }
+  },
   "66": {
     "heading": "Token Naming 更新：\nAI 自動建立 MD3 Token 架構",
     "subtitle": "Token Naming 版本更新！新增 AI 自動建立 Google Material Design 3 (MD3) 三層 Token 架構，一鍵完成命名與樣式綁定! 設定你的 Gemini API Key 後，AI 會分析圖層結構與命名，自動產出對應的 Design Tokens 並綁定到元件樣式中，省去繁瑣的手動設定。",
