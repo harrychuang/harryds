@@ -261,14 +261,30 @@ export const HarryAnimation: React.FC<HarryAnimationProps> = ({
       className={`harry-animation harry-animation--${type} ${className}`} 
       style={containerStyle}
     >
-      <img
-        ref={imageRef}
-        src={frames[displayFrame]}
-        alt={`Harry ${type} animation frame ${displayFrame}`}
-        style={imgStyle}
-        className="harry-animation__image"
-        crossOrigin="anonymous"
-      />
+      {frames.map((frameSrc, index) => (
+        <img
+          key={index}
+          ref={(el) => {
+            if (index === displayFrame) {
+              imageRef.current = el;
+            }
+          }}
+          src={frameSrc}
+          alt={index === displayFrame ? `Harry ${type} animation frame ${index}` : ''}
+          style={{
+            ...imgStyle,
+            ...(index !== 0 ? {
+              position: 'absolute' as const,
+              top: 0,
+              left: 0,
+            } : {}),
+            opacity: index === displayFrame ? 1 : 0,
+            pointerEvents: index === displayFrame ? 'auto' : 'none',
+          }}
+          className="harry-animation__image"
+          crossOrigin="anonymous"
+        />
+      ))}
       
       {enableParticles && (
         <div className="harry-animation__particles">
