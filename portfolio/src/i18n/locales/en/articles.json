@@ -1454,6 +1454,89 @@
       "paragraph5": "Although AI greatly simplifies the development process, there's one thing that cannot be avoided — manual review and testing. The painful repetitive labor of the past has disappeared; the focus of work shifts to 'maintaining final quality.' Because~ AI handles acceleration, while humans define excellence and taste 😅"
     }
   },
+  "69": {
+    "heading": "AI × Design System Workflow:\nPRD, UI Flow & Prototype in Storybook",
+    "subtitle": "A new collaboration model for AI × design system product development\nAfter co-writing the PRD with AI, ship UI Flow and a production-level prototype in one place\nSolving a long-standing pain for PMs, designers, and engineers — scattered docs, designs, and code that never stay in sync~ Everyone reviews the PRD, UI Flow, and a real interactive prototype on the same surface for cross-team alignment~",
+    "date": "Mar 18, 2026",
+    "tags": [
+      "Design System",
+      "Storybook",
+      "AI",
+      "PRD",
+      "Collaboration"
+    ],
+    "category": "article",
+    "url": "https://hds-ds-storybook.zeabur.app/?path=%2Fstory%2Fplayground-subscription-modal--subscription-modal&globals=backgrounds.grid%3A!false%3Blocale%3Aen",
+    "images": [
+      "articles/69/topics-69.1.jpg",
+      "articles/69/topics-69.2.jpg",
+      "articles/69/topics-69.3.jpg",
+      "articles/69/topics-69.4.jpg",
+      "articles/69/topics-69.5.jpg",
+      "articles/69/topics-69.6.mp4"
+    ],
+    "content": {
+      "paragraph1": "Talking with product folks at different companies about AI product development, the recurring headache is the same: PMs, designers, and engineers each own different artifacts — PRD, UI Flow, code — and they rarely stay in sync.",
+      "paragraph2": "Using Storybook's extensibility, I experimented with an AI-assisted workflow: before building any feature, co-author the PRD with AI, then implement from that PRD while generating UI Flow in parallel.",
+      "paragraph3": "The whole product team can manage and validate everything in one place. Switching views surfaces the PRD, interactive UI Flow, and a product-grade prototype.",
+      "paragraph4": "As in the attached screenshots and video: AI clarifies requirements and drafts the PRD; implementation and prototype follow the PRD while UI Flow documents each interaction and the underlying logic.",
+      "paragraph5": "The team no longer splits ownership across documents, design files, and code — every role can co-own one source of truth for the product~\n\nSubscription modal Storybook demo (https://hds-ds-storybook.zeabur.app/?path=%2Fstory%2Fplayground-subscription-modal--subscription-modal&globals=backgrounds.grid%3A!false%3Blocale%3Aen)"
+    }
+  },
+  "70": {
+    "heading": "Multi-Brand Design Systems:\nOne Storybook, Themes & Tokens",
+    "subtitle": "Managing multi-brand design systems in Storybook\nDefine principles, guidelines, and visual language per brand, then use a three-tier Design Token model (Ref → Sys → Comp) so color, type, radius, motion, icons, and more can be overridden per brand~ One shared component library, theme switching, distinct brand personalities — one architecture, many brand themes.",
+    "date": "Mar 25, 2026",
+    "tags": [
+      "Design System",
+      "Storybook",
+      "Design Tokens",
+      "Multi-Brand",
+      "Theming"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/70/topics-70.1.jpg",
+      "articles/70/topics-70.2.jpg",
+      "articles/70/topics-70.3.mp4"
+    ],
+    "content": {
+      "paragraph1": "Some products must support multiple brands. Architecturally, those systems look alike — color, type, radius, spacing, motion — so one architecture can govern many brands.",
+      "paragraph2": "In advanced Storybook setups, each brand gets its own principles and visual spec, then brand-specific Design Token files. Tokens flow through Reference → System → Component into the same shared library so one component renders different visuals per brand~",
+      "paragraph3": "Beyond tokens, structure matters: conditional composition or slots can make the same component diverge in layout, interaction, or child content per brand — not just a skin swap, but a system that fits each brand.",
+      "paragraph4": "The payoff is lower long-term cost and better extensibility. Every brand shares one codebase, avoiding the drift and tech debt of parallel one-off implementations~"
+    }
+  },
+  "71": {
+    "heading": "Figma AI Skill:\nM3 Auto Variables (Ref → Sys → Comp)",
+    "subtitle": "Figma AI Skill — M3 Auto Variables\nThree jobs: scaffold Material Design 3 tokens, bind them to components, and audit existing variable naming — no more hand-checking the spec line by line or re-onboarding every new designer from scratch~",
+    "date": "Apr 1, 2026",
+    "tags": [
+      "Figma",
+      "AI",
+      "Material Design 3",
+      "Design Tokens",
+      "Cursor Skills"
+    ],
+    "category": "article",
+    "url": "https://github.com/harrychuang/cursor-skills/tree/master/figma-m3-variables",
+    "images": [
+      "articles/71/topics-71.1.jpg",
+      "articles/71/topics-71.2.jpg",
+      "articles/71/topics-71.3.jpg",
+      "articles/71/topics-71.4.mp4",
+      "articles/71/topics-71.5.jpg",
+      "articles/71/topics-71.6.mp4"
+    ],
+    "content": {
+      "paragraph1": "I've been testing a Figma MCP + Agent Skill workflow and built a skill around Material Design 3 Design Tokens. Three main capabilities:",
+      "paragraph2": "1. Create M3 tokens from scratch — the skill confirms prefixes, collection structure, and more before creating Ref → Sys → Comp variables.",
+      "paragraph3": "2. Auto-bind tokens to components — it reads existing variables, understands the structure, then binds the right ones to color, spacing, radius, and other properties.",
+      "paragraph4": "3. Audit naming and structure — scan the file for naming issues, wrong scopes, or broken inheritance layers, with fix suggestions.",
+      "paragraph5": "Walkthroughs are in the demo video.\n\ncursor-skills / figma-m3-variables (https://github.com/harrychuang/cursor-skills/tree/master/figma-m3-variables)"
+    }
+  },
   "66": {
     "heading": "Token Naming Update:\nAI Auto-Creates MD3 Token Architecture",
     "subtitle": "Token Naming version update! New AI auto-creation of Google Material Design 3 (MD3) three-layer Token architecture, completing naming and style binding with one click! After setting up your Gemini API Key, AI will analyze layer structure and naming, automatically generating corresponding Design Tokens and binding them to component styles, eliminating tedious manual setup.",

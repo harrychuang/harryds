@@ -1049,6 +1049,89 @@
       "paragraph5": "AI が開発フローを大幅に簡略化しても、避けられないことが一つあります — それは人によるレビューとテストです。過去の苦痛な繰り返し作業は消え、仕事の重心は「最終品質の管理」に移りました~ なぜなら~ AI が加速を担い、人間が卓越さと品格を定義するからです 😅"
     }
   },
+  "69": {
+    "heading": "AI × デザインシステムのワークフロー：\nPRD、UI Flow、プロトタイプ",
+    "subtitle": "AI × デザインシステムによるプロダクト開発の新しい協業モデル\nAI と一緒に PRD を仕上げたら、そのまま UI Flow とプロダクション相当のプロトタイプまで一気に出力\nPM、デザイナー、エンジニアが長年抱えてきた課題 — ドキュメント、デザイン、コードがバラバラで同期しにくい問題を解消~ 全員が同じ画面で PRD、UI Flow、実際に操作できるプロトタイプを確認し、チーム横断で認識を揃えられます~",
+    "date": "2026年3月18日",
+    "tags": [
+      "デザインシステム",
+      "Storybook",
+      "AI",
+      "PRD",
+      "コラボレーション"
+    ],
+    "category": "article",
+    "url": "https://hds-ds-storybook.zeabur.app/?path=%2Fstory%2Fplayground-subscription-modal--subscription-modal&globals=backgrounds.grid%3A!false%3Blocale%3Aen",
+    "images": [
+      "articles/69/topics-69.1.jpg",
+      "articles/69/topics-69.2.jpg",
+      "articles/69/topics-69.3.jpg",
+      "articles/69/topics-69.4.jpg",
+      "articles/69/topics-69.5.jpg",
+      "articles/69/topics-69.6.mp4"
+    ],
+    "content": {
+      "paragraph1": "最近、さまざまな企業のプロダクト担当の方と AI プロダクト開発の協業について話していて、いちばん困るのは、PM、デザイナー、エンジニアがそれぞれ別の成果物 — PRD、UI Flow、コードなど — を持ち、同期が取りにくいことだと感じました。",
+      "paragraph2": "そこで Storybook の拡張性を活かし、AI と一緒に開発ワークフロー（実験版）を組みました。機能開発の前に AI と PRD を共同で書き、それを起点に実装しながら UI Flow も同時に生成します。",
+      "paragraph3": "こうすることで、プロダクトチームはひとつの場所ですべてを管理・確認できます。表示モードを切り替えれば、PRD、UI Flow のインタラクション、プロダクト品質のプロトタイプをまとめて扱えます。",
+      "paragraph4": "添付のスクリーンショットと動画のとおり：まず AI に要件を確認させ PRD を作成し、PRD に沿って機能やプロトタイプを実装しつつ、各インタラクションの結果とロジックを UI Flow で示します。",
+      "paragraph5": "ドキュメント、デザインファイル、コードを分けて管理する必要はなく、ロールを問わず同じプロダクト情報を共同で扱えます~\n\nサブスクリプションモーダルの Storybook デモ (https://hds-ds-storybook.zeabur.app/?path=%2Fstory%2Fplayground-subscription-modal--subscription-modal&globals=backgrounds.grid%3A!false%3Blocale%3Aen)"
+    }
+  },
+  "70": {
+    "heading": "マルチブランドのデザインシステム：\nStorybook と三層 Design Tokens",
+    "subtitle": "Storybook でマルチブランドのデザインシステムを管理\nブランドごとに原則・ガイドライン・ビジュアルを定義し、Design Tokens の三層（Ref → Sys → Comp）を核に、色、タイポ、角丸、モーション、アイコンなどをブランド単位で上書き~ 共通コンポーネントライブラリにテーマを切り替えるだけで個性を出す「ひとつのアーキテクチャ、複数ブランドのテーマ」",
+    "date": "2026年3月25日",
+    "tags": [
+      "デザインシステム",
+      "Storybook",
+      "Design Token",
+      "マルチブランド",
+      "テーマ"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/70/topics-70.1.jpg",
+      "articles/70/topics-70.2.jpg",
+      "articles/70/topics-70.3.mp4"
+    ],
+    "content": {
+      "paragraph1": "マルチブランドに対応しなければならないプロダクトもありますが、ブランド間で求められるアーキテクチャはほぼ同じです。色、タイポ、角丸、スペーシング、モーションといった基礎設定は共通なので、ひとつの枠組みで複数ブランドを管理できます。",
+      "paragraph2": "Storybook の応用では、ブランドごとに原則とビジュアル規範を用意し、そこからブランド専用の Design Token 設定へ広げます。トークンは Reference → System → Component と流れ、同じ共有ライブラリに適用されるので、同じコンポーネントがブランドごとに異なる見え方になります~",
+      "paragraph3": "トークンによるスタイル差だけでなく、構造設計も重要です。条件付きの組み合わせやスロットで、同じコンポーネントでもレイアウトやインタラクション、子要素をブランドごとに変えられます。単なる「スキン変更」ではなく、ブランドに合ったライブラリにできます。",
+      "paragraph4": "最大の利点は長期的な保守コストの削減と拡張性の向上です。すべてのブランドが同じソースに依存するため、別々に肥大化して同期できなくなる技術的負債を避けられます~"
+    }
+  },
+  "71": {
+    "heading": "Figma AI Skill：\nM3 Auto Variables",
+    "subtitle": "Figma AI Skill — M3 Auto Variables\n三つの役割：Material Design 3 のトークンを用意し、コンポーネントへ自動バインドし、既存トークンの命名を検査する。仕様を一行ずつ手で照合したり、新しいデザイナーが入るたびにゼロから説明し直したりしなくて済むように~",
+    "date": "2026年4月1日",
+    "tags": [
+      "Figma",
+      "AI",
+      "Material Design 3",
+      "Design Token",
+      "Cursor Skills"
+    ],
+    "category": "article",
+    "url": "https://github.com/harrychuang/cursor-skills/tree/master/figma-m3-variables",
+    "images": [
+      "articles/71/topics-71.1.jpg",
+      "articles/71/topics-71.2.jpg",
+      "articles/71/topics-71.3.jpg",
+      "articles/71/topics-71.4.mp4",
+      "articles/71/topics-71.5.jpg",
+      "articles/71/topics-71.6.mp4"
+    ],
+    "content": {
+      "paragraph1": "最近、Figma MCP と Agent Skill のワークフローを試しており、Material Design 3 の Design Token 規約に沿った Skill を用意しました。主な機能は三つです。",
+      "paragraph2": "1. ゼロから M3 準拠の Design Tokens を作成：AI はすぐに手を動かさず、プレフィックスや Collection 構成などを確認してから、Ref → Sys → Comp の三層継承で変数を作ります。",
+      "paragraph3": "2. コンポーネントへの自動バインド：既存の Variables を読み取り、トークン構造を把握したうえで、色・余白・角丸などに対応する変数を紐づけます。",
+      "paragraph4": "3. 命名と構造のチェック：プロジェクト内の Variables をスキャンし、命名違反、スコープの誤り、継承の置き間違いを洗い出し、修正案を提示します。",
+      "paragraph5": "実測の例はデモ動画にまとめています。\n\ncursor-skills / figma-m3-variables (https://github.com/harrychuang/cursor-skills/tree/master/figma-m3-variables)"
+    }
+  },
   "66": {
     "heading": "Token Naming アップデート：\nAI で MD3 Token アーキテクチャを自動作成",
     "subtitle": "Token Naming バージョンアップデート！Google Material Design 3（MD3）の三層 Token アーキテクチャを AI が自動作成する機能を追加。ワンクリックで命名とスタイルバインディングが完了！Gemini API Key を設定すると、AI がレイヤー構造と命名を分析し、対応する Design Tokens を自動生成してコンポーネントスタイルにバインドします。面倒な手動設定が不要に。",

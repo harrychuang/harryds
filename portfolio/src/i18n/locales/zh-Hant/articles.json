@@ -1454,6 +1454,89 @@
       "paragraph5": "雖然 AI 大幅簡化了開發流程，但有一件事是無法逃避，那就是人工 Review 與測試。過去痛苦的重複勞力消失了，工作重心轉移到「最終品質的把關」上~ 因為~ AI 負責加速，而人類負責定義卓越還有品味 😅"
     }
   },
+  "69": {
+    "heading": "AI × 設計系統工作流：\nPRD、UI Flow 與可互動原型",
+    "subtitle": "AI × 設計系統的產品開發協作新模式\n與 AI 協作完成 PRD 後，直接產出 UI Flow 與 Production-Level Prototype\n解決 PM、設計師、工程師長期面臨的痛點 — 文件、設計稿與開發各自分散、難以同步~ 所有成員都能在同一個頁面上確認 PRD、UI Flow，以及真實互動的 Prototype，實現跨團隊的協作對齊~",
+    "date": "2026 年 3 月 18 日",
+    "tags": [
+      "設計系統",
+      "Storybook",
+      "AI",
+      "PRD",
+      "協作"
+    ],
+    "category": "article",
+    "url": "https://hds-ds-storybook.zeabur.app/?path=%2Fstory%2Fplayground-subscription-modal--subscription-modal&globals=backgrounds.grid%3A!false%3Blocale%3Aen",
+    "images": [
+      "articles/69/topics-69.1.jpg",
+      "articles/69/topics-69.2.jpg",
+      "articles/69/topics-69.3.jpg",
+      "articles/69/topics-69.4.jpg",
+      "articles/69/topics-69.5.jpg",
+      "articles/69/topics-69.6.mp4"
+    ],
+    "content": {
+      "paragraph1": "最近和不同企業的產品人聊到 AI 產品開發的協作問題，覺得最麻煩的一件事是：PM、設計師、工程師各自管理不同的文件 —— PRD、UI Flow、程式碼…等，很難保持同步。",
+      "paragraph2": "因此利用 Storybook 可擴充的特性，和 AI 一起建立了一套開發工作流程(實驗版本)：在開發任何功能之前，先與 AI 協作完成 PRD 文件，再以 PRD 作為基礎進行開發，並同步生成 UI Flow。",
+      "paragraph3": "這樣一來，整個產品團隊可以在同一個地方管理與確認所有內容，切換不同的檢視模式，就能取得 PRD 文件、UI Flow 互動流程，以及產品級的 Prototype。",
+      "paragraph4": "如附件的截圖和影片：先讓 AI 確認需求並建立 PRD，再透過 PRD 實作功能或 Prototype，同時生成 UI Flow 來呈現每個互動的結果與功能邏輯。",
+      "paragraph5": "產品團隊不再需要分開管理文件、設計稿與程式碼，讓不同產品角色，都能共同管理一個產品相關內容~\n\nStorybook 訂閱模態視窗 Demo (https://hds-ds-storybook.zeabur.app/?path=%2Fstory%2Fplayground-subscription-modal--subscription-modal&globals=backgrounds.grid%3A!false%3Blocale%3Aen)"
+    }
+  },
+  "70": {
+    "heading": "多品牌設計系統：\nStorybook 與 Design Tokens 三層架構",
+    "subtitle": "使用 Storybook 管理多品牌設計系統\n為不同品牌建立各自的設計原則、設計規範與視覺樣式， 再以 Design Tokens 三層架構（Ref → Sys → Comp）作為核心， 讓色彩、字型、圓角、動畫、Icon...etc\n風格都能依品牌獨立覆寫~ 使用同一個共用元件庫，再透過主題切換就能展現不同的品牌個性「一套架構，多品牌主題」",
+    "date": "2026 年 3 月 25 日",
+    "tags": [
+      "設計系統",
+      "Storybook",
+      "Design Token",
+      "多品牌",
+      "主題"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/70/topics-70.1.jpg",
+      "articles/70/topics-70.2.jpg",
+      "articles/70/topics-70.3.mp4"
+    ],
+    "content": {
+      "paragraph1": "有些公司的產品需要支援多品牌設計系統，而不同品牌之間的設計系統在架構上其實大同小異~ 都需要色彩、字型、圓角、間距、動畫等基礎設定，因此可以透過同一套架構來管理多個品牌。",
+      "paragraph2": "在 Storybook 的進階應用中，可以為每個品牌建立各自的設計原則與視覺規範，再延伸出各品牌專屬的 Design Token 設定檔。這些 Design Token 透過三層架構（Reference → System → Component）往下傳遞，最終套用到同一套共用元件庫上，讓同一個元件在不同品牌下自動呈現不同的視覺風格~",
+      "paragraph3": "而除了透過 Design Token 來處理樣式差異之外，也能思考如何透過組件的結構設計~ 比如條件式組合或插槽（Slot）— 讓不同品牌下的同一個組件呈現完全不同的佈局結構、互動行為，甚至載入不同的子元件，這樣就不會只是「換膚」，而是讓每個品牌都能擁有符合自身需求的設計系統元件庫。",
+      "paragraph4": "這樣的架構的最大優勢在於：降低長期維護成本並提升擴充性。所有品牌皆依賴同一份元件庫原始碼，有效避免過去多套產品各自發展後，難以同步、疊代與維護的技術債問題~"
+    }
+  },
+  "71": {
+    "heading": "Figma AI Skill：\nM3 Auto Variables",
+    "subtitle": "Figma AI Skill - M3 Auto Variables\n這個 Figma AI Skill 做三件事：\n幫你建立 Material Design 3 的 Design Tokens、自動把套到元件上、能掃描現有 Token 命名是否錯誤~ 不用再人工一條一條對規範，也不用每次有新設計師加入就從頭對齊一遍~",
+    "date": "2026 年 4 月 1 日",
+    "tags": [
+      "Figma",
+      "AI",
+      "MD3",
+      "Design Token",
+      "Cursor"
+    ],
+    "category": "article",
+    "url": "https://github.com/harrychuang/cursor-skills/tree/master/figma-m3-variables",
+    "images": [
+      "articles/71/topics-71.1.jpg",
+      "articles/71/topics-71.2.jpg",
+      "articles/71/topics-71.3.jpg",
+      "articles/71/topics-71.4.mp4",
+      "articles/71/topics-71.5.jpg",
+      "articles/71/topics-71.6.mp4"
+    ],
+    "content": {
+      "paragraph1": "最近在測試 Figma MCP 搭配 Agent Skill 的工作流，針對 Material Design 3 的 Design Token 規範建立一個 Skill。三個主要功能：",
+      "paragraph2": "1. 從零建立 M3 規範的 Design Tokens：AI 不會直接動手，而是先確認前綴、Collection 結構等細節，確認後才建立符合 Ref → Sys → Comp 三層繼承的變數。",
+      "paragraph3": "2. 為元件自動綁定 Design Token：先讀取專案現有的 Variables，理解目前的 token 結構後，再將對應的變數綁定到元件的顏色、間距、圓角等屬性上。",
+      "paragraph4": "3. 檢查現有 Design Token 的命名與結構：讓 AI 掃描專案中的 Variables，找出命名不合規範、scope 設定錯誤、或繼承層錯放的問題，並提出修正建議。",
+      "paragraph5": "相關實測範例在影片 Demo 中。\n\ncursor-skills / figma-m3-variables (https://github.com/harrychuang/cursor-skills/tree/master/figma-m3-variables)"
+    }
+  },
   "66": {
     "heading": "Token Naming 更新：\nAI 自動建立 MD3 Token 架構",
     "subtitle": "Token Naming 版本更新！新增 AI 自動建立 Google Material Design 3 (MD3) 三層 Token 架構，一鍵完成命名與樣式綁定! 設定你的 Gemini API Key 後，AI 會分析圖層結構與命名，自動產出對應的 Design Tokens 並綁定到元件樣式中，省去繁瑣的手動設定。",
