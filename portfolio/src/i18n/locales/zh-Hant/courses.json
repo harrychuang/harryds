@@ -1,7 +1,7 @@
 {
   "1": {
     "status": "ended",
-    "heading": "/ 首發班 /\n<產品設計師 />\nVibe Coding 工作坊",
+    "heading": "/ 首發班 /\n<產品設計師 />\nAI Builder 工作坊",
     "subtitle": "從 Figma 設計系統到 Strapi 資料庫，2天完成你的 Side Project",
     "instructor": "Harry",
     "instructorBio": {
@@ -21,7 +21,7 @@
     },
     "date": "2025 年 1 月",
     "tags": [
-      "Vibe Coding",
+      "AI Builder",
       "工作坊"
     ],
     "category": "course",
@@ -36,7 +36,7 @@
     "highlights": [
       "4-6 人小班制",
       "建立 Design System",
-      "Vibe Coding 實作網站產品",
+      "AI Builder 實作網站產品",
       "週末2日衝刺"
     ],
     "valueProposition": {
@@ -50,14 +50,14 @@
       },
       {
         "title": "整合前端與後端開發",
-        "description": "不只做靜態網頁，我會教你用 Strapi (Headless CMS) 建立資料庫，並部署到 Zeabur 雲端主機。"
+        "description": "不只做靜態網頁，我會教你用 Strapi (Headless CMS) 建立資料庫，並透過 Netlify 部署上線。"
       },
       {
-        "title": "AI 賦能 (Vibe Coding)",
+        "title": "AI 賦能 (AI Builder)",
         "description": "全程使用 Cursor + AI Agent，你負責指揮邏輯，AI 負責寫程式。"
       },
       {
-        "title": "架構優先的 Vibe Coding",
+        "title": "架構優先的 AI Builder",
         "description": "透過 Design Tokens、元件化架構與清晰的資料結構，讓 AI 在規範內開發。專案能持續維護與擴展。"
       }
     ],
@@ -69,7 +69,7 @@
           {
             "time": "10:00 - 11:00",
             "title": "【開場】AI 時代的產品設計師",
-            "description": "了解設計師為何要學開發。掌握 Vibe Coding 核心心法：用邏輯指揮 AI 寫出好程式，並熟悉 Cursor 工具操作。"
+            "description": "了解設計師為何要學開發。掌握 AI Builder 核心心法：用邏輯指揮 AI 寫出好程式，並熟悉 Cursor 工具操作。"
           },
           {
             "time": "11:00 - 12:30",
@@ -110,8 +110,8 @@
           },
           {
             "time": "14:30 - 15:30",
-            "title": "【部署】GitHub × Zeabur 上線儀式",
-            "description": "將程式碼推送到 GitHub，並透過 Zeabur 一鍵連結儲存庫。設定完成後，每次 Push 都會自動部署，讓全世界都能透過專屬網址訪問你的產品。"
+            "title": "【部署】GitHub × Netlify 上線儀式",
+            "description": "將程式碼推送到 GitHub，並透過 Netlify 一鍵連結儲存庫。設定完成後，每次 Push 都會自動部署，讓全世界都能透過專屬網址訪問你的產品。"
           },
           {
             "time": "15:30 - 16:00",
@@ -124,7 +124,7 @@
     ],
     "mentorship": {
       "title": "專屬課後輔導計畫",
-      "description": "學習不應在課程結束後就停止。課程會建立專屬 Discord 社群，並在課程結束後的四週內，每週安排一個晚上的線上 Office Hour (30-60 分鐘)，協助排除開發障礙，確保你的 Side Project 核心功能順利上線。"
+      "description": "學習不應在課程結束後就停止。課程會建立專屬 Discord 社群，並在課程結束後的四週內，雙週安排一個晚上的線上 Office Hour (30-60 分鐘)，協助排除開發障礙，確保你的 Side Project 核心功能順利上線。"
     },
     "pricing": {
       "schedule": "【第一場】1/24(六) - 1/25(日)\n【第二場】1/31(六) - 2/1(日)\n上午 10:00 - 下午 4:00，2天共 10 小時",
@@ -141,7 +141,7 @@
       },
       {
         "question": "需要準備什麼？",
-        "answer": "一台筆電、付費版 Figma 帳號（用於 Variables 與 Dev Mode 功能），並預先安裝好 SourceTree 軟體，以及註冊 GitHub、Zeabur、Cursor 等帳號（會有課前懶人包）。"
+        "answer": "一台筆電、付費版 Figma 帳號（用於 Variables 與 Dev Mode 功能），並預先安裝好 SourceTree 軟體，以及註冊 GitHub、Netlify、Cursor 等帳號（會有課前懶人包）。"
       },
       {
         "question": "這堂課適合誰？需要什麼先備知識？",
@@ -151,7 +151,7 @@
   },
   "2": {
     "status": "ended",
-    "heading": "/ 二月班 /\n<產品設計師 />\nVibe Coding 工作坊",
+    "heading": "/ 二月班 /\n<產品設計師 />\nAI Builder 工作坊",
     "subtitle": "從 Figma 設計系統到 Strapi 資料庫，2天完成你的 Side Project",
     "instructor": "Harry",
     "instructorBio": {
@@ -171,7 +171,7 @@
     },
     "date": "2025 年 2 月",
     "tags": [
-      "Vibe Coding",
+      "AI Builder",
       "工作坊"
     ],
     "category": "course",
@@ -186,7 +186,7 @@
     "highlights": [
       "6-10 人小班制",
       "建立 Design System",
-      "Vibe Coding 實作網站產品",
+      "AI Builder 實作網站產品",
       "週末2日衝刺"
     ],
     "valueProposition": {
@@ -200,14 +200,14 @@
       },
       {
         "title": "整合前端與後端開發",
-        "description": "不只做靜態網頁，我會教你用 Strapi (Headless CMS) 建立資料庫，並部署到 Zeabur 雲端主機。"
+        "description": "不只做靜態網頁，我會教你用 Strapi (Headless CMS) 建立資料庫，並透過 Netlify 部署上線。"
       },
       {
-        "title": "AI 賦能 (Vibe Coding)",
+        "title": "AI 賦能 (AI Builder)",
         "description": "全程使用 Cursor + AI Agent，你負責指揮邏輯，AI 負責寫程式。"
       },
       {
-        "title": "架構優先的 Vibe Coding",
+        "title": "架構優先的 AI Builder",
         "description": "透過 Design Tokens、元件化架構與清晰的資料結構，讓 AI 在規範內開發。專案能持續維護與擴展。"
       }
     ],
@@ -219,7 +219,7 @@
           {
             "time": "10:00 - 11:00",
             "title": "【開場】AI 時代的產品設計師",
-            "description": "了解設計師為何要學開發。掌握 Vibe Coding 核心心法：用邏輯指揮 AI 寫出好程式，並熟悉 Cursor 工具操作。"
+            "description": "了解設計師為何要學開發。掌握 AI Builder 核心心法：用邏輯指揮 AI 寫出好程式，並熟悉 Cursor 工具操作。"
           },
           {
             "time": "11:00 - 12:30",
@@ -260,8 +260,8 @@
           },
           {
             "time": "14:30 - 15:30",
-            "title": "【部署】GitHub × Zeabur 上線儀式",
-            "description": "將程式碼推送到 GitHub，並透過 Zeabur 一鍵連結儲存庫。設定完成後，每次 Push 都會自動部署，讓全世界都能透過專屬網址訪問你的產品。"
+            "title": "【部署】GitHub × Netlify 上線儀式",
+            "description": "將程式碼推送到 GitHub，並透過 Netlify 一鍵連結儲存庫。設定完成後，每次 Push 都會自動部署，讓全世界都能透過專屬網址訪問你的產品。"
           },
           {
             "time": "15:30 - 16:00",
@@ -274,7 +274,7 @@
     ],
     "mentorship": {
       "title": "專屬課後輔導計畫",
-      "description": "學習不應在課程結束後就停止。課程會建立專屬 Discord 社群，並在課程結束後的四週內，每週安排一個晚上的線上 Office Hour (30-60 分鐘)，協助排除開發障礙，確保你的 Side Project 核心功能順利上線。"
+      "description": "學習不應在課程結束後就停止。課程會建立專屬 Discord 社群，並在課程結束後的四週內，雙週安排一個晚上的線上 Office Hour (30-60 分鐘)，協助排除開發障礙，確保你的 Side Project 核心功能順利上線。"
     },
     "pricing": {
       "schedule": "2/28(六) - 3/1(日)\n上午 10:00 - 下午 4:00，2天共 10 小時",
@@ -291,7 +291,7 @@
       },
       {
         "question": "需要準備什麼？",
-        "answer": "一台筆電、付費版 Figma 帳號（用於 Variables 與 Dev Mode 功能），並預先安裝好 SourceTree 軟體，以及註冊 GitHub、Zeabur、Cursor 等帳號（會有課前懶人包）。"
+        "answer": "一台筆電、付費版 Figma 帳號（用於 Variables 與 Dev Mode 功能），並預先安裝好 SourceTree 軟體，以及註冊 GitHub、Netlify、Cursor 等帳號（會有課前懶人包）。"
       },
       {
         "question": "這堂課適合誰？需要什麼先備知識？",
@@ -301,7 +301,7 @@
   },
   "3": {
     "status": "ended",
-    "heading": "/ 三月班 /\n<產品設計師 />\nVibe Coding 工作坊",
+    "heading": "/ 三月班 /\n<產品設計師 />\nAI Builder 工作坊",
     "subtitle": "進化設計職涯：從 Product Designer 到 Product Builder",
     "instructor": "Harry",
     "instructorBio": {
@@ -321,7 +321,7 @@
     },
     "date": "2025 年 3 月",
     "tags": [
-      "Vibe Coding",
+      "AI Builder",
       "工作坊"
     ],
     "category": "course",
@@ -336,7 +336,7 @@
     "highlights": [
       "6-10 人小班制",
       "建立 Design System",
-      "Vibe Coding 實作網站產品",
+      "AI Builder 實作網站產品",
       "週末2日衝刺"
     ],
     "valueProposition": {
@@ -350,14 +350,14 @@
       },
       {
         "title": "整合前端與後端開發",
-        "description": "不只做靜態網頁，我會教你用 Strapi (Headless CMS) 建立資料庫，並部署到 Zeabur 雲端主機。"
+        "description": "不只做靜態網頁，我會教你用 Strapi (Headless CMS) 建立資料庫，並透過 Netlify 部署上線。"
       },
       {
-        "title": "AI 賦能 (Vibe Coding)",
+        "title": "AI 賦能 (AI Builder)",
         "description": "全程使用 Cursor + AI Agent，你負責指揮邏輯，AI 負責寫程式。"
       },
       {
-        "title": "架構優先的 Vibe Coding",
+        "title": "架構優先的 AI Builder",
         "description": "透過 Design Tokens、元件化架構與清晰的資料結構，讓 AI 在規範內開發。專案能持續維護與擴展。"
       }
     ],
@@ -369,7 +369,7 @@
           {
             "time": "10:00 - 11:00",
             "title": "【開場】AI 時代的產品設計師",
-            "description": "了解設計師為何要學開發。掌握 Vibe Coding 核心心法：用邏輯指揮 AI 寫出好程式，並熟悉 Cursor 工具操作。"
+            "description": "了解設計師為何要學開發。掌握 AI Builder 核心心法：用邏輯指揮 AI 寫出好程式，並熟悉 Cursor 工具操作。"
           },
           {
             "time": "11:00 - 12:30",
@@ -410,8 +410,8 @@
           },
           {
             "time": "14:30 - 15:30",
-            "title": "【部署】GitHub × Zeabur 上線儀式",
-            "description": "將程式碼推送到 GitHub，並透過 Zeabur 一鍵連結儲存庫。設定完成後，每次 Push 都會自動部署，讓全世界都能透過專屬網址訪問你的產品。"
+            "title": "【部署】GitHub × Netlify 上線儀式",
+            "description": "將程式碼推送到 GitHub，並透過 Netlify 一鍵連結儲存庫。設定完成後，每次 Push 都會自動部署，讓全世界都能透過專屬網址訪問你的產品。"
           },
           {
             "time": "15:30 - 16:00",
@@ -424,7 +424,7 @@
     ],
     "mentorship": {
       "title": "專屬課後輔導計畫",
-      "description": "學習不應在課程結束後就停止。課程會建立專屬 Discord 社群，並在課程結束後的四週內，每週安排一個晚上的線上 Office Hour (30-60 分鐘)，協助排除開發障礙，確保你的 Side Project 核心功能順利上線。"
+      "description": "學習不應在課程結束後就停止。課程會建立專屬 Discord 社群，並在課程結束後的四週內，雙週安排一個晚上的線上 Office Hour (30-60 分鐘)，協助排除開發障礙，確保你的 Side Project 核心功能順利上線。"
     },
     "pricing": {
       "schedule": "3/28(六) - 3/29(日)\n上午 10:00 - 下午 4:00，2天共 10 小時",
@@ -441,7 +441,7 @@
       },
       {
         "question": "需要準備什麼？",
-        "answer": "一台筆電、付費版 Figma 帳號（用於 Variables 與 Dev Mode 功能），並預先安裝好 SourceTree 軟體，以及註冊 GitHub、Zeabur、Cursor 等帳號（會有課前懶人包）。"
+        "answer": "一台筆電、付費版 Figma 帳號（用於 Variables 與 Dev Mode 功能），並預先安裝好 SourceTree 軟體，以及註冊 GitHub、Netlify、Cursor 等帳號（會有課前懶人包）。"
       },
       {
         "question": "這堂課適合誰？需要什麼先備知識？",
@@ -450,8 +450,8 @@
     ]
   },
   "4": {
-    "purchaseLink": "https://harrychuang.cashier.ecpay.com.tw/product/000000000931132",
-    "heading": "/ 四月班 /\n<產品設計師 />\nVibe Coding 工作坊",
+    "status": "ended",
+    "heading": "/ 四月班 /\n<產品設計師 />\nAI Builder 工作坊",
     "subtitle": "進化設計職涯：從 Product Designer 到 Product Builder",
     "instructor": "Harry",
     "instructorBio": {
@@ -471,7 +471,7 @@
     },
     "date": "2026 年 4 月",
     "tags": [
-      "Vibe Coding",
+      "AI Builder",
       "工作坊"
     ],
     "category": "course",
@@ -486,7 +486,7 @@
     "highlights": [
       "6-10 人小班制",
       "建立 Design System",
-      "Vibe Coding 實作網站產品",
+      "AI Builder 實作網站產品",
       "週末2日衝刺"
     ],
     "valueProposition": {
@@ -500,14 +500,14 @@
       },
       {
         "title": "整合前端與後端開發",
-        "description": "不只做靜態網頁，我會教你用 Supabase（PostgreSQL 後端即服務，含 Auth 與 API）建立資料庫，並部署到 Zeabur 雲端主機。"
+        "description": "不只做靜態網頁，我會教你用 Supabase（PostgreSQL 後端即服務，含 Auth 與 API）建立資料庫，並透過 Netlify 部署上線。"
       },
       {
-        "title": "AI 賦能 (Vibe Coding)",
+        "title": "AI 賦能 (AI Builder)",
         "description": "全程使用 Cursor + AI Agent，你負責指揮邏輯，AI 負責寫程式。"
       },
       {
-        "title": "架構優先的 Vibe Coding",
+        "title": "架構優先的 AI Builder",
         "description": "透過 Design Tokens、元件化架構與清晰的資料結構，讓 AI 在規範內開發。專案能持續維護與擴展。"
       }
     ],
@@ -519,7 +519,7 @@
           {
             "time": "10:00 - 11:00",
             "title": "【開場】AI 時代的產品設計師",
-            "description": "了解設計師為何要學開發。掌握 Vibe Coding 核心心法：用邏輯指揮 AI 寫出好程式，並熟悉 Cursor 工具操作。"
+            "description": "了解設計師為何要學開發。掌握 AI Builder 核心心法：用邏輯指揮 AI 寫出好程式，並熟悉 Cursor 工具操作。"
           },
           {
             "time": "11:00 - 12:30",
@@ -560,8 +560,8 @@
           },
           {
             "time": "14:30 - 15:30",
-            "title": "【部署】GitHub × Zeabur 上線儀式",
-            "description": "將程式碼推送到 GitHub，並透過 Zeabur 一鍵連結儲存庫。設定完成後，每次 Push 都會自動部署，讓全世界都能透過專屬網址訪問你的產品。"
+            "title": "【部署】GitHub × Netlify 上線儀式",
+            "description": "將程式碼推送到 GitHub，並透過 Netlify 一鍵連結儲存庫。設定完成後，每次 Push 都會自動部署，讓全世界都能透過專屬網址訪問你的產品。"
           },
           {
             "time": "15:30 - 16:00",
@@ -574,7 +574,7 @@
     ],
     "mentorship": {
       "title": "專屬課後輔導計畫",
-      "description": "學習不應在課程結束後就停止。課程會建立專屬 Discord 社群，並在課程結束後的四週內，每週安排一個晚上的線上 Office Hour (30-60 分鐘)，協助排除開發障礙，確保你的 Side Project 核心功能順利上線。"
+      "description": "學習不應在課程結束後就停止。課程會建立專屬 Discord 社群，並在課程結束後的四週內，雙週安排一個晚上的線上 Office Hour (30-60 分鐘)，協助排除開發障礙，確保你的 Side Project 核心功能順利上線。"
     },
     "pricing": {
       "schedule": "4/25(六) - 4/26(日)\n上午 10:00 - 下午 4:00，2天共 10 小時",
@@ -591,7 +591,157 @@
       },
       {
         "question": "需要準備什麼？",
-        "answer": "一台筆電、付費版 Figma 帳號（用於 Variables 與 Dev Mode 功能），並預先安裝好 SourceTree 軟體，以及註冊 GitHub、Zeabur、Cursor、Supabase 等帳號（會有課前懶人包）。"
+        "answer": "一台筆電、付費版 Figma 帳號（用於 Variables 與 Dev Mode 功能），並預先安裝好 SourceTree 軟體，以及註冊 GitHub、Netlify、Cursor、Supabase 等帳號（會有課前懶人包）。"
+      },
+      {
+        "question": "這堂課適合誰？需要什麼先備知識？",
+        "answer": "這是一堂為「想跨足開發領域的產品設計師」量身打造的中高階課程。報名前，你需要具備：(1) Figma 操作能力：熟悉 Components、Variables 等核心功能 (2) 產品設計經驗：對從需求發想到設計交付的產品流程有基本掌握。如果你是想讓自己的設計能直接「動起來」的 UI/UX 設計師，這堂課非常適合你！"
+      }
+    ]
+  },
+  "5": {
+    "purchaseLink": "https://harrychuang.cashier.ecpay.com.tw/product/000000000945767",
+    "heading": "/ 五月班 /\n<產品設計師 />\nAI Builder 工作坊",
+    "subtitle": "進化設計職涯：從 Product Designer 到 Product Builder",
+    "instructor": "Harry",
+    "instructorBio": {
+      "name": "Harry Chuang",
+      "title": "18+ 年 UI/UX 設計與前端開發經驗",
+      "experience": [
+        "曾任職 TutorMing、Shopmatic，並擔任 KKDay 設計顧問主導首款 App 設計",
+        "為 Shopmatic 新加坡 × 印度跨國團隊打造 Storybook 共用元件庫"
+      ],
+      "teaching": [
+        "AAPD 線上課程講師｜Design Tokens 與設計系統實戰",
+        "QNAP、UXY、IxDA 企業內訓與工作坊講師",
+        "Codrops 特邀撰稿｜AI × 設計系統開發實戰"
+      ],
+      "codropsArticle": "https://tympanus.net/codrops/2025/12/23/building-a-nostalgic-8-bit-universe-with-modern-tech-a-vibe-coding-journey/",
+      "codropsArticleText": "閱讀 Codrops 文章：AI × 設計系統 × 產品開發實戰"
+    },
+    "date": "2026 年 5 月",
+    "tags": [
+      "AI Builder",
+      "工作坊"
+    ],
+    "category": "course",
+    "level": "中高階課程",
+    "primaryColor": "#667FFF",
+    "secondaryColor": "#111",
+    "heroImage": "courses/ds-vibecoding-2016/ds-vibecoding-course-new.jpg",
+    "images": [
+      "courses/ds-vibecoding-2016/ds-vibecoding-course-new.jpg",
+      "courses/ds-vibecoding-2016/ec-cover.jpg"
+    ],
+    "highlights": [
+      "6-10 人小班制",
+      "建立 Design System",
+      "AI Builder 實作網站產品",
+      "週末2日衝刺"
+    ],
+    "valueProposition": {
+      "title": "進化設計職涯：從 Product Designer 到 Product Builder",
+      "format": "6-10 人實體小班制 (台北)"
+    },
+    "usp": [
+      {
+        "title": "從設計系統出發，建立 Design Token",
+        "description": "學習如何將 Figma Variables 轉換為 CSS Design Tokens，建立設計系統基礎架構，讓設計與開發無縫銜接。"
+      },
+      {
+        "title": "整合前端與後端開發",
+        "description": "不只做靜態網頁，我會教你用 Supabase（PostgreSQL 後端即服務，含 Auth 與 API）建立資料庫，並透過 Netlify 部署上線。"
+      },
+      {
+        "title": "AI 賦能 (AI Builder)",
+        "description": "全程使用 Cursor + AI Agent，你負責指揮邏輯，AI 負責寫程式。"
+      },
+      {
+        "title": "架構優先的 AI Builder",
+        "description": "透過 Design Tokens、元件化架構與清晰的資料結構，讓 AI 在規範內開發。專案能持續維護與擴展。"
+      }
+    ],
+    "syllabus": [
+      {
+        "day": "Day 1",
+        "title": "設計系統與元件數位化 (The Foundation)",
+        "sessions": [
+          {
+            "time": "10:00 - 11:00",
+            "title": "【開場】AI 時代的產品設計師",
+            "description": "了解設計師為何要學開發。掌握 AI Builder 核心心法：用邏輯指揮 AI 寫出好程式，並熟悉 Cursor 工具操作。"
+          },
+          {
+            "time": "11:00 - 12:30",
+            "title": "【規範】Design Tokens 轉換實戰",
+            "description": "實作 Figma 變數與程式碼的同步。學習如何將設計規範轉換成 AI 能理解的 Design Tokens，建立專案的視覺基石。"
+          },
+          {
+            "time": "13:30 - 15:00",
+            "title": "【元件】Storybook 元件庫開發",
+            "description": "指揮 AI 快速建立 UI 元件庫。從基礎元件到 Storybook 文件，親手打造可重複使用的數位設計資產。"
+          },
+          {
+            "time": "15:00 - 16:00",
+            "title": "【進階】Figma MCP 串接實戰",
+            "description": "設定 Figma MCP 讓 Cursor 直接連接你的設計檔。AI 不再靠截圖猜測，而是能精準讀取元件結構、間距與色彩變數，大幅提升開發還原度。"
+          }
+        ],
+        "outcome": "一個完全對應設計系統的 Storybook 元件庫。"
+      },
+      {
+        "day": "Day 2",
+        "title": "注入靈魂與產品上線 (The Soul & MVP)",
+        "sessions": [
+          {
+            "time": "10:00 - 11:00",
+            "title": "【組裝】產品介面與本地資料測試",
+            "description": "將元件組裝成完整的產品頁面。練習使用模擬資料測試畫面，並學習用 Git 進行基本的程式版本管理。"
+          },
+          {
+            "time": "11:00 - 12:30",
+            "title": "【大腦】Supabase 建置與 AI 建模",
+            "description": "建立 Supabase 專案與資料表、串接 API。理解資料結構，學習如何讓 AI 幫你建模與設定基礎 RLS，並將靜態內容轉為動態管理。"
+          },
+          {
+            "time": "13:30 - 14:30",
+            "title": "【串接】從靜態到動態的靈魂注入",
+            "description": "打通前端與後台的資料串接。實作如「點讚」等互動功能，讓你的網站不再只是死板的靜態頁面。"
+          },
+          {
+            "time": "14:30 - 15:30",
+            "title": "【部署】GitHub × Netlify 上線儀式",
+            "description": "將程式碼推送到 GitHub，並透過 Netlify 一鍵連結儲存庫。設定完成後，每次 Push 都會自動部署，讓全世界都能透過專屬網址訪問你的產品。"
+          },
+          {
+            "time": "15:30 - 16:00",
+            "title": "【發表】Demo Day 與結業",
+            "description": "成果展示與結業。親自 Demo 你親手打造、具備完整後台且已上線的產品。"
+          }
+        ],
+        "outcome": "一個真實運行、有資料庫支援、可以訪問的個人 MVP 產品。"
+      }
+    ],
+    "mentorship": {
+      "title": "專屬課後輔導計畫",
+      "description": "學習不應在課程結束後就停止。課程會建立專屬 Discord 社群，並在課程結束後的四週內，雙週安排一個晚上的線上 Office Hour (30-60 分鐘)，協助排除開發障礙，確保你的 Side Project 核心功能順利上線。"
+    },
+    "pricing": {
+      "schedule": "5/30(六) - 5/31(日)\n上午 10:00 - 下午 4:00，2天共 10 小時",
+      "location": "台北車站附近空間 (詳細地點待通知)",
+      "earlyBird": "NT$ 6,800",
+      "original": "NT$ 8,800",
+      "note": "限額優惠，每班 6-10 人"
+    },
+    "slidesEmbed": "<iframe src=\"https://docs.google.com/presentation/d/e/2PACX-1vQshRWYI-mc5Jq-L6L2kvMWYXMqhwtFTnHkHRVhrPmG-5d4itIQIQZE_LfSirMBsVvljCxmrzQOLbuX/pubembed?start=false&loop=false&delayms=3000\" frameborder=\"0\" width=\"1280\" height=\"749\" allowfullscreen=\"true\" mozallowfullscreen=\"true\" webkitallowfullscreen=\"true\"></iframe>",
+    "faq": [
+      {
+        "question": "我完全不會寫程式可以嗎？",
+        "answer": "可以！這堂課的核心就是教你用 AI (Cursor) 來寫程式，你只需要懂設計邏輯。"
+      },
+      {
+        "question": "需要準備什麼？",
+        "answer": "一台筆電、付費版 Figma 帳號（用於 Variables 與 Dev Mode 功能），並預先安裝好 SourceTree 軟體，以及註冊 GitHub、Netlify、Cursor、Supabase 等帳號（會有課前懶人包）。"
       },
       {
         "question": "這堂課適合誰？需要什麼先備知識？",

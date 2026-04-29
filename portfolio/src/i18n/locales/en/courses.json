@@ -1,7 +1,7 @@
 {
   "1": {
     "status": "ended",
-    "heading": "/ First Class /\n<Product Designer />\nVibe Coding Workshop",
+    "heading": "/ First Class /\n<Product Designer />\nAI Builder Workshop",
     "subtitle": "From Figma Design System to Strapi Database, complete your Side Project in 2 days",
     "instructor": "Harry",
     "instructorBio": {
@@ -21,7 +21,7 @@
     },
     "date": "January 2025",
     "tags": [
-      "Vibe Coding",
+      "AI Builder",
       "Workshop"
     ],
     "category": "course",
@@ -36,7 +36,7 @@
     "highlights": [
       "4-6 person small class",
       "Build Design System",
-      "Vibe Coding to create web products",
+      "Use AI Builder to create web products",
       "2-day weekend sprint"
     ],
     "valueProposition": {
@@ -50,14 +50,14 @@
       },
       {
         "title": "Integrate Frontend & Backend Development",
-        "description": "Not just static websites - I'll teach you to build databases with Strapi (Headless CMS) and deploy to Zeabur cloud hosting."
+        "description": "Not just static websites - I'll teach you to build databases with Strapi (Headless CMS) and deploy with Netlify."
       },
       {
-        "title": "AI-Powered (Vibe Coding)",
+        "title": "AI-Powered (AI Builder)",
         "description": "Use Cursor + AI Agent throughout the course. You handle the logic, AI writes the code."
       },
       {
-        "title": "Architecture-First Vibe Coding",
+        "title": "Architecture-First AI Builder",
         "description": "With Design Tokens, component-based architecture, and clear data structures, AI develops within defined guidelines. Your project stays maintainable and scalable."
       }
     ],
@@ -69,7 +69,7 @@
           {
             "time": "10:00 - 11:00",
             "title": "[Opening] Product Designers in the AI Era",
-            "description": "Understand why designers should learn development. Master the core of Vibe Coding: using logic to direct AI to write good code, and get familiar with Cursor."
+            "description": "Understand why designers should learn development. Master the core of AI Builder: using logic to direct AI to write good code, and get familiar with Cursor."
           },
           {
             "time": "11:00 - 12:30",
@@ -110,8 +110,8 @@
           },
           {
             "time": "14:30 - 15:30",
-            "title": "[Deployment] GitHub × Zeabur Launch Ceremony",
-            "description": "Push your code to GitHub and connect your repository to Zeabur with one click. Once set up, every Push will auto-deploy, allowing anyone in the world to access your product via a dedicated URL."
+            "title": "[Deployment] GitHub × Netlify Launch Ceremony",
+            "description": "Push your code to GitHub and connect your repository to Netlify with one click. Once set up, every Push will auto-deploy, allowing anyone in the world to access your product via a dedicated URL."
           },
           {
             "time": "15:30 - 16:00",
@@ -124,7 +124,7 @@
     ],
     "mentorship": {
       "title": "Exclusive Post-Course Support",
-      "description": "Learning shouldn't stop when the class ends. I'll set up a dedicated Discord community and host weekly online Office Hours (30-60 mins) for four weeks after the workshop. I'll personally help you overcome technical hurdles and ensure your Side Project's core features are successfully launched."
+      "description": "Learning shouldn't stop when the class ends. I'll set up a dedicated Discord community and host biweekly online Office Hours (30-60 mins) for four weeks after the workshop. I'll personally help you overcome technical hurdles and ensure your Side Project's core features are successfully launched."
     },
     "pricing": {
       "schedule": "【Session 1】1/24(Sat) - 1/25(Sun)\n【Session 2】1/31(Sat) - 2/1(Sun)\n10:00 AM - 4:00 PM, 10 hours total over 2 days",
@@ -141,7 +141,7 @@
       },
       {
         "question": "What should I prepare?",
-        "answer": "A laptop, a paid Figma account (for Variables and Dev Mode features), SourceTree installed, and pre-registered accounts for GitHub, Zeabur, and Cursor (we'll provide a setup guide)."
+        "answer": "A laptop, a paid Figma account (for Variables and Dev Mode features), SourceTree installed, and pre-registered accounts for GitHub, Netlify, and Cursor (we'll provide a setup guide)."
       },
       {
         "question": "Who is this course for? What prerequisites are required?",
@@ -151,7 +151,7 @@
   },
   "2": {
     "status": "ended",
-    "heading": "/ February Class /\n<Product Designer />\nVibe Coding Workshop",
+    "heading": "/ February Class /\n<Product Designer />\nAI Builder Workshop",
     "subtitle": "From Figma Design System to Strapi Database, complete your Side Project in 2 days",
     "instructor": "Harry",
     "instructorBio": {
@@ -171,7 +171,7 @@
     },
     "date": "February 2025",
     "tags": [
-      "Vibe Coding",
+      "AI Builder",
       "Workshop"
     ],
     "category": "course",
@@ -186,7 +186,7 @@
     "highlights": [
       "6-10 person small class",
       "Build Design System",
-      "Vibe Coding to create web products",
+      "Use AI Builder to create web products",
       "2-day weekend sprint"
     ],
     "valueProposition": {
@@ -200,14 +200,14 @@
       },
       {
         "title": "Integrate Frontend & Backend Development",
-        "description": "Not just static websites - I'll teach you to build databases with Strapi (Headless CMS) and deploy to Zeabur cloud hosting."
+        "description": "Not just static websites - I'll teach you to build databases with Strapi (Headless CMS) and deploy with Netlify."
       },
       {
-        "title": "AI-Powered (Vibe Coding)",
+        "title": "AI-Powered (AI Builder)",
         "description": "Use Cursor + AI Agent throughout the course. You handle the logic, AI writes the code."
       },
       {
-        "title": "Architecture-First Vibe Coding",
+        "title": "Architecture-First AI Builder",
         "description": "With Design Tokens, component-based architecture, and clear data structures, AI develops within defined guidelines. Your project stays maintainable and scalable."
       }
     ],
@@ -219,7 +219,7 @@
           {
             "time": "10:00 - 11:00",
             "title": "[Opening] Product Designers in the AI Era",
-            "description": "Understand why designers should learn development. Master the core of Vibe Coding: using logic to direct AI to write good code, and get familiar with Cursor."
+            "description": "Understand why designers should learn development. Master the core of AI Builder: using logic to direct AI to write good code, and get familiar with Cursor."
           },
           {
             "time": "11:00 - 12:30",
@@ -260,8 +260,8 @@
           },
           {
             "time": "14:30 - 15:30",
-            "title": "[Deployment] GitHub × Zeabur Launch Ceremony",
-            "description": "Push your code to GitHub and connect your repository to Zeabur with one click. Once set up, every Push will auto-deploy, allowing anyone in the world to access your product via a dedicated URL."
+            "title": "[Deployment] GitHub × Netlify Launch Ceremony",
+            "description": "Push your code to GitHub and connect your repository to Netlify with one click. Once set up, every Push will auto-deploy, allowing anyone in the world to access your product via a dedicated URL."
           },
           {
             "time": "15:30 - 16:00",
@@ -274,7 +274,7 @@
     ],
     "mentorship": {
       "title": "Exclusive Post-Course Support",
-      "description": "Learning shouldn't stop when the class ends. I'll set up a dedicated Discord community and host weekly online Office Hours (30-60 mins) for four weeks after the workshop. I'll personally help you overcome technical hurdles and ensure your Side Project's core features are successfully launched."
+      "description": "Learning shouldn't stop when the class ends. I'll set up a dedicated Discord community and host biweekly online Office Hours (30-60 mins) for four weeks after the workshop. I'll personally help you overcome technical hurdles and ensure your Side Project's core features are successfully launched."
     },
     "pricing": {
       "schedule": "2/28(Sat) - 3/1(Sun)\n10:00 AM - 4:00 PM, 10 hours total over 2 days",
@@ -291,7 +291,7 @@
       },
       {
         "question": "What should I prepare?",
-        "answer": "A laptop, a paid Figma account (for Variables and Dev Mode features), SourceTree installed, and pre-registered accounts for GitHub, Zeabur, and Cursor (we'll provide a setup guide)."
+        "answer": "A laptop, a paid Figma account (for Variables and Dev Mode features), SourceTree installed, and pre-registered accounts for GitHub, Netlify, and Cursor (we'll provide a setup guide)."
       },
       {
         "question": "Who is this course for? What prerequisites are required?",
@@ -301,7 +301,7 @@
   },
   "3": {
     "status": "ended",
-    "heading": "/ March Class /\n<Product Designer />\nVibe Coding Workshop",
+    "heading": "/ March Class /\n<Product Designer />\nAI Builder Workshop",
     "subtitle": "Evolve Your Design Career: From Product Designer to Product Builder",
     "instructor": "Harry",
     "instructorBio": {
@@ -321,7 +321,7 @@
     },
     "date": "March 2025",
     "tags": [
-      "Vibe Coding",
+      "AI Builder",
       "Workshop"
     ],
     "category": "course",
@@ -336,7 +336,7 @@
     "highlights": [
       "6-10 person small class",
       "Build Design System",
-      "Vibe Coding to create web products",
+      "Use AI Builder to create web products",
       "2-day weekend sprint"
     ],
     "valueProposition": {
@@ -350,14 +350,14 @@
       },
       {
         "title": "Integrate Frontend & Backend Development",
-        "description": "Not just static websites - I'll teach you to build databases with Strapi (Headless CMS) and deploy to Zeabur cloud hosting."
+        "description": "Not just static websites - I'll teach you to build databases with Strapi (Headless CMS) and deploy with Netlify."
       },
       {
-        "title": "AI-Powered (Vibe Coding)",
+        "title": "AI-Powered (AI Builder)",
         "description": "Use Cursor + AI Agent throughout the course. You handle the logic, AI writes the code."
       },
       {
-        "title": "Architecture-First Vibe Coding",
+        "title": "Architecture-First AI Builder",
         "description": "With Design Tokens, component-based architecture, and clear data structures, AI develops within defined guidelines. Your project stays maintainable and scalable."
       }
     ],
@@ -369,7 +369,7 @@
           {
             "time": "10:00 - 11:00",
             "title": "[Opening] Product Designers in the AI Era",
-            "description": "Understand why designers should learn development. Master the core of Vibe Coding: using logic to direct AI to write good code, and get familiar with Cursor."
+            "description": "Understand why designers should learn development. Master the core of AI Builder: using logic to direct AI to write good code, and get familiar with Cursor."
           },
           {
             "time": "11:00 - 12:30",
@@ -410,8 +410,8 @@
           },
           {
             "time": "14:30 - 15:30",
-            "title": "[Deployment] GitHub × Zeabur Launch Ceremony",
-            "description": "Push your code to GitHub and connect your repository to Zeabur with one click. Once set up, every Push will auto-deploy, allowing anyone in the world to access your product via a dedicated URL."
+            "title": "[Deployment] GitHub × Netlify Launch Ceremony",
+            "description": "Push your code to GitHub and connect your repository to Netlify with one click. Once set up, every Push will auto-deploy, allowing anyone in the world to access your product via a dedicated URL."
           },
           {
             "time": "15:30 - 16:00",
@@ -424,7 +424,7 @@
     ],
     "mentorship": {
       "title": "Exclusive Post-Course Support",
-      "description": "Learning shouldn't stop when the class ends. I'll set up a dedicated Discord community and host weekly online Office Hours (30-60 mins) for four weeks after the workshop. I'll personally help you overcome technical hurdles and ensure your Side Project's core features are successfully launched."
+      "description": "Learning shouldn't stop when the class ends. I'll set up a dedicated Discord community and host biweekly online Office Hours (30-60 mins) for four weeks after the workshop. I'll personally help you overcome technical hurdles and ensure your Side Project's core features are successfully launched."
     },
     "pricing": {
       "schedule": "3/28(Sat) - 3/29(Sun)\n10:00 AM - 4:00 PM, 10 hours total over 2 days",
@@ -441,7 +441,7 @@
       },
       {
         "question": "What should I prepare?",
-        "answer": "A laptop, a paid Figma account (for Variables and Dev Mode features), SourceTree installed, and pre-registered accounts for GitHub, Zeabur, and Cursor (we'll provide a setup guide)."
+        "answer": "A laptop, a paid Figma account (for Variables and Dev Mode features), SourceTree installed, and pre-registered accounts for GitHub, Netlify, and Cursor (we'll provide a setup guide)."
       },
       {
         "question": "Who is this course for? What prerequisites are required?",
@@ -450,8 +450,8 @@
     ]
   },
   "4": {
-    "purchaseLink": "https://harrychuang.cashier.ecpay.com.tw/product/000000000931132",
-    "heading": "/ April Class /\n<Product Designer />\nVibe Coding Workshop",
+    "status": "ended",
+    "heading": "/ April Class /\n<Product Designer />\nAI Builder Workshop",
     "subtitle": "Evolve Your Design Career: From Product Designer to Product Builder",
     "instructor": "Harry",
     "instructorBio": {
@@ -471,7 +471,7 @@
     },
     "date": "April 2026",
     "tags": [
-      "Vibe Coding",
+      "AI Builder",
       "Workshop"
     ],
     "category": "course",
@@ -486,7 +486,7 @@
     "highlights": [
       "6-10 person small class",
       "Build Design System",
-      "Vibe Coding to create web products",
+      "Use AI Builder to create web products",
       "2-day weekend sprint"
     ],
     "valueProposition": {
@@ -500,14 +500,14 @@
       },
       {
         "title": "Integrate Frontend & Backend Development",
-        "description": "Not just static websites - I'll teach you to build databases with Supabase (PostgreSQL BaaS with Auth & APIs) and deploy to Zeabur cloud hosting."
+        "description": "Not just static websites - I'll teach you to build databases with Supabase (PostgreSQL BaaS with Auth & APIs) and deploy with Netlify."
       },
       {
-        "title": "AI-Powered (Vibe Coding)",
+        "title": "AI-Powered (AI Builder)",
         "description": "Use Cursor + AI Agent throughout the course. You handle the logic, AI writes the code."
       },
       {
-        "title": "Architecture-First Vibe Coding",
+        "title": "Architecture-First AI Builder",
         "description": "With Design Tokens, component-based architecture, and clear data structures, AI develops within defined guidelines. Your project stays maintainable and scalable."
       }
     ],
@@ -519,7 +519,7 @@
           {
             "time": "10:00 - 11:00",
             "title": "[Opening] Product Designers in the AI Era",
-            "description": "Understand why designers should learn development. Master the core of Vibe Coding: using logic to direct AI to write good code, and get familiar with Cursor."
+            "description": "Understand why designers should learn development. Master the core of AI Builder: using logic to direct AI to write good code, and get familiar with Cursor."
           },
           {
             "time": "11:00 - 12:30",
@@ -560,8 +560,8 @@
           },
           {
             "time": "14:30 - 15:30",
-            "title": "[Deployment] GitHub × Zeabur Launch Ceremony",
-            "description": "Push your code to GitHub and connect your repository to Zeabur with one click. Once set up, every Push will auto-deploy, allowing anyone in the world to access your product via a dedicated URL."
+            "title": "[Deployment] GitHub × Netlify Launch Ceremony",
+            "description": "Push your code to GitHub and connect your repository to Netlify with one click. Once set up, every Push will auto-deploy, allowing anyone in the world to access your product via a dedicated URL."
           },
           {
             "time": "15:30 - 16:00",
@@ -574,7 +574,7 @@
     ],
     "mentorship": {
       "title": "Exclusive Post-Course Support",
-      "description": "Learning shouldn't stop when the class ends. I'll set up a dedicated Discord community and host weekly online Office Hours (30-60 mins) for four weeks after the workshop. I'll personally help you overcome technical hurdles and ensure your Side Project's core features are successfully launched."
+      "description": "Learning shouldn't stop when the class ends. I'll set up a dedicated Discord community and host biweekly online Office Hours (30-60 mins) for four weeks after the workshop. I'll personally help you overcome technical hurdles and ensure your Side Project's core features are successfully launched."
     },
     "pricing": {
       "schedule": "4/25(Sat) - 4/26(Sun)\n10:00 AM - 4:00 PM, 10 hours total over 2 days",
@@ -591,7 +591,157 @@
       },
       {
         "question": "What should I prepare?",
-        "answer": "A laptop, a paid Figma account (for Variables and Dev Mode features), SourceTree installed, and pre-registered accounts for GitHub, Zeabur, Cursor, and Supabase (we'll provide a setup guide)."
+        "answer": "A laptop, a paid Figma account (for Variables and Dev Mode features), SourceTree installed, and pre-registered accounts for GitHub, Netlify, Cursor, and Supabase (we'll provide a setup guide)."
+      },
+      {
+        "question": "Who is this course for? What prerequisites are required?",
+        "answer": "This is an intermediate to advanced course designed for product designers who want to expand into development. Before registering, you should have: (1) Figma proficiency: Familiar with core features like Components and Variables (2) Product design experience: A basic understanding of the product development process from ideation to delivery. If you're a UI/UX designer who wants to bring your designs to life, this course is perfect for you!"
+      }
+    ]
+  },
+  "5": {
+    "purchaseLink": "https://harrychuang.cashier.ecpay.com.tw/product/000000000945767",
+    "heading": "/ May Class /\n<Product Designer />\nAI Builder Workshop",
+    "subtitle": "Evolve Your Design Career: From Product Designer to Product Builder",
+    "instructor": "Harry",
+    "instructorBio": {
+      "name": "Harry Chuang",
+      "title": "18+ Years of UI/UX Design & Front-end Development",
+      "experience": [
+        "Former designer at TutorMing & Shopmatic; Design Consultant for KKDay's first App",
+        "Built a shared Storybook component library for Shopmatic's Singapore × India cross-border team"
+      ],
+      "teaching": [
+        "AAPD Online Course Instructor | Design Tokens & Design System",
+        "Corporate Trainer for QNAP, UXY, IxDA Workshops",
+        "Featured Writer at Codrops | AI × Design System Development"
+      ],
+      "codropsArticle": "https://tympanus.net/codrops/2025/12/23/building-a-nostalgic-8-bit-universe-with-modern-tech-a-vibe-coding-journey/",
+      "codropsArticleText": "Read Codrops Article: AI × Design System × Product Development"
+    },
+    "date": "May 2026",
+    "tags": [
+      "AI Builder",
+      "Workshop"
+    ],
+    "category": "course",
+    "level": "Intermediate to Advanced",
+    "primaryColor": "#667FFF",
+    "secondaryColor": "#111",
+    "heroImage": "courses/ds-vibecoding-2016/ds-vibecoding-course-new.jpg",
+    "images": [
+      "courses/ds-vibecoding-2016/ds-vibecoding-course-new.jpg",
+      "courses/ds-vibecoding-2016/ec-cover.jpg"
+    ],
+    "highlights": [
+      "6-10 person small class",
+      "Build Design System",
+      "Use AI Builder to create web products",
+      "2-day weekend sprint"
+    ],
+    "valueProposition": {
+      "title": "Evolve Your Design Career: From Product Designer to Product Builder",
+      "format": "6-10 person in-person small class (Taipei)"
+    },
+    "usp": [
+      {
+        "title": "Start from Design System, Build Design Tokens",
+        "description": "Learn how to convert Figma Variables into CSS Design Tokens, build a complete design system architecture, and seamlessly bridge design and development."
+      },
+      {
+        "title": "Integrate Frontend & Backend Development",
+        "description": "Not just static websites - I'll teach you to build databases with Supabase (PostgreSQL BaaS with Auth & APIs) and deploy with Netlify."
+      },
+      {
+        "title": "AI-Powered (AI Builder)",
+        "description": "Use Cursor + AI Agent throughout the course. You handle the logic, AI writes the code."
+      },
+      {
+        "title": "Architecture-First AI Builder",
+        "description": "With Design Tokens, component-based architecture, and clear data structures, AI develops within defined guidelines. Your project stays maintainable and scalable."
+      }
+    ],
+    "syllabus": [
+      {
+        "day": "Day 1",
+        "title": "Design System & Component Digitization (The Foundation)",
+        "sessions": [
+          {
+            "time": "10:00 - 11:00",
+            "title": "[Opening] Product Designers in the AI Era",
+            "description": "Understand why designers should learn development. Master the core of AI Builder: using logic to direct AI to write good code, and get familiar with Cursor."
+          },
+          {
+            "time": "11:00 - 12:30",
+            "title": "[Specification] Design Tokens Conversion Practice",
+            "description": "Sync Figma variables with code. Learn to convert design specs into AI-readable Design Tokens, building the visual foundation of your project."
+          },
+          {
+            "time": "13:30 - 15:00",
+            "title": "[Component] Storybook Component Library Development",
+            "description": "Direct AI to quickly build a UI component library. From base components to Storybook docs, create your own reusable digital design assets."
+          },
+          {
+            "time": "15:00 - 16:00",
+            "title": "[Advanced] Figma MCP Integration",
+            "description": "Set up Figma MCP to let Cursor directly connect to your design file. AI no longer guesses from screenshots—it can precisely read component structures, spacing, and color variables, dramatically improving development accuracy."
+          }
+        ],
+        "outcome": "A Storybook component library that perfectly matches your design system."
+      },
+      {
+        "day": "Day 2",
+        "title": "Inject Soul & Product Launch (The Soul & MVP)",
+        "sessions": [
+          {
+            "time": "10:00 - 11:00",
+            "title": "[Assembly] Product Interface & Local Data Testing",
+            "description": "Assemble components into a complete product page. Practice testing the UI with mock data and learn basic version control with Git."
+          },
+          {
+            "time": "11:00 - 12:30",
+            "title": "[Brain] Supabase Setup & AI Modeling",
+            "description": "Spin up a Supabase project, define tables, and connect APIs. Understand data structures, learn how AI can help you model schemas and basic Row Level Security, and turn static content into dynamic management."
+          },
+          {
+            "time": "13:30 - 14:30",
+            "title": "[Integration] Injecting Soul from Static to Dynamic",
+            "description": "Bridge the data gap between frontend and backend. Implement interactive features like \"Like\" buttons to make your site more than just a static page."
+          },
+          {
+            "time": "14:30 - 15:30",
+            "title": "[Deployment] GitHub × Netlify Launch Ceremony",
+            "description": "Push your code to GitHub and connect your repository to Netlify with one click. Once set up, every Push will auto-deploy, allowing anyone in the world to access your product via a dedicated URL."
+          },
+          {
+            "time": "15:30 - 16:00",
+            "title": "[Presentation] Demo Day & Graduation",
+            "description": "Showcase your results. Demo the live product you built, complete with a backend, and graduate."
+          }
+        ],
+        "outcome": "A live, database-backed, accessible personal MVP product."
+      }
+    ],
+    "mentorship": {
+      "title": "Exclusive Post-Course Support",
+      "description": "Learning shouldn't stop when the class ends. I'll set up a dedicated Discord community and host biweekly online Office Hours (30-60 mins) for four weeks after the workshop. I'll personally help you overcome technical hurdles and ensure your Side Project's core features are successfully launched."
+    },
+    "pricing": {
+      "schedule": "5/30(Sat) - 5/31(Sun)\n10:00 AM - 4:00 PM, 10 hours total over 2 days",
+      "location": "Near Taipei Main Station (Detailed location TBA)",
+      "earlyBird": "NT$ 6,800",
+      "original": "NT$ 8,800",
+      "note": "Limited Offer, 6-10 people per class"
+    },
+    "slidesEmbed": "<iframe src=\"https://docs.google.com/presentation/d/e/2PACX-1vQshRWYI-mc5Jq-L6L2kvMWYXMqhwtFTnHkHRVhrPmG-5d4itIQIQZE_LfSirMBsVvljCxmrzQOLbuX/pubembed?start=false&loop=false&delayms=3000\" frameborder=\"0\" width=\"1280\" height=\"749\" allowfullscreen=\"true\" mozallowfullscreen=\"true\" webkitallowfullscreen=\"true\"></iframe>",
+    "faq": [
+      {
+        "question": "Can I join if I have no coding experience?",
+        "answer": "Absolutely! The core of this course is teaching you to use AI (Cursor) to write code. You only need to understand design logic."
+      },
+      {
+        "question": "What should I prepare?",
+        "answer": "A laptop, a paid Figma account (for Variables and Dev Mode features), SourceTree installed, and pre-registered accounts for GitHub, Netlify, Cursor, and Supabase (we'll provide a setup guide)."
       },
       {
         "question": "Who is this course for? What prerequisites are required?",
