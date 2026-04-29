@@ -628,9 +628,9 @@
     "level": "中高階課程",
     "primaryColor": "#667FFF",
     "secondaryColor": "#111",
-    "heroImage": "courses/ds-vibecoding-2016/ds-vibecoding-course-new.jpg",
+    "heroImage": "courses/ds-vibecoding-2016/ds-vibecoding-course-v1.jpg",
     "images": [
-      "courses/ds-vibecoding-2016/ds-vibecoding-course-new.jpg",
+      "courses/ds-vibecoding-2016/ds-vibecoding-course-v1.jpg",
       "courses/ds-vibecoding-2016/ec-cover.jpg"
     ],
     "highlights": [
