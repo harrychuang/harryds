@@ -1537,6 +1537,79 @@
       "paragraph5": "Walkthroughs are in the demo video.\n\ncursor-skills / figma-m3-variables (https://github.com/harrychuang/cursor-skills/tree/master/figma-m3-variables)"
     }
   },
+  "72": {
+    "heading": "Simplifying M3 Contrast Tokens:\nOn-Light & On-Dark",
+    "subtitle": "When using Google M3 Color Tokens, you've probably seen contrast tokens prefixed with \"On\" all over the place~\nThere's a simpler approach: instead of pairing every color with its own contrast token, classify backgrounds by their luminance. Group light backgrounds under On-Light and dark backgrounds under On-Dark. For engineers, this means cleaner token organization and much simpler development logic!",
+    "date": "Apr 8, 2026",
+    "tags": [
+      "Design System",
+      "Design Token",
+      "MD3",
+      "Color Token",
+      "Architecture"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/72/topics-72.1.jpg",
+      "articles/72/topics-72.2.jpg",
+      "articles/72/topics-72.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "If you're familiar with the Google M3 spec, you're no stranger to contrast tokens prefixed with 'On-'. While this 1:1 mapping gives precise control over text color on each background, it's honestly a maintenance nightmare for engineers XD",
+      "paragraph2": "There's another way to think about this: focus on the background's 'nature' rather than its 'color.' Group backgrounds by luminance into two categories — Light (bright) and Dark (deep). For example, yellow and bright green fall into the light category, while dark blue and red go into the dark category~",
+      "paragraph3": "With this approach, contrast tokens collapse into a simplified On-Light and On-Dark. It's a bit more opinionated visually, but the development logic becomes crystal clear and the whole system is much easier to maintain. Having managed a design system for nearly 6 years, I've come to believe the essence of a good design system is 'convergence,' not endless expansion — thinking simply about complex problems is what makes for truly great design system collaboration~"
+    }
+  },
+  "73": {
+    "heading": "Storybook Interactions:\nAutomated Component Testing",
+    "subtitle": "Storybook's Interactions feature lets you run interaction tests directly on UI components~ You can write test scripts for different usage scenarios — like unauthenticated states, success flows, or error flows — and even use AI to generate these scripts quickly. No more clicking through tests manually — achieve fully automated functional testing across multiple scenarios!",
+    "date": "Apr 15, 2026",
+    "tags": [
+      "Design System",
+      "Storybook",
+      "Automated Testing",
+      "AI",
+      "Quality Assurance"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/73/topics-73.1.jpg",
+      "articles/73/topics-73.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "Storybook has many powerful add-ons, and the Interactions tool is one of the most useful. It lets you build automated interaction tests for components or product features. For example, when testing scenarios like 'member login,' 'successful operation flow,' or 'error handling,' you can write scripts to simulate user behavior — typing into inputs, opening modals, triggering alerts, and more.",
+      "paragraph2": "Now you can pair it with AI to write test scripts for different scenarios, customizing wait times and execution flow between steps. This eliminates repetitive manual testing, improves team communication efficiency, and — by running rigorous automated tests before launch — reduces the risk of overlooked edge cases and ensures product stability post-release~",
+      "paragraph3": "You can also bind tests to a PRD (Product Requirements Document)~ referencing the PRD logic and using AI to surface potential interaction issues. Beyond functional validation, Storybook doubles as a living document that helps new team members get up to speed on component usage and interface logic much faster~",
+      "paragraph4": "Alongside Interactions, Storybook also has a powerful accessibility testing tool that checks whether your product meets the standards for visually impaired and users with special needs — I'll share more on that another time~"
+    }
+  },
+  "74": {
+    "heading": "Grid System × Vibe Coding:\nPrecise RWD Layout Prompts",
+    "subtitle": "Grid systems matter a lot for Vibe Coding~ Because they're the layout guide that helps AI understand RWD behavior!\nWith a standard 12-column grid, you can tell AI exactly how much space each element should occupy and where it sits at different screen sizes. Define your Columns and Rows clearly, and AI can build accurate multi-device layouts instead of guessing — no more 'vibes-based' design communication~",
+    "date": "Apr 22, 2026",
+    "tags": [
+      "Design System",
+      "Vibe Coding",
+      "Grid System",
+      "RWD",
+      "AI"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/74/topics-74.1.jpg",
+      "articles/74/topics-74.2.jpg",
+      "articles/74/topics-74.3.jpg",
+      "articles/74/topics-74.4.jpg"
+    ],
+    "content": {
+      "paragraph1": "AI Coding is becoming more and more mainstream, but every 'misread' correction burns tokens 😅 If we can master structured style and layout prompts, it can dramatically boost Vibe Coding efficiency — and help us spend those tokens more wisely~",
+      "paragraph2": "Take the Grid System as an example. It's not just about clean layouts — it's a spatial logic guide for AI~ By defining clear Columns and Rows, we can quantify precisely how much space elements occupy:\n\nDesktop: image spans 8/12 columns\nMobile: image expands to full 12/12\n\nThe same logic applies to typography — content in two-column layout on desktop can have defined alignment and proportion changes on tablet. With this systematic layout approach, AI no longer needs to 'guess' how to arrange things (which is usually AI's weak spot XD), greatly reducing the chance of broken layouts~",
+      "paragraph3": "The same idea applies more broadly~ This layout logic can be modularized into reusable Templates or Layout Skills. When building new interfaces in the future, just invoke a 'layout skill' and AI can produce accurate RWD layouts much faster — making the development process more scientific and systematic~"
+    }
+  },
   "66": {
     "heading": "Token Naming Update:\nAI Auto-Creates MD3 Token Architecture",
     "subtitle": "Token Naming version update! New AI auto-creation of Google Material Design 3 (MD3) three-layer Token architecture, completing naming and style binding with one click! After setting up your Gemini API Key, AI will analyze layer structure and naming, automatically generating corresponding Design Tokens and binding them to component styles, eliminating tedious manual setup.",

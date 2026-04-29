@@ -1537,6 +1537,79 @@
       "paragraph5": "相關實測範例在影片 Demo 中。\n\ncursor-skills / figma-m3-variables (https://github.com/harrychuang/cursor-skills/tree/master/figma-m3-variables)"
     }
   },
+  "72": {
+    "heading": "簡化 M3 對比色 Token：\nOn-Light 與 On-Dark",
+    "subtitle": "用 Google M3 的 Color Token 時，應該常看到用「On」開頭的對比色~\n其實也可以換一個更簡單的方法：不要每個顏色都配一個對比 Token，而是改用背景的「深淺程度」來分類。把淺色背景統一收攏成 On-Light，深色則用 On-Dark，這樣對工程師來說，不但 Token 變得更好整理，開發邏輯也會變得簡潔！",
+    "date": "2026 年 4 月 8 日",
+    "tags": [
+      "設計系統",
+      "Design Token",
+      "MD3",
+      "Color Token",
+      "架構"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/72/topics-72.1.jpg",
+      "articles/72/topics-72.2.jpg",
+      "articles/72/topics-72.3.jpg"
+    ],
+    "content": {
+      "paragraph1": "如果熟悉 Google M3 的規範，一定對「On-」開頭的對比色 Token 不陌生。這種 1:1 的對應關係雖然能精準控制每一種背景上的文字顏色，但對工程師來說，這其實是管理上的惡夢 XD",
+      "paragraph2": "其實我們也可以換個思維：專注於背景的「性質」而非「顏色」。透過明度將背景歸類為 Light（亮）與 Dark（暗）兩大色系 — 例如黃色、亮綠色…等歸類在亮色系，而深藍、紅色…等可以歸類在暗色系~",
+      "paragraph3": "這樣一來，對比色 Token 就能收斂成簡化版的 On-Light 與 On-Dark。雖然視覺上變得比較制式，但對開發來說，邏輯會變得非常清晰，也更容易維護這套複雜的系統。過去維運過近6年的設計系統，所以對我來說~ 設計系統的本質是「收斂」而非「無限擴張」，反思如何用簡單的思維去應對複雜的專案，才是更好的設計系統的協作方法~"
+    }
+  },
+  "73": {
+    "heading": "Storybook Interactions：\n元件自動化互動測試",
+    "subtitle": "Storybook 的 Interactions 功能~ 可以讓我們直接對 UI 元件進行互動測試～ 我們可以針對不同的使用情境 (比如未登入、操作成功、或是操作失敗的流程…等) 來撰寫測試腳本~ 當然也能使用 AI 幫我們快速產出這些測試情境的腳本程式碼，就不用每次都手動去點擊測試，可以達成不同情境的自動化功能測試！",
+    "date": "2026 年 4 月 15 日",
+    "tags": [
+      "設計系統",
+      "Storybook",
+      "自動化測試",
+      "AI",
+      "品質保證"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/73/topics-73.1.jpg",
+      "articles/73/topics-73.2.mp4"
+    ],
+    "content": {
+      "paragraph1": "Storybook 有很多方便的延伸功能，其中 Interactions 工具。它可以讓我們針對元件或產品功能建立自動化互動測試。舉例來說，當我們需要測試「會員登入」、「操作成功流程」或「操作失敗處理」等情境時，可以透過撰寫腳本來模擬使用者行為，如：輸入文字（input）、開啟彈窗（modal）或觸發提示資訊（alert）等等",
+      "paragraph2": "現在更能結合 AI 協作來撰寫不同情境的測試腳本，甚至能客製化每個步驟之間的等待時間與執行流程。可以省去了人工手動測試的重複過程，也可以提升了團隊間的溝通效率，在正式產品上線前，先透過這些嚴謹的自動化測試，能降低遺漏沒思考到的風險，確保產品上線後的穩定性~",
+      "paragraph3": "另外也可以和 PRD (產品需求文件) 進行綁定~ 可以參考 PRD 邏輯，利用 AI 協助找出潛在的互動問題。除了功能驗證，Storybook 也是一個很方便的動態文件，能幫助新進人員更快上手元件操作與介面邏輯，加速培訓效率~",
+      "paragraph4": "除了 Interactions，Storybook 還有一款強大的「無障礙」測試工具，能確保產品符合視障或特殊需求使用者的操作規範，未來有機會再來分享~"
+    }
+  },
+  "74": {
+    "heading": "網格系統 × Vibe Coding：\n精準 RWD 排版提示詞",
+    "subtitle": "網格系統對 Vibe Coding 來說很重要~ 因為它是 AI 理解 RWD 變化的排版指南!\n透過常見的 12 欄位網格，可以精確地告訴 AI 物件在不同螢幕下的「占比」與「位置」，也就是定義好欄（Columns）與列（Rows）的邏輯，AI 就能更聰明地幫我們建立出符合預期的多裝置排版，讓設計溝通不再只是憑感覺~",
+    "date": "2026 年 4 月 22 日",
+    "tags": [
+      "設計系統",
+      "Vibe Coding",
+      "網格系統",
+      "RWD",
+      "AI"
+    ],
+    "category": "article",
+    "url": "",
+    "images": [
+      "articles/74/topics-74.1.jpg",
+      "articles/74/topics-74.2.jpg",
+      "articles/74/topics-74.3.jpg",
+      "articles/74/topics-74.4.jpg"
+    ],
+    "content": {
+      "paragraph1": "現在 AI Coding 愈來愈普及，但每一次「通靈失敗」後的修正都在消耗 Tokens 😅 如果我們能掌握結構化的樣式與佈局提示詞，對 Vibe Coding 來說，可以大幅提升開發效率，更能把 Token 好好省下來~",
+      "paragraph2": "以網格系統（Grid System）為例，它不只是為了排版整齊，更是 AI 理解空間邏輯的說明指南~ 透過定義明確的欄 (Columns) 與列 (Rows)，我們能精確量化物件的佔比：\n\n電腦端 (Desktop)：圖片佔比 8/12 欄位\n手機端 (Mobile)：圖片轉為 12/12 滿格佔比\n\n這樣的邏輯同樣能應用在文字編排~ 比如在桌機版分兩列排版的內容，到了平板版可以規範其對齊方式與佔比變化。這樣的系統化佈局，AI 就不再需要「猜測」怎麼佈局 (通常這是 AI 的弱項 XD)，減少生成出崩壞排版的機率~",
+      "paragraph3": "同理~ 這樣的佈局邏輯可以被模組化為不同的 Templates 或 Layout Skills。未來開發新介面時，直接調用「排版技能」，AI 就能更快完成精準的 RWD 佈局，讓開發流程更科學與系統化~"
+    }
+  },
   "66": {
     "heading": "Token Naming 更新：\nAI 自動建立 MD3 Token 架構",
     "subtitle": "Token Naming 版本更新！新增 AI 自動建立 Google Material Design 3 (MD3) 三層 Token 架構，一鍵完成命名與樣式綁定! 設定你的 Gemini API Key 後，AI 會分析圖層結構與命名，自動產出對應的 Design Tokens 並綁定到元件樣式中，省去繁瑣的手動設定。",
